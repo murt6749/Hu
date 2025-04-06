@@ -1,1 +1,1093 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HU Jama'aa Qira'at Registration</title>
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #0c4b33;
+            --secondary: #1da584;
+            --accent: #f7c35f;
+            --light: #f8f9fa;
+            --dark: #212529;
+            --success: #28a745;
+            --info: #17a2b8;
+            --gold: #ffd700;
+            --green: #2ecc71;
+            --text-light: #f8f9fa;
+            --text-dark: #343a40;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Tajawal', sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #f5f7fa 0%, #e4e8eb 100%);
+            color: var(--text-dark);
+            line-height: 1.6;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 25px 0;
+            text-align: center;
+            border-radius: 0 0 20px 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            margin-bottom: 40px;
+            position: relative;
+            overflow: hidden;
+            z-index: 10;
+        }
+        
+        header::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><text x="10" y="50" font-family="Arial" font-size="20" fill="rgba(255,255,255,0.05)">ﷲ</text></svg>');
+            opacity: 0.1;
+            z-index: -1;
+        }
+        
+        header h1 {
+            font-size: 2.8rem;
+            margin-bottom: 10px;
+            font-weight: 700;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+            transform: translateY(20px);
+            opacity: 0;
+            animation: fadeInUp 0.8s 0.2s forwards;
+        }
+        
+        header p {
+            font-size: 1.3rem;
+            opacity: 0.9;
+            transform: translateY(20px);
+            opacity: 0;
+            animation: fadeInUp 0.8s 0.4s forwards;
+        }
+        
+        .language-tabs {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 40px;
+            flex-wrap: wrap;
+            gap: 15px;
+            transform: translateY(20px);
+            opacity: 0;
+            animation: fadeInUp 0.8s 0.6s forwards;
+        }
+        
+        .tab-btn {
+            padding: 15px 30px;
+            background: white;
+            border: none;
+            cursor: pointer;
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--dark);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            border-radius: 50px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+        }
+        
+        .tab-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            z-index: -1;
+            transform: scaleX(0);
+            transform-origin: right;
+            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        
+        .tab-btn.active {
+            color: white;
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+        }
+        
+        .tab-btn.active::before {
+            transform: scaleX(1);
+            transform-origin: left;
+        }
+        
+        .tab-btn i {
+            margin-right: 8px;
+        }
+        
+        .courses-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 30px;
+            margin-bottom: 50px;
+            transform: translateY(20px);
+            opacity: 0;
+            animation: fadeInUp 0.8s 0.8s forwards;
+        }
+        
+        .course-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+            z-index: 1;
+            transform-style: preserve-3d;
+            transform: perspective(1000px);
+        }
+        
+        .course-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            z-index: 2;
+        }
+        
+        .course-card:hover {
+            transform: translateY(-10px) perspective(1000px) rotateX(5deg);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
+        }
+        
+        .course-card:hover::before {
+            transform: scaleX(1);
+        }
+        
+        .course-header {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 20px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .course-header::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 100%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0) 70%);
+            transform: rotate(30deg);
+        }
+        
+        .course-header h3 {
+            font-size: 1.5rem;
+            margin-bottom: 8px;
+            font-weight: 700;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .course-days {
+            display: inline-flex;
+            align-items: center;
+            background: rgba(255, 255, 255, 0.2);
+            padding: 5px 15px;
+            border-radius: 50px;
+            font-size: 0.9rem;
+            margin-top: 5px;
+            position: relative;
+            z-index: 1;
+            backdrop-filter: blur(5px);
+        }
+        
+        .course-days i {
+            margin-right: 5px;
+        }
+        
+        .course-body {
+            padding: 25px;
+            position: relative;
+        }
+        
+        .course-body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><text x="10" y="50" font-family="Arial" font-size="20" fill="rgba(0,0,0,0.02)">ﷲ</text></svg>');
+            opacity: 0.1;
+            z-index: 0;
+        }
+        
+        .course-body p {
+            margin-bottom: 20px;
+            color: #555;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .register-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .register-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, var(--secondary), var(--primary));
+            z-index: -1;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .register-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+        }
+        
+        .register-btn:hover::before {
+            opacity: 1;
+        }
+        
+        .register-btn i {
+            margin-right: 10px;
+            font-size: 1.2rem;
+        }
+        
+        .registered-badge {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: var(--success);
+            color: white;
+            padding: 5px 15px;
+            border-radius: 50px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            z-index: 2;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+            animation: pulse 2s infinite;
+        }
+        
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            backdrop-filter: blur(5px);
+            animation: fadeIn 0.3s ease;
+        }
+        
+        .modal-content {
+            background: white;
+            width: 95%;
+            max-width: 500px;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 15px 50px rgba(0, 0, 0, 0.3);
+            animation: slideUp 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            transform: translateY(50px);
+            opacity: 0;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+        
+        .modal-header {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 20px;
+            position: relative;
+            text-align: center;
+        }
+        
+        .modal-header h3 {
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+        
+        .close-btn {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            font-size: 1.8rem;
+            cursor: pointer;
+            background: none;
+            border: none;
+            color: white;
+            transition: transform 0.3s ease;
+        }
+        
+        .close-btn:hover {
+            transform: rotate(90deg);
+        }
+        
+        .modal-body {
+            padding: 25px;
+        }
+        
+        .form-group {
+            margin-bottom: 25px;
+            position: relative;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: 600;
+            color: var(--dark);
+        }
+        
+        .form-group input, .form-group select {
+            width: 100%;
+            padding: 15px 20px;
+            border: 2px solid #e9ecef;
+            border-radius: 10px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            background: #f8f9fa;
+        }
+        
+        .form-group input:focus, .form-group select:focus {
+            border-color: var(--secondary);
+            outline: none;
+            background: white;
+            box-shadow: 0 0 0 4px rgba(29, 165, 132, 0.2);
+        }
+        
+        .form-group i {
+            position: absolute;
+            right: 20px;
+            top: 45px;
+            color: #6c757d;
+        }
+        
+        .submit-btn {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            border: none;
+            padding: 15px;
+            border-radius: 10px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            width: 100%;
+            transition: all 0.3s ease;
+            margin-top: 10px;
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+        }
+        
+        .submit-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, var(--secondary), var(--primary));
+            z-index: -1;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .submit-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+        }
+        
+        .submit-btn:hover::before {
+            opacity: 1;
+        }
+        
+        .submit-btn i {
+            margin-right: 10px;
+        }
+        
+        .alert {
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 25px;
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        .alert-success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        
+        .alert-error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        
+        footer {
+            text-align: center;
+            padding: 30px;
+            margin-top: 60px;
+            color: #6c757d;
+            font-size: 0.9rem;
+            background: white;
+            border-radius: 20px 20px 0 0;
+            box-shadow: 0 -5px 30px rgba(0, 0, 0, 0.05);
+        }
+        
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+        
+        @keyframes slideUp {
+            from {
+                transform: translateY(50px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+        
+        @keyframes pulse {
+            0% {
+                box-shadow: 0 0 0 0 rgba(40, 167, 69, 0.7);
+            }
+            70% {
+                box-shadow: 0 0 0 10px rgba(40, 167, 69, 0);
+            }
+            100% {
+                box-shadow: 0 0 0 0 rgba(40, 167, 69, 0);
+            }
+        }
 
+        /* Button animation */
+        @keyframes buttonPulse {
+            0% {
+                transform: scale(1);
+                box-shadow: 0 0 0 0 rgba(29, 165, 132, 0.7);
+            }
+            70% {
+                transform: scale(1.02);
+                box-shadow: 0 0 0 10px rgba(29, 165, 132, 0);
+            }
+            100% {
+                transform: scale(1);
+                box-shadow: 0 0 0 0 rgba(29, 165, 132, 0);
+            }
+        }
+
+        .submit-btn.animating {
+            animation: buttonPulse 1s ease-in-out;
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 992px) {
+            header h1 {
+                font-size: 2.2rem;
+            }
+            
+            header p {
+                font-size: 1.1rem;
+            }
+            
+            .courses-container {
+                grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            }
+        }
+        
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 1.8rem;
+            }
+            
+            header p {
+                font-size: 1rem;
+            }
+            
+            .tab-btn {
+                padding: 12px 20px;
+                font-size: 1rem;
+            }
+            
+            .courses-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .course-card {
+                max-width: 100%;
+            }
+            
+            .modal-content {
+                width: 95%;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            header h1 {
+                font-size: 1.6rem;
+            }
+            
+            .tab-btn {
+                padding: 10px 15px;
+                font-size: 0.9rem;
+            }
+            
+            .course-header h3 {
+                font-size: 1.3rem;
+            }
+            
+            .register-btn, .submit-btn {
+                padding: 12px;
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1><i class="fas fa-mosque"></i> HU Jama'aa Qira'at</h1>
+            <p>Register for Quranic studies and Islamic courses</p>
+        </div>
+    </header>
+    
+    <div class="container">
+        <div class="language-tabs">
+            <button class="tab-btn active" data-lang="amharic"><i class="fas fa-language"></i> Amharic</button>
+            <button class="tab-btn" data-lang="oromifa"><i class="fas fa-language"></i> Oromifa</button>
+        </div>
+        
+        <!-- Amharic Courses -->
+        <div id="amharic-courses" class="courses-container">
+            <!-- Sifetu Solah -->
+            <div class="course-card">
+                <div class="course-header">
+                    <h3>Sifetu Solah</h3>
+                    <span class="course-days"><i class="far fa-calendar-alt"></i> Saturday and Sunday</span>
+                </div>
+                <div class="course-body">
+                    <p>Learn the proper way of performing prayers according to the Sunnah with detailed explanations and practical demonstrations.</p>
+                    <button class="register-btn" data-course="Sifetu Solah" data-lang="Amharic" data-days="Saturday and Sunday">
+                        <i class="fas fa-user-plus"></i> Register Now
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Usulu Selasah -->
+            <div class="course-card">
+                <div class="course-header">
+                    <h3>Usulu Selasah</h3>
+                    <span class="course-days"><i class="far fa-calendar-alt"></i> Monday and Tuesday</span>
+                </div>
+                <div class="course-body">
+                    <p>Study the three fundamental principles of Islam in depth with scholarly explanations and practical applications.</p>
+                    <button class="register-btn" data-course="Usulu Selasah" data-lang="Amharic" data-days="Monday and Tuesday">
+                        <i class="fas fa-user-plus"></i> Register Now
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Tejwid Hidayetul Mustefid -->
+            <div class="course-card">
+                <div class="course-header">
+                    <h3>Tejwid Hidayetul Mustefid</h3>
+                    <span class="course-days"><i class="far fa-calendar-alt"></i> Saturday and Sunday morning</span>
+                </div>
+                <div class="course-body">
+                    <p>Master the rules of Quranic recitation with proper pronunciation, tajweed rules, and practical recitation sessions.</p>
+                    <button class="register-btn" data-course="Tejwid Hidayetul Mustefid" data-lang="Amharic" data-days="Saturday and Sunday morning">
+                        <i class="fas fa-user-plus"></i> Register Now
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Kulasetu Nurel Yeqin -->
+            <div class="course-card">
+                <div class="course-header">
+                    <h3>Kulasetu Nurel Yeqin</h3>
+                    <span class="course-days"><i class="far fa-calendar-alt"></i> Only Thursday</span>
+                </div>
+                <div class="course-body">
+                    <p>Deepen your understanding of Islamic faith and certainty through this comprehensive study of Islamic creed.</p>
+                    <button class="register-btn" data-course="Kulasetu Nurel Yeqin" data-lang="Amharic" data-days="Only Thursday">
+                        <i class="fas fa-user-plus"></i> Register Now
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Oromifa Courses -->
+        <div id="oromifa-courses" class="courses-container" style="display: none;">
+            <!-- Sifetu Solah -->
+            <div class="course-card">
+                <div class="course-header">
+                    <h3>Sifetu Solah</h3>
+                    <span class="course-days"><i class="far fa-calendar-alt"></i> Monday and Tuesday</span>
+                </div>
+                <div class="course-body">
+                    <p>Comprehensive study of the prayer's description from the Prophet's tradition with practical demonstrations.</p>
+                    <button class="register-btn" data-course="Sifetu Solah" data-lang="Oromifa" data-days="Monday and Tuesday">
+                        <i class="fas fa-user-plus"></i> Register Now
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Usulu Selasah -->
+            <div class="course-card">
+                <div class="course-header">
+                    <h3>Usulu Selasah</h3>
+                    <span class="course-days"><i class="far fa-calendar-alt"></i> Saturday and Sunday</span>
+                </div>
+                <div class="course-body">
+                    <p>The three fundamental principles every Muslim must know, explained in detail with practical applications.</p>
+                    <button class="register-btn" data-course="Usulu Selasah" data-lang="Oromifa" data-days="Saturday and Sunday">
+                        <i class="fas fa-user-plus"></i> Register Now
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Tejwid Hidayetulmustefid -->
+            <div class="course-card">
+                <div class="course-header">
+                    <h3>Tejwid Hidayetulmustefid</h3>
+                    <span class="course-days"><i class="far fa-calendar-alt"></i> Saturday and Sunday morning</span>
+                </div>
+                <div class="course-body">
+                    <p>Advanced Tajweed rules for beautiful Quran recitation with expert instructors and individual feedback.</p>
+                    <button class="register-btn" data-course="Tejwid Hidayetulmustefid" data-lang="Oromifa" data-days="Saturday and Sunday morning">
+                        <i class="fas fa-user-plus"></i> Register Now
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Umdetul Ahkam -->
+            <div class="course-card">
+                <div class="course-header">
+                    <h3>Umdetul Ahkam</h3>
+                    <span class="course-days"><i class="far fa-calendar-alt"></i> Saturday and Sunday</span>
+                </div>
+                <div class="course-body">
+                    <p>Essential Islamic rulings for daily life covering worship, transactions, and social interactions.</p>
+                    <button class="register-btn" data-course="Umdetul Ahkam" data-lang="Oromifa" data-days="Saturday and Sunday">
+                        <i class="fas fa-user-plus"></i> Register Now
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Riyadusualihin -->
+            <div class="course-card">
+                <div class="course-header">
+                    <h3>Riyadusualihin</h3>
+                    <span class="course-days"><i class="far fa-calendar-alt"></i> Not specified</span>
+                </div>
+                <div class="course-body">
+                    <p>Gardens of the righteous - lessons from the famous book with practical guidance for spiritual growth.</p>
+                    <button class="register-btn" data-course="Riyadusualihin" data-lang="Oromifa" data-days="Not specified">
+                        <i class="fas fa-user-plus"></i> Register Now
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Tefsir -->
+            <div class="course-card">
+                <div class="course-header">
+                    <h3>Tefsir</h3>
+                    <span class="course-days"><i class="far fa-calendar-alt"></i> Only Wednesday</span>
+                </div>
+                <div class="course-body">
+                    <p>Explanation and interpretation of the Holy Quran with linguistic, historical, and jurisprudential insights.</p>
+                    <button class="register-btn" data-course="Tefsir" data-lang="Oromifa" data-days="Only Wednesday">
+                        <i class="fas fa-user-plus"></i> Register Now
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Aqidetu Tuhawiya -->
+            <div class="course-card">
+                <div class="course-header">
+                    <h3>Aqidetu Tuhawiya</h3>
+                    <span class="course-days"><i class="far fa-calendar-alt"></i> Not specified</span>
+                </div>
+                <div class="course-body">
+                    <p>Islamic creed based on the Quran and Sunnah with detailed explanations of theological matters.</p>
+                    <button class="register-btn" data-course="Aqidetu Tuhawiya" data-lang="Oromifa" data-days="Not specified">
+                        <i class="fas fa-user-plus"></i> Register Now
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Registration Modal -->
+    <div class="modal" id="registrationModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3><i class="fas fa-user-graduate"></i> Register for <span id="modalCourseName"></span></h3>
+                <button class="close-btn" id="closeModal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="alert" id="alertBox"></div>
+                <form id="registrationForm">
+                    <input type="hidden" id="selectedCourse" name="selectedCourse">
+                    <input type="hidden" id="selectedLanguage" name="selectedLanguage">
+                    <input type="hidden" id="selectedDays" name="selectedDays">
+                    
+                    <div class="form-group">
+                        <label for="fullName"><i class="fas fa-user"></i> Full Name</label>
+                        <input type="text" id="fullName" name="fullName" required>
+                        <i class="fas fa-user"></i>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="department"><i class="fas fa-building"></i> Department</label>
+                        <input type="text" id="department" name="department" required>
+                        <i class="fas fa-building"></i>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="studentId"><i class="fas fa-id-card"></i> Student ID (XXXX/YY)</label>
+                        <input type="text" id="studentId" name="studentId" required placeholder="e.g., 2117/13" pattern="\d{4}/\d{2}">
+                        <i class="fas fa-id-card"></i>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="phoneNumber"><i class="fas fa-phone"></i> Phone Number</label>
+                        <input type="tel" id="phoneNumber" name="phoneNumber" required>
+                        <i class="fas fa-phone"></i>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="religion"><i class="fas fa-mosque"></i> Religion</label>
+                        <select id="religion" name="religion" required>
+                            <option value="">Select Religion</option>
+                            <option value="Muslim">Muslim</option>
+                        </select>
+                        <i class="fas fa-mosque"></i>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="yearOfStudy"><i class="fas fa-calendar-alt"></i> Year of Study</label>
+                        <select id="yearOfStudy" name="yearOfStudy" required>
+                            <option value="">Select Year</option>
+                            <option value="1">1st Year</option>
+                            <option value="2">2nd Year</option>
+                            <option value="3">3rd Year</option>
+                            <option value="4">4th Year</option>
+                            <option value="5">5th Year</option>
+                            <option value="6+">6+ Year</option>
+                        </select>
+                        <i class="fas fa-calendar-alt"></i>
+                    </div>
+                    
+                    <button type="submit" class="submit-btn" id="submitBtn">
+                        <i class="fas fa-paper-plane"></i> Complete Registration
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+    
+    <footer>
+        <div class="container">
+            <p><i class="far fa-copyright"></i> 2023 Haramaya University Jama'aa. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Firebase SDK -->
+    <script type="module">
+        // Import the functions you need from the SDKs you need
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-app.js";
+        import { getAnalytics } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-analytics.js";
+        import { getFirestore, collection, addDoc, query, where, getDocs } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-firestore.js";
+
+        // Your web app's Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyBQyNVWh1BtCkXlBfuS7jHAa36FTklZayo",
+            authDomain: "pharma-quiz-b5a07.firebaseapp.com",
+            projectId: "pharma-quiz-b5a07",
+            storageBucket: "pharma-quiz-b5a07.appspot.com",
+            messagingSenderId: "161067776789",
+            appId: "1:161067776789:web:88b8a61145dc5f5c31471c",
+            measurementId: "G-3QRQE9HQFB"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const analytics = getAnalytics(app);
+        const db = getFirestore(app);
+
+        // DOM Elements
+        const tabBtns = document.querySelectorAll('.tab-btn');
+        const amharicCoursesContainer = document.getElementById('amharic-courses');
+        const oromifaCoursesContainer = document.getElementById('oromifa-courses');
+        const registrationModal = document.getElementById('registrationModal');
+        const closeModalBtn = document.getElementById('closeModal');
+        const modalCourseName = document.getElementById('modalCourseName');
+        const selectedCourseInput = document.getElementById('selectedCourse');
+        const selectedLanguageInput = document.getElementById('selectedLanguage');
+        const selectedDaysInput = document.getElementById('selectedDays');
+        const registrationForm = document.getElementById('registrationForm');
+        const alertBox = document.getElementById('alertBox');
+        const studentIdInput = document.getElementById('studentId');
+        const submitBtn = document.getElementById('submitBtn');
+
+        // Validate student ID format (XXXX/YY)
+        studentIdInput.addEventListener('input', function(e) {
+            const value = e.target.value;
+            const pattern = /^\d{0,4}\/?\d{0,2}$/;
+            
+            if (!pattern.test(value)) {
+                e.target.value = value.slice(0, -1);
+            }
+            
+            // Auto-insert slash after 4 digits
+            if (value.length === 4 && !value.includes('/')) {
+                e.target.value = value + '/';
+            }
+        });
+
+        // Tab switching
+        tabBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                tabBtns.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                
+                const lang = btn.dataset.lang;
+                if (lang === 'amharic') {
+                    amharicCoursesContainer.style.display = 'grid';
+                    oromifaCoursesContainer.style.display = 'none';
+                } else {
+                    amharicCoursesContainer.style.display = 'none';
+                    oromifaCoursesContainer.style.display = 'grid';
+                }
+            });
+        });
+
+        // Open registration modal
+        document.addEventListener('click', (e) => {
+            if (e.target.classList.contains('register-btn') || e.target.closest('.register-btn')) {
+                const btn = e.target.classList.contains('register-btn') ? e.target : e.target.closest('.register-btn');
+                const course = btn.dataset.course;
+                const language = btn.dataset.lang;
+                const days = btn.dataset.days;
+                
+                // Set modal content
+                modalCourseName.textContent = course;
+                selectedCourseInput.value = course;
+                selectedLanguageInput.value = language;
+                selectedDaysInput.value = days;
+                
+                // Show modal with animation
+                registrationModal.style.display = 'flex';
+                setTimeout(() => {
+                    document.querySelector('.modal-content').style.transform = 'translateY(0)';
+                    document.querySelector('.modal-content').style.opacity = '1';
+                }, 10);
+            }
+        });
+
+        // Close modal
+        closeModalBtn.addEventListener('click', () => {
+            document.querySelector('.modal-content').style.transform = 'translateY(50px)';
+            document.querySelector('.modal-content').style.opacity = '0';
+            setTimeout(() => {
+                registrationModal.style.display = 'none';
+            }, 300);
+        });
+
+        // Close modal when clicking outside
+        window.addEventListener('click', (e) => {
+            if (e.target === registrationModal) {
+                document.querySelector('.modal-content').style.transform = 'translateY(50px)';
+                document.querySelector('.modal-content').style.opacity = '0';
+                setTimeout(() => {
+                    registrationModal.style.display = 'none';
+                }, 300);
+            }
+        });
+
+        // Form submission
+        registrationForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            // Add animation to submit button
+            submitBtn.classList.add('animating');
+            setTimeout(() => {
+                submitBtn.classList.remove('animating');
+            }, 1000);
+            
+            // Get form values
+            const formData = {
+                fullName: document.getElementById('fullName').value.trim(),
+                department: document.getElementById('department').value.trim(),
+                phoneNumber: document.getElementById('phoneNumber').value.trim(),
+                studentId: document.getElementById('studentId').value.trim(),
+                religion: document.getElementById('religion').value,
+                yearOfStudy: document.getElementById('yearOfStudy').value,
+                course: selectedCourseInput.value,
+                language: selectedLanguageInput.value,
+                days: selectedDaysInput.value,
+                timestamp: new Date().toISOString()
+            };
+            
+            // Validate religion
+            if (formData.religion !== 'Muslim') {
+                showAlert('Only Muslim students can register for these courses.', 'error');
+                return;
+            }
+            
+            // Validate student ID format (XXXX/YY)
+            if (!/^\d{4}\/\d{2}$/.test(formData.studentId)) {
+                showAlert('Please enter a valid student ID in XXXX/YY format (e.g., 2117/13)', 'error');
+                return;
+            }
+            
+            // Validate all required fields
+            if (!formData.fullName || !formData.department || !formData.phoneNumber || !formData.yearOfStudy) {
+                showAlert('Please fill in all required fields.', 'error');
+                return;
+            }
+            
+            try {
+                // Check if student is already registered for this specific course
+                const courseQuery = query(
+                    collection(db, "registrations"),
+                    where("studentId", "==", formData.studentId),
+                    where("course", "==", formData.course)
+                );
+                
+                const courseQuerySnapshot = await getDocs(courseQuery);
+                if (!courseQuerySnapshot.empty) {
+                    showAlert('You are already registered for this course.', 'error');
+                    return;
+                }
+                
+                // Check if the same full name, ID, and department combination exists in any course
+                const duplicateQuery = query(
+                    collection(db, "registrations"),
+                    where("studentId", "==", formData.studentId),
+                    where("fullName", "==", formData.fullName),
+                    where("department", "==", formData.department)
+                );
+                
+                const duplicateQuerySnapshot = await getDocs(duplicateQuery);
+                if (!duplicateQuerySnapshot.empty) {
+                    // User exists but not in this course - allow registration
+                    // We'll just show a different message but still allow registration
+                    showAlert('You are already registered for another course with the same details. You can register for this course as well.', 'success');
+                    // Continue with registration
+                }
+                
+                // Add a new document to Firestore
+                const docRef = await addDoc(collection(db, "registrations"), formData);
+                
+                showAlert('Registration successful! Redirecting to your profile...', 'success');
+                
+                // Store registration in localStorage
+                localStorage.setItem(`registered_${formData.course}`, 'true');
+                
+                // Redirect to profile page after 2 seconds
+                setTimeout(() => {
+                    window.location.href = `profile.html?course=${encodeURIComponent(formData.course)}&studentId=${formData.studentId}`;
+                }, 2000);
+            } catch (error) {
+                showAlert('Registration failed. Please try again.', 'error');
+                console.error("Error adding document: ", error);
+            }
+        });
+
+        // Show alert
+        function showAlert(message, type) {
+            alertBox.textContent = message;
+            alertBox.className = `alert alert-${type}`;
+            alertBox.style.display = 'block';
+            
+            // Hide alert after 5 seconds
+            setTimeout(() => {
+                alertBox.style.display = 'none';
+            }, 5000);
+        }
+
+        // Initialize animations
+        document.addEventListener('DOMContentLoaded', () => {
+            setTimeout(() => {
+                document.querySelectorAll('.course-card').forEach((card, index) => {
+                    card.style.animation = `fadeInUp 0.6s ${index * 0.1 + 0.8}s forwards`;
+                });
+            }, 100);
+        });
+    </script>
+</body>
+</html>
