@@ -13,9 +13,6 @@
             --accent-color: #f5efe6;
             --light-color: #e8dfca;
             --white: #ffffff;
-            --dark: #333333;
-            --light-gray: #f5f5f5;
-            --medium-gray: #e0e0e0;
             --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
             --success-color: #28a745;
             --info-color: #17a2b8;
@@ -23,7 +20,6 @@
             --danger-color: #dc3545;
             --border-radius: 12px;
             --box-padding: 16px;
-            --transition: all 0.3s ease;
         }
 
         * {
@@ -34,10 +30,9 @@
         }
 
         body {
-            background-color: var(--light-gray);
+            background-color: #f8f9fa;
             min-height: 100vh;
             font-size: 14px;
-            color: var(--dark);
         }
 
         .container {
@@ -57,7 +52,7 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            box-shadow: var(--shadow);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
         }
 
         .header h1 {
@@ -76,11 +71,6 @@
             color: white;
             font-size: 1.2rem;
             cursor: pointer;
-            transition: var(--transition);
-        }
-
-        .btn-icon:hover {
-            transform: scale(1.1);
         }
 
         /* Main Content Area */
@@ -110,7 +100,6 @@
             text-decoration: none;
             color: var(--secondary-color);
             font-size: 0.8rem;
-            transition: var(--transition);
         }
 
         .nav-item i {
@@ -120,7 +109,6 @@
 
         .nav-item.active {
             color: var(--primary-color);
-            transform: translateY(-5px);
         }
 
         /* Card Styles */
@@ -130,12 +118,6 @@
             padding: var(--box-padding);
             margin-bottom: 15px;
             box-shadow: var(--shadow);
-            transition: var(--transition);
-        }
-
-        .card:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 6px 12px rgba(0,0,0,0.1);
         }
 
         .card-title {
@@ -143,9 +125,6 @@
             margin-bottom: 10px;
             font-size: 1.1rem;
             font-weight: 600;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
         }
 
         /* Form Elements */
@@ -163,16 +142,9 @@
         .form-control {
             width: 100%;
             padding: 12px;
-            border: 1px solid var(--medium-gray);
+            border: 1px solid #ddd;
             border-radius: 8px;
             font-size: 1rem;
-            transition: var(--transition);
-        }
-
-        .form-control:focus {
-            border-color: var(--primary-color);
-            outline: none;
-            box-shadow: 0 0 0 2px rgba(26, 77, 46, 0.2);
         }
 
         .btn {
@@ -182,11 +154,8 @@
             font-size: 1rem;
             font-weight: 500;
             cursor: pointer;
-            transition: var(--transition);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
+            transition: all 0.3s ease;
+            width: 100%;
         }
 
         .btn-primary {
@@ -196,22 +165,12 @@
 
         .btn-primary:hover {
             background-color: var(--secondary-color);
-            transform: translateY(-2px);
         }
 
         .btn-outline {
             background-color: transparent;
             border: 1px solid var(--primary-color);
             color: var(--primary-color);
-        }
-
-        .btn-outline:hover {
-            background-color: var(--light-color);
-        }
-
-        .btn-sm {
-            padding: 8px 12px;
-            font-size: 0.9rem;
         }
 
         /* Badges */
@@ -238,11 +197,6 @@
             color: black;
         }
 
-        .badge-info {
-            background-color: var(--info-color);
-            color: white;
-        }
-
         /* Progress Bar */
         .progress-container {
             margin-bottom: 15px;
@@ -266,7 +220,6 @@
             height: 100%;
             background-color: var(--success-color);
             border-radius: 4px;
-            transition: width 0.5s ease;
         }
 
         /* Course Grid */
@@ -276,22 +229,10 @@
             gap: 15px;
         }
 
-        .courses-list {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-        }
-
         .course-card {
-            border: 1px solid var(--medium-gray);
+            border: 1px solid #eee;
             border-radius: var(--border-radius);
             overflow: hidden;
-            transition: var(--transition);
-        }
-
-        .course-card:hover {
-            transform: translateY(-5px);
-            box-shadow: var(--shadow);
         }
 
         .course-header {
@@ -318,69 +259,10 @@
         .course-detail {
             margin-bottom: 8px;
             font-size: 0.9rem;
-            display: flex;
-            gap: 5px;
         }
 
         .course-detail strong {
             color: var(--secondary-color);
-            min-width: 80px;
-        }
-
-        /* List View */
-        .course-item {
-            padding: 12px;
-            border-bottom: 1px solid var(--medium-gray);
-            transition: var(--transition);
-        }
-
-        .course-item:hover {
-            background-color: var(--light-gray);
-        }
-
-        .course-item .course-detail {
-            margin-bottom: 5px;
-        }
-
-        /* Filter Section */
-        .filter-section {
-            background-color: var(--white);
-            border-radius: var(--border-radius);
-            padding: var(--box-padding);
-            margin-bottom: 15px;
-            box-shadow: var(--shadow);
-        }
-
-        .filter-row {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 10px;
-            flex-wrap: wrap;
-        }
-
-        .filter-group {
-            flex: 1;
-            min-width: 120px;
-        }
-
-        .view-toggle {
-            display: flex;
-            border: 1px solid var(--medium-gray);
-            border-radius: 8px;
-            overflow: hidden;
-        }
-
-        .view-toggle-btn {
-            padding: 8px 12px;
-            background: none;
-            border: none;
-            cursor: pointer;
-            transition: var(--transition);
-        }
-
-        .view-toggle-btn.active {
-            background-color: var(--primary-color);
-            color: white;
         }
 
         /* Modal Styles */
@@ -419,7 +301,7 @@
 
         .modal-header {
             padding: 15px;
-            border-bottom: 1px solid var(--medium-gray);
+            border-bottom: 1px solid #eee;
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -436,13 +318,6 @@
             border: none;
             font-size: 1.5rem;
             cursor: pointer;
-            color: var(--secondary-color);
-            transition: var(--transition);
-        }
-
-        .modal-close:hover {
-            color: var(--primary-color);
-            transform: rotate(90deg);
         }
 
         .modal-body {
@@ -467,7 +342,6 @@
             font-size: 2rem;
             color: var(--primary-color);
             margin-right: 15px;
-            flex-shrink: 0;
         }
 
         .profile-info h2 {
@@ -479,38 +353,13 @@
         /* Classmates List */
         .classmates-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+            grid-template-columns: repeat(3, 1fr);
             gap: 10px;
             margin-top: 15px;
         }
 
-        .classmates-list {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-        }
-
         .classmate-card {
             text-align: center;
-            transition: var(--transition);
-        }
-
-        .classmate-card:hover {
-            transform: translateY(-3px);
-        }
-
-        .classmate-item {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            padding: 10px;
-            border-radius: 8px;
-            background-color: var(--white);
-            transition: var(--transition);
-        }
-
-        .classmate-item:hover {
-            background-color: var(--light-color);
         }
 
         .classmate-avatar {
@@ -521,34 +370,21 @@
             display: flex;
             justify-content: center;
             align-items: center;
+            margin: 0 auto 5px;
             font-weight: bold;
             font-size: 0.9rem;
-            flex-shrink: 0;
         }
 
         .classmate-name {
-            font-size: 0.8rem;
+            font-size: 0.7rem;
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
         }
 
         .classmate-progress {
-            font-size: 0.7rem;
+            font-size: 0.6rem;
             color: var(--secondary-color);
-        }
-
-        /* Empty State */
-        .empty-state {
-            text-align: center;
-            padding: 30px;
-            color: var(--secondary-color);
-        }
-
-        .empty-state i {
-            font-size: 2rem;
-            margin-bottom: 10px;
-            color: var(--medium-gray);
         }
 
         /* Responsive Adjustments */
@@ -576,21 +412,6 @@
         }
         .mt-3 {
             margin-top: 15px;
-        }
-        .d-flex {
-            display: flex;
-        }
-        .align-center {
-            align-items: center;
-        }
-        .justify-between {
-            justify-content: space-between;
-        }
-        .gap-2 {
-            gap: 8px;
-        }
-        .w-100 {
-            width: 100%;
         }
     </style>
 </head>
@@ -755,13 +576,6 @@
         let enrolledCourses = [];
         let allCourses = [];
         let classmatesData = [];
-        let currentView = 'grid'; // 'grid' or 'list'
-        let currentFilters = {
-            type: 'all',
-            language: 'all',
-            level: 'all',
-            gender: 'all'
-        };
 
         // Complete course data from the document
         const completeCoursesData = [
@@ -782,8 +596,316 @@
                 requirements: "No prior knowledge required",
                 location: "Main Masjid"
             },
-            // ... (include all 40 courses from previous example)
+            {
+                id: "q2",
+                title: "Usulu Selasah (Amharic)",
+                type: "qirat",
+                language: "amharic",
+                level: "all",
+                gender: "all",
+                instructor: "Ustaz Amir",
+                schedule: "Saturday and Sunday morning",
+                description: "Intermediate prayer learning course covering the three fundamental principles in Amharic.",
+                daysPerWeek: 2,
+                progressRate: 8,
+                duration: "10 weeks",
+                requirements: "Basic knowledge of prayer",
+                location: "Annex Building Room 12"
+            },
+            {
+                id: "q3",
+                title: "Tejwid Hidayetul Mustefid (Amharic)",
+                type: "qirat",
+                language: "amharic",
+                level: "all",
+                gender: "all",
+                instructor: "Ustaz Ahmed",
+                schedule: "Saturday and Sunday morning",
+                description: "Advanced tajweed course focusing on proper Quran recitation rules in Amharic.",
+                daysPerWeek: 2,
+                progressRate: 8,
+                duration: "15 weeks",
+                requirements: "Ability to read Arabic script",
+                location: "Main Masjid"
+            },
+            {
+                id: "q4",
+                title: "Kula Setun Urely Eqin (Amharic)",
+                type: "qirat",
+                language: "amharic",
+                level: "all",
+                gender: "all",
+                instructor: "Ustaz Nejmudin",
+                schedule: "Thursday only",
+                description: "Specialized course on Islamic jurisprudence in Amharic.",
+                daysPerWeek: 1,
+                progressRate: 5,
+                duration: "8 weeks",
+                requirements: "Intermediate Islamic knowledge",
+                location: "Islamic Studies Department"
+            },
+            
+            // Qirat courses - Oromifa
+            {
+                id: "q5",
+                title: "Sifetu Solah (Oromifa)",
+                type: "qirat",
+                language: "oromifa",
+                level: "all",
+                gender: "all",
+                instructor: "Ustaz Oumer",
+                schedule: "Monday to Wednesday morning",
+                description: "Basic prayer learning course covering the fundamentals of Islamic prayer in Oromifa.",
+                daysPerWeek: 3,
+                progressRate: 10,
+                duration: "12 weeks",
+                requirements: "No prior knowledge required",
+                location: "Oromifa Cultural Center"
+            },
+            {
+                id: "q6",
+                title: "Usulu Selasah (Oromifa)",
+                type: "qirat",
+                language: "oromifa",
+                level: "all",
+                gender: "all",
+                instructor: "Ustaz Kamil",
+                schedule: "Saturday and Sunday morning",
+                description: "Intermediate prayer learning course covering the three fundamental principles in Oromifa.",
+                daysPerWeek: 2,
+                progressRate: 8,
+                duration: "10 weeks",
+                requirements: "Basic knowledge of prayer",
+                location: "Annex Building Room 14"
+            },
+            {
+                id: "q7",
+                title: "Tejwid Hidayetul Mustefid (Oromifa)",
+                type: "qirat",
+                language: "oromifa",
+                level: "all",
+                gender: "all",
+                instructor: "Ustaz Abuki",
+                schedule: "Saturday and Sunday morning",
+                description: "Advanced tajweed course focusing on proper Quran recitation rules in Oromifa.",
+                daysPerWeek: 2,
+                progressRate: 8,
+                duration: "15 weeks",
+                requirements: "Ability to read Arabic script",
+                location: "Oromifa Cultural Center"
+            },
+            {
+                id: "q8",
+                title: "Umdetul Ahkam (Oromifa)",
+                type: "qirat",
+                language: "oromifa",
+                level: "all",
+                gender: "all",
+                instructor: "Ustaz Ibrahim",
+                schedule: "Saturday and Sunday",
+                description: "Comprehensive course on Islamic rulings and jurisprudence in Oromifa.",
+                daysPerWeek: 2,
+                progressRate: 8,
+                duration: "16 weeks",
+                requirements: "Intermediate Islamic knowledge",
+                location: "Islamic Studies Department"
+            },
+            {
+                id: "q9",
+                title: "Riyadus Ualihin (Oromifa)",
+                type: "qirat",
+                language: "oromifa",
+                level: "all",
+                gender: "all",
+                instructor: "Ustaz Abdulmejid",
+                schedule: "Wednesday only",
+                description: "Spiritual development course focusing on the Gardens of the Righteous in Oromifa.",
+                daysPerWeek: 1,
+                progressRate: 5,
+                duration: "8 weeks",
+                requirements: "Basic Islamic knowledge",
+                location: "Main Masjid"
+            },
+            {
+                id: "q10",
+                title: "Tefsir (Oromifa)",
+                type: "qirat",
+                language: "oromifa",
+                level: "all",
+                gender: "all",
+                instructor: "Ustaz Mekbul",
+                schedule: "Wednesday only",
+                description: "Quranic exegesis course covering selected chapters with Oromifa explanation.",
+                daysPerWeek: 1,
+                progressRate: 5,
+                duration: "12 weeks",
+                requirements: "Advanced Islamic knowledge",
+                location: "Islamic Studies Department"
+            },
+            {
+                id: "q11",
+                title: "Aqidetu Tahawiya (Oromifa)",
+                type: "qirat",
+                language: "oromifa",
+                level: "all",
+                gender: "all",
+                instructor: "Ustaz Amir",
+                schedule: "Saturday and Sunday",
+                description: "Advanced course on Islamic creed based on the Tahawi creed in Oromifa.",
+                daysPerWeek: 2,
+                progressRate: 8,
+                duration: "20 weeks",
+                requirements: "Strong foundation in Islamic beliefs",
+                location: "Main Masjid"
+            },
+            
+            // Hifz courses - Fresh students
+            {
+                id: "h1",
+                title: "Hifz for Fresh Students (Female)",
+                type: "hifz",
+                language: "amharic",
+                level: "fresh",
+                gender: "female",
+                instructor: "Ustaz Aymen",
+                schedule: "Monday to Wednesday morning",
+                description: "Quran memorization program for beginner female students with Amharic explanation.",
+                daysPerWeek: 3,
+                progressRate: 10,
+                duration: "Continuous",
+                requirements: "Ability to read Arabic script",
+                location: "Women's Section - Main Masjid"
+            },
+            {
+                id: "h2",
+                title: "Hifz for Fresh Students (Female)",
+                type: "hifz",
+                language: "amharic",
+                level: "fresh",
+                gender: "female",
+                instructor: "Ustaz Salah",
+                schedule: "Monday to Wednesday morning",
+                description: "Alternative Quran memorization program for beginner female students.",
+                daysPerWeek: 3,
+                progressRate: 10,
+                duration: "Continuous",
+                requirements: "Ability to read Arabic script",
+                location: "Islamic Studies Building Room 5"
+            },
+            {
+                id: "h3",
+                title: "Hifz for Fresh Students (Female)",
+                type: "hifz",
+                language: "amharic",
+                level: "fresh",
+                gender: "female",
+                instructor: "Ustaz Ahmed",
+                schedule: "Between Maghrib and Isha, Monday to Wednesday",
+                description: "Evening Quran memorization program for female students with busy schedules.",
+                daysPerWeek: 3,
+                progressRate: 10,
+                duration: "Continuous",
+                requirements: "Ability to read Arabic script",
+                location: "Women's Section - Main Masjid"
+            },
+            {
+                id: "h4",
+                title: "Hifz for Fresh Students (Male)",
+                type: "hifz",
+                language: "amharic",
+                level: "fresh",
+                gender: "male",
+                instructor: "Ustaz Mekbul",
+                schedule: "Monday to Wednesday morning",
+                description: "Quran memorization program for beginner male students with Amharic explanation.",
+                daysPerWeek: 3,
+                progressRate: 10,
+                duration: "Continuous",
+                requirements: "Ability to read Arabic script",
+                location: "Main Masjid - Front Section"
+            },
+            {
+                id: "h5",
+                title: "Hifz for Fresh Students (Male)",
+                type: "hifz",
+                language: "amharic",
+                level: "fresh",
+                gender: "male",
+                instructor: "Ustaz Amir",
+                schedule: "Monday to Wednesday afternoon",
+                description: "Afternoon Quran memorization program for male students.",
+                daysPerWeek: 3,
+                progressRate: 10,
+                duration: "Continuous",
+                requirements: "Ability to read Arabic script",
+                location: "Islamic Studies Building Room 3"
+            },
+            
             // Hifz courses - Senior students
+            {
+                id: "h6",
+                title: "Hifz for Senior Students (Female)",
+                type: "hifz",
+                language: "amharic",
+                level: "senior",
+                gender: "female",
+                instructor: "Ustaz Kamil",
+                schedule: "Monday to Friday morning",
+                description: "Advanced Quran memorization program for female students who have completed at least 5 juz.",
+                daysPerWeek: 5,
+                progressRate: 15,
+                duration: "Continuous",
+                requirements: "Minimum 5 juz memorized",
+                location: "Women's Section - Main Masjid"
+            },
+            {
+                id: "h7",
+                title: "Hifz for Senior Students (Female)",
+                type: "hifz",
+                language: "amharic",
+                level: "senior",
+                gender: "female",
+                instructor: "Ustaz Mekbul",
+                schedule: "Monday, Wednesday, Friday",
+                description: "Advanced Quran memorization program with focus on revision and perfection.",
+                daysPerWeek: 3,
+                progressRate: 10,
+                duration: "Continuous",
+                requirements: "Minimum 10 juz memorized",
+                location: "Islamic Studies Building Room 6"
+            },
+            {
+                id: "h8",
+                title: "Hifz for Senior Students (Female)",
+                type: "hifz",
+                language: "amharic",
+                level: "senior",
+                gender: "female",
+                instructor: "Ustaz Abuki",
+                schedule: "Tuesday and Thursday",
+                description: "Specialized program for female students preparing for ijazah.",
+                daysPerWeek: 2,
+                progressRate: 8,
+                duration: "Continuous",
+                requirements: "Minimum 15 juz memorized",
+                location: "Women's Section - Main Masjid"
+            },
+            {
+                id: "h9",
+                title: "Hifz for Senior Students (Male)",
+                type: "hifz",
+                language: "amharic",
+                level: "senior",
+                gender: "male",
+                instructor: "Ustaz Amir",
+                schedule: "Monday to Friday",
+                description: "Comprehensive Quran memorization program for advanced male students.",
+                daysPerWeek: 5,
+                progressRate: 15,
+                duration: "Continuous",
+                requirements: "Minimum 5 juz memorized",
+                location: "Main Masjid - Front Section"
+            },
             {
                 id: "h10",
                 title: "Hifz for Senior Students (Male)",
@@ -800,7 +922,154 @@
                 requirements: "Minimum 10 juz memorized",
                 location: "Islamic Studies Building Room 4"
             },
-            // Nezer courses
+            
+            // Nezer courses - Fresh students
+            {
+                id: "n1",
+                title: "Nezer for Fresh Students (Female - Amharic)",
+                type: "nezer",
+                language: "amharic",
+                level: "fresh",
+                gender: "female",
+                instructor: "Ustaz Hamza",
+                schedule: "Tuesday and Thursday afternoon",
+                description: "Quran recitation with tajweed for beginner female students with Amharic explanation.",
+                daysPerWeek: 2,
+                progressRate: 8,
+                duration: "24 weeks",
+                requirements: "Ability to read Arabic script slowly",
+                location: "Women's Section - Main Masjid"
+            },
+            {
+                id: "n2",
+                title: "Nezer for Fresh Students (Female - Oromifa)",
+                type: "nezer",
+                language: "oromifa",
+                level: "fresh",
+                gender: "female",
+                instructor: "Ustaz Bilal",
+                schedule: "Tuesday and Thursday afternoon",
+                description: "Quran recitation with tajweed for beginner female students with Oromifa explanation.",
+                daysPerWeek: 2,
+                progressRate: 8,
+                duration: "24 weeks",
+                requirements: "Ability to read Arabic script slowly",
+                location: "Oromifa Cultural Center"
+            },
+            {
+                id: "n3",
+                title: "Nezer for Fresh Students (Male - Amharic)",
+                type: "nezer",
+                language: "amharic",
+                level: "fresh",
+                gender: "male",
+                instructor: "Ustaz Aymen",
+                schedule: "Tuesday and Thursday afternoon",
+                description: "Quran recitation with tajweed for beginner male students with Amharic explanation.",
+                daysPerWeek: 2,
+                progressRate: 8,
+                duration: "24 weeks",
+                requirements: "Ability to read Arabic script slowly",
+                location: "Main Masjid - Back Section"
+            },
+            {
+                id: "n4",
+                title: "Nezer for Fresh Students (Male - Oromifa)",
+                type: "nezer",
+                language: "oromifa",
+                level: "fresh",
+                gender: "male",
+                instructor: "Ustaz Fuad Aliyi",
+                schedule: "Tuesday and Thursday afternoon",
+                description: "Quran recitation with tajweed for beginner male students with Oromifa explanation.",
+                daysPerWeek: 2,
+                progressRate: 8,
+                duration: "24 weeks",
+                requirements: "Ability to read Arabic script slowly",
+                location: "Oromifa Cultural Center"
+            },
+            {
+                id: "n5",
+                title: "Nezer for Fresh Students (Male)",
+                type: "nezer",
+                language: "amharic",
+                level: "fresh",
+                gender: "male",
+                instructor: "Ustaz Kedamo",
+                schedule: "Monday and Wednesday evening",
+                description: "Evening Quran recitation program for male students with busy schedules.",
+                daysPerWeek: 2,
+                progressRate: 8,
+                duration: "24 weeks",
+                requirements: "Ability to read Arabic script slowly",
+                location: "Islamic Studies Building Room 2"
+            },
+            
+            // Nezer courses - Senior students
+            {
+                id: "n6",
+                title: "Nezer for Senior Students (Female)",
+                type: "nezer",
+                language: "amharic",
+                level: "senior",
+                gender: "female",
+                instructor: "Ustaz Abdulhafiz",
+                schedule: "Monday, Wednesday, Friday",
+                description: "Advanced Quran recitation with detailed tajweed rules for female students.",
+                daysPerWeek: 3,
+                progressRate: 10,
+                duration: "Continuous",
+                requirements: "Completion of beginner Nezer course",
+                location: "Women's Section - Main Masjid"
+            },
+            {
+                id: "n7",
+                title: "Nezer for Senior Students (Female)",
+                type: "nezer",
+                language: "amharic",
+                level: "senior",
+                gender: "female",
+                instructor: "Ustaz Amir",
+                schedule: "Tuesday and Thursday",
+                description: "Advanced Quran recitation focusing on fluency and advanced tajweed rules.",
+                daysPerWeek: 2,
+                progressRate: 8,
+                duration: "Continuous",
+                requirements: "Completion of beginner Nezer course",
+                location: "Islamic Studies Building Room 7"
+            },
+            {
+                id: "n8",
+                title: "Nezer for Senior Students (Male)",
+                type: "nezer",
+                language: "amharic",
+                level: "senior",
+                gender: "male",
+                instructor: "Ustaz Marela",
+                schedule: "Monday to Friday",
+                description: "Comprehensive advanced Quran recitation program with ijazah preparation.",
+                daysPerWeek: 5,
+                progressRate: 15,
+                duration: "Continuous",
+                requirements: "Completion of beginner Nezer course",
+                location: "Main Masjid - Front Section"
+            },
+            {
+                id: "n9",
+                title: "Nezer for Senior Students (Male)",
+                type: "nezer",
+                language: "amharic",
+                level: "senior",
+                gender: "male",
+                instructor: "Ustaz Fedlu",
+                schedule: "Saturday and Sunday",
+                description: "Weekend intensive program for advanced Quran recitation and tajweed mastery.",
+                daysPerWeek: 2,
+                progressRate: 8,
+                duration: "Continuous",
+                requirements: "Completion of beginner Nezer course",
+                location: "Islamic Studies Building Room 1"
+            },
             {
                 id: "n10",
                 title: "Nezer for Senior Students (Male)",
@@ -971,69 +1240,25 @@
         // Load courses page
         function loadCoursesPage() {
             let html = `
-                <div class="filter-section">
-                    <div class="card-title d-flex justify-between align-center">
-                        <span>Filter Courses</span>
-                        <div class="view-toggle">
-                            <button class="view-toggle-btn ${currentView === 'grid' ? 'active' : ''}" onclick="setView('grid')">
-                                <i class="fas fa-th"></i>
-                            </button>
-                            <button class="view-toggle-btn ${currentView === 'list' ? 'active' : ''}" onclick="setView('list')">
-                                <i class="fas fa-list"></i>
-                            </button>
-                        </div>
-                    </div>
-                    
-                    <div class="filter-row">
-                        <div class="filter-group">
-                            <label for="type-filter">Type</label>
-                            <select id="type-filter" class="form-control" onchange="updateFilter('type', this.value)">
-                                <option value="all">All Types</option>
-                                <option value="qirat">Qirat</option>
-                                <option value="hifz">Hifz</option>
-                                <option value="nezer">Nezer</option>
-                            </select>
-                        </div>
-                        <div class="filter-group">
-                            <label for="language-filter">Language</label>
-                            <select id="language-filter" class="form-control" onchange="updateFilter('language', this.value)">
-                                <option value="all">All Languages</option>
-                                <option value="amharic">Amharic</option>
-                                <option value="oromifa">Oromifa</option>
-                            </select>
-                        </div>
-                    </div>
-                    
-                    <div class="filter-row">
-                        <div class="filter-group">
-                            <label for="level-filter">Level</label>
-                            <select id="level-filter" class="form-control" onchange="updateFilter('level', this.value)">
-                                <option value="all">All Levels</option>
-                                <option value="fresh">Fresh</option>
-                                <option value="senior">Senior</option>
-                            </select>
-                        </div>
-                        <div class="filter-group">
-                            <label for="gender-filter">Gender</label>
-                            <select id="gender-filter" class="form-control" onchange="updateFilter('gender', this.value)">
-                                <option value="all">All Genders</option>
-                                <option value="male">Male</option>
-                                <option value="female">Female</option>
-                            </select>
-                        </div>
-                    </div>
-                </div>
-                
                 <div class="card">
                     <h2 class="card-title">Available Courses</h2>
-                    <div id="courses-container" class="${currentView === 'grid' ? 'courses-grid' : 'courses-list'}">
+                    <div class="filter-group mb-3">
+                        <label for="course-filter">Filter Courses</label>
+                        <select id="course-filter" class="form-control">
+                            <option value="all">All Courses</option>
+                            <option value="qirat">Qirat</option>
+                            <option value="hifz">Hifz</option>
+                            <option value="nezer">Nezer</option>
+                        </select>
+                    </div>
+                    <div class="courses-grid" id="courses-list">
                         <!-- Courses will be loaded here -->
                     </div>
                 </div>
                 
                 <div class="card">
                     <h2 class="card-title">My Enrolled Courses</h2>
-                    <div id="enrolled-courses" class="${currentView === 'grid' ? 'courses-grid' : 'courses-list'}">
+                    <div id="enrolled-courses">
                         <!-- Enrolled courses will be loaded here -->
                     </div>
                 </div>
@@ -1041,40 +1266,24 @@
 
             mainContent.innerHTML = html;
 
-            // Set current filter values
-            document.getElementById('type-filter').value = currentFilters.type;
-            document.getElementById('language-filter').value = currentFilters.language;
-            document.getElementById('level-filter').value = currentFilters.level;
-            document.getElementById('gender-filter').value = currentFilters.gender;
+            // Set up filter event
+            document.getElementById('course-filter').addEventListener('change', filterCourses);
 
             // Display courses
             displayCourses();
             displayEnrolledCourses();
         }
 
-        // Update filter value
-        function updateFilter(filterName, value) {
-            currentFilters[filterName] = value;
-            displayCourses();
-        }
+        // Display available courses
+        function displayCourses(filter = 'all') {
+            const coursesList = document.getElementById('courses-list');
+            if (!coursesList) return;
 
-        // Set view mode (grid/list)
-        function setView(view) {
-            currentView = view;
-            loadCoursesPage();
-        }
-
-        // Display available courses based on filters
-        function displayCourses() {
-            const coursesContainer = document.getElementById('courses-container');
-            if (!coursesContainer) return;
-
-            let filteredCourses = allCourses.filter(course => {
-                return (currentFilters.type === 'all' || course.type === currentFilters.type) &&
-                       (currentFilters.language === 'all' || course.language === currentFilters.language) &&
-                       (currentFilters.level === 'all' || course.level === currentFilters.level || course.level === 'all') &&
-                       (currentFilters.gender === 'all' || course.gender === currentFilters.gender || course.gender === 'all');
-            });
+            let filteredCourses = allCourses;
+            
+            if (filter !== 'all') {
+                filteredCourses = allCourses.filter(course => course.type === filter);
+            }
 
             // Filter out already enrolled courses
             filteredCourses = filteredCourses.filter(course => 
@@ -1082,76 +1291,43 @@
             );
 
             if (filteredCourses.length === 0) {
-                coursesContainer.innerHTML = `
-                    <div class="empty-state">
-                        <i class="fas fa-book-open"></i>
-                        <p>No courses available matching your filters</p>
-                    </div>
-                `;
+                coursesList.innerHTML = '<p>No courses available matching your filter.</p>';
                 return;
             }
 
-            if (currentView === 'grid') {
-                coursesContainer.innerHTML = '';
-                filteredCourses.forEach(course => {
-                    const courseCard = document.createElement('div');
-                    courseCard.className = 'course-card';
-                    courseCard.innerHTML = `
-                        <div class="course-header">
-                            <h3>${course.title}</h3>
-                        </div>
-                        <div class="course-body">
-                            <div class="course-meta">
-                                <span class="badge ${getBadgeClass(course.type)}">${course.type.toUpperCase()}</span>
-                                <span>${course.language.toUpperCase()}</span>
-                            </div>
-                            <div class="course-detail">
-                                <strong>Instructor:</strong> ${course.instructor}
-                            </div>
-                            <div class="course-detail">
-                                <strong>Schedule:</strong> ${course.schedule}
-                            </div>
-                            <div class="course-actions mt-3">
-                                <button class="btn btn-primary btn-sm" onclick="enrollInCourse('${course.id}')">
-                                    <i class="fas fa-plus"></i> Enroll
-                                </button>
-                                <button class="btn btn-outline btn-sm" onclick="viewCourseDetails('${course.id}')">
-                                    <i class="fas fa-info-circle"></i> Details
-                                </button>
-                            </div>
-                        </div>
-                    `;
-                    coursesContainer.appendChild(courseCard);
-                });
-            } else {
-                // List view
-                coursesContainer.innerHTML = '';
-                filteredCourses.forEach(course => {
-                    const courseItem = document.createElement('div');
-                    courseItem.className = 'course-item';
-                    courseItem.innerHTML = `
-                        <div class="course-detail">
-                            <strong>${course.title}</strong>
-                        </div>
-                        <div class="course-detail">
-                            <strong>Type:</strong> 
+            coursesList.innerHTML = '';
+            filteredCourses.forEach(course => {
+                const courseCard = document.createElement('div');
+                courseCard.className = 'course-card';
+                courseCard.innerHTML = `
+                    <div class="course-header">
+                        <h3>${course.title}</h3>
+                    </div>
+                    <div class="course-body">
+                        <div class="course-meta">
                             <span class="badge ${getBadgeClass(course.type)}">${course.type.toUpperCase()}</span>
+                            <span>${course.language.toUpperCase()}</span>
                         </div>
                         <div class="course-detail">
                             <strong>Instructor:</strong> ${course.instructor}
                         </div>
-                        <div class="d-flex gap-2 mt-2">
-                            <button class="btn btn-primary btn-sm" onclick="enrollInCourse('${course.id}')">
-                                <i class="fas fa-plus"></i> Enroll
-                            </button>
-                            <button class="btn btn-outline btn-sm" onclick="viewCourseDetails('${course.id}')">
-                                <i class="fas fa-info-circle"></i> Details
-                            </button>
+                        <div class="course-detail">
+                            <strong>Schedule:</strong> ${course.schedule}
                         </div>
-                    `;
-                    coursesContainer.appendChild(courseItem);
-                });
-            }
+                        <div class="course-actions mt-3">
+                            <button class="btn btn-primary" onclick="enrollInCourse('${course.id}')">Enroll</button>
+                            <button class="btn btn-outline" onclick="viewCourseDetails('${course.id}')">Details</button>
+                        </div>
+                    </div>
+                `;
+                coursesList.appendChild(courseCard);
+            });
+        }
+
+        // Filter courses
+        function filterCourses() {
+            const filterValue = document.getElementById('course-filter').value;
+            displayCourses(filterValue);
         }
 
         // Display enrolled courses
@@ -1160,83 +1336,37 @@
             if (!enrolledContainer) return;
 
             if (enrolledCourses.length === 0) {
-                enrolledContainer.innerHTML = `
-                    <div class="empty-state w-100">
-                        <i class="fas fa-book"></i>
-                        <p>You are not enrolled in any courses yet</p>
-                    </div>
-                `;
+                enrolledContainer.innerHTML = '<p>You are not enrolled in any courses yet.</p>';
                 return;
             }
 
-            if (currentView === 'grid') {
-                enrolledContainer.innerHTML = '';
-                enrolledCourses.forEach(course => {
-                    const fullCourse = allCourses.find(c => c.id === course.id) || course;
-                    
-                    const courseCard = document.createElement('div');
-                    courseCard.className = 'course-card';
-                    courseCard.innerHTML = `
-                        <div class="course-header">
-                            <h3>${fullCourse.title}</h3>
+            enrolledContainer.innerHTML = '';
+            enrolledCourses.forEach(course => {
+                const fullCourse = allCourses.find(c => c.id === course.id) || course;
+                
+                const courseItem = document.createElement('div');
+                courseItem.className = 'course-item';
+                courseItem.innerHTML = `
+                    <div class="course-detail">
+                        <strong>${fullCourse.title}</strong>
+                    </div>
+                    <div class="course-detail">
+                        <strong>Instructor:</strong> ${fullCourse.instructor}
+                    </div>
+                    <div class="progress-container mt-2">
+                        <div class="progress-label">
+                            <span>Progress: ${course.progress}%</span>
                         </div>
-                        <div class="course-body">
-                            <div class="course-meta">
-                                <span class="badge ${getBadgeClass(fullCourse.type)}">${fullCourse.type.toUpperCase()}</span>
-                                <span>${fullCourse.language.toUpperCase()}</span>
-                            </div>
-                            <div class="progress-container mt-2">
-                                <div class="progress-label">
-                                    <span>Progress</span>
-                                    <span>${course.progress}%</span>
-                                </div>
-                                <div class="progress-bar">
-                                    <div class="progress-fill" style="width: ${course.progress}%"></div>
-                                </div>
-                            </div>
-                            <div class="course-actions mt-3">
-                                <button class="btn btn-outline btn-sm w-100" onclick="viewCourseProgress('${course.id}')">
-                                    <i class="fas fa-chart-line"></i> View Progress
-                                </button>
-                            </div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: ${course.progress}%"></div>
                         </div>
-                    `;
-                    enrolledContainer.appendChild(courseCard);
-                });
-            } else {
-                // List view
-                enrolledContainer.innerHTML = '';
-                enrolledCourses.forEach(course => {
-                    const fullCourse = allCourses.find(c => c.id === course.id) || course;
-                    
-                    const courseItem = document.createElement('div');
-                    courseItem.className = 'course-item';
-                    courseItem.innerHTML = `
-                        <div class="course-detail">
-                            <strong>${fullCourse.title}</strong>
-                        </div>
-                        <div class="course-detail">
-                            <strong>Type:</strong> 
-                            <span class="badge ${getBadgeClass(fullCourse.type)}">${fullCourse.type.toUpperCase()}</span>
-                        </div>
-                        <div class="progress-container mt-2">
-                            <div class="progress-label">
-                                <span>Progress</span>
-                                <span>${course.progress}%</span>
-                            </div>
-                            <div class="progress-bar">
-                                <div class="progress-fill" style="width: ${course.progress}%"></div>
-                            </div>
-                        </div>
-                        <div class="course-actions mt-2">
-                            <button class="btn btn-outline btn-sm w-100" onclick="viewCourseProgress('${course.id}')">
-                                <i class="fas fa-chart-line"></i> View Progress
-                            </button>
-                        </div>
-                    `;
-                    enrolledContainer.appendChild(courseItem);
-                });
-            }
+                    </div>
+                    <div class="course-actions mt-2">
+                        <button class="btn btn-outline" onclick="viewCourseProgress('${course.id}')">View Progress</button>
+                    </div>
+                `;
+                enrolledContainer.appendChild(courseItem);
+            });
         }
 
         // View course details
@@ -1271,9 +1401,7 @@
                     ${course.description}
                 </div>
                 <div class="course-actions mt-3">
-                    <button class="btn btn-primary" onclick="enrollInCourse('${course.id}')">
-                        <i class="fas fa-plus"></i> Enroll Now
-                    </button>
+                    <button class="btn btn-primary" onclick="enrollInCourse('${course.id}')">Enroll Now</button>
                 </div>
             `;
 
@@ -1347,10 +1475,7 @@
                         </select>
                     </div>
                     <div id="course-progress-display">
-                        <div class="empty-state">
-                            <i class="fas fa-chart-line"></i>
-                            <p>Please select a course to view your progress</p>
-                        </div>
+                        <p class="text-center">Please select a course to view your progress</p>
                     </div>
                 </div>
             `;
@@ -1363,12 +1488,8 @@
                 if (courseId) {
                     displayCourseProgress(courseId);
                 } else {
-                    document.getElementById('course-progress-display').innerHTML = `
-                        <div class="empty-state">
-                            <i class="fas fa-chart-line"></i>
-                            <p>Please select a course to view your progress</p>
-                        </div>
-                    `;
+                    document.getElementById('course-progress-display').innerHTML = 
+                        '<p class="text-center">Please select a course to view your progress</p>';
                 }
             });
 
@@ -1417,7 +1538,7 @@
                 
                 <div class="course-actions mt-3">
                     <button class="btn btn-primary" onclick="updateProgress('${course.id}', ${course.progress + course.progressRate})">
-                        <i class="fas fa-check"></i> Mark as Completed Today (+${course.progressRate}%)
+                        Mark as Completed Today (+${course.progressRate}%)
                     </button>
                 </div>
                 
@@ -1425,7 +1546,7 @@
                 <div class="classmates-grid" id="classmates-in-course">
                     ${classmatesInCourse.length > 0 ? 
                         classmatesInCourse.map(classmate => `
-                            <div class="classmate-card" onclick="viewClassmateProfile('${classmate.id}')">
+                            <div class="classmate-card">
                                 <div class="classmate-avatar">
                                     ${classmate.name.split(' ').map(n => n[0]).join('').toUpperCase()}
                                 </div>
@@ -1496,15 +1617,7 @@
                             ).join('')}
                         </select>
                     </div>
-                    <div class="view-toggle mb-3">
-                        <button class="view-toggle-btn ${currentView === 'grid' ? 'active' : ''}" onclick="setClassmatesView('grid')">
-                            <i class="fas fa-th"></i> Grid
-                        </button>
-                        <button class="view-toggle-btn ${currentView === 'list' ? 'active' : ''}" onclick="setClassmatesView('list')">
-                            <i class="fas fa-list"></i> List
-                        </button>
-                    </div>
-                    <div id="classmates-container" class="${currentView === 'grid' ? 'classmates-grid' : 'classmates-list'}">
+                    <div class="classmates-grid" id="classmates-list">
                         <!-- Classmates will be loaded here -->
                     </div>
                 </div>
@@ -1519,20 +1632,10 @@
             displayClassmates();
         }
 
-        // Set classmates view mode
-        function setClassmatesView(view) {
-            currentView = view;
-            const container = document.getElementById('classmates-container');
-            if (container) {
-                container.className = view === 'grid' ? 'classmates-grid' : 'classmates-list';
-                displayClassmates();
-            }
-        }
-
         // Display classmates
         function displayClassmates(filterCourseId = 'all') {
-            const classmatesContainer = document.getElementById('classmates-container');
-            if (!classmatesContainer) return;
+            const classmatesList = document.getElementById('classmates-list');
+            if (!classmatesList) return;
 
             let filteredClassmates = classmatesData;
             
@@ -1543,145 +1646,39 @@
             }
 
             if (filteredClassmates.length === 0) {
-                classmatesContainer.innerHTML = `
-                    <div class="empty-state w-100">
-                        <i class="fas fa-users"></i>
-                        <p>No classmates found matching your filter</p>
-                    </div>
-                `;
+                classmatesList.innerHTML = '<p>No classmates found matching your filter.</p>';
                 return;
             }
 
-            if (currentView === 'grid') {
-                classmatesContainer.innerHTML = '';
-                filteredClassmates.forEach(classmate => {
-                    // Find common courses
-                    const commonCourses = [];
-                    if (classmate.enrolledCourses) {
-                        classmate.enrolledCourses.forEach(ec => {
-                            if (enrolledCourses.some(userEc => userEc.id === ec.id)) {
-                                const course = allCourses.find(c => c.id === ec.id) || ec;
-                                commonCourses.push(course.title);
-                            }
-                        });
-                    }
-                    
-                    const classmateCard = document.createElement('div');
-                    classmateCard.className = 'classmate-card';
-                    classmateCard.onclick = () => viewClassmateProfile(classmate.id);
-                    classmateCard.innerHTML = `
-                        <div class="classmate-avatar">
-                            ${classmate.name.split(' ').map(n => n[0]).join('').toUpperCase()}
-                        </div>
-                        <div class="classmate-name">${classmate.name}</div>
-                        <div class="classmate-progress">
-                            ${commonCourses.length > 0 ? 
-                                `${commonCourses.length} shared course(s)` : 
-                                'No shared courses'}
-                        </div>
-                    `;
-                    classmatesContainer.appendChild(classmateCard);
-                });
-            } else {
-                // List view
-                classmatesContainer.innerHTML = '';
-                filteredClassmates.forEach(classmate => {
-                    // Find common courses
-                    const commonCourses = [];
-                    if (classmate.enrolledCourses) {
-                        classmate.enrolledCourses.forEach(ec => {
-                            if (enrolledCourses.some(userEc => userEc.id === ec.id)) {
-                                const course = allCourses.find(c => c.id === ec.id) || ec;
-                                commonCourses.push(course.title);
-                            }
-                        });
-                    }
-                    
-                    const classmateItem = document.createElement('div');
-                    classmateItem.className = 'classmate-item';
-                    classmateItem.onclick = () => viewClassmateProfile(classmate.id);
-                    classmateItem.innerHTML = `
-                        <div class="classmate-avatar">
-                            ${classmate.name.split(' ').map(n => n[0]).join('').toUpperCase()}
-                        </div>
-                        <div style="flex: 1;">
-                            <div class="classmate-name">${classmate.name}</div>
-                            <div class="classmate-progress">
-                                ${commonCourses.length > 0 ? 
-                                    `${commonCourses.length} shared course(s)` : 
-                                    'No shared courses'}
-                            </div>
-                        </div>
-                        <i class="fas fa-chevron-right"></i>
-                    `;
-                    classmatesContainer.appendChild(classmateItem);
-                });
-            }
-        }
-
-        // View classmate profile
-        function viewClassmateProfile(classmateId) {
-            const classmate = classmatesData.find(c => c.id === classmateId);
-            if (!classmate) return;
-
-            // Find common courses
-            const commonCourses = [];
-            if (classmate.enrolledCourses) {
-                classmate.enrolledCourses.forEach(ec => {
-                    if (enrolledCourses.some(userEc => userEc.id === ec.id)) {
-                        const course = allCourses.find(c => c.id === ec.id) || ec;
-                        commonCourses.push({
-                            ...course,
-                            classmateProgress: ec.progress || 0
-                        });
-                    }
-                });
-            }
-
-            courseModalTitle.textContent = `${classmate.name}'s Profile`;
-            courseModalBody.innerHTML = `
-                <div class="profile-header">
-                    <div class="profile-avatar">
+            classmatesList.innerHTML = '';
+            filteredClassmates.forEach(classmate => {
+                const classmateCard = document.createElement('div');
+                classmateCard.className = 'classmate-card';
+                
+                // Find common courses
+                const commonCourses = [];
+                if (classmate.enrolledCourses) {
+                    classmate.enrolledCourses.forEach(ec => {
+                        if (enrolledCourses.some(userEc => userEc.id === ec.id)) {
+                            const course = allCourses.find(c => c.id === ec.id) || ec;
+                            commonCourses.push(course.title);
+                        }
+                    });
+                }
+                
+                classmateCard.innerHTML = `
+                    <div class="classmate-avatar">
                         ${classmate.name.split(' ').map(n => n[0]).join('').toUpperCase()}
                     </div>
-                    <div class="profile-info">
-                        <h2>${classmate.name}</h2>
-                        <p>${classmate.studentId || 'No ID provided'}</p>
+                    <div class="classmate-name">${classmate.name}</div>
+                    <div class="classmate-progress">
+                        ${commonCourses.length > 0 ? 
+                            `${commonCourses.length} shared course(s)` : 
+                            'No shared courses'}
                     </div>
-                </div>
-                
-                <div class="profile-details">
-                    <div class="detail-item">
-                        <div class="detail-label">Department</div>
-                        <div class="detail-value">${classmate.department || 'Not specified'}</div>
-                    </div>
-                    <div class="detail-item">
-                        <div class="detail-label">Year</div>
-                        <div class="detail-value">${classmate.year || 'Not specified'}</div>
-                    </div>
-                </div>
-                
-                <h3 class="mt-3">Shared Courses</h3>
-                ${commonCourses.length > 0 ? 
-                    commonCourses.map(course => `
-                        <div class="course-item mt-2">
-                            <div class="course-detail">
-                                <strong>${course.title}</strong>
-                            </div>
-                            <div class="d-flex justify-between align-center mt-1">
-                                <div>
-                                    <span>Your progress: ${enrolledCourses.find(ec => ec.id === course.id)?.progress || 0}%</span>
-                                </div>
-                                <div>
-                                    <span>${classmate.name.split(' ')[0]}'s progress: ${course.classmateProgress}%</span>
-                                </div>
-                            </div>
-                        </div>
-                    `).join('') : 
-                    '<p>No shared courses found.</p>'}
-            `;
-
-            courseModal.classList.add('active');
+                `;
+                classmatesList.appendChild(classmateCard);
+            });
         }
 
         // Filter classmates
@@ -1724,20 +1721,14 @@
                     </div>
                     
                     <div class="course-actions mt-3">
-                        <button class="btn btn-primary" onclick="openProfileModal()">
-                            <i class="fas fa-edit"></i> Edit Profile
-                        </button>
+                        <button class="btn btn-primary" onclick="openProfileModal()">Edit Profile</button>
                     </div>
                 </div>
                 
                 <div class="card mt-3">
                     <h2 class="card-title">Account Actions</h2>
-                    <button class="btn btn-outline mb-2" onclick="changePassword()">
-                        <i class="fas fa-key"></i> Change Password
-                    </button>
-                    <button class="btn btn-outline" onclick="handleLogout()">
-                        <i class="fas fa-sign-out-alt"></i> Logout
-                    </button>
+                    <button class="btn btn-outline mb-2" onclick="changePassword()">Change Password</button>
+                    <button class="btn btn-outline" onclick="handleLogout()">Logout</button>
                 </div>
             `;
 
@@ -1836,11 +1827,6 @@
         window.openProfileModal = openProfileModal;
         window.handleLogout = handleLogout;
         window.changePassword = changePassword;
-        window.setView = setView;
-        window.updateFilter = updateFilter;
-        window.setClassmatesView = setClassmatesView;
-        window.filterClassmates = filterClassmates;
-        window.viewClassmateProfile = viewClassmateProfile;
     </script>
 </body>
 </html>
