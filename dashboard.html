@@ -111,66 +111,149 @@
             color: var(--primary-color);
         }
 
-        /* Card Styles */
-        .card {
-            background-color: var(--white);
-            border-radius: var(--border-radius);
-            padding: var(--box-padding);
-            margin-bottom: 15px;
-            box-shadow: var(--shadow);
-        }
-
-        .card-title {
-            color: var(--primary-color);
+        /* Card & List View Toggle */
+        .view-toggle {
+            display: flex;
+            justify-content: flex-end;
             margin-bottom: 10px;
-            font-size: 1.1rem;
-            font-weight: 600;
         }
 
-        /* Form Elements */
-        .form-group {
+        .view-toggle-btn {
+            background: none;
+            border: none;
+            color: var(--secondary-color);
+            font-size: 1.2rem;
+            cursor: pointer;
+            padding: 5px;
+        }
+
+        .view-toggle-btn.active {
+            color: var(--primary-color);
+        }
+
+        /* Course Cards View */
+        .courses-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 15px;
+        }
+
+        .course-card {
+            border: 1px solid #eee;
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            transition: transform 0.2s ease;
+        }
+
+        .course-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.1);
+        }
+
+        .course-header {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 12px;
+        }
+
+        .course-header h3 {
+            font-size: 1rem;
+        }
+
+        .course-body {
+            padding: 12px;
+        }
+
+        .course-meta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin-bottom: 8px;
+        }
+
+        .course-meta span {
+            padding: 3px 8px;
+            background-color: var(--light-color);
+            border-radius: 4px;
+            font-size: 0.7rem;
+        }
+
+        .course-detail {
+            margin-bottom: 8px;
+            font-size: 0.9rem;
+        }
+
+        .course-detail strong {
+            color: var(--secondary-color);
+        }
+
+        /* Course List View */
+        .courses-list {
+            display: none;
+        }
+
+        .course-list-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px;
+            border-bottom: 1px solid #eee;
+            transition: background-color 0.2s ease;
+        }
+
+        .course-list-item:hover {
+            background-color: rgba(79, 111, 82, 0.05);
+        }
+
+        .course-list-info {
+            flex: 1;
+        }
+
+        .course-list-title {
+            font-weight: 500;
+            margin-bottom: 4px;
+        }
+
+        .course-list-meta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            font-size: 0.8rem;
+            color: var(--secondary-color);
+        }
+
+        .course-list-actions {
+            display: flex;
+            gap: 8px;
+        }
+
+        /* Filter Styles */
+        .filter-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
             margin-bottom: 15px;
         }
 
-        .form-group label {
+        .filter-group {
+            margin-bottom: 0;
+        }
+
+        .filter-group label {
             display: block;
             margin-bottom: 5px;
             color: var(--secondary-color);
             font-weight: 500;
+            font-size: 0.9rem;
         }
 
-        .form-control {
+        .filter-group select {
             width: 100%;
-            padding: 12px;
+            padding: 10px;
             border: 1px solid #ddd;
             border-radius: 8px;
-            font-size: 1rem;
-        }
-
-        .btn {
-            padding: 12px;
-            border: none;
-            border-radius: 8px;
-            font-size: 1rem;
-            font-weight: 500;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            width: 100%;
-        }
-
-        .btn-primary {
-            background-color: var(--primary-color);
-            color: var(--white);
-        }
-
-        .btn-primary:hover {
-            background-color: var(--secondary-color);
-        }
-
-        .btn-outline {
-            background-color: transparent;
-            border: 1px solid var(--primary-color);
-            color: var(--primary-color);
+            font-size: 0.9rem;
+            background-color: white;
         }
 
         /* Badges */
@@ -197,72 +280,39 @@
             color: black;
         }
 
-        /* Progress Bar */
-        .progress-container {
-            margin-bottom: 15px;
-        }
-
-        .progress-label {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 5px;
+        /* Buttons */
+        .btn {
+            padding: 10px 15px;
+            border: none;
+            border-radius: 8px;
             font-size: 0.9rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
         }
 
-        .progress-bar {
-            height: 8px;
-            background-color: var(--light-color);
-            border-radius: 4px;
-            overflow: hidden;
-        }
-
-        .progress-fill {
-            height: 100%;
-            background-color: var(--success-color);
-            border-radius: 4px;
-        }
-
-        /* Course Grid */
-        .courses-grid {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 15px;
-        }
-
-        .course-card {
-            border: 1px solid #eee;
-            border-radius: var(--border-radius);
-            overflow: hidden;
-        }
-
-        .course-header {
-            background-color: var(--primary-color);
-            color: white;
-            padding: 12px;
-        }
-
-        .course-header h3 {
-            font-size: 1rem;
-        }
-
-        .course-body {
-            padding: 12px;
-        }
-
-        .course-meta {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 8px;
+        .btn-sm {
+            padding: 6px 10px;
             font-size: 0.8rem;
         }
 
-        .course-detail {
-            margin-bottom: 8px;
-            font-size: 0.9rem;
+        .btn-primary {
+            background-color: var(--primary-color);
+            color: var(--white);
         }
 
-        .course-detail strong {
-            color: var(--secondary-color);
+        .btn-primary:hover {
+            background-color: var(--secondary-color);
+        }
+
+        .btn-outline {
+            background-color: transparent;
+            border: 1px solid var(--primary-color);
+            color: var(--primary-color);
+        }
+
+        .btn-outline:hover {
+            background-color: var(--light-color);
         }
 
         /* Modal Styles */
@@ -324,67 +374,22 @@
             padding: 15px;
         }
 
-        /* Profile Styles */
-        .profile-header {
+        .modal-footer {
+            padding: 15px;
+            border-top: 1px solid #eee;
             display: flex;
-            align-items: center;
-            margin-bottom: 20px;
-        }
-
-        .profile-avatar {
-            width: 80px;
-            height: 80px;
-            border-radius: 50%;
-            background-color: var(--light-color);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-size: 2rem;
-            color: var(--primary-color);
-            margin-right: 15px;
-        }
-
-        .profile-info h2 {
-            font-size: 1.2rem;
-            color: var(--primary-color);
-            margin-bottom: 5px;
-        }
-
-        /* Classmates List */
-        .classmates-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
+            justify-content: flex-end;
             gap: 10px;
-            margin-top: 15px;
         }
 
-        .classmate-card {
+        /* Confirmation Dialog */
+        .confirmation-dialog {
             text-align: center;
+            padding: 20px;
         }
 
-        .classmate-avatar {
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            background-color: var(--light-color);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            margin: 0 auto 5px;
-            font-weight: bold;
-            font-size: 0.9rem;
-        }
-
-        .classmate-name {
-            font-size: 0.7rem;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-
-        .classmate-progress {
-            font-size: 0.6rem;
-            color: var(--secondary-color);
+        .confirmation-dialog p {
+            margin-bottom: 20px;
         }
 
         /* Responsive Adjustments */
@@ -398,7 +403,7 @@
                 grid-template-columns: repeat(2, 1fr);
             }
             
-            .classmates-grid {
+            .filter-container {
                 grid-template-columns: repeat(4, 1fr);
             }
         }
@@ -412,6 +417,11 @@
         }
         .mt-3 {
             margin-top: 15px;
+        }
+        .no-courses {
+            text-align: center;
+            padding: 20px;
+            color: var(--secondary-color);
         }
     </style>
 </head>
@@ -465,6 +475,25 @@
             </div>
             <div class="modal-body" id="course-modal-body">
                 <!-- Course details will be loaded here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Enrollment Confirmation Modal -->
+    <div class="modal" id="confirm-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">Confirm Enrollment</h3>
+                <button class="modal-close" id="close-confirm-modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="confirmation-dialog">
+                    <p id="confirm-message">Are you sure you want to enroll in this course?</p>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-outline" id="cancel-enroll">Cancel</button>
+                <button class="btn btn-primary" id="confirm-enroll">Enroll</button>
             </div>
         </div>
     </div>
@@ -552,6 +581,442 @@
         const auth = getAuth(app);
         const db = getFirestore(app);
 
+        // Complete courses data from the document
+        const completeCoursesData = [
+            // Qirat courses - Amharic
+            {
+                id: "qirat-amh-1",
+                title: "Sifetu",
+                type: "qirat",
+                language: "amharic",
+                level: "all",
+                gender: "all",
+                instructor: "Multiple Instructors",
+                schedule: "Saturday and Sunday morning",
+                daysPerWeek: 2,
+                progressRate: "Moderate"
+            },
+            {
+                id: "qirat-amh-2",
+                title: "Usulu selasah",
+                type: "qirat",
+                language: "amharic",
+                level: "all",
+                gender: "all",
+                instructor: "Multiple Instructors",
+                schedule: "Monday and Tuesday",
+                daysPerWeek: 2,
+                progressRate: "Moderate"
+            },
+            {
+                id: "qirat-amh-3",
+                title: "Tejwid hidayetul mustefid",
+                type: "qirat",
+                language: "amharic",
+                level: "all",
+                gender: "all",
+                instructor: "Multiple Instructors",
+                schedule: "Saturday and Sunday morning",
+                daysPerWeek: 2,
+                progressRate: "Moderate"
+            },
+            {
+                id: "qirat-amh-4",
+                title: "Kula setun urel eqin",
+                type: "qirat",
+                language: "amharic",
+                level: "all",
+                gender: "all",
+                instructor: "Multiple Instructors",
+                schedule: "Thursday only",
+                daysPerWeek: 1,
+                progressRate: "Slow"
+            },
+            
+            // Qirat courses - Oromifa
+            {
+                id: "qirat-orom-1",
+                title: "Sifetu",
+                type: "qirat",
+                language: "oromifa",
+                level: "all",
+                gender: "all",
+                instructor: "Multiple Instructors",
+                schedule: "Monday and Tuesday",
+                daysPerWeek: 2,
+                progressRate: "Moderate"
+            },
+            {
+                id: "qirat-orom-2",
+                title: "Usulu selasah",
+                type: "qirat",
+                language: "oromifa",
+                level: "all",
+                gender: "all",
+                instructor: "Multiple Instructors",
+                schedule: "Saturday and Sunday",
+                daysPerWeek: 2,
+                progressRate: "Moderate"
+            },
+            {
+                id: "qirat-orom-3",
+                title: "Tejwid hidayetul mustefid",
+                type: "qirat",
+                language: "oromifa",
+                level: "all",
+                gender: "all",
+                instructor: "Multiple Instructors",
+                schedule: "Saturday and Sunday morning",
+                daysPerWeek: 2,
+                progressRate: "Moderate"
+            },
+            {
+                id: "qirat-orom-4",
+                title: "Umdetul ahkam",
+                type: "qirat",
+                language: "oromifa",
+                level: "all",
+                gender: "all",
+                instructor: "Multiple Instructors",
+                schedule: "Saturday and Sunday",
+                daysPerWeek: 2,
+                progressRate: "Moderate"
+            },
+            {
+                id: "qirat-orom-5",
+                title: "Riyadus ualihin",
+                type: "qirat",
+                language: "oromifa",
+                level: "all",
+                gender: "all",
+                instructor: "Multiple Instructors",
+                schedule: "Wednesday only",
+                daysPerWeek: 1,
+                progressRate: "Slow"
+            },
+            {
+                id: "qirat-orom-6",
+                title: "Tefsir",
+                type: "qirat",
+                language: "oromifa",
+                level: "all",
+                gender: "all",
+                instructor: "Multiple Instructors",
+                schedule: "Wednesday only",
+                daysPerWeek: 1,
+                progressRate: "Slow"
+            },
+            {
+                id: "qirat-orom-7",
+                title: "Aqidetu tuhawiya",
+                type: "qirat",
+                language: "oromifa",
+                level: "all",
+                gender: "all",
+                instructor: "Multiple Instructors",
+                schedule: "Wednesday only",
+                daysPerWeek: 1,
+                progressRate: "Slow"
+            },
+            
+            // Hifz for fresh students - Female
+            {
+                id: "hifz-fresh-female-1",
+                title: "Hifz (Fresh) - Aymen",
+                type: "hifz",
+                language: "all",
+                level: "fresh",
+                gender: "female",
+                instructor: "Aymen",
+                schedule: "Morning Monday to Wednesday",
+                daysPerWeek: 3,
+                progressRate: "Fast"
+            },
+            {
+                id: "hifz-fresh-female-2",
+                title: "Hifz (Fresh) - Salah",
+                type: "hifz",
+                language: "all",
+                level: "fresh",
+                gender: "female",
+                instructor: "Salah",
+                schedule: "Morning Monday to Wednesday",
+                daysPerWeek: 3,
+                progressRate: "Fast"
+            },
+            {
+                id: "hifz-fresh-female-3",
+                title: "Hifz (Fresh) - Ahmed",
+                type: "hifz",
+                language: "all",
+                level: "fresh",
+                gender: "female",
+                instructor: "Ahmed",
+                schedule: "Morning Monday to Wednesday",
+                daysPerWeek: 3,
+                progressRate: "Fast"
+            },
+            {
+                id: "hifz-fresh-female-4",
+                title: "Hifz (Fresh) - Nejmudin",
+                type: "hifz",
+                language: "all",
+                level: "fresh",
+                gender: "female",
+                instructor: "Nejmudin",
+                schedule: "Between Maghrib and Isha Monday to Wednesday",
+                daysPerWeek: 3,
+                progressRate: "Moderate"
+            },
+            
+            // Hifz for fresh students - Male
+            {
+                id: "hifz-fresh-male-1",
+                title: "Hifz (Fresh) - Mekbul",
+                type: "hifz",
+                language: "all",
+                level: "fresh",
+                gender: "male",
+                instructor: "Mekbul",
+                schedule: "Morning Monday to Wednesday",
+                daysPerWeek: 3,
+                progressRate: "Fast"
+            },
+            {
+                id: "hifz-fresh-male-2",
+                title: "Hifz (Fresh) - Amir",
+                type: "hifz",
+                language: "all",
+                level: "fresh",
+                gender: "male",
+                instructor: "Amir",
+                schedule: "Morning Monday to Wednesday",
+                daysPerWeek: 3,
+                progressRate: "Fast"
+            },
+            
+            // Hifz for seniors - Female
+            {
+                id: "hifz-senior-female-1",
+                title: "Hifz (Senior) - Kamil",
+                type: "hifz",
+                language: "all",
+                level: "senior",
+                gender: "female",
+                instructor: "Kamil",
+                schedule: "Morning Monday to Wednesday",
+                daysPerWeek: 3,
+                progressRate: "Fast"
+            },
+            {
+                id: "hifz-senior-female-2",
+                title: "Hifz (Senior) - Mekbul",
+                type: "hifz",
+                language: "all",
+                level: "senior",
+                gender: "female",
+                instructor: "Mekbul",
+                schedule: "Morning Monday to Wednesday",
+                daysPerWeek: 3,
+                progressRate: "Fast"
+            },
+            {
+                id: "hifz-senior-female-3",
+                title: "Hifz (Senior) - Abuki",
+                type: "hifz",
+                language: "all",
+                level: "senior",
+                gender: "female",
+                instructor: "Abuki",
+                schedule: "Morning Monday to Wednesday",
+                daysPerWeek: 3,
+                progressRate: "Fast"
+            },
+            {
+                id: "hifz-senior-female-4",
+                title: "Hifz (Senior) - Ibrahim",
+                type: "hifz",
+                language: "all",
+                level: "senior",
+                gender: "female",
+                instructor: "Ibrahim",
+                schedule: "Morning Monday to Wednesday",
+                daysPerWeek: 3,
+                progressRate: "Fast"
+            },
+            {
+                id: "hifz-senior-female-5",
+                title: "Hifz (Senior) - Abdulmejid",
+                type: "hifz",
+                language: "all",
+                level: "senior",
+                gender: "female",
+                instructor: "Abdulmejid",
+                schedule: "Morning Monday to Wednesday",
+                daysPerWeek: 3,
+                progressRate: "Fast"
+            },
+            
+            // Hifz for seniors - Male
+            {
+                id: "hifz-senior-male-1",
+                title: "Hifz (Senior) - Amir",
+                type: "hifz",
+                language: "all",
+                level: "senior",
+                gender: "male",
+                instructor: "Amir",
+                schedule: "Morning Monday to Wednesday",
+                daysPerWeek: 3,
+                progressRate: "Fast"
+            },
+            {
+                id: "hifz-senior-male-2",
+                title: "Hifz (Senior) - Ustaz Oumer (Local)",
+                type: "hifz",
+                language: "all",
+                level: "senior",
+                gender: "male",
+                instructor: "Ustaz Oumer (Local)",
+                schedule: "Morning Monday to Wednesday",
+                daysPerWeek: 3,
+                progressRate: "Fast"
+            },
+            
+            // Nezer for fresh students - Female
+            {
+                id: "nezer-fresh-female-1",
+                title: "Nezer (Fresh) - Hamza (Amharic)",
+                type: "nezer",
+                language: "amharic",
+                level: "fresh",
+                gender: "female",
+                instructor: "Hamza (Amharic)",
+                schedule: "Morning Monday to Wednesday",
+                daysPerWeek: 3,
+                progressRate: "Fast"
+            },
+            {
+                id: "nezer-fresh-female-2",
+                title: "Nezer (Fresh) - Bilal (Oromifa)",
+                type: "nezer",
+                language: "oromifa",
+                level: "fresh",
+                gender: "female",
+                instructor: "Bilal (Oromifa)",
+                schedule: "Morning Monday to Wednesday",
+                daysPerWeek: 3,
+                progressRate: "Fast"
+            },
+            
+            // Nezer for fresh students - Male
+            {
+                id: "nezer-fresh-male-1",
+                title: "Nezer (Fresh) - Aymen",
+                type: "nezer",
+                language: "all",
+                level: "fresh",
+                gender: "male",
+                instructor: "Aymen",
+                schedule: "Morning Monday to Wednesday",
+                daysPerWeek: 3,
+                progressRate: "Fast"
+            },
+            {
+                id: "nezer-fresh-male-2",
+                title: "Nezer (Fresh) - Fuad Aliyi",
+                type: "nezer",
+                language: "all",
+                level: "fresh",
+                gender: "male",
+                instructor: "Fuad Aliyi",
+                schedule: "Morning Monday to Wednesday",
+                daysPerWeek: 3,
+                progressRate: "Fast"
+            },
+            {
+                id: "nezer-fresh-male-3",
+                title: "Nezer (Fresh) - Kedamo",
+                type: "nezer",
+                language: "all",
+                level: "fresh",
+                gender: "male",
+                instructor: "Kedamo",
+                schedule: "Morning Monday to Wednesday",
+                daysPerWeek: 3,
+                progressRate: "Fast"
+            },
+            
+            // Nezer for seniors - Female
+            {
+                id: "nezer-senior-female-1",
+                title: "Nezer (Senior) - Abdulhafiz",
+                type: "nezer",
+                language: "all",
+                level: "senior",
+                gender: "female",
+                instructor: "Abdulhafiz",
+                schedule: "Morning Monday to Wednesday",
+                daysPerWeek: 3,
+                progressRate: "Fast"
+            },
+            {
+                id: "nezer-senior-female-2",
+                title: "Nezer (Senior) - Amir",
+                type: "nezer",
+                language: "all",
+                level: "senior",
+                gender: "female",
+                instructor: "Amir",
+                schedule: "Morning Monday to Wednesday",
+                daysPerWeek: 3,
+                progressRate: "Fast"
+            },
+            
+            // Nezer for seniors - Male
+            {
+                id: "nezer-senior-male-1",
+                title: "Nezer (Senior) - Marela",
+                type: "nezer",
+                language: "all",
+                level: "senior",
+                gender: "male",
+                instructor: "Marela",
+                schedule: "Morning Monday to Wednesday",
+                daysPerWeek: 3,
+                progressRate: "Fast"
+            },
+            {
+                id: "nezer-senior-male-2",
+                title: "Nezer (Senior) - Fedlu",
+                type: "nezer",
+                language: "all",
+                level: "senior",
+                gender: "male",
+                instructor: "Fedlu",
+                schedule: "Morning Monday to Wednesday",
+                daysPerWeek: 3,
+                progressRate: "Fast"
+            },
+            {
+                id: "nezer-senior-male-3",
+                title: "Nezer (Senior) - Husen",
+                type: "nezer",
+                language: "all",
+                level: "senior",
+                gender: "male",
+                instructor: "Husen",
+                schedule: "Morning Monday to Wednesday",
+                daysPerWeek: 3,
+                progressRate: "Fast"
+            }
+        ];
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+
         // DOM Elements
         const mainContent = document.getElementById('main-content');
         const pageTitle = document.getElementById('page-title');
@@ -561,6 +1026,11 @@
         const closeCourseModal = document.getElementById('close-course-modal');
         const courseModalTitle = document.getElementById('course-modal-title');
         const courseModalBody = document.getElementById('course-modal-body');
+        const confirmModal = document.getElementById('confirm-modal');
+        const closeConfirmModal = document.getElementById('close-confirm-modal');
+        const confirmMessage = document.getElementById('confirm-message');
+        const cancelEnroll = document.getElementById('cancel-enroll');
+        const confirmEnroll = document.getElementById('confirm-enroll');
         const profileModal = document.getElementById('profile-modal');
         const closeProfileModal = document.getElementById('close-profile-modal');
         const profileForm = document.getElementById('profile-form');
@@ -574,519 +1044,10 @@
         let currentUser = null;
         let userData = null;
         let enrolledCourses = [];
-        let allCourses = [];
+        let allCourses = completeCoursesData;
         let classmatesData = [];
-
-        // Complete course data from the document
-        const completeCoursesData = [
-            // Qirat courses - Amharic
-            {
-                id: "q1",
-                title: "Sifetu Solah (Amharic)",
-                type: "qirat",
-                language: "amharic",
-                level: "all",
-                gender: "all",
-                instructor: "Ustaz Mekbul",
-                schedule: "Monday to Wednesday morning",
-                description: "Basic prayer learning course covering the fundamentals of Islamic prayer in Amharic.",
-                daysPerWeek: 3,
-                progressRate: 10,
-                duration: "12 weeks",
-                requirements: "No prior knowledge required",
-                location: "Main Masjid"
-            },
-            {
-                id: "q2",
-                title: "Usulu Selasah (Amharic)",
-                type: "qirat",
-                language: "amharic",
-                level: "all",
-                gender: "all",
-                instructor: "Ustaz Amir",
-                schedule: "Saturday and Sunday morning",
-                description: "Intermediate prayer learning course covering the three fundamental principles in Amharic.",
-                daysPerWeek: 2,
-                progressRate: 8,
-                duration: "10 weeks",
-                requirements: "Basic knowledge of prayer",
-                location: "Annex Building Room 12"
-            },
-            {
-                id: "q3",
-                title: "Tejwid Hidayetul Mustefid (Amharic)",
-                type: "qirat",
-                language: "amharic",
-                level: "all",
-                gender: "all",
-                instructor: "Ustaz Ahmed",
-                schedule: "Saturday and Sunday morning",
-                description: "Advanced tajweed course focusing on proper Quran recitation rules in Amharic.",
-                daysPerWeek: 2,
-                progressRate: 8,
-                duration: "15 weeks",
-                requirements: "Ability to read Arabic script",
-                location: "Main Masjid"
-            },
-            {
-                id: "q4",
-                title: "Kula Setun Urely Eqin (Amharic)",
-                type: "qirat",
-                language: "amharic",
-                level: "all",
-                gender: "all",
-                instructor: "Ustaz Nejmudin",
-                schedule: "Thursday only",
-                description: "Specialized course on Islamic jurisprudence in Amharic.",
-                daysPerWeek: 1,
-                progressRate: 5,
-                duration: "8 weeks",
-                requirements: "Intermediate Islamic knowledge",
-                location: "Islamic Studies Department"
-            },
-            
-            // Qirat courses - Oromifa
-            {
-                id: "q5",
-                title: "Sifetu Solah (Oromifa)",
-                type: "qirat",
-                language: "oromifa",
-                level: "all",
-                gender: "all",
-                instructor: "Ustaz Oumer",
-                schedule: "Monday to Wednesday morning",
-                description: "Basic prayer learning course covering the fundamentals of Islamic prayer in Oromifa.",
-                daysPerWeek: 3,
-                progressRate: 10,
-                duration: "12 weeks",
-                requirements: "No prior knowledge required",
-                location: "Oromifa Cultural Center"
-            },
-            {
-                id: "q6",
-                title: "Usulu Selasah (Oromifa)",
-                type: "qirat",
-                language: "oromifa",
-                level: "all",
-                gender: "all",
-                instructor: "Ustaz Kamil",
-                schedule: "Saturday and Sunday morning",
-                description: "Intermediate prayer learning course covering the three fundamental principles in Oromifa.",
-                daysPerWeek: 2,
-                progressRate: 8,
-                duration: "10 weeks",
-                requirements: "Basic knowledge of prayer",
-                location: "Annex Building Room 14"
-            },
-            {
-                id: "q7",
-                title: "Tejwid Hidayetul Mustefid (Oromifa)",
-                type: "qirat",
-                language: "oromifa",
-                level: "all",
-                gender: "all",
-                instructor: "Ustaz Abuki",
-                schedule: "Saturday and Sunday morning",
-                description: "Advanced tajweed course focusing on proper Quran recitation rules in Oromifa.",
-                daysPerWeek: 2,
-                progressRate: 8,
-                duration: "15 weeks",
-                requirements: "Ability to read Arabic script",
-                location: "Oromifa Cultural Center"
-            },
-            {
-                id: "q8",
-                title: "Umdetul Ahkam (Oromifa)",
-                type: "qirat",
-                language: "oromifa",
-                level: "all",
-                gender: "all",
-                instructor: "Ustaz Ibrahim",
-                schedule: "Saturday and Sunday",
-                description: "Comprehensive course on Islamic rulings and jurisprudence in Oromifa.",
-                daysPerWeek: 2,
-                progressRate: 8,
-                duration: "16 weeks",
-                requirements: "Intermediate Islamic knowledge",
-                location: "Islamic Studies Department"
-            },
-            {
-                id: "q9",
-                title: "Riyadus Ualihin (Oromifa)",
-                type: "qirat",
-                language: "oromifa",
-                level: "all",
-                gender: "all",
-                instructor: "Ustaz Abdulmejid",
-                schedule: "Wednesday only",
-                description: "Spiritual development course focusing on the Gardens of the Righteous in Oromifa.",
-                daysPerWeek: 1,
-                progressRate: 5,
-                duration: "8 weeks",
-                requirements: "Basic Islamic knowledge",
-                location: "Main Masjid"
-            },
-            {
-                id: "q10",
-                title: "Tefsir (Oromifa)",
-                type: "qirat",
-                language: "oromifa",
-                level: "all",
-                gender: "all",
-                instructor: "Ustaz Mekbul",
-                schedule: "Wednesday only",
-                description: "Quranic exegesis course covering selected chapters with Oromifa explanation.",
-                daysPerWeek: 1,
-                progressRate: 5,
-                duration: "12 weeks",
-                requirements: "Advanced Islamic knowledge",
-                location: "Islamic Studies Department"
-            },
-            {
-                id: "q11",
-                title: "Aqidetu Tahawiya (Oromifa)",
-                type: "qirat",
-                language: "oromifa",
-                level: "all",
-                gender: "all",
-                instructor: "Ustaz Amir",
-                schedule: "Saturday and Sunday",
-                description: "Advanced course on Islamic creed based on the Tahawi creed in Oromifa.",
-                daysPerWeek: 2,
-                progressRate: 8,
-                duration: "20 weeks",
-                requirements: "Strong foundation in Islamic beliefs",
-                location: "Main Masjid"
-            },
-            
-            // Hifz courses - Fresh students
-            {
-                id: "h1",
-                title: "Hifz for Fresh Students (Female)",
-                type: "hifz",
-                language: "amharic",
-                level: "fresh",
-                gender: "female",
-                instructor: "Ustaz Aymen",
-                schedule: "Monday to Wednesday morning",
-                description: "Quran memorization program for beginner female students with Amharic explanation.",
-                daysPerWeek: 3,
-                progressRate: 10,
-                duration: "Continuous",
-                requirements: "Ability to read Arabic script",
-                location: "Women's Section - Main Masjid"
-            },
-            {
-                id: "h2",
-                title: "Hifz for Fresh Students (Female)",
-                type: "hifz",
-                language: "amharic",
-                level: "fresh",
-                gender: "female",
-                instructor: "Ustaz Salah",
-                schedule: "Monday to Wednesday morning",
-                description: "Alternative Quran memorization program for beginner female students.",
-                daysPerWeek: 3,
-                progressRate: 10,
-                duration: "Continuous",
-                requirements: "Ability to read Arabic script",
-                location: "Islamic Studies Building Room 5"
-            },
-            {
-                id: "h3",
-                title: "Hifz for Fresh Students (Female)",
-                type: "hifz",
-                language: "amharic",
-                level: "fresh",
-                gender: "female",
-                instructor: "Ustaz Ahmed",
-                schedule: "Between Maghrib and Isha, Monday to Wednesday",
-                description: "Evening Quran memorization program for female students with busy schedules.",
-                daysPerWeek: 3,
-                progressRate: 10,
-                duration: "Continuous",
-                requirements: "Ability to read Arabic script",
-                location: "Women's Section - Main Masjid"
-            },
-            {
-                id: "h4",
-                title: "Hifz for Fresh Students (Male)",
-                type: "hifz",
-                language: "amharic",
-                level: "fresh",
-                gender: "male",
-                instructor: "Ustaz Mekbul",
-                schedule: "Monday to Wednesday morning",
-                description: "Quran memorization program for beginner male students with Amharic explanation.",
-                daysPerWeek: 3,
-                progressRate: 10,
-                duration: "Continuous",
-                requirements: "Ability to read Arabic script",
-                location: "Main Masjid - Front Section"
-            },
-            {
-                id: "h5",
-                title: "Hifz for Fresh Students (Male)",
-                type: "hifz",
-                language: "amharic",
-                level: "fresh",
-                gender: "male",
-                instructor: "Ustaz Amir",
-                schedule: "Monday to Wednesday afternoon",
-                description: "Afternoon Quran memorization program for male students.",
-                daysPerWeek: 3,
-                progressRate: 10,
-                duration: "Continuous",
-                requirements: "Ability to read Arabic script",
-                location: "Islamic Studies Building Room 3"
-            },
-            
-            // Hifz courses - Senior students
-            {
-                id: "h6",
-                title: "Hifz for Senior Students (Female)",
-                type: "hifz",
-                language: "amharic",
-                level: "senior",
-                gender: "female",
-                instructor: "Ustaz Kamil",
-                schedule: "Monday to Friday morning",
-                description: "Advanced Quran memorization program for female students who have completed at least 5 juz.",
-                daysPerWeek: 5,
-                progressRate: 15,
-                duration: "Continuous",
-                requirements: "Minimum 5 juz memorized",
-                location: "Women's Section - Main Masjid"
-            },
-            {
-                id: "h7",
-                title: "Hifz for Senior Students (Female)",
-                type: "hifz",
-                language: "amharic",
-                level: "senior",
-                gender: "female",
-                instructor: "Ustaz Mekbul",
-                schedule: "Monday, Wednesday, Friday",
-                description: "Advanced Quran memorization program with focus on revision and perfection.",
-                daysPerWeek: 3,
-                progressRate: 10,
-                duration: "Continuous",
-                requirements: "Minimum 10 juz memorized",
-                location: "Islamic Studies Building Room 6"
-            },
-            {
-                id: "h8",
-                title: "Hifz for Senior Students (Female)",
-                type: "hifz",
-                language: "amharic",
-                level: "senior",
-                gender: "female",
-                instructor: "Ustaz Abuki",
-                schedule: "Tuesday and Thursday",
-                description: "Specialized program for female students preparing for ijazah.",
-                daysPerWeek: 2,
-                progressRate: 8,
-                duration: "Continuous",
-                requirements: "Minimum 15 juz memorized",
-                location: "Women's Section - Main Masjid"
-            },
-            {
-                id: "h9",
-                title: "Hifz for Senior Students (Male)",
-                type: "hifz",
-                language: "amharic",
-                level: "senior",
-                gender: "male",
-                instructor: "Ustaz Amir",
-                schedule: "Monday to Friday",
-                description: "Comprehensive Quran memorization program for advanced male students.",
-                daysPerWeek: 5,
-                progressRate: 15,
-                duration: "Continuous",
-                requirements: "Minimum 5 juz memorized",
-                location: "Main Masjid - Front Section"
-            },
-            {
-                id: "h10",
-                title: "Hifz for Senior Students (Male)",
-                type: "hifz",
-                language: "amharic",
-                level: "senior",
-                gender: "male",
-                instructor: "Ustaz Oumer (Local)",
-                schedule: "Saturday and Sunday",
-                description: "Weekend intensive program for male students with strong memorization skills.",
-                daysPerWeek: 2,
-                progressRate: 8,
-                duration: "Continuous",
-                requirements: "Minimum 10 juz memorized",
-                location: "Islamic Studies Building Room 4"
-            },
-            
-            // Nezer courses - Fresh students
-            {
-                id: "n1",
-                title: "Nezer for Fresh Students (Female - Amharic)",
-                type: "nezer",
-                language: "amharic",
-                level: "fresh",
-                gender: "female",
-                instructor: "Ustaz Hamza",
-                schedule: "Tuesday and Thursday afternoon",
-                description: "Quran recitation with tajweed for beginner female students with Amharic explanation.",
-                daysPerWeek: 2,
-                progressRate: 8,
-                duration: "24 weeks",
-                requirements: "Ability to read Arabic script slowly",
-                location: "Women's Section - Main Masjid"
-            },
-            {
-                id: "n2",
-                title: "Nezer for Fresh Students (Female - Oromifa)",
-                type: "nezer",
-                language: "oromifa",
-                level: "fresh",
-                gender: "female",
-                instructor: "Ustaz Bilal",
-                schedule: "Tuesday and Thursday afternoon",
-                description: "Quran recitation with tajweed for beginner female students with Oromifa explanation.",
-                daysPerWeek: 2,
-                progressRate: 8,
-                duration: "24 weeks",
-                requirements: "Ability to read Arabic script slowly",
-                location: "Oromifa Cultural Center"
-            },
-            {
-                id: "n3",
-                title: "Nezer for Fresh Students (Male - Amharic)",
-                type: "nezer",
-                language: "amharic",
-                level: "fresh",
-                gender: "male",
-                instructor: "Ustaz Aymen",
-                schedule: "Tuesday and Thursday afternoon",
-                description: "Quran recitation with tajweed for beginner male students with Amharic explanation.",
-                daysPerWeek: 2,
-                progressRate: 8,
-                duration: "24 weeks",
-                requirements: "Ability to read Arabic script slowly",
-                location: "Main Masjid - Back Section"
-            },
-            {
-                id: "n4",
-                title: "Nezer for Fresh Students (Male - Oromifa)",
-                type: "nezer",
-                language: "oromifa",
-                level: "fresh",
-                gender: "male",
-                instructor: "Ustaz Fuad Aliyi",
-                schedule: "Tuesday and Thursday afternoon",
-                description: "Quran recitation with tajweed for beginner male students with Oromifa explanation.",
-                daysPerWeek: 2,
-                progressRate: 8,
-                duration: "24 weeks",
-                requirements: "Ability to read Arabic script slowly",
-                location: "Oromifa Cultural Center"
-            },
-            {
-                id: "n5",
-                title: "Nezer for Fresh Students (Male)",
-                type: "nezer",
-                language: "amharic",
-                level: "fresh",
-                gender: "male",
-                instructor: "Ustaz Kedamo",
-                schedule: "Monday and Wednesday evening",
-                description: "Evening Quran recitation program for male students with busy schedules.",
-                daysPerWeek: 2,
-                progressRate: 8,
-                duration: "24 weeks",
-                requirements: "Ability to read Arabic script slowly",
-                location: "Islamic Studies Building Room 2"
-            },
-            
-            // Nezer courses - Senior students
-            {
-                id: "n6",
-                title: "Nezer for Senior Students (Female)",
-                type: "nezer",
-                language: "amharic",
-                level: "senior",
-                gender: "female",
-                instructor: "Ustaz Abdulhafiz",
-                schedule: "Monday, Wednesday, Friday",
-                description: "Advanced Quran recitation with detailed tajweed rules for female students.",
-                daysPerWeek: 3,
-                progressRate: 10,
-                duration: "Continuous",
-                requirements: "Completion of beginner Nezer course",
-                location: "Women's Section - Main Masjid"
-            },
-            {
-                id: "n7",
-                title: "Nezer for Senior Students (Female)",
-                type: "nezer",
-                language: "amharic",
-                level: "senior",
-                gender: "female",
-                instructor: "Ustaz Amir",
-                schedule: "Tuesday and Thursday",
-                description: "Advanced Quran recitation focusing on fluency and advanced tajweed rules.",
-                daysPerWeek: 2,
-                progressRate: 8,
-                duration: "Continuous",
-                requirements: "Completion of beginner Nezer course",
-                location: "Islamic Studies Building Room 7"
-            },
-            {
-                id: "n8",
-                title: "Nezer for Senior Students (Male)",
-                type: "nezer",
-                language: "amharic",
-                level: "senior",
-                gender: "male",
-                instructor: "Ustaz Marela",
-                schedule: "Monday to Friday",
-                description: "Comprehensive advanced Quran recitation program with ijazah preparation.",
-                daysPerWeek: 5,
-                progressRate: 15,
-                duration: "Continuous",
-                requirements: "Completion of beginner Nezer course",
-                location: "Main Masjid - Front Section"
-            },
-            {
-                id: "n9",
-                title: "Nezer for Senior Students (Male)",
-                type: "nezer",
-                language: "amharic",
-                level: "senior",
-                gender: "male",
-                instructor: "Ustaz Fedlu",
-                schedule: "Saturday and Sunday",
-                description: "Weekend intensive program for advanced Quran recitation and tajweed mastery.",
-                daysPerWeek: 2,
-                progressRate: 8,
-                duration: "Continuous",
-                requirements: "Completion of beginner Nezer course",
-                location: "Islamic Studies Building Room 1"
-            },
-            {
-                id: "n10",
-                title: "Nezer for Senior Students (Male)",
-                type: "nezer",
-                language: "amharic",
-                level: "senior",
-                gender: "male",
-                instructor: "Ustaz Husen",
-                schedule: "Tuesday and Thursday",
-                description: "Specialized program focusing on rare recitation styles and advanced tajweed.",
-                daysPerWeek: 2,
-                progressRate: 8,
-                duration: "Continuous",
-                requirements: "Minimum 5 years recitation experience",
-                location: "Islamic Studies Department"
-            }
-        ];
+        let selectedCourseForEnrollment = null;
+        let currentView = 'cards'; // 'cards' or 'list'
 
         // Initialize the application
         function initApp() {
@@ -1100,7 +1061,8 @@
 
             logoutBtn.addEventListener('click', handleLogout);
             closeCourseModal.addEventListener('click', () => courseModal.classList.remove('active'));
-            closeProfileModal.addEventListener('click', () => profileModal.classList.remove('active'));
+            closeConfirmModal.addEventListener('click', () => confirmModal.classList.remove('active'));
+            cancelEnroll.addEventListener('click', () => confirmModal.classList.remove('active'));
             profileForm.addEventListener('submit', saveProfile);
 
             // Check auth state
@@ -1120,9 +1082,6 @@
                     window.location.href = 'login.html';
                 }
             });
-
-            // Initialize all courses
-            allCourses = completeCoursesData;
         }
 
         // Load user data from Firestore
@@ -1242,21 +1201,61 @@
             let html = `
                 <div class="card">
                     <h2 class="card-title">Available Courses</h2>
-                    <div class="filter-group mb-3">
-                        <label for="course-filter">Filter Courses</label>
-                        <select id="course-filter" class="form-control">
-                            <option value="all">All Courses</option>
-                            <option value="qirat">Qirat</option>
-                            <option value="hifz">Hifz</option>
-                            <option value="nezer">Nezer</option>
-                        </select>
+                    <div class="filter-container">
+                        <div class="filter-group">
+                            <label for="course-type">Course Type</label>
+                            <select id="course-type" class="form-control">
+                                <option value="all">All Types</option>
+                                <option value="qirat">Qirat</option>
+                                <option value="hifz">Hifz</option>
+                                <option value="nezer">Nezer</option>
+                            </select>
+                        </div>
+                        <div class="filter-group">
+                            <label for="language">Language</label>
+                            <select id="language" class="form-control">
+                                <option value="all">All Languages</option>
+                                <option value="amharic">Amharic</option>
+                                <option value="oromifa">Oromifa</option>
+                            </select>
+                        </div>
+                        <div class="filter-group">
+                            <label for="level">Level</label>
+                            <select id="level" class="form-control">
+                                <option value="all">All Levels</option>
+                                <option value="fresh">Fresh</option>
+                                <option value="senior">Senior</option>
+                            </select>
+                        </div>
+                        <div class="filter-group">
+                            <label for="gender">Gender</label>
+                            <select id="gender" class="form-control">
+                                <option value="all">All Genders</option>
+                                <option value="male">Male</option>
+                                <option value="female">Female</option>
+                            </select>
+                        </div>
                     </div>
-                    <div class="courses-grid" id="courses-list">
-                        <!-- Courses will be loaded here -->
+                    
+                    <div class="view-toggle">
+                        <button class="view-toggle-btn ${currentView === 'cards' ? 'active' : ''}" onclick="switchView('cards')">
+                            <i class="fas fa-th-large"></i>
+                        </button>
+                        <button class="view-toggle-btn ${currentView === 'list' ? 'active' : ''}" onclick="switchView('list')">
+                            <i class="fas fa-list"></i>
+                        </button>
+                    </div>
+                    
+                    <div class="courses-grid" id="courses-cards" style="display: ${currentView === 'cards' ? 'grid' : 'none'}">
+                        <!-- Courses in card view will be loaded here -->
+                    </div>
+                    
+                    <div class="courses-list" id="courses-list" style="display: ${currentView === 'list' ? 'block' : 'none'}">
+                        <!-- Courses in list view will be loaded here -->
                     </div>
                 </div>
                 
-                <div class="card">
+                <div class="card mt-3">
                     <h2 class="card-title">My Enrolled Courses</h2>
                     <div id="enrolled-courses">
                         <!-- Enrolled courses will be loaded here -->
@@ -1266,23 +1265,65 @@
 
             mainContent.innerHTML = html;
 
-            // Set up filter event
-            document.getElementById('course-filter').addEventListener('change', filterCourses);
+            // Set up filter events
+            document.getElementById('course-type').addEventListener('change', applyAllFilters);
+            document.getElementById('language').addEventListener('change', applyAllFilters);
+            document.getElementById('level').addEventListener('change', applyAllFilters);
+            document.getElementById('gender').addEventListener('change', applyAllFilters);
 
             // Display courses
-            displayCourses();
+            applyAllFilters();
             displayEnrolledCourses();
         }
 
-        // Display available courses
-        function displayCourses(filter = 'all') {
-            const coursesList = document.getElementById('courses-list');
-            if (!coursesList) return;
+        // Switch between card and list view
+        function switchView(view) {
+            currentView = view;
+            const cardsView = document.getElementById('courses-cards');
+            const listView = document.getElementById('courses-list');
+            const cardBtn = document.querySelector('.view-toggle-btn:nth-child(1)');
+            const listBtn = document.querySelector('.view-toggle-btn:nth-child(2)');
+
+            if (view === 'cards') {
+                cardsView.style.display = 'grid';
+                listView.style.display = 'none';
+                cardBtn.classList.add('active');
+                listBtn.classList.remove('active');
+            } else {
+                cardsView.style.display = 'none';
+                listView.style.display = 'block';
+                cardBtn.classList.remove('active');
+                listBtn.classList.add('active');
+            }
+
+            // Re-apply filters to update both views
+            applyAllFilters();
+        }
+
+        // Apply all filters simultaneously
+        function applyAllFilters() {
+            const courseType = document.getElementById('course-type').value;
+            const language = document.getElementById('language').value;
+            const level = document.getElementById('level').value;
+            const gender = document.getElementById('gender').value;
 
             let filteredCourses = allCourses;
             
-            if (filter !== 'all') {
-                filteredCourses = allCourses.filter(course => course.type === filter);
+            // Apply all filters in sequence
+            if (courseType !== 'all') {
+                filteredCourses = filteredCourses.filter(course => course.type === courseType);
+            }
+            
+            if (language !== 'all') {
+                filteredCourses = filteredCourses.filter(course => course.language === language);
+            }
+            
+            if (level !== 'all') {
+                filteredCourses = filteredCourses.filter(course => course.level === level || course.level === 'all');
+            }
+            
+            if (gender !== 'all') {
+                filteredCourses = filteredCourses.filter(course => course.gender === gender || course.gender === 'all');
             }
 
             // Filter out already enrolled courses
@@ -1290,13 +1331,26 @@
                 !enrolledCourses.some(ec => ec.id === course.id)
             );
 
-            if (filteredCourses.length === 0) {
-                coursesList.innerHTML = '<p>No courses available matching your filter.</p>';
+            // Display filtered courses in current view
+            if (currentView === 'cards') {
+                displayCoursesCards(filteredCourses);
+            } else {
+                displayCoursesList(filteredCourses);
+            }
+        }
+
+        // Display courses in card view
+        function displayCoursesCards(courses) {
+            const coursesContainer = document.getElementById('courses-cards');
+            if (!coursesContainer) return;
+
+            if (courses.length === 0) {
+                coursesContainer.innerHTML = '<p class="no-courses">No courses available matching all your filters.</p>';
                 return;
             }
 
-            coursesList.innerHTML = '';
-            filteredCourses.forEach(course => {
+            coursesContainer.innerHTML = '';
+            courses.forEach(course => {
                 const courseCard = document.createElement('div');
                 courseCard.className = 'course-card';
                 courseCard.innerHTML = `
@@ -1307,6 +1361,8 @@
                         <div class="course-meta">
                             <span class="badge ${getBadgeClass(course.type)}">${course.type.toUpperCase()}</span>
                             <span>${course.language.toUpperCase()}</span>
+                            <span>${course.level.toUpperCase()}</span>
+                            <span>${course.gender.toUpperCase()}</span>
                         </div>
                         <div class="course-detail">
                             <strong>Instructor:</strong> ${course.instructor}
@@ -1315,19 +1371,55 @@
                             <strong>Schedule:</strong> ${course.schedule}
                         </div>
                         <div class="course-actions mt-3">
-                            <button class="btn btn-primary" onclick="enrollInCourse('${course.id}')">Enroll</button>
-                            <button class="btn btn-outline" onclick="viewCourseDetails('${course.id}')">Details</button>
+                            <button class="btn btn-primary btn-sm" onclick="showEnrollmentConfirmation('${course.id}')">Enroll</button>
+                            <button class="btn btn-outline btn-sm" onclick="viewCourseDetails('${course.id}')">Details</button>
                         </div>
                     </div>
                 `;
-                coursesList.appendChild(courseCard);
+                coursesContainer.appendChild(courseCard);
             });
         }
 
-        // Filter courses
-        function filterCourses() {
-            const filterValue = document.getElementById('course-filter').value;
-            displayCourses(filterValue);
+        // Display courses in list view
+        function displayCoursesList(courses) {
+            const coursesContainer = document.getElementById('courses-list');
+            if (!coursesContainer) return;
+
+            if (courses.length === 0) {
+                coursesContainer.innerHTML = '<p class="no-courses">No courses available matching all your filters.</p>';
+                return;
+            }
+
+            coursesContainer.innerHTML = '';
+            courses.forEach(course => {
+                const courseItem = document.createElement('div');
+                courseItem.className = 'course-list-item';
+                courseItem.innerHTML = `
+                    <div class="course-list-info">
+                        <div class="course-list-title">${course.title}</div>
+                        <div class="course-list-meta">
+                            <span class="badge ${getBadgeClass(course.type)}">${course.type.toUpperCase()}</span>
+                            <span>${course.instructor}</span>
+                            <span>${course.schedule}</span>
+                        </div>
+                    </div>
+                    <div class="course-list-actions">
+                        <button class="btn btn-primary btn-sm" onclick="showEnrollmentConfirmation('${course.id}')">Enroll</button>
+                        <button class="btn btn-outline btn-sm" onclick="viewCourseDetails('${course.id}')">Details</button>
+                    </div>
+                `;
+                coursesContainer.appendChild(courseItem);
+            });
+        }
+
+        // Get badge class based on course type
+        function getBadgeClass(courseType) {
+            switch(courseType) {
+                case 'qirat': return 'badge-primary';
+                case 'hifz': return 'badge-success';
+                case 'nezer': return 'badge-warning';
+                default: return 'badge-primary';
+            }
         }
 
         // Display enrolled courses
@@ -1336,85 +1428,67 @@
             if (!enrolledContainer) return;
 
             if (enrolledCourses.length === 0) {
-                enrolledContainer.innerHTML = '<p>You are not enrolled in any courses yet.</p>';
+                enrolledContainer.innerHTML = '<p class="no-courses">You are not enrolled in any courses yet.</p>';
                 return;
             }
 
             enrolledContainer.innerHTML = '';
             enrolledCourses.forEach(course => {
-                const fullCourse = allCourses.find(c => c.id === course.id) || course;
-                
-                const courseItem = document.createElement('div');
-                courseItem.className = 'course-item';
-                courseItem.innerHTML = `
-                    <div class="course-detail">
-                        <strong>${fullCourse.title}</strong>
+                const courseCard = document.createElement('div');
+                courseCard.className = 'course-card';
+                courseCard.innerHTML = `
+                    <div class="course-header">
+                        <h3>${course.title}</h3>
                     </div>
-                    <div class="course-detail">
-                        <strong>Instructor:</strong> ${fullCourse.instructor}
-                    </div>
-                    <div class="progress-container mt-2">
-                        <div class="progress-label">
-                            <span>Progress: ${course.progress}%</span>
+                    <div class="course-body">
+                        <div class="course-meta">
+                            <span class="badge ${getBadgeClass(course.type)}">${course.type.toUpperCase()}</span>
+                            <span>${course.progress}% COMPLETE</span>
                         </div>
-                        <div class="progress-bar">
-                            <div class="progress-fill" style="width: ${course.progress}%"></div>
+                        <div class="course-detail">
+                            <strong>Instructor:</strong> ${course.instructor}
                         </div>
-                    </div>
-                    <div class="course-actions mt-2">
-                        <button class="btn btn-outline" onclick="viewCourseProgress('${course.id}')">View Progress</button>
+                        <div class="course-detail">
+                            <strong>Schedule:</strong> ${course.schedule}
+                        </div>
+                        <div class="course-detail">
+                            <strong>Last Active:</strong> ${new Date(course.lastActive).toLocaleDateString()}
+                        </div>
+                        <div class="course-actions mt-3">
+                            <button class="btn btn-outline btn-sm" onclick="viewCourseDetails('${course.id}')">Details</button>
+                            <button class="btn btn-outline btn-sm" onclick="showUnenrollmentConfirmation('${course.id}')">Unenroll</button>
+                        </div>
                     </div>
                 `;
-                enrolledContainer.appendChild(courseItem);
+                enrolledContainer.appendChild(courseCard);
             });
         }
 
-        // View course details
-        function viewCourseDetails(courseId) {
+        // Show enrollment confirmation dialog
+        function showEnrollmentConfirmation(courseId) {
             const course = allCourses.find(c => c.id === courseId);
             if (!course) return;
 
-            courseModalTitle.textContent = course.title;
-            courseModalBody.innerHTML = `
-                <div class="course-detail">
-                    <strong>Type:</strong> ${course.type.charAt(0).toUpperCase() + course.type.slice(1)}
-                </div>
-                <div class="course-detail">
-                    <strong>Language:</strong> ${course.language.charAt(0).toUpperCase() + course.language.slice(1)}
-                </div>
-                <div class="course-detail">
-                    <strong>Instructor:</strong> ${course.instructor}
-                </div>
-                <div class="course-detail">
-                    <strong>Schedule:</strong> ${course.schedule}
-                </div>
-                <div class="course-detail">
-                    <strong>Duration:</strong> ${course.duration}
-                </div>
-                <div class="course-detail">
-                    <strong>Location:</strong> ${course.location}
-                </div>
-                <div class="course-detail">
-                    <strong>Requirements:</strong> ${course.requirements}
-                </div>
-                <div class="course-detail mt-3">
-                    ${course.description}
-                </div>
-                <div class="course-actions mt-3">
-                    <button class="btn btn-primary" onclick="enrollInCourse('${course.id}')">Enroll Now</button>
-                </div>
-            `;
-
-            courseModal.classList.add('active');
+            selectedCourseForEnrollment = course;
+            confirmMessage.textContent = `Are you sure you want to enroll in "${course.title}"?`;
+            confirmModal.classList.add('active');
         }
 
-        // Enroll in a course
-        async function enrollInCourse(courseId) {
-            if (!currentUser) return;
-
-            // Find the course in our data
-            const course = allCourses.find(c => c.id === courseId);
+        // Show unenrollment confirmation dialog
+        function showUnenrollmentConfirmation(courseId) {
+            const course = enrolledCourses.find(c => c.id === courseId);
             if (!course) return;
+
+            selectedCourseForEnrollment = course;
+            confirmMessage.textContent = `Are you sure you want to unenroll from "${course.title}"?`;
+            confirmModal.classList.add('active');
+        }
+
+        // Handle confirmed enrollment
+        async function confirmEnrollment() {
+            if (!currentUser || !selectedCourseForEnrollment) return;
+
+            const course = selectedCourseForEnrollment;
 
             try {
                 // Add course to user's enrolled courses
@@ -1446,11 +1520,11 @@
                 });
 
                 // Refresh displays
-                displayCourses();
+                applyAllFilters();
                 displayEnrolledCourses();
                 
-                // Close modal if open
-                courseModal.classList.remove('active');
+                // Close modal
+                confirmModal.classList.remove('active');
                 
                 // Show success message
                 alert(`Successfully enrolled in ${course.title}`);
@@ -1460,298 +1534,71 @@
             }
         }
 
-        // Load progress page
-        function loadProgressPage() {
-            let html = `
-                <div class="card">
-                    <h2 class="card-title">My Course Progress</h2>
-                    <div class="filter-group mb-3">
-                        <label for="progress-filter">Select Course</label>
-                        <select id="progress-filter" class="form-control">
-                            <option value="">Select a course</option>
-                            ${enrolledCourses.map(course => 
-                                `<option value="${course.id}">${course.title}</option>`
-                            ).join('')}
-                        </select>
-                    </div>
-                    <div id="course-progress-display">
-                        <p class="text-center">Please select a course to view your progress</p>
-                    </div>
-                </div>
-            `;
-
-            mainContent.innerHTML = html;
-
-            // Set up filter event
-            document.getElementById('progress-filter').addEventListener('change', (e) => {
-                const courseId = e.target.value;
-                if (courseId) {
-                    displayCourseProgress(courseId);
-                } else {
-                    document.getElementById('course-progress-display').innerHTML = 
-                        '<p class="text-center">Please select a course to view your progress</p>';
-                }
-            });
-
-            // Display first course progress if available
-            if (enrolledCourses.length > 0) {
-                document.getElementById('progress-filter').value = enrolledCourses[0].id;
-                displayCourseProgress(enrolledCourses[0].id);
+        // View course details
+        function viewCourseDetails(courseId) {
+            // Find the course in either allCourses or enrolledCourses
+            let course = allCourses.find(c => c.id === courseId);
+            if (!course) {
+                course = enrolledCourses.find(c => c.id === courseId);
             }
-        }
-
-        // Display course progress
-        function displayCourseProgress(courseId) {
-            const progressDisplay = document.getElementById('course-progress-display');
-            if (!progressDisplay) return;
-
-            const course = enrolledCourses.find(c => c.id === courseId);
+            
             if (!course) return;
 
-            const fullCourse = allCourses.find(c => c.id === courseId) || course;
-
-            // Get classmates in this course (in a real app, this would query the database)
-            const classmatesInCourse = classmatesData.filter(classmate => 
-                classmate.enrolledCourses?.some(ec => ec.id === courseId)
-            ).slice(0, 6); // Limit to 6 for mobile display
-
-            progressDisplay.innerHTML = `
-                <div class="course-detail">
-                    <strong>Course:</strong> ${fullCourse.title}
-                </div>
-                <div class="course-detail">
-                    <strong>Instructor:</strong> ${fullCourse.instructor}
-                </div>
-                <div class="course-detail">
-                    <strong>Schedule:</strong> ${fullCourse.schedule}
-                </div>
-                
-                <div class="progress-container mt-3">
-                    <div class="progress-label">
-                        <span>Overall Progress</span>
-                        <span>${course.progress}%</span>
-                    </div>
-                    <div class="progress-bar">
-                        <div class="progress-fill" style="width: ${course.progress}%"></div>
-                    </div>
-                </div>
-                
-                <div class="course-actions mt-3">
-                    <button class="btn btn-primary" onclick="updateProgress('${course.id}', ${course.progress + course.progressRate})">
-                        Mark as Completed Today (+${course.progressRate}%)
-                    </button>
-                </div>
-                
-                <h3 class="mt-3">Classmates in This Course</h3>
-                <div class="classmates-grid" id="classmates-in-course">
-                    ${classmatesInCourse.length > 0 ? 
-                        classmatesInCourse.map(classmate => `
-                            <div class="classmate-card">
-                                <div class="classmate-avatar">
-                                    ${classmate.name.split(' ').map(n => n[0]).join('').toUpperCase()}
-                                </div>
-                                <div class="classmate-name">${classmate.name}</div>
-                                <div class="classmate-progress">
-                                    ${classmate.enrolledCourses.find(ec => ec.id === courseId)?.progress || 0}% progress
-                                </div>
-                            </div>
-                        `).join('') : 
-                        '<p>No classmates found in this course.</p>'}
-                </div>
-            `;
-        }
-
-        // Update progress for a course
-        async function updateProgress(courseId, newProgress) {
-            if (!currentUser) return;
-
-            // Cap progress at 100%
-            newProgress = Math.min(newProgress, 100);
-
-            try {
-                // Update in Firestore
-                const userRef = doc(db, "users", currentUser.uid);
-                const updatedCourses = enrolledCourses.map(course => {
-                    if (course.id === courseId) {
-                        return {
-                            ...course,
-                            progress: newProgress,
-                            lastActive: new Date().toISOString()
-                        };
-                    }
-                    return course;
-                });
-
-                await updateDoc(userRef, {
-                    enrolledCourses: updatedCourses
-                });
-
-                // Update local data
-                enrolledCourses = updatedCourses;
-
-                // Refresh displays
-                displayCourseProgress(courseId);
-                if (document.getElementById('enrolled-courses')) {
-                    displayEnrolledCourses();
-                }
-                
-                // Show success message
-                alert(`Progress updated to ${newProgress}%`);
-            } catch (error) {
-                console.error("Error updating progress:", error);
-                alert("Failed to update progress. Please try again.");
-            }
-        }
-
-        // Load classmates page
-        function loadClassmatesPage() {
-            let html = `
-                <div class="card">
-                    <h2 class="card-title">My Classmates</h2>
-                    <div class="filter-group mb-3">
-                        <label for="classmate-filter">Filter by Course</label>
-                        <select id="classmate-filter" class="form-control">
-                            <option value="all">All Classmates</option>
-                            ${enrolledCourses.map(course => 
-                                `<option value="${course.id}">${course.title}</option>`
-                            ).join('')}
-                        </select>
-                    </div>
-                    <div class="classmates-grid" id="classmates-list">
-                        <!-- Classmates will be loaded here -->
-                    </div>
-                </div>
-            `;
-
-            mainContent.innerHTML = html;
-
-            // Set up filter event
-            document.getElementById('classmate-filter').addEventListener('change', filterClassmates);
-
-            // Display all classmates initially
-            displayClassmates();
-        }
-
-        // Display classmates
-        function displayClassmates(filterCourseId = 'all') {
-            const classmatesList = document.getElementById('classmates-list');
-            if (!classmatesList) return;
-
-            let filteredClassmates = classmatesData;
+            courseModalTitle.textContent = course.title;
             
-            if (filterCourseId !== 'all') {
-                filteredClassmates = classmatesData.filter(classmate => 
-                    classmate.enrolledCourses?.some(ec => ec.id === filterCourseId)
-                );
-            }
-
-            if (filteredClassmates.length === 0) {
-                classmatesList.innerHTML = '<p>No classmates found matching your filter.</p>';
-                return;
-            }
-
-            classmatesList.innerHTML = '';
-            filteredClassmates.forEach(classmate => {
-                const classmateCard = document.createElement('div');
-                classmateCard.className = 'classmate-card';
-                
-                // Find common courses
-                const commonCourses = [];
-                if (classmate.enrolledCourses) {
-                    classmate.enrolledCourses.forEach(ec => {
-                        if (enrolledCourses.some(userEc => userEc.id === ec.id)) {
-                            const course = allCourses.find(c => c.id === ec.id) || ec;
-                            commonCourses.push(course.title);
-                        }
-                    });
-                }
-                
-                classmateCard.innerHTML = `
-                    <div class="classmate-avatar">
-                        ${classmate.name.split(' ').map(n => n[0]).join('').toUpperCase()}
+            let detailsHtml = `
+                <div class="course-detail">
+                    <strong>Type:</strong> ${course.type}
+                </div>
+                <div class="course-detail">
+                    <strong>Language:</strong> ${course.language}
+                </div>
+                <div class="course-detail">
+                    <strong>Level:</strong> ${course.level}
+                </div>
+                <div class="course-detail">
+                    <strong>Gender:</strong> ${course.gender}
+                </div>
+                <div class="course-detail">
+                    <strong>Instructor:</strong> ${course.instructor}
+                </div>
+                <div class="course-detail">
+                    <strong>Schedule:</strong> ${course.schedule}
+                </div>
+                <div class="course-detail">
+                    <strong>Days per Week:</strong> ${course.daysPerWeek}
+                </div>
+                <div class="course-detail">
+                    <strong>Progress Rate:</strong> ${course.progressRate}
+                </div>
+            `;
+            
+            if (enrolledCourses.some(c => c.id === course.id)) {
+                const enrolledCourse = enrolledCourses.find(c => c.id === course.id);
+                detailsHtml += `
+                    <div class="course-detail">
+                        <strong>Your Progress:</strong> ${enrolledCourse.progress}%
                     </div>
-                    <div class="classmate-name">${classmate.name}</div>
-                    <div class="classmate-progress">
-                        ${commonCourses.length > 0 ? 
-                            `${commonCourses.length} shared course(s)` : 
-                            'No shared courses'}
+                    <div class="course-detail">
+                        <strong>Last Active:</strong> ${new Date(enrolledCourse.lastActive).toLocaleDateString()}
                     </div>
                 `;
-                classmatesList.appendChild(classmateCard);
-            });
-        }
-
-        // Filter classmates
-        function filterClassmates() {
-            const filterValue = document.getElementById('classmate-filter').value;
-            displayClassmates(filterValue);
-        }
-
-        // Load profile page
-        function loadProfilePage() {
-            const initials = userData.name.split(' ').map(n => n[0]).join('').toUpperCase();
-            
-            let html = `
-                <div class="card">
-                    <div class="profile-header">
-                        <div class="profile-avatar">${initials}</div>
-                        <div class="profile-info">
-                            <h2>${userData.name}</h2>
-                            <p>${userData.studentId || 'No ID provided'}</p>
-                        </div>
-                    </div>
-                    
-                    <div class="profile-details">
-                        <div class="detail-item">
-                            <div class="detail-label">Email</div>
-                            <div class="detail-value">${userData.email}</div>
-                        </div>
-                        <div class="detail-item">
-                            <div class="detail-label">Department</div>
-                            <div class="detail-value">${userData.department || 'Not specified'}</div>
-                        </div>
-                        <div class="detail-item">
-                            <div class="detail-label">Year</div>
-                            <div class="detail-value">${userData.year || 'Not specified'}</div>
-                        </div>
-                        <div class="detail-item">
-                            <div class="detail-label">Phone</div>
-                            <div class="detail-value">${userData.phone || 'Not provided'}</div>
-                        </div>
-                    </div>
-                    
-                    <div class="course-actions mt-3">
-                        <button class="btn btn-primary" onclick="openProfileModal()">Edit Profile</button>
-                    </div>
-                </div>
-                
-                <div class="card mt-3">
-                    <h2 class="card-title">Account Actions</h2>
-                    <button class="btn btn-outline mb-2" onclick="changePassword()">Change Password</button>
-                    <button class="btn btn-outline" onclick="handleLogout()">Logout</button>
-                </div>
-            `;
-
-            mainContent.innerHTML = html;
-        }
-
-        // Open profile edit modal
-        function openProfileModal(force = false) {
-            if (force) {
-                // Force the user to complete their profile
-                profileModal.querySelector('.modal-close').style.display = 'none';
-            } else {
-                profileModal.querySelector('.modal-close').style.display = 'block';
             }
             
-            // Fill form with current data
-            editName.value = userData.name || '';
-            editStudentId.value = userData.studentId || '';
-            editDepartment.value = userData.department || '';
-            editYear.value = userData.year || '';
-            editPhone.value = userData.phone || '';
-            
-            profileModal.classList.add('active');
+            courseModalBody.innerHTML = detailsHtml;
+            courseModal.classList.add('active');
+        }
+
+        // Open profile modal
+        function openProfileModal(forceOpen = false) {
+            if (forceOpen || !profileModal.classList.contains('active')) {
+                editName.value = userData.name || '';
+                editStudentId.value = userData.studentId || '';
+                editDepartment.value = userData.department || '';
+                editYear.value = userData.year || '1st Year';
+                editPhone.value = userData.phone || '';
+                profileModal.classList.add('active');
+            }
         }
 
         // Save profile changes
@@ -1759,35 +1606,126 @@
             e.preventDefault();
             
             try {
-                const updates = {
+                await updateDoc(doc(db, "users", currentUser.uid), {
                     name: editName.value,
                     studentId: editStudentId.value,
                     department: editDepartment.value,
                     year: editYear.value,
-                    phone: editPhone.value,
-                    lastUpdated: new Date().toISOString()
-                };
-                
-                // Update in Firestore
-                await updateDoc(doc(db, "users", currentUser.uid), updates);
+                    phone: editPhone.value
+                });
                 
                 // Update local data
-                userData = { ...userData, ...updates };
-                
-                // Refresh UI
-                if (document.getElementById('profile-page')) {
-                    loadProfilePage();
-                }
+                userData.name = editName.value;
+                userData.studentId = editStudentId.value;
+                userData.department = editDepartment.value;
+                userData.year = editYear.value;
+                userData.phone = editPhone.value;
                 
                 // Close modal
                 profileModal.classList.remove('active');
                 
-                // Show success message
+                // Refresh profile display if on profile page
+                if (document.querySelector('.nav-item[data-page="profile"]').classList.contains('active')) {
+                    loadProfilePage();
+                }
+                
                 alert('Profile updated successfully!');
             } catch (error) {
                 console.error("Error updating profile:", error);
                 alert("Failed to update profile. Please try again.");
             }
+        }
+
+        // Load progress page
+        function loadProgressPage() {
+            let html = `
+                <div class="card">
+                    <h2 class="card-title">My Learning Progress</h2>
+                    <div id="progress-content">
+                        ${enrolledCourses.length === 0 ? 
+                            '<p class="no-courses">You are not enrolled in any courses yet.</p>' : 
+                            enrolledCourses.map(course => `
+                                <div class="progress-item mb-3">
+                                    <h3>${course.title}</h3>
+                                    <div class="progress-bar-container">
+                                        <div class="progress-bar" style="width: ${course.progress}%"></div>
+                                    </div>
+                                    <div class="progress-meta">
+                                        <span>${course.progress}% Complete</span>
+                                        <span>Last Active: ${new Date(course.lastActive).toLocaleDateString()}</span>
+                                    </div>
+                                </div>
+                            `).join('')
+                        }
+                    </div>
+                </div>
+            `;
+            
+            mainContent.innerHTML = html;
+        }
+
+        // Load classmates page
+        function loadClassmatesPage() {
+            let html = `
+                <div class="card">
+                    <h2 class="card-title">My Classmates</h2>
+                    <div id="classmates-content">
+                        ${classmatesData.length === 0 ? 
+                            '<p class="no-courses">No classmates found.</p>' : 
+                            classmatesData.map(classmate => `
+                                <div class="classmate-item">
+                                    <div class="classmate-info">
+                                        <h3>${classmate.name}</h3>
+                                        <p>${classmate.studentId} • ${classmate.department}</p>
+                                        <p>${classmate.year} • ${classmate.phone}</p>
+                                    </div>
+                                </div>
+                            `).join('')
+                        }
+                    </div>
+                </div>
+            `;
+            
+            mainContent.innerHTML = html;
+        }
+
+        // Load profile page
+        function loadProfilePage() {
+            let html = `
+                <div class="card">
+                    <h2 class="card-title">My Profile</h2>
+                    <div class="profile-info">
+                        <div class="profile-detail">
+                            <strong>Name:</strong> ${userData.name || 'Not set'}
+                        </div>
+                        <div class="profile-detail">
+                            <strong>Student ID:</strong> ${userData.studentId || 'Not set'}
+                        </div>
+                        <div class="profile-detail">
+                            <strong>Department:</strong> ${userData.department || 'Not set'}
+                        </div>
+                        <div class="profile-detail">
+                            <strong>Year:</strong> ${userData.year || 'Not set'}
+                        </div>
+                        <div class="profile-detail">
+                            <strong>Phone:</strong> ${userData.phone || 'Not set'}
+                        </div>
+                        <div class="profile-actions mt-3">
+                            <button class="btn btn-primary" onclick="openProfileModal()">Edit Profile</button>
+                            <button class="btn btn-outline" onclick="changePassword()">Change Password</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card mt-3">
+                    <h2 class="card-title">Account Settings</h2>
+                    <div class="account-actions">
+                        <button class="btn btn-outline" onclick="handleLogout()">Logout</button>
+                    </div>
+                </div>
+            `;
+            
+            mainContent.innerHTML = html;
         }
 
         // Handle logout
@@ -1797,36 +1735,27 @@
                 window.location.href = 'login.html';
             } catch (error) {
                 console.error("Error signing out:", error);
-                alert("Failed to logout. Please try again.");
             }
         }
 
-        // Change password (placeholder)
+        // Change password
         function changePassword() {
-            alert("Password change functionality would be implemented here. Typically this would send a password reset email.");
-        }
-
-        // Get badge class based on course type
-        function getBadgeClass(type) {
-            switch(type) {
-                case 'qirat': return 'badge-primary';
-                case 'hifz': return 'badge-success';
-                case 'nezer': return 'badge-warning';
-                default: return 'badge-primary';
-            }
+            alert("Password change functionality would be implemented here.");
         }
 
         // Initialize the app when DOM is loaded
         document.addEventListener('DOMContentLoaded', initApp);
 
         // Make functions available globally
-        window.enrollInCourse = enrollInCourse;
+        window.switchView = switchView;
+        window.showEnrollmentConfirmation = showEnrollmentConfirmation;
         window.viewCourseDetails = viewCourseDetails;
-        window.viewCourseProgress = viewCourseProgress;
-        window.updateProgress = updateProgress;
         window.openProfileModal = openProfileModal;
         window.handleLogout = handleLogout;
         window.changePassword = changePassword;
+
+        // Set up enrollment confirmation
+        confirmEnroll.addEventListener('click', confirmEnrollment);
     </script>
 </body>
 </html>
