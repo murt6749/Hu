@@ -1,0 +1,1231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Haramaya Jama'a | Muslim Students Community</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Scheherazade+New:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #0c4b33;
+            --secondary: #f8b400;
+            --accent: #228b22;
+            --light: #f5f5f5;
+            --dark: #222;
+            --text: #333;
+            --text-light: #777;
+            --shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #e4e8f0 100%);
+            color: var(--text);
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+
+        .container {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Sidebar Styles */
+        .sidebar {
+            width: 280px;
+            background: linear-gradient(to bottom, var(--primary), #0a3d2a);
+            color: white;
+            position: fixed;
+            height: 100vh;
+            padding: 20px 0;
+            transition: var(--transition);
+            z-index: 100;
+            box-shadow: 5px 0 15px rgba(0, 0, 0, 0.1);
+            transform: translateX(0);
+        }
+
+        .sidebar.closed {
+            transform: translateX(-100%);
+        }
+
+        .logo-container {
+            text-align: center;
+            padding: 20px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            margin-bottom: 20px;
+            animation: fadeIn 1s ease;
+        }
+
+        .logo {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid var(--secondary);
+            box-shadow: 0 0 20px rgba(248, 180, 0, 0.3);
+        }
+
+        .logo-text {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-top: 10px;
+            font-family: 'Scheherazade New', serif;
+        }
+
+        .menu {
+            list-style: none;
+            padding: 0 15px;
+        }
+
+        .menu-item {
+            margin-bottom: 5px;
+            position: relative;
+            overflow: hidden;
+            border-radius: 8px;
+            transition: var(--transition);
+        }
+
+        .menu-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.1);
+            transition: var(--transition);
+            z-index: -1;
+        }
+
+        .menu-item:hover::before {
+            left: 0;
+        }
+
+        .menu-item.active {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .menu-item.active::before {
+            left: 0;
+        }
+
+        .menu-link {
+            display: flex;
+            align-items: center;
+            padding: 12px 15px;
+            color: white;
+            text-decoration: none;
+            font-size: 1rem;
+            transition: var(--transition);
+        }
+
+        .menu-link i {
+            margin-right: 15px;
+            font-size: 1.1rem;
+            width: 20px;
+            text-align: center;
+        }
+
+        .submenu {
+            list-style: none;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+            padding-left: 20px;
+            background: rgba(0, 0, 0, 0.1);
+            border-radius: 0 0 8px 8px;
+        }
+
+        .submenu.show {
+            max-height: 500px;
+        }
+
+        .submenu-item {
+            margin-bottom: 0;
+        }
+
+        .submenu-link {
+            padding: 10px 15px;
+            display: block;
+            color: rgba(255, 255, 255, 0.8);
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: var(--transition);
+        }
+
+        .submenu-link:hover {
+            color: white;
+            padding-left: 20px;
+        }
+
+        .sidebar-footer {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 20px;
+            text-align: center;
+            font-size: 0.8rem;
+            color: rgba(255, 255, 255, 0.6);
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        /* Main Content Styles */
+        .main-content {
+            flex: 1;
+            margin-left: 280px;
+            transition: var(--transition);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .main-content.expanded {
+            margin-left: 0;
+        }
+
+        /* Header Styles */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 30px;
+            background: white;
+            box-shadow: var(--shadow);
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+        }
+
+        .menu-toggle {
+            font-size: 1.5rem;
+            margin-right: 20px;
+            cursor: pointer;
+            color: var(--primary);
+            transition: var(--transition);
+        }
+
+        .menu-toggle:hover {
+            color: var(--accent);
+            transform: scale(1.1);
+        }
+
+        .page-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--primary);
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+        }
+
+        .language-switcher {
+            position: relative;
+            margin-right: 20px;
+        }
+
+        .language-btn {
+            background: none;
+            border: none;
+            color: var(--primary);
+            font-weight: 500;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            padding: 5px 10px;
+            border-radius: 5px;
+            transition: var(--transition);
+        }
+
+        .language-btn:hover {
+            background: rgba(0, 0, 0, 0.05);
+        }
+
+        .language-btn i {
+            margin-left: 5px;
+        }
+
+        .language-dropdown {
+            position: absolute;
+            top: 100%;
+            right: 0;
+            background: white;
+            border-radius: 8px;
+            box-shadow: var(--shadow);
+            padding: 10px 0;
+            min-width: 150px;
+            display: none;
+            z-index: 5;
+        }
+
+        .language-dropdown.show {
+            display: block;
+            animation: fadeInDown 0.3s ease;
+        }
+
+        .language-option {
+            padding: 8px 15px;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+        }
+
+        .language-option:hover {
+            background: rgba(0, 0, 0, 0.05);
+        }
+
+        .language-flag {
+            width: 20px;
+            height: 15px;
+            margin-right: 10px;
+            border-radius: 2px;
+        }
+
+        .user-profile {
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-right: 10px;
+            border: 2px solid var(--secondary);
+        }
+
+        .user-name {
+            font-weight: 500;
+            color: var(--primary);
+        }
+
+        .user-dropdown {
+            position: absolute;
+            top: 100%;
+            right: 0;
+            background: white;
+            border-radius: 8px;
+            box-shadow: var(--shadow);
+            padding: 10px 0;
+            min-width: 200px;
+            display: none;
+            z-index: 5;
+        }
+
+        .user-dropdown.show {
+            display: block;
+            animation: fadeInDown 0.3s ease;
+        }
+
+        .user-dropdown-item {
+            padding: 10px 15px;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+        }
+
+        .user-dropdown-item:hover {
+            background: rgba(0, 0, 0, 0.05);
+        }
+
+        .user-dropdown-item i {
+            margin-right: 10px;
+            color: var(--text-light);
+            width: 20px;
+            text-align: center;
+        }
+
+        .login-btn {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 8px 20px;
+            border-radius: 5px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+        }
+
+        .login-btn:hover {
+            background: #0a3d2a;
+            transform: translateY(-2px);
+        }
+
+        .login-btn i {
+            margin-right: 8px;
+        }
+
+        /* Content Area Styles */
+        .content {
+            flex: 1;
+            padding: 30px;
+            background: #f9fafc;
+        }
+
+        .welcome-section {
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            color: white;
+            padding: 40px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            position: relative;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            animation: fadeIn 1s ease;
+        }
+
+        .welcome-section::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0) 70%);
+            animation: rotate 20s linear infinite;
+        }
+
+        .welcome-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+            position: relative;
+            font-family: 'Scheherazade New', serif;
+        }
+
+        .welcome-subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            margin-bottom: 20px;
+            position: relative;
+        }
+
+        .welcome-text {
+            max-width: 600px;
+            line-height: 1.6;
+            position: relative;
+        }
+
+        .cards-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 25px;
+            margin-bottom: 30px;
+        }
+
+        .card {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            position: relative;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        .card-header {
+            height: 120px;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .card-header i {
+            font-size: 3rem;
+            color: rgba(255, 255, 255, 0.8);
+            z-index: 1;
+        }
+
+        .card-header::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" preserveAspectRatio="none"><path d="M0,0 L100,0 L100,100 Q50,80 0,100 Z" fill="white"/></svg>');
+            background-size: 100% 100%;
+            bottom: 0;
+            transform: scaleY(-1);
+            opacity: 0.1;
+        }
+
+        .card-body {
+            padding: 20px;
+        }
+
+        .card-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: var(--primary);
+        }
+
+        .card-text {
+            color: var(--text-light);
+            font-size: 0.9rem;
+            line-height: 1.5;
+            margin-bottom: 15px;
+        }
+
+        .card-btn {
+            display: inline-block;
+            padding: 8px 15px;
+            background: var(--primary);
+            color: white;
+            border-radius: 5px;
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: var(--transition);
+        }
+
+        .card-btn:hover {
+            background: var(--accent);
+        }
+
+        /* Announcements Section */
+        .announcements {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: var(--shadow);
+        }
+
+        .section-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 20px;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+        }
+
+        .section-title i {
+            margin-right: 10px;
+            color: var(--secondary);
+        }
+
+        .announcement-list {
+            list-style: none;
+        }
+
+        .announcement-item {
+            padding: 15px 0;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            align-items: flex-start;
+        }
+
+        .announcement-item:last-child {
+            border-bottom: none;
+        }
+
+        .announcement-icon {
+            font-size: 1.2rem;
+            color: var(--secondary);
+            margin-right: 15px;
+            margin-top: 3px;
+        }
+
+        .announcement-content {
+            flex: 1;
+        }
+
+        .announcement-title {
+            font-weight: 500;
+            margin-bottom: 5px;
+        }
+
+        .announcement-date {
+            font-size: 0.8rem;
+            color: var(--text-light);
+            margin-bottom: 5px;
+        }
+
+        .announcement-text {
+            font-size: 0.9rem;
+            line-height: 1.5;
+            color: var(--text-light);
+        }
+
+        /* Prayer Times Section */
+        .prayer-times {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 30px;
+        }
+
+        .prayer-card {
+            background: white;
+            border-radius: 10px;
+            padding: 15px;
+            text-align: center;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+        }
+
+        .prayer-card.active {
+            background: var(--primary);
+            color: white;
+        }
+
+        .prayer-card.active .prayer-name,
+        .prayer-card.active .prayer-time {
+            color: white;
+        }
+
+        .prayer-name {
+            font-weight: 500;
+            color: var(--primary);
+            margin-bottom: 5px;
+        }
+
+        .prayer-time {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--text);
+        }
+
+        /* Modal Styles */
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: var(--transition);
+        }
+
+        .modal.show {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 15px;
+            width: 90%;
+            max-width: 500px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            transform: translateY(-50px);
+            transition: var(--transition);
+            position: relative;
+        }
+
+        .modal.show .modal-content {
+            transform: translateY(0);
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--text-light);
+            transition: var(--transition);
+        }
+
+        .modal-close:hover {
+            color: var(--text);
+        }
+
+        .modal-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 20px;
+            color: var(--primary);
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: var(--transition);
+        }
+
+        .form-input:focus {
+            border-color: var(--primary);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(12, 75, 51, 0.1);
+        }
+
+        .form-btn {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: var(--transition);
+            width: 100%;
+        }
+
+        .form-btn:hover {
+            background: #0a3d2a;
+        }
+
+        .form-footer {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 0.9rem;
+        }
+
+        .form-link {
+            color: var(--primary);
+            font-weight: 500;
+            text-decoration: none;
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        /* Responsive Styles */
+        @media (max-width: 992px) {
+            .sidebar {
+                transform: translateX(-100%);
+            }
+            .sidebar.show {
+                transform: translateX(0);
+            }
+            .main-content {
+                margin-left: 0;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .header {
+                padding: 15px;
+            }
+            .content {
+                padding: 20px;
+            }
+            .welcome-section {
+                padding: 25px;
+            }
+            .welcome-title {
+                font-size: 2rem;
+            }
+            .cards-container {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="logo-container">
+                <img src="https://via.placeholder.com/80" alt="Haramaya Jama'a Logo" class="logo">
+                <div class="logo-text">Haramaya Jama'a</div>
+            </div>
+            
+            <ul class="menu">
+                <li class="menu-item active">
+                    <a href="#" class="menu-link">
+                        <i class="fas fa-home"></i>
+                        <span>Dashboard</span>
+                    </a>
+                </li>
+                <li class="menu-item">
+                    <a href="#" class="menu-link">
+                        <i class="fas fa-calendar-alt"></i>
+                        <span>Events</span>
+                    </a>
+                </li>
+                <li class="menu-item">
+                    <a href="#" class="menu-link">
+                        <i class="fas fa-book"></i>
+                        <span>Islamic Studies</span>
+                    </a>
+                    <ul class="submenu">
+                        <li class="submenu-item">
+                            <a href="#" class="submenu-link">Quran Classes</a>
+                        </li>
+                        <li class="submenu-item">
+                            <a href="#" class="submenu-link">Hadith Studies</a>
+                        </li>
+                        <li class="submenu-item">
+                            <a href="#" class="submenu-link">Fiqh Discussions</a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="menu-item">
+                    <a href="#" class="menu-link">
+                        <i class="fas fa-users"></i>
+                        <span>Community</span>
+                    </a>
+                </li>
+                <li class="menu-item">
+                    <a href="#" class="menu-link">
+                        <i class="fas fa-mosque"></i>
+                        <span>Prayer Times</span>
+                    </a>
+                </li>
+                <li class="menu-item">
+                    <a href="#" class="menu-link">
+                        <i class="fas fa-hand-holding-heart"></i>
+                        <span>Charity</span>
+                    </a>
+                </li>
+                <li class="menu-item">
+                    <a href="#" class="menu-link">
+                        <i class="fas fa-question-circle"></i>
+                        <span>FAQ</span>
+                    </a>
+                </li>
+                <li class="menu-item">
+                    <a href="#" class="menu-link">
+                        <i class="fas fa-cog"></i>
+                        <span>Settings</span>
+                    </a>
+                </li>
+            </ul>
+            
+            <div class="sidebar-footer">
+                &copy; 2023 Haramaya Jama'a<br>
+                Muslim Students Community
+            </div>
+        </aside>
+        
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Header -->
+            <header class="header">
+                <div class="header-left">
+                    <div class="menu-toggle">
+                        <i class="fas fa-bars"></i>
+                    </div>
+                    <h1 class="page-title">Dashboard</h1>
+                </div>
+                
+                <div class="header-right">
+                    <div class="language-switcher">
+                        <button class="language-btn">
+                            <img src="https://flagcdn.com/w20/us.png" alt="English" class="language-flag">
+                            English <i class="fas fa-chevron-down"></i>
+                        </button>
+                        <div class="language-dropdown">
+                            <div class="language-option">
+                                <img src="https://flagcdn.com/w20/et.png" alt="Amharic" class="language-flag">
+                                <span>Amharic</span>
+                            </div>
+                            <div class="language-option">
+                                <img src="https://flagcdn.com/w20/om.png" alt="Oromo" class="language-flag">
+                                <span>Oromo</span>
+                            </div>
+                            <div class="language-option">
+                                <img src="https://flagcdn.com/w20/ar.png" alt="Arabic" class="language-flag">
+                                <span>Arabic</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="user-profile">
+                        <img src="https://via.placeholder.com/40" alt="User" class="user-avatar">
+                        <span class="user-name">Guest</span>
+                        <div class="user-dropdown">
+                            <div class="user-dropdown-item" id="login-btn">
+                                <i class="fas fa-sign-in-alt"></i>
+                                <span>Login</span>
+                            </div>
+                            <div class="user-dropdown-item">
+                                <i class="fas fa-user-plus"></i>
+                                <span>Register</span>
+                            </div>
+                            <div class="user-dropdown-item">
+                                <i class="fas fa-question-circle"></i>
+                                <span>Help</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </header>
+            
+            <!-- Content Area -->
+            <div class="content">
+                <!-- Welcome Section -->
+                <section class="welcome-section">
+                    <h2 class="welcome-title">Assalamu Alaikum</h2>
+                    <h3 class="welcome-subtitle">Haramaya University Muslim Students Community</h3>
+                    <p class="welcome-text">Welcome to our digital platform where we connect, learn, and grow together in faith and knowledge. Join us in our activities, events, and Islamic studies programs.</p>
+                </section>
+                
+                <!-- Cards Section -->
+                <div class="cards-container">
+                    <div class="card">
+                        <div class="card-header">
+                            <i class="fas fa-calendar-alt"></i>
+                        </div>
+                        <div class="card-body">
+                            <h3 class="card-title">Upcoming Events</h3>
+                            <p class="card-text">Check out our schedule of Islamic lectures, halaqas, and community events happening this month.</p>
+                            <a href="#" class="card-btn">View Events</a>
+                        </div>
+                    </div>
+                    
+                    <div class="card">
+                        <div class="card-header">
+                            <i class="fas fa-book-quran"></i>
+                        </div>
+                        <div class="card-body">
+                            <h3 class="card-title">Quran Classes</h3>
+                            <p class="card-text">Join our daily Quran recitation and memorization classes for all levels of students.</p>
+                            <a href="#" class="card-btn">Learn More</a>
+                        </div>
+                    </div>
+                    
+                    <div class="card">
+                        <div class="card-header">
+                            <i class="fas fa-hand-holding-usd"></i>
+                        </div>
+                        <div class="card-body">
+                            <h3 class="card-title">Charity Projects</h3>
+                            <p class="card-text">Contribute to our ongoing charity initiatives supporting needy students and families.</p>
+                            <a href="#" class="card-btn">Donate Now</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Announcements Section -->
+                <section class="announcements">
+                    <h2 class="section-title">
+                        <i class="fas fa-bullhorn"></i>
+                        Announcements
+                    </h2>
+                    <ul class="announcement-list">
+                        <li class="announcement-item">
+                            <div class="announcement-icon">
+                                <i class="fas fa-info-circle"></i>
+                            </div>
+                            <div class="announcement-content">
+                                <h3 class="announcement-title">Weekly Halaqa</h3>
+                                <div class="announcement-date">June 15, 2023</div>
+                                <p class="announcement-text">Join us this Friday after Dhuhr prayer for our weekly Islamic discussion on "Patience in Islam".</p>
+                            </div>
+                        </li>
+                        <li class="announcement-item">
+                            <div class="announcement-icon">
+                                <i class="fas fa-utensils"></i>
+                            </div>
+                            <div class="announcement-content">
+                                <h3 class="announcement-title">Ramadan Iftar Program</h3>
+                                <div class="announcement-date">June 12, 2023</div>
+                                <p class="announcement-text">Registration is now open for our community iftar program during Ramadan. Volunteers needed!</p>
+                            </div>
+                        </li>
+                        <li class="announcement-item">
+                            <div class="announcement-icon">
+                                <i class="fas fa-book"></i>
+                            </div>
+                            <div class="announcement-content">
+                                <h3 class="announcement-title">New Islamic Library</h3>
+                                <div class="announcement-date">June 5, 2023</div>
+                                <p class="announcement-text">We've established a new Islamic library with books in multiple languages. Come and benefit!</p>
+                            </div>
+                        </li>
+                    </ul>
+                </section>
+                
+                <!-- Prayer Times Section -->
+                <section class="announcements">
+                    <h2 class="section-title">
+                        <i class="fas fa-mosque"></i>
+                        Prayer Times
+                    </h2>
+                    <div class="prayer-times">
+                        <div class="prayer-card">
+                            <div class="prayer-name">Fajr</div>
+                            <div class="prayer-time">5:30 AM</div>
+                        </div>
+                        <div class="prayer-card">
+                            <div class="prayer-name">Dhuhr</div>
+                            <div class="prayer-time">12:30 PM</div>
+                        </div>
+                        <div class="prayer-card active">
+                            <div class="prayer-name">Asr</div>
+                            <div class="prayer-time">3:45 PM</div>
+                        </div>
+                        <div class="prayer-card">
+                            <div class="prayer-name">Maghrib</div>
+                            <div class="prayer-time">6:20 PM</div>
+                        </div>
+                        <div class="prayer-card">
+                            <div class="prayer-name">Isha</div>
+                            <div class="prayer-time">7:45 PM</div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </main>
+    </div>
+    
+    <!-- Login Modal -->
+    <div class="modal" id="login-modal">
+        <div class="modal-content">
+            <span class="modal-close">&times;</span>
+            <h2 class="modal-title">Login to Your Account</h2>
+            <form id="login-form">
+                <div class="form-group">
+                    <label for="email" class="form-label">Email</label>
+                    <input type="email" id="email" class="form-input" placeholder="Enter your email" required>
+                </div>
+                <div class="form-group">
+                    <label for="password" class="form-label">Password</label>
+                    <input type="password" id="password" class="form-input" placeholder="Enter your password" required>
+                </div>
+                <button type="submit" class="form-btn">Login</button>
+                <div class="form-footer">
+                    Don't have an account? <a href="#" class="form-link">Register here</a>
+                </div>
+            </form>
+        </div>
+    </div>
+    
+    <script type="module">
+        // Import the functions you need from the SDKs you need
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-app.js";
+        import { getAnalytics } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-analytics.js";
+        import { 
+            getAuth, 
+            signInWithEmailAndPassword, 
+            onAuthStateChanged, 
+            signOut 
+        } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-auth.js";
+        import { 
+            getFirestore, 
+            collection, 
+            addDoc, 
+            getDocs 
+        } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-firestore.js";
+
+        // Your web app's Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyBQyNVWh1BtCkXlBfuS7jHAa36FTklZayo",
+            authDomain: "pharma-quiz-b5a07.firebaseapp.com",
+            projectId: "pharma-quiz-b5a07",
+            storageBucket: "pharma-quiz-b5a07.appspot.com",
+            messagingSenderId: "161067776789",
+            appId: "1:161067776789:web:88b8a61145dc5f5c31471c",
+            measurementId: "G-3QRQE9HQFB"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const analytics = getAnalytics(app);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+
+        // DOM Elements
+        const menuToggle = document.querySelector('.menu-toggle');
+        const sidebar = document.querySelector('.sidebar');
+        const languageBtn = document.querySelector('.language-btn');
+        const languageDropdown = document.querySelector('.language-dropdown');
+        const userProfile = document.querySelector('.user-profile');
+        const userDropdown = document.querySelector('.user-dropdown');
+        const loginBtn = document.getElementById('login-btn');
+        const loginModal = document.getElementById('login-modal');
+        const modalClose = document.querySelector('.modal-close');
+        const loginForm = document.getElementById('login-form');
+        const userName = document.querySelector('.user-name');
+        const userAvatar = document.querySelector('.user-avatar');
+
+        // Toggle Sidebar
+        menuToggle.addEventListener('click', () => {
+            sidebar.classList.toggle('show');
+        });
+
+        // Toggle Language Dropdown
+        languageBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            languageDropdown.classList.toggle('show');
+        });
+
+        // Toggle User Dropdown
+        userProfile.addEventListener('click', (e) => {
+            e.stopPropagation();
+            userDropdown.classList.toggle('show');
+        });
+
+        // Close dropdowns when clicking outside
+        document.addEventListener('click', () => {
+            languageDropdown.classList.remove('show');
+            userDropdown.classList.remove('show');
+        });
+
+        // Open Login Modal
+        loginBtn.addEventListener('click', () => {
+            loginModal.classList.add('show');
+        });
+
+        // Close Login Modal
+        modalClose.addEventListener('click', () => {
+            loginModal.classList.remove('show');
+        });
+
+        // Close modal when clicking outside
+        loginModal.addEventListener('click', (e) => {
+            if (e.target === loginModal) {
+                loginModal.classList.remove('show');
+            }
+        });
+
+        // Login Form Submission
+        loginForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            
+            signInWithEmailAndPassword(auth, email, password)
+                .then((userCredential) => {
+                    // Signed in
+                    const user = userCredential.user;
+                    loginModal.classList.remove('show');
+                    alert('Login successful!');
+                })
+                .catch((error) => {
+                    const errorCode = error.code;
+                    const errorMessage = error.message;
+                    alert(errorMessage);
+                });
+        });
+
+        // Check Auth State
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                // User is signed in
+                userName.textContent = user.displayName || user.email.split('@')[0];
+                userAvatar.src = user.photoURL || 'https://via.placeholder.com/40';
+                
+                // Update login button to logout
+                const loginDropdownItem = document.querySelector('#login-btn');
+                loginDropdownItem.innerHTML = '<i class="fas fa-sign-out-alt"></i><span>Logout</span>';
+                
+                loginDropdownItem.addEventListener('click', () => {
+                    signOut(auth).then(() => {
+                        alert('Logged out successfully');
+                        userName.textContent = 'Guest';
+                        userAvatar.src = 'https://via.placeholder.com/40';
+                        loginDropdownItem.innerHTML = '<i class="fas fa-sign-in-alt"></i><span>Login</span>';
+                    }).catch((error) => {
+                        alert('Error signing out');
+                    });
+                });
+            } else {
+                // User is signed out
+                userName.textContent = 'Guest';
+                userAvatar.src = 'https://via.placeholder.com/40';
+            }
+        });
+
+        // Submenu Toggle
+        const menuItemsWithSubmenu = document.querySelectorAll('.menu-item');
+        menuItemsWithSubmenu.forEach(item => {
+            if (item.querySelector('.submenu')) {
+                item.addEventListener('click', (e) => {
+                    if (!e.target.classList.contains('submenu-link')) {
+                        e.preventDefault();
+                        const submenu = item.querySelector('.submenu');
+                        submenu.classList.toggle('show');
+                    }
+                });
+            }
+        });
+
+        // Animate cards on scroll
+        const cards = document.querySelectorAll('.card');
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.animation = 'fadeIn 0.5s ease forwards';
+                    entry.target.style.opacity = '0';
+                    entry.target.style.animationDelay = `${entry.target.dataset.delay || '0'}s`;
+                }
+            });
+        }, { threshold: 0.1 });
+
+        cards.forEach((card, index) => {
+            card.dataset.delay = index * 0.1;
+            observer.observe(card);
+        });
+    </script>
+</body>
+</html>
