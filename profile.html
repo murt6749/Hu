@@ -48,8 +48,7 @@
       box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
       margin-bottom: 40px;
       position: relative;
-      overflow: hidden;
-      z-index: 10;
+      /* Removed overflow:hidden so dropdown can extend */
     }
     header::before {
       content: "";
@@ -94,11 +93,11 @@
       position: absolute;
       right: 0;
       background-color: #f8f9fa;
-      min-width: 400px;
+      min-width: 160px;
       box-shadow: 0 8px 16px rgba(0,0,0,0.2);
       border-radius: 8px;
-      z-index: 100;
-      overflow: hidden;
+      z-index: 999; /* ensure dropdown is on top */
+      overflow: visible;
     }
     /* Show on hover or when toggled */
     .profile-dropdown:hover .profile-dropdown-content,
@@ -266,6 +265,17 @@
       text-decoration: underline;
       font-weight: 600;
     }
+    /* Permanent additional course link */
+    .extra-course-link {
+      margin-top: 15px;
+      font-size: 0.95rem;
+      text-align: center;
+    }
+    .extra-course-link a {
+      color: var(--primary);
+      text-decoration: underline;
+      font-weight: 600;
+    }
     /* Confirmation Modal & Classmates Modal */
     .modal, .classmates-modal {
       display: none;
@@ -362,7 +372,7 @@
           <i class="fas fa-user"></i>
         </button>
         <div class="profile-dropdown-content" id="profileDropdownContent">
-          <!-- The options below will be updated based on user login status -->
+          <!-- Options based on login status -->
           <a href="settings.html"><i class="fas fa-cog"></i> Settings</a>
           <a href="interact.html"><i class="fas fa-comments"></i> Interact</a>
           <a href="#" id="headerLogoutBtn"><i class="fas fa-sign-out-alt"></i> Logout</a>
@@ -460,6 +470,10 @@
         </select>
         
         <button class="btn" id="registerBtn" disabled>Register</button>
+      </div>
+      <!-- Permanent link for more courses -->
+      <div class="extra-course-link">
+        <a href="othercourse.html">Can't find your course? Explore more options.</a>
       </div>
       <!-- Message if no new courses available -->
       <div class="no-courses-msg" id="noCoursesMsg" style="display:none;">
@@ -568,7 +582,6 @@
     if (!userData) {
       // If user not logged in, update dropdown and redirect when needed
       profileDropdownContent.innerHTML = `<a href="index.html"><i class="fas fa-sign-in-alt"></i> Login</a>`;
-      // Optionally, you can redirect immediately:
       window.location.href = 'index.html';
     }
     
