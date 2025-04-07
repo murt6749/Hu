@@ -1,909 +1,767 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Profile - HU Jama'aa Qira'at</title>
-    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-        :root {
-            --primary: #0c4b33;
-            --secondary: #1da584;
-            --accent: #f7c35f;
-            --light: #f8f9fa;
-            --dark: #212529;
-            --success: #28a745;
-            --info: #17a2b8;
-            --gold: #ffd700;
-            --green: #2ecc71;
-            --text-light: #f8f9fa;
-            --text-dark: #343a40;
-        }
-        
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Tajawal', sans-serif;
-        }
-        
-        body {
-            background: linear-gradient(135deg, #f5f7fa 0%, #e4e8eb 100%);
-            color: var(--text-dark);
-            line-height: 1.6;
-            min-height: 100vh;
-            overflow-x: hidden;
-        }
-        
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 20px;
-        }
-        
-        header {
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            color: white;
-            padding: 25px 0;
-            text-align: center;
-            border-radius: 0 0 20px 20px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-            margin-bottom: 40px;
-            position: relative;
-            overflow: hidden;
-            z-index: 10;
-        }
-        
-        header::before {
-            content: "";
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><text x="10" y="50" font-family="Arial" font-size="20" fill="rgba(255,255,255,0.05)">ﷲ</text></svg>');
-            opacity: 0.1;
-            z-index: -1;
-        }
-        
-        header h1 {
-            font-size: 2.8rem;
-            margin-bottom: 10px;
-            font-weight: 700;
-            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
-        }
-        
-        /* Profile Header with Dropdown */
-        .profile-header-container {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            position: relative;
-        }
-        
-        .profile-dropdown {
-            position: relative;
-            display: inline-block;
-        }
-        
-        .profile-dropdown-btn {
-            background: rgba(255, 255, 255, 0.2);
-            border: none;
-            border-radius: 50%;
-            width: 50px;
-            height: 50px;
-            color: white;
-            font-size: 1.5rem;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.3s ease;
-        }
-        
-        .profile-dropdown-btn:hover {
-            background: rgba(255, 255, 255, 0.3);
-            transform: scale(1.1);
-        }
-        
-        .dropdown-content {
-            display: none;
-            position: absolute;
-            right: 0;
-            background-color: white;
-            min-width: 200px;
-            box-shadow: 0 8px 16px rgba(0,0,0,0.2);
-            border-radius: 10px;
-            z-index: 1;
-            overflow: hidden;
-        }
-        
-        .dropdown-content a {
-            color: var(--dark);
-            padding: 12px 16px;
-            text-decoration: none;
-            display: block;
-            transition: all 0.3s ease;
-        }
-        
-        .dropdown-content a:hover {
-            background-color: var(--secondary);
-            color: white;
-        }
-        
-        .dropdown-content a i {
-            margin-right: 10px;
-            width: 20px;
-            text-align: center;
-        }
-        
-        .show {
-            display: block;
-            animation: fadeIn 0.3s ease;
-        }
-        
-        /* Profile Card */
-        .profile-card {
-            background: white;
-            border-radius: 15px;
-            padding: 30px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-            margin-bottom: 30px;
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .profile-card::before {
-            content: "";
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 5px;
-            height: 100%;
-            background: linear-gradient(to bottom, var(--primary), var(--secondary));
-        }
-        
-        .profile-info {
-            display: flex;
-            align-items: center;
-            margin-bottom: 30px;
-        }
-        
-        .profile-avatar {
-            width: 100px;
-            height: 100px;
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-size: 2.5rem;
-            margin-right: 20px;
-            flex-shrink: 0;
-        }
-        
-        .profile-details h2 {
-            font-size: 1.8rem;
-            margin-bottom: 5px;
-            color: var(--primary);
-        }
-        
-        .profile-details p {
-            color: #666;
-        }
-        
-        /* Courses Sections */
-        .courses-section {
-            margin-top: 40px;
-        }
-        
-        .section-title {
-            font-size: 1.8rem;
-            margin-bottom: 20px;
-            color: var(--primary);
-            position: relative;
-            padding-bottom: 10px;
-            display: flex;
-            align-items: center;
-        }
-        
-        .section-title::after {
-            content: "";
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 100px;
-            height: 3px;
-            background: linear-gradient(to right, var(--primary), var(--secondary));
-        }
-        
-        .section-title i {
-            margin-right: 15px;
-            color: var(--secondary);
-        }
-        
-        /* Course Cards */
-        .course-card {
-            background: white;
-            border-radius: 15px;
-            padding: 20px;
-            margin-bottom: 20px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
-            border-left: 5px solid var(--secondary);
-            transition: all 0.3s ease;
-            position: relative;
-        }
-        
-        .course-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-        }
-        
-        .course-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 15px;
-        }
-        
-        .course-title {
-            font-size: 1.4rem;
-            color: var(--primary);
-            font-weight: 600;
-        }
-        
-        .course-meta {
-            display: flex;
-            align-items: center;
-            color: #666;
-            font-size: 0.9rem;
-        }
-        
-        .course-meta i {
-            margin-right: 5px;
-        }
-        
-        .course-progress {
-            margin: 15px 0;
-        }
-        
-        .progress-bar {
-            height: 10px;
-            background: #e9ecef;
-            border-radius: 5px;
-            overflow: hidden;
-            margin-bottom: 5px;
-        }
-        
-        .progress-fill {
-            height: 100%;
-            background: linear-gradient(to right, var(--primary), var(--secondary));
-            border-radius: 5px;
-            width: 0%;
-            transition: width 1s ease;
-        }
-        
-        .progress-text {
-            display: flex;
-            justify-content: space-between;
-            font-size: 0.8rem;
-            color: #666;
-        }
-        
-        .course-peers {
-            margin-top: 20px;
-        }
-        
-        .peers-title {
-            font-size: 1rem;
-            margin-bottom: 10px;
-            color: var(--primary);
-            display: flex;
-            align-items: center;
-        }
-        
-        .peers-title i {
-            margin-right: 8px;
-        }
-        
-        .peers-list {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-        }
-        
-        .peer-badge {
-            background: rgba(29, 165, 132, 0.1);
-            padding: 8px 15px;
-            border-radius: 20px;
-            font-size: 0.9rem;
-            display: flex;
-            align-items: center;
-        }
-        
-        .peer-badge i {
-            margin-right: 8px;
-            color: var(--secondary);
-        }
-        
-        /* Additional Courses */
-        .additional-courses {
-            margin-top: 30px;
-        }
-        
-        .course-tag {
-            display: inline-block;
-            background: rgba(29, 165, 132, 0.1);
-            color: var(--secondary);
-            padding: 8px 15px;
-            border-radius: 20px;
-            margin-right: 10px;
-            margin-bottom: 10px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            font-weight: 500;
-        }
-        
-        .course-tag:hover {
-            background: var(--secondary);
-            color: white;
-            transform: translateY(-2px);
-        }
-        
-        .course-tag i {
-            margin-right: 5px;
-        }
-        
-        /* Buttons */
-        .btn {
-            padding: 10px 20px;
-            border-radius: 8px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            border: none;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-        }
-        
-        .btn-primary {
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            color: white;
-        }
-        
-        .btn-primary:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
-        }
-        
-        .btn i {
-            margin-right: 8px;
-        }
-        
-        /* Modal */
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.7);
-            z-index: 1000;
-            justify-content: center;
-            align-items: center;
-            backdrop-filter: blur(5px);
-        }
-        
-        .modal-content {
-            background: white;
-            width: 90%;
-            max-width: 500px;
-            border-radius: 15px;
-            overflow: hidden;
-            box-shadow: 0 15px 50px rgba(0, 0, 0, 0.3);
-            animation: slideUp 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            transform: translateY(50px);
-            opacity: 0;
-        }
-        
-        .modal-header {
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            color: white;
-            padding: 20px;
-            position: relative;
-            text-align: center;
-        }
-        
-        .modal-header h3 {
-            font-size: 1.5rem;
-            font-weight: 700;
-        }
-        
-        .close-btn {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            font-size: 1.8rem;
-            cursor: pointer;
-            background: none;
-            border: none;
-            color: white;
-            transition: transform 0.3s ease;
-        }
-        
-        .close-btn:hover {
-            transform: rotate(90deg);
-        }
-        
-        .modal-body {
-            padding: 25px;
-        }
-        
-        /* Animations */
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-            }
-            to {
-                opacity: 1;
-            }
-        }
-        
-        @keyframes slideUp {
-            from {
-                transform: translateY(50px);
-                opacity: 0;
-            }
-            to {
-                transform: translateY(0);
-                opacity: 1;
-            }
-        }
-        
-        /* Responsive Design */
-        @media (max-width: 768px) {
-            header h1 {
-                font-size: 2rem;
-            }
-            
-            .profile-info {
-                flex-direction: column;
-                text-align: center;
-            }
-            
-            .profile-avatar {
-                margin-right: 0;
-                margin-bottom: 20px;
-            }
-            
-            .section-title {
-                font-size: 1.5rem;
-            }
-            
-            .course-header {
-                flex-direction: column;
-                align-items: flex-start;
-            }
-            
-            .course-meta {
-                margin-top: 10px;
-            }
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>My Profile - HU Jama'aa Qira'at</title>
+  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <style>
+    :root {
+      --primary: #0c4b33;
+      --secondary: #1da584;
+      --accent: #f7c35f;
+      --light: #f8f9fa;
+      --dark: #212529;
+      --success: #28a745;
+      --info: #17a2b8;
+      --gold: #ffd700;
+      --green: #2ecc71;
+      --text-light: #f8f9fa;
+      --text-dark: #343a40;
+    }
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Tajawal', sans-serif;
+    }
+    body {
+      background: linear-gradient(135deg, #f5f7fa 0%, #e4e8eb 100%);
+      color: var(--text-dark);
+      line-height: 1.6;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+    header {
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      color: white;
+      padding: 25px 0;
+      text-align: center;
+      border-radius: 0 0 20px 20px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+      margin-bottom: 40px;
+      position: relative;
+      overflow: hidden;
+      z-index: 10;
+    }
+    header::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><text x="10" y="50" font-family="Arial" font-size="20" fill="rgba(255,255,255,0.05)">ﷲ</text></svg>');
+      opacity: 0.1;
+      z-index: -1;
+    }
+    header h1 {
+      font-size: 2.8rem;
+      margin-bottom: 10px;
+      font-weight: 700;
+      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+      display: inline-block;
+      vertical-align: middle;
+    }
+    /* Profile dropdown in header */
+    .profile-dropdown {
+      display: inline-block;
+      position: relative;
+      margin-left: 20px;
+      cursor: pointer;
+    }
+    .profile-dropdown .dropbtn {
+      background: var(--light);
+      color: var(--primary);
+      border: none;
+      border-radius: 50%;
+      width: 45px;
+      height: 45px;
+      text-align: center;
+      line-height: 45px;
+      font-size: 1.5rem;
+      font-weight: 700;
+    }
+    .profile-dropdown-content {
+      display: none;
+      position: absolute;
+      right: 0;
+      background-color: #f8f9fa;
+      min-width: 160px;
+      box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+      border-radius: 8px;
+      z-index: 100;
+    }
+    .profile-dropdown-content a {
+      color: var(--text-dark);
+      padding: 12px 16px;
+      text-decoration: none;
+      display: block;
+      transition: background 0.3s;
+    }
+    .profile-dropdown-content a:hover {
+      background: var(--secondary);
+      color: white;
+    }
+    .profile-dropdown:hover .profile-dropdown-content {
+      display: block;
+    }
+    .profile-card, .new-courses {
+      background: white;
+      border-radius: 15px;
+      padding: 30px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+      margin-bottom: 30px;
+    }
+    .profile-header {
+      display: flex;
+      align-items: center;
+      margin-bottom: 30px;
+    }
+    .profile-avatar {
+      width: 100px;
+      height: 100px;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 2.5rem;
+      margin-right: 20px;
+    }
+    .profile-info h2 {
+      font-size: 1.8rem;
+      margin-bottom: 5px;
+      color: var(--primary);
+    }
+    .profile-info p {
+      color: #666;
+    }
+    .courses-list h3 {
+      font-size: 1.5rem;
+      margin-bottom: 20px;
+      color: var(--primary);
+      border-bottom: 2px solid var(--secondary);
+      padding-bottom: 10px;
+    }
+    .course-item {
+      background: #f8f9fa;
+      padding: 15px;
+      border-radius: 10px;
+      margin-bottom: 15px;
+      position: relative;
+    }
+    .course-item-info h4 {
+      font-size: 1.2rem;
+      margin-bottom: 5px;
+    }
+    .course-item-info p {
+      color: #666;
+      font-size: 0.9rem;
+    }
+    .progress-bar {
+      background: #e9ecef;
+      border-radius: 5px;
+      overflow: hidden;
+      height: 10px;
+      margin-top: 10px;
+    }
+    .progress-bar-inner {
+      height: 10px;
+      background: var(--success);
+      width: 0%;
+      transition: width 0.5s ease;
+    }
+    .btn {
+      background: var(--primary);
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 8px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      display: inline-block;
+      margin-top: 10px;
+    }
+    .btn:hover {
+      background: var(--secondary);
+      transform: translateY(-3px);
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+    }
+    .logout-btn {
+      background: var(--primary);
+      color: white;
+      border: none;
+      padding: 12px 25px;
+      border-radius: 8px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      display: block;
+      margin: 30px auto 0;
+    }
+    .logout-btn:hover {
+      background: var(--secondary);
+      transform: translateY(-3px);
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+    }
+    .courses-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+      gap: 30px;
+      margin-bottom: 30px;
+    }
+    .course-card {
+      background: white;
+      border-radius: 15px;
+      overflow: hidden;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+      position: relative;
+      border: 1px solid #e9ecef;
+      padding: 15px;
+    }
+    .course-card h3 {
+      font-size: 1.4rem;
+      margin-bottom: 8px;
+      font-weight: 700;
+    }
+    .course-card span {
+      display: block;
+      font-size: 0.9rem;
+      color: #555;
+      margin-bottom: 10px;
+    }
+    /* Confirmation Modal */
+    .modal, .classmates-modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.7);
+      z-index: 1000;
+      justify-content: center;
+      align-items: center;
+      backdrop-filter: blur(5px);
+    }
+    .modal-content, .classmates-modal-content {
+      background: white;
+      width: 95%;
+      max-width: 500px;
+      border-radius: 20px;
+      overflow: hidden;
+      box-shadow: 0 15px 50px rgba(0, 0, 0, 0.3);
+      animation: slideUp 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      transform: translateY(50px);
+      opacity: 0;
+      padding: 20px;
+      text-align: center;
+      position: relative;
+    }
+    .modal-content.show, .classmates-modal-content.show {
+      transform: translateY(0);
+      opacity: 1;
+    }
+    .modal-header, .classmates-modal-header {
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      color: white;
+      padding: 20px;
+      text-align: center;
+    }
+    .modal-header h3, .classmates-modal-header h3 {
+      font-size: 1.5rem;
+      font-weight: 700;
+    }
+    .close-btn {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      font-size: 1.8rem;
+      cursor: pointer;
+      background: none;
+      border: none;
+      color: white;
+      transition: transform 0.3s ease;
+    }
+    .close-btn:hover {
+      transform: rotate(90deg);
+    }
+    .modal-body, .classmates-modal-body {
+      padding: 25px;
+    }
+    @keyframes slideUp {
+      from {
+        transform: translateY(50px);
+        opacity: 0;
+      }
+      to {
+        transform: translateY(0);
+        opacity: 1;
+      }
+    }
+    footer {
+      text-align: center;
+      padding: 30px;
+      margin-top: 60px;
+      color: #6c757d;
+      font-size: 0.9rem;
+      background: white;
+      border-radius: 20px 20px 0 0;
+      box-shadow: 0 -5px 30px rgba(0, 0, 0, 0.05);
+    }
+    @media (max-width: 768px) {
+      .profile-header {
+        flex-direction: column;
+        text-align: center;
+      }
+      .profile-avatar {
+        margin-right: 0;
+        margin-bottom: 20px;
+      }
+      header h1 {
+        font-size: 2rem;
+      }
+      .courses-container {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
 </head>
 <body>
-    <header>
-        <div class="container profile-header-container">
-            <h1><i class="fas fa-mosque"></i> My Learning Dashboard</h1>
-            <div class="profile-dropdown">
-                <button class="profile-dropdown-btn" id="profileDropdownBtn">
-                    <i class="fas fa-user"></i>
-                </button>
-                <div class="dropdown-content" id="dropdownContent">
-                    <a href="#"><i class="fas fa-user-edit"></i> Edit Profile</a>
-                    <a href="#"><i class="fas fa-users"></i> Classmates</a>
-                    <a href="#"><i class="fas fa-envelope"></i> Messages</a>
-                    <a href="#"><i class="fas fa-cog"></i> Settings</a>
-                    <a href="#" id="logoutBtn"><i class="fas fa-sign-out-alt"></i> Logout</a>
-                </div>
-            </div>
-        </div>
-    </header>
-    
+  <header>
     <div class="container">
-        <div class="profile-card">
-            <div class="profile-info">
-                <div class="profile-avatar" id="userAvatar">
-                    <i class="fas fa-user"></i>
-                </div>
-                <div class="profile-details">
-                    <h2 id="userName">Loading...</h2>
-                    <p id="userId">Student ID: Loading...</p>
-                    <p id="userDepartment"><i class="fas fa-building"></i> Department: Loading...</p>
-                </div>
-            </div>
+      <h1><i class="fas fa-mosque"></i> My Profile</h1>
+      <!-- Header Profile Dropdown -->
+      <div class="profile-dropdown">
+        <button class="dropbtn" id="headerProfileBtn">
+          <i class="fas fa-user"></i>
+        </button>
+        <div class="profile-dropdown-content">
+          <a href="edit_profile.html"><i class="fas fa-edit"></i> Edit Profile</a>
+          <a href="#" id="interactBtn"><i class="fas fa-comments"></i> Interact</a>
+          <a href="#" id="headerLogoutBtn"><i class="fas fa-sign-out-alt"></i> Logout</a>
         </div>
-        
-        <!-- My Courses Section -->
-        <div class="courses-section">
-            <h2 class="section-title"><i class="fas fa-book-open"></i> My Courses</h2>
-            <div id="myCoursesContainer">
-                <!-- Courses will be populated here -->
-            </div>
+      </div>
+    </div>
+  </header>
+  
+  <div class="container">
+    <div class="profile-card">
+      <div class="profile-header">
+        <div class="profile-avatar" id="userAvatar">
+          <i class="fas fa-user"></i>
         </div>
-        
-        <!-- Available Courses Section -->
-        <div class="courses-section additional-courses">
-            <h2 class="section-title"><i class="fas fa-plus-circle"></i> Add More Courses</h2>
-            <div id="availableCoursesContainer">
-                <!-- Available courses will be populated here -->
-            </div>
+        <div class="profile-info">
+          <h2 id="userName">Loading...</h2>
+          <p id="userId">Student ID: Loading...</p>
         </div>
+      </div>
+      
+      <div class="courses-list">
+        <h3><i class="fas fa-book-open"></i> My Registered Courses</h3>
+        <div id="coursesContainer">
+          <!-- Registered courses will be populated here -->
+        </div>
+      </div>
     </div>
     
-    <!-- Classmates Modal -->
-    <div class="modal" id="classmatesModal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3><i class="fas fa-users"></i> Classmates</h3>
-                <button class="close-btn" id="closeClassmatesModal">&times;</button>
-            </div>
-            <div class="modal-body">
-                <div id="classmatesContainer">
-                    <!-- Classmates will be populated here -->
-                </div>
-            </div>
-        </div>
+    <!-- New Course Registration Section -->
+    <div class="new-courses">
+      <h3><i class="fas fa-plus-circle"></i> Register for Additional Courses</h3>
+      <div class="courses-container" id="availableCourses">
+        <!-- Available courses will be populated here -->
+      </div>
     </div>
+  </div>
+  
+  <!-- Confirmation Modal for Course Registration -->
+  <div class="modal" id="confirmationModal">
+    <div class="modal-content" id="confirmationModalContent">
+      <div class="modal-header">
+        <h3><i class="fas fa-question-circle"></i> Confirm Registration</h3>
+        <button class="close-btn" id="closeConfirmation">&times;</button>
+      </div>
+      <div class="modal-body">
+        <p id="confirmMessage">Are you sure you want to join this course?</p>
+        <button class="btn" id="confirmYesBtn">Yes, Confirm</button>
+        <button class="btn" id="confirmNoBtn" style="background: var(--accent);">Cancel</button>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Classmates Modal -->
+  <div class="classmates-modal" id="classmatesModal">
+    <div class="classmates-modal-content" id="classmatesModalContent">
+      <div class="classmates-modal-header">
+        <h3><i class="fas fa-users"></i> Classmates</h3>
+        <button class="close-btn" id="closeClassmates">&times;</button>
+      </div>
+      <div class="classmates-modal-body" id="classmatesContainer">
+        <!-- Classmates profiles will be listed here -->
+      </div>
+    </div>
+  </div>
+  
+  <footer>
+    <div class="container">
+      <p><i class="far fa-copyright"></i> 2023 Haramaya University Jama'aa. All rights reserved.</p>
+    </div>
+  </footer>
+  
+  <!-- Firebase SDK and Script -->
+  <script type="module">
+    // Import Firebase functions
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-app.js";
+    import { getAnalytics } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-analytics.js";
+    import { getFirestore, collection, addDoc, query, where, getDocs } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-firestore.js";
     
-    <footer>
-        <div class="container">
-            <p><i class="far fa-copyright"></i> 2023 Haramaya University Jama'aa. All rights reserved.</p>
-        </div>
-    </footer>
-
-    <!-- Firebase SDK -->
-    <script type="module">
-        // Import the functions you need from the SDKs you need
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-app.js";
-        import { getAnalytics } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-analytics.js";
-        import { getFirestore, collection, addDoc, query, where, getDocs, updateDoc, doc } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-firestore.js";
-
-        // Your web app's Firebase configuration
-        const firebaseConfig = {
-            apiKey: "AIzaSyBQyNVWh1BtCkXlBfuS7jHAa36FTklZayo",
-            authDomain: "pharma-quiz-b5a07.firebaseapp.com",
-            projectId: "pharma-quiz-b5a07",
-            storageBucket: "pharma-quiz-b5a07.appspot.com",
-            messagingSenderId: "161067776789",
-            appId: "1:161067776789:web:88b8a61145dc5f5c31471c",
-            measurementId: "G-3QRQE9HQFB"
-        };
-
-        // Initialize Firebase
-        const app = initializeApp(firebaseConfig);
-        const analytics = getAnalytics(app);
-        const db = getFirestore(app);
-
-        // DOM Elements
-        const userName = document.getElementById('userName');
-        const userId = document.getElementById('userId');
-        const userDepartment = document.getElementById('userDepartment');
-        const userAvatar = document.getElementById('userAvatar');
-        const myCoursesContainer = document.getElementById('myCoursesContainer');
-        const availableCoursesContainer = document.getElementById('availableCoursesContainer');
-        const profileDropdownBtn = document.getElementById('profileDropdownBtn');
-        const dropdownContent = document.getElementById('dropdownContent');
-        const logoutBtn = document.getElementById('logoutBtn');
-        const classmatesModal = document.getElementById('classmatesModal');
-        const closeClassmatesModal = document.getElementById('closeClassmatesModal');
-        const classmatesContainer = document.getElementById('classmatesContainer');
-
-        // Course data
-        const courses = {
-            amharic: [
-                "Sifetu Solah",
-                "Usulu Selasah",
-                "Tejwid Hidayetul Mustefid",
-                "Kulasetu Nurel Yeqin"
-            ],
-            oromifa: [
-                "Sifetu Solah",
-                "Usulu Selasah",
-                "Tejwid Hidayetulmustefid",
-                "Umdetul Ahkam",
-                "Riyadusualihin",
-                "Tefsir",
-                "Aqidetu Tuhawiya"
-            ]
-        };
-
-        // Get user data from localStorage
-        let userData = JSON.parse(localStorage.getItem('loggedInUser'));
-        
-        // If no user data, redirect to login
-        if (!userData) {
-            window.location.href = 'index.html';
+    const firebaseConfig = {
+      apiKey: "AIzaSyBQyNVWh1BtCkXlBfuS7jHAa36FTklZayo",
+      authDomain: "pharma-quiz-b5a07.firebaseapp.com",
+      projectId: "pharma-quiz-b5a07",
+      storageBucket: "pharma-quiz-b5a07.appspot.com",
+      messagingSenderId: "161067776789",
+      appId: "1:161067776789:web:88b8a61145dc5f5c31471c",
+      measurementId: "G-3QRQE9HQFB"
+    };
+    
+    const app = initializeApp(firebaseConfig);
+    const analytics = getAnalytics(app);
+    const db = getFirestore(app);
+    
+    // DOM Elements
+    const userName = document.getElementById('userName');
+    const userId = document.getElementById('userId');
+    const userAvatar = document.getElementById('userAvatar');
+    const coursesContainer = document.getElementById('coursesContainer');
+    const availableCourses = document.getElementById('availableCourses');
+    const confirmationModal = document.getElementById('confirmationModal');
+    const closeConfirmation = document.getElementById('closeConfirmation');
+    const confirmYesBtn = document.getElementById('confirmYesBtn');
+    const confirmNoBtn = document.getElementById('confirmNoBtn');
+    const confirmMessage = document.getElementById('confirmMessage');
+    const classmatesModal = document.getElementById('classmatesModal');
+    const closeClassmates = document.getElementById('closeClassmates');
+    const classmatesContainer = document.getElementById('classmatesContainer');
+    
+    // Header Dropdown buttons
+    const headerLogoutBtn = document.getElementById('headerLogoutBtn');
+    const interactBtn = document.getElementById('interactBtn');
+    
+    // Course data
+    const courses = {
+      amharic: [
+        {
+          name: "Sifetu Solah",
+          description: "Learn the proper way of performing prayers according to the Sunnah.",
+          days: "Saturday and Sunday"
+        },
+        {
+          name: "Usulu Selasah",
+          description: "Study the three fundamental principles of Islam.",
+          days: "Monday and Tuesday"
+        },
+        {
+          name: "Tejwid Hidayetul Mustefid",
+          description: "Master the rules of Quranic recitation.",
+          days: "Saturday and Sunday morning"
+        },
+        {
+          name: "Kulasetu Nurel Yeqin",
+          description: "Deepen your understanding of Islamic faith and certainty.",
+          days: "Only Thursday"
         }
-
-        // Display user info
-        function displayUserInfo() {
-            userName.textContent = userData.fullName;
-            userId.textContent = `Student ID: ${userData.studentId}`;
-            userDepartment.textContent = `Department: ${userData.department}`;
-            
-            // Set avatar with first letter of name
-            const firstLetter = userData.fullName.charAt(0).toUpperCase();
-            userAvatar.textContent = firstLetter;
+      ],
+      oromifa: [
+        {
+          name: "Sifetu Solah",
+          description: "Comprehensive study of the prayer's description.",
+          days: "Monday and Tuesday"
+        },
+        {
+          name: "Usulu Selasah",
+          description: "The three fundamental principles every Muslim must know.",
+          days: "Saturday and Sunday"
+        },
+        {
+          name: "Tejwid Hidayetulmustefid",
+          description: "Advanced Tajweed rules for beautiful Quran recitation.",
+          days: "Saturday and Sunday morning"
+        },
+        {
+          name: "Umdetul Ahkam",
+          description: "Essential Islamic rulings for daily life.",
+          days: "Saturday and Sunday"
+        },
+        {
+          name: "Riyadusualihin",
+          description: "Lessons from the famous book with guidance for spiritual growth.",
+          days: "Not specified"
+        },
+        {
+          name: "Tefsir",
+          description: "Interpretation of the Holy Quran with linguistic and historical insights.",
+          days: "Only Wednesday"
+        },
+        {
+          name: "Aqidetu Tuhawiya",
+          description: "Islamic creed with detailed explanations of theological matters.",
+          days: "Not specified"
         }
-
-        // Calculate course progress based on start date
-        function calculateProgress(startDate) {
-            const now = new Date();
-            const start = new Date(startDate);
-            const diffTime = Math.abs(now - start);
-            const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-            
-            // For demo purposes, we'll assume each week adds 10% progress
-            const weeks = Math.floor(diffDays / 7);
-            const progress = Math.min(weeks * 10, 100);
-            
-            return progress;
-        }
-
-        // Display registered courses with progress
-        function displayMyCourses() {
-            myCoursesContainer.innerHTML = '';
-            
-            if (userData.registeredCourses && userData.registeredCourses.length > 0) {
-                userData.registeredCourses.forEach((course, index) => {
-                    const progress = calculateProgress(course.timestamp || new Date().toISOString());
-                    
-                    const courseCard = document.createElement('div');
-                    courseCard.className = 'course-card';
-                    courseCard.innerHTML = `
-                        <div class="course-header">
-                            <h3 class="course-title">${course.name}</h3>
-                            <div class="course-meta">
-                                <span><i class="fas fa-language"></i> ${course.language}</span>
-                                <span style="margin: 0 10px">|</span>
-                                <span><i class="far fa-calendar-alt"></i> ${course.days}</span>
-                            </div>
-                        </div>
-                        
-                        <div class="course-progress">
-                            <div class="progress-bar">
-                                <div class="progress-fill" style="width: ${progress}%"></div>
-                            </div>
-                            <div class="progress-text">
-                                <span>Started: ${new Date(course.timestamp).toLocaleDateString()}</span>
-                                <span>${progress}% Complete</span>
-                            </div>
-                        </div>
-                        
-                        <div class="course-peers">
-                            <h4 class="peers-title"><i class="fas fa-users"></i> Classmates (${course.classmates ? course.classmates.length : 0})</h4>
-                            <div class="peers-list" id="peersList-${index}">
-                                ${course.classmates && course.classmates.length > 0 ? 
-                                    course.classmates.slice(0, 3).map(peer => `
-                                        <div class="peer-badge">
-                                            <i class="fas fa-user"></i>
-                                            ${peer.name} (${peer.department})
-                                        </div>
-                                    `).join('') : 
-                                    '<p>No classmates yet</p>'
-                                }
-                                ${course.classmates && course.classmates.length > 3 ? 
-                                    `<div class="peer-badge">
-                                        <i class="fas fa-ellipsis-h"></i>
-                                        +${course.classmates.length - 3} more
-                                    </div>` : ''
-                                }
-                            </div>
-                            <button class="btn btn-primary" style="margin-top: 15px;" data-course-index="${index}">
-                                <i class="fas fa-users"></i> View All Classmates
-                            </button>
-                        </div>
-                    `;
-                    myCoursesContainer.appendChild(courseCard);
-                    
-                    // Add event listener to view classmates button
-                    const viewClassmatesBtn = courseCard.querySelector('.btn-primary');
-                    viewClassmatesBtn.addEventListener('click', () => {
-                        showClassmatesModal(course);
-                    });
-                });
-            } else {
-                myCoursesContainer.innerHTML = '<p>You are not registered for any courses yet.</p>';
-            }
-        }
-
-        // Display available courses as tags
-        function displayAvailableCourses() {
-            availableCoursesContainer.innerHTML = '';
-            
-            // Combine all courses from both languages
-            const allCourses = [
-                ...courses.amharic.map(name => ({ name, language: 'Amharic', days: 'Saturday and Sunday' })),
-                ...courses.oromifa.map(name => ({ name, language: 'Oromifa', days: 'Monday and Tuesday' }))
-            ];
-            
-            // Filter out courses the user is already registered for
-            const registeredCourseNames = userData.registeredCourses ? 
-                userData.registeredCourses.map(c => c.name) : [];
-            
-            const available = allCourses.filter(course => 
-                !registeredCourseNames.includes(course.name)
-            );
-            
-            if (available.length === 0) {
-                availableCoursesContainer.innerHTML = '<p>You are registered for all available courses.</p>';
-                return;
-            }
-            
-            available.forEach(course => {
-                const courseTag = document.createElement('span');
-                courseTag.className = 'course-tag';
-                courseTag.innerHTML = `<i class="fas fa-plus"></i> ${course.name}`;
-                courseTag.addEventListener('click', () => {
-                    registerForCourse(course);
-                });
-                availableCoursesContainer.appendChild(courseTag);
-            });
-        }
-
-        // Register for a new course
-        async function registerForCourse(course) {
-            try {
-                // Create new course object
-                const newCourse = {
-                    name: course.name,
-                    language: course.language,
-                    days: course.days,
-                    timestamp: new Date().toISOString(),
-                    progress: 0,
-                    classmates: []
-                };
-                
-                // Add to user's registered courses
-                if (!userData.registeredCourses) {
-                    userData.registeredCourses = [];
-                }
-                
-                userData.registeredCourses.push(newCourse);
-                localStorage.setItem('loggedInUser', JSON.stringify(userData));
-                
-                // Find classmates in the same course
-                const classmatesQuery = query(
-                    collection(db, "registrations"),
-                    where("course", "==", course.name)
-                );
-                
-                const querySnapshot = await getDocs(classmatesQuery);
-                const classmates = [];
-                
-                querySnapshot.forEach((doc) => {
-                    const data = doc.data();
-                    if (data.studentId !== userData.studentId) {
-                        classmates.push({
-                            name: data.fullName,
-                            department: data.department
-                        });
-                    }
-                });
-                
-                // Update course with classmates
-                newCourse.classmates = classmates;
-                
-                // Update UI
-                displayMyCourses();
-                displayAvailableCourses();
-                
-                // Show success message
-                alert(`Successfully registered for ${course.name}!`);
-                
-            } catch (error) {
-                console.error("Error registering for course: ", error);
-                alert("Failed to register for course. Please try again.");
-            }
-        }
-
-        // Show classmates modal
-        function showClassmatesModal(course) {
-            classmatesContainer.innerHTML = `
-                <h4 style="margin-bottom: 20px; color: var(--primary);">
-                    <i class="fas fa-book"></i> ${course.name} - ${course.language}
-                </h4>
-                <p style="margin-bottom: 15px;"><i class="fas fa-calendar-alt"></i> Schedule: ${course.days}</p>
-                
-                <h5 style="margin: 20px 0 10px; color: var(--secondary);">
-                    <i class="fas fa-users"></i> Classmates (${course.classmates.length})
-                </h5>
-                <div class="classmates-list">
-                    ${course.classmates.length > 0 ? 
-                        course.classmates.map(peer => `
-                            <div style="display: flex; align-items: center; padding: 10px; border-bottom: 1px solid #eee;">
-                                <div style="width: 40px; height: 40px; background: linear-gradient(135deg, var(--primary), var(--secondary)); 
-                                    border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; margin-right: 15px;">
-                                    ${peer.name.charAt(0).toUpperCase()}
-                                </div>
-                                <div>
-                                    <p style="font-weight: 600; margin-bottom: 3px;">${peer.name}</p>
-                                    <p style="font-size: 0.9rem; color: #666;"><i class="fas fa-building"></i> ${peer.department}</p>
-                                </div>
-                            </div>
-                        `).join('') : 
-                        '<p style="text-align: center; margin: 20px 0;">No classmates in this course yet</p>'
-                    }
-                </div>
-            `;
-            
-            classmatesModal.style.display = 'flex';
-            setTimeout(() => {
-                document.querySelector('.modal-content').style.transform = 'translateY(0)';
-                document.querySelector('.modal-content').style.opacity = '1';
-            }, 10);
-        }
-
-        // Close classmates modal
-        closeClassmatesModal.addEventListener('click', () => {
-            document.querySelector('.modal-content').style.transform = 'translateY(50px)';
-            document.querySelector('.modal-content').style.opacity = '0';
-            setTimeout(() => {
-                classmatesModal.style.display = 'none';
-            }, 300);
+      ]
+    };
+    
+    // Get user data from localStorage
+    const userData = JSON.parse(localStorage.getItem('loggedInUser'));
+    if (!userData) {
+      window.location.href = 'index.html';
+    }
+    
+    // Display user info (using stored data)
+    function displayUserInfo() {
+      userName.textContent = userData.fullName;
+      userId.textContent = `Student ID: ${userData.studentId}`;
+      const firstLetter = userData.fullName.charAt(0).toUpperCase();
+      userAvatar.textContent = firstLetter;
+    }
+    
+    // Calculate progress percentage (10% per week, max 100%)
+    function calculateProgress(timestamp) {
+      const registrationDate = new Date(timestamp);
+      const now = new Date();
+      const diffInWeeks = Math.floor((now - registrationDate) / (1000 * 60 * 60 * 24 * 7));
+      return Math.min(diffInWeeks * 10, 100);
+    }
+    
+    // Display registered courses with progress and "View Classmates" button
+    function displayRegisteredCourses() {
+      coursesContainer.innerHTML = '';
+      if (userData.registeredCourses && userData.registeredCourses.length > 0) {
+        userData.registeredCourses.forEach(course => {
+          const progress = calculateProgress(course.timestamp);
+          const courseItem = document.createElement('div');
+          courseItem.className = 'course-item';
+          courseItem.innerHTML = `
+            <div class="course-item-info">
+              <h4>${course.name}</h4>
+              <p>Language: ${course.language} | Days: ${course.days}</p>
+              <p>Registered on ${new Date(course.timestamp).toLocaleDateString()}</p>
+              <div class="progress-bar">
+                <div class="progress-bar-inner" style="width: ${progress}%;"></div>
+              </div>
+            </div>
+            <button class="btn view-classmates-btn" data-course="${course.name}">
+              <i class="fas fa-users"></i> View Classmates
+            </button>
+          `;
+          coursesContainer.appendChild(courseItem);
         });
-
-        // Close modal when clicking outside
-        window.addEventListener('click', (e) => {
-            if (e.target === classmatesModal) {
-                document.querySelector('.modal-content').style.transform = 'translateY(50px)';
-                document.querySelector('.modal-content').style.opacity = '0';
-                setTimeout(() => {
-                    classmatesModal.style.display = 'none';
-                }, 300);
-            }
+      } else {
+        coursesContainer.innerHTML = '<p>You are not registered for any courses yet.</p>';
+      }
+      
+      // Attach event listeners for "View Classmates"
+      document.querySelectorAll('.view-classmates-btn').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          const courseName = btn.getAttribute('data-course');
+          viewClassmates(courseName);
         });
-
-        // Profile dropdown toggle
-        profileDropdownBtn.addEventListener('click', () => {
-            dropdownContent.classList.toggle('show');
+      });
+    }
+    
+    // Display available courses with language option and single button registration
+    function displayAvailableCourses() {
+      availableCourses.innerHTML = '';
+      const allCourses = [
+        ...courses.amharic.map(c => ({ ...c, language: 'Amharic' })),
+        ...courses.oromifa.map(c => ({ ...c, language: 'Oromifa' }))
+      ];
+      const registeredNames = userData.registeredCourses ? userData.registeredCourses.map(c => c.name) : [];
+      const available = allCourses.filter(course => !registeredNames.includes(course.name));
+      
+      if (available.length === 0) {
+        availableCourses.innerHTML = '<p>You are registered for all available courses.</p>';
+        return;
+      }
+      
+      available.forEach(course => {
+        const courseCard = document.createElement('div');
+        courseCard.className = 'course-card';
+        courseCard.innerHTML = `
+          <h3>${course.name}</h3>
+          <span><i class="far fa-calendar-alt"></i> ${course.days}</span>
+          <p>Language: ${course.language}</p>
+          <button class="btn register-btn" data-course="${course.name}" data-lang="${course.language}" data-days="${course.days}">
+            <i class="fas fa-user-plus"></i> Register Now
+          </button>
+        `;
+        availableCourses.appendChild(courseCard);
+      });
+      
+      // Add event listeners for registration buttons
+      document.querySelectorAll('.register-btn').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          e.preventDefault();
+          const course = btn.getAttribute('data-course');
+          const language = btn.getAttribute('data-lang');
+          const days = btn.getAttribute('data-days');
+          // Set confirmation message
+          confirmMessage.textContent = `Are you sure you want to join ${course} (${language})?`;
+          // Save course data temporarily
+          confirmationModal.dataset.course = course;
+          confirmationModal.dataset.language = language;
+          confirmationModal.dataset.days = days;
+          showModal(confirmationModal);
         });
-
-        // Close dropdown when clicking outside
-        window.addEventListener('click', (e) => {
-            if (!e.target.matches('.profile-dropdown-btn')) {
-                if (dropdownContent.classList.contains('show')) {
-                    dropdownContent.classList.remove('show');
-                }
-            }
+      });
+    }
+    
+    // Show modal function (for both confirmation and classmates)
+    function showModal(modalEl) {
+      modalEl.style.display = 'flex';
+      setTimeout(() => {
+        modalEl.firstElementChild.classList.add('show');
+      }, 10);
+    }
+    
+    function hideModal(modalEl) {
+      modalEl.firstElementChild.classList.remove('show');
+      setTimeout(() => {
+        modalEl.style.display = 'none';
+      }, 300);
+    }
+    
+    // Confirm registration process (without extra form)
+    confirmYesBtn.addEventListener('click', async () => {
+      const course = confirmationModal.dataset.course;
+      const language = confirmationModal.dataset.language;
+      const days = confirmationModal.dataset.days;
+      const newCourse = {
+        name: course,
+        language: language,
+        days: days,
+        timestamp: new Date().toISOString()
+      };
+      // Check if already registered
+      if (userData.registeredCourses && userData.registeredCourses.some(c => c.name === course)) {
+        alert('You are already registered for this course.');
+        hideModal(confirmationModal);
+        return;
+      }
+      try {
+        // Check duplicate in Firestore
+        const courseQuery = query(
+          collection(db, "registrations"),
+          where("studentId", "==", userData.studentId),
+          where("course", "==", course)
+        );
+        const courseQuerySnapshot = await getDocs(courseQuery);
+        if (!courseQuerySnapshot.empty) {
+          alert('You are already registered for this course.');
+          hideModal(confirmationModal);
+          return;
+        }
+        // Add registration to Firestore
+        await addDoc(collection(db, "registrations"), {
+          studentId: userData.studentId,
+          fullName: userData.fullName,
+          department: userData.department,
+          course: course,
+          language: language,
+          days: days,
+          timestamp: newCourse.timestamp
         });
-
-        // Logout functionality
-        logoutBtn.addEventListener('click', () => {
-            localStorage.removeItem('loggedInUser');
-            window.location.href = 'index.html';
-        });
-
-        // Initialize the page
-        displayUserInfo();
-        displayMyCourses();
+        // Update local user data
+        if (!userData.registeredCourses) userData.registeredCourses = [];
+        userData.registeredCourses.push(newCourse);
+        localStorage.setItem('loggedInUser', JSON.stringify(userData));
+        alert('Registration successful!');
+        displayRegisteredCourses();
         displayAvailableCourses();
-        
-        // Animate progress bars after a short delay
-        setTimeout(() => {
-            document.querySelectorAll('.progress-fill').forEach(bar => {
-                const width = bar.style.width;
-                bar.style.width = '0';
-                setTimeout(() => {
-                    bar.style.width = width;
-                }, 100);
-            });
-        }, 500);
-    </script>
+      } catch (error) {
+        console.error("Error registering course: ", error);
+        alert('Registration failed. Please try again.');
+      }
+      hideModal(confirmationModal);
+    });
+    
+    confirmNoBtn.addEventListener('click', () => {
+      hideModal(confirmationModal);
+    });
+    
+    closeConfirmation.addEventListener('click', () => {
+      hideModal(confirmationModal);
+    });
+    
+    // Function to view classmates for a given course
+    async function viewClassmates(courseName) {
+      classmatesContainer.innerHTML = '<p>Loading classmates...</p>';
+      showModal(classmatesModal);
+      try {
+        const classmatesQuery = query(
+          collection(db, "registrations"),
+          where("course", "==", courseName)
+        );
+        const classmatesSnapshot = await getDocs(classmatesQuery);
+        if (classmatesSnapshot.empty) {
+          classmatesContainer.innerHTML = '<p>No classmates found.</p>';
+          return;
+        }
+        classmatesContainer.innerHTML = '';
+        classmatesSnapshot.forEach(docSnap => {
+          const data = docSnap.data();
+          const profileLetter = data.fullName.charAt(0).toUpperCase();
+          const classmateEl = document.createElement('div');
+          classmateEl.style.display = 'flex';
+          classmateEl.style.alignItems = 'center';
+          classmateEl.style.marginBottom = '15px';
+          classmateEl.innerHTML = `
+            <div style="width:45px; height:45px; background: var(--secondary); border-radius:50%; display:flex; align-items:center; justify-content:center; color:white; font-size:1.2rem; margin-right:10px;">
+              ${profileLetter}
+            </div>
+            <div>
+              <strong>${data.fullName}</strong><br>
+              <small>${data.department || 'N/A'}</small>
+            </div>
+          `;
+          classmatesContainer.appendChild(classmateEl);
+        });
+      } catch (error) {
+        classmatesContainer.innerHTML = '<p>Error loading classmates.</p>';
+        console.error(error);
+      }
+    }
+    
+    closeClassmates.addEventListener('click', () => {
+      hideModal(classmatesModal);
+    });
+    
+    // Header logout and interact functionality
+    headerLogoutBtn.addEventListener('click', () => {
+      localStorage.removeItem('loggedInUser');
+      window.location.href = 'index.html';
+    });
+    
+    interactBtn.addEventListener('click', () => {
+      // This could open a chat or discussion page; for now, we'll use an alert.
+      alert('Interact with classmates feature coming soon!');
+    });
+    
+    // Initialize
+    displayUserInfo();
+    displayRegisteredCourses();
+    displayAvailableCourses();
+  </script>
 </body>
 </html>
