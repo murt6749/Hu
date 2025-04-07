@@ -163,6 +163,131 @@
             box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
         }
         
+        /* New Course Registration Section */
+        .new-courses {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            margin-bottom: 30px;
+        }
+        
+        .new-courses h3 {
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            color: var(--primary);
+            border-bottom: 2px solid var(--secondary);
+            padding-bottom: 10px;
+        }
+        
+        .courses-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+        
+        .course-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+            z-index: 1;
+            transform-style: preserve-3d;
+            transform: perspective(1000px);
+            border: 1px solid #e9ecef;
+        }
+        
+        .course-header {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 20px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .course-header h3 {
+            font-size: 1.5rem;
+            margin-bottom: 8px;
+            font-weight: 700;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .course-days {
+            display: inline-flex;
+            align-items: center;
+            background: rgba(255, 255, 255, 0.2);
+            padding: 5px 15px;
+            border-radius: 50px;
+            font-size: 0.9rem;
+            margin-top: 5px;
+            position: relative;
+            z-index: 1;
+            backdrop-filter: blur(5px);
+        }
+        
+        .course-body {
+            padding: 25px;
+            position: relative;
+        }
+        
+        .course-body p {
+            margin-bottom: 20px;
+            color: #555;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .register-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .registered-badge {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: var(--success);
+            color: white;
+            padding: 5px 15px;
+            border-radius: 50px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            z-index: 2;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0% {
+                box-shadow: 0 0 0 0 rgba(40, 167, 69, 0.7);
+            }
+            70% {
+                box-shadow: 0 0 0 10px rgba(40, 167, 69, 0);
+            }
+            100% {
+                box-shadow: 0 0 0 0 rgba(40, 167, 69, 0);
+            }
+        }
+        
         footer {
             text-align: center;
             padding: 30px;
@@ -172,6 +297,109 @@
             background: white;
             border-radius: 20px 20px 0 0;
             box-shadow: 0 -5px 30px rgba(0, 0, 0, 0.05);
+        }
+        
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            backdrop-filter: blur(5px);
+            animation: fadeIn 0.3s ease;
+        }
+        
+        .modal-content {
+            background: white;
+            width: 95%;
+            max-width: 500px;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 15px 50px rgba(0, 0, 0, 0.3);
+            animation: slideUp 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            transform: translateY(50px);
+            opacity: 0;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+        
+        .modal-header {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 20px;
+            position: relative;
+            text-align: center;
+        }
+        
+        .modal-header h3 {
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+        
+        .close-btn {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            font-size: 1.8rem;
+            cursor: pointer;
+            background: none;
+            border: none;
+            color: white;
+            transition: transform 0.3s ease;
+        }
+        
+        .close-btn:hover {
+            transform: rotate(90deg);
+        }
+        
+        .modal-body {
+            padding: 25px;
+        }
+        
+        .alert {
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 25px;
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        .alert-success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        
+        .alert-error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+        
+        @keyframes slideUp {
+            from {
+                transform: translateY(50px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
         }
         
         @media (max-width: 768px) {
@@ -187,6 +415,10 @@
             
             header h1 {
                 font-size: 2rem;
+            }
+            
+            .courses-container {
+                grid-template-columns: 1fr;
             }
         }
     </style>
@@ -221,6 +453,83 @@
                 <i class="fas fa-sign-out-alt"></i> Logout
             </button>
         </div>
+        
+        <!-- New Course Registration Section -->
+        <div class="new-courses">
+            <h3><i class="fas fa-plus-circle"></i> Register for Additional Courses</h3>
+            <div class="courses-container" id="availableCourses">
+                <!-- Courses will be populated here -->
+            </div>
+        </div>
+    </div>
+    
+    <!-- Registration Modal -->
+    <div class="modal" id="registrationModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3><i class="fas fa-user-graduate"></i> Register for <span id="modalCourseName"></span></h3>
+                <button class="close-btn" id="closeModal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="alert" id="alertBox"></div>
+                <form id="registrationForm">
+                    <input type="hidden" id="selectedCourse" name="selectedCourse">
+                    <input type="hidden" id="selectedLanguage" name="selectedLanguage">
+                    <input type="hidden" id="selectedDays" name="selectedDays">
+                    
+                    <div class="form-group">
+                        <label for="fullName"><i class="fas fa-user"></i> Full Name</label>
+                        <input type="text" id="fullName" name="fullName" required>
+                        <i class="fas fa-user"></i>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="department"><i class="fas fa-building"></i> Department</label>
+                        <input type="text" id="department" name="department" required>
+                        <i class="fas fa-building"></i>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="studentId"><i class="fas fa-id-card"></i> Student ID</label>
+                        <input type="text" id="studentId" name="studentId" required readonly>
+                        <i class="fas fa-id-card"></i>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="phoneNumber"><i class="fas fa-phone"></i> Phone Number</label>
+                        <input type="tel" id="phoneNumber" name="phoneNumber" required>
+                        <i class="fas fa-phone"></i>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="religion"><i class="fas fa-mosque"></i> Religion</label>
+                        <select id="religion" name="religion" required>
+                            <option value="">Select Religion</option>
+                            <option value="Muslim">Muslim</option>
+                        </select>
+                        <i class="fas fa-mosque"></i>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="yearOfStudy"><i class="fas fa-calendar-alt"></i> Year of Study</label>
+                        <select id="yearOfStudy" name="yearOfStudy" required>
+                            <option value="">Select Year</option>
+                            <option value="1">1st Year</option>
+                            <option value="2">2nd Year</option>
+                            <option value="3">3rd Year</option>
+                            <option value="4">4th Year</option>
+                            <option value="5">5th Year</option>
+                            <option value="6+">6+ Year</option>
+                        </select>
+                        <i class="fas fa-calendar-alt"></i>
+                    </div>
+                    
+                    <button type="submit" class="submit-btn" id="submitBtn">
+                        <i class="fas fa-paper-plane"></i> Complete Registration
+                    </button>
+                </form>
+            </div>
+        </div>
     </div>
     
     <footer>
@@ -229,7 +538,115 @@
         </div>
     </footer>
 
-    <script>
+    <!-- Firebase SDK -->
+    <script type="module">
+        // Import the functions you need from the SDKs you need
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-app.js";
+        import { getAnalytics } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-analytics.js";
+        import { getFirestore, collection, addDoc, query, where, getDocs, updateDoc, doc } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-firestore.js";
+
+        // Your web app's Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyBQyNVWh1BtCkXlBfuS7jHAa36FTklZayo",
+            authDomain: "pharma-quiz-b5a07.firebaseapp.com",
+            projectId: "pharma-quiz-b5a07",
+            storageBucket: "pharma-quiz-b5a07.appspot.com",
+            messagingSenderId: "161067776789",
+            appId: "1:161067776789:web:88b8a61145dc5f5c31471c",
+            measurementId: "G-3QRQE9HQFB"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const analytics = getAnalytics(app);
+        const db = getFirestore(app);
+
+        // DOM Elements
+        const userName = document.getElementById('userName');
+        const userId = document.getElementById('userId');
+        const userAvatar = document.getElementById('userAvatar');
+        const coursesContainer = document.getElementById('coursesContainer');
+        const logoutBtn = document.getElementById('logoutBtn');
+        const availableCourses = document.getElementById('availableCourses');
+        const registrationModal = document.getElementById('registrationModal');
+        const closeModalBtn = document.getElementById('closeModal');
+        const modalCourseName = document.getElementById('modalCourseName');
+        const selectedCourseInput = document.getElementById('selectedCourse');
+        const selectedLanguageInput = document.getElementById('selectedLanguage');
+        const selectedDaysInput = document.getElementById('selectedDays');
+        const registrationForm = document.getElementById('registrationForm');
+        const alertBox = document.getElementById('alertBox');
+        const fullNameInput = document.getElementById('fullName');
+        const departmentInput = document.getElementById('department');
+        const studentIdInput = document.getElementById('studentId');
+        const phoneNumberInput = document.getElementById('phoneNumber');
+        const religionInput = document.getElementById('religion');
+        const yearOfStudyInput = document.getElementById('yearOfStudy');
+        const submitBtn = document.getElementById('submitBtn');
+
+        // Course data
+        const courses = {
+            amharic: [
+                {
+                    name: "Sifetu Solah",
+                    description: "Learn the proper way of performing prayers according to the Sunnah with detailed explanations and practical demonstrations.",
+                    days: "Saturday and Sunday"
+                },
+                {
+                    name: "Usulu Selasah",
+                    description: "Study the three fundamental principles of Islam in depth with scholarly explanations and practical applications.",
+                    days: "Monday and Tuesday"
+                },
+                {
+                    name: "Tejwid Hidayetul Mustefid",
+                    description: "Master the rules of Quranic recitation with proper pronunciation, tajweed rules, and practical recitation sessions.",
+                    days: "Saturday and Sunday morning"
+                },
+                {
+                    name: "Kulasetu Nurel Yeqin",
+                    description: "Deepen your understanding of Islamic faith and certainty through this comprehensive study of Islamic creed.",
+                    days: "Only Thursday"
+                }
+            ],
+            oromifa: [
+                {
+                    name: "Sifetu Solah",
+                    description: "Comprehensive study of the prayer's description from the Prophet's tradition with practical demonstrations.",
+                    days: "Monday and Tuesday"
+                },
+                {
+                    name: "Usulu Selasah",
+                    description: "The three fundamental principles every Muslim must know, explained in detail with practical applications.",
+                    days: "Saturday and Sunday"
+                },
+                {
+                    name: "Tejwid Hidayetulmustefid",
+                    description: "Advanced Tajweed rules for beautiful Quran recitation with expert instructors and individual feedback.",
+                    days: "Saturday and Sunday morning"
+                },
+                {
+                    name: "Umdetul Ahkam",
+                    description: "Essential Islamic rulings for daily life covering worship, transactions, and social interactions.",
+                    days: "Saturday and Sunday"
+                },
+                {
+                    name: "Riyadusualihin",
+                    description: "Gardens of the righteous - lessons from the famous book with practical guidance for spiritual growth.",
+                    days: "Not specified"
+                },
+                {
+                    name: "Tefsir",
+                    description: "Explanation and interpretation of the Holy Quran with linguistic, historical, and jurisprudential insights.",
+                    days: "Only Wednesday"
+                },
+                {
+                    name: "Aqidetu Tuhawiya",
+                    description: "Islamic creed based on the Quran and Sunnah with detailed explanations of theological matters.",
+                    days: "Not specified"
+                }
+            ]
+        };
+
         // Get user data from localStorage
         const userData = JSON.parse(localStorage.getItem('loggedInUser'));
         
@@ -237,40 +654,252 @@
         if (!userData) {
             window.location.href = 'index.html';
         }
-        
+
         // Display user info
-        document.getElementById('userName').textContent = userData.fullName;
-        document.getElementById('userId').textContent = `Student ID: ${userData.studentId}`;
-        
-        // Set avatar with first letter of name
-        const firstLetter = userData.fullName.charAt(0).toUpperCase();
-        document.getElementById('userAvatar').textContent = firstLetter;
-        
-        // Display registered courses
-        const coursesContainer = document.getElementById('coursesContainer');
-        
-        if (userData.registeredCourses && userData.registeredCourses.length > 0) {
-            userData.registeredCourses.forEach(course => {
-                const courseItem = document.createElement('div');
-                courseItem.className = 'course-item';
-                courseItem.innerHTML = `
-                    <div class="course-item-info">
-                        <h4>${course}</h4>
-                        <p>Registered on ${new Date().toLocaleDateString()}</p>
-                    </div>
-                    <i class="fas fa-check-circle" style="color: var(--success); font-size: 1.5rem;"></i>
-                `;
-                coursesContainer.appendChild(courseItem);
-            });
-        } else {
-            coursesContainer.innerHTML = '<p>You are not registered for any courses yet.</p>';
+        function displayUserInfo() {
+            userName.textContent = userData.fullName;
+            userId.textContent = `Student ID: ${userData.studentId}`;
+            
+            // Set avatar with first letter of name
+            const firstLetter = userData.fullName.charAt(0).toUpperCase();
+            userAvatar.textContent = firstLetter;
+            
+            // Pre-fill form with user data
+            fullNameInput.value = userData.fullName;
+            departmentInput.value = userData.department || '';
+            studentIdInput.value = userData.studentId;
+            phoneNumberInput.value = userData.phoneNumber || '';
+            religionInput.value = userData.religion || 'Muslim';
+            yearOfStudyInput.value = userData.yearOfStudy || '';
         }
-        
+
+        // Display registered courses
+        function displayRegisteredCourses() {
+            coursesContainer.innerHTML = '';
+            
+            if (userData.registeredCourses && userData.registeredCourses.length > 0) {
+                userData.registeredCourses.forEach(course => {
+                    const courseItem = document.createElement('div');
+                    courseItem.className = 'course-item';
+                    courseItem.innerHTML = `
+                        <div class="course-item-info">
+                            <h4>${course.name}</h4>
+                            <p>Language: ${course.language} | Days: ${course.days}</p>
+                            <p>Registered on ${new Date(course.timestamp).toLocaleDateString()}</p>
+                        </div>
+                        <i class="fas fa-check-circle" style="color: var(--success); font-size: 1.5rem;"></i>
+                    `;
+                    coursesContainer.appendChild(courseItem);
+                });
+            } else {
+                coursesContainer.innerHTML = '<p>You are not registered for any courses yet.</p>';
+            }
+        }
+
+        // Display available courses
+        function displayAvailableCourses() {
+            availableCourses.innerHTML = '';
+            
+            // Combine all courses from both languages
+            const allCourses = [
+                ...courses.amharic.map(c => ({ ...c, language: 'Amharic' })),
+                ...courses.oromifa.map(c => ({ ...c, language: 'Oromifa' }))
+            ];
+            
+            // Filter out courses the user is already registered for
+            const registeredCourseNames = userData.registeredCourses ? 
+                userData.registeredCourses.map(c => c.name) : [];
+            
+            const available = allCourses.filter(course => 
+                !registeredCourseNames.includes(course.name)
+            );
+            
+            if (available.length === 0) {
+                availableCourses.innerHTML = '<p>You are registered for all available courses.</p>';
+                return;
+            }
+            
+            available.forEach(course => {
+                const courseCard = document.createElement('div');
+                courseCard.className = 'course-card';
+                courseCard.innerHTML = `
+                    <div class="course-header">
+                        <h3>${course.name}</h3>
+                        <span class="course-days"><i class="far fa-calendar-alt"></i> ${course.days}</span>
+                    </div>
+                    <div class="course-body">
+                        <p>${course.description}</p>
+                        <button class="register-btn" 
+                                data-course="${course.name}" 
+                                data-lang="${course.language}" 
+                                data-days="${course.days}">
+                            <i class="fas fa-user-plus"></i> Register Now
+                        </button>
+                    </div>
+                `;
+                availableCourses.appendChild(courseCard);
+            });
+            
+            // Add event listeners to new register buttons
+            document.querySelectorAll('.register-btn').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const course = btn.dataset.course;
+                    const language = btn.dataset.lang;
+                    const days = btn.dataset.days;
+                    
+                    // Set modal content
+                    modalCourseName.textContent = course;
+                    selectedCourseInput.value = course;
+                    selectedLanguageInput.value = language;
+                    selectedDaysInput.value = days;
+                    
+                    // Show modal with animation
+                    registrationModal.style.display = 'flex';
+                    setTimeout(() => {
+                        document.querySelector('.modal-content').style.transform = 'translateY(0)';
+                        document.querySelector('.modal-content').style.opacity = '1';
+                    }, 10);
+                });
+            });
+        }
+
+        // Close modal
+        closeModalBtn.addEventListener('click', () => {
+            document.querySelector('.modal-content').style.transform = 'translateY(50px)';
+            document.querySelector('.modal-content').style.opacity = '0';
+            setTimeout(() => {
+                registrationModal.style.display = 'none';
+            }, 300);
+        });
+
+        // Close modal when clicking outside
+        window.addEventListener('click', (e) => {
+            if (e.target === registrationModal) {
+                document.querySelector('.modal-content').style.transform = 'translateY(50px)';
+                document.querySelector('.modal-content').style.opacity = '0';
+                setTimeout(() => {
+                    registrationModal.style.display = 'none';
+                }, 300);
+            }
+        });
+
+        // Form submission for additional courses
+        registrationForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            // Add animation to submit button
+            submitBtn.classList.add('animating');
+            setTimeout(() => {
+                submitBtn.classList.remove('animating');
+            }, 1000);
+            
+            // Get form values
+            const formData = {
+                fullName: fullNameInput.value.trim(),
+                department: departmentInput.value.trim(),
+                phoneNumber: phoneNumberInput.value.trim(),
+                studentId: studentIdInput.value.trim(),
+                religion: religionInput.value,
+                yearOfStudy: yearOfStudyInput.value,
+                course: selectedCourseInput.value,
+                language: selectedLanguageInput.value,
+                days: selectedDaysInput.value,
+                timestamp: new Date().toISOString()
+            };
+            
+            // Validate religion
+            if (formData.religion !== 'Muslim') {
+                showAlert('Only Muslim students can register for these courses.', 'error');
+                return;
+            }
+            
+            // Validate all required fields
+            if (!formData.fullName || !formData.department || !formData.phoneNumber || !formData.yearOfStudy) {
+                showAlert('Please fill in all required fields.', 'error');
+                return;
+            }
+            
+            try {
+                // Check if student is already registered for this specific course
+                const courseQuery = query(
+                    collection(db, "registrations"),
+                    where("studentId", "==", formData.studentId),
+                    where("course", "==", formData.course)
+                );
+                
+                const courseQuerySnapshot = await getDocs(courseQuery);
+                if (!courseQuerySnapshot.empty) {
+                    showAlert('You are already registered for this course.', 'error');
+                    return;
+                }
+                
+                // Add the new course registration
+                const docRef = await addDoc(collection(db, "registrations"), formData);
+                
+                // Update user data in localStorage
+                const newCourse = {
+                    name: formData.course,
+                    language: formData.language,
+                    days: formData.days,
+                    timestamp: formData.timestamp
+                };
+                
+                if (!userData.registeredCourses) {
+                    userData.registeredCourses = [];
+                }
+                
+                userData.registeredCourses.push(newCourse);
+                localStorage.setItem('loggedInUser', JSON.stringify(userData));
+                
+                // Update other fields if changed
+                userData.fullName = formData.fullName;
+                userData.department = formData.department;
+                userData.phoneNumber = formData.phoneNumber;
+                userData.religion = formData.religion;
+                userData.yearOfStudy = formData.yearOfStudy;
+                
+                showAlert('Registration successful! Your profile will refresh shortly...', 'success');
+                
+                // Refresh the display after 2 seconds
+                setTimeout(() => {
+                    displayRegisteredCourses();
+                    displayAvailableCourses();
+                    document.querySelector('.modal-content').style.transform = 'translateY(50px)';
+                    document.querySelector('.modal-content').style.opacity = '0';
+                    setTimeout(() => {
+                        registrationModal.style.display = 'none';
+                    }, 300);
+                }, 2000);
+                
+            } catch (error) {
+                showAlert('Registration failed. Please try again.', 'error');
+                console.error("Error adding document: ", error);
+            }
+        });
+
         // Logout functionality
-        document.getElementById('logoutBtn').addEventListener('click', () => {
+        logoutBtn.addEventListener('click', () => {
             localStorage.removeItem('loggedInUser');
             window.location.href = 'index.html';
         });
+
+        // Show alert
+        function showAlert(message, type) {
+            alertBox.textContent = message;
+            alertBox.className = `alert alert-${type}`;
+            alertBox.style.display = 'block';
+            
+            // Hide alert after 5 seconds
+            setTimeout(() => {
+                alertBox.style.display = 'none';
+            }, 5000);
+        }
+
+        // Initialize the page
+        displayUserInfo();
+        displayRegisteredCourses();
+        displayAvailableCourses();
     </script>
 </body>
 </html>
