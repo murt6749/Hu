@@ -517,7 +517,7 @@
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-app.js";
     import { getAnalytics } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-analytics.js";
-    import { getFirestore, collection, addDoc, query, where, getDocs, updateDoc, doc, arrayUnion } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-firestore.js";
+    import { getFirestore, collection, addDoc, query, where, getDocs, updateDoc, doc, arrayUnion, getDoc, setDoc } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-firestore.js";
     
     // Firebase config
     const firebaseConfig = {
@@ -574,14 +574,28 @@
       ]
     };
     
-    // Retrieve user data
+    // Retrieve user data from localStorage
     let userData = JSON.parse(localStorage.getItem('loggedInUser'));
     if (!userData) {
       profileDropdownContent.innerHTML = `<a href="index.html"><i class="fas fa-sign-in-alt"></i> Login</a>`;
       window.location.href = 'index.html';
     }
     
-    // Display user info
+    // Ensure the user document exists in "users" collection
+    async function ensureUserDoc() {
+      const userDocRef = doc(db, "users", userData.fullName);
+      const userDocSnap = await getDoc(userDocRef);
+      if (!userDocSnap.exists()) {
+        await setDoc(userDocRef, {
+          fullName: userData.fullName,
+          studentId: userData.studentId,
+          additionalCourses: []
+        });
+      }
+    }
+    ensureUserDoc();
+    
+    // Display user info in profile header
     function displayUserInfo() {
       userNameEl.textContent = userData.fullName || "Unnamed";
       userIdEl.textContent = `Student ID: ${userData.studentId || "Unknown"}`;
@@ -597,7 +611,7 @@
       return Math.min(diffInWeeks * 10, 100);
     }
     
-    // Display Registered Courses
+    // Display Registered Courses on the profile page
     function displayRegisteredCourses() {
       coursesContainer.innerHTML = '';
       if (userData.registeredCourses && userData.registeredCourses.length > 0) {
@@ -631,7 +645,7 @@
       });
     }
     
-    // Show/hide modals
+    // Modal show/hide functions
     function showModal(modal) {
       modal.style.display = 'flex';
       setTimeout(() => {
@@ -655,7 +669,7 @@
       }
     });
     
-    // Logout
+    // Logout functionality
     headerLogoutBtn.addEventListener('click', () => {
       localStorage.removeItem('loggedInUser');
       window.location.href = 'index.html';
@@ -694,7 +708,7 @@
       registerBtn.disabled = !courseSelect.value;
     });
     
-    // Register flow -> Confirmation
+    // Registration flow -> Confirmation
     registerBtn.addEventListener('click', () => {
       const selectedLang = languageSelect.value;
       const selectedCourseName = courseSelect.value;
@@ -706,7 +720,7 @@
       showModal(confirmationModal);
     });
     
-    // Confirmation modal events
+    // Confirmation modal events for registering a course
     confirmYesBtn.addEventListener('click', async () => {
       const lang = confirmationModal.dataset.lang;
       const courseName = confirmationModal.dataset.course;
@@ -743,7 +757,7 @@
           timestamp: new Date().toISOString()
         };
         await addDoc(collection(db, "registrations"), newReg);
-        // Also update the user's document in Firebase under "users" using his full name as the document ID.
+        // Update the user's document in Firebase to include the additional course
         await updateDoc(doc(db, "users", userData.fullName), {
           additionalCourses: arrayUnion({
             name: courseName,
@@ -752,6 +766,7 @@
             timestamp: newReg.timestamp
           })
         });
+        // Update local userData and localStorage for the profile display
         userData.registeredCourses.push({
           name: courseName,
           language: newReg.language,
@@ -775,7 +790,7 @@
       hideModal(confirmationModal);
     });
     
-    // View classmates
+    // View classmates for a course
     async function viewClassmates(courseName) {
       classmatesContainer.innerHTML = '<p>Loading classmates...</p>';
       showModal(classmatesModal);
@@ -816,7 +831,7 @@
       hideModal(classmatesModal);
     });
     
-    // Show a brief notification
+    // Show a brief notification on the page
     function showNotification(msg) {
       notificationBox.textContent = msg;
       notificationBox.style.display = 'block';
@@ -825,7 +840,7 @@
       }, 4000);
     }
     
-    // Initialize
+    // Initialize profile display
     displayUserInfo();
     displayRegisteredCourses();
   </script>
