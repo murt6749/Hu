@@ -14,8 +14,11 @@
       --light: #f8f9fa;
       --dark: #212529;
       --success: #28a745;
-      --danger: #d9534f;
+      --danger: #dc3545;
+      --warning: #ffc107;
       --info: #17a2b8;
+      --gold: #ffd700;
+      --green: #2ecc71;
       --text-light: #f8f9fa;
       --text-dark: #343a40;
     }
@@ -30,8 +33,8 @@
       color: var(--text-dark);
       line-height: 1.6;
       min-height: 100vh;
-      position: relative;
       overflow-x: hidden;
+      position: relative;
     }
     .container {
       max-width: 1200px;
@@ -47,7 +50,6 @@
       box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
       margin-bottom: 40px;
       position: relative;
-      /* Removed overflow hidden so dropdown can extend */
     }
     header::before {
       content: "";
@@ -66,7 +68,7 @@
       display: inline-block;
       vertical-align: middle;
     }
-    /* Profile dropdown */
+    /* Profile dropdown in header */
     .profile-dropdown {
       display: inline-block;
       position: relative;
@@ -133,74 +135,209 @@
       80% {opacity: 1; transform: translateY(0);}
       100% {opacity: 0; transform: translateY(-20px);}
     }
-    /* Main content */
-    .settings-card {
+    /* Settings sections */
+    .settings-section {
       background: white;
       border-radius: 15px;
       padding: 30px;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
       margin-bottom: 30px;
+      position: relative;
+      overflow: hidden;
     }
-    h2.section-title {
+    .settings-section::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 5px;
+      height: 100%;
+      background: linear-gradient(to bottom, var(--primary), var(--secondary));
+    }
+    .settings-header {
+      display: flex;
+      align-items: center;
+      margin-bottom: 25px;
+    }
+    .settings-icon {
+      width: 50px;
+      height: 50px;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 1.5rem;
+      margin-right: 20px;
+    }
+    .settings-title {
       font-size: 1.8rem;
-      margin-bottom: 15px;
       color: var(--primary);
     }
-    form.settings-form {
-      display: flex;
-      flex-direction: column;
-      gap: 15px;
+    /* Form styling */
+    .form-group {
+      margin-bottom: 20px;
     }
-    form.settings-form label {
+    .form-label {
+      display: block;
+      margin-bottom: 8px;
       font-weight: 600;
-      margin-bottom: 5px;
+      color: var(--dark);
     }
-    form.settings-form input,
-    form.settings-form select {
-      padding: 10px;
-      border-radius: 5px;
-      border: 1px solid #ccc;
+    .form-control {
+      width: 100%;
+      padding: 12px 15px;
+      border: 1px solid #ddd;
+      border-radius: 8px;
       font-size: 1rem;
+      transition: all 0.3s;
     }
+    .form-control:focus {
+      border-color: var(--secondary);
+      box-shadow: 0 0 0 3px rgba(29, 165, 132, 0.2);
+      outline: none;
+    }
+    /* Button styles */
     .btn {
       background: var(--primary);
       color: white;
       border: none;
-      padding: 10px 20px;
+      padding: 12px 25px;
       border-radius: 8px;
       font-size: 1rem;
       font-weight: 600;
       cursor: pointer;
       transition: all 0.3s ease;
-      margin-top: 10px;
-      width: fit-content;
+      display: inline-block;
     }
     .btn:hover {
       background: var(--secondary);
       transform: translateY(-3px);
-      box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
     }
-    .delete-section {
+    .btn-sm {
+      padding: 8px 15px;
+      font-size: 0.9rem;
+    }
+    .btn-danger {
+      background: var(--danger);
+    }
+    .btn-danger:hover {
+      background: #c82333;
+    }
+    .btn-warning {
+      background: var(--warning);
+      color: var(--dark);
+    }
+    .btn-warning:hover {
+      background: #e0a800;
+    }
+    /* Danger zone */
+    .danger-zone {
       border: 2px solid var(--danger);
-      padding: 20px;
-      border-radius: 10px;
+      border-radius: 15px;
+      padding: 25px;
       margin-top: 30px;
-      background: #ffecec;
+      background: rgba(220, 53, 69, 0.05);
+    }
+    .danger-zone-header {
+      display: flex;
+      align-items: center;
+      margin-bottom: 20px;
       color: var(--danger);
     }
-    .countdown {
+    .danger-zone-icon {
+      font-size: 1.5rem;
+      margin-right: 15px;
+    }
+    .danger-zone-title {
+      font-size: 1.5rem;
+      font-weight: 700;
+    }
+    .danger-zone-content {
+      color: #6c757d;
+      margin-bottom: 20px;
+    }
+    /* Toggle switch */
+    .toggle-switch {
+      position: relative;
+      display: inline-block;
+      width: 60px;
+      height: 34px;
+    }
+    .toggle-switch input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+    .slider {
+      position: absolute;
+      cursor: pointer;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: #ccc;
+      transition: .4s;
+      border-radius: 34px;
+    }
+    .slider:before {
+      position: absolute;
+      content: "";
+      height: 26px;
+      width: 26px;
+      left: 4px;
+      bottom: 4px;
+      background-color: white;
+      transition: .4s;
+      border-radius: 50%;
+    }
+    input:checked + .slider {
+      background-color: var(--success);
+    }
+    input:focus + .slider {
+      box-shadow: 0 0 1px var(--success);
+    }
+    input:checked + .slider:before {
+      transform: translateX(26px);
+    }
+    /* Status indicators */
+    .status-indicator {
+      display: inline-block;
+      padding: 5px 10px;
+      border-radius: 20px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      margin-left: 10px;
+    }
+    .status-active {
+      background: rgba(40, 167, 69, 0.2);
+      color: var(--success);
+    }
+    .status-pending {
+      background: rgba(255, 193, 7, 0.2);
+      color: var(--warning);
+    }
+    .status-danger {
+      background: rgba(220, 53, 69, 0.2);
+      color: var(--danger);
+    }
+    /* Countdown timer */
+    .countdown-timer {
+      font-family: monospace;
       font-size: 1.2rem;
-      font-weight: bold;
-      margin-top: 10px;
       color: var(--danger);
+      font-weight: bold;
+      margin: 10px 0;
     }
-    /* Modal */
+    /* Modal styles */
     .modal {
       display: none;
       position: fixed;
       top: 0; left: 0;
       width: 100%; height: 100%;
-      background: rgba(0,0,0,0.7);
+      background: rgba(0, 0, 0, 0.7);
       z-index: 1000;
       justify-content: center;
       align-items: center;
@@ -211,22 +348,17 @@
       width: 95%; max-width: 500px;
       border-radius: 20px;
       overflow: hidden;
-      box-shadow: 0 15px 50px rgba(0,0,0,0.3);
+      box-shadow: 0 15px 50px rgba(0, 0, 0, 0.3);
       transform: translateY(50px);
       opacity: 0;
       transition: all 0.4s ease;
       position: relative;
-      padding: 20px;
-      text-align: center;
-    }
-    .modal-content.show {
-      transform: translateY(0);
-      opacity: 1;
     }
     .modal-header {
-      background: var(--danger);
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
       color: white;
       padding: 20px;
+      text-align: center;
       position: relative;
     }
     .modal-header h3 {
@@ -236,12 +368,10 @@
     }
     .close-btn {
       position: absolute;
-      top: 20px;
-      right: 20px;
+      top: 20px; right: 20px;
       font-size: 1.8rem;
       cursor: pointer;
-      background: none;
-      border: none;
+      background: none; border: none;
       color: white;
       transition: transform 0.3s ease;
     }
@@ -250,37 +380,49 @@
     }
     .modal-body {
       padding: 25px;
-    }
-    footer {
       text-align: center;
-      padding: 30px;
-      margin-top: 60px;
-      background: white;
-      border-radius: 20px 20px 0 0;
-      box-shadow: 0 -5px 30px rgba(0,0,0,0.05);
-      color: #6c757d;
-      font-size: 0.9rem;
     }
+    .modal-footer {
+      padding: 15px 25px;
+      display: flex;
+      justify-content: flex-end;
+      gap: 10px;
+      border-top: 1px solid #eee;
+    }
+    .modal-content.show {
+      transform: translateY(0);
+      opacity: 1;
+    }
+    /* Responsive */
     @media (max-width: 768px) {
-      form.settings-form {
-        width: 100%;
+      .settings-header {
+        flex-direction: column;
+        text-align: center;
+      }
+      .settings-icon {
+        margin-right: 0;
+        margin-bottom: 15px;
+      }
+      header h1 {
+        font-size: 2rem;
       }
     }
   </style>
 </head>
 <body>
   <!-- Success Notification -->
-  <div class="notification" id="notificationBox">Changes saved successfully!</div>
+  <div class="notification" id="notificationBox"></div>
   
   <header>
     <div class="container">
-      <h1><i class="fas fa-mosque"></i> Account Settings</h1>
+      <h1><i class="fas fa-cogs"></i> Account Settings</h1>
       <!-- Profile Dropdown -->
       <div class="profile-dropdown">
         <button class="dropbtn" id="headerProfileBtn">
           <i class="fas fa-user"></i>
         </button>
         <div class="profile-dropdown-content" id="profileDropdownContent">
+          <a href="profile.html"><i class="fas fa-user"></i> Profile</a>
           <a href="settings.html"><i class="fas fa-cog"></i> Settings</a>
           <a href="interact.html"><i class="fas fa-comments"></i> Interact</a>
           <a href="#" id="headerLogoutBtn"><i class="fas fa-sign-out-alt"></i> Logout</a>
@@ -290,71 +432,199 @@
   </header>
   
   <div class="container">
-    <!-- Account Details Section -->
-    <div class="settings-card">
-      <h2 class="section-title">Update Your Account Details</h2>
-      <form class="settings-form" id="settingsForm">
-        <div>
-          <label for="fullName">Full Name:</label>
-          <input type="text" id="fullName" name="fullName" required />
+    <!-- Profile Information Section -->
+    <div class="settings-section">
+      <div class="settings-header">
+        <div class="settings-icon">
+          <i class="fas fa-user-circle"></i>
         </div>
-        <div>
-          <label for="department">Department:</label>
-          <input type="text" id="department" name="department" />
+        <h2 class="settings-title">Profile Information</h2>
+      </div>
+      
+      <form id="profileForm">
+        <div class="form-group">
+          <label for="fullName" class="form-label">Full Name</label>
+          <input type="text" id="fullName" class="form-control" required>
         </div>
-        <div>
-          <label for="phoneNumber">Phone Number:</label>
-          <input type="tel" id="phoneNumber" name="phoneNumber" />
+        
+        <div class="form-group">
+          <label for="email" class="form-label">Email Address</label>
+          <input type="email" id="email" class="form-control" required>
         </div>
-        <!-- Add more fields as needed -->
-        <button type="submit" class="btn">Save Changes</button>
+        
+        <div class="form-group">
+          <label for="studentId" class="form-label">Student ID</label>
+          <input type="text" id="studentId" class="form-control" readonly>
+        </div>
+        
+        <div class="form-group">
+          <label for="department" class="form-label">Department</label>
+          <input type="text" id="department" class="form-control">
+        </div>
+        
+        <button type="submit" class="btn">Update Profile</button>
       </form>
     </div>
     
-    <!-- Account Deletion Section -->
-    <div class="settings-card delete-section">
-      <h2 class="section-title">Delete / Deactivate Account</h2>
-      <p>
-        Warning: If you request account deletion, your account will be scheduled for deletion in 17 days. During that time you can cancel the deletion if you change your mind.
-      </p>
-      <div id="deletionStatus">
-        <!-- If a deletion request is active, the countdown will display here -->
+    <!-- Account Security Section -->
+    <div class="settings-section">
+      <div class="settings-header">
+        <div class="settings-icon">
+          <i class="fas fa-shield-alt"></i>
+        </div>
+        <h2 class="settings-title">Account Security</h2>
       </div>
-      <div style="margin-top:15px;">
-        <button class="btn" id="requestDeletionBtn">Request Account Deletion</button>
-        <button class="btn" id="cancelDeletionBtn" style="display:none; background: var(--danger);">Cancel Deletion</button>
+      
+      <form id="securityForm">
+        <div class="form-group">
+          <label for="currentPassword" class="form-label">Current Password</label>
+          <input type="password" id="currentPassword" class="form-control" required>
+        </div>
+        
+        <div class="form-group">
+          <label for="newPassword" class="form-label">New Password</label>
+          <input type="password" id="newPassword" class="form-control" required>
+          <small class="text-muted">Minimum 8 characters with at least one number and one special character</small>
+        </div>
+        
+        <div class="form-group">
+          <label for="confirmPassword" class="form-label">Confirm New Password</label>
+          <input type="password" id="confirmPassword" class="form-control" required>
+        </div>
+        
+        <button type="submit" class="btn">Change Password</button>
+      </form>
+    </div>
+    
+    <!-- Notification Preferences -->
+    <div class="settings-section">
+      <div class="settings-header">
+        <div class="settings-icon">
+          <i class="fas fa-bell"></i>
+        </div>
+        <h2 class="settings-title">Notification Preferences</h2>
+      </div>
+      
+      <div class="form-group">
+        <label class="form-label" style="display: flex; align-items: center;">
+          <span style="flex-grow: 1;">Course Announcements</span>
+          <label class="toggle-switch">
+            <input type="checkbox" id="courseAnnouncements" checked>
+            <span class="slider"></span>
+          </label>
+        </label>
+      </div>
+      
+      <div class="form-group">
+        <label class="form-label" style="display: flex; align-items: center;">
+          <span style="flex-grow: 1;">Class Messages</span>
+          <label class="toggle-switch">
+            <input type="checkbox" id="classMessages" checked>
+            <span class="slider"></span>
+          </label>
+        </label>
+      </div>
+      
+      <div class="form-group">
+        <label class="form-label" style="display: flex; align-items: center;">
+          <span style="flex-grow: 1;">Deadline Reminders</span>
+          <label class="toggle-switch">
+            <input type="checkbox" id="deadlineReminders" checked>
+            <span class="slider"></span>
+          </label>
+        </label>
+      </div>
+      
+      <button class="btn" id="saveNotificationsBtn">Save Preferences</button>
+    </div>
+    
+    <!-- Danger Zone -->
+    <div class="settings-section">
+      <div class="settings-header">
+        <div class="settings-icon" style="background: var(--danger);">
+          <i class="fas fa-exclamation-triangle"></i>
+        </div>
+        <h2 class="settings-title" style="color: var(--danger);">Danger Zone</h2>
+      </div>
+      
+      <div class="danger-zone">
+        <div class="danger-zone-header">
+          <i class="fas fa-power-off danger-zone-icon"></i>
+          <h3 class="danger-zone-title">Account Status</h3>
+          <span class="status-indicator status-active" id="accountStatusIndicator">Active</span>
+        </div>
+        
+        <div class="danger-zone-content">
+          <p id="accountStatusMessage">Your account is currently active and visible to others.</p>
+          <div id="countdownContainer" style="display: none;">
+            <p>Your account will be <span id="countdownAction">deleted</span> in:</p>
+            <div class="countdown-timer" id="countdownTimer"></div>
+            <button class="btn btn-sm" id="cancelActionBtn">Cancel Action</button>
+          </div>
+        </div>
+        
+        <div class="form-group">
+          <button class="btn btn-warning" id="deactivateBtn">
+            <i class="fas fa-power-off"></i> Temporarily Deactivate Account
+          </button>
+          <small class="text-muted">Your account will be hidden for 2 days and then automatically reactivated</small>
+        </div>
+        
+        <div class="form-group">
+          <button class="btn btn-danger" id="deleteAccountBtn">
+            <i class="fas fa-trash-alt"></i> Permanently Delete Account
+          </button>
+          <small class="text-muted">Your account will be permanently deleted after 14 days</small>
+        </div>
       </div>
     </div>
   </div>
   
-  <!-- Deletion Warning Modal -->
-  <div class="modal" id="deletionModal">
+  <!-- Deactivate Account Modal -->
+  <div class="modal" id="deactivateModal">
     <div class="modal-content">
       <div class="modal-header">
-        <h3>Confirm Account Deletion</h3>
-        <button class="close-btn" id="closeDeletionModal">&times;</button>
+        <h3><i class="fas fa-power-off"></i> Deactivate Account</h3>
+        <button class="close-btn" id="closeDeactivateModal">&times;</button>
       </div>
       <div class="modal-body">
-        <p style="color: var(--danger);">
-          Are you sure you want to delete your account? Once confirmed, your account will be permanently deleted in 17 days if not cancelled.
-        </p>
-        <button class="btn" id="confirmDeletionBtn" style="background: var(--danger);">Yes, Proceed</button>
-        <button class="btn" id="cancelDeletionModalBtn" style="background: var(--accent);">No, Cancel</button>
+        <p>Are you sure you want to temporarily deactivate your account?</p>
+        <p>Your account will be hidden for 2 days and then automatically reactivated.</p>
+        <p>You can cancel this action at any time before the deactivation completes.</p>
+      </div>
+      <div class="modal-footer">
+        <button class="btn" id="cancelDeactivateBtn">Cancel</button>
+        <button class="btn btn-warning" id="confirmDeactivateBtn">Deactivate</button>
       </div>
     </div>
   </div>
   
-  <footer>
-    <div class="container">
-      <p><i class="far fa-copyright"></i> 2023 Haramaya University Jama'aa. All rights reserved.</p>
+  <!-- Delete Account Modal -->
+  <div class="modal" id="deleteModal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3><i class="fas fa-exclamation-triangle"></i> Delete Account</h3>
+        <button class="close-btn" id="closeDeleteModal">&times;</button>
+      </div>
+      <div class="modal-body">
+        <p>Are you sure you want to permanently delete your account?</p>
+        <p>This action will start a 14-day countdown after which your account and all data will be permanently deleted.</p>
+        <p>During this period you can cancel the deletion.</p>
+        <p><strong>This action cannot be undone after the countdown completes!</strong></p>
+      </div>
+      <div class="modal-footer">
+        <button class="btn" id="cancelDeleteBtn">Cancel</button>
+        <button class="btn btn-danger" id="confirmDeleteBtn">Delete Account</button>
+      </div>
     </div>
-  </footer>
+  </div>
   
   <!-- Firebase & Script -->
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-app.js";
     import { getAnalytics } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-analytics.js";
-    import { getFirestore, doc, updateDoc } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-firestore.js";
+    import { getFirestore, doc, getDoc, updateDoc, collection, query, where, getDocs, setDoc, deleteDoc } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-firestore.js";
+    import { getAuth, updatePassword, reauthenticateWithCredential, EmailAuthProvider, signOut } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-auth.js";
     
     // Firebase config
     const firebaseConfig = {
@@ -366,176 +636,419 @@
       appId: "1:161067776789:web:88b8a61145dc5f5c31471c",
       measurementId: "G-3QRQE9HQFB"
     };
+    
+    // Initialize Firebase
     const app = initializeApp(firebaseConfig);
     const analytics = getAnalytics(app);
     const db = getFirestore(app);
+    const auth = getAuth();
     
     // DOM Elements
     const notificationBox = document.getElementById('notificationBox');
     const headerProfileBtn = document.getElementById('headerProfileBtn');
     const profileDropdownContent = document.getElementById('profileDropdownContent');
     const headerLogoutBtn = document.getElementById('headerLogoutBtn');
-    const fullNameInput = document.getElementById('fullName');
-    const departmentInput = document.getElementById('department');
-    const phoneNumberInput = document.getElementById('phoneNumber');
-    const settingsForm = document.getElementById('settingsForm');
     
-    const deletionStatusDiv = document.getElementById('deletionStatus');
-    const requestDeletionBtn = document.getElementById('requestDeletionBtn');
-    const cancelDeletionBtn = document.getElementById('cancelDeletionBtn');
-    const deletionModal = document.getElementById('deletionModal');
-    const closeDeletionModal = document.getElementById('closeDeletionModal');
-    const confirmDeletionBtn = document.getElementById('confirmDeletionBtn');
-    const cancelDeletionModalBtn = document.getElementById('cancelDeletionModalBtn');
+    // Profile form elements
+    const profileForm = document.getElementById('profileForm');
+    const fullName = document.getElementById('fullName');
+    const email = document.getElementById('email');
+    const studentId = document.getElementById('studentId');
+    const department = document.getElementById('department');
     
-    // Countdown duration in milliseconds (17 days)
-    const deletionDuration = 17 * 24 * 60 * 60 * 1000;
-    let countdownInterval;
+    // Security form elements
+    const securityForm = document.getElementById('securityForm');
+    const currentPassword = document.getElementById('currentPassword');
+    const newPassword = document.getElementById('newPassword');
+    const confirmPassword = document.getElementById('confirmPassword');
     
-    // Retrieve user data from localStorage
+    // Notification preferences
+    const courseAnnouncements = document.getElementById('courseAnnouncements');
+    const classMessages = document.getElementById('classMessages');
+    const deadlineReminders = document.getElementById('deadlineReminders');
+    const saveNotificationsBtn = document.getElementById('saveNotificationsBtn');
+    
+    // Danger zone elements
+    const accountStatusIndicator = document.getElementById('accountStatusIndicator');
+    const accountStatusMessage = document.getElementById('accountStatusMessage');
+    const countdownContainer = document.getElementById('countdownContainer');
+    const countdownTimer = document.getElementById('countdownTimer');
+    const countdownAction = document.getElementById('countdownAction');
+    const cancelActionBtn = document.getElementById('cancelActionBtn');
+    const deactivateBtn = document.getElementById('deactivateBtn');
+    const deleteAccountBtn = document.getElementById('deleteAccountBtn');
+    
+    // Modal elements
+    const deactivateModal = document.getElementById('deactivateModal');
+    const closeDeactivateModal = document.getElementById('closeDeactivateModal');
+    const cancelDeactivateBtn = document.getElementById('cancelDeactivateBtn');
+    const confirmDeactivateBtn = document.getElementById('confirmDeactivateBtn');
+    
+    const deleteModal = document.getElementById('deleteModal');
+    const closeDeleteModal = document.getElementById('closeDeleteModal');
+    const cancelDeleteBtn = document.getElementById('cancelDeleteBtn');
+    const confirmDeleteBtn = document.getElementById('confirmDeleteBtn');
+    
+    // User data
     let userData = JSON.parse(localStorage.getItem('loggedInUser'));
+    let accountStatus = {};
+    
+    // Check if user is logged in
     if (!userData) {
-      // Not logged in: redirect to login
       window.location.href = 'index.html';
     }
     
-    // Pre-fill settings form
+    // Initialize the page
+    async function initPage() {
+      // Load user data
+      loadUserData();
+      
+      // Load account status
+      await loadAccountStatus();
+      
+      // Start countdown if needed
+      if (accountStatus.pendingAction) {
+        startCountdown();
+      }
+    }
+    
+    // Load user data into form
     function loadUserData() {
-      fullNameInput.value = userData.fullName || "";
-      departmentInput.value = userData.department || "";
-      phoneNumberInput.value = userData.phoneNumber || "";
+      fullName.value = userData.fullName || '';
+      email.value = userData.email || '';
+      studentId.value = userData.studentId || '';
+      department.value = userData.department || '';
+      
+      // Load notification preferences
+      if (userData.notifications) {
+        courseAnnouncements.checked = userData.notifications.courseAnnouncements !== false;
+        classMessages.checked = userData.notifications.classMessages !== false;
+        deadlineReminders.checked = userData.notifications.deadlineReminders !== false;
+      }
     }
     
-    // Save settings (simulate updating both localStorage and Firestore)
-    settingsForm.addEventListener('submit', async (e) => {
-      e.preventDefault();
-      // Update local userData
-      userData.fullName = fullNameInput.value.trim();
-      userData.department = departmentInput.value.trim();
-      userData.phoneNumber = phoneNumberInput.value.trim();
-      localStorage.setItem('loggedInUser', JSON.stringify(userData));
-      // (Optional) Update Firestore if you have a user document:
+    // Load account status from Firestore
+    async function loadAccountStatus() {
       try {
-        const userDocRef = doc(db, "users", userData.studentId);
-        await updateDoc(userDocRef, {
-          fullName: userData.fullName,
-          department: userData.department,
-          phoneNumber: userData.phoneNumber
-        });
-      } catch (error) {
-        console.error("Error updating Firestore:", error);
-      }
-      showNotification("Changes saved successfully!");
-    });
-    
-    // Notification helper
-    function showNotification(msg) {
-      notificationBox.textContent = msg;
-      notificationBox.style.display = 'block';
-      setTimeout(() => {
-        notificationBox.style.display = 'none';
-      }, 4000);
-    }
-    
-    // Profile dropdown toggle
-    headerProfileBtn.addEventListener('click', () => {
-      profileDropdownContent.classList.toggle('show');
-    });
-    window.addEventListener('click', (e) => {
-      if (!e.target.matches('#headerProfileBtn') && !e.target.closest('.profile-dropdown-content')) {
-        profileDropdownContent.classList.remove('show');
-      }
-    });
-    
-    // Logout
-    headerLogoutBtn.addEventListener('click', () => {
-      localStorage.removeItem('loggedInUser');
-      window.location.href = 'index.html';
-    });
-    
-    // Account Deletion Flow
-    // Check if a deletion request already exists
-    function checkDeletionRequest() {
-      const deletionDeadline = localStorage.getItem('deletionDeadline');
-      if (deletionDeadline) {
-        const deadline = new Date(deletionDeadline);
-        const now = new Date();
-        if (deadline > now) {
-          // Show countdown
-          updateCountdown(deadline);
-          cancelDeletionBtn.style.display = 'inline-block';
-          requestDeletionBtn.style.display = 'none';
+        const docRef = doc(db, "accountStatus", userData.studentId);
+        const docSnap = await getDoc(docRef);
+        
+        if (docSnap.exists()) {
+          accountStatus = docSnap.data();
+          updateAccountStatusUI();
         } else {
-          // Time expired: simulate account deletion
-          performDeletion();
+          // Create default status if doesn't exist
+          accountStatus = {
+            status: "active",
+            lastUpdated: new Date().toISOString()
+          };
+          await setDoc(docRef, accountStatus);
+          updateAccountStatusUI();
         }
+      } catch (error) {
+        console.error("Error loading account status:", error);
+        showNotification("Error loading account status", "danger");
       }
     }
     
-    // Update countdown display
-    function updateCountdown(deadline) {
-      clearInterval(countdownInterval);
-      countdownInterval = setInterval(() => {
+    // Update UI based on account status
+    function updateAccountStatusUI() {
+      if (accountStatus.status === "active") {
+        accountStatusIndicator.className = "status-indicator status-active";
+        accountStatusIndicator.textContent = "Active";
+        accountStatusMessage.textContent = "Your account is currently active and visible to others.";
+        deactivateBtn.textContent = "Temporarily Deactivate Account";
+        deactivateBtn.disabled = false;
+        deleteAccountBtn.disabled = false;
+      } else if (accountStatus.status === "deactivated") {
+        accountStatusIndicator.className = "status-indicator status-pending";
+        accountStatusIndicator.textContent = "Deactivated";
+        accountStatusMessage.textContent = "Your account is currently deactivated and hidden from others.";
+        deactivateBtn.textContent = "Reactivate Account";
+        deactivateBtn.disabled = false;
+        deleteAccountBtn.disabled = true;
+      } else if (accountStatus.status === "pending_deletion") {
+        accountStatusIndicator.className = "status-indicator status-danger";
+        accountStatusIndicator.textContent = "Pending Deletion";
+        accountStatusMessage.textContent = "Your account is scheduled for permanent deletion.";
+        deactivateBtn.disabled = true;
+        deleteAccountBtn.disabled = true;
+      }
+    }
+    
+    // Update profile information
+    profileForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      
+      try {
+        // Update in Firestore
+        const userRef = doc(db, "users", userData.studentId);
+        await updateDoc(userRef, {
+          fullName: fullName.value,
+          email: email.value,
+          department: department.value
+        });
+        
+        // Update local storage
+        userData.fullName = fullName.value;
+        userData.email = email.value;
+        userData.department = department.value;
+        localStorage.setItem('loggedInUser', JSON.stringify(userData));
+        
+        showNotification("Profile updated successfully!");
+      } catch (error) {
+        console.error("Error updating profile:", error);
+        showNotification("Error updating profile", "danger");
+      }
+    });
+    
+    // Change password
+    securityForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      
+      // Validate passwords match
+      if (newPassword.value !== confirmPassword.value) {
+        showNotification("Passwords don't match", "danger");
+        return;
+      }
+      
+      // Validate password strength
+      if (!isPasswordStrong(newPassword.value)) {
+        showNotification("Password must be at least 8 characters with one number and one special character", "danger");
+        return;
+      }
+      
+      try {
+        const user = auth.currentUser;
+        const credential = EmailAuthProvider.credential(user.email, currentPassword.value);
+        
+        // Reauthenticate user
+        await reauthenticateWithCredential(user, credential);
+        
+        // Update password
+        await updatePassword(user, newPassword.value);
+        
+        showNotification("Password changed successfully!");
+        securityForm.reset();
+      } catch (error) {
+        console.error("Error changing password:", error);
+        showNotification(error.message, "danger");
+      }
+    });
+    
+    // Check password strength
+    function isPasswordStrong(password) {
+      const strongRegex = /^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{8,}$/;
+      return strongRegex.test(password);
+    }
+    
+    // Save notification preferences
+    saveNotificationsBtn.addEventListener('click', async () => {
+      try {
+        const userRef = doc(db, "users", userData.studentId);
+        await updateDoc(userRef, {
+          notifications: {
+            courseAnnouncements: courseAnnouncements.checked,
+            classMessages: classMessages.checked,
+            deadlineReminders: deadlineReminders.checked
+          }
+        });
+        
+        // Update local storage
+        if (!userData.notifications) userData.notifications = {};
+        userData.notifications.courseAnnouncements = courseAnnouncements.checked;
+        userData.notifications.classMessages = classMessages.checked;
+        userData.notifications.deadlineReminders = deadlineReminders.checked;
+        localStorage.setItem('loggedInUser', JSON.stringify(userData));
+        
+        showNotification("Notification preferences saved!");
+      } catch (error) {
+        console.error("Error saving preferences:", error);
+        showNotification("Error saving preferences", "danger");
+      }
+    });
+    
+    // Deactivate account
+    deactivateBtn.addEventListener('click', () => {
+      if (accountStatus.status === "active") {
+        showModal(deactivateModal);
+      } else {
+        reactivateAccount();
+      }
+    });
+    
+    confirmDeactivateBtn.addEventListener('click', async () => {
+      hideModal(deactivateModal);
+      await deactivateAccount();
+    });
+    
+    // Deactivate account function
+    async function deactivateAccount() {
+      try {
+        const deactivateDate = new Date();
+        const reactivateDate = new Date(deactivateDate.getTime() + 2 * 24 * 60 * 60 * 1000); // 2 days from now
+        
+        const docRef = doc(db, "accountStatus", userData.studentId);
+        await updateDoc(docRef, {
+          status: "deactivated",
+          pendingAction: "reactivate",
+          actionDate: reactivateDate.toISOString(),
+          lastUpdated: new Date().toISOString()
+        });
+        
+        // Update local status
+        accountStatus.status = "deactivated";
+        accountStatus.pendingAction = "reactivate";
+        accountStatus.actionDate = reactivateDate.toISOString();
+        updateAccountStatusUI();
+        
+        showNotification("Account deactivated. It will be reactivated in 2 days.");
+      } catch (error) {
+        console.error("Error deactivating account:", error);
+        showNotification("Error deactivating account", "danger");
+      }
+    }
+    
+    // Reactivate account function
+    async function reactivateAccount() {
+      try {
+        const docRef = doc(db, "accountStatus", userData.studentId);
+        await updateDoc(docRef, {
+          status: "active",
+          pendingAction: null,
+          actionDate: null,
+          lastUpdated: new Date().toISOString()
+        });
+        
+        // Update local status
+        accountStatus.status = "active";
+        accountStatus.pendingAction = null;
+        accountStatus.actionDate = null;
+        updateAccountStatusUI();
+        
+        // Hide countdown if visible
+        countdownContainer.style.display = "none";
+        
+        showNotification("Account reactivated successfully!");
+      } catch (error) {
+        console.error("Error reactivating account:", error);
+        showNotification("Error reactivating account", "danger");
+      }
+    }
+    
+    // Delete account
+    deleteAccountBtn.addEventListener('click', () => {
+      showModal(deleteModal);
+    });
+    
+    confirmDeleteBtn.addEventListener('click', async () => {
+      hideModal(deleteModal);
+      await scheduleAccountDeletion();
+    });
+    
+    // Schedule account deletion
+    async function scheduleAccountDeletion() {
+      try {
+        const deleteDate = new Date();
+        const finalDeleteDate = new Date(deleteDate.getTime() + 14 * 24 * 60 * 60 * 1000); // 14 days from now
+        
+        const docRef = doc(db, "accountStatus", userData.studentId);
+        await updateDoc(docRef, {
+          status: "pending_deletion",
+          pendingAction: "delete",
+          actionDate: finalDeleteDate.toISOString(),
+          lastUpdated: new Date().toISOString()
+        });
+        
+        // Update local status
+        accountStatus.status = "pending_deletion";
+        accountStatus.pendingAction = "delete";
+        accountStatus.actionDate = finalDeleteDate.toISOString();
+        updateAccountStatusUI();
+        
+        // Start countdown
+        startCountdown();
+        
+        showNotification("Account deletion scheduled. You have 14 days to cancel.", "warning");
+      } catch (error) {
+        console.error("Error scheduling deletion:", error);
+        showNotification("Error scheduling deletion", "danger");
+      }
+    }
+    
+    // Cancel pending action
+    cancelActionBtn.addEventListener('click', async () => {
+      if (accountStatus.pendingAction === "delete") {
+        await cancelAccountDeletion();
+      } else if (accountStatus.pendingAction === "reactivate") {
+        await reactivateAccount();
+      }
+    });
+    
+    // Cancel account deletion
+    async function cancelAccountDeletion() {
+      try {
+        const docRef = doc(db, "accountStatus", userData.studentId);
+        await updateDoc(docRef, {
+          status: "active",
+          pendingAction: null,
+          actionDate: null,
+          lastUpdated: new Date().toISOString()
+        });
+        
+        // Update local status
+        accountStatus.status = "active";
+        accountStatus.pendingAction = null;
+        accountStatus.actionDate = null;
+        updateAccountStatusUI();
+        
+        // Hide countdown
+        countdownContainer.style.display = "none";
+        
+        showNotification("Account deletion cancelled. Your account is now active.");
+      } catch (error) {
+        console.error("Error cancelling deletion:", error);
+        showNotification("Error cancelling deletion", "danger");
+      }
+    }
+    
+    // Start countdown timer for pending actions
+    function startCountdown() {
+      if (!accountStatus.pendingAction || !accountStatus.actionDate) return;
+      
+      const actionDate = new Date(accountStatus.actionDate);
+      countdownAction.textContent = accountStatus.pendingAction === "delete" ? "deleted" : "reactivated";
+      countdownContainer.style.display = "block";
+      
+      // Update countdown every second
+      const countdownInterval = setInterval(() => {
         const now = new Date();
-        const diff = deadline - now;
+        const diff = actionDate - now;
+        
         if (diff <= 0) {
           clearInterval(countdownInterval);
-          performDeletion();
-        } else {
-          const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-          const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-          const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-          const seconds = Math.floor((diff % (1000 * 60)) / 1000);
-          deletionStatusDiv.innerHTML = `<p class="countdown">Account will be deleted in ${days}d ${hours}h ${minutes}m ${seconds}s</p>`;
+          countdownTimer.textContent = "00:00:00:00";
+          
+          // Check if we should refresh to see the new status
+          setTimeout(() => {
+            window.location.reload();
+          }, 1000);
+          
+          return;
         }
+        
+        // Calculate days, hours, minutes, seconds
+        const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+        
+        // Display countdown
+        countdownTimer.textContent = `${days}d ${hours}h ${minutes}m ${seconds}s`;
       }, 1000);
     }
     
-    // When user clicks request deletion, open modal
-    requestDeletionBtn.addEventListener('click', () => {
-      showModal(deletionModal);
-    });
-    
-    // Modal buttons
-    closeDeletionModal.addEventListener('click', () => {
-      hideModal(deletionModal);
-    });
-    cancelDeletionModalBtn.addEventListener('click', () => {
-      hideModal(deletionModal);
-    });
-    
-    // Confirm deletion request in modal
-    confirmDeletionBtn.addEventListener('click', () => {
-      hideModal(deletionModal);
-      // Set deletion deadline 17 days from now
-      const deadline = new Date(Date.now() + deletionDuration);
-      localStorage.setItem('deletionDeadline', deadline.toISOString());
-      showNotification("Account deletion scheduled. You have 17 days to cancel.");
-      cancelDeletionBtn.style.display = 'inline-block';
-      requestDeletionBtn.style.display = 'none';
-      updateCountdown(deadline);
-    });
-    
-    // Cancel deletion request
-    cancelDeletionBtn.addEventListener('click', () => {
-      localStorage.removeItem('deletionDeadline');
-      clearInterval(countdownInterval);
-      deletionStatusDiv.innerHTML = "";
-      showNotification("Account deletion cancelled.");
-      cancelDeletionBtn.style.display = 'none';
-      requestDeletionBtn.style.display = 'inline-block';
-    });
-    
-    // Simulate account deletion (here we simply clear localStorage and redirect)
-    function performDeletion() {
-      alert("Your account has been deleted.");
-      localStorage.removeItem('loggedInUser');
-      localStorage.removeItem('deletionDeadline');
-      // (Optional) Also remove the user document from Firestore here if needed.
-      window.location.href = 'index.html';
-    }
-    
-    // Modal helper functions
+    // Show/hide modals
     function showModal(modal) {
       modal.style.display = 'flex';
       setTimeout(() => {
@@ -549,9 +1062,52 @@
       }, 300);
     }
     
-    // Initialize
-    loadUserData();
-    checkDeletionRequest();
+    // Close modals with buttons
+    closeDeactivateModal.addEventListener('click', () => hideModal(deactivateModal));
+    cancelDeactivateBtn.addEventListener('click', () => hideModal(deactivateModal));
+    closeDeleteModal.addEventListener('click', () => hideModal(deleteModal));
+    cancelDeleteBtn.addEventListener('click', () => hideModal(deleteModal));
+    
+    // Close modals when clicking outside
+    window.addEventListener('click', (e) => {
+      if (e.target === deactivateModal) hideModal(deactivateModal);
+      if (e.target === deleteModal) hideModal(deleteModal);
+    });
+    
+    // Profile dropdown toggle
+    headerProfileBtn.addEventListener('click', () => {
+      profileDropdownContent.classList.toggle('show');
+    });
+    // Close dropdown if clicked outside
+    window.addEventListener('click', (e) => {
+      if (!e.target.matches('#headerProfileBtn') && !e.target.closest('.profile-dropdown-content')) {
+        profileDropdownContent.classList.remove('show');
+      }
+    });
+    
+    // Logout
+    headerLogoutBtn.addEventListener('click', () => {
+      signOut(auth).then(() => {
+        localStorage.removeItem('loggedInUser');
+        window.location.href = 'index.html';
+      }).catch((error) => {
+        console.error("Logout error:", error);
+      });
+    });
+    
+    // Show notification
+    function showNotification(msg, type = "success") {
+      notificationBox.textContent = msg;
+      notificationBox.style.background = type === "success" ? "var(--success)" : 
+                                        type === "warning" ? "var(--warning)" : "var(--danger)";
+      notificationBox.style.display = 'block';
+      setTimeout(() => {
+        notificationBox.style.display = 'none';
+      }, 4000);
+    }
+    
+    // Initialize the page
+    initPage();
   </script>
 </body>
 </html>
