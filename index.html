@@ -55,7 +55,7 @@
             min-height: 100vh;
         }
 
-        /* Sidebar Styles - Now on the right */
+        /* Sidebar Styles */
         .sidebar {
             width: 280px;
             background: var(--sidebar-bg);
@@ -65,9 +65,9 @@
             padding: 20px 0;
             transition: var(--transition);
             z-index: 100;
-            box-shadow: -5px 0 15px rgba(0, 0, 0, 0.1);
-            transform: translateX(280px);
-            right: 0;
+            box-shadow: 5px 0 15px rgba(0, 0, 0, 0.1);
+            transform: translateX(-100%);
+            left: 0;
         }
 
         .sidebar.show {
@@ -199,15 +199,11 @@
         /* Main Content Styles */
         .main-content {
             flex: 1;
-            margin-right: 0;
             transition: var(--transition);
             min-height: 100vh;
             display: flex;
             flex-direction: column;
-        }
-
-        .main-content.expanded {
-            margin-right: 280px;
+            width: 100%;
         }
 
         /* Header Styles */
@@ -639,18 +635,6 @@
         }
 
         /* Responsive Styles */
-        @media (max-width: 992px) {
-            .sidebar {
-                transform: translateX(280px);
-            }
-            .sidebar.show {
-                transform: translateX(0);
-            }
-            .main-content.expanded {
-                margin-right: 0;
-            }
-        }
-
         @media (max-width: 768px) {
             .header {
                 padding: 15px;
@@ -689,6 +673,63 @@
 </head>
 <body>
     <div class="container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="logo-container">
+                <img src="https://via.placeholder.com/80" alt="Haramaya Jama'a Logo" class="logo">
+                <div class="logo-text">Haramaya Jama'a</div>
+            </div>
+            
+            <ul class="menu">
+                <li class="menu-item active">
+                    <a href="#" class="menu-link">
+                        <i class="fas fa-home"></i>
+                        <span>Dashboard</span>
+                    </a>
+                </li>
+                <li class="menu-item">
+                    <a href="#" class="menu-link">
+                        <i class="fas fa-calendar-alt"></i>
+                        <span>Events</span>
+                    </a>
+                </li>
+                <li class="menu-item">
+                    <a href="#" class="menu-link">
+                        <i class="fas fa-book"></i>
+                        <span>Islamic Studies</span>
+                    </a>
+                    <ul class="submenu">
+                        <li class="submenu-item">
+                            <a href="#" class="submenu-link">Quran Classes</a>
+                        </li>
+                        <li class="submenu-item">
+                            <a href="#" class="submenu-link">Hadith Studies</a>
+                        </li>
+                        <li class="submenu-item">
+                            <a href="#" class="submenu-link">Fiqh Discussions</a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="menu-item">
+                    <a href="#" class="menu-link">
+                        <i class="fas fa-users"></i>
+                        <span>Community</span>
+                    </a>
+                </li>
+                <li class="menu-item">
+                    <a href="#" class="menu-link">
+                        <i class="fas fa-question-circle"></i>
+                        <span>FAQ</span>
+                    </a>
+                </li>
+            </ul>
+            
+            <div class="sidebar-footer">
+                &copy; 2023 Haramaya Jama'a<br>
+                Muslim Students Community
+            </div>
+        </aside>
+        
         <!-- Main Content -->
         <main class="main-content">
             <!-- Header -->
@@ -712,11 +753,11 @@
                         </button>
                         <div class="language-dropdown">
                             <div class="language-option" data-lang="am">
-                                <img src="" class="language-flag">
+                                <img src="https://flagcdn.com/w20/et.png" alt="Amharic" class="language-flag">
                                 <span>Amharic</span>
                             </div>
                             <div class="language-option" data-lang="om">
-                                <img src="g" alt="Oromo" class="language-flag">
+                                <img src="https://flagcdn.com/w20/om.png" alt="Oromo" class="language-flag">
                                 <span>Oromo</span>
                             </div>
                             <div class="language-option" data-lang="ar">
@@ -729,15 +770,8 @@
                     <div class="user-profile">
                         <img src="https://via.placeholder.com/40" alt="User" class="user-avatar">
                         <span class="user-name">Guest</span>
-                        <div class="user-dropdown">
-                            <div class="user-dropdown-item" id="login-btn">
-                                <i class="fas fa-sign-in-alt"></i>
-                                <span>Login</span>
-                            </div>
-                            <div class="user-dropdown-item" id="register-btn">
-                                <i class="fas fa-user-plus"></i>
-                                <span>Register</span>
-                            </div>
+                        <div class="user-dropdown" id="user-dropdown">
+                            <!-- Dynamic content will be inserted here -->
                         </div>
                     </div>
                 </div>
@@ -761,7 +795,7 @@
                         <div class="card-body">
                             <h3 class="card-title">Upcoming Events</h3>
                             <p class="card-text">Check out our schedule of Islamic lectures, halaqas, and community events happening this month.</p>
-                            <a href="event.html" class="card-btn">View Events</a>
+                            <a href="#" class="card-btn">View Events</a>
                         </div>
                     </div>
                     
@@ -800,63 +834,6 @@
                 </section>
             </div>
         </main>
-
-        <!-- Sidebar - Now on the right -->
-        <aside class="sidebar">
-            <div class="logo-container">
-                <img src="haramaya.png" alt="Haramaya Jama'a Logo" class="logo">
-                <div class="logo-text">Haramaya Jama'a</div>
-            </div>
-            
-            <ul class="menu">
-                <li class="menu-item active">
-                    <a href="dashboard.html" class="menu-link">
-                        <i class="fas fa-home"></i>
-                        <span>Dashboard</span>
-                    </a>
-                </li>
-                <li class="menu-item">
-                    <a href="event.html" class="menu-link">
-                        <i class="fas fa-calendar-alt"></i>
-                        <span>Events</span>
-                    </a>
-                </li>
-                <li class="menu-item">
-                    <a href="#" class="menu-link">
-                        <i class="fas fa-book"></i>
-                        <span>Islamic Studies</span>
-                    </a>
-                    <ul class="submenu">
-                        <li class="submenu-item">
-                            <a href="dashboard.html" class="submenu-link">Quran Classes</a>
-                        </li>
-                        <li class="submenu-item">
-                            <a href="#" class="submenu-link">Hadith Studies</a>
-                        </li>
-                        <li class="submenu-item">
-                            <a href="#" class="submenu-link">Fiqh Discussions</a>
-                        </li>
-                    </ul>
-                </li>
-                <li class="menu-item">
-                    <a href="community.html" class="menu-link">
-                        <i class="fas fa-users"></i>
-                        <span>Community</span>
-                    </a>
-                </li>
-                <li class="menu-item">
-                    <a href="#" class="menu-link">
-                        <i class="fas fa-question-circle"></i>
-                        <span>FAQ</span>
-                    </a>
-                </li>
-            </ul>
-            
-            <div class="sidebar-footer">
-                &copy; 2023 Haramaya Jama'a<br>
-                Muslim Students Community
-            </div>
-        </aside>
     </div>
     
     <script type="module">
@@ -865,14 +842,12 @@
         import { getAnalytics } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-analytics.js";
         import { 
             getAuth, 
-            signInWithEmailAndPassword, 
-            onAuthStateChanged, 
-            signOut 
+            onAuthStateChanged,
+            signOut
         } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-auth.js";
         import { 
             getFirestore, 
             collection, 
-            addDoc, 
             getDocs,
             query,
             orderBy,
@@ -899,31 +874,31 @@
         // DOM Elements
         const menuToggle = document.querySelector('.menu-toggle');
         const sidebar = document.querySelector('.sidebar');
-        const mainContent = document.querySelector('.main-content');
         const themeToggle = document.getElementById('theme-toggle');
         const languageBtn = document.querySelector('.language-btn');
         const languageDropdown = document.querySelector('.language-dropdown');
         const languageOptions = document.querySelectorAll('.language-option');
         const userProfile = document.querySelector('.user-profile');
-        const userDropdown = document.querySelector('.user-dropdown');
-        const loginBtn = document.getElementById('login-btn');
-        const registerBtn = document.getElementById('register-btn');
+        const userDropdown = document.getElementById('user-dropdown');
         const userName = document.querySelector('.user-name');
         const userAvatar = document.querySelector('.user-avatar');
         const announcementList = document.getElementById('announcement-list');
 
-        // Sidebar Toggle
+        // Sidebar Toggle - Fixed to properly show/hide
         let sidebarVisible = false;
 
         menuToggle.addEventListener('click', () => {
             sidebarVisible = !sidebarVisible;
+            sidebar.classList.toggle('show', sidebarVisible);
             
+            // Change icon based on sidebar state
+            const icon = menuToggle.querySelector('i');
             if (sidebarVisible) {
-                sidebar.classList.add('show');
-                menuToggle.innerHTML = '<i class="fas fa-times"></i>';
+                icon.classList.remove('fa-bars');
+                icon.classList.add('fa-times');
             } else {
-                sidebar.classList.remove('show');
-                menuToggle.innerHTML = '<i class="fas fa-bars"></i>';
+                icon.classList.remove('fa-times');
+                icon.classList.add('fa-bars');
             }
         });
 
@@ -991,14 +966,48 @@
             userDropdown.classList.toggle('show');
         });
 
-        // Login/Register buttons
-        loginBtn.addEventListener('click', () => {
-            window.location.href = 'login.html';
-        });
-
-        registerBtn.addEventListener('click', () => {
-            window.location.href = 'register.html';
-        });
+        // Update User Dropdown Content based on auth state
+        const updateUserDropdown = (user) => {
+            if (user) {
+                // User is logged in - show logout option
+                userDropdown.innerHTML = `
+                    <div class="user-dropdown-item" id="logout-btn">
+                        <i class="fas fa-sign-out-alt"></i>
+                        <span>Logout</span>
+                    </div>
+                `;
+                
+                // Add logout event listener
+                document.getElementById('logout-btn').addEventListener('click', () => {
+                    signOut(auth).then(() => {
+                        console.log('User signed out');
+                    }).catch((error) => {
+                        console.error('Error signing out:', error);
+                    });
+                });
+            } else {
+                // User is not logged in - show login/register options
+                userDropdown.innerHTML = `
+                    <div class="user-dropdown-item" id="login-btn">
+                        <i class="fas fa-sign-in-alt"></i>
+                        <span>Login</span>
+                    </div>
+                    <div class="user-dropdown-item" id="register-btn">
+                        <i class="fas fa-user-plus"></i>
+                        <span>Register</span>
+                    </div>
+                `;
+                
+                // Add event listeners for login and register
+                document.getElementById('login-btn').addEventListener('click', () => {
+                    window.location.href = 'login.html';
+                });
+                
+                document.getElementById('register-btn').addEventListener('click', () => {
+                    window.location.href = 'register.html';
+                });
+            }
+        };
 
         // Check Auth State
         onAuthStateChanged(auth, (user) => {
@@ -1011,6 +1020,7 @@
                 userName.textContent = 'Guest';
                 userAvatar.src = 'https://via.placeholder.com/40';
             }
+            updateUserDropdown(user);
         });
 
         // Fetch Announcements from Firestore
@@ -1030,7 +1040,8 @@
                 
                 querySnapshot.forEach((doc) => {
                     const data = doc.data();
-                    const date = data.date.toDate();
+                    // Make sure date exists and is a Firestore timestamp
+                    const date = data.date?.toDate() || new Date();
                     const formattedDate = date.toLocaleDateString('en-US', {
                         year: 'numeric',
                         month: 'long',
@@ -1044,9 +1055,9 @@
                             <i class="fas fa-bullhorn"></i>
                         </div>
                         <div class="announcement-content">
-                            <h3 class="announcement-title">${data.title}</h3>
+                            <h3 class="announcement-title">${data.title || 'No title'}</h3>
                             <div class="announcement-date">${formattedDate}</div>
-                            <p class="announcement-text">${data.content}</p>
+                            <p class="announcement-text">${data.content || 'No content available'}</p>
                         </div>
                     `;
                     
