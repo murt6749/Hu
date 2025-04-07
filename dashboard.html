@@ -173,6 +173,11 @@
             color: var(--primary-color);
         }
 
+        .btn-danger {
+            background-color: var(--danger-color);
+            color: white;
+        }
+
         /* Badges */
         .badge {
             display: inline-block;
@@ -195,6 +200,11 @@
         .badge-warning {
             background-color: var(--warning-color);
             color: black;
+        }
+
+        .badge-info {
+            background-color: var(--info-color);
+            color: white;
         }
 
         /* Progress Bar */
@@ -229,10 +239,23 @@
             gap: 15px;
         }
 
+        .courses-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
         .course-card {
             border: 1px solid #eee;
             border-radius: var(--border-radius);
             overflow: hidden;
+        }
+
+        .course-list-item {
+            background-color: white;
+            border-radius: var(--border-radius);
+            padding: 12px;
+            box-shadow: var(--shadow);
         }
 
         .course-header {
@@ -263,6 +286,26 @@
 
         .course-detail strong {
             color: var(--secondary-color);
+        }
+
+        /* View Toggle */
+        .view-toggle {
+            display: flex;
+            justify-content: flex-end;
+            margin-bottom: 10px;
+        }
+
+        .view-btn {
+            background: none;
+            border: none;
+            color: var(--secondary-color);
+            font-size: 1.2rem;
+            cursor: pointer;
+            padding: 5px;
+        }
+
+        .view-btn.active {
+            color: var(--primary-color);
         }
 
         /* Modal Styles */
@@ -324,6 +367,14 @@
             padding: 15px;
         }
 
+        .modal-footer {
+            padding: 15px;
+            border-top: 1px solid #eee;
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+        }
+
         /* Profile Styles */
         .profile-header {
             display: flex;
@@ -358,8 +409,24 @@
             margin-top: 15px;
         }
 
+        .classmates-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
         .classmate-card {
             text-align: center;
+        }
+
+        .classmate-item {
+            background-color: white;
+            border-radius: var(--border-radius);
+            padding: 12px;
+            box-shadow: var(--shadow);
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
 
         .classmate-avatar {
@@ -370,21 +437,46 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            margin: 0 auto 5px;
             font-weight: bold;
             font-size: 0.9rem;
+            flex-shrink: 0;
+        }
+
+        .classmate-info {
+            flex-grow: 1;
+            text-align: left;
         }
 
         .classmate-name {
-            font-size: 0.7rem;
+            font-size: 0.9rem;
+            margin-bottom: 3px;
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
         }
 
         .classmate-progress {
-            font-size: 0.6rem;
+            font-size: 0.8rem;
             color: var(--secondary-color);
+        }
+
+        /* Countdown Timer */
+        .countdown {
+            display: inline-block;
+            padding: 3px 8px;
+            border-radius: 4px;
+            background-color: var(--warning-color);
+            color: black;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+
+        /* Filter Container */
+        .filter-container {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+            margin-bottom: 15px;
         }
 
         /* Responsive Adjustments */
@@ -401,6 +493,10 @@
             .classmates-grid {
                 grid-template-columns: repeat(4, 1fr);
             }
+
+            .filter-container {
+                grid-template-columns: repeat(4, 1fr);
+            }
         }
 
         /* Utility Classes */
@@ -412,6 +508,15 @@
         }
         .mt-3 {
             margin-top: 15px;
+        }
+        .d-flex {
+            display: flex;
+        }
+        .justify-between {
+            justify-content: space-between;
+        }
+        .gap-2 {
+            gap: 10px;
         }
     </style>
 </head>
@@ -465,6 +570,41 @@
             </div>
             <div class="modal-body" id="course-modal-body">
                 <!-- Course details will be loaded here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Enrollment Confirmation Modal -->
+    <div class="modal" id="confirm-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title" id="confirm-modal-title">Confirm Enrollment</h3>
+                <button class="modal-close" id="close-confirm-modal">&times;</button>
+            </div>
+            <div class="modal-body" id="confirm-modal-body">
+                <p>Are you sure you want to enroll in this course?</p>
+                <p><strong>Note:</strong> You won't be able to unenroll for 14 days after enrollment.</p>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-outline" id="cancel-enroll-btn">Cancel</button>
+                <button class="btn btn-primary" id="confirm-enroll-btn">Confirm</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Unenroll Warning Modal -->
+    <div class="modal" id="unenroll-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">Cannot Unenroll Yet</h3>
+                <button class="modal-close" id="close-unenroll-modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p>You cannot unenroll from this course yet. Our policy requires students to remain enrolled for at least 14 days.</p>
+                <p id="unenroll-countdown"></p>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-primary" id="close-unenroll-btn">OK</button>
             </div>
         </div>
     </div>
@@ -533,7 +673,8 @@
             arrayUnion,
             arrayRemove,
             query,
-            where
+            where,
+            serverTimestamp
         } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
         // Your web app's Firebase configuration
@@ -561,6 +702,16 @@
         const closeCourseModal = document.getElementById('close-course-modal');
         const courseModalTitle = document.getElementById('course-modal-title');
         const courseModalBody = document.getElementById('course-modal-body');
+        const confirmModal = document.getElementById('confirm-modal');
+        const closeConfirmModal = document.getElementById('close-confirm-modal');
+        const confirmModalTitle = document.getElementById('confirm-modal-title');
+        const confirmModalBody = document.getElementById('confirm-modal-body');
+        const cancelEnrollBtn = document.getElementById('cancel-enroll-btn');
+        const confirmEnrollBtn = document.getElementById('confirm-enroll-btn');
+        const unenrollModal = document.getElementById('unenroll-modal');
+        const closeUnenrollModal = document.getElementById('close-unenroll-modal');
+        const unenrollCountdown = document.getElementById('unenroll-countdown');
+        const closeUnenrollBtn = document.getElementById('close-unenroll-btn');
         const profileModal = document.getElementById('profile-modal');
         const closeProfileModal = document.getElementById('close-profile-modal');
         const profileForm = document.getElementById('profile-form');
@@ -576,6 +727,8 @@
         let enrolledCourses = [];
         let allCourses = [];
         let classmatesData = [];
+        let currentView = 'grid'; // 'grid' or 'list'
+        let courseToEnroll = null;
 
         // Complete course data from the document
         const completeCoursesData = [
@@ -1100,6 +1253,11 @@
 
             logoutBtn.addEventListener('click', handleLogout);
             closeCourseModal.addEventListener('click', () => courseModal.classList.remove('active'));
+            closeConfirmModal.addEventListener('click', () => confirmModal.classList.remove('active'));
+            cancelEnrollBtn.addEventListener('click', () => confirmModal.classList.remove('active'));
+            confirmEnrollBtn.addEventListener('click', confirmEnrollment);
+            closeUnenrollModal.addEventListener('click', () => unenrollModal.classList.remove('active'));
+            closeUnenrollBtn.addEventListener('click', () => unenrollModal.classList.remove('active'));
             closeProfileModal.addEventListener('click', () => profileModal.classList.remove('active'));
             profileForm.addEventListener('submit', saveProfile);
 
@@ -1153,7 +1311,7 @@
                         department: "",
                         year: "",
                         phone: "",
-                        createdAt: new Date().toISOString()
+                        createdAt: serverTimestamp()
                     };
                     
                     await setDoc(doc(db, "users", userId), newUserData);
@@ -1241,17 +1399,55 @@
         function loadCoursesPage() {
             let html = `
                 <div class="card">
-                    <h2 class="card-title">Available Courses</h2>
-                    <div class="filter-group mb-3">
-                        <label for="course-filter">Filter Courses</label>
-                        <select id="course-filter" class="form-control">
-                            <option value="all">All Courses</option>
-                            <option value="qirat">Qirat</option>
-                            <option value="hifz">Hifz</option>
-                            <option value="nezer">Nezer</option>
-                        </select>
+                    <div class="d-flex justify-between align-center">
+                        <h2 class="card-title">Available Courses</h2>
+                        <div class="view-toggle">
+                            <button class="view-btn ${currentView === 'grid' ? 'active' : ''}" onclick="setView('grid')">
+                                <i class="fas fa-th"></i>
+                            </button>
+                            <button class="view-btn ${currentView === 'list' ? 'active' : ''}" onclick="setView('list')">
+                                <i class="fas fa-list"></i>
+                            </button>
+                        </div>
                     </div>
-                    <div class="courses-grid" id="courses-list">
+                    
+                    <div class="filter-container mb-3">
+                        <div class="form-group">
+                            <label for="type-filter">Type</label>
+                            <select id="type-filter" class="form-control">
+                                <option value="all">All Types</option>
+                                <option value="qirat">Qirat</option>
+                                <option value="hifz">Hifz</option>
+                                <option value="nezer">Nezer</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="language-filter">Language</label>
+                            <select id="language-filter" class="form-control">
+                                <option value="all">All Languages</option>
+                                <option value="amharic">Amharic</option>
+                                <option value="oromifa">Oromifa</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="level-filter">Level</label>
+                            <select id="level-filter" class="form-control">
+                                <option value="all">All Levels</option>
+                                <option value="fresh">Fresh</option>
+                                <option value="senior">Senior</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="gender-filter">Gender</label>
+                            <select id="gender-filter" class="form-control">
+                                <option value="all">All Genders</option>
+                                <option value="male">Male</option>
+                                <option value="female">Female</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="${currentView === 'grid' ? 'courses-grid' : 'courses-list'}" id="courses-list">
                         <!-- Courses will be loaded here -->
                     </div>
                 </div>
@@ -1266,23 +1462,49 @@
 
             mainContent.innerHTML = html;
 
-            // Set up filter event
-            document.getElementById('course-filter').addEventListener('change', filterCourses);
+            // Set up filter events
+            document.getElementById('type-filter').addEventListener('change', filterCourses);
+            document.getElementById('language-filter').addEventListener('change', filterCourses);
+            document.getElementById('level-filter').addEventListener('change', filterCourses);
+            document.getElementById('gender-filter').addEventListener('change', filterCourses);
 
             // Display courses
             displayCourses();
             displayEnrolledCourses();
         }
 
+        // Set view type (grid or list)
+        function setView(viewType) {
+            currentView = viewType;
+            loadCoursesPage();
+        }
+
         // Display available courses
-        function displayCourses(filter = 'all') {
+        function displayCourses() {
             const coursesList = document.getElementById('courses-list');
             if (!coursesList) return;
 
+            const typeFilter = document.getElementById('type-filter')?.value || 'all';
+            const languageFilter = document.getElementById('language-filter')?.value || 'all';
+            const levelFilter = document.getElementById('level-filter')?.value || 'all';
+            const genderFilter = document.getElementById('gender-filter')?.value || 'all';
+
             let filteredCourses = allCourses;
             
-            if (filter !== 'all') {
-                filteredCourses = allCourses.filter(course => course.type === filter);
+            if (typeFilter !== 'all') {
+                filteredCourses = filteredCourses.filter(course => course.type === typeFilter);
+            }
+            
+            if (languageFilter !== 'all') {
+                filteredCourses = filteredCourses.filter(course => course.language === languageFilter);
+            }
+            
+            if (levelFilter !== 'all') {
+                filteredCourses = filteredCourses.filter(course => course.level === levelFilter || course.level === 'all');
+            }
+            
+            if (genderFilter !== 'all') {
+                filteredCourses = filteredCourses.filter(course => course.gender === genderFilter || course.gender === 'all');
             }
 
             // Filter out already enrolled courses
@@ -1291,19 +1513,49 @@
             );
 
             if (filteredCourses.length === 0) {
-                coursesList.innerHTML = '<p>No courses available matching your filter.</p>';
+                coursesList.innerHTML = '<p>No courses available matching your filters.</p>';
                 return;
             }
 
             coursesList.innerHTML = '';
-            filteredCourses.forEach(course => {
-                const courseCard = document.createElement('div');
-                courseCard.className = 'course-card';
-                courseCard.innerHTML = `
-                    <div class="course-header">
-                        <h3>${course.title}</h3>
-                    </div>
-                    <div class="course-body">
+            
+            if (currentView === 'grid') {
+                // Grid view
+                filteredCourses.forEach(course => {
+                    const courseCard = document.createElement('div');
+                    courseCard.className = 'course-card';
+                    courseCard.innerHTML = `
+                        <div class="course-header">
+                            <h3>${course.title}</h3>
+                        </div>
+                        <div class="course-body">
+                            <div class="course-meta">
+                                <span class="badge ${getBadgeClass(course.type)}">${course.type.toUpperCase()}</span>
+                                <span>${course.language.toUpperCase()}</span>
+                            </div>
+                            <div class="course-detail">
+                                <strong>Instructor:</strong> ${course.instructor}
+                            </div>
+                            <div class="course-detail">
+                                <strong>Schedule:</strong> ${course.schedule}
+                            </div>
+                            <div class="course-actions mt-3">
+                                <button class="btn btn-primary" onclick="showEnrollConfirmation('${course.id}')">Enroll</button>
+                                <button class="btn btn-outline" onclick="viewCourseDetails('${course.id}')">Details</button>
+                            </div>
+                        </div>
+                    `;
+                    coursesList.appendChild(courseCard);
+                });
+            } else {
+                // List view
+                filteredCourses.forEach(course => {
+                    const courseItem = document.createElement('div');
+                    courseItem.className = 'course-list-item';
+                    courseItem.innerHTML = `
+                        <div class="course-detail">
+                            <strong>${course.title}</strong>
+                        </div>
                         <div class="course-meta">
                             <span class="badge ${getBadgeClass(course.type)}">${course.type.toUpperCase()}</span>
                             <span>${course.language.toUpperCase()}</span>
@@ -1314,20 +1566,92 @@
                         <div class="course-detail">
                             <strong>Schedule:</strong> ${course.schedule}
                         </div>
-                        <div class="course-actions mt-3">
-                            <button class="btn btn-primary" onclick="enrollInCourse('${course.id}')">Enroll</button>
+                        <div class="course-actions mt-2">
+                            <button class="btn btn-primary" onclick="showEnrollConfirmation('${course.id}')">Enroll</button>
                             <button class="btn btn-outline" onclick="viewCourseDetails('${course.id}')">Details</button>
                         </div>
-                    </div>
-                `;
-                coursesList.appendChild(courseCard);
-            });
+                    `;
+                    coursesList.appendChild(courseItem);
+                });
+            }
         }
 
         // Filter courses
         function filterCourses() {
-            const filterValue = document.getElementById('course-filter').value;
-            displayCourses(filterValue);
+            displayCourses();
+        }
+
+        // Show enrollment confirmation
+        function showEnrollConfirmation(courseId) {
+            const course = allCourses.find(c => c.id === courseId);
+            if (!course) return;
+
+            courseToEnroll = course;
+            confirmModalTitle.textContent = `Enroll in ${course.title}`;
+            confirmModalBody.innerHTML = `
+                <p>Are you sure you want to enroll in <strong>${course.title}</strong>?</p>
+                <p class="mt-2"><i class="fas fa-info-circle"></i> <strong>Note:</strong> You won't be able to unenroll for 14 days after enrollment.</p>
+                <div class="card mt-3">
+                    <div class="course-detail">
+                        <strong>Instructor:</strong> ${course.instructor}
+                    </div>
+                    <div class="course-detail">
+                        <strong>Schedule:</strong> ${course.schedule}
+                    </div>
+                    <div class="course-detail">
+                        <strong>Location:</strong> ${course.location}
+                    </div>
+                </div>
+            `;
+            confirmModal.classList.add('active');
+        }
+
+        // Confirm enrollment
+        async function confirmEnrollment() {
+            if (!currentUser || !courseToEnroll) return;
+
+            try {
+                // Add course to user's enrolled courses with enrollment date
+                const enrollmentData = {
+                    id: courseToEnroll.id,
+                    title: courseToEnroll.title,
+                    type: courseToEnroll.type,
+                    instructor: courseToEnroll.instructor,
+                    schedule: courseToEnroll.schedule,
+                    progress: 0,
+                    enrolledAt: serverTimestamp(),
+                    lastActive: serverTimestamp(),
+                    daysPerWeek: courseToEnroll.daysPerWeek,
+                    progressRate: courseToEnroll.progressRate
+                };
+
+                await updateDoc(doc(db, "users", currentUser.uid), {
+                    enrolledCourses: arrayUnion(enrollmentData)
+                });
+
+                // Update local data
+                enrolledCourses.push({
+                    ...enrollmentData,
+                    enrolledAt: new Date().toISOString(),
+                    lastActive: new Date().toISOString()
+                });
+
+                // Refresh displays
+                displayCourses();
+                displayEnrolledCourses();
+                
+                // Close modal
+                confirmModal.classList.remove('active');
+                
+                // Show success message
+                alert(`Successfully enrolled in ${courseToEnroll.title}`);
+                
+                // Reset course to enroll
+                courseToEnroll = null;
+            } catch (error) {
+                console.error("Error enrolling in course:", error);
+                alert("Failed to enroll in course. Please try again.");
+            }
         }
 
         // Display enrolled courses
@@ -1343,9 +1667,14 @@
             enrolledContainer.innerHTML = '';
             enrolledCourses.forEach(course => {
                 const fullCourse = allCourses.find(c => c.id === course.id) || course;
+                const enrolledDate = new Date(course.enrolledAt);
+                const unenrollDate = new Date(enrolledDate.getTime() + 14 * 24 * 60 * 60 * 1000);
+                const now = new Date();
+                const canUnenroll = now > unenrollDate;
+                const daysLeft = Math.ceil((unenrollDate - now) / (24 * 60 * 60 * 1000));
                 
                 const courseItem = document.createElement('div');
-                courseItem.className = 'course-item';
+                courseItem.className = 'course-list-item';
                 courseItem.innerHTML = `
                     <div class="course-detail">
                         <strong>${fullCourse.title}</strong>
@@ -1361,12 +1690,69 @@
                             <div class="progress-fill" style="width: ${course.progress}%"></div>
                         </div>
                     </div>
-                    <div class="course-actions mt-2">
+                    <div class="course-actions mt-2 d-flex gap-2">
                         <button class="btn btn-outline" onclick="viewCourseProgress('${course.id}')">View Progress</button>
+                        <button class="btn ${canUnenroll ? 'btn-danger' : 'btn-outline'}" 
+                            onclick="${canUnenroll ? `unenrollFromCourse('${course.id}')` : `showUnenrollWarning('${course.id}')`}">
+                            ${canUnenroll ? 'Unenroll' : 'Can\'t Unenroll'}
+                        </button>
                     </div>
+                    ${!canUnenroll ? `
+                        <div class="course-detail mt-2">
+                            <i class="fas fa-clock"></i> You can unenroll in ${daysLeft} day${daysLeft !== 1 ? 's' : ''}
+                        </div>
+                    ` : ''}
                 `;
                 enrolledContainer.appendChild(courseItem);
             });
+        }
+
+        // Show unenroll warning
+        function showUnenrollWarning(courseId) {
+            const course = enrolledCourses.find(c => c.id === courseId);
+            if (!course) return;
+
+            const enrolledDate = new Date(course.enrolledAt);
+            const unenrollDate = new Date(enrolledDate.getTime() + 14 * 24 * 60 * 60 * 1000);
+            const now = new Date();
+            const daysLeft = Math.ceil((unenrollDate - now) / (24 * 60 * 60 * 1000));
+
+            unenrollCountdown.innerHTML = `
+                <strong>Time remaining:</strong> ${daysLeft} day${daysLeft !== 1 ? 's' : ''}
+                <br>
+                <small>You enrolled on ${enrolledDate.toLocaleDateString()}</small>
+            `;
+            unenrollModal.classList.add('active');
+        }
+
+        // Unenroll from a course
+        async function unenrollFromCourse(courseId) {
+            if (!currentUser) return;
+
+            const course = enrolledCourses.find(c => c.id === courseId);
+            if (!course) return;
+
+            if (!confirm(`Are you sure you want to unenroll from ${course.title}?`)) {
+                return;
+            }
+
+            try {
+                // Remove course from user's enrolled courses
+                await updateDoc(doc(db, "users", currentUser.uid), {
+                    enrolledCourses: arrayRemove(course)
+                });
+
+                // Update local data
+                enrolledCourses = enrolledCourses.filter(c => c.id !== courseId);
+
+                // Refresh displays
+                displayCourses();
+                displayEnrolledCourses();
+                alert("Successfully unenrolled from the course.");
+            } catch (error) {
+                console.error("Error unenrolling from course:", error);
+                alert("Failed to unenroll from course. Please try again.");
+            }
         }
 
         // View course details
@@ -1401,63 +1787,11 @@
                     ${course.description}
                 </div>
                 <div class="course-actions mt-3">
-                    <button class="btn btn-primary" onclick="enrollInCourse('${course.id}')">Enroll Now</button>
+                    <button class="btn btn-primary" onclick="showEnrollConfirmation('${course.id}')">Enroll Now</button>
                 </div>
             `;
 
             courseModal.classList.add('active');
-        }
-
-        // Enroll in a course
-        async function enrollInCourse(courseId) {
-            if (!currentUser) return;
-
-            // Find the course in our data
-            const course = allCourses.find(c => c.id === courseId);
-            if (!course) return;
-
-            try {
-                // Add course to user's enrolled courses
-                await updateDoc(doc(db, "users", currentUser.uid), {
-                    enrolledCourses: arrayUnion({
-                        id: course.id,
-                        title: course.title,
-                        type: course.type,
-                        instructor: course.instructor,
-                        schedule: course.schedule,
-                        progress: 0,
-                        lastActive: new Date().toISOString(),
-                        daysPerWeek: course.daysPerWeek,
-                        progressRate: course.progressRate
-                    })
-                });
-
-                // Update local data
-                enrolledCourses.push({
-                    id: course.id,
-                    title: course.title,
-                    type: course.type,
-                    instructor: course.instructor,
-                    schedule: course.schedule,
-                    progress: 0,
-                    lastActive: new Date().toISOString(),
-                    daysPerWeek: course.daysPerWeek,
-                    progressRate: course.progressRate
-                });
-
-                // Refresh displays
-                displayCourses();
-                displayEnrolledCourses();
-                
-                // Close modal if open
-                courseModal.classList.remove('active');
-                
-                // Show success message
-                alert(`Successfully enrolled in ${course.title}`);
-            } catch (error) {
-                console.error("Error enrolling in course:", error);
-                alert("Failed to enroll in course. Please try again.");
-            }
         }
 
         // Load progress page
@@ -1576,7 +1910,7 @@
                         return {
                             ...course,
                             progress: newProgress,
-                            lastActive: new Date().toISOString()
+                            lastActive: serverTimestamp()
                         };
                     }
                     return course;
@@ -1587,7 +1921,15 @@
                 });
 
                 // Update local data
-                enrolledCourses = updatedCourses;
+                enrolledCourses = updatedCourses.map(course => {
+                    if (course.id === courseId) {
+                        return {
+                            ...course,
+                            lastActive: new Date().toISOString()
+                        };
+                    }
+                    return course;
+                });
 
                 // Refresh displays
                 displayCourseProgress(courseId);
@@ -1607,7 +1949,17 @@
         function loadClassmatesPage() {
             let html = `
                 <div class="card">
-                    <h2 class="card-title">My Classmates</h2>
+                    <div class="d-flex justify-between align-center">
+                        <h2 class="card-title">My Classmates</h2>
+                        <div class="view-toggle">
+                            <button class="view-btn ${currentView === 'grid' ? 'active' : ''}" onclick="setClassmatesView('grid')">
+                                <i class="fas fa-th"></i>
+                            </button>
+                            <button class="view-btn ${currentView === 'list' ? 'active' : ''}" onclick="setClassmatesView('list')">
+                                <i class="fas fa-list"></i>
+                            </button>
+                        </div>
+                    </div>
                     <div class="filter-group mb-3">
                         <label for="classmate-filter">Filter by Course</label>
                         <select id="classmate-filter" class="form-control">
@@ -1617,7 +1969,7 @@
                             ).join('')}
                         </select>
                     </div>
-                    <div class="classmates-grid" id="classmates-list">
+                    <div class="${currentView === 'grid' ? 'classmates-grid' : 'classmates-list'}" id="classmates-list">
                         <!-- Classmates will be loaded here -->
                     </div>
                 </div>
@@ -1630,6 +1982,12 @@
 
             // Display all classmates initially
             displayClassmates();
+        }
+
+        // Set classmates view type
+        function setClassmatesView(viewType) {
+            currentView = viewType;
+            loadClassmatesPage();
         }
 
         // Display classmates
@@ -1651,34 +2009,68 @@
             }
 
             classmatesList.innerHTML = '';
-            filteredClassmates.forEach(classmate => {
-                const classmateCard = document.createElement('div');
-                classmateCard.className = 'classmate-card';
-                
-                // Find common courses
-                const commonCourses = [];
-                if (classmate.enrolledCourses) {
-                    classmate.enrolledCourses.forEach(ec => {
-                        if (enrolledCourses.some(userEc => userEc.id === ec.id)) {
-                            const course = allCourses.find(c => c.id === ec.id) || ec;
-                            commonCourses.push(course.title);
-                        }
-                    });
-                }
-                
-                classmateCard.innerHTML = `
-                    <div class="classmate-avatar">
-                        ${classmate.name.split(' ').map(n => n[0]).join('').toUpperCase()}
-                    </div>
-                    <div class="classmate-name">${classmate.name}</div>
-                    <div class="classmate-progress">
-                        ${commonCourses.length > 0 ? 
-                            `${commonCourses.length} shared course(s)` : 
-                            'No shared courses'}
-                    </div>
-                `;
-                classmatesList.appendChild(classmateCard);
-            });
+            
+            if (currentView === 'grid') {
+                // Grid view
+                filteredClassmates.forEach(classmate => {
+                    // Find common courses
+                    const commonCourses = [];
+                    if (classmate.enrolledCourses) {
+                        classmate.enrolledCourses.forEach(ec => {
+                            if (enrolledCourses.some(userEc => userEc.id === ec.id)) {
+                                const course = allCourses.find(c => c.id === ec.id) || ec;
+                                commonCourses.push(course.title);
+                            }
+                        });
+                    }
+                    
+                    const classmateCard = document.createElement('div');
+                    classmateCard.className = 'classmate-card';
+                    classmateCard.innerHTML = `
+                        <div class="classmate-avatar">
+                            ${classmate.name.split(' ').map(n => n[0]).join('').toUpperCase()}
+                        </div>
+                        <div class="classmate-name">${classmate.name}</div>
+                        <div class="classmate-progress">
+                            ${commonCourses.length > 0 ? 
+                                `${commonCourses.length} shared course(s)` : 
+                                'No shared courses'}
+                        </div>
+                    `;
+                    classmatesList.appendChild(classmateCard);
+                });
+            } else {
+                // List view
+                filteredClassmates.forEach(classmate => {
+                    // Find common courses
+                    const commonCourses = [];
+                    if (classmate.enrolledCourses) {
+                        classmate.enrolledCourses.forEach(ec => {
+                            if (enrolledCourses.some(userEc => userEc.id === ec.id)) {
+                                const course = allCourses.find(c => c.id === ec.id) || ec;
+                                commonCourses.push(course.title);
+                            }
+                        });
+                    }
+                    
+                    const classmateItem = document.createElement('div');
+                    classmateItem.className = 'classmate-item';
+                    classmateItem.innerHTML = `
+                        <div class="classmate-avatar">
+                            ${classmate.name.split(' ').map(n => n[0]).join('').toUpperCase()}
+                        </div>
+                        <div class="classmate-info">
+                            <div class="classmate-name">${classmate.name}</div>
+                            <div class="classmate-progress">
+                                ${commonCourses.length > 0 ? 
+                                    `${commonCourses.length} shared course(s)` : 
+                                    'No shared courses'}
+                            </div>
+                        </div>
+                    `;
+                    classmatesList.appendChild(classmateItem);
+                });
+            }
         }
 
         // Filter classmates
@@ -1758,6 +2150,13 @@
         async function saveProfile(e) {
             e.preventDefault();
             
+            // Validate student ID format
+            const studentIdRegex = /^\d{4}\/\d{2}$/;
+            if (!studentIdRegex.test(editStudentId.value)) {
+                alert("Please enter a valid Student ID in the format XXXX/YY");
+                return;
+            }
+            
             try {
                 const updates = {
                     name: editName.value,
@@ -1765,7 +2164,7 @@
                     department: editDepartment.value,
                     year: editYear.value,
                     phone: editPhone.value,
-                    lastUpdated: new Date().toISOString()
+                    lastUpdated: serverTimestamp()
                 };
                 
                 // Update in Firestore
@@ -1820,10 +2219,14 @@
         document.addEventListener('DOMContentLoaded', initApp);
 
         // Make functions available globally
-        window.enrollInCourse = enrollInCourse;
+        window.setView = setView;
+        window.setClassmatesView = setClassmatesView;
         window.viewCourseDetails = viewCourseDetails;
+        window.showEnrollConfirmation = showEnrollConfirmation;
         window.viewCourseProgress = viewCourseProgress;
         window.updateProgress = updateProgress;
+        window.showUnenrollWarning = showUnenrollWarning;
+        window.unenrollFromCourse = unenrollFromCourse;
         window.openProfileModal = openProfileModal;
         window.handleLogout = handleLogout;
         window.changePassword = changePassword;
