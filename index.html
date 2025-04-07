@@ -2,49 +2,74 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Haramaya University Jama'aa - Login</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
-            --primary: #1a4d2e;
+            --primary: #1a4d2e; /* Haramaya Green */
             --primary-light: #4f6f52;
+            --primary-dark: #0e2e1b;
             --accent: #f5efe6;
             --light: #e8dfca;
             --white: #ffffff;
+            --off-white: #f9f9f9;
             --dark: #333333;
+            --gray: #888888;
+            --light-gray: #e0e0e0;
             --error: #e74c3c;
             --success: #2ecc71;
-            --shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-            --gradient: linear-gradient(135deg, #1a4d2e 0%, #4f6f52 100%);
+            --google-red: #db4437;
+            --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.1);
+            --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.15);
+            --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.2);
+            --gradient: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+            --gradient-dark: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary) 100%);
+            --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
         }
 
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Poppins', sans-serif;
+            font-family: 'Poppins', -apple-system, BlinkMacSystemFont, sans-serif;
+            -webkit-tap-highlight-color: transparent;
         }
 
         body {
-            background: var(--gradient);
+            background: var(--gradient-dark);
             min-height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
-            padding: 20px;
+            padding: 16px;
+            color: var(--dark);
+            line-height: 1.6;
         }
 
+        /* Floating Animation */
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        /* Pulse Animation */
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.6; }
+        }
+
+        /* Main Container */
         .auth-container {
-            display: flex;
-            max-width: 1000px;
             width: 100%;
+            max-width: 420px;
             background-color: var(--white);
             border-radius: 20px;
             overflow: hidden;
-            box-shadow: var(--shadow);
-            animation: fadeIn 0.8s ease;
+            box-shadow: var(--shadow-lg);
+            animation: fadeIn 0.6s ease-out;
+            position: relative;
         }
 
         @keyframes fadeIn {
@@ -52,136 +77,116 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
-        .illustration-section {
-            flex: 1;
-            background: linear-gradient(rgba(26, 77, 46, 0.8), rgba(26, 77, 46, 0.8)), 
-                        url('https://www.haramaya.edu.et/wp-content/uploads/2022/01/HU-campus.jpg') center/cover no-repeat;
-            color: var(--white);
-            padding: 40px;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
+        /* Header Section */
+        .header-section {
+            background: var(--gradient);
+            padding: 24px 20px;
             text-align: center;
             position: relative;
             overflow: hidden;
         }
 
-        .illustration-section::before {
-            content: '';
+        .header-section::before {
+            content: "";
             position: absolute;
             top: -50%;
             left: -50%;
             width: 200%;
             height: 200%;
             background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
-            animation: pulse 15s infinite linear;
+            animation: float 8s infinite ease-in-out;
         }
 
-        @keyframes pulse {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-
-        .logo {
-            width: 120px;
-            height: 120px;
-            margin-bottom: 30px;
+        .logo-container {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 16px;
             background-color: var(--white);
             border-radius: 50%;
             display: flex;
             justify-content: center;
             align-items: center;
-            box-shadow: var(--shadow);
+            box-shadow: var(--shadow-sm);
+            position: relative;
             z-index: 1;
+            animation: float 6s infinite ease-in-out;
         }
 
-        .logo img {
-            width: 80%;
-            height: 80%;
+        .logo-container img {
+            width: 70%;
+            height: 70%;
             object-fit: contain;
         }
 
-        .illustration-section h1 {
-            font-size: 2.5rem;
-            margin-bottom: 20px;
-            z-index: 1;
-            text-shadow: 0 2px 5px rgba(0,0,0,0.2);
-        }
-
-        .illustration-section p {
-            font-size: 1.1rem;
-            margin-bottom: 30px;
-            line-height: 1.6;
-            z-index: 1;
-            max-width: 80%;
-        }
-
-        .auth-section {
-            flex: 1;
-            padding: 50px;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
+        .header-section h1 {
+            font-size: 1.8rem;
+            margin-bottom: 8px;
+            color: var(--white);
             position: relative;
+            z-index: 1;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.1);
         }
 
-        .auth-header {
-            margin-bottom: 30px;
-            text-align: center;
+        .header-section p {
+            font-size: 1rem;
+            color: rgba(255,255,255,0.9);
+            position: relative;
+            z-index: 1;
         }
 
-        .auth-header h2 {
-            color: var(--primary);
-            font-size: 2rem;
-            margin-bottom: 10px;
+        /* Auth Section */
+        .auth-section {
+            padding: 24px;
+            background: var(--off-white);
         }
 
-        .auth-header p {
-            color: var(--dark);
-            opacity: 0.7;
-        }
-
+        /* Tabs */
         .tab-container {
             display: flex;
-            margin-bottom: 30px;
-            border-bottom: 2px solid var(--light);
-            justify-content: center;
+            background: var(--white);
+            border-radius: 12px;
+            padding: 4px;
+            margin-bottom: 24px;
+            box-shadow: var(--shadow-sm);
         }
 
         .tab {
-            padding: 12px 30px;
+            flex: 1;
+            padding: 12px;
+            text-align: center;
+            font-weight: 600;
+            color: var(--gray);
             cursor: pointer;
-            font-weight: 500;
-            color: var(--dark);
-            transition: all 0.3s ease;
+            transition: var(--transition);
+            border-radius: 8px;
             position: relative;
-            opacity: 0.7;
         }
 
         .tab.active {
             color: var(--primary);
-            opacity: 1;
+            background: rgba(26, 77, 46, 0.1);
         }
 
         .tab.active::after {
             content: '';
             position: absolute;
-            bottom: -2px;
-            left: 0;
-            width: 100%;
+            bottom: -8px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 24px;
             height: 3px;
             background-color: var(--primary);
-            border-radius: 3px 3px 0 0;
+            border-radius: 3px;
         }
 
+        /* Forms */
         .auth-form {
             display: none;
-            animation: slideUp 0.5s ease;
+            animation: slideUp 0.4s ease-out;
         }
 
         @keyframes slideUp {
-            from { opacity: 0; transform: translateY(20px); }
+            from { opacity: 0; transform: translateY(10px); }
             to { opacity: 1; transform: translateY(0); }
         }
 
@@ -197,18 +202,20 @@
         .form-group label {
             display: block;
             margin-bottom: 8px;
-            color: var(--dark);
             font-weight: 500;
+            font-size: 0.95rem;
+            color: var(--dark);
         }
 
         .input-field {
             width: 100%;
-            padding: 15px 20px;
-            border: 1px solid var(--light);
+            padding: 14px 16px;
+            padding-right: 42px;
+            border: 2px solid var(--light-gray);
             border-radius: 10px;
             font-size: 1rem;
-            transition: all 0.3s ease;
-            background-color: rgba(233, 233, 233, 0.1);
+            transition: var(--transition);
+            background: var(--white);
         }
 
         .input-field:focus {
@@ -219,180 +226,241 @@
 
         .input-icon {
             position: absolute;
-            right: 20px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: var(--dark);
-            opacity: 0.5;
+            right: 16px;
+            top: 42px;
+            color: var(--gray);
         }
 
+        /* Forgot Password */
         .forgot-password {
             text-align: right;
-            margin-bottom: 20px;
+            margin: -12px 0 16px;
         }
 
         .forgot-password a {
             color: var(--primary);
-            text-decoration: none;
             font-size: 0.9rem;
-            transition: all 0.3s ease;
+            text-decoration: none;
+            font-weight: 500;
+            transition: var(--transition);
         }
 
         .forgot-password a:hover {
             text-decoration: underline;
         }
 
+        /* Buttons */
         .btn {
-            padding: 15px;
+            padding: 14px;
             border: none;
             border-radius: 10px;
             font-size: 1rem;
             font-weight: 600;
             cursor: pointer;
-            transition: all 0.3s ease;
+            transition: var(--transition);
             width: 100%;
-            margin-bottom: 15px;
+            margin-bottom: 16px;
             display: flex;
             align-items: center;
             justify-content: center;
             gap: 10px;
         }
 
+        .btn:active {
+            transform: scale(0.98);
+        }
+
         .btn-primary {
             background-color: var(--primary);
             color: var(--white);
+            box-shadow: 0 4px 12px rgba(26, 77, 46, 0.2);
         }
 
         .btn-primary:hover {
             background-color: var(--primary-light);
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(26, 77, 46, 0.2);
+            box-shadow: 0 6px 16px rgba(26, 77, 46, 0.3);
         }
 
         .btn-google {
             background-color: var(--white);
             color: var(--dark);
-            border: 1px solid var(--light);
+            border: 2px solid var(--light-gray);
+            box-shadow: var(--shadow-sm);
         }
 
         .btn-google:hover {
-            background-color: #f5f5f5;
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            background-color: var(--white);
+            border-color: var(--google-red);
+            color: var(--google-red);
+            box-shadow: var(--shadow-md);
         }
 
+        .btn-google i {
+            color: var(--google-red);
+        }
+
+        /* Divider */
         .divider {
             display: flex;
             align-items: center;
-            margin: 25px 0;
-            color: var(--dark);
-            opacity: 0.5;
+            margin: 20px 0;
+            color: var(--gray);
+            font-size: 0.9rem;
         }
 
         .divider::before, .divider::after {
             content: "";
             flex: 1;
-            border-bottom: 1px solid var(--light);
+            border-bottom: 1px solid var(--light-gray);
         }
 
         .divider::before {
-            margin-right: 15px;
+            margin-right: 12px;
         }
 
         .divider::after {
-            margin-left: 15px;
+            margin-left: 12px;
         }
 
+        /* Footer Links */
         .auth-footer {
             text-align: center;
-            margin-top: 20px;
-            color: var(--dark);
-            opacity: 0.7;
+            margin-top: 16px;
+            font-size: 0.95rem;
+            color: var(--gray);
         }
 
         .auth-footer a {
             color: var(--primary);
             text-decoration: none;
             font-weight: 500;
-            transition: all 0.3s ease;
+            transition: var(--transition);
         }
 
         .auth-footer a:hover {
             text-decoration: underline;
         }
 
+        /* Error Messages */
         .error-message {
             color: var(--error);
-            font-size: 0.9rem;
-            margin-top: 5px;
+            font-size: 0.85rem;
+            margin-top: 6px;
             display: none;
         }
 
-        .success-message {
-            color: var(--success);
-            font-size: 0.9rem;
-            margin-top: 5px;
-            display: none;
+        /* Loading Spinner */
+        .spinner {
+            width: 18px;
+            height: 18px;
+            border: 3px solid rgba(255,255,255,0.3);
+            border-radius: 50%;
+            border-top-color: var(--white);
+            animation: spin 1s ease-in-out infinite;
         }
 
-        .floating-notification {
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Notification */
+        .notification {
             position: fixed;
             top: 20px;
-            right: 20px;
-            padding: 15px 25px;
-            border-radius: 10px;
+            left: 50%;
+            transform: translateX(-50%) translateY(-100px);
+            padding: 12px 24px;
+            border-radius: 8px;
             color: white;
             font-weight: 500;
-            box-shadow: var(--shadow);
+            box-shadow: var(--shadow-lg);
             z-index: 1000;
-            transform: translateX(150%);
-            transition: transform 0.3s ease;
+            max-width: 90%;
+            text-align: center;
+            transition: transform 0.4s cubic-bezier(0.68, -0.55, 0.27, 1.55);
         }
 
-        .floating-notification.show {
-            transform: translateX(0);
+        .notification.show {
+            transform: translateX(-50%) translateY(0);
         }
 
-        .floating-notification.success {
+        .notification.success {
             background-color: var(--success);
         }
 
-        .floating-notification.error {
+        .notification.error {
             background-color: var(--error);
         }
 
-        @media (max-width: 768px) {
+        /* Responsive Adjustments */
+        @media (max-width: 480px) {
             .auth-container {
-                flex-direction: column;
+                border-radius: 16px;
             }
             
-            .illustration-section {
-                padding: 30px 20px;
-                order: -1;
+            .header-section {
+                padding: 20px 16px;
+            }
+            
+            .logo-container {
+                width: 70px;
+                height: 70px;
+            }
+            
+            .header-section h1 {
+                font-size: 1.5rem;
+            }
+            
+            .header-section p {
+                font-size: 0.9rem;
             }
             
             .auth-section {
-                padding: 30px 20px;
+                padding: 20px 16px;
+            }
+            
+            .tab {
+                font-size: 0.95rem;
+                padding: 10px;
+            }
+            
+            .input-field {
+                padding: 12px 14px;
+                padding-right: 38px;
+            }
+            
+            .btn {
+                padding: 13px;
+                font-size: 0.95rem;
+            }
+        }
+
+        /* Very small devices */
+        @media (max-width: 360px) {
+            .header-section h1 {
+                font-size: 1.4rem;
+            }
+            
+            .tab {
+                font-size: 0.9rem;
             }
         }
     </style>
 </head>
 <body>
     <div class="auth-container">
-        <div class="illustration-section">
-            <div class="logo">
+        <!-- Header Section -->
+        <div class="header-section">
+            <div class="logo-container">
                 <img src="https://www.haramaya.edu.et/wp-content/uploads/2022/01/cropped-HU-logo-1-32x32.png" alt="Haramaya University Logo">
             </div>
-            <h1>Welcome to Haramaya University Jama'aa</h1>
-            <p>Join our academic community to access exclusive resources, connect with fellow students, and stay updated with university events.</p>
+            <h1 id="auth-title">Welcome Back</h1>
+            <p id="auth-subtitle">Login to access your academic resources</p>
         </div>
         
+        <!-- Auth Section -->
         <div class="auth-section">
-            <div class="auth-header">
-                <h2 id="auth-title">Welcome Back</h2>
-                <p id="auth-subtitle">Please login to continue to your account</p>
-            </div>
-            
+            <!-- Tabs -->
             <div class="tab-container">
                 <div class="tab active" onclick="switchAuthTab('login')">Login</div>
                 <div class="tab" onclick="switchAuthTab('signup')">Sign Up</div>
@@ -402,7 +470,7 @@
             <form id="login-form" class="auth-form active">
                 <div class="form-group">
                     <label for="login-email">Email</label>
-                    <input type="email" id="login-email" class="input-field" placeholder="Enter your university email" required>
+                    <input type="email" id="login-email" class="input-field" placeholder="student@haramaya.edu.et" required>
                     <i class="fas fa-envelope input-icon"></i>
                     <div class="error-message" id="login-email-error"></div>
                 </div>
@@ -416,7 +484,7 @@
                     <a href="#" id="forgot-password-link">Forgot password?</a>
                 </div>
                 <button type="submit" class="btn btn-primary" id="login-btn">
-                    <i class="fas fa-sign-in-alt"></i> Login
+                    <span id="login-btn-text"><i class="fas fa-sign-in-alt"></i> Login</span>
                 </button>
                 
                 <div class="divider">OR</div>
@@ -430,25 +498,19 @@
             <form id="signup-form" class="auth-form">
                 <div class="form-group">
                     <label for="signup-name">Full Name</label>
-                    <input type="text" id="signup-name" class="input-field" placeholder="Enter your full name" required>
+                    <input type="text" id="signup-name" class="input-field" placeholder="Your full name" required>
                     <i class="fas fa-user input-icon"></i>
                     <div class="error-message" id="signup-name-error"></div>
                 </div>
                 <div class="form-group">
                     <label for="signup-email">University Email</label>
-                    <input type="email" id="signup-email" class="input-field" placeholder="Enter your university email" required>
+                    <input type="email" id="signup-email" class="input-field" placeholder="student@haramaya.edu.et" required>
                     <i class="fas fa-envelope input-icon"></i>
                     <div class="error-message" id="signup-email-error"></div>
                 </div>
                 <div class="form-group">
-                    <label for="signup-id">Student/Staff ID</label>
-                    <input type="text" id="signup-id" class="input-field" placeholder="Enter your university ID" required>
-                    <i class="fas fa-id-card input-icon"></i>
-                    <div class="error-message" id="signup-id-error"></div>
-                </div>
-                <div class="form-group">
                     <label for="signup-password">Password</label>
-                    <input type="password" id="signup-password" class="input-field" placeholder="Create a password (min 6 chars)" required>
+                    <input type="password" id="signup-password" class="input-field" placeholder="At least 6 characters" required>
                     <i class="fas fa-lock input-icon"></i>
                     <div class="error-message" id="signup-password-error"></div>
                 </div>
@@ -459,7 +521,7 @@
                     <div class="error-message" id="signup-confirm-error"></div>
                 </div>
                 <button type="submit" class="btn btn-primary" id="signup-btn">
-                    <i class="fas fa-user-plus"></i> Create Account
+                    <span id="signup-btn-text"><i class="fas fa-user-plus"></i> Create Account</span>
                 </button>
                 
                 <div class="divider">OR</div>
@@ -475,11 +537,12 @@
         </div>
     </div>
 
-    <div class="floating-notification" id="notification"></div>
+    <!-- Notification -->
+    <div class="notification" id="notification"></div>
 
-    <!-- Firebase SDK -->
+    <!-- Firebase Integration -->
     <script type="module">
-        // Import the functions you need from the SDKs you need
+        // Firebase Setup
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
         import { 
             getAuth, 
@@ -497,7 +560,7 @@
             getDoc
         } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
-        // Your web app's Firebase configuration
+        // Firebase Config
         const firebaseConfig = {
             apiKey: "AIzaSyBQyNVWh1BtCkXlBfuS7jHAa36FTklZayo",
             authDomain: "pharma-quiz-b5a07.firebaseapp.com",
@@ -521,7 +584,6 @@
         const loginPassword = document.getElementById('login-password');
         const signupName = document.getElementById('signup-name');
         const signupEmail = document.getElementById('signup-email');
-        const signupId = document.getElementById('signup-id');
         const signupPassword = document.getElementById('signup-password');
         const signupConfirmPassword = document.getElementById('signup-confirm-password');
         const forgotPasswordLink = document.getElementById('forgot-password-link');
@@ -530,18 +592,35 @@
         const authTitle = document.getElementById('auth-title');
         const authSubtitle = document.getElementById('auth-subtitle');
         const notification = document.getElementById('notification');
+        const loginBtnText = document.getElementById('login-btn-text');
+        const signupBtnText = document.getElementById('signup-btn-text');
 
-        // Show notification
+        // Show Notification
         function showNotification(message, type = 'success') {
             notification.textContent = message;
-            notification.className = `floating-notification ${type} show`;
+            notification.className = `notification ${type} show`;
             
             setTimeout(() => {
                 notification.classList.remove('show');
-            }, 5000);
+            }, 4000);
         }
 
-        // Switch between login and signup tabs
+        // Loading State
+        function setLoading(button, isLoading) {
+            if (isLoading) {
+                button.innerHTML = '<div class="spinner"></div>';
+                button.disabled = true;
+            } else {
+                if (button.id === 'login-btn') {
+                    button.innerHTML = '<span id="login-btn-text"><i class="fas fa-sign-in-alt"></i> Login</span>';
+                } else {
+                    button.innerHTML = '<span id="signup-btn-text"><i class="fas fa-user-plus"></i> Create Account</span>';
+                }
+                button.disabled = false;
+            }
+        }
+
+        // Switch Between Login/Signup Tabs
         function switchAuthTab(tab) {
             const tabs = document.querySelectorAll('.tab');
             const forms = document.querySelectorAll('.auth-form');
@@ -562,27 +641,36 @@
                 }
             });
             
+            // Update header text
             if (tab === 'login') {
                 authTitle.textContent = 'Welcome Back';
-                authSubtitle.textContent = 'Please login to continue to your account';
+                authSubtitle.textContent = 'Login to access your academic resources';
             } else {
                 authTitle.textContent = 'Create Account';
                 authSubtitle.textContent = 'Join our academic community today';
             }
+            
+            // Reset forms
+            loginForm.reset();
+            signupForm.reset();
+            document.querySelectorAll('.error-message').forEach(el => {
+                el.style.display = 'none';
+            });
         }
 
-        // Validate email format
+        // Validate Email Format
         function validateEmail(email) {
             const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
             return re.test(email);
         }
 
-        // Validate Haramaya University email
-        function validateHUEmail(email) {
-            return email.endsWith('@haramaya.edu.et');
+        // Validate University Email (example validation)
+        function validateUniversityEmail(email) {
+            // This is a simple example - adjust according to actual requirements
+            return email.endsWith('@haramaya.edu.et') || validateEmail(email);
         }
 
-        // Handle login form submission
+        // Login Form Submission
         loginForm.addEventListener('submit', async (e) => {
             e.preventDefault();
             
@@ -590,7 +678,7 @@
             const password = loginPassword.value.trim();
             let isValid = true;
             
-            // Reset error messages
+            // Reset errors
             document.getElementById('login-email-error').style.display = 'none';
             document.getElementById('login-password-error').style.display = 'none';
             
@@ -601,6 +689,10 @@
                 isValid = false;
             } else if (!validateEmail(email)) {
                 document.getElementById('login-email-error').textContent = 'Please enter a valid email';
+                document.getElementById('login-email-error').style.display = 'block';
+                isValid = false;
+            } else if (!validateUniversityEmail(email)) {
+                document.getElementById('login-email-error').textContent = 'Please use your university email';
                 document.getElementById('login-email-error').style.display = 'block';
                 isValid = false;
             }
@@ -621,40 +713,36 @@
             try {
                 // Show loading state
                 const loginBtn = document.getElementById('login-btn');
-                loginBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Logging in...';
-                loginBtn.disabled = true;
+                setLoading(loginBtn, true);
                 
-                // Sign in with email and password
-                const userCredential = await signInWithEmailAndPassword(auth, email, password);
-                const user = userCredential.user;
+                // Sign in with Firebase
+                await signInWithEmailAndPassword(auth, email, password);
+                
+                showNotification('Login successful! Redirecting...');
                 
                 // Redirect to dashboard
-                window.location.href = 'dashboard.html';
+                setTimeout(() => {
+                    window.location.href = 'dashboard.html';
+                }, 1500);
             } catch (error) {
                 console.error('Login error:', error);
                 
                 // Reset button
-                const loginBtn = document.getElementById('login-btn');
-                loginBtn.innerHTML = '<i class="fas fa-sign-in-alt"></i> Login';
-                loginBtn.disabled = false;
+                setLoading(document.getElementById('login-btn'), false);
                 
-                // Show error message
+                // Show error
                 let errorMessage = 'Login failed. Please try again.';
                 
                 switch (error.code) {
                     case 'auth/user-not-found':
-                        errorMessage = 'No user found with this email.';
+                        errorMessage = 'No account found with this email.';
                         document.getElementById('login-email-error').textContent = errorMessage;
                         document.getElementById('login-email-error').style.display = 'block';
                         break;
                     case 'auth/wrong-password':
-                        errorMessage = 'Incorrect password. Please try again.';
+                        errorMessage = 'Incorrect password.';
                         document.getElementById('login-password-error').textContent = errorMessage;
                         document.getElementById('login-password-error').style.display = 'block';
-                        break;
-                    case 'auth/too-many-requests':
-                        errorMessage = 'Too many failed attempts. Please try again later.';
-                        showNotification(errorMessage, 'error');
                         break;
                     default:
                         showNotification(errorMessage, 'error');
@@ -662,21 +750,19 @@
             }
         });
 
-        // Handle signup form submission
+        // Signup Form Submission
         signupForm.addEventListener('submit', async (e) => {
             e.preventDefault();
             
             const name = signupName.value.trim();
             const email = signupEmail.value.trim();
-            const id = signupId.value.trim();
             const password = signupPassword.value.trim();
             const confirmPassword = signupConfirmPassword.value.trim();
             let isValid = true;
             
-            // Reset error messages
+            // Reset errors
             document.getElementById('signup-name-error').style.display = 'none';
             document.getElementById('signup-email-error').style.display = 'none';
-            document.getElementById('signup-id-error').style.display = 'none';
             document.getElementById('signup-password-error').style.display = 'none';
             document.getElementById('signup-confirm-error').style.display = 'none';
             
@@ -696,16 +782,9 @@
                 document.getElementById('signup-email-error').textContent = 'Please enter a valid email';
                 document.getElementById('signup-email-error').style.display = 'block';
                 isValid = false;
-            } else if (!validateHUEmail(email)) {
-                document.getElementById('signup-email-error').textContent = 'Please use your Haramaya University email';
+            } else if (!validateUniversityEmail(email)) {
+                document.getElementById('signup-email-error').textContent = 'Please use your university email';
                 document.getElementById('signup-email-error').style.display = 'block';
-                isValid = false;
-            }
-            
-            // Validate ID
-            if (!id) {
-                document.getElementById('signup-id-error').textContent = 'Student/Staff ID is required';
-                document.getElementById('signup-id-error').style.display = 'block';
                 isValid = false;
             }
             
@@ -732,10 +811,9 @@
             try {
                 // Show loading state
                 const signupBtn = document.getElementById('signup-btn');
-                signupBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Creating account...';
-                signupBtn.disabled = true;
+                setLoading(signupBtn, true);
                 
-                // Create user with email and password
+                // Create user in Firebase Auth
                 const userCredential = await createUserWithEmailAndPassword(auth, email, password);
                 const user = userCredential.user;
                 
@@ -743,37 +821,34 @@
                 await setDoc(doc(db, "users", user.uid), {
                     name: name,
                     email: email,
-                    universityId: id,
-                    role: "student",
                     createdAt: new Date().toISOString(),
+                    role: "student",
                     enrolledCourses: []
                 });
                 
                 showNotification('Account created successfully! Redirecting...');
                 
-                // Redirect to dashboard after 2 seconds
+                // Redirect to dashboard
                 setTimeout(() => {
                     window.location.href = 'dashboard.html';
-                }, 2000);
+                }, 1500);
             } catch (error) {
                 console.error('Signup error:', error);
                 
                 // Reset button
-                const signupBtn = document.getElementById('signup-btn');
-                signupBtn.innerHTML = '<i class="fas fa-user-plus"></i> Create Account';
-                signupBtn.disabled = false;
+                setLoading(document.getElementById('signup-btn'), false);
                 
-                // Show error message
+                // Show error
                 let errorMessage = 'Signup failed. Please try again.';
                 
                 switch (error.code) {
                     case 'auth/email-already-in-use':
-                        errorMessage = 'This email is already registered. Please login instead.';
+                        errorMessage = 'This email is already registered.';
                         document.getElementById('signup-email-error').textContent = errorMessage;
                         document.getElementById('signup-email-error').style.display = 'block';
                         break;
                     case 'auth/weak-password':
-                        errorMessage = 'Password should be at least 6 characters';
+                        errorMessage = 'Password must be at least 6 characters.';
                         document.getElementById('signup-password-error').textContent = errorMessage;
                         document.getElementById('signup-password-error').style.display = 'block';
                         break;
@@ -783,13 +858,20 @@
             }
         });
 
-        // Handle Google authentication
+        // Google Authentication
         async function handleGoogleAuth() {
             try {
+                const loginBtn = event.target.id.includes('login') ? 
+                    document.getElementById('google-login-btn') : 
+                    document.getElementById('google-signup-btn');
+                
+                loginBtn.innerHTML = '<div class="spinner"></div>';
+                loginBtn.disabled = true;
+                
                 const result = await signInWithPopup(auth, googleProvider);
                 const user = result.user;
                 
-                // Check if user document exists
+                // Check if user exists in Firestore
                 const userDoc = await getDoc(doc(db, "users", user.uid));
                 
                 if (!userDoc.exists()) {
@@ -797,9 +879,8 @@
                     await setDoc(doc(db, "users", user.uid), {
                         name: user.displayName || "Google User",
                         email: user.email,
-                        universityId: "GOOGLE_" + Math.random().toString(36).substring(2, 9),
-                        role: "student",
                         createdAt: new Date().toISOString(),
+                        role: "student",
                         enrolledCourses: [],
                         isGoogleUser: true
                     });
@@ -813,43 +894,69 @@
                 }, 1500);
             } catch (error) {
                 console.error('Google auth error:', error);
+                
+                // Reset buttons
+                document.getElementById('google-login-btn').innerHTML = '<i class="fab fa-google"></i> Continue with Google';
+                document.getElementById('google-signup-btn').innerHTML = '<i class="fab fa-google"></i> Sign up with Google';
+                document.getElementById('google-login-btn').disabled = false;
+                document.getElementById('google-signup-btn').disabled = false;
+                
                 showNotification('Google authentication failed. Please try again.', 'error');
             }
         }
 
-        // Handle forgot password
+        // Forgot Password
         forgotPasswordLink.addEventListener('click', async (e) => {
             e.preventDefault();
             
-            const email = prompt('Please enter your email address to reset your password:');
+            const email = loginEmail.value.trim();
             
             if (email && validateEmail(email)) {
                 try {
                     await sendPasswordResetEmail(auth, email);
-                    showNotification('Password reset email sent. Please check your inbox.');
+                    showNotification('Password reset email sent. Check your inbox.');
                 } catch (error) {
                     console.error('Password reset error:', error);
-                    showNotification('Failed to send reset email. Please try again.', 'error');
+                    showNotification('Failed to send reset email.', 'error');
                 }
-            } else if (email) {
-                showNotification('Please enter a valid email address.', 'error');
+            } else {
+                // Show prompt if email field is empty
+                const userEmail = prompt('Please enter your email to reset password:');
+                if (userEmail && validateEmail(userEmail)) {
+                    try {
+                        await sendPasswordResetEmail(auth, userEmail);
+                        showNotification('Password reset email sent. Check your inbox.');
+                    } catch (error) {
+                        console.error('Password reset error:', error);
+                        showNotification('Failed to send reset email.', 'error');
+                    }
+                } else if (userEmail) {
+                    showNotification('Please enter a valid email.', 'error');
+                }
             }
         });
 
-        // Check auth state
+        // Auto-redirect if already logged in
         onAuthStateChanged(auth, (user) => {
             if (user) {
-                // User is signed in, redirect to dashboard
                 window.location.href = 'dashboard.html';
             }
         });
 
-        // Event listeners
+        // Google Auth Buttons
         googleLoginBtn.addEventListener('click', handleGoogleAuth);
         googleSignupBtn.addEventListener('click', handleGoogleAuth);
 
-        // Make switchAuthTab available globally
+        // Make switchAuthTab globally available
         window.switchAuthTab = switchAuthTab;
+
+        // Add animation to logo on load
+        document.addEventListener('DOMContentLoaded', () => {
+            const logo = document.querySelector('.logo-container');
+            setTimeout(() => {
+                logo.style.animation = 'float 6s infinite ease-in-out';
+            }, 500);
+        });
     </script>
 </body>
 </html>
