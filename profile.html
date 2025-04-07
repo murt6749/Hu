@@ -48,7 +48,6 @@
       box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
       margin-bottom: 40px;
       position: relative;
-      /* Removed overflow:hidden so dropdown can extend */
     }
     header::before {
       content: "";
@@ -96,8 +95,7 @@
       min-width: 160px;
       box-shadow: 0 8px 16px rgba(0,0,0,0.2);
       border-radius: 8px;
-      z-index: 999; /* ensure dropdown is on top */
-      overflow: visible;
+      z-index: 999;
     }
     /* Show on hover or when toggled */
     .profile-dropdown:hover .profile-dropdown-content,
@@ -372,7 +370,6 @@
           <i class="fas fa-user"></i>
         </button>
         <div class="profile-dropdown-content" id="profileDropdownContent">
-          <!-- Options based on login status -->
           <a href="settings.html"><i class="fas fa-cog"></i> Settings</a>
           <a href="interact.html"><i class="fas fa-comments"></i> Interact</a>
           <a href="#" id="headerLogoutBtn"><i class="fas fa-sign-out-alt"></i> Logout</a>
@@ -520,7 +517,7 @@
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-app.js";
     import { getAnalytics } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-analytics.js";
-    import { getFirestore, collection, addDoc, query, where, getDocs } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-firestore.js";
+    import { getFirestore, collection, addDoc, query, where, getDocs, updateDoc, doc, arrayUnion } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-firestore.js";
     
     // Firebase config
     const firebaseConfig = {
@@ -580,7 +577,6 @@
     // Retrieve user data
     let userData = JSON.parse(localStorage.getItem('loggedInUser'));
     if (!userData) {
-      // If user not logged in, update dropdown and redirect when needed
       profileDropdownContent.innerHTML = `<a href="index.html"><i class="fas fa-sign-in-alt"></i> Login</a>`;
       window.location.href = 'index.html';
     }
@@ -627,7 +623,6 @@
       } else {
         coursesContainer.innerHTML = '<p>You are not registered for any courses yet.</p>';
       }
-      // Attach "View Classmates" events
       document.querySelectorAll('.view-classmates-btn').forEach(btn => {
         btn.addEventListener('click', () => {
           const courseName = btn.getAttribute('data-coursename');
@@ -650,11 +645,10 @@
       }, 300);
     }
     
-    // Profile dropdown toggle (click handled by JS; hover works via CSS)
+    // Profile dropdown toggle
     headerProfileBtn.addEventListener('click', () => {
       profileDropdownContent.classList.toggle('show');
     });
-    // Close dropdown if clicked outside
     window.addEventListener('click', (e) => {
       if (!e.target.matches('#headerProfileBtn') && !e.target.closest('.profile-dropdown-content')) {
         profileDropdownContent.classList.remove('show');
@@ -667,7 +661,7 @@
       window.location.href = 'index.html';
     });
     
-    // Language -> Course selection with filtering out already registered courses
+    // Language -> Course selection filtering out already registered courses
     languageSelect.addEventListener('change', () => {
       const lang = languageSelect.value;
       courseSelect.innerHTML = '<option value="">-- Select Course --</option>';
@@ -675,12 +669,10 @@
       noCoursesMsg.style.display = 'none';
       
       if (lang && allCourses[lang]) {
-        // Filter out courses that the user already registered for
         let availableCourses = allCourses[lang].filter(course => {
           return !(userData.registeredCourses || []).some(reg => reg.name === course.name);
         });
         if (availableCourses.length === 0) {
-          // If no new courses available, disable the dropdown and show a message
           courseSelect.disabled = true;
           noCoursesMsg.style.display = 'block';
         } else {
@@ -718,20 +710,17 @@
     confirmYesBtn.addEventListener('click', async () => {
       const lang = confirmationModal.dataset.lang;
       const courseName = confirmationModal.dataset.course;
-      // Find the days from allCourses
       let days = "";
       if (allCourses[lang]) {
         const found = allCourses[lang].find(c => c.name === courseName);
         days = found ? found.days : "";
       }
-      // Check if user is already registered
       if (!userData.registeredCourses) userData.registeredCourses = [];
       if (userData.registeredCourses.some(c => c.name === courseName)) {
         alert('You are already registered for this course!');
         hideModal(confirmationModal);
         return;
       }
-      // Check in Firestore
       try {
         const qCourses = query(
           collection(db, "registrations"),
@@ -744,7 +733,6 @@
           hideModal(confirmationModal);
           return;
         }
-        // Add to Firestore
         const newReg = {
           studentId: userData.studentId,
           fullName: userData.fullName,
@@ -755,7 +743,15 @@
           timestamp: new Date().toISOString()
         };
         await addDoc(collection(db, "registrations"), newReg);
-        // Update local user data
+        // Also update the user's document in Firebase under "users" using his full name as the document ID.
+        await updateDoc(doc(db, "users", userData.fullName), {
+          additionalCourses: arrayUnion({
+            name: courseName,
+            language: newReg.language,
+            days: days,
+            timestamp: newReg.timestamp
+          })
+        });
         userData.registeredCourses.push({
           name: courseName,
           language: newReg.language,
@@ -763,7 +759,6 @@
           timestamp: newReg.timestamp
         });
         localStorage.setItem('loggedInUser', JSON.stringify(userData));
-        // Show success notification
         showNotification("Registration successful!");
         displayRegisteredCourses();
       } catch (err) {
@@ -772,6 +767,7 @@
       }
       hideModal(confirmationModal);
     });
+    
     confirmNoBtn.addEventListener('click', () => {
       hideModal(confirmationModal);
     });
