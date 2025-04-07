@@ -15,9 +15,6 @@
       --dark: #212529;
       --success: #28a745;
       --info: #17a2b8;
-      --gold: #ffd700;
-      --green: #2ecc71;
-      --text-light: #f8f9fa;
       --text-dark: #343a40;
     }
     * {
@@ -32,7 +29,6 @@
       line-height: 1.6;
       min-height: 100vh;
       overflow-x: hidden;
-      position: relative;
     }
     .container {
       max-width: 1200px;
@@ -45,28 +41,16 @@
       padding: 25px 0;
       text-align: center;
       border-radius: 0 0 20px 20px;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+      box-shadow: 0 10px 30px rgba(0,0,0,0.2);
       margin-bottom: 40px;
       position: relative;
-    }
-    header::before {
-      content: "";
-      position: absolute;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
-      background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><text x="10" y="50" font-family="Arial" font-size="20" fill="rgba(255,255,255,0.05)">ﷲ</text></svg>');
-      opacity: 0.1;
-      z-index: -1;
     }
     header h1 {
       font-size: 2.4rem;
       margin-bottom: 10px;
       font-weight: 700;
-      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
-      display: inline-block;
-      vertical-align: middle;
     }
-    /* Profile dropdown in header */
+    /* Profile dropdown */
     .profile-dropdown {
       display: inline-block;
       position: relative;
@@ -85,7 +69,6 @@
       line-height: 45px;
       font-size: 1.3rem;
       font-weight: 700;
-      cursor: pointer;
     }
     .profile-dropdown-content {
       display: none;
@@ -97,7 +80,6 @@
       border-radius: 8px;
       z-index: 999;
     }
-    /* Show on hover or when toggled */
     .profile-dropdown:hover .profile-dropdown-content,
     .profile-dropdown-content.show {
       display: block;
@@ -133,12 +115,12 @@
       80% {opacity: 1; transform: translateY(0);}
       100% {opacity: 0; transform: translateY(-20px);}
     }
-    /* Profile card and courses */
+    /* Profile card & courses */
     .profile-card, .new-courses {
       background: white;
       border-radius: 15px;
       padding: 30px;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+      box-shadow: 0 10px 30px rgba(0,0,0,0.1);
       margin-bottom: 30px;
     }
     .profile-header {
@@ -147,20 +129,21 @@
       margin-bottom: 30px;
     }
     .profile-avatar {
-      width: 100px; height: 100px;
+      width: 100px;
+      height: 100px;
       background: linear-gradient(135deg, var(--primary), var(--secondary));
       border-radius: 50%;
-      display: flex; align-items: center; justify-content: center;
-      color: white; font-size: 2.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 2.5rem;
       margin-right: 20px;
     }
     .profile-info h2 {
       font-size: 1.8rem;
       margin-bottom: 5px;
       color: var(--primary);
-    }
-    .profile-info p {
-      color: #666;
     }
     .courses-list h3 {
       font-size: 1.5rem;
@@ -175,14 +158,6 @@
       border-radius: 10px;
       margin-bottom: 15px;
       position: relative;
-    }
-    .course-item-info h4 {
-      font-size: 1.2rem;
-      margin-bottom: 5px;
-    }
-    .course-item-info p {
-      color: #666;
-      font-size: 0.9rem;
     }
     .progress-bar {
       background: #e9ecef;
@@ -206,14 +181,13 @@
       font-size: 1rem;
       font-weight: 600;
       cursor: pointer;
-      transition: all 0.3s ease;
-      display: inline-block;
       margin-top: 10px;
+      transition: all 0.3s ease;
     }
     .btn:hover {
       background: var(--secondary);
       transform: translateY(-3px);
-      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+      box-shadow: 0 8px 25px rgba(0,0,0,0.2);
     }
     /* Responsive table */
     .table-responsive {
@@ -229,13 +203,12 @@
       border: 1px solid #ccc;
       padding: 8px;
       text-align: center;
-      vertical-align: middle;
     }
     .courses-table th {
       background: var(--secondary);
       color: #fff;
     }
-    /* Registration form for step-by-step */
+    /* Registration form */
     .registration-form {
       display: flex;
       flex-wrap: wrap;
@@ -258,12 +231,6 @@
       font-size: 0.95rem;
       color: #555;
     }
-    .no-courses-msg a {
-      color: var(--primary);
-      text-decoration: underline;
-      font-weight: 600;
-    }
-    /* Permanent additional course link */
     .extra-course-link {
       margin-top: 15px;
       font-size: 0.95rem;
@@ -274,24 +241,26 @@
       text-decoration: underline;
       font-weight: 600;
     }
-    /* Confirmation Modal & Classmates Modal */
+    /* Modals */
     .modal, .classmates-modal {
       display: none;
       position: fixed;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
-      background: rgba(0, 0, 0, 0.7);
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.7);
       z-index: 1000;
       justify-content: center;
       align-items: center;
-      backdrop-filter: blur(5px);
     }
     .modal-content, .classmates-modal-content {
       background: white;
-      width: 95%; max-width: 500px;
+      width: 95%;
+      max-width: 500px;
       border-radius: 20px;
       overflow: hidden;
-      box-shadow: 0 15px 50px rgba(0, 0, 0, 0.3);
+      box-shadow: 0 15px 50px rgba(0,0,0,0.3);
       transform: translateY(50px);
       opacity: 0;
       transition: all 0.4s ease;
@@ -304,17 +273,14 @@
       text-align: center;
       position: relative;
     }
-    .modal-header h3, .classmates-modal-header h3 {
-      font-size: 1.5rem;
-      font-weight: 700;
-      margin: 0;
-    }
     .close-btn {
       position: absolute;
-      top: 20px; right: 20px;
+      top: 20px;
+      right: 20px;
       font-size: 1.8rem;
       cursor: pointer;
-      background: none; border: none;
+      background: none;
+      border: none;
       color: white;
       transition: transform 0.3s ease;
     }
@@ -337,7 +303,7 @@
       font-size: 0.9rem;
       background: white;
       border-radius: 20px 20px 0 0;
-      box-shadow: 0 -5px 30px rgba(0, 0, 0, 0.05);
+      box-shadow: 0 -5px 30px rgba(0,0,0,0.05);
     }
     @media (max-width: 768px) {
       .profile-header {
@@ -345,7 +311,8 @@
         text-align: center;
       }
       .profile-avatar {
-        margin-right: 0; margin-bottom: 20px;
+        margin-right: 0;
+        margin-bottom: 20px;
       }
       header h1 {
         font-size: 2rem;
@@ -358,13 +325,12 @@
   </style>
 </head>
 <body>
-  <!-- Success Notification -->
+  <!-- Notification -->
   <div class="notification" id="notificationBox">Registration successful!</div>
   
   <header>
     <div class="container">
       <h1><i class="fas fa-mosque"></i> My Profile</h1>
-      <!-- Profile Dropdown -->
       <div class="profile-dropdown">
         <button class="dropbtn" id="headerProfileBtn">
           <i class="fas fa-user"></i>
@@ -390,7 +356,6 @@
           <p id="userId">Student ID: Loading...</p>
         </div>
       </div>
-      <!-- Registered Courses -->
       <div class="courses-list">
         <h3><i class="fas fa-book-open"></i> My Registered Courses</h3>
         <div id="coursesContainer">
@@ -401,13 +366,18 @@
     
     <!-- Additional Registration Section -->
     <div class="new-courses">
-      <!-- Responsive table wrapper -->
       <div class="table-responsive">
         <table class="courses-table">
           <thead>
             <tr>
               <th>Language</th>
-              <th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th>
+              <th>1</th>
+              <th>2</th>
+              <th>3</th>
+              <th>4</th>
+              <th>5</th>
+              <th>6</th>
+              <th>7</th>
             </tr>
           </thead>
           <tbody>
@@ -452,7 +422,6 @@
       </div>
       
       <h3><i class="fas fa-plus-circle"></i> Register for Additional Courses</h3>
-      <!-- Step-by-step registration form -->
       <div class="registration-form">
         <label for="languageSelect">Choose Language:</label>
         <select id="languageSelect">
@@ -468,11 +437,9 @@
         
         <button class="btn" id="registerBtn" disabled>Register</button>
       </div>
-      <!-- Permanent link for more courses -->
       <div class="extra-course-link">
         <a href="othercourse.html">Can't find your course? Explore more options.</a>
       </div>
-      <!-- Message if no new courses available -->
       <div class="no-courses-msg" id="noCoursesMsg" style="display:none;">
         No new courses available. Explore more options <a href="othercourse.html">here</a>.
       </div>
@@ -517,7 +484,7 @@
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-app.js";
     import { getAnalytics } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-analytics.js";
-    import { getFirestore, collection, addDoc, query, where, getDocs, updateDoc, doc, arrayUnion, getDoc, setDoc } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-firestore.js";
+    import { getFirestore, collection, addDoc, query, where, getDocs, updateDoc, doc, arrayUnion } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-firestore.js";
     
     // Firebase config
     const firebaseConfig = {
@@ -561,7 +528,7 @@
         { name: "Sifetu Solah", days: "Saturday and Sunday" },
         { name: "Usulu Selasah", days: "Monday and Tuesday" },
         { name: "Tejwid hidayetul mustefid", days: "Saturday and Sunday morning" },
-        { name: "Kulasetu nurel yeqin", days: "Only Thursday" },
+        { name: "Kulasetu nurel yeqin", days: "Only Thursday" }
       ],
       oromifa: [
         { name: "Sifetu Solah", days: "Monday and Tuesday" },
@@ -570,37 +537,22 @@
         { name: "Umdetul ahkam", days: "Saturday and Sunday" },
         { name: "Riyadusualihin", days: "Not specified" },
         { name: "Tefsir", days: "Only Wednesday" },
-        { name: "Aqidetu tuhawiya", days: "Not specified" },
+        { name: "Aqidetu tuhawiya", days: "Not specified" }
       ]
     };
     
-    // Retrieve user data from localStorage
+    // Retrieve user data from localStorage (created on initial login with a course)
     let userData = JSON.parse(localStorage.getItem('loggedInUser'));
     if (!userData) {
       profileDropdownContent.innerHTML = `<a href="index.html"><i class="fas fa-sign-in-alt"></i> Login</a>`;
       window.location.href = 'index.html';
     }
     
-    // Ensure the user document exists in "users" collection
-    async function ensureUserDoc() {
-      const userDocRef = doc(db, "users", userData.fullName);
-      const userDocSnap = await getDoc(userDocRef);
-      if (!userDocSnap.exists()) {
-        await setDoc(userDocRef, {
-          fullName: userData.fullName,
-          studentId: userData.studentId,
-          additionalCourses: []
-        });
-      }
-    }
-    ensureUserDoc();
-    
     // Display user info in profile header
     function displayUserInfo() {
       userNameEl.textContent = userData.fullName || "Unnamed";
       userIdEl.textContent = `Student ID: ${userData.studentId || "Unknown"}`;
-      const firstLetter = (userData.fullName || "U").charAt(0).toUpperCase();
-      userAvatarEl.textContent = firstLetter;
+      userAvatarEl.textContent = (userData.fullName || "U").charAt(0).toUpperCase();
     }
     
     // Calculate progress (10% per week, max 100%)
@@ -611,7 +563,7 @@
       return Math.min(diffInWeeks * 10, 100);
     }
     
-    // Display Registered Courses on the profile page
+    // Display registered courses (from localStorage registeredCourses array)
     function displayRegisteredCourses() {
       coursesContainer.innerHTML = '';
       if (userData.registeredCourses && userData.registeredCourses.length > 0) {
@@ -620,7 +572,7 @@
           const courseItem = document.createElement('div');
           courseItem.className = 'course-item';
           courseItem.innerHTML = `
-            <div class="course-item-info">
+            <div>
               <h4>${course.name || "Unnamed Course"}</h4>
               <p>Language: ${course.language || "Unspecified"} | Days: ${course.days || "N/A"}</p>
               <p>Registered on ${new Date(course.timestamp).toLocaleDateString()}</p>
@@ -639,8 +591,7 @@
       }
       document.querySelectorAll('.view-classmates-btn').forEach(btn => {
         btn.addEventListener('click', () => {
-          const courseName = btn.getAttribute('data-coursename');
-          viewClassmates(courseName);
+          viewClassmates(btn.getAttribute('data-coursename'));
         });
       });
     }
@@ -648,15 +599,11 @@
     // Modal show/hide functions
     function showModal(modal) {
       modal.style.display = 'flex';
-      setTimeout(() => {
-        modal.firstElementChild.classList.add('show');
-      }, 10);
+      setTimeout(() => { modal.firstElementChild.classList.add('show'); }, 10);
     }
     function hideModal(modal) {
       modal.firstElementChild.classList.remove('show');
-      setTimeout(() => {
-        modal.style.display = 'none';
-      }, 300);
+      setTimeout(() => { modal.style.display = 'none'; }, 300);
     }
     
     // Profile dropdown toggle
@@ -669,13 +616,13 @@
       }
     });
     
-    // Logout functionality
+    // Logout
     headerLogoutBtn.addEventListener('click', () => {
       localStorage.removeItem('loggedInUser');
       window.location.href = 'index.html';
     });
     
-    // Language -> Course selection filtering out already registered courses
+    // Update course selection based on chosen language and filtering out already registered courses
     languageSelect.addEventListener('change', () => {
       const lang = languageSelect.value;
       courseSelect.innerHTML = '<option value="">-- Select Course --</option>';
@@ -691,7 +638,7 @@
           noCoursesMsg.style.display = 'block';
         } else {
           availableCourses.forEach(c => {
-            const opt = document.createElement('option');
+            let opt = document.createElement('option');
             opt.value = c.name;
             opt.textContent = c.name;
             courseSelect.appendChild(opt);
@@ -703,12 +650,12 @@
       }
     });
     
-    // Enable register button only if a course is selected
+    // Enable register button when a course is selected
     courseSelect.addEventListener('change', () => {
       registerBtn.disabled = !courseSelect.value;
     });
     
-    // Registration flow -> Confirmation
+    // Registration flow: open confirmation modal when register button is clicked
     registerBtn.addEventListener('click', () => {
       const selectedLang = languageSelect.value;
       const selectedCourseName = courseSelect.value;
@@ -720,7 +667,7 @@
       showModal(confirmationModal);
     });
     
-    // Confirmation modal events for registering a course
+    // Confirmation modal events for course registration
     confirmYesBtn.addEventListener('click', async () => {
       const lang = confirmationModal.dataset.lang;
       const courseName = confirmationModal.dataset.course;
@@ -729,18 +676,16 @@
         const found = allCourses[lang].find(c => c.name === courseName);
         days = found ? found.days : "";
       }
+      
       if (!userData.registeredCourses) userData.registeredCourses = [];
       if (userData.registeredCourses.some(c => c.name === courseName)) {
         alert('You are already registered for this course!');
         hideModal(confirmationModal);
         return;
       }
+      
       try {
-        const qCourses = query(
-          collection(db, "registrations"),
-          where("studentId", "==", userData.studentId),
-          where("course", "==", courseName)
-        );
+        const qCourses = query(collection(db, "registrations"), where("studentId", "==", userData.studentId), where("course", "==", courseName));
         const snapshot = await getDocs(qCourses);
         if (!snapshot.empty) {
           alert('You are already registered for this course!');
@@ -756,8 +701,12 @@
           days: days,
           timestamp: new Date().toISOString()
         };
+        // Add the registration to the "registrations" collection
         await addDoc(collection(db, "registrations"), newReg);
-        // Update the user's document in Firebase to include the additional course
+        
+        // Instead of creating a new document for additional courses,
+        // update the existing user document in "users" by appending to the "additionalCourses" field.
+        // (Firestore will automatically create the field if it does not exist.)
         await updateDoc(doc(db, "users", userData.fullName), {
           additionalCourses: arrayUnion({
             name: courseName,
@@ -766,7 +715,8 @@
             timestamp: newReg.timestamp
           })
         });
-        // Update local userData and localStorage for the profile display
+        
+        // Also update the local userData for profile display
         userData.registeredCourses.push({
           name: courseName,
           language: newReg.language,
@@ -790,7 +740,7 @@
       hideModal(confirmationModal);
     });
     
-    // View classmates for a course
+    // Function to view classmates for a course
     async function viewClassmates(courseName) {
       classmatesContainer.innerHTML = '<p>Loading classmates...</p>';
       showModal(classmatesModal);
@@ -810,9 +760,7 @@
           div.style.alignItems = 'center';
           div.style.marginBottom = '15px';
           div.innerHTML = `
-            <div style="width:45px; height:45px; background: var(--secondary); border-radius:50%; 
-                display:flex; align-items:center; justify-content:center; color:white; 
-                font-size:1.2rem; margin-right:10px;">
+            <div style="width:45px; height:45px; background: var(--secondary); border-radius:50%; display:flex; align-items:center; justify-content:center; color:white; font-size:1.2rem; margin-right:10px;">
               ${profileLetter}
             </div>
             <div>
@@ -831,13 +779,11 @@
       hideModal(classmatesModal);
     });
     
-    // Show a brief notification on the page
+    // Display a brief notification
     function showNotification(msg) {
       notificationBox.textContent = msg;
       notificationBox.style.display = 'block';
-      setTimeout(() => {
-        notificationBox.style.display = 'none';
-      }, 4000);
+      setTimeout(() => { notificationBox.style.display = 'none'; }, 4000);
     }
     
     // Initialize profile display
