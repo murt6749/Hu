@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Account Settings - HU Jama'aa Qira'at</title>
+  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;900&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+  <style>
+    :root {
+      --primary: #0c4b33;
+      --secondary: #1da584;
+      --accent: #f7c35f;
+      --light: #f8f9fa;
+      --dark: #212529;
+      --success: #28a745;
+      --danger: #d9534f;
+      --info: #17a2b8;
+      --text-light: #f8f9fa;
+      --text-dark: #343a40;
+    }
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Tajawal', sans-serif;
+    }
+    body {
+      background: linear-gradient(135deg, #f5f7fa 0%, #e4e8eb 100%);
+      color: var(--text-dark);
+      line-height: 1.6;
+      min-height: 100vh;
+      position: relative;
+      overflow-x: hidden;
+    }
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+    header {
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      color: white;
+      padding: 25px 0;
+      text-align: center;
+      border-radius: 0 0 20px 20px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+      margin-bottom: 40px;
+      position: relative;
+      /* Removed overflow hidden so dropdown can extend */
+    }
+    header::before {
+      content: "";
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><text x="10" y="50" font-family="Arial" font-size="20" fill="rgba(255,255,255,0.05)">ﷲ</text></svg>');
+      opacity: 0.1;
+      z-index: -1;
+    }
+    header h1 {
+      font-size: 2.4rem;
+      margin-bottom: 10px;
+      font-weight: 700;
+      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+      display: inline-block;
+      vertical-align: middle;
+    }
+    /* Profile dropdown */
+    .profile-dropdown {
+      display: inline-block;
+      position: relative;
+      margin-left: 20px;
+      cursor: pointer;
+      vertical-align: middle;
+    }
+    .dropbtn {
+      background: var(--light);
+      color: var(--primary);
+      border: none;
+      border-radius: 50%;
+      width: 45px;
+      height: 45px;
+      text-align: center;
+      line-height: 45px;
+      font-size: 1.3rem;
+      font-weight: 700;
+      cursor: pointer;
+    }
+    .profile-dropdown-content {
+      display: none;
+      position: absolute;
+      right: 0;
+      background-color: #f8f9fa;
+      min-width: 160px;
+      box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+      border-radius: 8px;
+      z-index: 999;
+      overflow: visible;
+    }
+    .profile-dropdown:hover .profile-dropdown-content,
+    .profile-dropdown-content.show {
+      display: block;
+    }
+    .profile-dropdown-content a {
+      color: var(--text-dark);
+      padding: 12px 16px;
+      text-decoration: none;
+      display: block;
+      transition: background 0.3s;
+    }
+    .profile-dropdown-content a:hover {
+      background: var(--secondary);
+      color: white;
+    }
+    /* Notification */
+    .notification {
+      position: fixed;
+      top: 70px;
+      right: 20px;
+      background: var(--success);
+      color: white;
+      padding: 15px 20px;
+      border-radius: 8px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+      display: none;
+      z-index: 9999;
+      animation: fadeInOut 4s forwards;
+    }
+    @keyframes fadeInOut {
+      0% {opacity: 0; transform: translateY(-20px);}
+      10% {opacity: 1; transform: translateY(0);}
+      80% {opacity: 1; transform: translateY(0);}
+      100% {opacity: 0; transform: translateY(-20px);}
+    }
+    /* Main content */
+    .settings-card {
+      background: white;
+      border-radius: 15px;
+      padding: 30px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+      margin-bottom: 30px;
+    }
+    h2.section-title {
+      font-size: 1.8rem;
+      margin-bottom: 15px;
+      color: var(--primary);
+    }
+    form.settings-form {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+    form.settings-form label {
+      font-weight: 600;
+      margin-bottom: 5px;
+    }
+    form.settings-form input,
+    form.settings-form select {
+      padding: 10px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+      font-size: 1rem;
+    }
+    .btn {
+      background: var(--primary);
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 8px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      margin-top: 10px;
+      width: fit-content;
+    }
+    .btn:hover {
+      background: var(--secondary);
+      transform: translateY(-3px);
+      box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+    }
+    .delete-section {
+      border: 2px solid var(--danger);
+      padding: 20px;
+      border-radius: 10px;
+      margin-top: 30px;
+      background: #ffecec;
+      color: var(--danger);
+    }
+    .countdown {
+      font-size: 1.2rem;
+      font-weight: bold;
+      margin-top: 10px;
+      color: var(--danger);
+    }
+    /* Modal */
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: rgba(0,0,0,0.7);
+      z-index: 1000;
+      justify-content: center;
+      align-items: center;
+      backdrop-filter: blur(5px);
+    }
+    .modal-content {
+      background: white;
+      width: 95%; max-width: 500px;
+      border-radius: 20px;
+      overflow: hidden;
+      box-shadow: 0 15px 50px rgba(0,0,0,0.3);
+      transform: translateY(50px);
+      opacity: 0;
+      transition: all 0.4s ease;
+      position: relative;
+      padding: 20px;
+      text-align: center;
+    }
+    .modal-content.show {
+      transform: translateY(0);
+      opacity: 1;
+    }
+    .modal-header {
+      background: var(--danger);
+      color: white;
+      padding: 20px;
+      position: relative;
+    }
+    .modal-header h3 {
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin: 0;
+    }
+    .close-btn {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      font-size: 1.8rem;
+      cursor: pointer;
+      background: none;
+      border: none;
+      color: white;
+      transition: transform 0.3s ease;
+    }
+    .close-btn:hover {
+      transform: rotate(90deg);
+    }
+    .modal-body {
+      padding: 25px;
+    }
+    footer {
+      text-align: center;
+      padding: 30px;
+      margin-top: 60px;
+      background: white;
+      border-radius: 20px 20px 0 0;
+      box-shadow: 0 -5px 30px rgba(0,0,0,0.05);
+      color: #6c757d;
+      font-size: 0.9rem;
+    }
+    @media (max-width: 768px) {
+      form.settings-form {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Success Notification -->
+  <div class="notification" id="notificationBox">Changes saved successfully!</div>
+  
+  <header>
+    <div class="container">
+      <h1><i class="fas fa-mosque"></i> Account Settings</h1>
+      <!-- Profile Dropdown -->
+      <div class="profile-dropdown">
+        <button class="dropbtn" id="headerProfileBtn">
+          <i class="fas fa-user"></i>
+        </button>
+        <div class="profile-dropdown-content" id="profileDropdownContent">
+          <a href="settings.html"><i class="fas fa-cog"></i> Settings</a>
+          <a href="interact.html"><i class="fas fa-comments"></i> Interact</a>
+          <a href="#" id="headerLogoutBtn"><i class="fas fa-sign-out-alt"></i> Logout</a>
+        </div>
+      </div>
+    </div>
+  </header>
+  
+  <div class="container">
+    <!-- Account Details Section -->
+    <div class="settings-card">
+      <h2 class="section-title">Update Your Account Details</h2>
+      <form class="settings-form" id="settingsForm">
+        <div>
+          <label for="fullName">Full Name:</label>
+          <input type="text" id="fullName" name="fullName" required />
+        </div>
+        <div>
+          <label for="department">Department:</label>
+          <input type="text" id="department" name="department" />
+        </div>
+        <div>
+          <label for="phoneNumber">Phone Number:</label>
+          <input type="tel" id="phoneNumber" name="phoneNumber" />
+        </div>
+        <!-- Add more fields as needed -->
+        <button type="submit" class="btn">Save Changes</button>
+      </form>
+    </div>
+    
+    <!-- Account Deletion Section -->
+    <div class="settings-card delete-section">
+      <h2 class="section-title">Delete / Deactivate Account</h2>
+      <p>
+        Warning: If you request account deletion, your account will be scheduled for deletion in 17 days. During that time you can cancel the deletion if you change your mind.
+      </p>
+      <div id="deletionStatus">
+        <!-- If a deletion request is active, the countdown will display here -->
+      </div>
+      <div style="margin-top:15px;">
+        <button class="btn" id="requestDeletionBtn">Request Account Deletion</button>
+        <button class="btn" id="cancelDeletionBtn" style="display:none; background: var(--danger);">Cancel Deletion</button>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Deletion Warning Modal -->
+  <div class="modal" id="deletionModal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3>Confirm Account Deletion</h3>
+        <button class="close-btn" id="closeDeletionModal">&times;</button>
+      </div>
+      <div class="modal-body">
+        <p style="color: var(--danger);">
+          Are you sure you want to delete your account? Once confirmed, your account will be permanently deleted in 17 days if not cancelled.
+        </p>
+        <button class="btn" id="confirmDeletionBtn" style="background: var(--danger);">Yes, Proceed</button>
+        <button class="btn" id="cancelDeletionModalBtn" style="background: var(--accent);">No, Cancel</button>
+      </div>
+    </div>
+  </div>
+  
+  <footer>
+    <div class="container">
+      <p><i class="far fa-copyright"></i> 2023 Haramaya University Jama'aa. All rights reserved.</p>
+    </div>
+  </footer>
+  
+  <!-- Firebase & Script -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-app.js";
+    import { getAnalytics } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-analytics.js";
+    import { getFirestore, doc, updateDoc } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-firestore.js";
+    
+    // Firebase config
+    const firebaseConfig = {
+      apiKey: "AIzaSyBQyNVWh1BtCkXlBfuS7jHAa36FTklZayo",
+      authDomain: "pharma-quiz-b5a07.firebaseapp.com",
+      projectId: "pharma-quiz-b5a07",
+      storageBucket: "pharma-quiz-b5a07.appspot.com",
+      messagingSenderId: "161067776789",
+      appId: "1:161067776789:web:88b8a61145dc5f5c31471c",
+      measurementId: "G-3QRQE9HQFB"
+    };
+    const app = initializeApp(firebaseConfig);
+    const analytics = getAnalytics(app);
+    const db = getFirestore(app);
+    
+    // DOM Elements
+    const notificationBox = document.getElementById('notificationBox');
+    const headerProfileBtn = document.getElementById('headerProfileBtn');
+    const profileDropdownContent = document.getElementById('profileDropdownContent');
+    const headerLogoutBtn = document.getElementById('headerLogoutBtn');
+    const fullNameInput = document.getElementById('fullName');
+    const departmentInput = document.getElementById('department');
+    const phoneNumberInput = document.getElementById('phoneNumber');
+    const settingsForm = document.getElementById('settingsForm');
+    
+    const deletionStatusDiv = document.getElementById('deletionStatus');
+    const requestDeletionBtn = document.getElementById('requestDeletionBtn');
+    const cancelDeletionBtn = document.getElementById('cancelDeletionBtn');
+    const deletionModal = document.getElementById('deletionModal');
+    const closeDeletionModal = document.getElementById('closeDeletionModal');
+    const confirmDeletionBtn = document.getElementById('confirmDeletionBtn');
+    const cancelDeletionModalBtn = document.getElementById('cancelDeletionModalBtn');
+    
+    // Countdown duration in milliseconds (17 days)
+    const deletionDuration = 17 * 24 * 60 * 60 * 1000;
+    let countdownInterval;
+    
+    // Retrieve user data from localStorage
+    let userData = JSON.parse(localStorage.getItem('loggedInUser'));
+    if (!userData) {
+      // Not logged in: redirect to login
+      window.location.href = 'index.html';
+    }
+    
+    // Pre-fill settings form
+    function loadUserData() {
+      fullNameInput.value = userData.fullName || "";
+      departmentInput.value = userData.department || "";
+      phoneNumberInput.value = userData.phoneNumber || "";
+    }
+    
+    // Save settings (simulate updating both localStorage and Firestore)
+    settingsForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      // Update local userData
+      userData.fullName = fullNameInput.value.trim();
+      userData.department = departmentInput.value.trim();
+      userData.phoneNumber = phoneNumberInput.value.trim();
+      localStorage.setItem('loggedInUser', JSON.stringify(userData));
+      // (Optional) Update Firestore if you have a user document:
+      try {
+        const userDocRef = doc(db, "users", userData.studentId);
+        await updateDoc(userDocRef, {
+          fullName: userData.fullName,
+          department: userData.department,
+          phoneNumber: userData.phoneNumber
+        });
+      } catch (error) {
+        console.error("Error updating Firestore:", error);
+      }
+      showNotification("Changes saved successfully!");
+    });
+    
+    // Notification helper
+    function showNotification(msg) {
+      notificationBox.textContent = msg;
+      notificationBox.style.display = 'block';
+      setTimeout(() => {
+        notificationBox.style.display = 'none';
+      }, 4000);
+    }
+    
+    // Profile dropdown toggle
+    headerProfileBtn.addEventListener('click', () => {
+      profileDropdownContent.classList.toggle('show');
+    });
+    window.addEventListener('click', (e) => {
+      if (!e.target.matches('#headerProfileBtn') && !e.target.closest('.profile-dropdown-content')) {
+        profileDropdownContent.classList.remove('show');
+      }
+    });
+    
+    // Logout
+    headerLogoutBtn.addEventListener('click', () => {
+      localStorage.removeItem('loggedInUser');
+      window.location.href = 'index.html';
+    });
+    
+    // Account Deletion Flow
+    // Check if a deletion request already exists
+    function checkDeletionRequest() {
+      const deletionDeadline = localStorage.getItem('deletionDeadline');
+      if (deletionDeadline) {
+        const deadline = new Date(deletionDeadline);
+        const now = new Date();
+        if (deadline > now) {
+          // Show countdown
+          updateCountdown(deadline);
+          cancelDeletionBtn.style.display = 'inline-block';
+          requestDeletionBtn.style.display = 'none';
+        } else {
+          // Time expired: simulate account deletion
+          performDeletion();
+        }
+      }
+    }
+    
+    // Update countdown display
+    function updateCountdown(deadline) {
+      clearInterval(countdownInterval);
+      countdownInterval = setInterval(() => {
+        const now = new Date();
+        const diff = deadline - now;
+        if (diff <= 0) {
+          clearInterval(countdownInterval);
+          performDeletion();
+        } else {
+          const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+          const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+          const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+          const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+          deletionStatusDiv.innerHTML = `<p class="countdown">Account will be deleted in ${days}d ${hours}h ${minutes}m ${seconds}s</p>`;
+        }
+      }, 1000);
+    }
+    
+    // When user clicks request deletion, open modal
+    requestDeletionBtn.addEventListener('click', () => {
+      showModal(deletionModal);
+    });
+    
+    // Modal buttons
+    closeDeletionModal.addEventListener('click', () => {
+      hideModal(deletionModal);
+    });
+    cancelDeletionModalBtn.addEventListener('click', () => {
+      hideModal(deletionModal);
+    });
+    
+    // Confirm deletion request in modal
+    confirmDeletionBtn.addEventListener('click', () => {
+      hideModal(deletionModal);
+      // Set deletion deadline 17 days from now
+      const deadline = new Date(Date.now() + deletionDuration);
+      localStorage.setItem('deletionDeadline', deadline.toISOString());
+      showNotification("Account deletion scheduled. You have 17 days to cancel.");
+      cancelDeletionBtn.style.display = 'inline-block';
+      requestDeletionBtn.style.display = 'none';
+      updateCountdown(deadline);
+    });
+    
+    // Cancel deletion request
+    cancelDeletionBtn.addEventListener('click', () => {
+      localStorage.removeItem('deletionDeadline');
+      clearInterval(countdownInterval);
+      deletionStatusDiv.innerHTML = "";
+      showNotification("Account deletion cancelled.");
+      cancelDeletionBtn.style.display = 'none';
+      requestDeletionBtn.style.display = 'inline-block';
+    });
+    
+    // Simulate account deletion (here we simply clear localStorage and redirect)
+    function performDeletion() {
+      alert("Your account has been deleted.");
+      localStorage.removeItem('loggedInUser');
+      localStorage.removeItem('deletionDeadline');
+      // (Optional) Also remove the user document from Firestore here if needed.
+      window.location.href = 'index.html';
+    }
+    
+    // Modal helper functions
+    function showModal(modal) {
+      modal.style.display = 'flex';
+      setTimeout(() => {
+        modal.firstElementChild.classList.add('show');
+      }, 10);
+    }
+    function hideModal(modal) {
+      modal.firstElementChild.classList.remove('show');
+      setTimeout(() => {
+        modal.style.display = 'none';
+      }, 300);
+    }
+    
+    // Initialize
+    loadUserData();
+    checkDeletionRequest();
+  </script>
+</body>
+</html>
