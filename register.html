@@ -488,6 +488,40 @@
             box-shadow: 0 -5px 30px rgba(0, 0, 0, 0.05);
         }
         
+        .login-section {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            margin-top: 40px;
+            max-width: 500px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .login-section h2 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: var(--primary);
+        }
+        
+        .login-link {
+            text-align: center;
+            margin-top: 20px;
+        }
+        
+        .login-link a {
+            color: var(--secondary);
+            font-weight: 600;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        
+        .login-link a:hover {
+            color: var(--primary);
+            text-decoration: underline;
+        }
+        
         /* Animations */
         @keyframes fadeInUp {
             from {
@@ -624,168 +658,198 @@
     </header>
     
     <div class="container">
-        <div class="language-tabs">
-            <button class="tab-btn active" data-lang="amharic"><i class="fas fa-language"></i> Amharic</button>
-            <button class="tab-btn" data-lang="oromifa"><i class="fas fa-language"></i> Oromifa</button>
-        </div>
-        
-        <!-- Amharic Courses -->
-        <div id="amharic-courses" class="courses-container">
-            <!-- Sifetu Solah -->
-            <div class="course-card">
-                <div class="course-header">
-                    <h3>Sifetu Solah</h3>
-                    <span class="course-days"><i class="far fa-calendar-alt"></i> Saturday and Sunday</span>
+        <!-- Login Section (hidden by default) -->
+        <div class="login-section" id="loginSection" style="display: none;">
+            <h2><i class="fas fa-sign-in-alt"></i> Login</h2>
+            <div class="alert" id="loginAlert"></div>
+            <form id="loginForm">
+                <div class="form-group">
+                    <label for="loginStudentId"><i class="fas fa-id-card"></i> Student ID</label>
+                    <input type="text" id="loginStudentId" name="loginStudentId" required>
                 </div>
-                <div class="course-body">
-                    <p>Learn the proper way of performing prayers according to the Sunnah with detailed explanations and practical demonstrations.</p>
-                    <button class="register-btn" data-course="Sifetu Solah" data-lang="Amharic" data-days="Saturday and Sunday">
-                        <i class="fas fa-user-plus"></i> Register Now
-                    </button>
+                <div class="form-group">
+                    <label for="loginPassword"><i class="fas fa-lock"></i> Password</label>
+                    <input type="password" id="loginPassword" name="loginPassword" required>
                 </div>
-            </div>
-            
-            <!-- Usulu Selasah -->
-            <div class="course-card">
-                <div class="course-header">
-                    <h3>Usulu Selasah</h3>
-                    <span class="course-days"><i class="far fa-calendar-alt"></i> Monday and Tuesday</span>
-                </div>
-                <div class="course-body">
-                    <p>Study the three fundamental principles of Islam in depth with scholarly explanations and practical applications.</p>
-                    <button class="register-btn" data-course="Usulu Selasah" data-lang="Amharic" data-days="Monday and Tuesday">
-                        <i class="fas fa-user-plus"></i> Register Now
-                    </button>
-                </div>
-            </div>
-            
-            <!-- Tejwid Hidayetul Mustefid -->
-            <div class="course-card">
-                <div class="course-header">
-                    <h3>Tejwid Hidayetul Mustefid</h3>
-                    <span class="course-days"><i class="far fa-calendar-alt"></i> Saturday and Sunday morning</span>
-                </div>
-                <div class="course-body">
-                    <p>Master the rules of Quranic recitation with proper pronunciation, tajweed rules, and practical recitation sessions.</p>
-                    <button class="register-btn" data-course="Tejwid Hidayetul Mustefid" data-lang="Amharic" data-days="Saturday and Sunday morning">
-                        <i class="fas fa-user-plus"></i> Register Now
-                    </button>
-                </div>
-            </div>
-            
-            <!-- Kulasetu Nurel Yeqin -->
-            <div class="course-card">
-                <div class="course-header">
-                    <h3>Kulasetu Nurel Yeqin</h3>
-                    <span class="course-days"><i class="far fa-calendar-alt"></i> Only Thursday</span>
-                </div>
-                <div class="course-body">
-                    <p>Deepen your understanding of Islamic faith and certainty through this comprehensive study of Islamic creed.</p>
-                    <button class="register-btn" data-course="Kulasetu Nurel Yeqin" data-lang="Amharic" data-days="Only Thursday">
-                        <i class="fas fa-user-plus"></i> Register Now
-                    </button>
-                </div>
+                <button type="submit" class="submit-btn">
+                    <i class="fas fa-sign-in-alt"></i> Login
+                </button>
+            </form>
+            <div class="login-link">
+                <a href="#" id="showRegister">Don't have an account? Register here</a>
             </div>
         </div>
-        
-        <!-- Oromifa Courses -->
-        <div id="oromifa-courses" class="courses-container" style="display: none;">
-            <!-- Sifetu Solah -->
-            <div class="course-card">
-                <div class="course-header">
-                    <h3>Sifetu Solah</h3>
-                    <span class="course-days"><i class="far fa-calendar-alt"></i> Monday and Tuesday</span>
+
+        <!-- Registration Section -->
+        <div id="registrationSection">
+            <div class="language-tabs">
+                <button class="tab-btn active" data-lang="amharic"><i class="fas fa-language"></i> Amharic</button>
+                <button class="tab-btn" data-lang="oromifa"><i class="fas fa-language"></i> Oromifa</button>
+            </div>
+            
+            <!-- Amharic Courses -->
+            <div id="amharic-courses" class="courses-container">
+                <!-- Sifetu Solah -->
+                <div class="course-card">
+                    <div class="course-header">
+                        <h3>Sifetu Solah</h3>
+                        <span class="course-days"><i class="far fa-calendar-alt"></i> Saturday and Sunday</span>
+                    </div>
+                    <div class="course-body">
+                        <p>Learn the proper way of performing prayers according to the Sunnah with detailed explanations and practical demonstrations.</p>
+                        <button class="register-btn" data-course="Sifetu Solah" data-lang="Amharic" data-days="Saturday and Sunday">
+                            <i class="fas fa-user-plus"></i> Register Now
+                        </button>
+                    </div>
                 </div>
-                <div class="course-body">
-                    <p>Comprehensive study of the prayer's description from the Prophet's tradition with practical demonstrations.</p>
-                    <button class="register-btn" data-course="Sifetu Solah" data-lang="Oromifa" data-days="Monday and Tuesday">
-                        <i class="fas fa-user-plus"></i> Register Now
-                    </button>
+                
+                <!-- Usulu Selasah -->
+                <div class="course-card">
+                    <div class="course-header">
+                        <h3>Usulu Selasah</h3>
+                        <span class="course-days"><i class="far fa-calendar-alt"></i> Monday and Tuesday</span>
+                    </div>
+                    <div class="course-body">
+                        <p>Study the three fundamental principles of Islam in depth with scholarly explanations and practical applications.</p>
+                        <button class="register-btn" data-course="Usulu Selasah" data-lang="Amharic" data-days="Monday and Tuesday">
+                            <i class="fas fa-user-plus"></i> Register Now
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Tejwid Hidayetul Mustefid -->
+                <div class="course-card">
+                    <div class="course-header">
+                        <h3>Tejwid Hidayetul Mustefid</h3>
+                        <span class="course-days"><i class="far fa-calendar-alt"></i> Saturday and Sunday morning</span>
+                    </div>
+                    <div class="course-body">
+                        <p>Master the rules of Quranic recitation with proper pronunciation, tajweed rules, and practical recitation sessions.</p>
+                        <button class="register-btn" data-course="Tejwid Hidayetul Mustefid" data-lang="Amharic" data-days="Saturday and Sunday morning">
+                            <i class="fas fa-user-plus"></i> Register Now
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Kulasetu Nurel Yeqin -->
+                <div class="course-card">
+                    <div class="course-header">
+                        <h3>Kulasetu Nurel Yeqin</h3>
+                        <span class="course-days"><i class="far fa-calendar-alt"></i> Only Thursday</span>
+                    </div>
+                    <div class="course-body">
+                        <p>Deepen your understanding of Islamic faith and certainty through this comprehensive study of Islamic creed.</p>
+                        <button class="register-btn" data-course="Kulasetu Nurel Yeqin" data-lang="Amharic" data-days="Only Thursday">
+                            <i class="fas fa-user-plus"></i> Register Now
+                        </button>
+                    </div>
                 </div>
             </div>
             
-            <!-- Usulu Selasah -->
-            <div class="course-card">
-                <div class="course-header">
-                    <h3>Usulu Selasah</h3>
-                    <span class="course-days"><i class="far fa-calendar-alt"></i> Saturday and Sunday</span>
+            <!-- Oromifa Courses -->
+            <div id="oromifa-courses" class="courses-container" style="display: none;">
+                <!-- Sifetu Solah -->
+                <div class="course-card">
+                    <div class="course-header">
+                        <h3>Sifetu Solah</h3>
+                        <span class="course-days"><i class="far fa-calendar-alt"></i> Monday and Tuesday</span>
+                    </div>
+                    <div class="course-body">
+                        <p>Comprehensive study of the prayer's description from the Prophet's tradition with practical demonstrations.</p>
+                        <button class="register-btn" data-course="Sifetu Solah" data-lang="Oromifa" data-days="Monday and Tuesday">
+                            <i class="fas fa-user-plus"></i> Register Now
+                        </button>
+                    </div>
                 </div>
-                <div class="course-body">
-                    <p>The three fundamental principles every Muslim must know, explained in detail with practical applications.</p>
-                    <button class="register-btn" data-course="Usulu Selasah" data-lang="Oromifa" data-days="Saturday and Sunday">
-                        <i class="fas fa-user-plus"></i> Register Now
-                    </button>
+                
+                <!-- Usulu Selasah -->
+                <div class="course-card">
+                    <div class="course-header">
+                        <h3>Usulu Selasah</h3>
+                        <span class="course-days"><i class="far fa-calendar-alt"></i> Saturday and Sunday</span>
+                    </div>
+                    <div class="course-body">
+                        <p>The three fundamental principles every Muslim must know, explained in detail with practical applications.</p>
+                        <button class="register-btn" data-course="Usulu Selasah" data-lang="Oromifa" data-days="Saturday and Sunday">
+                            <i class="fas fa-user-plus"></i> Register Now
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Tejwid Hidayetulmustefid -->
+                <div class="course-card">
+                    <div class="course-header">
+                        <h3>Tejwid Hidayetulmustefid</h3>
+                        <span class="course-days"><i class="far fa-calendar-alt"></i> Saturday and Sunday morning</span>
+                    </div>
+                    <div class="course-body">
+                        <p>Advanced Tajweed rules for beautiful Quran recitation with expert instructors and individual feedback.</p>
+                        <button class="register-btn" data-course="Tejwid Hidayetulmustefid" data-lang="Oromifa" data-days="Saturday and Sunday morning">
+                            <i class="fas fa-user-plus"></i> Register Now
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Umdetul Ahkam -->
+                <div class="course-card">
+                    <div class="course-header">
+                        <h3>Umdetul Ahkam</h3>
+                        <span class="course-days"><i class="far fa-calendar-alt"></i> Saturday and Sunday</span>
+                    </div>
+                    <div class="course-body">
+                        <p>Essential Islamic rulings for daily life covering worship, transactions, and social interactions.</p>
+                        <button class="register-btn" data-course="Umdetul Ahkam" data-lang="Oromifa" data-days="Saturday and Sunday">
+                            <i class="fas fa-user-plus"></i> Register Now
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Riyadusualihin -->
+                <div class="course-card">
+                    <div class="course-header">
+                        <h3>Riyadusualihin</h3>
+                        <span class="course-days"><i class="far fa-calendar-alt"></i> Not specified</span>
+                    </div>
+                    <div class="course-body">
+                        <p>Gardens of the righteous - lessons from the famous book with practical guidance for spiritual growth.</p>
+                        <button class="register-btn" data-course="Riyadusualihin" data-lang="Oromifa" data-days="Not specified">
+                            <i class="fas fa-user-plus"></i> Register Now
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Tefsir -->
+                <div class="course-card">
+                    <div class="course-header">
+                        <h3>Tefsir</h3>
+                        <span class="course-days"><i class="far fa-calendar-alt"></i> Only Wednesday</span>
+                    </div>
+                    <div class="course-body">
+                        <p>Explanation and interpretation of the Holy Quran with linguistic, historical, and jurisprudential insights.</p>
+                        <button class="register-btn" data-course="Tefsir" data-lang="Oromifa" data-days="Only Wednesday">
+                            <i class="fas fa-user-plus"></i> Register Now
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Aqidetu Tuhawiya -->
+                <div class="course-card">
+                    <div class="course-header">
+                        <h3>Aqidetu Tuhawiya</h3>
+                        <span class="course-days"><i class="far fa-calendar-alt"></i> Not specified</span>
+                    </div>
+                    <div class="course-body">
+                        <p>Islamic creed based on the Quran and Sunnah with detailed explanations of theological matters.</p>
+                        <button class="register-btn" data-course="Aqidetu Tuhawiya" data-lang="Oromifa" data-days="Not specified">
+                            <i class="fas fa-user-plus"></i> Register Now
+                        </button>
+                    </div>
                 </div>
             </div>
             
-            <!-- Tejwid Hidayetulmustefid -->
-            <div class="course-card">
-                <div class="course-header">
-                    <h3>Tejwid Hidayetulmustefid</h3>
-                    <span class="course-days"><i class="far fa-calendar-alt"></i> Saturday and Sunday morning</span>
-                </div>
-                <div class="course-body">
-                    <p>Advanced Tajweed rules for beautiful Quran recitation with expert instructors and individual feedback.</p>
-                    <button class="register-btn" data-course="Tejwid Hidayetulmustefid" data-lang="Oromifa" data-days="Saturday and Sunday morning">
-                        <i class="fas fa-user-plus"></i> Register Now
-                    </button>
-                </div>
-            </div>
-            
-            <!-- Umdetul Ahkam -->
-            <div class="course-card">
-                <div class="course-header">
-                    <h3>Umdetul Ahkam</h3>
-                    <span class="course-days"><i class="far fa-calendar-alt"></i> Saturday and Sunday</span>
-                </div>
-                <div class="course-body">
-                    <p>Essential Islamic rulings for daily life covering worship, transactions, and social interactions.</p>
-                    <button class="register-btn" data-course="Umdetul Ahkam" data-lang="Oromifa" data-days="Saturday and Sunday">
-                        <i class="fas fa-user-plus"></i> Register Now
-                    </button>
-                </div>
-            </div>
-            
-            <!-- Riyadusualihin -->
-            <div class="course-card">
-                <div class="course-header">
-                    <h3>Riyadusualihin</h3>
-                    <span class="course-days"><i class="far fa-calendar-alt"></i> Not specified</span>
-                </div>
-                <div class="course-body">
-                    <p>Gardens of the righteous - lessons from the famous book with practical guidance for spiritual growth.</p>
-                    <button class="register-btn" data-course="Riyadusualihin" data-lang="Oromifa" data-days="Not specified">
-                        <i class="fas fa-user-plus"></i> Register Now
-                    </button>
-                </div>
-            </div>
-            
-            <!-- Tefsir -->
-            <div class="course-card">
-                <div class="course-header">
-                    <h3>Tefsir</h3>
-                    <span class="course-days"><i class="far fa-calendar-alt"></i> Only Wednesday</span>
-                </div>
-                <div class="course-body">
-                    <p>Explanation and interpretation of the Holy Quran with linguistic, historical, and jurisprudential insights.</p>
-                    <button class="register-btn" data-course="Tefsir" data-lang="Oromifa" data-days="Only Wednesday">
-                        <i class="fas fa-user-plus"></i> Register Now
-                    </button>
-                </div>
-            </div>
-            
-            <!-- Aqidetu Tuhawiya -->
-            <div class="course-card">
-                <div class="course-header">
-                    <h3>Aqidetu Tuhawiya</h3>
-                    <span class="course-days"><i class="far fa-calendar-alt"></i> Not specified</span>
-                </div>
-                <div class="course-body">
-                    <p>Islamic creed based on the Quran and Sunnah with detailed explanations of theological matters.</p>
-                    <button class="register-btn" data-course="Aqidetu Tuhawiya" data-lang="Oromifa" data-days="Not specified">
-                        <i class="fas fa-user-plus"></i> Register Now
-                    </button>
-                </div>
+            <!-- Login Link -->
+            <div class="login-link">
+                <a href="#" id="showLogin">Already registered? Login here</a>
             </div>
         </div>
     </div>
@@ -826,6 +890,18 @@
                         <label for="phoneNumber"><i class="fas fa-phone"></i> Phone Number</label>
                         <input type="tel" id="phoneNumber" name="phoneNumber" required>
                         <i class="fas fa-phone"></i>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="password"><i class="fas fa-lock"></i> Create Password</label>
+                        <input type="password" id="password" name="password" required minlength="6">
+                        <i class="fas fa-lock"></i>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="confirmPassword"><i class="fas fa-lock"></i> Confirm Password</label>
+                        <input type="password" id="confirmPassword" name="confirmPassword" required minlength="6">
+                        <i class="fas fa-lock"></i>
                     </div>
                     
                     <div class="form-group">
@@ -902,6 +978,37 @@
         const alertBox = document.getElementById('alertBox');
         const studentIdInput = document.getElementById('studentId');
         const submitBtn = document.getElementById('submitBtn');
+        const loginSection = document.getElementById('loginSection');
+        const registrationSection = document.getElementById('registrationSection');
+        const showLoginLink = document.getElementById('showLogin');
+        const showRegisterLink = document.getElementById('showRegister');
+        const loginForm = document.getElementById('loginForm');
+        const loginAlert = document.getElementById('loginAlert');
+
+        // Check if user is already logged in
+        function checkLoggedIn() {
+            const loggedInUser = localStorage.getItem('loggedInUser');
+            if (loggedInUser) {
+                // Redirect to profile page if already logged in
+                window.location.href = 'profile.html';
+            }
+        }
+
+        // Check on page load
+        checkLoggedIn();
+
+        // Toggle between login and registration views
+        showLoginLink.addEventListener('click', (e) => {
+            e.preventDefault();
+            registrationSection.style.display = 'none';
+            loginSection.style.display = 'block';
+        });
+
+        showRegisterLink.addEventListener('click', (e) => {
+            e.preventDefault();
+            loginSection.style.display = 'none';
+            registrationSection.style.display = 'block';
+        });
 
         // Validate student ID format (XXXX/YY)
         studentIdInput.addEventListener('input', function(e) {
@@ -989,18 +1096,34 @@
             }, 1000);
             
             // Get form values
+            const password = document.getElementById('password').value;
+            const confirmPassword = document.getElementById('confirmPassword').value;
+            
             const formData = {
                 fullName: document.getElementById('fullName').value.trim(),
                 department: document.getElementById('department').value.trim(),
                 phoneNumber: document.getElementById('phoneNumber').value.trim(),
                 studentId: document.getElementById('studentId').value.trim(),
+                password: password,
                 religion: document.getElementById('religion').value,
                 yearOfStudy: document.getElementById('yearOfStudy').value,
                 course: selectedCourseInput.value,
                 language: selectedLanguageInput.value,
                 days: selectedDaysInput.value,
-                timestamp: new Date().toISOString()
+                timestamp: new Date().toISOString(),
+                registeredCourses: [selectedCourseInput.value] // Initialize with current course
             };
+            
+            // Validate password
+            if (password !== confirmPassword) {
+                showAlert('Passwords do not match.', 'error');
+                return;
+            }
+            
+            if (password.length < 6) {
+                showAlert('Password must be at least 6 characters long.', 'error');
+                return;
+            }
             
             // Validate religion
             if (formData.religion !== 'Muslim') {
@@ -1034,33 +1157,49 @@
                     return;
                 }
                 
-                // Check if the same full name, ID, and department combination exists in any course
-                const duplicateQuery = query(
+                // Check if the same student ID exists in any course
+                const studentQuery = query(
                     collection(db, "registrations"),
-                    where("studentId", "==", formData.studentId),
-                    where("fullName", "==", formData.fullName),
-                    where("department", "==", formData.department)
+                    where("studentId", "==", formData.studentId)
                 );
                 
-                const duplicateQuerySnapshot = await getDocs(duplicateQuery);
-                if (!duplicateQuerySnapshot.empty) {
-                    // User exists but not in this course - allow registration
-                    // We'll just show a different message but still allow registration
-                    showAlert('You are already registered for another course with the same details. You can register for this course as well.', 'success');
-                    // Continue with registration
+                const studentQuerySnapshot = await getDocs(studentQuery);
+                if (!studentQuerySnapshot.empty) {
+                    // User exists - update their registered courses
+                    const existingUser = studentQuerySnapshot.docs[0].data();
+                    const updatedCourses = [...new Set([...existingUser.registeredCourses, formData.course])];
+                    
+                    // Store user data in localStorage for immediate login
+                    localStorage.setItem('loggedInUser', JSON.stringify({
+                        studentId: formData.studentId,
+                        fullName: formData.fullName,
+                        registeredCourses: updatedCourses
+                    }));
+                    
+                    showAlert('You have been successfully registered for this additional course. Redirecting to your profile...', 'success');
+                    
+                    // Redirect to profile page after 2 seconds
+                    setTimeout(() => {
+                        window.location.href = 'profile.html';
+                    }, 2000);
+                    return;
                 }
                 
-                // Add a new document to Firestore
+                // Add a new document to Firestore for new user
                 const docRef = await addDoc(collection(db, "registrations"), formData);
+                
+                // Store user data in localStorage for immediate login
+                localStorage.setItem('loggedInUser', JSON.stringify({
+                    studentId: formData.studentId,
+                    fullName: formData.fullName,
+                    registeredCourses: [formData.course]
+                }));
                 
                 showAlert('Registration successful! Redirecting to your profile...', 'success');
                 
-                // Store registration in localStorage
-                localStorage.setItem(`registered_${formData.course}`, 'true');
-                
                 // Redirect to profile page after 2 seconds
                 setTimeout(() => {
-                    window.location.href = `profile.html?course=${encodeURIComponent(formData.course)}&studentId=${formData.studentId}`;
+                    window.location.href = 'profile.html';
                 }, 2000);
             } catch (error) {
                 showAlert('Registration failed. Please try again.', 'error');
@@ -1068,7 +1207,52 @@
             }
         });
 
-        // Show alert
+        // Login form submission
+        loginForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const studentId = document.getElementById('loginStudentId').value.trim();
+            const password = document.getElementById('loginPassword').value;
+            
+            try {
+                // Check if student exists with this ID and password
+                const studentQuery = query(
+                    collection(db, "registrations"),
+                    where("studentId", "==", studentId),
+                    where("password", "==", password)
+                );
+                
+                const querySnapshot = await getDocs(studentQuery);
+                
+                if (querySnapshot.empty) {
+                    showLoginAlert('Invalid Student ID or password.', 'error');
+                    return;
+                }
+                
+                // Login successful
+                const userData = querySnapshot.docs[0].data();
+                
+                // Store user data in localStorage
+                localStorage.setItem('loggedInUser', JSON.stringify({
+                    studentId: userData.studentId,
+                    fullName: userData.fullName,
+                    registeredCourses: userData.registeredCourses || [userData.course]
+                }));
+                
+                showLoginAlert('Login successful! Redirecting to your profile...', 'success');
+                
+                // Redirect to profile page after 1 second
+                setTimeout(() => {
+                    window.location.href = 'profile.html';
+                }, 1000);
+                
+            } catch (error) {
+                showLoginAlert('Login failed. Please try again.', 'error');
+                console.error("Error logging in: ", error);
+            }
+        });
+
+        // Show alert in registration
         function showAlert(message, type) {
             alertBox.textContent = message;
             alertBox.className = `alert alert-${type}`;
@@ -1077,6 +1261,18 @@
             // Hide alert after 5 seconds
             setTimeout(() => {
                 alertBox.style.display = 'none';
+            }, 5000);
+        }
+
+        // Show alert in login
+        function showLoginAlert(message, type) {
+            loginAlert.textContent = message;
+            loginAlert.className = `alert alert-${type}`;
+            loginAlert.style.display = 'block';
+            
+            // Hide alert after 5 seconds
+            setTimeout(() => {
+                loginAlert.style.display = 'none';
             }, 5000);
         }
 
