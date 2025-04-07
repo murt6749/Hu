@@ -173,9 +173,9 @@
             color: var(--primary-color);
         }
 
-        .btn-danger {
-            background-color: var(--danger-color);
-            color: white;
+        .btn-sm {
+            padding: 8px 12px;
+            font-size: 0.9rem;
         }
 
         /* Badges */
@@ -202,8 +202,8 @@
             color: black;
         }
 
-        .badge-info {
-            background-color: var(--info-color);
+        .badge-danger {
+            background-color: var(--danger-color);
             color: white;
         }
 
@@ -251,11 +251,10 @@
             overflow: hidden;
         }
 
-        .course-list-item {
-            background-color: white;
+        .course-item {
+            border: 1px solid #eee;
             border-radius: var(--border-radius);
             padding: 12px;
-            box-shadow: var(--shadow);
         }
 
         .course-header {
@@ -295,7 +294,7 @@
             margin-bottom: 10px;
         }
 
-        .view-btn {
+        .view-toggle-btn {
             background: none;
             border: none;
             color: var(--secondary-color);
@@ -304,8 +303,16 @@
             padding: 5px;
         }
 
-        .view-btn.active {
+        .view-toggle-btn.active {
             color: var(--primary-color);
+        }
+
+        /* Filter Container */
+        .filter-container {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+            margin-bottom: 15px;
         }
 
         /* Modal Styles */
@@ -375,6 +382,18 @@
             gap: 10px;
         }
 
+        /* Confirmation Modal */
+        .confirmation-modal .modal-body {
+            text-align: center;
+            padding: 20px;
+        }
+
+        .confirmation-icon {
+            font-size: 3rem;
+            color: var(--primary-color);
+            margin-bottom: 15px;
+        }
+
         /* Profile Styles */
         .profile-header {
             display: flex;
@@ -409,24 +428,8 @@
             margin-top: 15px;
         }
 
-        .classmates-list {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-        }
-
         .classmate-card {
             text-align: center;
-        }
-
-        .classmate-item {
-            background-color: white;
-            border-radius: var(--border-radius);
-            padding: 12px;
-            box-shadow: var(--shadow);
-            display: flex;
-            align-items: center;
-            gap: 10px;
         }
 
         .classmate-avatar {
@@ -437,46 +440,36 @@
             display: flex;
             justify-content: center;
             align-items: center;
+            margin: 0 auto 5px;
             font-weight: bold;
             font-size: 0.9rem;
-            flex-shrink: 0;
-        }
-
-        .classmate-info {
-            flex-grow: 1;
-            text-align: left;
         }
 
         .classmate-name {
-            font-size: 0.9rem;
-            margin-bottom: 3px;
+            font-size: 0.7rem;
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
         }
 
         .classmate-progress {
-            font-size: 0.8rem;
+            font-size: 0.6rem;
             color: var(--secondary-color);
         }
 
         /* Countdown Timer */
-        .countdown {
-            display: inline-block;
-            padding: 3px 8px;
-            border-radius: 4px;
-            background-color: var(--warning-color);
-            color: black;
-            font-size: 0.8rem;
-            font-weight: 500;
+        .countdown-timer {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 5px;
+            margin-top: 10px;
+            font-size: 0.9rem;
+            color: var(--danger-color);
         }
 
-        /* Filter Container */
-        .filter-container {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 10px;
-            margin-bottom: 15px;
+        .countdown-timer i {
+            margin-right: 5px;
         }
 
         /* Responsive Adjustments */
@@ -509,14 +502,8 @@
         .mt-3 {
             margin-top: 15px;
         }
-        .d-flex {
-            display: flex;
-        }
-        .justify-between {
-            justify-content: space-between;
-        }
-        .gap-2 {
-            gap: 10px;
+        .d-none {
+            display: none;
         }
     </style>
 </head>
@@ -574,41 +561,6 @@
         </div>
     </div>
 
-    <!-- Enrollment Confirmation Modal -->
-    <div class="modal" id="confirm-modal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3 class="modal-title" id="confirm-modal-title">Confirm Enrollment</h3>
-                <button class="modal-close" id="close-confirm-modal">&times;</button>
-            </div>
-            <div class="modal-body" id="confirm-modal-body">
-                <p>Are you sure you want to enroll in this course?</p>
-                <p><strong>Note:</strong> You won't be able to unenroll for 14 days after enrollment.</p>
-            </div>
-            <div class="modal-footer">
-                <button class="btn btn-outline" id="cancel-enroll-btn">Cancel</button>
-                <button class="btn btn-primary" id="confirm-enroll-btn">Confirm</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- Unenroll Warning Modal -->
-    <div class="modal" id="unenroll-modal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3 class="modal-title">Cannot Unenroll Yet</h3>
-                <button class="modal-close" id="close-unenroll-modal">&times;</button>
-            </div>
-            <div class="modal-body">
-                <p>You cannot unenroll from this course yet. Our policy requires students to remain enrolled for at least 14 days.</p>
-                <p id="unenroll-countdown"></p>
-            </div>
-            <div class="modal-footer">
-                <button class="btn btn-primary" id="close-unenroll-btn">OK</button>
-            </div>
-        </div>
-    </div>
-
     <!-- Profile Edit Modal -->
     <div class="modal" id="profile-modal">
         <div class="modal-content">
@@ -649,6 +601,49 @@
                     </div>
                     <button type="submit" class="btn btn-primary">Save Changes</button>
                 </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Confirmation Modal -->
+    <div class="modal confirmation-modal" id="confirmation-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title" id="confirmation-title">Confirm Action</h3>
+                <button class="modal-close" id="close-confirmation-modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="confirmation-icon">
+                    <i class="fas fa-question-circle"></i>
+                </div>
+                <h4 id="confirmation-message">Are you sure you want to enroll in this course?</h4>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-outline" id="cancel-confirm">Cancel</button>
+                <button class="btn btn-primary" id="confirm-action">Confirm</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Unenroll Warning Modal -->
+    <div class="modal confirmation-modal" id="unenroll-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">Unenroll Warning</h3>
+                <button class="modal-close" id="close-unenroll-modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="confirmation-icon">
+                    <i class="fas fa-exclamation-triangle"></i>
+                </div>
+                <h4 id="unenroll-message"></h4>
+                <div class="countdown-timer" id="countdown-timer">
+                    <i class="fas fa-clock"></i>
+                    <span id="countdown-display">14 days remaining</span>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-primary" id="close-unenroll-btn">OK</button>
             </div>
         </div>
     </div>
@@ -702,16 +697,6 @@
         const closeCourseModal = document.getElementById('close-course-modal');
         const courseModalTitle = document.getElementById('course-modal-title');
         const courseModalBody = document.getElementById('course-modal-body');
-        const confirmModal = document.getElementById('confirm-modal');
-        const closeConfirmModal = document.getElementById('close-confirm-modal');
-        const confirmModalTitle = document.getElementById('confirm-modal-title');
-        const confirmModalBody = document.getElementById('confirm-modal-body');
-        const cancelEnrollBtn = document.getElementById('cancel-enroll-btn');
-        const confirmEnrollBtn = document.getElementById('confirm-enroll-btn');
-        const unenrollModal = document.getElementById('unenroll-modal');
-        const closeUnenrollModal = document.getElementById('close-unenroll-modal');
-        const unenrollCountdown = document.getElementById('unenroll-countdown');
-        const closeUnenrollBtn = document.getElementById('close-unenroll-btn');
         const profileModal = document.getElementById('profile-modal');
         const closeProfileModal = document.getElementById('close-profile-modal');
         const profileForm = document.getElementById('profile-form');
@@ -720,6 +705,16 @@
         const editDepartment = document.getElementById('edit-department');
         const editYear = document.getElementById('edit-year');
         const editPhone = document.getElementById('edit-phone');
+        const confirmationModal = document.getElementById('confirmation-modal');
+        const confirmationTitle = document.getElementById('confirmation-title');
+        const confirmationMessage = document.getElementById('confirmation-message');
+        const cancelConfirmBtn = document.getElementById('cancel-confirm');
+        const confirmActionBtn = document.getElementById('confirm-action');
+        const unenrollModal = document.getElementById('unenroll-modal');
+        const unenrollMessage = document.getElementById('unenroll-message');
+        const countdownDisplay = document.getElementById('countdown-display');
+        const closeUnenrollModal = document.getElementById('close-unenroll-modal');
+        const closeUnenrollBtn = document.getElementById('close-unenroll-btn');
 
         // Current user data
         let currentUser = null;
@@ -727,8 +722,8 @@
         let enrolledCourses = [];
         let allCourses = [];
         let classmatesData = [];
-        let currentView = 'grid'; // 'grid' or 'list'
-        let courseToEnroll = null;
+        let currentView = 'cards'; // 'cards' or 'list'
+        let pendingAction = null; // { type: 'enroll'/'unenroll', courseId: string }
 
         // Complete course data from the document
         const completeCoursesData = [
@@ -1253,13 +1248,12 @@
 
             logoutBtn.addEventListener('click', handleLogout);
             closeCourseModal.addEventListener('click', () => courseModal.classList.remove('active'));
-            closeConfirmModal.addEventListener('click', () => confirmModal.classList.remove('active'));
-            cancelEnrollBtn.addEventListener('click', () => confirmModal.classList.remove('active'));
-            confirmEnrollBtn.addEventListener('click', confirmEnrollment);
-            closeUnenrollModal.addEventListener('click', () => unenrollModal.classList.remove('active'));
-            closeUnenrollBtn.addEventListener('click', () => unenrollModal.classList.remove('active'));
             closeProfileModal.addEventListener('click', () => profileModal.classList.remove('active'));
             profileForm.addEventListener('submit', saveProfile);
+            cancelConfirmBtn.addEventListener('click', () => confirmationModal.classList.remove('active'));
+            confirmActionBtn.addEventListener('click', executePendingAction);
+            closeUnenrollModal.addEventListener('click', () => unenrollModal.classList.remove('active'));
+            closeUnenrollBtn.addEventListener('click', () => unenrollModal.classList.remove('active'));
 
             // Check auth state
             onAuthStateChanged(auth, async (user) => {
@@ -1399,19 +1393,18 @@
         function loadCoursesPage() {
             let html = `
                 <div class="card">
-                    <div class="d-flex justify-between align-center">
-                        <h2 class="card-title">Available Courses</h2>
-                        <div class="view-toggle">
-                            <button class="view-btn ${currentView === 'grid' ? 'active' : ''}" onclick="setView('grid')">
-                                <i class="fas fa-th"></i>
-                            </button>
-                            <button class="view-btn ${currentView === 'list' ? 'active' : ''}" onclick="setView('list')">
-                                <i class="fas fa-list"></i>
-                            </button>
-                        </div>
+                    <h2 class="card-title">Available Courses</h2>
+                    
+                    <div class="view-toggle">
+                        <button class="view-toggle-btn ${currentView === 'cards' ? 'active' : ''}" onclick="setView('cards')">
+                            <i class="fas fa-th-large"></i>
+                        </button>
+                        <button class="view-toggle-btn ${currentView === 'list' ? 'active' : ''}" onclick="setView('list')">
+                            <i class="fas fa-list"></i>
+                        </button>
                     </div>
                     
-                    <div class="filter-container mb-3">
+                    <div class="filter-container">
                         <div class="form-group">
                             <label for="type-filter">Type</label>
                             <select id="type-filter" class="form-control">
@@ -1447,8 +1440,8 @@
                         </div>
                     </div>
                     
-                    <div class="${currentView === 'grid' ? 'courses-grid' : 'courses-list'}" id="courses-list">
-                        <!-- Courses will be loaded here -->
+                    <div id="courses-display">
+                        <!-- Courses will be loaded here based on view -->
                     </div>
                 </div>
                 
@@ -1463,27 +1456,24 @@
             mainContent.innerHTML = html;
 
             // Set up filter events
-            document.getElementById('type-filter').addEventListener('change', filterCourses);
-            document.getElementById('language-filter').addEventListener('change', filterCourses);
-            document.getElementById('level-filter').addEventListener('change', filterCourses);
-            document.getElementById('gender-filter').addEventListener('change', filterCourses);
+            document.getElementById('type-filter').addEventListener('change', filterAndDisplayCourses);
+            document.getElementById('language-filter').addEventListener('change', filterAndDisplayCourses);
+            document.getElementById('level-filter').addEventListener('change', filterAndDisplayCourses);
+            document.getElementById('gender-filter').addEventListener('change', filterAndDisplayCourses);
 
             // Display courses
-            displayCourses();
+            filterAndDisplayCourses();
             displayEnrolledCourses();
         }
 
-        // Set view type (grid or list)
-        function setView(viewType) {
-            currentView = viewType;
-            loadCoursesPage();
+        // Set the current view (cards or list)
+        function setView(view) {
+            currentView = view;
+            filterAndDisplayCourses();
         }
 
-        // Display available courses
-        function displayCourses() {
-            const coursesList = document.getElementById('courses-list');
-            if (!coursesList) return;
-
+        // Filter and display courses based on current filters and view
+        function filterAndDisplayCourses() {
             const typeFilter = document.getElementById('type-filter')?.value || 'all';
             const languageFilter = document.getElementById('language-filter')?.value || 'all';
             const levelFilter = document.getElementById('level-filter')?.value || 'all';
@@ -1491,18 +1481,16 @@
 
             let filteredCourses = allCourses;
             
+            // Apply filters
             if (typeFilter !== 'all') {
                 filteredCourses = filteredCourses.filter(course => course.type === typeFilter);
             }
-            
             if (languageFilter !== 'all') {
                 filteredCourses = filteredCourses.filter(course => course.language === languageFilter);
             }
-            
             if (levelFilter !== 'all') {
                 filteredCourses = filteredCourses.filter(course => course.level === levelFilter || course.level === 'all');
             }
-            
             if (genderFilter !== 'all') {
                 filteredCourses = filteredCourses.filter(course => course.gender === genderFilter || course.gender === 'all');
             }
@@ -1512,50 +1500,41 @@
                 !enrolledCourses.some(ec => ec.id === course.id)
             );
 
-            if (filteredCourses.length === 0) {
-                coursesList.innerHTML = '<p>No courses available matching your filters.</p>';
+            // Display based on current view
+            displayCourses(filteredCourses);
+        }
+
+        // Display courses based on current view
+        function displayCourses(courses) {
+            const coursesDisplay = document.getElementById('courses-display');
+            if (!coursesDisplay) return;
+
+            if (courses.length === 0) {
+                coursesDisplay.innerHTML = '<p>No courses available matching your filters.</p>';
                 return;
             }
 
-            coursesList.innerHTML = '';
-            
-            if (currentView === 'grid') {
-                // Grid view
-                filteredCourses.forEach(course => {
-                    const courseCard = document.createElement('div');
-                    courseCard.className = 'course-card';
-                    courseCard.innerHTML = `
-                        <div class="course-header">
-                            <h3>${course.title}</h3>
-                        </div>
-                        <div class="course-body">
-                            <div class="course-meta">
-                                <span class="badge ${getBadgeClass(course.type)}">${course.type.toUpperCase()}</span>
-                                <span>${course.language.toUpperCase()}</span>
-                            </div>
-                            <div class="course-detail">
-                                <strong>Instructor:</strong> ${course.instructor}
-                            </div>
-                            <div class="course-detail">
-                                <strong>Schedule:</strong> ${course.schedule}
-                            </div>
-                            <div class="course-actions mt-3">
-                                <button class="btn btn-primary" onclick="showEnrollConfirmation('${course.id}')">Enroll</button>
-                                <button class="btn btn-outline" onclick="viewCourseDetails('${course.id}')">Details</button>
-                            </div>
-                        </div>
-                    `;
-                    coursesList.appendChild(courseCard);
-                });
+            if (currentView === 'cards') {
+                displayCoursesAsCards(courses);
             } else {
-                // List view
-                filteredCourses.forEach(course => {
-                    const courseItem = document.createElement('div');
-                    courseItem.className = 'course-list-item';
-                    courseItem.innerHTML = `
-                        <div class="course-detail">
-                            <strong>${course.title}</strong>
-                        </div>
+                displayCoursesAsList(courses);
+            }
+        }
+
+        // Display courses as cards
+        function displayCoursesAsCards(courses) {
+            const coursesDisplay = document.getElementById('courses-display');
+            coursesDisplay.innerHTML = '<div class="courses-grid" id="courses-list"></div>';
+            const coursesList = document.getElementById('courses-list');
+
+            courses.forEach(course => {
+                const courseCard = document.createElement('div');
+                courseCard.className = 'course-card';
+                courseCard.innerHTML = `
+                    <div class="course-header">
+                        <h3>${course.title}</h3>
+                    </div>
+                    <div class="course-body">
                         <div class="course-meta">
                             <span class="badge ${getBadgeClass(course.type)}">${course.type.toUpperCase()}</span>
                             <span>${course.language.toUpperCase()}</span>
@@ -1566,19 +1545,46 @@
                         <div class="course-detail">
                             <strong>Schedule:</strong> ${course.schedule}
                         </div>
-                        <div class="course-actions mt-2">
+                        <div class="course-actions mt-3">
                             <button class="btn btn-primary" onclick="showEnrollConfirmation('${course.id}')">Enroll</button>
                             <button class="btn btn-outline" onclick="viewCourseDetails('${course.id}')">Details</button>
                         </div>
-                    `;
-                    coursesList.appendChild(courseItem);
-                });
-            }
+                    </div>
+                `;
+                coursesList.appendChild(courseCard);
+            });
         }
 
-        // Filter courses
-        function filterCourses() {
-            displayCourses();
+        // Display courses as list
+        function displayCoursesAsList(courses) {
+            const coursesDisplay = document.getElementById('courses-display');
+            coursesDisplay.innerHTML = '<div class="courses-list" id="courses-list"></div>';
+            const coursesList = document.getElementById('courses-list');
+
+            courses.forEach(course => {
+                const courseItem = document.createElement('div');
+                courseItem.className = 'course-item';
+                courseItem.innerHTML = `
+                    <div class="course-detail">
+                        <strong>${course.title}</strong>
+                    </div>
+                    <div class="course-meta">
+                        <span class="badge ${getBadgeClass(course.type)}">${course.type.toUpperCase()}</span>
+                        <span>${course.language.toUpperCase()}</span>
+                    </div>
+                    <div class="course-detail">
+                        <strong>Instructor:</strong> ${course.instructor}
+                    </div>
+                    <div class="course-detail">
+                        <strong>Schedule:</strong> ${course.schedule}
+                    </div>
+                    <div class="course-actions mt-2">
+                        <button class="btn btn-primary btn-sm" onclick="showEnrollConfirmation('${course.id}')">Enroll</button>
+                        <button class="btn btn-outline btn-sm" onclick="viewCourseDetails('${course.id}')">Details</button>
+                    </div>
+                `;
+                coursesList.appendChild(courseItem);
+            });
         }
 
         // Show enrollment confirmation
@@ -1586,72 +1592,50 @@
             const course = allCourses.find(c => c.id === courseId);
             if (!course) return;
 
-            courseToEnroll = course;
-            confirmModalTitle.textContent = `Enroll in ${course.title}`;
-            confirmModalBody.innerHTML = `
-                <p>Are you sure you want to enroll in <strong>${course.title}</strong>?</p>
-                <p class="mt-2"><i class="fas fa-info-circle"></i> <strong>Note:</strong> You won't be able to unenroll for 14 days after enrollment.</p>
-                <div class="card mt-3">
-                    <div class="course-detail">
-                        <strong>Instructor:</strong> ${course.instructor}
-                    </div>
-                    <div class="course-detail">
-                        <strong>Schedule:</strong> ${course.schedule}
-                    </div>
-                    <div class="course-detail">
-                        <strong>Location:</strong> ${course.location}
-                    </div>
-                </div>
-            `;
-            confirmModal.classList.add('active');
+            pendingAction = {
+                type: 'enroll',
+                courseId: courseId
+            };
+
+            confirmationTitle.textContent = 'Confirm Enrollment';
+            confirmationMessage.textContent = `Are you sure you want to enroll in ${course.title}?`;
+            confirmActionBtn.textContent = 'Enroll';
+            confirmationModal.classList.add('active');
         }
 
-        // Confirm enrollment
-        async function confirmEnrollment() {
-            if (!currentUser || !courseToEnroll) return;
+        // Show unenroll warning with countdown
+        function showUnenrollWarning(courseId) {
+            const course = enrolledCourses.find(c => c.id === courseId);
+            if (!course) return;
 
-            try {
-                // Add course to user's enrolled courses with enrollment date
-                const enrollmentData = {
-                    id: courseToEnroll.id,
-                    title: courseToEnroll.title,
-                    type: courseToEnroll.type,
-                    instructor: courseToEnroll.instructor,
-                    schedule: courseToEnroll.schedule,
-                    progress: 0,
-                    enrolledAt: serverTimestamp(),
-                    lastActive: serverTimestamp(),
-                    daysPerWeek: courseToEnroll.daysPerWeek,
-                    progressRate: courseToEnroll.progressRate
-                };
+            // Calculate days since enrollment (minimum 14 days required)
+            const enrollmentDate = new Date(course.lastActive || course.enrollmentDate || new Date());
+            const currentDate = new Date();
+            const daysSinceEnrollment = Math.floor((currentDate - enrollmentDate) / (1000 * 60 * 60 * 24));
+            const daysRemaining = Math.max(0, 14 - daysSinceEnrollment);
 
-                await updateDoc(doc(db, "users", currentUser.uid), {
-                    enrolledCourses: arrayUnion(enrollmentData)
-                });
-
-                // Update local data
-                enrolledCourses.push({
-                    ...enrollmentData,
-                    enrolledAt: new Date().toISOString(),
-                    lastActive: new Date().toISOString()
-                });
-
-                // Refresh displays
-                displayCourses();
-                displayEnrolledCourses();
-                
-                // Close modal
-                confirmModal.classList.remove('active');
-                
-                // Show success message
-                alert(`Successfully enrolled in ${courseToEnroll.title}`);
-                
-                // Reset course to enroll
-                courseToEnroll = null;
-            } catch (error) {
-                console.error("Error enrolling in course:", error);
-                alert("Failed to enroll in course. Please try again.");
+            if (daysRemaining > 0) {
+                unenrollMessage.textContent = `You cannot unenroll from ${course.title} yet. University policy requires a minimum enrollment period of 14 days.`;
+                countdownDisplay.textContent = `${daysRemaining} day${daysRemaining !== 1 ? 's' : ''} remaining`;
+                unenrollModal.classList.add('active');
+                return false;
             }
+
+            return true;
+        }
+
+        // Execute pending action after confirmation
+        function executePendingAction() {
+            if (!pendingAction) return;
+
+            if (pendingAction.type === 'enroll') {
+                enrollInCourse(pendingAction.courseId);
+            } else if (pendingAction.type === 'unenroll') {
+                unenrollFromCourse(pendingAction.courseId);
+            }
+
+            confirmationModal.classList.remove('active');
+            pendingAction = null;
         }
 
         // Display enrolled courses
@@ -1667,14 +1651,9 @@
             enrolledContainer.innerHTML = '';
             enrolledCourses.forEach(course => {
                 const fullCourse = allCourses.find(c => c.id === course.id) || course;
-                const enrolledDate = new Date(course.enrolledAt);
-                const unenrollDate = new Date(enrolledDate.getTime() + 14 * 24 * 60 * 60 * 1000);
-                const now = new Date();
-                const canUnenroll = now > unenrollDate;
-                const daysLeft = Math.ceil((unenrollDate - now) / (24 * 60 * 60 * 1000));
                 
                 const courseItem = document.createElement('div');
-                courseItem.className = 'course-list-item';
+                courseItem.className = 'course-item';
                 courseItem.innerHTML = `
                     <div class="course-detail">
                         <strong>${fullCourse.title}</strong>
@@ -1690,68 +1669,28 @@
                             <div class="progress-fill" style="width: ${course.progress}%"></div>
                         </div>
                     </div>
-                    <div class="course-actions mt-2 d-flex gap-2">
-                        <button class="btn btn-outline" onclick="viewCourseProgress('${course.id}')">View Progress</button>
-                        <button class="btn ${canUnenroll ? 'btn-danger' : 'btn-outline'}" 
-                            onclick="${canUnenroll ? `unenrollFromCourse('${course.id}')` : `showUnenrollWarning('${course.id}')`}">
-                            ${canUnenroll ? 'Unenroll' : 'Can\'t Unenroll'}
-                        </button>
+                    <div class="course-actions mt-2">
+                        <button class="btn btn-outline btn-sm" onclick="viewCourseProgress('${course.id}')">View Progress</button>
+                        <button class="btn btn-outline btn-sm" onclick="attemptUnenroll('${course.id}')">Unenroll</button>
                     </div>
-                    ${!canUnenroll ? `
-                        <div class="course-detail mt-2">
-                            <i class="fas fa-clock"></i> You can unenroll in ${daysLeft} day${daysLeft !== 1 ? 's' : ''}
-                        </div>
-                    ` : ''}
                 `;
                 enrolledContainer.appendChild(courseItem);
             });
         }
 
-        // Show unenroll warning
-        function showUnenrollWarning(courseId) {
-            const course = enrolledCourses.find(c => c.id === courseId);
-            if (!course) return;
+        // Attempt to unenroll (shows warning if needed)
+        function attemptUnenroll(courseId) {
+            const canUnenroll = showUnenrollWarning(courseId);
+            if (canUnenroll) {
+                pendingAction = {
+                    type: 'unenroll',
+                    courseId: courseId
+                };
 
-            const enrolledDate = new Date(course.enrolledAt);
-            const unenrollDate = new Date(enrolledDate.getTime() + 14 * 24 * 60 * 60 * 1000);
-            const now = new Date();
-            const daysLeft = Math.ceil((unenrollDate - now) / (24 * 60 * 60 * 1000));
-
-            unenrollCountdown.innerHTML = `
-                <strong>Time remaining:</strong> ${daysLeft} day${daysLeft !== 1 ? 's' : ''}
-                <br>
-                <small>You enrolled on ${enrolledDate.toLocaleDateString()}</small>
-            `;
-            unenrollModal.classList.add('active');
-        }
-
-        // Unenroll from a course
-        async function unenrollFromCourse(courseId) {
-            if (!currentUser) return;
-
-            const course = enrolledCourses.find(c => c.id === courseId);
-            if (!course) return;
-
-            if (!confirm(`Are you sure you want to unenroll from ${course.title}?`)) {
-                return;
-            }
-
-            try {
-                // Remove course from user's enrolled courses
-                await updateDoc(doc(db, "users", currentUser.uid), {
-                    enrolledCourses: arrayRemove(course)
-                });
-
-                // Update local data
-                enrolledCourses = enrolledCourses.filter(c => c.id !== courseId);
-
-                // Refresh displays
-                displayCourses();
-                displayEnrolledCourses();
-                alert("Successfully unenrolled from the course.");
-            } catch (error) {
-                console.error("Error unenrolling from course:", error);
-                alert("Failed to unenroll from course. Please try again.");
+                confirmationTitle.textContent = 'Confirm Unenrollment';
+                confirmationMessage.textContent = 'Are you sure you want to unenroll from this course?';
+                confirmActionBtn.textContent = 'Unenroll';
+                confirmationModal.classList.add('active');
             }
         }
 
@@ -1792,6 +1731,60 @@
             `;
 
             courseModal.classList.add('active');
+        }
+
+        // Enroll in a course
+        async function enrollInCourse(courseId) {
+            if (!currentUser) return;
+
+            // Find the course in our data
+            const course = allCourses.find(c => c.id === courseId);
+            if (!course) return;
+
+            try {
+                // Add course to user's enrolled courses
+                await updateDoc(doc(db, "users", currentUser.uid), {
+                    enrolledCourses: arrayUnion({
+                        id: course.id,
+                        title: course.title,
+                        type: course.type,
+                        instructor: course.instructor,
+                        schedule: course.schedule,
+                        progress: 0,
+                        lastActive: new Date().toISOString(),
+                        daysPerWeek: course.daysPerWeek,
+                        progressRate: course.progressRate,
+                        enrollmentDate: new Date().toISOString()
+                    })
+                });
+
+                // Update local data
+                enrolledCourses.push({
+                    id: course.id,
+                    title: course.title,
+                    type: course.type,
+                    instructor: course.instructor,
+                    schedule: course.schedule,
+                    progress: 0,
+                    lastActive: new Date().toISOString(),
+                    daysPerWeek: course.daysPerWeek,
+                    progressRate: course.progressRate,
+                    enrollmentDate: new Date().toISOString()
+                });
+
+                // Refresh displays
+                filterAndDisplayCourses();
+                displayEnrolledCourses();
+                
+                // Close modal if open
+                courseModal.classList.remove('active');
+                
+                // Show success message
+                alert(`Successfully enrolled in ${course.title}`);
+            } catch (error) {
+                console.error("Error enrolling in course:", error);
+                alert("Failed to enroll in course. Please try again.");
+            }
         }
 
         // Load progress page
@@ -1910,7 +1903,7 @@
                         return {
                             ...course,
                             progress: newProgress,
-                            lastActive: serverTimestamp()
+                            lastActive: new Date().toISOString()
                         };
                     }
                     return course;
@@ -1921,15 +1914,7 @@
                 });
 
                 // Update local data
-                enrolledCourses = updatedCourses.map(course => {
-                    if (course.id === courseId) {
-                        return {
-                            ...course,
-                            lastActive: new Date().toISOString()
-                        };
-                    }
-                    return course;
-                });
+                enrolledCourses = updatedCourses;
 
                 // Refresh displays
                 displayCourseProgress(courseId);
@@ -1945,21 +1930,37 @@
             }
         }
 
+        // Unenroll from a course
+        async function unenrollFromCourse(courseId) {
+            if (!currentUser) return;
+
+            try {
+                // Remove course from user's enrolled courses
+                const courseToRemove = enrolledCourses.find(c => c.id === courseId);
+                if (!courseToRemove) return;
+
+                await updateDoc(doc(db, "users", currentUser.uid), {
+                    enrolledCourses: arrayRemove(courseToRemove)
+                });
+
+                // Update local data
+                enrolledCourses = enrolledCourses.filter(c => c.id !== courseId);
+
+                // Refresh displays
+                filterAndDisplayCourses();
+                displayEnrolledCourses();
+                alert("Successfully unenrolled from the course.");
+            } catch (error) {
+                console.error("Error unenrolling from course:", error);
+                alert("Failed to unenroll from course. Please try again.");
+            }
+        }
+
         // Load classmates page
         function loadClassmatesPage() {
             let html = `
                 <div class="card">
-                    <div class="d-flex justify-between align-center">
-                        <h2 class="card-title">My Classmates</h2>
-                        <div class="view-toggle">
-                            <button class="view-btn ${currentView === 'grid' ? 'active' : ''}" onclick="setClassmatesView('grid')">
-                                <i class="fas fa-th"></i>
-                            </button>
-                            <button class="view-btn ${currentView === 'list' ? 'active' : ''}" onclick="setClassmatesView('list')">
-                                <i class="fas fa-list"></i>
-                            </button>
-                        </div>
-                    </div>
+                    <h2 class="card-title">My Classmates</h2>
                     <div class="filter-group mb-3">
                         <label for="classmate-filter">Filter by Course</label>
                         <select id="classmate-filter" class="form-control">
@@ -1969,7 +1970,7 @@
                             ).join('')}
                         </select>
                     </div>
-                    <div class="${currentView === 'grid' ? 'classmates-grid' : 'classmates-list'}" id="classmates-list">
+                    <div class="classmates-grid" id="classmates-list">
                         <!-- Classmates will be loaded here -->
                     </div>
                 </div>
@@ -1982,12 +1983,6 @@
 
             // Display all classmates initially
             displayClassmates();
-        }
-
-        // Set classmates view type
-        function setClassmatesView(viewType) {
-            currentView = viewType;
-            loadClassmatesPage();
         }
 
         // Display classmates
@@ -2009,68 +2004,34 @@
             }
 
             classmatesList.innerHTML = '';
-            
-            if (currentView === 'grid') {
-                // Grid view
-                filteredClassmates.forEach(classmate => {
-                    // Find common courses
-                    const commonCourses = [];
-                    if (classmate.enrolledCourses) {
-                        classmate.enrolledCourses.forEach(ec => {
-                            if (enrolledCourses.some(userEc => userEc.id === ec.id)) {
-                                const course = allCourses.find(c => c.id === ec.id) || ec;
-                                commonCourses.push(course.title);
-                            }
-                        });
-                    }
-                    
-                    const classmateCard = document.createElement('div');
-                    classmateCard.className = 'classmate-card';
-                    classmateCard.innerHTML = `
-                        <div class="classmate-avatar">
-                            ${classmate.name.split(' ').map(n => n[0]).join('').toUpperCase()}
-                        </div>
-                        <div class="classmate-name">${classmate.name}</div>
-                        <div class="classmate-progress">
-                            ${commonCourses.length > 0 ? 
-                                `${commonCourses.length} shared course(s)` : 
-                                'No shared courses'}
-                        </div>
-                    `;
-                    classmatesList.appendChild(classmateCard);
-                });
-            } else {
-                // List view
-                filteredClassmates.forEach(classmate => {
-                    // Find common courses
-                    const commonCourses = [];
-                    if (classmate.enrolledCourses) {
-                        classmate.enrolledCourses.forEach(ec => {
-                            if (enrolledCourses.some(userEc => userEc.id === ec.id)) {
-                                const course = allCourses.find(c => c.id === ec.id) || ec;
-                                commonCourses.push(course.title);
-                            }
-                        });
-                    }
-                    
-                    const classmateItem = document.createElement('div');
-                    classmateItem.className = 'classmate-item';
-                    classmateItem.innerHTML = `
-                        <div class="classmate-avatar">
-                            ${classmate.name.split(' ').map(n => n[0]).join('').toUpperCase()}
-                        </div>
-                        <div class="classmate-info">
-                            <div class="classmate-name">${classmate.name}</div>
-                            <div class="classmate-progress">
-                                ${commonCourses.length > 0 ? 
-                                    `${commonCourses.length} shared course(s)` : 
-                                    'No shared courses'}
-                            </div>
-                        </div>
-                    `;
-                    classmatesList.appendChild(classmateItem);
-                });
-            }
+            filteredClassmates.forEach(classmate => {
+                const classmateCard = document.createElement('div');
+                classmateCard.className = 'classmate-card';
+                
+                // Find common courses
+                const commonCourses = [];
+                if (classmate.enrolledCourses) {
+                    classmate.enrolledCourses.forEach(ec => {
+                        if (enrolledCourses.some(userEc => userEc.id === ec.id)) {
+                            const course = allCourses.find(c => c.id === ec.id) || ec;
+                            commonCourses.push(course.title);
+                        }
+                    });
+                }
+                
+                classmateCard.innerHTML = `
+                    <div class="classmate-avatar">
+                        ${classmate.name.split(' ').map(n => n[0]).join('').toUpperCase()}
+                    </div>
+                    <div class="classmate-name">${classmate.name}</div>
+                    <div class="classmate-progress">
+                        ${commonCourses.length > 0 ? 
+                            `${commonCourses.length} shared course(s)` : 
+                            'No shared courses'}
+                    </div>
+                `;
+                classmatesList.appendChild(classmateCard);
+            });
         }
 
         // Filter classmates
@@ -2150,13 +2111,6 @@
         async function saveProfile(e) {
             e.preventDefault();
             
-            // Validate student ID format
-            const studentIdRegex = /^\d{4}\/\d{2}$/;
-            if (!studentIdRegex.test(editStudentId.value)) {
-                alert("Please enter a valid Student ID in the format XXXX/YY");
-                return;
-            }
-            
             try {
                 const updates = {
                     name: editName.value,
@@ -2220,16 +2174,14 @@
 
         // Make functions available globally
         window.setView = setView;
-        window.setClassmatesView = setClassmatesView;
-        window.viewCourseDetails = viewCourseDetails;
         window.showEnrollConfirmation = showEnrollConfirmation;
+        window.viewCourseDetails = viewCourseDetails;
         window.viewCourseProgress = viewCourseProgress;
         window.updateProgress = updateProgress;
-        window.showUnenrollWarning = showUnenrollWarning;
-        window.unenrollFromCourse = unenrollFromCourse;
         window.openProfileModal = openProfileModal;
         window.handleLogout = handleLogout;
         window.changePassword = changePassword;
+        window.attemptUnenroll = attemptUnenroll;
     </script>
 </body>
 </html>
