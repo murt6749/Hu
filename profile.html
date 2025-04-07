@@ -100,6 +100,11 @@
       z-index: 100;
       overflow: hidden;
     }
+    /* Show on hover or when toggled */
+    .profile-dropdown:hover .profile-dropdown-content,
+    .profile-dropdown-content.show {
+      display: block;
+    }
     .profile-dropdown-content a {
       color: var(--text-dark);
       padding: 12px 16px;
@@ -110,9 +115,6 @@
     .profile-dropdown-content a:hover {
       background: var(--secondary);
       color: white;
-    }
-    .profile-dropdown-content.show {
-      display: block;
     }
     /* Notification */
     .notification {
@@ -216,11 +218,15 @@
       transform: translateY(-3px);
       box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
     }
-    /* Table of courses for reference */
+    /* Responsive table */
+    .table-responsive {
+      overflow-x: auto;
+    }
     .courses-table {
       width: 100%;
       border-collapse: collapse;
       margin-bottom: 20px;
+      min-width: 600px;
     }
     .courses-table th, .courses-table td {
       border: 1px solid #ccc;
@@ -249,6 +255,16 @@
       border-radius: 4px;
       border: 1px solid #ccc;
       font-size: 1rem;
+    }
+    .no-courses-msg {
+      margin-top: 10px;
+      font-size: 0.95rem;
+      color: #555;
+    }
+    .no-courses-msg a {
+      color: var(--primary);
+      text-decoration: underline;
+      font-weight: 600;
     }
     /* Confirmation Modal & Classmates Modal */
     .modal, .classmates-modal {
@@ -346,8 +362,9 @@
           <i class="fas fa-user"></i>
         </button>
         <div class="profile-dropdown-content" id="profileDropdownContent">
-          <a href="edit_profile.html"><i class="fas fa-edit"></i> Edit Profile</a>
-          <a href="#" id="interactBtn"><i class="fas fa-comments"></i> Interact</a>
+          <!-- The options below will be updated based on user login status -->
+          <a href="settings.html"><i class="fas fa-cog"></i> Settings</a>
+          <a href="interact.html"><i class="fas fa-comments"></i> Interact</a>
           <a href="#" id="headerLogoutBtn"><i class="fas fa-sign-out-alt"></i> Logout</a>
         </div>
       </div>
@@ -377,55 +394,55 @@
     
     <!-- Additional Registration Section -->
     <div class="new-courses">
-      <!-- Example table referencing date and courses (from your screenshot) -->
-      <h3>Qirat Sector Available Qira'at</h3>
-      <p>Date: 29/05/2017 E.C</p>
-      <table class="courses-table">
-        <thead>
-          <tr>
-            <th>Language</th>
-            <th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>Amharic</td>
-            <td>Sifetu Solah</td>
-            <td>Usulu Selasah</td>
-            <td>Tejwid hidayetul mustefid</td>
-            <td>Kulasetu nurel yeqin</td>
-            <td colspan="3" style="background:#ffe9a5;">(More courses if needed)</td>
-          </tr>
-          <tr>
-            <td>Date</td>
-            <td>Saturday & Sunday</td>
-            <td>Monday & Tuesday</td>
-            <td>Saturday & Sunday morning</td>
-            <td>Only Thursday</td>
-            <td colspan="3"></td>
-          </tr>
-          <tr>
-            <td>Oromifa</td>
-            <td>Sifetu Solah</td>
-            <td>Usulu selasah</td>
-            <td>Tejwid hidayetulmustefid</td>
-            <td>Umdetul ahkam</td>
-            <td>Riyadusualihin</td>
-            <td>Tefsir</td>
-            <td>Aqidetu tuhawiya</td>
-          </tr>
-          <tr>
-            <td>Date</td>
-            <td>Monday & Tuesday</td>
-            <td>Saturday & Sunday</td>
-            <td>Saturday & Sunday morning</td>
-            <td>Saturday & Sunday</td>
-            <td>Not specified</td>
-            <td>Only Wednesday</td>
-            <td>Not specified</td>
-          </tr>
-        </tbody>
-      </table>
+      <!-- Responsive table wrapper -->
+      <div class="table-responsive">
+        <table class="courses-table">
+          <thead>
+            <tr>
+              <th>Language</th>
+              <th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Amharic</td>
+              <td>Sifetu Solah</td>
+              <td>Usulu Selasah</td>
+              <td>Tejwid hidayetul mustefid</td>
+              <td>Kulasetu nurel yeqin</td>
+              <td colspan="3" style="background:#ffe9a5;">(More courses if needed)</td>
+            </tr>
+            <tr>
+              <td>Date</td>
+              <td>Saturday & Sunday</td>
+              <td>Monday & Tuesday</td>
+              <td>Saturday & Sunday morning</td>
+              <td>Only Thursday</td>
+              <td colspan="3"></td>
+            </tr>
+            <tr>
+              <td>Oromifa</td>
+              <td>Sifetu Solah</td>
+              <td>Usulu selasah</td>
+              <td>Tejwid hidayetulmustefid</td>
+              <td>Umdetul ahkam</td>
+              <td>Riyadusualihin</td>
+              <td>Tefsir</td>
+              <td>Aqidetu tuhawiya</td>
+            </tr>
+            <tr>
+              <td>Date</td>
+              <td>Monday & Tuesday</td>
+              <td>Saturday & Sunday</td>
+              <td>Saturday & Sunday morning</td>
+              <td>Saturday & Sunday</td>
+              <td>Not specified</td>
+              <td>Only Wednesday</td>
+              <td>Not specified</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
       
       <h3><i class="fas fa-plus-circle"></i> Register for Additional Courses</h3>
       <!-- Step-by-step registration form -->
@@ -443,6 +460,10 @@
         </select>
         
         <button class="btn" id="registerBtn" disabled>Register</button>
+      </div>
+      <!-- Message if no new courses available -->
+      <div class="no-courses-msg" id="noCoursesMsg" style="display:none;">
+        No new courses available. Explore more options <a href="othercourse.html">here</a>.
       </div>
     </div>
   </div>
@@ -505,7 +526,6 @@
     const notificationBox = document.getElementById('notificationBox');
     const headerProfileBtn = document.getElementById('headerProfileBtn');
     const profileDropdownContent = document.getElementById('profileDropdownContent');
-    const interactBtn = document.getElementById('interactBtn');
     const headerLogoutBtn = document.getElementById('headerLogoutBtn');
     const userNameEl = document.getElementById('userName');
     const userIdEl = document.getElementById('userId');
@@ -514,6 +534,7 @@
     const languageSelect = document.getElementById('languageSelect');
     const courseSelect = document.getElementById('courseSelect');
     const registerBtn = document.getElementById('registerBtn');
+    const noCoursesMsg = document.getElementById('noCoursesMsg');
     const confirmationModal = document.getElementById('confirmationModal');
     const closeConfirmation = document.getElementById('closeConfirmation');
     const confirmMessage = document.getElementById('confirmMessage');
@@ -545,6 +566,9 @@
     // Retrieve user data
     let userData = JSON.parse(localStorage.getItem('loggedInUser'));
     if (!userData) {
+      // If user not logged in, update dropdown and redirect when needed
+      profileDropdownContent.innerHTML = `<a href="index.html"><i class="fas fa-sign-in-alt"></i> Login</a>`;
+      // Optionally, you can redirect immediately:
       window.location.href = 'index.html';
     }
     
@@ -613,7 +637,7 @@
       }, 300);
     }
     
-    // Profile dropdown toggle
+    // Profile dropdown toggle (click handled by JS; hover works via CSS)
     headerProfileBtn.addEventListener('click', () => {
       profileDropdownContent.classList.toggle('show');
     });
@@ -629,27 +653,35 @@
       localStorage.removeItem('loggedInUser');
       window.location.href = 'index.html';
     });
-    // Interact (placeholder)
-    interactBtn.addEventListener('click', () => {
-      alert('Interact feature coming soon!');
-    });
     
-    // Language -> Course selection
+    // Language -> Course selection with filtering out already registered courses
     languageSelect.addEventListener('change', () => {
       const lang = languageSelect.value;
       courseSelect.innerHTML = '<option value="">-- Select Course --</option>';
+      registerBtn.disabled = true;
+      noCoursesMsg.style.display = 'none';
+      
       if (lang && allCourses[lang]) {
-        allCourses[lang].forEach(c => {
-          const opt = document.createElement('option');
-          opt.value = c.name;
-          opt.textContent = c.name;
-          courseSelect.appendChild(opt);
+        // Filter out courses that the user already registered for
+        let availableCourses = allCourses[lang].filter(course => {
+          return !(userData.registeredCourses || []).some(reg => reg.name === course.name);
         });
-        courseSelect.disabled = false;
+        if (availableCourses.length === 0) {
+          // If no new courses available, disable the dropdown and show a message
+          courseSelect.disabled = true;
+          noCoursesMsg.style.display = 'block';
+        } else {
+          availableCourses.forEach(c => {
+            const opt = document.createElement('option');
+            opt.value = c.name;
+            opt.textContent = c.name;
+            courseSelect.appendChild(opt);
+          });
+          courseSelect.disabled = false;
+        }
       } else {
         courseSelect.disabled = true;
       }
-      registerBtn.disabled = true;
     });
     
     // Enable register button only if a course is selected
