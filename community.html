@@ -1,0 +1,1143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HU Jama'aa - Community</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #1a4d2e;
+            --secondary-color: #4f6f52;
+            --accent-color: #f5efe6;
+            --light-color: #e8dfca;
+            --white: #ffffff;
+            --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --success-color: #28a745;
+            --info-color: #17a2b8;
+            --warning-color: #ffc107;
+            --danger-color: #dc3545;
+            --border-radius: 12px;
+            --box-padding: 16px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background-color: #f8f9fa;
+            min-height: 100vh;
+            font-size: 14px;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 100%;
+            padding: 0;
+        }
+
+        /* Header Styles */
+        .header {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: var(--box-padding);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .header h1 {
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .btn-icon {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.2rem;
+            cursor: pointer;
+        }
+
+        /* Main Content Area */
+        .main-content {
+            padding: var(--box-padding);
+            padding-bottom: 70px;
+        }
+
+        /* Bottom Navigation */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background-color: var(--white);
+            display: flex;
+            justify-content: space-around;
+            padding: 10px 0;
+            box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
+            z-index: 100;
+        }
+
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-decoration: none;
+            color: var(--secondary-color);
+            font-size: 0.8rem;
+        }
+
+        .nav-item i {
+            font-size: 1.2rem;
+            margin-bottom: 4px;
+        }
+
+        .nav-item.active {
+            color: var(--primary-color);
+        }
+
+        /* Card Styles */
+        .card {
+            background-color: var(--white);
+            border-radius: var(--border-radius);
+            padding: var(--box-padding);
+            margin-bottom: 15px;
+            box-shadow: var(--shadow);
+        }
+
+        .card-title {
+            color: var(--primary-color);
+            margin-bottom: 15px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        /* Community Sections */
+        .community-section {
+            margin-bottom: 25px;
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .section-title {
+            color: var(--primary-color);
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+
+        .see-all {
+            color: var(--secondary-color);
+            font-size: 0.9rem;
+            text-decoration: none;
+        }
+
+        /* Announcements */
+        .announcement-item {
+            padding: 12px 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .announcement-item:last-child {
+            border-bottom: none;
+        }
+
+        .announcement-title {
+            font-weight: 500;
+            margin-bottom: 5px;
+            color: var(--primary-color);
+        }
+
+        .announcement-meta {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.8rem;
+            color: var(--secondary-color);
+            margin-bottom: 5px;
+        }
+
+        .announcement-content {
+            font-size: 0.9rem;
+        }
+
+        /* Events */
+        .event-item {
+            display: flex;
+            gap: 12px;
+            padding: 12px 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .event-item:last-child {
+            border-bottom: none;
+        }
+
+        .event-date {
+            background-color: var(--primary-color);
+            color: white;
+            border-radius: 8px;
+            padding: 8px;
+            min-width: 50px;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .event-day {
+            font-size: 1.2rem;
+            font-weight: 600;
+            line-height: 1;
+        }
+
+        .event-month {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+        }
+
+        .event-details {
+            flex-grow: 1;
+        }
+
+        .event-title {
+            font-weight: 500;
+            margin-bottom: 5px;
+            color: var(--primary-color);
+        }
+
+        .event-meta {
+            font-size: 0.8rem;
+            color: var(--secondary-color);
+            margin-bottom: 5px;
+        }
+
+        .event-location {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 0.8rem;
+            color: var(--secondary-color);
+        }
+
+        /* Discussions */
+        .discussion-item {
+            padding: 12px 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .discussion-item:last-child {
+            border-bottom: none;
+        }
+
+        .discussion-title {
+            font-weight: 500;
+            margin-bottom: 5px;
+            color: var(--primary-color);
+        }
+
+        .discussion-meta {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.8rem;
+            color: var(--secondary-color);
+            margin-bottom: 5px;
+        }
+
+        .discussion-stats {
+            display: flex;
+            gap: 10px;
+        }
+
+        .discussion-author {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .author-avatar {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background-color: var(--light-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.6rem;
+            font-weight: bold;
+        }
+
+        /* Prayer Times */
+        .prayer-times {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            text-align: center;
+        }
+
+        .prayer-time {
+            background-color: var(--light-color);
+            border-radius: 8px;
+            padding: 10px;
+        }
+
+        .prayer-name {
+            font-weight: 500;
+            color: var(--primary-color);
+            margin-bottom: 5px;
+        }
+
+        .prayer-time-value {
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+
+        /* Quick Actions */
+        .quick-actions {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+        }
+
+        .action-btn {
+            background-color: var(--light-color);
+            border: none;
+            border-radius: 8px;
+            padding: 12px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .action-btn:hover {
+            background-color: var(--accent-color);
+        }
+
+        .action-icon {
+            font-size: 1.5rem;
+            color: var(--primary-color);
+        }
+
+        .action-label {
+            font-size: 0.8rem;
+            color: var(--secondary-color);
+        }
+
+        /* Form Elements */
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            color: var(--secondary-color);
+            font-weight: 500;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 1rem;
+        }
+
+        textarea.form-control {
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        .btn {
+            padding: 12px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 100%;
+        }
+
+        .btn-primary {
+            background-color: var(--primary-color);
+            color: var(--white);
+        }
+
+        .btn-primary:hover {
+            background-color: var(--secondary-color);
+        }
+
+        .btn-outline {
+            background-color: transparent;
+            border: 1px solid var(--primary-color);
+            color: var(--primary-color);
+        }
+
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0,0,0,0.5);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+            padding: 15px;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background-color: white;
+            border-radius: var(--border-radius);
+            width: 100%;
+            max-width: 500px;
+            max-height: 90vh;
+            overflow-y: auto;
+            animation: modalFadeIn 0.3s ease;
+        }
+
+        @keyframes modalFadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .modal-header {
+            padding: 15px;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-title {
+            font-size: 1.2rem;
+            color: var(--primary-color);
+            font-weight: 600;
+        }
+
+        .modal-close {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        .modal-body {
+            padding: 15px;
+        }
+
+        .modal-footer {
+            padding: 15px;
+            border-top: 1px solid #eee;
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+        }
+
+        /* Responsive Adjustments */
+        @media (min-width: 768px) {
+            .container {
+                max-width: 768px;
+                margin: 0 auto;
+            }
+
+            .prayer-times {
+                grid-template-columns: repeat(5, 1fr);
+            }
+
+            .quick-actions {
+                grid-template-columns: repeat(4, 1fr);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <h1>HU Jama'aa Community</h1>
+            <div class="header-actions">
+                <button class="btn-icon" id="notifications-btn">
+                    <i class="fas fa-bell"></i>
+                </button>
+                <button class="btn-icon" id="logout-btn">
+                    <i class="fas fa-sign-out-alt"></i>
+                </button>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Prayer Times -->
+            <div class="community-section">
+                <div class="section-header">
+                    <h2 class="section-title">Prayer Times</h2>
+                    <span id="hijri-date">15 Ramadan 1445</span>
+                </div>
+                <div class="card">
+                    <div class="prayer-times" id="prayer-times">
+                        <!-- Prayer times will be loaded here -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quick Actions -->
+            <div class="community-section">
+                <div class="section-header">
+                    <h2 class="section-title">Quick Actions</h2>
+                </div>
+                <div class="card">
+                    <div class="quick-actions">
+                        <button class="action-btn" onclick="openModal('new-announcement')">
+                            <i class="fas fa-bullhorn action-icon"></i>
+                            <span class="action-label">New Announcement</span>
+                        </button>
+                        <button class="action-btn" onclick="openModal('new-event')">
+                            <i class="fas fa-calendar-plus action-icon"></i>
+                            <span class="action-label">Add Event</span>
+                        </button>
+                        <button class="action-btn" onclick="openModal('new-discussion')">
+                            <i class="fas fa-comments action-icon"></i>
+                            <span class="action-label">Start Discussion</span>
+                        </button>
+                        <button class="action-btn" onclick="window.location.href='quran.html'">
+                            <i class="fas fa-quran action-icon"></i>
+                            <span class="action-label">Quran Study</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Announcements -->
+            <div class="community-section">
+                <div class="section-header">
+                    <h2 class="section-title">Latest Announcements</h2>
+                    <a href="announcements.html" class="see-all">See All</a>
+                </div>
+                <div class="card">
+                    <div id="announcements-list">
+                        <!-- Announcements will be loaded here -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Upcoming Events -->
+            <div class="community-section">
+                <div class="section-header">
+                    <h2 class="section-title">Upcoming Events</h2>
+                    <a href="events.html" class="see-all">See All</a>
+                </div>
+                <div class="card">
+                    <div id="events-list">
+                        <!-- Events will be loaded here -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Recent Discussions -->
+            <div class="community-section">
+                <div class="section-header">
+                    <h2 class="section-title">Recent Discussions</h2>
+                    <a href="discussions.html" class="see-all">See All</a>
+                </div>
+                <div class="card">
+                    <div id="discussions-list">
+                        <!-- Discussions will be loaded here -->
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- Bottom Navigation -->
+        <nav class="bottom-nav">
+            <a href="index.html" class="nav-item">
+                <i class="fas fa-home"></i>
+                <span>Home</span>
+            </a>
+            <a href="courses.html" class="nav-item">
+                <i class="fas fa-book"></i>
+                <span>Courses</span>
+            </a>
+            <a href="community.html" class="nav-item active">
+                <i class="fas fa-users"></i>
+                <span>Community</span>
+            </a>
+            <a href="profile.html" class="nav-item">
+                <i class="fas fa-user"></i>
+                <span>Profile</span>
+            </a>
+        </nav>
+    </div>
+
+    <!-- New Announcement Modal -->
+    <div class="modal" id="new-announcement-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">Create New Announcement</h3>
+                <button class="modal-close" onclick="closeModal('new-announcement')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="announcement-form">
+                    <div class="form-group">
+                        <label for="announcement-title">Title</label>
+                        <input type="text" id="announcement-title" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="announcement-content">Content</label>
+                        <textarea id="announcement-content" class="form-control" required></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="announcement-priority">Priority</label>
+                        <select id="announcement-priority" class="form-control">
+                            <option value="normal">Normal</option>
+                            <option value="important">Important</option>
+                            <option value="urgent">Urgent</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Post Announcement</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- New Event Modal -->
+    <div class="modal" id="new-event-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">Add New Event</h3>
+                <button class="modal-close" onclick="closeModal('new-event')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="event-form">
+                    <div class="form-group">
+                        <label for="event-title">Event Title</label>
+                        <input type="text" id="event-title" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="event-description">Description</label>
+                        <textarea id="event-description" class="form-control" required></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="event-date">Date</label>
+                        <input type="date" id="event-date" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="event-time">Time</label>
+                        <input type="time" id="event-time" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="event-location">Location</label>
+                        <input type="text" id="event-location" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="event-category">Category</label>
+                        <select id="event-category" class="form-control">
+                            <option value="lecture">Lecture</option>
+                            <option value="workshop">Workshop</option>
+                            <option value="social">Social Gathering</option>
+                            <option value="prayer">Prayer Event</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Add Event</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- New Discussion Modal -->
+    <div class="modal" id="new-discussion-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">Start New Discussion</h3>
+                <button class="modal-close" onclick="closeModal('new-discussion')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="discussion-form">
+                    <div class="form-group">
+                        <label for="discussion-title">Title</label>
+                        <input type="text" id="discussion-title" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="discussion-content">Content</label>
+                        <textarea id="discussion-content" class="form-control" required></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="discussion-category">Category</label>
+                        <select id="discussion-category" class="form-control">
+                            <option value="general">General Discussion</option>
+                            <option value="quran">Quran Study</option>
+                            <option value="hadith">Hadith Discussion</option>
+                            <option value="fiqh">Fiqh Questions</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Start Discussion</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Firebase SDK -->
+    <script type="module">
+        // Import the functions you need from the SDKs you need
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+        import { 
+            getAuth, 
+            onAuthStateChanged,
+            signOut
+        } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+        import { 
+            getFirestore,
+            collection,
+            doc,
+            getDoc,
+            getDocs,
+            addDoc,
+            serverTimestamp,
+            query,
+            orderBy,
+            limit
+        } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+        // Your web app's Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyBQyNVWh1BtCkXlBfuS7jHAa36FTklZayo",
+            authDomain: "pharma-quiz-b5a07.firebaseapp.com",
+            projectId: "pharma-quiz-b5a07",
+            storageBucket: "pharma-quiz-b5a07.appspot.com",
+            messagingSenderId: "161067776789",
+            appId: "1:161067776789:web:88b8a61145dc5f5c31471c",
+            measurementId: "G-3QRQE9HQFB"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+
+        // DOM Elements
+        const logoutBtn = document.getElementById('logout-btn');
+        const hijriDate = document.getElementById('hijri-date');
+        const prayerTimesContainer = document.getElementById('prayer-times');
+        const announcementsList = document.getElementById('announcements-list');
+        const eventsList = document.getElementById('events-list');
+        const discussionsList = document.getElementById('discussions-list');
+        const announcementForm = document.getElementById('announcement-form');
+        const eventForm = document.getElementById('event-form');
+        const discussionForm = document.getElementById('discussion-form');
+
+        // Current user data
+        let currentUser = null;
+        let userData = null;
+
+        // Initialize the application
+        function initApp() {
+            // Set up event listeners
+            logoutBtn.addEventListener('click', handleLogout);
+            announcementForm.addEventListener('submit', postAnnouncement);
+            eventForm.addEventListener('submit', addEvent);
+            discussionForm.addEventListener('submit', startDiscussion);
+
+            // Check auth state
+            onAuthStateChanged(auth, async (user) => {
+                if (user) {
+                    currentUser = user;
+                    await loadUserData(user.uid);
+                    loadCommunityData();
+                } else {
+                    // Redirect to login page if not authenticated
+                    window.location.href = 'login.html';
+                }
+            });
+        }
+
+        // Load user data from Firestore
+        async function loadUserData(userId) {
+            try {
+                const userDoc = await getDoc(doc(db, "users", userId));
+                if (userDoc.exists()) {
+                    userData = userDoc.data();
+                }
+            } catch (error) {
+                console.error("Error loading user data:", error);
+            }
+        }
+
+        // Load community data
+        async function loadCommunityData() {
+            loadPrayerTimes();
+            loadAnnouncements();
+            loadEvents();
+            loadDiscussions();
+        }
+
+        // Load prayer times (sample data - in a real app, this would come from an API)
+        function loadPrayerTimes() {
+            const today = new Date();
+            const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+            hijriDate.textContent = getHijriDate(today);
+            
+            const prayerTimes = [
+                { name: "Fajr", time: "5:30 AM" },
+                { name: "Dhuhr", time: "12:30 PM" },
+                { name: "Asr", time: "3:45 PM" },
+                { name: "Maghrib", time: "6:15 PM" },
+                { name: "Isha", time: "7:30 PM" }
+            ];
+
+            prayerTimesContainer.innerHTML = '';
+            prayerTimes.forEach(prayer => {
+                const prayerElement = document.createElement('div');
+                prayerElement.className = 'prayer-time';
+                prayerElement.innerHTML = `
+                    <div class="prayer-name">${prayer.name}</div>
+                    <div class="prayer-time-value">${prayer.time}</div>
+                `;
+                prayerTimesContainer.appendChild(prayerElement);
+            });
+        }
+
+        // Convert Gregorian date to Hijri (sample implementation)
+        function getHijriDate(date) {
+            // This is a simplified approximation
+            const hijriMonths = [
+                "Muharram", "Safar", "Rabi' al-Awwal", "Rabi' al-Thani", 
+                "Jumada al-Awwal", "Jumada al-Thani", "Rajab", 
+                "Sha'ban", "Ramadan", "Shawwal", "Dhu al-Qi'dah", "Dhu al-Hijjah"
+            ];
+            
+            const gregDate = new Date(date);
+            const hijriYear = Math.floor((gregDate.getFullYear() - 622) * (33/32));
+            const hijriMonth = hijriMonths[gregDate.getMonth()];
+            const hijriDay = gregDate.getDate();
+            
+            return `${hijriDay} ${hijriMonth} ${hijriYear}`;
+        }
+
+        // Load announcements
+        async function loadAnnouncements() {
+            try {
+                const q = query(collection(db, "announcements"), orderBy("createdAt", "desc"), limit(3));
+                const querySnapshot = await getDocs(q);
+                
+                announcementsList.innerHTML = '';
+                
+                if (querySnapshot.empty) {
+                    announcementsList.innerHTML = '<p>No announcements found.</p>';
+                    return;
+                }
+                
+                querySnapshot.forEach(doc => {
+                    const announcement = doc.data();
+                    const announcementItem = document.createElement('div');
+                    announcementItem.className = 'announcement-item';
+                    announcementItem.innerHTML = `
+                        <div class="announcement-title">${announcement.title}</div>
+                        <div class="announcement-meta">
+                            <span>${formatDate(announcement.createdAt?.toDate())}</span>
+                            <span class="badge ${getPriorityBadgeClass(announcement.priority)}">
+                                ${announcement.priority}
+                            </span>
+                        </div>
+                        <div class="announcement-content">${announcement.content.substring(0, 100)}...</div>
+                    `;
+                    announcementsList.appendChild(announcementItem);
+                });
+            } catch (error) {
+                console.error("Error loading announcements:", error);
+                announcementsList.innerHTML = '<p>Error loading announcements. Please try again.</p>';
+            }
+        }
+
+        // Load events
+        async function loadEvents() {
+            try {
+                const q = query(collection(db, "events"), orderBy("date"), limit(3));
+                const querySnapshot = await getDocs(q);
+                
+                eventsList.innerHTML = '';
+                
+                if (querySnapshot.empty) {
+                    eventsList.innerHTML = '<p>No upcoming events found.</p>';
+                    return;
+                }
+                
+                querySnapshot.forEach(doc => {
+                    const event = doc.data();
+                    const eventDate = event.date?.toDate();
+                    const eventItem = document.createElement('div');
+                    eventItem.className = 'event-item';
+                    eventItem.innerHTML = `
+                        <div class="event-date">
+                            <div class="event-day">${eventDate.getDate()}</div>
+                            <div class="event-month">${eventDate.toLocaleString('default', { month: 'short' })}</div>
+                        </div>
+                        <div class="event-details">
+                            <div class="event-title">${event.title}</div>
+                            <div class="event-meta">
+                                <span>${formatTime(event.time)}</span>
+                                <span class="badge ${getCategoryBadgeClass(event.category)}">
+                                    ${event.category}
+                                </span>
+                            </div>
+                            <div class="event-location">
+                                <i class="fas fa-map-marker-alt"></i>
+                                ${event.location}
+                            </div>
+                        </div>
+                    `;
+                    eventsList.appendChild(eventItem);
+                });
+            } catch (error) {
+                console.error("Error loading events:", error);
+                eventsList.innerHTML = '<p>Error loading events. Please try again.</p>';
+            }
+        }
+
+        // Load discussions
+        async function loadDiscussions() {
+            try {
+                const q = query(collection(db, "discussions"), orderBy("createdAt", "desc"), limit(3));
+                const querySnapshot = await getDocs(q);
+                
+                discussionsList.innerHTML = '';
+                
+                if (querySnapshot.empty) {
+                    discussionsList.innerHTML = '<p>No discussions found.</p>';
+                    return;
+                }
+                
+                querySnapshot.forEach(doc => {
+                    const discussion = doc.data();
+                    const discussionItem = document.createElement('div');
+                    discussionItem.className = 'discussion-item';
+                    discussionItem.innerHTML = `
+                        <div class="discussion-title">${discussion.title}</div>
+                        <div class="discussion-meta">
+                            <div class="discussion-author">
+                                <div class="author-avatar">
+                                    ${getInitials(discussion.authorName)}
+                                </div>
+                                ${discussion.authorName}
+                            </div>
+                            <div class="discussion-stats">
+                                <span><i class="fas fa-comment"></i> ${discussion.commentCount || 0}</span>
+                                <span><i class="fas fa-eye"></i> ${discussion.views || 0}</span>
+                            </div>
+                        </div>
+                    `;
+                    discussionsList.appendChild(discussionItem);
+                });
+            } catch (error) {
+                console.error("Error loading discussions:", error);
+                discussionsList.innerHTML = '<p>Error loading discussions. Please try again.</p>';
+            }
+        }
+
+        // Post new announcement
+        async function postAnnouncement(e) {
+            e.preventDefault();
+            
+            const title = document.getElementById('announcement-title').value;
+            const content = document.getElementById('announcement-content').value;
+            const priority = document.getElementById('announcement-priority').value;
+            
+            try {
+                await addDoc(collection(db, "announcements"), {
+                    title,
+                    content,
+                    priority,
+                    authorId: currentUser.uid,
+                    authorName: userData.name,
+                    createdAt: serverTimestamp()
+                });
+                
+                // Reset form
+                announcementForm.reset();
+                closeModal('new-announcement');
+                
+                // Refresh announcements
+                loadAnnouncements();
+                
+                alert('Announcement posted successfully!');
+            } catch (error) {
+                console.error("Error posting announcement:", error);
+                alert("Failed to post announcement. Please try again.");
+            }
+        }
+
+        // Add new event
+        async function addEvent(e) {
+            e.preventDefault();
+            
+            const title = document.getElementById('event-title').value;
+            const description = document.getElementById('event-description').value;
+            const date = document.getElementById('event-date').value;
+            const time = document.getElementById('event-time').value;
+            const location = document.getElementById('event-location').value;
+            const category = document.getElementById('event-category').value;
+            
+            try {
+                await addDoc(collection(db, "events"), {
+                    title,
+                    description,
+                    date: new Date(date),
+                    time,
+                    location,
+                    category,
+                    organizerId: currentUser.uid,
+                    organizerName: userData.name,
+                    createdAt: serverTimestamp()
+                });
+                
+                // Reset form
+                eventForm.reset();
+                closeModal('new-event');
+                
+                // Refresh events
+                loadEvents();
+                
+                alert('Event added successfully!');
+            } catch (error) {
+                console.error("Error adding event:", error);
+                alert("Failed to add event. Please try again.");
+            }
+        }
+
+        // Start new discussion
+        async function startDiscussion(e) {
+            e.preventDefault();
+            
+            const title = document.getElementById('discussion-title').value;
+            const content = document.getElementById('discussion-content').value;
+            const category = document.getElementById('discussion-category').value;
+            
+            try {
+                await addDoc(collection(db, "discussions"), {
+                    title,
+                    content,
+                    category,
+                    authorId: currentUser.uid,
+                    authorName: userData.name,
+                    createdAt: serverTimestamp(),
+                    commentCount: 0,
+                    views: 0
+                });
+                
+                // Reset form
+                discussionForm.reset();
+                closeModal('new-discussion');
+                
+                // Refresh discussions
+                loadDiscussions();
+                
+                alert('Discussion started successfully!');
+            } catch (error) {
+                console.error("Error starting discussion:", error);
+                alert("Failed to start discussion. Please try again.");
+            }
+        }
+
+        // Handle logout
+        async function handleLogout() {
+            try {
+                await signOut(auth);
+                window.location.href = 'login.html';
+            } catch (error) {
+                console.error("Error signing out:", error);
+                alert("Failed to logout. Please try again.");
+            }
+        }
+
+        // Open modal
+        function openModal(modalName) {
+            document.getElementById(`${modalName}-modal`).classList.add('active');
+        }
+
+        // Close modal
+        function closeModal(modalName) {
+            document.getElementById(`${modalName}-modal`).classList.remove('active');
+        }
+
+        // Format date
+        function formatDate(date) {
+            if (!date) return '';
+            return date.toLocaleDateString('en-US', { 
+                year: 'numeric', 
+                month: 'short', 
+                day: 'numeric' 
+            });
+        }
+
+        // Format time
+        function formatTime(timeString) {
+            if (!timeString) return '';
+            const [hours, minutes] = timeString.split(':');
+            const hour = parseInt(hours);
+            const ampm = hour >= 12 ? 'PM' : 'AM';
+            const hour12 = hour % 12 || 12;
+            return `${hour12}:${minutes} ${ampm}`;
+        }
+
+        // Get initials from name
+        function getInitials(name) {
+            if (!name) return '';
+            return name.split(' ').map(n => n[0]).join('').toUpperCase();
+        }
+
+        // Get priority badge class
+        function getPriorityBadgeClass(priority) {
+            switch(priority) {
+                case 'urgent': return 'badge-danger';
+                case 'important': return 'badge-warning';
+                default: return 'badge-info';
+            }
+        }
+
+        // Get category badge class
+        function getCategoryBadgeClass(category) {
+            switch(category) {
+                case 'lecture': return 'badge-primary';
+                case 'workshop': return 'badge-success';
+                case 'social': return 'badge-info';
+                case 'prayer': return 'badge-warning';
+                default: return 'badge-primary';
+            }
+        }
+
+        // Initialize the app when DOM is loaded
+        document.addEventListener('DOMContentLoaded', initApp);
+    </script>
+</body>
+</html>
