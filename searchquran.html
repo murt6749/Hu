@@ -2,177 +2,1043 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Quran Search – Haramaya U. Muslim Jama'a</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Haramaya University Quran Portal</title>
+  <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
   <style>
-    body { font-family:sans-serif; margin:0; padding:0; background:#f7f7f7; color:#333 }
-    .container { max-width:800px; margin:1rem auto; padding:1rem }
-    .search-bar { display:flex; flex-wrap:wrap; gap:.5rem; }
-    .search-bar input, .search-bar select { flex:1; padding:.5rem; }
-    .search-bar button { padding:.5rem 1rem; }
-    .history-list { position:relative; }
-    .history-list ul { 
-      list-style:none; margin:0; padding:.5rem; border:1px solid #ccc;
-      background:#fff; position:absolute; width:100%; max-height:150px; overflow:auto;
-      z-index:10;
+    :root {
+      --primary-color: #2c5e1a;
+      --secondary-color: #4a8c2d;
+      --accent-color: #f1c40f;
+      --light-color: #f8f9fa;
+      --dark-color: #2c3e50;
+      --text-color: #333;
+      --border-radius: 8px;
+      --box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      --btn-gradient: linear-gradient(135deg, #2c5e1a, #4a8c2d);
+      --btn-padding: 1rem 1.5rem;
     }
-    .history-list li { padding:.3rem; cursor:pointer; }
-    .history-list li:hover { background:#eee; }
-    .result-item { background:#fff; border:1px solid #ddd; padding:.75rem; margin-bottom:.75rem }
-    .result-meta { font-size:.85rem; color:#666; }
-    .result-text { margin:.5rem 0; }
-    .tafsir-text { font-size:.85rem; color:#444; margin-top:.5rem; padding-left:1rem; border-left:2px solid #ccc }
-    #filter-results { margin:1rem 0; padding:.5rem; width:100%; }
-    #export-btns { margin:1rem 0; }
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      font-family: 'Open Sans', sans-serif;
+      line-height: 1.6;
+      color: var(--text-color);
+      background-color: #f5f5f5;
+      min-height: 100vh;
+    }
+    /* Container */
+    #app {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 2rem;
+      transition: all 0.3s ease;
+    }
+    /* Header with logo and utility icons */
+    header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 1.5rem;
+    }
+    .logo {
+      display: flex;
+      align-items: center;
+    }
+    .logo i {
+      font-size: 2.5rem;
+      color: var(--primary-color);
+      margin-right: 0.75rem;
+    }
+    .logo-text h1 {
+      font-size: 1.8rem;
+      color: var(--primary-color);
+      margin-bottom: 0.2rem;
+    }
+    .logo-text p {
+      font-size: 0.9rem;
+      color: var(--dark-color);
+    }
+    .utility-icons {
+      display: flex;
+      gap: 1rem;
+    }
+    .utility-icons i {
+      font-size: 1.5rem;
+      color: var(--primary-color);
+      cursor: pointer;
+      transition: color 0.3s;
+    }
+    .utility-icons i:hover {
+      color: var(--secondary-color);
+    }
+    /* Tabs navigation */
+    .tab-container {
+      display: flex;
+      flex-wrap: nowrap;
+      overflow-x: auto;
+      border-bottom: 1px solid #ddd;
+      margin-bottom: 1rem;
+    }
+    .tab {
+      flex: none;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.8rem 1.5rem;
+      cursor: pointer;
+      border-bottom: 3px solid transparent;
+      transition: all 0.3s;
+      white-space: nowrap;
+      font-size: 0.9rem;
+      color: var(--dark-color);
+    }
+    .tab.active {
+      border-bottom-color: var(--primary-color);
+      color: var(--primary-color);
+      font-weight: bold;
+    }
+    .tab i {
+      font-size: 1.2rem;
+    }
+    .tab-content {
+      display: none;
+    }
+    .tab-content.active {
+      display: block;
+    }
+    /* Input & button groups */
+    .search-container,
+    .feature-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 2rem;
+    }
+    .search-box, .feature-box {
+      display: flex;
+      width: 100%;
+      max-width: 600px;
+      box-shadow: var(--box-shadow);
+      border-radius: var(--border-radius);
+      overflow: hidden;
+      background-color: #fff;
+    }
+    input[type="text"],
+    input[type="number"] {
+      flex: 1;
+      padding: 1rem;
+      border: none;
+      font-size: 1rem;
+      outline: none;
+      background-color: #fff;
+    }
+    /* For the Page search input using datalist */
+    input[list] {
+      width: 100%;
+      max-width: 600px;
+      padding: 1rem;
+      font-size: 1rem;
+      border: 1px solid #ddd;
+      border-radius: var(--border-radius);
+      background-color: #fff;
+    }
+    select {
+      padding: 1rem;
+      border-radius: var(--border-radius);
+      border: 1px solid #ddd;
+      font-size: 1rem;
+      background-color: #fff;
+      width: 100%;
+      max-width: 300px;
+    }
+    .action-btn {
+      background: var(--btn-gradient);
+      color: #fff;
+      border: none;
+      padding: var(--btn-padding);
+      cursor: pointer;
+      transition: transform 0.3s, background 0.3s;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      text-transform: uppercase;
+      font-weight: 600;
+      font-size: 1rem;
+      min-width: 120px;
+    }
+    .action-btn:hover {
+      transform: scale(1.05);
+      background: var(--secondary-color);
+    }
+    /* Results container and download button */
+    .results-container {
+      background-color: #fff;
+      border-radius: var(--border-radius);
+      box-shadow: var(--box-shadow);
+      padding: 1.5rem;
+      margin-bottom: 2rem;
+      overflow-x: auto;
+      position: relative;
+    }
+    .results-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 1px solid #eee;
+    }
+    .results-count {
+      background-color: var(--accent-color);
+      color: var(--dark-color);
+      padding: 0.3rem 0.8rem;
+      border-radius: 20px;
+      font-weight: bold;
+      font-size: 0.9rem;
+    }
+    .download-btn {
+      background: var(--btn-gradient);
+      border: none;
+      color: #fff;
+      padding: 0.5rem 1rem;
+      border-radius: var(--border-radius);
+      cursor: pointer;
+      transition: transform 0.3s;
+      font-size: 0.9rem;
+    }
+    .download-btn:hover {
+      transform: scale(1.05);
+    }
+    .result-item {
+      padding: 1rem 0;
+      border-bottom: 1px solid #eee;
+    }
+    .result-item:last-child {
+      border-bottom: none;
+    }
+    .result-meta {
+      font-size: 0.9rem;
+      color: var(--secondary-color);
+      margin-bottom: 0.5rem;
+      font-weight: 600;
+    }
+    .result-text {
+      font-family: 'Amiri', serif;
+      font-size: 1.4rem;
+      line-height: 1.8;
+      text-align: right;
+      direction: rtl;
+      margin-bottom: 0.5rem;
+    }
+    .result-translation {
+      font-size: 1rem;
+      color: var(--text-color);
+      margin-top: 0.5rem;
+      padding-left: 1rem;
+      border-left: 3px solid var(--accent-color);
+    }
+    .loading-spinner {
+      display: inline-block;
+      width: 20px;
+      height: 20px;
+      border: 3px solid rgba(0,0,0,0.1);
+      border-radius: 50%;
+      border-top-color: var(--primary-color);
+      animation: spin 1s ease-in-out infinite;
+      margin-right: 0.5rem;
+    }
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+    /* Meta-data style */
+    .meta-info {
+      background-color: #fff;
+      border-radius: var(--border-radius);
+      box-shadow: var(--box-shadow);
+      padding: 1.5rem;
+    }
+    .meta-item {
+      margin-bottom: 1rem;
+    }
+    .meta-title {
+      font-weight: bold;
+      color: var(--primary-color);
+      margin-bottom: 0.3rem;
+    }
+    /* Footer */
+    footer {
+      text-align: center;
+      margin-top: 3rem;
+      padding-top: 1rem;
+      border-top: 1px solid #eee;
+      color: #777;
+      font-size: 0.9rem;
+    }
+    /* Bottom Navigation for Mobile */
+    .bottom-nav {
+      display: none;
+    }
+    @media (max-width: 600px) {
+      header {
+        flex-direction: column;
+        align-items: center;
+      }
+      .utility-icons {
+        display: none;
+      }
+      .bottom-nav {
+        display: flex;
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        background: #fff;
+        box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.1);
+        border-top: 1px solid #ddd;
+        justify-content: space-around;
+        padding: 0.5rem 0;
+        z-index: 100;
+      }
+      .bottom-nav div {
+        flex: 1;
+        text-align: center;
+        color: var(--primary-color);
+        font-size: 1.2rem;
+        cursor: pointer;
+      }
+      .tab {
+        padding: 0.8rem 1rem;
+        font-size: 0.8rem;
+      }
+    }
   </style>
 </head>
 <body>
-  <div class="container" id="app">
-    <div class="search-bar">
-      <div class="history-list" style="flex:2">
-        <input id="quran-search" placeholder="Search keyword…" autocomplete="off" />
-        <ul id="history-ul" hidden></ul>
+  <div id="app">
+    <!-- Header with Logo and Utility Icons -->
+    <header>
+      <div class="logo">
+        <i class="fas fa-mosque"></i>
+        <div class="logo-text">
+          <h1>Haramaya University Quran Portal</h1>
+          <p>For Muslim Jama'a Students</p>
+        </div>
       </div>
-      <select id="juz-filter">
-        <option value="all">All Juz'</option>
-        <!-- 1–30 -->
-        ${Array.from({length:30},(_,i)=>`<option value="${i+1}">Juz' ${i+1}</option>`).join('')}
-      </select>
-      <label><input type="checkbox" id="regex-toggle" /> Regex</label>
-      <label><input type="checkbox" id="root-toggle" /> Root search</label>
-      <label><input type="checkbox" id="tafsir-toggle" /> Show Tafsir</label>
-      <button id="search-btn">Search</button>
+      <div class="utility-icons">
+        <i class="fas fa-home" title="Home"></i>
+        <i class="fas fa-bookmark" title="Bookmarks"></i>
+        <i class="fas fa-ellipsis-h" title="More"></i>
+      </div>
+    </header>
+    
+    <!-- Bottom Navigation for Mobile Devices -->
+    <div class="bottom-nav">
+      <div data-tab="search" title="Search"><i class="fas fa-search"></i></div>
+      <div data-tab="ayah" title="Lookup"><i class="fas fa-chalkboard"></i></div>
+      <div data-tab="meta" title="Info"><i class="fas fa-info-circle"></i></div>
     </div>
-
-    <input id="filter-results" placeholder="Filter within results…" />
-
-    <div id="results"></div>
-
-    <div id="export-btns">
-      <button id="export-json">Export JSON</button>
-      <button id="export-csv">Export CSV</button>
+    
+    <!-- Tabs Navigation -->
+    <div class="tab-container">
+      <div class="tab active" data-tab="search"><i class="fas fa-search"></i> Search Quran</div>
+      <div class="tab" data-tab="juz"><i class="fas fa-layer-group"></i> Juz Finder</div>
+      <div class="tab" data-tab="page"><i class="fas fa-file-alt"></i> Page Finder</div>
+      <div class="tab" data-tab="ayah"><i class="fas fa-chalkboard"></i> Ayah Lookup</div>
+      <div class="tab" data-tab="sajda"><i class="fas fa-praying-hands"></i> Sajda Finder</div>
+      <div class="tab" data-tab="hizb"><i class="fas fa-stream"></i> Hizb Quarter</div>
+      <div class="tab" data-tab="meta"><i class="fas fa-info-circle"></i> Meta Data</div>
     </div>
+    
+    <!-- Tab Content Sections -->
+    <!-- Search Tab -->
+    <div class="tab-content active" id="search-tab">
+      <div class="search-container">
+        <div class="search-box">
+          <input type="text" id="quran-search" placeholder="Enter search term here..." />
+          <button class="action-btn" id="search-submit">
+            <i class="fas fa-search" style="margin-right:0.5rem;"></i> Search
+          </button>
+        </div>
+        <!-- Translation dropdown as a simple select -->
+        <div style="width:100%; max-width:600px; text-align:center;">
+          <select id="search-edition">
+            <option value="en.sahih">Sahih International</option>
+            <option value="en.pickthall">Pickthall</option>
+            <option value="en.yusufali">Yusuf Ali</option>
+            <option value="en.ahmedali">Ahmed Ali</option>
+            <option value="ar.alafasy">Arabic (Alafasy)</option>
+          </select>
+        </div>
+      </div>
+      <div id="results" class="results-container">
+        <p style="text-align: center; color: #777;">Enter a search term above to find verses in the Quran</p>
+      </div>
+    </div>
+    
+    <!-- Juz Finder Tab -->
+    <div class="tab-content" id="juz-tab">
+      <div class="feature-container">
+        <select id="juz-select">
+          <option value="">Select a Juz</option>
+        </select>
+        <select id="juz-edition">
+          <option value="en.sahih">Sahih International (English)</option>
+          <option value="en.pickthall">Pickthall (English)</option>
+          <option value="en.yusufali">Yusuf Ali (English)</option>
+          <option value="en.ahmedali">Ahmed Ali (English)</option>
+          <option value="ar.alafasy">Arabic (Alafasy)</option>
+        </select>
+        <button class="action-btn" id="fetch-juz">Get Juz</button>
+      </div>
+      <div id="juz-results" class="results-container">
+        <p style="text-align: center; color: #777;">Select a Juz above to view its contents</p>
+      </div>
+    </div>
+    
+    <!-- Page Finder Tab -->
+    <div class="tab-content" id="page-tab">
+      <div class="feature-container">
+        <!-- Replace the dropdown with an input using datalist for search functionality -->
+        <input list="page-datalist" id="page-search" placeholder="Enter page number (e.g., 21)" />
+        <datalist id="page-datalist"></datalist>
+        <select id="page-edition">
+          <option value="en.sahih">Sahih International (English)</option>
+          <option value="en.pickthall">Pickthall (English)</option>
+          <option value="en.yusufali">Yusuf Ali (English)</option>
+          <option value="en.ahmedali">Ahmed Ali (English)</option>
+          <option value="ar.alafasy">Arabic (Alafasy)</option>
+        </select>
+        <button class="action-btn" id="fetch-page">Get Page</button>
+      </div>
+      <div id="page-results" class="results-container">
+        <p style="text-align: center; color: #777;">Enter a page number above to view its contents</p>
+      </div>
+    </div>
+    
+    <!-- Ayah Lookup Tab -->
+    <div class="tab-content" id="ayah-tab">
+      <div class="feature-container">
+        <div class="feature-box" style="max-width:600px;">
+          <!-- Change placeholder to show the desired format (e.g., 21:10) -->
+          <input type="text" id="ayah-reference" placeholder="e.g., 21:10" style="flex:3;" />
+          <select id="ayah-edition" style="flex:1;">
+            <option value="en.sahih">Sahih</option>
+            <option value="en.pickthall">Pickthall</option>
+            <option value="en.yusufali">Yusuf Ali</option>
+            <option value="en.ahmedali">Ahmed Ali</option>
+            <option value="ar.alafasy">Arabic</option>
+          </select>
+          <button class="action-btn" id="fetch-ayah" style="flex:1;">
+            <i class="fas fa-search" style="margin-right:0.5rem;"></i> Lookup
+          </button>
+        </div>
+      </div>
+      <div id="ayah-results" class="results-container">
+        <p style="text-align: center; color: #777;">Enter a valid ayah reference to view the result</p>
+      </div>
+    </div>
+    
+    <!-- Sajda Finder Tab -->
+    <div class="tab-content" id="sajda-tab">
+      <div class="feature-container">
+        <select id="sajda-edition">
+          <option value="en.asad">Muhammad Asad (English)</option>
+          <option value="quran-uthmani">Quran Uthmani (Arabic)</option>
+        </select>
+        <button class="action-btn" id="fetch-sajda">Get Sajda Ayahs</button>
+      </div>
+      <div id="sajda-results" class="results-container">
+        <p style="text-align: center; color: #777;">Click the button above to load all sajda ayahs</p>
+      </div>
+    </div>
+    
+    <!-- Hizb Quarter Finder Tab -->
+    <div class="tab-content" id="hizb-tab">
+      <div class="feature-container">
+        <div class="feature-box" style="max-width:600px;">
+          <input type="number" id="hizb-number" min="1" max="240" placeholder="Enter Hizb Quarter (1-240)" style="flex:3;" />
+          <select id="hizb-edition" style="flex:1;">
+            <option value="en.asad">Muhammad Asad (English)</option>
+            <option value="quran-uthmani">Quran Uthmani (Arabic)</option>
+          </select>
+          <button class="action-btn" id="fetch-hizb" style="flex:1;">Get Hizb</button>
+        </div>
+      </div>
+      <div id="hizb-results" class="results-container">
+        <p style="text-align: center; color: #777;">Enter a Hizb quarter number above to view its contents</p>
+      </div>
+    </div>
+    
+    <!-- Meta Data Tab -->
+    <div class="tab-content" id="meta-tab">
+      <div class="meta-info" id="meta-results">
+        <p style="text-align: center; color: #777;">Loading Quran meta data...</p>
+      </div>
+    </div>
+    
+    <footer>
+      <p>© 2023 Haramaya University Muslim Jama'a | Powered by Alquran.cloud API</p>
+    </footer>
   </div>
-
+  
   <script>
-    // --- State ---
-    let lastResults = [];
-    const historyKey = 'quranSearchHistory';
-
-    // --- Search History & Autocomplete ---
-    const histUl = document.getElementById('history-ul');
-    const searchInput = document.getElementById('quran-search');
-
-    function loadHistory() {
-      return JSON.parse(localStorage.getItem(historyKey) || '[]');
-    }
-    function saveToHistory(term) {
-      let h = loadHistory();
-      h = [term, ...h.filter(t=>t!==term)].slice(0,20);
-      localStorage.setItem(historyKey, JSON.stringify(h));
-    }
-    function showHistory() {
-      const h = loadHistory();
-      if (!h.length) return histUl.hidden = true;
-      histUl.innerHTML = h.map(t=>`<li>${t}</li>`).join('');
-      histUl.hidden = false;
-    }
-    searchInput.addEventListener('focus', showHistory);
-    searchInput.addEventListener('blur', ()=>setTimeout(()=>histUl.hidden=true,200));
-    histUl.addEventListener('click', e=>{
-      if (e.target.tagName==='LI') {
-        searchInput.value = e.target.textContent;
-        histUl.hidden = true;
-        performSearch();
+    // Basic tab switching
+    document.addEventListener('DOMContentLoaded', function () {
+      const tabs = document.querySelectorAll('.tab');
+      tabs.forEach(tab => {
+        tab.addEventListener('click', function () {
+          document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+          document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+          this.classList.add('active');
+          const tabId = this.getAttribute('data-tab');
+          document.getElementById(`${tabId}-tab`).classList.add('active');
+          if (tabId === 'meta') fetchMetaData();
+        });
+      });
+      
+      // Bottom nav for mobile
+      document.querySelectorAll('.bottom-nav div').forEach(item => {
+        item.addEventListener('click', function(){
+          const tabId = this.getAttribute('data-tab');
+          document.querySelector(`.tab[data-tab="${tabId}"]`).click();
+          window.scrollTo({top:0, behavior:'smooth'});
+        });
+      });
+      
+      // Populate dropdowns for Juz and build datalist for Page search
+      populateSelectors();
+      
+      // Search events
+      document.getElementById('search-submit').addEventListener('click', performSearch);
+      document.getElementById('quran-search').addEventListener('keypress', function (e) {
+        if (e.key === 'Enter') performSearch();
+      });
+      
+      // Other button events
+      document.getElementById('fetch-juz').addEventListener('click', fetchJuz);
+      document.getElementById('fetch-page').addEventListener('click', fetchPage);
+      document.getElementById('fetch-ayah').addEventListener('click', fetchAyah);
+      document.getElementById('fetch-sajda').addEventListener('click', fetchSajda);
+      document.getElementById('fetch-hizb').addEventListener('click', fetchHizb);
+      
+      // Load meta data if meta tab active
+      if (document.querySelector('.tab.active').getAttribute('data-tab') === 'meta') {
+        fetchMetaData();
       }
     });
-
-    // --- Perform Search ---
-    async function performSearch() {
-      const q = searchInput.value.trim();
-      if (!q) return;
-      saveToHistory(q);
-
-      // Build API URL
-      const juz = document.getElementById('juz-filter').value;
-      const isRegex = document.getElementById('regex-toggle').checked;
-      const isRoot = document.getElementById('root-toggle').checked;
-      const edition = isRoot
-        ? 'https://api.quran.com/api/v4/search?query=' + encodeURIComponent(q)
-          + '&language=en&size=50&search_fields=text_uthmani,translations.text&search_by_root=true'
-        : `https://api.alquran.cloud/v1/search/${encodeURIComponent(q)}/${juz==='all'? 'all':`juz/${juz}`}/en.sahih`;
-
-      const resp = await fetch(edition);
-      const data = await resp.json();
-      const matches = isRoot
-        ? data.data.matches.map(m=>({
-            surah: { englishName: m.resource_name, number: m.verse_key.split(':')[0] },
-            number: m.verse_key.split(':')[1],
-            text: m.text
-          }))
-        : data.data.matches;
-
-      lastResults = matches;
-      renderResults(matches);
+    
+    function populateSelectors() {
+      // Populate Juz options
+      const juzSelect = document.getElementById('juz-select');
+      for (let i = 1; i <= 30; i++) {
+        const option = document.createElement('option');
+        option.value = i;
+        option.textContent = `Juz ${i}`;
+        juzSelect.appendChild(option);
+      }
+      // Build a datalist for page search (1-604)
+      const datalist = document.getElementById('page-datalist');
+      for (let i = 1; i <= 604; i++) {
+        const option = document.createElement('option');
+        option.value = i;
+        datalist.appendChild(option);
+      }
     }
-
-    // --- Render & Filter Results ---
-    const resultsDiv = document.getElementById('results');
-    function renderResults(matches) {
-      resultsDiv.innerHTML = '';
-      matches.forEach(m => {
-        const item = document.createElement('div');
-        item.className = 'result-item';
-        item.innerHTML = `
-          <div class="result-meta">
-            Surah ${m.surah.englishName||m.surah.name} (${m.surah.number}), Ayah ${m.number}
-          </div>
-          <div class="result-text">${m.text}</div>
-        `;
-        if (document.getElementById('tafsir-toggle').checked) {
-          const tafDiv = document.createElement('div');
-          tafDiv.className = 'tafsir-text';
-          // fetch tafsir for this ayah
-          fetch(`https://api.alquran.cloud/v1/ayah/${m.surah.number}:${m.number}/en.asad`)
-            .then(r=>r.json())
-            .then(r=> tafDiv.textContent = r.data.text )
-            .catch(()=> tafDiv.textContent = '[Tafsir unavailable]');
-          item.appendChild(tafDiv);
-        }
-        resultsDiv.appendChild(item);
+    
+    // SEARCH implementation using the dropdown edition
+    function performSearch() {
+      const keyword = document.getElementById('quran-search').value.trim();
+      if (!keyword) {
+        document.getElementById('results').innerHTML = '<p>Please enter a search term.</p>';
+        return;
+      }
+      const edition = document.getElementById('search-edition').value;
+      const resultsContainer = document.getElementById('results');
+      resultsContainer.innerHTML = `<div style="text-align: center; padding: 2rem;">
+          <div class="loading-spinner"></div>
+          <p>Searching Quran...</p>
+      </div>`;
+      const url = `https://api.alquran.cloud/v1/search/${encodeURIComponent(keyword)}/all/${edition}`;
+      fetch(url)
+        .then(response => response.json())
+        .then(data => {
+          if (data?.data?.matches) {
+            displayResults(data.data.matches, data.data.count);
+          } else {
+            resultsContainer.innerHTML = '<p>No results found. Try a different search term.</p>';
+          }
+        })
+        .catch(error => {
+          console.error("Error fetching Quran data:", error);
+          resultsContainer.innerHTML = '<p>Error fetching results. Please try again later.</p>';
+        });
+    }
+    
+    function displayResults(matches, count) {
+      const resultsContainer = document.getElementById('results');
+      if (!matches || matches.length === 0) {
+        resultsContainer.innerHTML = '<p>No results found. Try a different search term.</p>';
+        return;
+      }
+      resultsContainer.innerHTML = `<div class="results-header">
+            <h3>Search Results</h3>
+            <span class="results-count">${count} match${count > 1 ? 'es' : ''}</span>
+            <button class="download-btn" onclick="downloadResults('results')">
+              <i class="fas fa-download"></i> Download
+            </button>
+          </div>`;
+      matches.forEach(match => {
+        const itemDiv = document.createElement('div');
+        itemDiv.className = 'result-item';
+        const surahName = match.surah?.name || "Unknown Surah";
+        const surahNumber = match.surah?.number || "";
+        const ayahNumber = match.numberInSurah || '';
+        const metaDiv = document.createElement('div');
+        metaDiv.className = 'result-meta';
+        metaDiv.textContent = `Surah ${surahName} (${surahNumber}:${ayahNumber})`;
+        const arabicDiv = document.createElement('div');
+        arabicDiv.className = 'result-text';
+        arabicDiv.textContent = match.text || '';
+        const translationDiv = document.createElement('div');
+        translationDiv.className = 'result-translation';
+        translationDiv.textContent = match.translation || '';
+        itemDiv.appendChild(metaDiv);
+        itemDiv.appendChild(arabicDiv);
+        if (match.translation) itemDiv.appendChild(translationDiv);
+        resultsContainer.appendChild(itemDiv);
       });
     }
-    document.getElementById('filter-results').addEventListener('input', e=>{
-      const term = e.target.value.trim().toLowerCase();
-      const filtered = lastResults.filter(m=>m.text.toLowerCase().includes(term));
-      renderResults(filtered);
-    });
-
-    // --- Export ---
-    document.getElementById('export-json').onclick = () => {
-      const blob = new Blob([JSON.stringify(lastResults, null,2)], {type:'application/json'});
-      downloadBlob(blob, 'quran-results.json');
-    };
-    document.getElementById('export-csv').onclick = () => {
-      const rows = [['Surah','Ayah','Text'], ...lastResults.map(m=>[
-        `"${m.surah.englishName||m.surah.name}"`,
-        m.number,
-        `"${m.text.replace(/"/g,'""')}"`
-      ])];
-      const csv = rows.map(r=>r.join(',')).join('\n');
-      downloadBlob(new Blob([csv],{type:'text/csv'}), 'quran-results.csv');
-    };
-    function downloadBlob(blob, filename) {
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url; a.download = filename;
-      a.click();
-      URL.revokeObjectURL(url);
+    
+    // Juz fetching
+    function fetchJuz() {
+      const juzNumber = document.getElementById('juz-select').value;
+      const edition = document.getElementById('juz-edition').value;
+      if (!juzNumber) {
+        alert('Please select a Juz');
+        return;
+      }
+      const resultsContainer = document.getElementById('juz-results');
+      resultsContainer.innerHTML = `<div style="text-align: center; padding: 2rem;">
+          <div class="loading-spinner"></div>
+          <p>Loading Juz ${juzNumber}...</p>
+      </div>`;
+      const url = `https://api.alquran.cloud/v1/juz/${juzNumber}/${edition}`;
+      fetch(url)
+        .then(response => response.json())
+        .then(data => {
+          if (data?.data?.ayahs) {
+            displayJuzResults(data.data.ayahs, juzNumber);
+          } else {
+            resultsContainer.innerHTML = '<p>Error loading Juz. Please try again.</p>';
+          }
+        })
+        .catch(error => {
+          console.error("Error fetching Juz data:", error);
+          resultsContainer.innerHTML = '<p>Error fetching Juz. Please try again later.</p>';
+        });
     }
-
-    // --- Bind Search Button & Enter Key ---
-    document.getElementById('search-btn').addEventListener('click', ()=>performSearch());
-    searchInput.addEventListener('keypress', e=>{ if(e.key==='Enter') performSearch(); });
+    
+    function displayJuzResults(ayahs, juzNumber) {
+      const resultsContainer = document.getElementById('juz-results');
+      resultsContainer.innerHTML = `<div class="results-header">
+            <h3>Juz ${juzNumber}</h3>
+            <span class="results-count">${ayahs.length} ayahs</span>
+            <button class="download-btn" onclick="downloadResults('juz-results')">
+              <i class="fas fa-download"></i> Download
+            </button>
+          </div>`;
+      let currentSurah = null;
+      ayahs.forEach((ayah, index) => {
+        if (!currentSurah || currentSurah.number !== ayah.surah.number) {
+          currentSurah = ayah.surah;
+          const surahHeader = document.createElement('div');
+          surahHeader.className = 'result-meta';
+          surahHeader.style.marginTop = index > 0 ? '1.5rem' : '0';
+          surahHeader.style.fontSize = '1.1rem';
+          surahHeader.textContent = `Surah ${currentSurah.englishName} (${currentSurah.englishNameTranslation}) - ${currentSurah.name}`;
+          resultsContainer.appendChild(surahHeader);
+        }
+        const itemDiv = document.createElement('div');
+        itemDiv.className = 'result-item';
+        const metaDiv = document.createElement('div');
+        metaDiv.className = 'result-meta';
+        metaDiv.textContent = `Ayah ${ayah.numberInSurah}`;
+        const arabicDiv = document.createElement('div');
+        arabicDiv.className = 'result-text';
+        arabicDiv.textContent = ayah.text;
+        const translationDiv = document.createElement('div');
+        translationDiv.className = 'result-translation';
+        translationDiv.textContent = ayah.translation || '';
+        itemDiv.appendChild(metaDiv);
+        itemDiv.appendChild(arabicDiv);
+        if (ayah.translation) itemDiv.appendChild(translationDiv);
+        resultsContainer.appendChild(itemDiv);
+      });
+    }
+    
+    // Page fetching – now using the input with datalist
+    function fetchPage() {
+      const pageNumber = document.getElementById('page-search').value.trim();
+      const edition = document.getElementById('page-edition').value;
+      if (!pageNumber) {
+        alert('Please enter a page number');
+        return;
+      }
+      const resultsContainer = document.getElementById('page-results');
+      resultsContainer.innerHTML = `<div style="text-align: center; padding: 2rem;">
+          <div class="loading-spinner"></div>
+          <p>Loading Page ${pageNumber}...</p>
+      </div>`;
+      const url = `https://api.alquran.cloud/v1/page/${pageNumber}/${edition}`;
+      fetch(url)
+        .then(response => response.json())
+        .then(data => {
+          if (data?.data?.ayahs) {
+            displayPageResults(data.data.ayahs, pageNumber);
+          } else {
+            resultsContainer.innerHTML = '<p>Error loading Page. Please try again.</p>';
+          }
+        })
+        .catch(error => {
+          console.error("Error fetching Page data:", error);
+          resultsContainer.innerHTML = '<p>Error fetching Page. Please try again later.</p>';
+        });
+    }
+    
+    function displayPageResults(ayahs, pageNumber) {
+      const resultsContainer = document.getElementById('page-results');
+      resultsContainer.innerHTML = `<div class="results-header">
+            <h3>Page ${pageNumber}</h3>
+            <span class="results-count">${ayahs.length} ayahs</span>
+            <button class="download-btn" onclick="downloadResults('page-results')">
+              <i class="fas fa-download"></i> Download
+            </button>
+          </div>`;
+      let currentSurah = null;
+      ayahs.forEach((ayah, index) => {
+        if (!currentSurah || currentSurah.number !== ayah.surah.number) {
+          currentSurah = ayah.surah;
+          const surahHeader = document.createElement('div');
+          surahHeader.className = 'result-meta';
+          surahHeader.style.marginTop = index > 0 ? '1.5rem' : '0';
+          surahHeader.style.fontSize = '1.1rem';
+          surahHeader.textContent = `Surah ${currentSurah.englishName} (${currentSurah.englishNameTranslation}) - ${currentSurah.name}`;
+          resultsContainer.appendChild(surahHeader);
+        }
+        const itemDiv = document.createElement('div');
+        itemDiv.className = 'result-item';
+        const metaDiv = document.createElement('div');
+        metaDiv.className = 'result-meta';
+        metaDiv.textContent = `Ayah ${ayah.numberInSurah}`;
+        const arabicDiv = document.createElement('div');
+        arabicDiv.className = 'result-text';
+        arabicDiv.textContent = ayah.text;
+        const translationDiv = document.createElement('div');
+        translationDiv.className = 'result-translation';
+        translationDiv.textContent = ayah.translation || '';
+        itemDiv.appendChild(metaDiv);
+        itemDiv.appendChild(arabicDiv);
+        if (ayah.translation) itemDiv.appendChild(translationDiv);
+        resultsContainer.appendChild(itemDiv);
+      });
+    }
+    
+    // Ayah Lookup
+    function fetchAyah() {
+      const reference = document.getElementById('ayah-reference').value.trim();
+      const edition = document.getElementById('ayah-edition').value;
+      const resultsContainer = document.getElementById('ayah-results');
+      if (!reference) {
+        resultsContainer.innerHTML = '<p>Please enter a valid ayah reference.</p>';
+        return;
+      }
+      resultsContainer.innerHTML = `<div style="text-align: center; padding: 2rem;">
+          <div class="loading-spinner"></div>
+          <p>Looking up Ayah ${reference}...</p>
+      </div>`;
+      const url = `https://api.alquran.cloud/v1/ayah/${encodeURIComponent(reference)}/${edition}`;
+      fetch(url)
+        .then(response => response.json())
+        .then(data => {
+          if (data?.data) {
+            displayAyahResult(data.data);
+          } else {
+            resultsContainer.innerHTML = '<p>No ayah found with that reference. Please check and try again.</p>';
+          }
+        })
+        .catch(error => {
+          console.error("Error fetching ayah:", error);
+          resultsContainer.innerHTML = '<p>Error fetching the ayah. Please try again later.</p>';
+        });
+    }
+    
+    function displayAyahResult(ayahData) {
+      const resultsContainer = document.getElementById('ayah-results');
+      resultsContainer.innerHTML = `<div class="results-header">
+          <h3>Ayah Lookup Result</h3>
+          <button class="download-btn" onclick="downloadResults('ayah-results')">
+            <i class="fas fa-download"></i> Download
+          </button>
+        </div>`;
+      const itemDiv = document.createElement('div');
+      itemDiv.className = 'result-item';
+      const metaDiv = document.createElement('div');
+      metaDiv.className = 'result-meta';
+      metaDiv.textContent = `Surah ${ayahData.surah?.name || 'Unknown'} (${ayahData.surah?.number || ''}:${ayahData.numberInSurah || ''})`;
+      const arabicDiv = document.createElement('div');
+      arabicDiv.className = 'result-text';
+      arabicDiv.textContent = ayahData.text;
+      const translationDiv = document.createElement('div');
+      translationDiv.className = 'result-translation';
+      translationDiv.textContent = ayahData.translation || '';
+      itemDiv.appendChild(metaDiv);
+      itemDiv.appendChild(arabicDiv);
+      if (ayahData.translation) itemDiv.appendChild(translationDiv);
+      resultsContainer.appendChild(itemDiv);
+    }
+    
+    // Sajda Finder
+    function fetchSajda() {
+      const edition = document.getElementById('sajda-edition').value;
+      const resultsContainer = document.getElementById('sajda-results');
+      resultsContainer.innerHTML = `<div style="text-align: center; padding: 2rem;">
+          <div class="loading-spinner"></div>
+          <p>Loading Sajda Ayahs...</p>
+      </div>`;
+      const url = `https://api.alquran.cloud/v1/sajda/${edition}`;
+      fetch(url)
+        .then(response => response.json())
+        .then(data => {
+          if (data?.data?.ayahs) {
+            displaySajdaResults(data.data.ayahs);
+          } else {
+            resultsContainer.innerHTML = '<p>Error loading Sajda Ayahs. Please try again.</p>';
+          }
+        })
+        .catch(error => {
+          console.error("Error fetching Sajda data:", error);
+          resultsContainer.innerHTML = '<p>Error fetching Sajda Ayahs. Please try again later.</p>';
+        });
+    }
+    
+    function displaySajdaResults(ayahs) {
+      const resultsContainer = document.getElementById('sajda-results');
+      resultsContainer.innerHTML = `<div class="results-header">
+            <h3>Sajda Ayahs</h3>
+            <span class="results-count">${ayahs.length} ayahs</span>
+            <button class="download-btn" onclick="downloadResults('sajda-results')">
+              <i class="fas fa-download"></i> Download
+            </button>
+          </div>`;
+      ayahs.forEach(ayah => {
+        const itemDiv = document.createElement('div');
+        itemDiv.className = 'result-item';
+        const metaDiv = document.createElement('div');
+        metaDiv.className = 'result-meta';
+        metaDiv.textContent = `Surah ${ayah.surah?.name || 'Unknown'} (${ayah.surah?.number || ''}:${ayah.numberInSurah || ''})`;
+        const arabicDiv = document.createElement('div');
+        arabicDiv.className = 'result-text';
+        arabicDiv.textContent = ayah.text;
+        const translationDiv = document.createElement('div');
+        translationDiv.className = 'result-translation';
+        translationDiv.textContent = ayah.translation || '';
+        itemDiv.appendChild(metaDiv);
+        itemDiv.appendChild(arabicDiv);
+        if (ayah.translation) itemDiv.appendChild(translationDiv);
+        resultsContainer.appendChild(itemDiv);
+      });
+    }
+    
+    // Hizb Quarter Finder
+    function fetchHizb() {
+      const hizbNumber = document.getElementById('hizb-number').value;
+      const edition = document.getElementById('hizb-edition').value;
+      const resultsContainer = document.getElementById('hizb-results');
+      if (!hizbNumber) {
+        resultsContainer.innerHTML = '<p>Please enter a Hizb Quarter number.</p>';
+        return;
+      }
+      resultsContainer.innerHTML = `<div style="text-align: center; padding: 2rem;">
+          <div class="loading-spinner"></div>
+          <p>Loading Hizb Quarter ${hizbNumber}...</p>
+      </div>`;
+      const url = `https://api.alquran.cloud/v1/hizbQuarter/${hizbNumber}/${edition}`;
+      fetch(url)
+        .then(response => response.json())
+        .then(data => {
+          if (data?.data?.ayahs) {
+            displayHizbResults(data.data.ayahs, hizbNumber);
+          } else {
+            resultsContainer.innerHTML = '<p>Error loading Hizb Quarter. Please try again.</p>';
+          }
+        })
+        .catch(error => {
+          console.error("Error fetching Hizb Quarter data:", error);
+          resultsContainer.innerHTML = '<p>Error fetching Hizb Quarter. Please try again later.</p>';
+        });
+    }
+    
+    function displayHizbResults(ayahs, hizbNumber) {
+      const resultsContainer = document.getElementById('hizb-results');
+      resultsContainer.innerHTML = `<div class="results-header">
+            <h3>Hizb Quarter ${hizbNumber}</h3>
+            <span class="results-count">${ayahs.length} ayahs</span>
+            <button class="download-btn" onclick="downloadResults('hizb-results')">
+              <i class="fas fa-download"></i> Download
+            </button>
+          </div>`;
+      let currentSurah = null;
+      ayahs.forEach((ayah, index) => {
+        if (!currentSurah || currentSurah.number !== ayah.surah.number) {
+          currentSurah = ayah.surah;
+          const surahHeader = document.createElement('div');
+          surahHeader.className = 'result-meta';
+          surahHeader.style.marginTop = index > 0 ? '1.5rem' : '0';
+          surahHeader.style.fontSize = '1.1rem';
+          surahHeader.textContent = `Surah ${currentSurah.englishName} (${currentSurah.englishNameTranslation}) - ${currentSurah.name}`;
+          resultsContainer.appendChild(surahHeader);
+        }
+        const itemDiv = document.createElement('div');
+        itemDiv.className = 'result-item';
+        const metaDiv = document.createElement('div');
+        metaDiv.className = 'result-meta';
+        metaDiv.textContent = `Ayah ${ayah.numberInSurah}`;
+        const arabicDiv = document.createElement('div');
+        arabicDiv.className = 'result-text';
+        arabicDiv.textContent = ayah.text;
+        const translationDiv = document.createElement('div');
+        translationDiv.className = 'result-translation';
+        translationDiv.textContent = ayah.translation || '';
+        itemDiv.appendChild(metaDiv);
+        itemDiv.appendChild(arabicDiv);
+        if (ayah.translation) itemDiv.appendChild(translationDiv);
+        resultsContainer.appendChild(itemDiv);
+      });
+    }
+    
+    // Download results as a plain text file
+    function downloadResults(containerId) {
+      const container = document.getElementById(containerId);
+      const text = container.innerText || container.textContent;
+      const blob = new Blob([text], { type: 'text/plain' });
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = `${containerId}-results.txt`;
+      a.style.display = 'none';
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+    }
+    
+    // Fetch and display Quran meta data
+    function fetchMetaData() {
+      const resultsContainer = document.getElementById('meta-results');
+      resultsContainer.innerHTML = `<div style="text-align: center; padding: 2rem;">
+          <div class="loading-spinner"></div>
+          <p>Loading Quran meta data...</p>
+      </div>`;
+      const url = 'https://api.alquran.cloud/v1/meta';
+      fetch(url)
+        .then(response => response.json())
+        .then(data => {
+          if (data?.data) {
+            displayMetaData(data.data);
+          } else {
+            resultsContainer.innerHTML = '<p>Error loading meta data. Please try again.</p>';
+          }
+        })
+        .catch(error => {
+          console.error("Error fetching meta data:", error);
+          resultsContainer.innerHTML = '<p>Error fetching meta data. Please try again later.</p>';
+        });
+    }
+    
+    function displayMetaData(metaData) {
+      const resultsContainer = document.getElementById('meta-results');
+      resultsContainer.innerHTML = `<h3 style="margin-bottom: 1.5rem; text-align: center; color: var(--primary-color);">Quran Meta Data</h3>`;
+      if (metaData.surahs?.references) {
+        const surahsDiv = document.createElement('div');
+        surahsDiv.className = 'meta-item';
+        const surahsTitle = document.createElement('div');
+        surahsTitle.className = 'meta-title';
+        surahsTitle.textContent = 'Surahs (Chapters)';
+        const surahsContent = document.createElement('div');
+        surahsContent.textContent = `Total: ${metaData.surahs.references.length} surahs`;
+        surahsDiv.appendChild(surahsTitle);
+        surahsDiv.appendChild(surahsContent);
+        resultsContainer.appendChild(surahsDiv);
+      }
+      if (metaData.juzs) {
+        const juzsDiv = document.createElement('div');
+        juzsDiv.className = 'meta-item';
+        const juzsTitle = document.createElement('div');
+        juzsTitle.className = 'meta-title';
+        juzsTitle.textContent = 'Juzs (Parts)';
+        const juzsContent = document.createElement('div');
+        juzsContent.textContent = `Total: ${metaData.juzs.length} juzs`;
+        juzsDiv.appendChild(juzsTitle);
+        juzsDiv.appendChild(juzsContent);
+        resultsContainer.appendChild(juzsDiv);
+      }
+      if (metaData.pages) {
+        const pagesDiv = document.createElement('div');
+        pagesDiv.className = 'meta-item';
+        const pagesTitle = document.createElement('div');
+        pagesTitle.className = 'meta-title';
+        pagesTitle.textContent = 'Pages';
+        const pagesContent = document.createElement('div');
+        pagesContent.textContent = `Total: ${metaData.pages.length} pages`;
+        pagesDiv.appendChild(pagesTitle);
+        pagesDiv.appendChild(pagesContent);
+        resultsContainer.appendChild(pagesDiv);
+      }
+      if (metaData.editions) {
+        const editionsDiv = document.createElement('div');
+        editionsDiv.className = 'meta-item';
+        const editionsTitle = document.createElement('div');
+        editionsTitle.className = 'meta-title';
+        editionsTitle.textContent = 'Available Editions';
+        const editionsContent = document.createElement('div');
+        editionsContent.style.marginTop = '0.5rem';
+        const englishEditions = metaData.editions.filter(e => e.language === 'english' && e.format === 'text');
+        const arabicEditions = metaData.editions.filter(e => e.language === 'arabic' && e.format === 'text');
+        if (englishEditions.length > 0) {
+          const englishTitle = document.createElement('div');
+          englishTitle.style.fontWeight = 'bold';
+          englishTitle.style.marginTop = '0.5rem';
+          englishTitle.textContent = 'English Translations:';
+          editionsContent.appendChild(englishTitle);
+          englishEditions.forEach(edition => {
+            const editionDiv = document.createElement('div');
+            editionDiv.style.marginLeft = '1rem';
+            editionDiv.textContent = `${edition.name} (${edition.identifier}) - ${edition.author || 'Unknown'}`;
+            editionsContent.appendChild(editionDiv);
+          });
+        }
+        if (arabicEditions.length > 0) {
+          const arabicTitle = document.createElement('div');
+          arabicTitle.style.fontWeight = 'bold';
+          arabicTitle.style.marginTop = '0.5rem';
+          arabicTitle.textContent = 'Arabic Texts:';
+          editionsContent.appendChild(arabicTitle);
+          arabicEditions.forEach(edition => {
+            const editionDiv = document.createElement('div');
+            editionDiv.style.marginLeft = '1rem';
+            editionDiv.textContent = `${edition.name} (${edition.identifier}) - ${edition.author || 'Unknown'}`;
+            editionsContent.appendChild(editionDiv);
+          });
+        }
+        editionsDiv.appendChild(editionsTitle);
+        editionsDiv.appendChild(editionsContent);
+        resultsContainer.appendChild(editionsDiv);
+      }
+    }
   </script>
 </body>
 </html>
