@@ -1,53 +1,62 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="light-theme">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>HU Jama'aa - Course Registration</title>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <!-- Add Firebase SDK -->
-    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
-            --primary: #2C3E50;
-            --secondary: #3498DB;
-            --accent: #E74C3C;
-            --light: #ECF0F1;
-            --dark: #1A252F;
-            --success: #2ECC71;
-            --warning: #F39C12;
-            --bg-color: #f5f7fa;
-            --text-color: #333;
-            --card-bg: white;
-            --qirat-color: #27AE60;
-            --hifz-color: #E67E22;
-            --nezer-color: #9B59B6;
+            --primary: #4361ee;
+            --primary-light: #3f37c9;
+            --secondary: #3a0ca3;
+            --accent: #f72585;
+            --success: #4cc9f0;
+            --warning: #f8961e;
+            --danger: #ef233c;
+            --light: #f8f9fa;
+            --dark: #212529;
+            --text: #2b2d42;
+            --text-light: #8d99ae;
+            --bg: #ffffff;
+            --card-bg: #f8f9fa;
+            --border: #dee2e6;
+            --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --radius: 12px;
+            --transition: all 0.3s ease;
         }
 
-        .dark-mode {
-            --primary: #3498DB;
-            --secondary: #2C3E50;
-            --bg-color: #1A252F;
-            --text-color: #ECF0F1;
-            --card-bg: #2C3E50;
-            --dark: #ECF0F1;
+        .dark-theme {
+            --primary: #4895ef;
+            --primary-light: #4361ee;
+            --secondary: #3f37c9;
+            --accent: #f72585;
+            --success: #4cc9f0;
+            --warning: #f8961e;
+            --danger: #ef233c;
+            --light: #343a40;
+            --dark: #f8f9fa;
+            --text: #f8f9fa;
+            --text-light: #adb5bd;
+            --bg: #212529;
+            --card-bg: #343a40;
+            --border: #495057;
+            --shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
         }
 
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Montserrat', sans-serif;
+            font-family: 'Poppins', sans-serif;
         }
 
         body {
-            background-color: var(--bg-color);
-            color: var(--text-color);
+            background-color: var(--bg);
+            color: var(--text);
             line-height: 1.6;
-            transition: all 0.3s ease;
+            transition: var(--transition);
         }
 
         .container {
@@ -57,19 +66,20 @@
         }
 
         header {
-            background: linear-gradient(135deg, var(--primary), var(--dark));
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
             color: white;
             padding: 20px 0;
             text-align: center;
-            border-radius: 0 0 20px 20px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            border-radius: 0 0 var(--radius) var(--radius);
+            box-shadow: var(--shadow);
             margin-bottom: 30px;
             position: relative;
         }
 
         h1 {
-            font-size: 2rem;
+            font-size: 2.2rem;
             margin-bottom: 10px;
+            font-weight: 600;
         }
 
         .user-info {
@@ -84,12 +94,14 @@
             width: 50px;
             height: 50px;
             border-radius: 50%;
-            background-color: var(--secondary);
+            background-color: var(--primary-light);
             display: flex;
             align-items: center;
             justify-content: center;
             font-weight: bold;
             color: white;
+            font-size: 1.2rem;
+            box-shadow: var(--shadow);
         }
 
         .theme-toggle {
@@ -106,11 +118,12 @@
             justify-content: center;
             color: white;
             cursor: pointer;
-            transition: all 0.3s;
+            transition: var(--transition);
         }
 
         .theme-toggle:hover {
             background: rgba(255,255,255,0.3);
+            transform: rotate(30deg);
         }
 
         .tabs {
@@ -128,18 +141,24 @@
             border-radius: 30px;
             font-weight: 600;
             cursor: pointer;
-            transition: all 0.3s ease;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-            color: var(--text-color);
+            transition: var(--transition);
+            box-shadow: var(--shadow);
+            color: var(--text);
         }
 
         .tab-btn.active {
-            background: var(--secondary);
+            background: var(--primary);
             color: white;
         }
 
         .tab-content {
             display: none;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
         .tab-content.active {
@@ -148,11 +167,12 @@
 
         .registration-card {
             background: var(--card-bg);
-            border-radius: 15px;
+            border-radius: var(--radius);
             padding: 25px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            box-shadow: var(--shadow);
             margin-bottom: 30px;
-            transition: all 0.3s;
+            transition: var(--transition);
+            border: 1px solid var(--border);
         }
 
         .filter-container {
@@ -170,89 +190,92 @@
             display: block;
             margin-bottom: 8px;
             font-weight: 500;
-            color: var(--text-color);
+            color: var(--text);
         }
 
         select, input {
             width: 100%;
             padding: 12px 15px;
-            border: 2px solid #ddd;
+            border: 2px solid var(--border);
             border-radius: 8px;
             font-size: 1rem;
-            transition: border 0.3s;
+            transition: var(--transition);
             background: var(--card-bg);
-            color: var(--text-color);
+            color: var(--text);
         }
 
         select:focus, input:focus {
-            border-color: var(--secondary);
+            border-color: var(--primary);
             outline: none;
+            box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.2);
         }
 
         /* Enhanced dropdown styling */
         #course-select {
-            padding: 10px;
+            padding: 12px;
             border-radius: 8px;
-            border: 2px solid var(--secondary);
+            border: 2px solid var(--primary);
+            background: var(--card-bg);
+            color: var(--text);
+            font-size: 1rem;
+            transition: var(--transition);
         }
 
         #course-select option {
-            padding: 10px;
+            padding: 12px;
             margin: 5px 0;
-            border-bottom: 1px solid #eee;
+            border-bottom: 1px solid var(--border);
             font-size: 14px;
+            background: var(--card-bg);
+            color: var(--text);
         }
 
         #course-select option[data-type="qirat"] {
-            background-color: rgba(39, 174, 96, 0.1);
-            color: var(--qirat-color);
-            font-weight: bold;
+            background-color: rgba(67, 97, 238, 0.1);
+            color: var(--primary);
+            font-weight: 500;
         }
 
         #course-select option[data-type="hifz"] {
-            background-color: rgba(230, 126, 34, 0.1);
-            color: var(--hifz-color);
-            font-weight: bold;
+            background-color: rgba(248, 37, 133, 0.1);
+            color: var(--accent);
+            font-weight: 500;
         }
 
         #course-select option[data-type="nezer"] {
-            background-color: rgba(155, 89, 182, 0.1);
-            color: var(--nezer-color);
-            font-weight: bold;
+            background-color: rgba(76, 201, 240, 0.1);
+            color: var(--success);
+            font-weight: 500;
         }
 
         #course-select optgroup {
-            font-weight: bold;
+            font-weight: 600;
             color: var(--primary);
             font-size: 16px;
             padding: 10px;
         }
 
         #course-select optgroup[data-type="qirat"] {
-            color: var(--qirat-color);
+            color: var(--primary);
         }
 
         #course-select optgroup[data-type="hifz"] {
-            color: var(--hifz-color);
+            color: var(--accent);
         }
 
         #course-select optgroup[data-type="nezer"] {
-            color: var(--nezer-color);
+            color: var(--success);
         }
 
         .course-title {
-            font-weight: bold;
+            font-weight: 600;
             font-size: 15px;
         }
 
         .course-details {
             font-size: 12px;
-            color: #666;
+            color: var(--text-light);
             margin-left: 5px;
-        }
-
-        .dark-mode #course-select .course-details {
-            color: #aaa;
         }
 
         .btn {
@@ -261,18 +284,33 @@
             border-radius: 8px;
             font-weight: 600;
             cursor: pointer;
-            transition: all 0.3s;
-            display: inline-block;
-            text-align: center;
+            transition: var(--transition);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
         }
 
         .btn-primary {
-            background: var(--secondary);
+            background: var(--primary);
             color: white;
         }
 
         .btn-primary:hover {
-            background: #2980B9;
+            background: var(--primary-light);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 2px solid var(--primary);
+            color: var(--primary);
+        }
+
+        .btn-outline:hover {
+            background: var(--primary);
+            color: white;
         }
 
         .courses-grid {
@@ -283,26 +321,41 @@
 
         .course-card {
             background: var(--card-bg);
-            border-radius: 12px;
+            border-radius: var(--radius);
             overflow: hidden;
-            box-shadow: 0 3px 10px rgba(0,0,0,0.08);
-            transition: transform 0.3s, box-shadow 0.3s;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
             border: 2px solid transparent;
+            position: relative;
         }
 
         .course-card:hover {
             transform: translateY(-5px);
-            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
         }
 
         .course-card.over-limit {
-            border-color: var(--accent);
+            border-color: var(--danger);
+        }
+
+        .course-card.over-limit::after {
+            content: "Overloaded";
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: var(--danger);
+            color: white;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
         }
 
         .course-header {
-            background: var(--primary);
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
             color: white;
             padding: 15px;
+            position: relative;
         }
 
         .course-body {
@@ -317,15 +370,17 @@
         }
 
         .badge {
-            display: inline-block;
-            padding: 4px 10px;
+            display: inline-flex;
+            align-items: center;
+            padding: 4px 12px;
             border-radius: 20px;
             font-size: 0.8rem;
             font-weight: 600;
+            gap: 5px;
         }
 
         .badge-primary {
-            background: var(--secondary);
+            background: var(--primary);
             color: white;
         }
 
@@ -335,18 +390,22 @@
         }
 
         .badge-qirat {
-            background: var(--qirat-color);
+            background: var(--primary);
             color: white;
         }
 
         .badge-hifz {
-            background: var(--hifz-color);
+            background: var(--accent);
             color: white;
         }
 
         .badge-nezer {
-            background: var(--nezer-color);
+            background: var(--success);
             color: white;
+        }
+
+        .badge i {
+            font-size: 0.7rem;
         }
 
         .classmates-section {
@@ -355,7 +414,7 @@
 
         .classmates-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
             gap: 15px;
             margin-top: 15px;
         }
@@ -364,31 +423,51 @@
             text-align: center;
             background: var(--card-bg);
             padding: 15px;
-            border-radius: 10px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+        }
+
+        .classmate-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
         }
 
         .classmate-avatar {
-            width: 50px;
-            height: 50px;
+            width: 60px;
+            height: 60px;
             border-radius: 50%;
-            background: var(--light);
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
             display: flex;
             align-items: center;
             justify-content: center;
             margin: 0 auto 10px;
             font-weight: bold;
-            color: var(--primary);
+            color: white;
+            font-size: 1.2rem;
+            box-shadow: var(--shadow);
         }
 
         .success-message {
             background: var(--success);
             color: white;
             padding: 15px;
-            border-radius: 8px;
+            border-radius: var(--radius);
             margin-bottom: 20px;
             text-align: center;
             display: none;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .error-message {
+            background: var(--danger);
+            color: white;
+            padding: 15px;
+            border-radius: var(--radius);
+            margin-bottom: 20px;
+            text-align: center;
+            display: none;
+            animation: fadeIn 0.5s ease;
         }
 
         .modal {
@@ -397,14 +476,15 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background: rgba(0,0,0,0.5);
+            background: rgba(0, 0, 0, 0.5);
             display: flex;
             align-items: center;
             justify-content: center;
             z-index: 1000;
             opacity: 0;
             pointer-events: none;
-            transition: opacity 0.3s;
+            transition: var(--transition);
+            backdrop-filter: blur(5px);
         }
 
         .modal.active {
@@ -414,12 +494,14 @@
 
         .modal-content {
             background: var(--card-bg);
-            border-radius: 15px;
+            border-radius: var(--radius);
             width: 90%;
             max-width: 500px;
             padding: 25px;
             transform: translateY(20px);
-            transition: transform 0.3s;
+            transition: var(--transition);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+            border: 1px solid var(--border);
         }
 
         .modal.active .modal-content {
@@ -431,11 +513,14 @@
             justify-content: space-between;
             align-items: center;
             margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid var(--border);
         }
 
         .modal-title {
             font-size: 1.5rem;
             color: var(--primary);
+            font-weight: 600;
         }
 
         .modal-close {
@@ -443,7 +528,13 @@
             border: none;
             font-size: 1.5rem;
             cursor: pointer;
-            color: var(--text-color);
+            color: var(--text-light);
+            transition: var(--transition);
+        }
+
+        .modal-close:hover {
+            color: var(--danger);
+            transform: rotate(90deg);
         }
 
         .modal-footer {
@@ -451,6 +542,45 @@
             justify-content: flex-end;
             gap: 10px;
             margin-top: 20px;
+            padding-top: 15px;
+            border-top: 1px solid var(--border);
+        }
+
+        .progress-container {
+            width: 100%;
+            height: 10px;
+            background: var(--border);
+            border-radius: 5px;
+            margin: 20px 0;
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+            border-radius: 5px;
+            transition: width 0.5s ease;
+        }
+
+        .loading {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100px;
+        }
+
+        .loading-spinner {
+            width: 40px;
+            height: 40px;
+            border: 4px solid var(--border);
+            border-top: 4px solid var(--primary);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
         }
 
         @media (max-width: 768px) {
@@ -465,6 +595,10 @@
             .filter-container {
                 grid-template-columns: 1fr;
             }
+
+            .classmates-grid {
+                grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+            }
         }
     </style>
 </head>
@@ -476,8 +610,10 @@
             </button>
             <h1>Course Registration</h1>
             <div class="user-info">
-                <div class="avatar" id="user-avatar">JD</div>
-                <span id="username">John Doe</span>
+                <div class="avatar" id="user-avatar">
+                    <i class="fas fa-user"></i>
+                </div>
+                <span id="username">Loading...</span>
             </div>
         </div>
     </header>
@@ -486,22 +622,26 @@
         <div class="tabs">
             <button class="tab-btn active" data-tab="registration">Registration</button>
             <button class="tab-btn" data-tab="my-courses">My Courses</button>
-            <button class="tab-btn" onclick="window.location.href='progress.html'">Progress</button>
-            <button class="tab-btn" onclick="window.location.href='profile.html'">Profile</button>
+            <button class="tab-btn" data-tab="progress">Progress</button>
+            <button class="tab-btn" id="logout-btn">Logout</button>
         </div>
 
         <div class="success-message" id="success-message">
-            Course enrolled successfully!
+            <i class="fas fa-check-circle"></i> Course enrolled successfully!
+        </div>
+
+        <div class="error-message" id="error-message">
+            <i class="fas fa-exclamation-circle"></i> <span id="error-text"></span>
         </div>
 
         <div class="tab-content active" id="registration-tab">
             <div class="registration-card">
                 <h2>Register for Courses</h2>
-                <p>Filter and select courses from the dropdown below</p>
+                <p>Select your desired courses from the options below</p>
                 
                 <div class="filter-container">
                     <div class="form-group">
-                        <label for="type-filter">Course Type</label>
+                        <label for="type-filter"><i class="fas fa-book"></i> Course Type</label>
                         <select id="type-filter" class="form-control">
                             <option value="all">All Types</option>
                             <option value="qirat">Qir'at</option>
@@ -511,7 +651,7 @@
                     </div>
                     
                     <div class="form-group">
-                        <label for="gender-filter">Gender</label>
+                        <label for="gender-filter"><i class="fas fa-venus-mars"></i> Gender</label>
                         <select id="gender-filter" class="form-control" disabled>
                             <option value="all">All Genders</option>
                             <option value="male">Male</option>
@@ -520,7 +660,7 @@
                     </div>
                     
                     <div class="form-group">
-                        <label for="language-filter">Language</label>
+                        <label for="language-filter"><i class="fas fa-language"></i> Language</label>
                         <select id="language-filter" class="form-control">
                             <option value="all">All Languages</option>
                             <option value="amharic">Amharic</option>
@@ -529,7 +669,7 @@
                     </div>
                     
                     <div class="form-group">
-                        <label for="level-filter">Level</label>
+                        <label for="level-filter"><i class="fas fa-layer-group"></i> Level</label>
                         <select id="level-filter" class="form-control">
                             <option value="all">All Levels</option>
                             <option value="fresh">Fresh</option>
@@ -539,27 +679,66 @@
                 </div>
                 
                 <div class="form-group">
-                    <label for="course-select">Available Courses</label>
+                    <label for="course-select"><i class="fas fa-list"></i> Available Courses</label>
                     <select id="course-select" class="form-control">
                         <option value="">-- Select a Course --</option>
-                        <!-- Courses will be loaded here -->
                     </select>
                 </div>
                 
-                <button class="btn btn-primary" id="register-btn">Register</button>
+                <button class="btn btn-primary" id="register-btn">
+                    <i class="fas fa-plus-circle"></i> Register
+                </button>
             </div>
         </div>
 
         <div class="tab-content" id="my-courses-tab">
-            <h2>My Enrolled Courses</h2>
-            <div class="courses-grid" id="enrolled-courses">
-                <!-- Enrolled courses will be loaded here -->
+            <div class="loading" id="courses-loading">
+                <div class="loading-spinner"></div>
             </div>
-            
-            <div class="classmates-section" id="classmates-section">
-                <h3>Classmates in Your Courses</h3>
-                <div class="classmates-grid" id="classmates-grid">
-                    <!-- Classmates will be loaded here -->
+            <div id="courses-content" style="display: none;">
+                <h2>My Enrolled Courses</h2>
+                <div class="courses-grid" id="enrolled-courses">
+                    <!-- Enrolled courses will be loaded here -->
+                </div>
+                
+                <div class="classmates-section" id="classmates-section">
+                    <h3><i class="fas fa-users"></i> Classmates in Your Courses</h3>
+                    <div class="classmates-grid" id="classmates-grid">
+                        <!-- Classmates will be loaded here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="tab-content" id="progress-tab">
+            <div class="registration-card">
+                <h2>Your Learning Progress</h2>
+                <p>Track your course completion and achievements</p>
+                
+                <div class="progress-container">
+                    <div class="progress-bar" id="progress-bar" style="width: 0%"></div>
+                </div>
+                
+                <div id="progress-stats">
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 20px;">
+                        <div>
+                            <h3>Enrolled Courses</h3>
+                            <p id="enrolled-count">0</p>
+                        </div>
+                        <div>
+                            <h3>Completed</h3>
+                            <p id="completed-count">0</p>
+                        </div>
+                        <div>
+                            <h3>Progress</h3>
+                            <p id="progress-percent">0%</p>
+                        </div>
+                    </div>
+                    
+                    <h3>Course Breakdown</h3>
+                    <div id="progress-courses">
+                        <!-- Progress by course will be shown here -->
+                    </div>
                 </div>
             </div>
         </div>
@@ -573,7 +752,7 @@
                 <button class="modal-close" id="close-modal">&times;</button>
             </div>
             <div class="modal-body">
-                <p id="confirmation-text">You're about to enroll in your 4th course. Are you sure you can handle this workload?</p>
+                <p id="confirmation-text">You're about to enroll in your 4th course. Please confirm you can handle this workload?</p>
                 <div class="form-group" id="reason-field" style="display: none;">
                     <label for="enrollment-reason">What makes you think you can handle more than 3 courses?</label>
                     <input type="text" id="enrollment-reason" placeholder="Your reason...">
@@ -603,8 +782,14 @@
         </div>
     </div>
 
-    <script>
-        // Firebase configuration
+    <!-- Firebase and App Script -->
+    <script type="module">
+        // Import the functions you need from the SDKs you need
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+        import { getFirestore, doc, setDoc, getDoc, updateDoc, arrayUnion } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+        import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+
+        // Your web app's Firebase configuration
         const firebaseConfig = {
             apiKey: "AIzaSyBQyNVWh1BtCkXlBfuS7jHAa36FTklZayo",
             authDomain: "pharma-quiz-b5a07.firebaseapp.com",
@@ -617,11 +802,11 @@
         };
 
         // Initialize Firebase
-        firebase.initializeApp(firebaseConfig);
-        const db = firebase.firestore();
-        const auth = firebase.auth();
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+        const auth = getAuth(app);
 
-        // All available courses from the document
+        // All available courses
         const allCourses = [
             // Qir'at courses
             { id: 'q1', title: 'Sifetu Solah', type: 'qirat', language: 'amharic', level: 'all', gender: 'all' },
@@ -664,20 +849,15 @@
         // Current user data
         let currentUser = {
             id: '',
-            name: 'John Doe',
-            gender: 'male', // Default, will be updated from Firebase
-            level: 'fresh', // Default, will be updated from Firebase
+            name: 'Guest',
+            email: '',
+            gender: 'male',
+            level: 'fresh',
             enrolledCourses: [],
-            overloadedCourses: []
+            overloadedCourses: [],
+            completedCourses: [],
+            progress: {}
         };
-
-        let classmates = [
-            { id: 's1', name: 'Ahmed Mohammed', courses: ['q1', 'h1'] },
-            { id: 's2', name: 'Fatima Ali', courses: ['q5', 'n2'] },
-            { id: 's3', name: 'Mohammed Hassan', courses: ['h1', 'n1'] },
-            { id: 's4', name: 'Amina Abdi', courses: ['q1', 'h2'] },
-            { id: 's5', name: 'Omar Yusuf', courses: ['q5', 'n1'] }
-        ];
 
         // DOM elements
         const courseSelect = document.getElementById('course-select');
@@ -691,6 +871,8 @@
         const confirmationText = document.getElementById('confirmation-text');
         const reasonField = document.getElementById('reason-field');
         const successMessage = document.getElementById('success-message');
+        const errorMessage = document.getElementById('error-message');
+        const errorText = document.getElementById('error-text');
         const tabBtns = document.querySelectorAll('.tab-btn');
         const tabContents = document.querySelectorAll('.tab-content');
         const themeToggle = document.getElementById('theme-toggle');
@@ -700,38 +882,47 @@
         const levelFilter = document.getElementById('level-filter');
         const userAvatar = document.getElementById('user-avatar');
         const usernameElement = document.getElementById('username');
-        
-        // New modal elements
+        const logoutBtn = document.getElementById('logout-btn');
         const generalConfirmationModal = document.getElementById('general-confirmation-modal');
         const closeGeneralModalBtn = document.getElementById('close-general-modal');
         const cancelGeneralBtn = document.getElementById('cancel-general-btn');
         const confirmGeneralBtn = document.getElementById('confirm-general-btn');
         const generalConfirmationText = document.getElementById('general-confirmation-text');
+        const coursesLoading = document.getElementById('courses-loading');
+        const coursesContent = document.getElementById('courses-content');
+        const progressBar = document.getElementById('progress-bar');
+        const enrolledCount = document.getElementById('enrolled-count');
+        const completedCount = document.getElementById('completed-count');
+        const progressPercent = document.getElementById('progress-percent');
+        const progressCourses = document.getElementById('progress-courses');
 
         // Track pending course
         let pendingCourse = null;
 
         // Initialize the page
         function init() {
-            // Initialize Firebase auth state listener
-            auth.onAuthStateChanged(user => {
+            // Check authentication state
+            onAuthStateChanged(auth, async (user) => {
                 if (user) {
                     // User is signed in
                     currentUser.id = user.uid;
-                    userAvatar.textContent = user.displayName ? user.displayName.split(' ').map(n => n[0]).join('') : 'US';
-                    usernameElement.textContent = user.displayName || 'User';
+                    currentUser.email = user.email;
+                    usernameElement.textContent = user.displayName || user.email;
+                    userAvatar.textContent = user.displayName ? 
+                        user.displayName.split(' ').map(n => n[0]).join('') : 
+                        user.email.charAt(0).toUpperCase();
                     
                     // Load user data from Firestore
-                    loadUserData();
+                    await loadUserData();
+                    
+                    // Setup UI
+                    setupUI();
                 } else {
-                    // No user is signed in
+                    // No user is signed in, redirect to login
                     window.location.href = 'login.html';
                 }
             });
 
-            loadFilters();
-            loadEnrolledCourses();
-            loadClassmates();
             setupEventListeners();
             checkTheme();
         }
@@ -739,30 +930,38 @@
         // Load user data from Firestore
         async function loadUserData() {
             try {
-                const userDoc = await db.collection('users').doc(currentUser.id).get();
-                if (userDoc.exists) {
+                const userDoc = await getDoc(doc(db, 'users', currentUser.id));
+                if (userDoc.exists()) {
                     const userData = userDoc.data();
                     currentUser = {
                         ...currentUser,
                         ...userData,
                         enrolledCourses: userData.enrolledCourses || [],
-                        overloadedCourses: userData.overloadedCourses || []
+                        overloadedCourses: userData.overloadedCourses || [],
+                        completedCourses: userData.completedCourses || [],
+                        progress: userData.progress || {},
+                        gender: userData.gender || 'male',
+                        level: userData.level || 'fresh'
                     };
                     
                     // Update UI with user data
-                    usernameElement.textContent = userData.name || 'User';
-                    userAvatar.textContent = userData.name ? userData.name.split(' ').map(n => n[0]).join('') : 'US';
-                    
-                    // Update filters based on user data
-                    if (userData.level) {
-                        levelFilter.value = userData.level;
-                    }
-                    
-                    // Reload courses with updated filters
-                    updateCourseOptions();
-                    loadEnrolledCourses();
+                    updateUI();
+                } else {
+                    // Create new user document if it doesn't exist
+                    await setDoc(doc(db, 'users', currentUser.id), {
+                        name: currentUser.name,
+                        email: currentUser.email,
+                        gender: currentUser.gender,
+                        level: currentUser.level,
+                        enrolledCourses: [],
+                        overloadedCourses: [],
+                        completedCourses: [],
+                        progress: {},
+                        createdAt: new Date()
+                    });
                 }
             } catch (error) {
+                showError("Error loading user data: " + error.message);
                 console.error("Error loading user data:", error);
             }
         }
@@ -770,17 +969,43 @@
         // Save user data to Firestore
         async function saveUserData() {
             try {
-                await db.collection('users').doc(currentUser.id).set({
+                await updateDoc(doc(db, 'users', currentUser.id), {
                     name: currentUser.name,
                     gender: currentUser.gender,
                     level: currentUser.level,
                     enrolledCourses: currentUser.enrolledCourses,
                     overloadedCourses: currentUser.overloadedCourses,
-                    lastUpdated: firebase.firestore.FieldValue.serverTimestamp()
-                }, { merge: true });
+                    completedCourses: currentUser.completedCourses,
+                    progress: currentUser.progress,
+                    lastUpdated: new Date()
+                });
             } catch (error) {
+                showError("Error saving user data: " + error.message);
                 console.error("Error saving user data:", error);
             }
+        }
+
+        // Setup UI based on user data
+        function setupUI() {
+            // Set level filter based on user level
+            levelFilter.value = currentUser.level;
+            
+            // Update course options
+            updateCourseOptions();
+            
+            // Load enrolled courses
+            loadEnrolledCourses();
+            
+            // Load progress
+            loadProgress();
+        }
+
+        // Update UI elements
+        function updateUI() {
+            usernameElement.textContent = currentUser.name || currentUser.email;
+            userAvatar.textContent = currentUser.name ? 
+                currentUser.name.split(' ').map(n => n[0]).join('') : 
+                currentUser.email.charAt(0).toUpperCase();
         }
 
         // Load filters and courses
@@ -905,11 +1130,16 @@
         }
 
         // Load enrolled courses
-        function loadEnrolledCourses() {
+        async function loadEnrolledCourses() {
+            coursesLoading.style.display = 'flex';
+            coursesContent.style.display = 'none';
+            
             enrolledCoursesGrid.innerHTML = '';
             
             if (currentUser.enrolledCourses.length === 0) {
                 enrolledCoursesGrid.innerHTML = '<p>You are not enrolled in any courses yet.</p>';
+                coursesLoading.style.display = 'none';
+                coursesContent.style.display = 'block';
                 return;
             }
 
@@ -917,6 +1147,7 @@
                 const course = allCourses.find(c => c.id === courseId);
                 if (course) {
                     const isOverLimit = index >= 3;
+                    const isOverloaded = currentUser.overloadedCourses.includes(courseId);
                     const courseCard = document.createElement('div');
                     courseCard.className = `course-card ${isOverLimit ? 'over-limit' : ''}`;
                     
@@ -926,84 +1157,191 @@
                     else if (course.type === 'hifz') badgeClass = 'badge-hifz';
                     else if (course.type === 'nezer') badgeClass = 'badge-nezer';
                     
+                    // Check if course is completed
+                    const isCompleted = currentUser.completedCourses.includes(courseId);
+                    const progress = currentUser.progress[courseId] || 0;
+                    
                     courseCard.innerHTML = `
                         <div class="course-header">
                             <h3>${course.title}</h3>
-                            ${isOverLimit ? '<span class="badge badge-warning">Overloaded</span>' : ''}
+                            ${isOverloaded ? '<span class="badge badge-warning"><i class="fas fa-exclamation-triangle"></i> Overloaded</span>' : ''}
+                            ${isCompleted ? '<span class="badge badge-success"><i class="fas fa-check"></i> Completed</span>' : ''}
                         </div>
                         <div class="course-body">
                             <div class="course-meta">
-                                <span>${course.type.toUpperCase()}</span>
-                                <span class="badge ${badgeClass}">${course.language.toUpperCase()}</span>
+                                <span class="badge ${badgeClass}">
+                                    <i class="fas fa-${course.type === 'qirat' ? 'book-open' : course.type === 'hifz' ? 'quran' : 'graduation-cap'}"></i>
+                                    ${course.type.toUpperCase()}
+                                </span>
+                                <span class="badge ${badgeClass}">
+                                    <i class="fas fa-globe"></i>
+                                    ${course.language.toUpperCase()}
+                                </span>
                             </div>
-                            ${course.gender !== 'all' ? `<p>Gender: ${course.gender === 'male' ? 'Male' : 'Female'}</p>` : ''}
-                            ${course.level !== 'all' ? `<p>Level: ${course.level.toUpperCase()}</p>` : ''}
+                            ${course.gender !== 'all' ? `
+                                <p><i class="fas fa-${course.gender === 'male' ? 'mars' : 'venus'}"></i> 
+                                ${course.gender === 'male' ? 'Male' : 'Female'}</p>
+                            ` : ''}
+                            ${course.level !== 'all' ? `
+                                <p><i class="fas fa-layer-group"></i> 
+                                ${course.level.toUpperCase()}</p>
+                            ` : ''}
+                            ${!isCompleted ? `
+                                <div class="progress-container" style="margin-top: 10px;">
+                                    <div class="progress-bar" style="width: ${progress}%"></div>
+                                </div>
+                                <p style="text-align: right; font-size: 0.8rem; margin-top: 5px;">${progress}% complete</p>
+                            ` : ''}
                         </div>
                     `;
                     enrolledCoursesGrid.appendChild(courseCard);
                 }
             });
+            
+            // Load classmates
+            loadClassmates();
+            
+            coursesLoading.style.display = 'none';
+            coursesContent.style.display = 'block';
         }
 
         // Load classmates
-        function loadClassmates() {
+        async function loadClassmates() {
             classmatesGrid.innerHTML = '';
             
-            // Find classmates in the same courses
-            const sharedClassmates = classmates.filter(classmate => 
-                classmate.courses.some(courseId => currentUser.enrolledCourses.includes(courseId))
-            );
+            try {
+                // In a real app, you would fetch classmates from Firestore
+                // For now, we'll use mock data
+                const mockClassmates = [
+                    { id: 's1', name: 'Ahmed Mohammed', courses: ['q1', 'h1'], avatar: 'AM' },
+                    { id: 's2', name: 'Fatima Ali', courses: ['q5', 'n2'], avatar: 'FA' },
+                    { id: 's3', name: 'Mohammed Hassan', courses: ['h1', 'n1'], avatar: 'MH' },
+                    { id: 's4', name: 'Amina Abdi', courses: ['q1', 'h2'], avatar: 'AA' },
+                    { id: 's5', name: 'Omar Yusuf', courses: ['q5', 'n1'], avatar: 'OY' }
+                ];
+                
+                // Find classmates in the same courses
+                const sharedClassmates = mockClassmates.filter(classmate => 
+                    classmate.courses.some(courseId => currentUser.enrolledCourses.includes(courseId))
+                );
 
-            if (sharedClassmates.length === 0) {
-                classmatesGrid.innerHTML = '<p>No classmates found in your courses.</p>';
-                return;
+                if (sharedClassmates.length === 0) {
+                    classmatesGrid.innerHTML = '<p>No classmates found in your courses.</p>';
+                    return;
+                }
+
+                sharedClassmates.forEach(classmate => {
+                    const classmateCard = document.createElement('div');
+                    classmateCard.className = 'classmate-card';
+                    classmateCard.innerHTML = `
+                        <div class="classmate-avatar">${classmate.avatar}</div>
+                        <h4>${classmate.name}</h4>
+                        <p>${classmate.courses.filter(c => currentUser.enrolledCourses.includes(c)).length} shared courses</p>
+                    `;
+                    classmatesGrid.appendChild(classmateCard);
+                });
+            } catch (error) {
+                console.error("Error loading classmates:", error);
             }
+        }
 
-            sharedClassmates.forEach(classmate => {
-                const classmateCard = document.createElement('div');
-                classmateCard.className = 'classmate-card';
-                classmateCard.innerHTML = `
-                    <div class="classmate-avatar">${classmate.name.split(' ').map(n => n[0]).join('')}</div>
-                    <h4>${classmate.name}</h4>
-                    <p>${classmate.courses.filter(c => currentUser.enrolledCourses.includes(c)).length} shared courses</p>
-                `;
-                classmatesGrid.appendChild(classmateCard);
+        // Load progress data
+        async function loadProgress() {
+            const totalCourses = currentUser.enrolledCourses.length;
+            const completedCourses = currentUser.completedCourses.length;
+            const progressPercent = totalCourses > 0 ? Math.round((completedCourses / totalCourses) * 100) : 0;
+            
+            // Update progress bar
+            progressBar.style.width = `${progressPercent}%`;
+            
+            // Update stats
+            enrolledCount.textContent = totalCourses;
+            completedCount.textContent = completedCourses;
+            progressPercent.textContent = `${progressPercent}%`;
+            
+            // Update course breakdown
+            progressCourses.innerHTML = '';
+            currentUser.enrolledCourses.forEach(courseId => {
+                const course = allCourses.find(c => c.id === courseId);
+                if (course) {
+                    const isCompleted = currentUser.completedCourses.includes(courseId);
+                    const progress = currentUser.progress[courseId] || 0;
+                    
+                    const courseProgress = document.createElement('div');
+                    courseProgress.style.marginBottom = '15px';
+                    courseProgress.innerHTML = `
+                        <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
+                            <span>${course.title}</span>
+                            <span>${isCompleted ? 'Completed' : `${progress}%`}</span>
+                        </div>
+                        <div class="progress-container" style="height: 8px;">
+                            <div class="progress-bar" style="width: ${isCompleted ? '100%' : `${progress}%`}; height: 100%;"></div>
+                        </div>
+                    `;
+                    progressCourses.appendChild(courseProgress);
+                }
             });
         }
 
         // Setup event listeners
         function setupEventListeners() {
+            // Registration button
             registerBtn.addEventListener('click', registerForCourse);
+            
+            // Modal buttons
             closeModalBtn.addEventListener('click', () => toggleModal(false));
             cancelBtn.addEventListener('click', () => toggleModal(false));
             confirmBtn.addEventListener('click', confirmEnrollment);
             
-            // New modal event listeners
+            // General modal buttons
             closeGeneralModalBtn.addEventListener('click', () => toggleGeneralModal(false));
             cancelGeneralBtn.addEventListener('click', () => toggleGeneralModal(false));
             confirmGeneralBtn.addEventListener('click', confirmGeneralEnrollment);
             
+            // Tab buttons
             tabBtns.forEach(btn => {
-                btn.addEventListener('click', () => {
-                    const tabId = btn.getAttribute('data-tab');
-                    switchTab(tabId);
-                });
+                if (btn.id !== 'logout-btn') {
+                    btn.addEventListener('click', () => {
+                        const tabId = btn.getAttribute('data-tab');
+                        switchTab(tabId);
+                    });
+                }
+            });
+            
+            // Logout button
+            logoutBtn.addEventListener('click', async () => {
+                try {
+                    await signOut(auth);
+                    window.location.href = 'login.html';
+                } catch (error) {
+                    showError("Error signing out: " + error.message);
+                }
             });
 
+            // Theme toggle
             themeToggle.addEventListener('click', toggleTheme);
+            
+            // Initialize filters
+            loadFilters();
         }
 
         // Register for a course
         function registerForCourse() {
             const courseId = courseSelect.value;
-            if (!courseId) return;
+            if (!courseId) {
+                showError("Please select a course to register");
+                return;
+            }
 
             const course = allCourses.find(c => c.id === courseId);
-            if (!course) return;
+            if (!course) {
+                showError("Invalid course selected");
+                return;
+            }
 
             // Check if already enrolled
             if (currentUser.enrolledCourses.includes(courseId)) {
-                alert('You are already enrolled in this course!');
+                showError("You are already enrolled in this course!");
                 return;
             }
 
@@ -1031,57 +1369,82 @@
         async function confirmEnrollment() {
             const reason = document.getElementById('enrollment-reason').value;
             if (currentUser.enrolledCourses.length >= 3 && !reason) {
-                alert('Please provide a reason for taking more than 3 courses');
+                showError('Please provide a reason for taking more than 3 courses');
                 return;
             }
 
-            // Add to overloaded courses if this is the 4th+ course
-            if (currentUser.enrolledCourses.length >= 3) {
-                currentUser.overloadedCourses.push(pendingCourse);
+            try {
+                // Add to overloaded courses if this is the 4th+ course
+                if (currentUser.enrolledCourses.length >= 3) {
+                    currentUser.overloadedCourses.push(pendingCourse);
+                }
+                
+                // Add to enrolled courses
+                currentUser.enrolledCourses.push(pendingCourse);
+                
+                // Initialize progress for this course
+                currentUser.progress[pendingCourse] = 0;
+                
+                // Save to Firebase
+                await saveUserData();
+                
+                // Update UI
+                updateCourseOptions();
+                loadEnrolledCourses();
+                loadProgress();
+                courseSelect.value = '';
+                
+                // Show success message
+                showSuccess('Course enrolled successfully!');
+                
+                toggleModal(false);
+            } catch (error) {
+                showError("Error enrolling in course: " + error.message);
             }
-            
-            // Add to enrolled courses
-            currentUser.enrolledCourses.push(pendingCourse);
-            
-            // Save to Firebase
-            await saveUserData();
-            
-            // Update UI
-            updateCourseOptions();
-            loadEnrolledCourses();
-            loadClassmates();
-            courseSelect.value = '';
-            
-            // Show success message
-            successMessage.style.display = 'block';
-            setTimeout(() => {
-                successMessage.style.display = 'none';
-            }, 3000);
-            
-            toggleModal(false);
         }
 
         // Confirm general enrollment (for 1st-3rd courses)
         async function confirmGeneralEnrollment() {
-            // Add to enrolled courses
-            currentUser.enrolledCourses.push(pendingCourse);
-            
-            // Save to Firebase
-            await saveUserData();
-            
-            // Update UI
-            updateCourseOptions();
-            loadEnrolledCourses();
-            loadClassmates();
-            courseSelect.value = '';
-            
-            // Show success message
+            try {
+                // Add to enrolled courses
+                currentUser.enrolledCourses.push(pendingCourse);
+                
+                // Initialize progress for this course
+                currentUser.progress[pendingCourse] = 0;
+                
+                // Save to Firebase
+                await saveUserData();
+                
+                // Update UI
+                updateCourseOptions();
+                loadEnrolledCourses();
+                loadProgress();
+                courseSelect.value = '';
+                
+                // Show success message
+                showSuccess('Course enrolled successfully!');
+                
+                toggleGeneralModal(false);
+            } catch (error) {
+                showError("Error enrolling in course: " + error.message);
+            }
+        }
+
+        // Show success message
+        function showSuccess(message) {
             successMessage.style.display = 'block';
             setTimeout(() => {
                 successMessage.style.display = 'none';
             }, 3000);
-            
-            toggleGeneralModal(false);
+        }
+
+        // Show error message
+        function showError(message) {
+            errorText.textContent = message;
+            errorMessage.style.display = 'block';
+            setTimeout(() => {
+                errorMessage.style.display = 'none';
+            }, 5000);
         }
 
         // Toggle modal visibility (for 4th+ courses)
@@ -1112,22 +1475,35 @@
             tabContents.forEach(content => {
                 content.classList.toggle('active', content.id === `${tabId}-tab`);
             });
+            
+            // Load specific tab content if needed
+            if (tabId === 'my-courses') {
+                loadEnrolledCourses();
+            } else if (tabId === 'progress') {
+                loadProgress();
+            }
         }
 
         // Toggle theme
         function toggleTheme() {
-            document.body.classList.toggle('dark-mode');
-            const isDark = document.body.classList.contains('dark-mode');
-            localStorage.setItem('darkMode', isDark);
-            themeToggle.innerHTML = isDark ? '<i class="fas fa-sun"></i>' : '<i class="fas fa-moon"></i>';
+            const isDark = document.body.classList.contains('dark-theme');
+            document.body.classList.remove(isDark ? 'dark-theme' : 'light-theme');
+            document.body.classList.add(isDark ? 'light-theme' : 'dark-theme');
+            localStorage.setItem('theme', isDark ? 'light' : 'dark');
+            themeToggle.innerHTML = isDark ? '<i class="fas fa-moon"></i>' : '<i class="fas fa-sun"></i>';
         }
 
         // Check saved theme preference
         function checkTheme() {
-            const darkMode = localStorage.getItem('darkMode') === 'true';
-            if (darkMode) {
-                document.body.classList.add('dark-mode');
+            const savedTheme = localStorage.getItem('theme') || 'light';
+            if (savedTheme === 'dark') {
+                document.body.classList.remove('light-theme');
+                document.body.classList.add('dark-theme');
                 themeToggle.innerHTML = '<i class="fas fa-sun"></i>';
+            } else {
+                document.body.classList.remove('dark-theme');
+                document.body.classList.add('light-theme');
+                themeToggle.innerHTML = '<i class="fas fa-moon"></i>';
             }
         }
 
