@@ -1,639 +1,935 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Haramaya Jama'aa Home</title>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <style>
-    /* Reset & Global Styling */
-    :root {
-      --primary-color: #2980b9;
-      --secondary-color: #2c3e50;
-      --accent-color: #f39c12;
-      --light-color: #ecf0f1;
-      --dark-color: #2c3e50;
-      --success-color: #27ae60;
-      --danger-color: #e74c3c;
-      --sidebar-width: 250px;
-      --header-height: 60px;
-      --transition-speed: 0.3s;
-    }
-
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
-    body {
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background: #f0f4f8;
-      color: #333;
-      line-height: 1.6;
-      display: flex;
-      min-height: 100vh;
-      overflow-x: hidden;
-    }
-
-    a {
-      text-decoration: none;
-      color: inherit;
-      transition: color var(--transition-speed);
-    }
-
-    /* HEADER */
-    header {
-      background: linear-gradient(135deg, var(--secondary-color), var(--dark-color));
-      color: #fff;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 0 1rem;
-      position: fixed;
-      width: 100%;
-      height: var(--header-height);
-      top: 0;
-      z-index: 1000;
-      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    }
-
-    .hamburger {
-      font-size: 1.8rem;
-      cursor: pointer;
-      transition: color var(--transition-speed);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      width: 40px;
-      height: 40px;
-      border-radius: 50%;
-    }
-
-    .hamburger:hover {
-      color: var(--accent-color);
-      background-color: rgba(255, 255, 255, 0.1);
-    }
-
-    .header-title {
-      font-size: 1.3rem;
-      font-weight: 600;
-      text-align: center;
-      flex: 1;
-    }
-
-    /* ACCOUNT AREA */
-    .account-wrapper {
-      position: relative;
-      cursor: pointer;
-    }
-
-    .account-icon {
-      width: 45px;
-      height: 45px;
-      border-radius: 50%;
-      background-color: var(--light-color);
-      background-image: url('https://via.placeholder.com/45?text=ACC');
-      background-size: cover;
-      background-position: center;
-      border: 2px solid #fff;
-      transition: transform var(--transition-speed);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: var(--dark-color);
-      font-weight: bold;
-      overflow: hidden;
-    }
-
-    .account-icon:hover {
-      transform: scale(1.1);
-    }
-
-    .account-dropdown {
-      position: absolute;
-      top: calc(var(--header-height) + 5px);
-      right: 0;
-      background: #fff;
-      border-radius: 8px;
-      overflow: hidden;
-      display: none;
-      z-index: 1100;
-      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
-      min-width: 200px;
-      animation: fadeIn 0.2s ease-out;
-    }
-
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(-10px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    .account-dropdown a,
-    .account-dropdown div {
-      color: var(--dark-color);
-      padding: 0.75rem 1rem;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      border-bottom: 1px solid #eee;
-      transition: all var(--transition-speed);
-    }
-
-    .account-dropdown a:last-child,
-    .account-dropdown div:last-child {
-      border-bottom: none;
-    }
-
-    .account-dropdown a:hover,
-    .account-dropdown div:hover {
-      background: #f8f9fa;
-      padding-left: 1.25rem;
-      color: var(--primary-color);
-    }
-
-    .account-dropdown i {
-      width: 20px;
-      text-align: center;
-      color: var(--primary-color);
-    }
-
-    /* SIDEBAR */
-    .sidebar {
-      background: linear-gradient(135deg, var(--primary-color), #3498db);
-      color: #fff;
-      position: fixed;
-      top: var(--header-height);
-      left: 0;
-      height: calc(100vh - var(--header-height));
-      width: var(--sidebar-width);
-      transform: translateX(-100%);
-      transition: transform var(--transition-speed) ease;
-      overflow-y: auto;
-      z-index: 900;
-      box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
-    }
-
-    .sidebar.open {
-      transform: translateX(0);
-    }
-
-    .sidebar ul {
-      list-style: none;
-    }
-
-    .sidebar li {
-      position: relative;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.2);
-    }
-
-    .sidebar li a {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      padding: 1rem;
-      font-weight: 500;
-      transition: all var(--transition-speed);
-    }
-
-    .sidebar li a:hover {
-      background: rgba(255, 255, 255, 0.15);
-      padding-left: 1.5rem;
-    }
-
-    .sidebar li a i {
-      width: 24px;
-      text-align: center;
-      font-size: 1.1rem;
-    }
-
-    /* Dropdown arrow for toggles */
-    .dropdown-toggle::after {
-      content: "\f078";
-      font-family: "Font Awesome 6 Free";
-      font-weight: 900;
-      float: right;
-      margin-left: auto;
-      transition: transform var(--transition-speed);
-      font-size: 0.8rem;
-    }
-
-    .sidebar li.open > a.dropdown-toggle::after {
-      transform: rotate(-180deg);
-    }
-
-    /* Dropdown Content */
-    .dropdown-content {
-      display: none;
-      background: rgba(0, 0, 0, 0.1);
-    }
-
-    .sidebar li.open > .dropdown-content {
-      display: block;
-    }
-
-    .dropdown-content a {
-      padding: 0.75rem 1.5rem;
-      background: rgba(0, 0, 0, 0.05);
-      font-size: 0.95rem;
-    }
-
-    .dropdown-content a:hover {
-      background: rgba(0, 0, 0, 0.1);
-    }
-
-    /* MAIN CONTENT */
-    .content {
-      margin-top: var(--header-height);
-      margin-left: 0;
-      padding: 2rem;
-      width: 100%;
-      transition: margin-left var(--transition-speed) ease;
-      min-height: calc(100vh - var(--header-height));
-    }
-
-    .content.full {
-      margin-left: 0;
-      width: 100%;
-    }
-
-    .content h2 {
-      color: var(--secondary-color);
-      margin-bottom: 1.5rem;
-      font-size: 1.8rem;
-    }
-
-    .content p {
-      line-height: 1.6;
-      margin-bottom: 1.5rem;
-    }
-
-    /* Dashboard Widgets */
-    .dashboard-widgets {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-      gap: 1.5rem;
-      margin-bottom: 2rem;
-    }
-
-    .widget {
-      background: #fff;
-      border-radius: 8px;
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
-      padding: 1.5rem;
-      transition: transform 0.3s, box-shadow 0.3s;
-    }
-
-    .widget:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 6px 15px rgba(0, 0, 0, 0.12);
-    }
-
-    .widget-header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-bottom: 1rem;
-    }
-
-    .widget-title {
-      font-size: 1rem;
-      font-weight: 600;
-      color: var(--dark-color);
-    }
-
-    .widget-icon {
-      width: 40px;
-      height: 40px;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: #fff;
-      font-size: 1.2rem;
-      background: linear-gradient(135deg, var(--primary-color), #3498db);
-    }
-
-    .widget-value {
-      font-size: 1.8rem;
-      font-weight: 700;
-      color: var(--dark-color);
-      margin: 0.5rem 0;
-    }
-
-    .widget-description {
-      font-size: 0.9rem;
-      color: #7f8c8d;
-    }
-
-    /* Responsive Design */
-    @media (max-width: 768px) {
-      .sidebar {
-        width: 200px;
-      }
+<!DOCTYPE html>  
+<html lang="en">  
+<head>  
+  <meta charset="UTF-8">  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+  <title>Haramaya Jama'aa Home</title>  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">  
+  <style>  
+    /* ====== PRESERVED CORE STRUCTURE ====== */  
+    * {  
+      box-sizing: border-box;  
+      margin: 0;  
+      padding: 0;  
+    }  
       
-      .content {
-        padding: 1.5rem;
-      }
+    body {  
+      font-family: 'Poppins', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;  
+      background: linear-gradient(135deg, #f5f7fa 0%, #e4e8f0 100%);  
+      color: #333;  
+      display: flex;  
+      min-height: 100vh;  
+      overflow-x: hidden;  
+      transition: all 0.5s cubic-bezier(0.65, 0.05, 0.36, 1);  
+    }  
       
-      .dashboard-widgets {
-        grid-template-columns: 1fr;
-      }
-    }
-
-    @media (min-width: 992px) {
-      .sidebar.open + .content {
-        margin-left: var(--sidebar-width);
-        width: calc(100% - var(--sidebar-width));
-      }
-    }
-  </style>
-</head>
-<body>
-  <!-- HEADER -->
-  <header>
-    <div class="hamburger" id="hamburger-btn">
-      <i class="fas fa-bars"></i>
-    </div>
-    <div class="header-title">Haramaya Jama'aa Home</div>
-    <div class="account-wrapper" id="account-btn">
-      <div class="account-icon" id="account-img"></div>
-      <div class="account-dropdown" id="account-dropdown">
-        <!-- Options when not logged in -->
-        <div id="not-logged-in">
-          <a href="login.html">
-            <i class="fas fa-sign-in-alt"></i>
-            <span>Log In</span>
-          </a>
-          <a href="explore.html">
-            <i class="fas fa-compass"></i>
-            <span>Explore Courses</span>
-          </a>
-        </div>
-        <!-- Options when logged in -->
-        <div id="logged-in" style="display: none;">
-          <a href="profile.html">
-            <i class="fas fa-user-circle"></i>
-            <span>My Profile</span>
-          </a>
-          <a href="dashboard.html">
-            <i class="fas fa-book-open"></i>
-            <span>Enrollment</span>
-          </a>
-          <a href="progress.html">
-            <i class="fas fa-chart-line"></i>
-            <span>Progression</span>
-          </a>
-          <a href="interact.html">
-            <i class="fas fa-comments"></i>
-            <span>Interact</span>
-          </a>
-          <a href="#" id="logout-btn">
-            <i class="fas fa-sign-out-alt"></i>
-            <span>Logout</span>
-          </a>
-        </div>
-      </div>
-    </div>
-  </header>
-
-  <!-- SIDEBAR -->
-  <nav class="sidebar" id="sidebar">
-    <ul>
-      <li>
-        <a href="dashboard.html">
-          <i class="fas fa-home"></i>
-          <span>Dashboard</span>
-        </a>
-      </li>
-      <li class="has-dropdown">
-        <a href="#" class="dropdown-toggle">
-          <i class="fas fa-mosque"></i>
-          <span>Islam Studies</span>
-        </a>
-        <ul class="dropdown-content">
-          <li><a href="quran.html">
-            <i class="fas fa-quran"></i>
-            <span>Quran Classes</span>
-          </a></li>
-          <li><a href="searchquran.html">
-            <i class="fas fa-search"></i>
-            <span>Explore Quran</span>
-          </a></li>
-          <li><a href="quiz.html">
-            <i class="fas fa-question-circle"></i>
-            <span>Questions</span>
-          </a></li>
-        </ul>
-      </li>
-      <li class="has-dropdown">
-        <a href="#" class="dropdown-toggle">
-          <i class="fas fa-cog"></i>
-          <span>Settings</span>
-        </a>
-        <ul class="dropdown-content">
-          <!-- Account submenu -->
-          <li class="has-dropdown">
-            <a href="#" class="dropdown-toggle">
-              <i class="fas fa-user-cog"></i>
-              <span>Account</span>
-            </a>
-            <ul class="dropdown-content">
-              <li><a href="#" id="settings-logout-btn">
-                <i class="fas fa-sign-out-alt"></i>
-                <span>Logout</span>
-              </a></li>
-            </ul>
-          </li>
-          <!-- Language submenu -->
-          <li class="has-dropdown">
-            <a href="#" class="dropdown-toggle">
-              <i class="fas fa-language"></i>
-              <span>Language</span>
-            </a>
-            <ul class="dropdown-content">
-              <li><a href="#" class="language-option" data-lang="oromoo">
-                <i class="fas fa-globe-africa"></i>
-                <span>Afaan Oromo</span>
-              </a></li>
-              <li><a href="#" class="language-option" data-lang="amharic">
-                <i class="fas fa-globe-africa"></i>
-                <span>Amharic</span>
-              </a></li>
-              <li><a href="#" class="language-option" data-lang="english">
-                <i class="fas fa-globe-americas"></i>
-                <span>English</span>
-              </a></li>
-            </ul>
-          </li>
-          <!-- Theme submenu -->
-          <li class="has-dropdown">
-            <a href="#" class="dropdown-toggle">
-              <i class="fas fa-palette"></i>
-              <span>Theme</span>
-            </a>
-            <ul class="dropdown-content">
-              <li><a href="#" class="theme-option" data-theme="light">
-                <i class="fas fa-sun"></i>
-                <span>Light</span>
-              </a></li>
-              <li><a href="#" class="theme-option" data-theme="dark">
-                <i class="fas fa-moon"></i>
-                <span>Dark</span>
-              </a></li>
-              <li><a href="#" class="theme-option" data-theme="system">
-                <i class="fas fa-desktop"></i>
-                <span>System</span>
-              </a></li>
-            </ul>
-          </li>
-        </ul>
-      </li>
-    </ul>
-  </nav>
-
-  <!-- MAIN CONTENT -->
-  <div class="content" id="content">
-    <h2>Welcome to Haramaya Jama'aa Group</h2>
-    <p>This is the home page for Haramaya University Jama'aa students. Use the sidebar to navigate through your courses, profile, settings and more. Enjoy the colorful experience!</p>
+    a {  
+      text-decoration: none;  
+      color: inherit;  
+    }  
+  
+    /* ====== ENHANCED HEADER ====== */  
+    header {  
+      background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);  
+      color: #fff;  
+      display: flex;  
+      align-items: center;  
+      justify-content: space-between;  
+      padding: 0.75rem 2rem;  
+      position: fixed;  
+      width: 100%;  
+      top: 0;  
+      z-index: 300;  
+      box-shadow: 0 10px 30px rgba(0,0,0,0.2);  
+      backdrop-filter: blur(10px);  
+      -webkit-backdrop-filter: blur(10px);  
+      border-bottom: 1px solid rgba(255,255,255,0.2);  
+    }  
+      
+    .hamburger {  
+      font-size: 1.8rem;  
+      cursor: pointer;  
+      transition: all 0.3s;  
+      padding: 10px;  
+      border-radius: 50%;  
+      background: rgba(255,255,255,0.1);  
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);  
+    }  
+      
+    .hamburger:hover {  
+      color: #ffcc00;  
+      background: rgba(255,255,255,0.2);  
+      transform: rotate(90deg);  
+    }  
+      
+    .header-title {  
+      font-size: 1.5rem;  
+      font-weight: 700;  
+      text-align: center;  
+      flex: 1;  
+      text-shadow: 0 2px 10px rgba(0,0,0,0.2);  
+      letter-spacing: 1px;  
+      background: linear-gradient(to right, #fff 0%, #ffcc00 100%);  
+      -webkit-background-clip: text;  
+      -webkit-text-fill-color: transparent;  
+    }  
+      
+    /* ====== ENHANCED ACCOUNT DROPDOWN ====== */  
+    .account-wrapper {  
+      position: relative;  
+      cursor: pointer;  
+      transition: all 0.3s;  
+    }  
+      
+    .account-icon {  
+      width: 50px;  
+      height: 50px;  
+      border-radius: 50%;  
+      background: linear-gradient(135deg, #ff9a9e 0%, #fad0c4 100%);  
+      background-image: url('https://via.placeholder.com/50?text=ACC');  
+      background-size: cover;  
+      background-position: center;  
+      border: 3px solid rgba(255,255,255,0.5);  
+      transition: all 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);  
+      box-shadow: 0 5px 15px rgba(0,0,0,0.2);  
+    }  
+      
+    .account-icon:hover {  
+      transform: scale(1.1) rotate(5deg);  
+      box-shadow: 0 0 0 5px rgba(255, 204, 0, 0.5);  
+      filter: brightness(1.1);  
+    }  
+      
+    .account-dropdown {  
+      position: absolute;  
+      top: 65px;  
+      right: 0;  
+      background: rgba(255,255,255,0.95);  
+      border-radius: 15px;  
+      overflow: hidden;  
+      display: none;  
+      z-index: 400;  
+      box-shadow: 0 15px 35px rgba(0,0,0,0.2);  
+      min-width: 220px;  
+      animation: fadeIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);  
+      backdrop-filter: blur(10px);  
+      -webkit-backdrop-filter: blur(10px);  
+      border: 1px solid rgba(255,255,255,0.3);  
+      transform-origin: top right;  
+    }  
+      
+    @keyframes fadeIn {  
+      from { opacity: 0; transform: translateY(-20px) scale(0.9); }  
+      to { opacity: 1; transform: translateY(0) scale(1); }  
+    }  
+      
+    .account-dropdown a,  
+    .account-dropdown div {  
+      color: #333;  
+      padding: 1rem;  
+      display: flex;  
+      align-items: center;  
+      gap: 15px;  
+      border-bottom: 1px solid rgba(0,0,0,0.05);  
+      transition: all 0.3s ease-out;  
+      font-weight: 500;  
+    }  
+      
+    .account-dropdown a:last-child,  
+    .account-dropdown div:last-child {  
+      border-bottom: none;  
+    }  
+      
+    .account-dropdown a:hover,  
+    .account-dropdown div:hover {  
+      background: linear-gradient(to right, rgba(106, 17, 203, 0.1) 0%, rgba(37, 117, 252, 0.1) 100%);  
+      padding-left: 1.5rem;  
+      color: #6a11cb;  
+      transform: translateX(5px);  
+    }  
+      
+    .account-dropdown i {  
+      width: 20px;  
+      color: #6a11cb;  
+      text-align: center;  
+      font-size: 1.1rem;  
+      transition: all 0.3s;  
+    }  
+  
+    /* ====== ENHANCED SIDEBAR (CLOSED BY DEFAULT) ====== */  
+    .sidebar {  
+      background: linear-gradient(135deg, rgba(42, 39, 79, 0.95) 0%, rgba(37, 117, 252, 0.95) 100%);  
+      color: #fff;  
+      position: fixed;  
+      top: 70px;  
+      left: 0;  
+      height: calc(100% - 70px);  
+      width: 280px;  
+      transform: translateX(-100%);  
+      transition: transform 0.5s cubic-bezier(0.65, 0.05, 0.36, 1);  
+      overflow-y: auto;  
+      z-index: 250;  
+      box-shadow: 5px 0 30px rgba(0,0,0,0.2);  
+      backdrop-filter: blur(10px);  
+      -webkit-backdrop-filter: blur(10px);  
+      border-right: 1px solid rgba(255,255,255,0.1);  
+    }  
+      
+    .sidebar.open {  
+      transform: translateX(0);  
+    }  
     
-    <!-- Added Dashboard Widgets -->
-    <div class="dashboard-widgets">
-      <div class="widget">
-        <div class="widget-header">
-          <h3 class="widget-title">Active Courses</h3>
-          <div class="widget-icon">
-            <i class="fas fa-book-open"></i>
-          </div>
-        </div>
-        <div class="widget-value" id="active-courses">3</div>
-        <p class="widget-description">Courses you're currently enrolled in</p>
-      </div>
-
-      <div class="widget">
-        <div class="widget-header">
-          <h3 class="widget-title">Completed Lessons</h3>
-          <div class="widget-icon">
-            <i class="fas fa-check-circle"></i>
-          </div>
-        </div>
-        <div class="widget-value" id="completed-lessons">12</div>
-        <p class="widget-description">Lessons you've completed</p>
-      </div>
-
-      <div class="widget">
-        <div class="widget-header">
-          <h3 class="widget-title">Study Streak</h3>
-          <div class="widget-icon">
-            <i class="fas fa-fire"></i>
-          </div>
-        </div>
-        <div class="widget-value" id="streak-days">5</div>
-        <p class="widget-description">Consecutive days of learning</p>
-      </div>
-    </div>
-  </div>
-
-  <!-- FIREBASE & APP SCRIPT -->
-  <script type="module">
-    // Firebase modules.
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-app.js";
-    import { getAnalytics } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-analytics.js";
-    import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-auth.js";
-
-    // Firebase config – replace with your Firebase project configuration.
-    const firebaseConfig = {
-      apiKey: "AIzaSyBQyNVWh1BtCkXlBfuS7jHAa36FTklZayo",
-      authDomain: "pharma-quiz-b5a07.firebaseapp.com",
-      databaseURL: "https://pharma-quiz-b5a07-default-rtdb.firebaseio.com",
-      projectId: "pharma-quiz-b5a07",
-      storageBucket: "pharma-quiz-b5a07.firebasestorage.app",
-      messagingSenderId: "161067776789",
-      appId: "1:161067776789:web:88b8a61145dc5f5c31471c",
-      measurementId: "G-3QRQE9HQFB"
-    };
-
-    const app = initializeApp(firebaseConfig);
-    const analytics = getAnalytics(app);
-    const auth = getAuth();
-
-    /* SIDEBAR TOGGLE */
-    const hamburgerBtn = document.getElementById("hamburger-btn");
-    const sidebar = document.getElementById("sidebar");
-    const content = document.getElementById("content");
-
-    hamburgerBtn.addEventListener("click", () => {
-      sidebar.classList.toggle("open");
-      if (sidebar.classList.contains("open")) {
-        content.classList.remove("full");
+    /* Sidebar Header with Image */  
+    .sidebar-header {  
+      padding: 2rem 1rem;  
+      text-align: center;  
+      border-bottom: 1px solid rgba(255,255,255,0.2);  
+      position: relative;  
+      overflow: hidden;  
+    }  
+    
+    .sidebar-header::before {  
+      content: '';  
+      position: absolute;  
+      top: 0;  
+      left: 0;  
+      right: 0;  
+      bottom: 0;  
+      background: linear-gradient(45deg, rgba(106, 17, 203, 0.3) 0%, rgba(37, 117, 252, 0.3) 100%);  
+      z-index: -1;  
+    }  
+    
+    .sidebar-header img {  
+      max-width: 80%;  
+      height: auto;  
+      border-radius: 10px;  
+      box-shadow: 0 10px 30px rgba(0,0,0,0.3);  
+      transition: all 0.5s;  
+    }  
+    
+    .sidebar-header:hover img {  
+      transform: scale(1.05) rotate(2deg);  
+      box-shadow: 0 15px 40px rgba(0,0,0,0.4);  
+    }  
+      
+    .sidebar ul {  
+      list-style: none;  
+      padding: 1rem 0;  
+    }  
+      
+    .sidebar li {  
+      border-bottom: 1px solid rgba(255,255,255,0.1);  
+      transition: all 0.3s;  
+    }  
+      
+    .sidebar li:hover {  
+      background: rgba(255,255,255,0.05);  
+    }  
+      
+    .sidebar li a {  
+      display: flex;  
+      align-items: center;  
+      gap: 15px;  
+      padding: 1.2rem 1.5rem;  
+      font-weight: 500;  
+      transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);  
+      position: relative;  
+      overflow: hidden;  
+      font-size: 1rem;  
+    }  
+      
+    .sidebar li a::before {  
+      content: '';  
+      position: absolute;  
+      top: 0;  
+      left: -100%;  
+      width: 100%;  
+      height: 100%;  
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);  
+      transition: all 0.6s;  
+    }  
+      
+    .sidebar li a:hover {  
+      background: rgba(255,255,255,0.1);  
+      padding-left: 2rem;  
+      transform: translateX(5px);  
+    }  
+      
+    .sidebar li a:hover::before {  
+      left: 100%;  
+    }  
+      
+    .sidebar li a i {  
+      width: 24px;  
+      text-align: center;  
+      font-size: 1.2rem;  
+      color: #ffcc00;  
+      transition: all 0.3s;  
+    }  
+      
+    .sidebar li a:hover i {  
+      transform: scale(1.2);  
+      color: #fff;  
+    }  
+      
+    /* Dropdown arrow - enhanced with icon */  
+    .dropdown-toggle::after {  
+      content: "\f078";  
+      font-family: "Font Awesome 6 Free";  
+      font-weight: 900;  
+      float: right;  
+      margin-left: auto;  
+      transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);  
+      font-size: 0.9rem;  
+      color: rgba(255,255,255,0.7);  
+    }  
+      
+    .sidebar li.open > a.dropdown-toggle::after {  
+      transform: rotate(-180deg);  
+      color: #ffcc00;  
+    }  
+      
+    /* Dropdown Content - now in a boxed style for hierarchy */  
+    .dropdown-content {  
+      display: none;  
+      background: rgba(0,0,0,0.2);  
+      margin: 0.5rem 1rem;  
+      border: 1px solid rgba(255,255,255,0.1);  
+      border-radius: 8px;  
+      overflow: hidden;  
+      transition: all 0.5s;  
+    }  
+      
+    .sidebar li.open > .dropdown-content {  
+      display: block;  
+      animation: slideDown 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);  
+    }  
+    
+    @keyframes slideDown {  
+      from { opacity: 0; transform: translateY(-20px); }  
+      to { opacity: 1; transform: translateY(0); }  
+    }  
+      
+    .dropdown-content a {  
+      padding: 1rem 2rem;  
+      background: rgba(0,0,0,0.1);  
+      transition: all 0.4s;  
+      font-size: 0.95rem;  
+    }  
+      
+    .dropdown-content a:hover {  
+      background: rgba(255,255,255,0.1);  
+      padding-left: 2.5rem;  
+    }  
+    
+    .dropdown-content a i {  
+      font-size: 1rem;  
+    }  
+  
+    /* ====== ENHANCED MAIN CONTENT ====== */  
+    .content {  
+      margin-top: 80px;  
+      margin-left: 0;  
+      padding: 3rem;  
+      width: 100%;  
+      transition: all 0.5s cubic-bezier(0.65, 0.05, 0.36, 1);  
+      position: relative;  
+      z-index: 1;  
+    }  
+    
+    .content::before {  
+      content: '';  
+      position: absolute;  
+      top: 0;  
+      left: 0;  
+      right: 0;  
+      bottom: 0;  
+      background: url('https://www.transparenttextures.com/patterns/arabesque.png');  
+      opacity: 0.03;  
+      z-index: -1;  
+      pointer-events: none;  
+    }  
+      
+    .content.full {  
+      margin-left: 0;  
+      width: 100%;  
+    }  
+      
+    @media (min-width: 992px) {  
+      .sidebar.open + .content {  
+        margin-left: 280px;  
+        width: calc(100% - 280px);  
+      }  
+    }  
+      
+    .content h2 {  
+      color: #2c3e50;  
+      margin-bottom: 2rem;  
+      font-size: 2.5rem;  
+      border-bottom: 3px solid #ffcc00;  
+      padding-bottom: 0.5rem;  
+      display: inline-block;  
+      font-weight: 800;  
+      text-shadow: 0 2px 5px rgba(0,0,0,0.1);  
+      position: relative;  
+    }  
+    
+    .content h2::after {  
+      content: '';  
+      position: absolute;  
+      bottom: -5px;  
+      left: 0;  
+      width: 50%;  
+      height: 3px;  
+      background: linear-gradient(to right, #6a11cb, #2575fc);  
+      border-radius: 3px;  
+    }  
+      
+    .content p {  
+      line-height: 1.8;  
+      margin-bottom: 2rem;  
+      font-size: 1.1rem;  
+      color: #555;  
+      max-width: 800px;  
+    }  
+  
+    /* ====== ENHANCED DASHBOARD WIDGETS ====== */  
+    .dashboard-widgets {  
+      display: grid;  
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));  
+      gap: 2rem;  
+      margin-bottom: 3rem;  
+    }  
+      
+    .widget {  
+      background: rgba(255,255,255,0.9);  
+      border-radius: 15px;  
+      padding: 2rem;  
+      box-shadow: 0 15px 30px rgba(0,0,0,0.1);  
+      transition: all 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);  
+      border-left: 5px solid #6a11cb;  
+      position: relative;  
+      overflow: hidden;  
+      backdrop-filter: blur(5px);  
+      -webkit-backdrop-filter: blur(5px);  
+      border: 1px solid rgba(255,255,255,0.3);  
+    }  
+    
+    .widget::before {  
+      content: '';  
+      position: absolute;  
+      top: 0;  
+      left: 0;  
+      right: 0;  
+      bottom: 0;  
+      background: linear-gradient(135deg, rgba(106, 17, 203, 0.05) 0%, rgba(37, 117, 252, 0.05) 100%);  
+      z-index: -1;  
+    }  
+      
+    .widget:hover {  
+      transform: translateY(-10px) scale(1.02);  
+      box-shadow: 0 20px 40px rgba(0,0,0,0.15);  
+    }  
+      
+    .widget-header {  
+      display: flex;  
+      align-items: center;  
+      justify-content: space-between;  
+      margin-bottom: 1.5rem;  
+    }  
+      
+    .widget-title {  
+      font-size: 1.2rem;  
+      font-weight: 700;  
+      color: #2c3e50;  
+      position: relative;  
+    }  
+      
+    .widget-icon {  
+      width: 50px;  
+      height: 50px;  
+      border-radius: 15px;  
+      background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);  
+      color: white;  
+      display: flex;  
+      align-items: center;  
+      justify-content: center;  
+      font-size: 1.5rem;  
+      box-shadow: 0 5px 15px rgba(106, 17, 203, 0.3);  
+      transition: all 0.3s;  
+    }  
+    
+    .widget:hover .widget-icon {  
+      transform: rotate(15deg) scale(1.1);  
+    }  
+      
+    .widget-value {  
+      font-size: 2.5rem;  
+      font-weight: 800;  
+      color: #2c3e50;  
+      margin: 1rem 0;  
+      background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);  
+      -webkit-background-clip: text;  
+      -webkit-text-fill-color: transparent;  
+      text-shadow: 0 2px 10px rgba(0,0,0,0.1);  
+    }  
+      
+    .widget-description {  
+      font-size: 1rem;  
+      color: #7f8c8d;  
+      line-height: 1.6;  
+    }  
+    
+    /* Floating particles decoration */  
+    .particle {  
+      position: absolute;  
+      background: rgba(106, 17, 203, 0.1);  
+      border-radius: 50%;  
+      pointer-events: none;  
+      z-index: -1;  
+    }  
+  
+    /* ====== PRESERVED RESPONSIVENESS ====== */  
+    @media (max-width: 768px) {  
+      .sidebar {  
+        width: 250px;  
+      }  
+        
+      .content {  
+        padding: 2rem;  
+      }  
+      
+      .dashboard-widgets {  
+        grid-template-columns: 1fr;  
+      }  
+      
+      .widget {  
+        padding: 1.5rem;  
+      }  
+    }  
+    
+    /* ====== DARK THEME STYLES ====== */  
+    body.dark {  
+      background: linear-gradient(135deg, #121212 0%, #1a1a1a 100%);  
+      color: #eee;  
+    }  
+    
+    body.dark header {  
+      background: linear-gradient(135deg, #000 0%, #222 100%);  
+    }  
+    
+    body.dark .sidebar {  
+      background: linear-gradient(135deg, rgba(30, 30, 40, 0.95) 0%, rgba(50, 50, 70, 0.95) 100%);  
+    }  
+    
+    body.dark .content {  
+      color: #ddd;  
+    }  
+    
+    body.dark .content h2 {  
+      color: #fff;  
+    }  
+    
+    body.dark .content p {  
+      color: #bbb;  
+    }  
+    
+    body.dark .widget {  
+      background: rgba(30, 30, 40, 0.8);  
+      color: #eee;  
+    }  
+    
+    body.dark .widget-title {  
+      color: #fff;  
+    }  
+    
+    body.dark .widget-value {  
+      color: #fff;  
+    }  
+    
+    body.dark .account-dropdown {  
+      background: rgba(30, 30, 40, 0.95);  
+      color: #eee;  
+      border: 1px solid rgba(255,255,255,0.1);  
+    }  
+    
+    body.dark .account-dropdown a,  
+    body.dark .account-dropdown div {  
+      color: #eee;  
+      border-bottom: 1px solid rgba(255,255,255,0.05);  
+    }  
+    
+    body.dark .account-dropdown a:hover,  
+    body.dark .account-dropdown div:hover {  
+      color: #ffcc00;  
+    }  
+    
+    body.dark .account-dropdown i {  
+      color: #ffcc00;  
+    }  
+    
+    /* Floating animation for widgets */  
+    @keyframes float {  
+      0% { transform: translateY(0px); }  
+      50% { transform: translateY(-10px); }  
+      100% { transform: translateY(0px); }  
+    }  
+    
+    .widget:nth-child(1) {  
+      animation: float 6s ease-in-out infinite;  
+    }  
+    
+    .widget:nth-child(2) {  
+      animation: float 6s ease-in-out infinite 1s;  
+    }  
+    
+    .widget:nth-child(3) {  
+      animation: float 6s ease-in-out infinite 2s;  
+    }  
+    
+    /* Theme toggle button */  
+    .theme-toggle {  
+      position: fixed;  
+      bottom: 30px;  
+      right: 30px;  
+      width: 50px;  
+      height: 50px;  
+      border-radius: 50%;  
+      background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);  
+      color: white;  
+      display: flex;  
+      align-items: center;  
+      justify-content: center;  
+      font-size: 1.2rem;  
+      cursor: pointer;  
+      box-shadow: 0 5px 20px rgba(0,0,0,0.2);  
+      z-index: 500;  
+      transition: all 0.3s;  
+    }  
+    
+    .theme-toggle:hover {  
+      transform: scale(1.1) rotate(30deg);  
+      box-shadow: 0 8px 25px rgba(0,0,0,0.3);  
+    }  
+    
+    /* Loading animation */  
+    .loading {  
+      position: fixed;  
+      top: 0;  
+      left: 0;  
+      right: 0;  
+      bottom: 0;  
+      background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);  
+      display: flex;  
+      align-items: center;  
+      justify-content: center;  
+      z-index: 9999;  
+      transition: opacity 0.5s, visibility 0.5s;  
+    }  
+    
+    .loading-circle {  
+      width: 50px;  
+      height: 50px;  
+      border: 5px solid rgba(255,255,255,0.3);  
+      border-radius: 50%;  
+      border-top-color: white;  
+      animation: spin 1s ease-in-out infinite;  
+    }  
+    
+    @keyframes spin {  
+      to { transform: rotate(360deg); }  
+    }  
+  </style>  
+</head>  
+<body>  
+  <!-- Loading screen -->  
+  <div class="loading" id="loading">  
+    <div class="loading-circle"></div>  
+  </div>  
+  
+  <!-- HEADER - Preserved Structure -->  
+  <header>  
+    <div class="hamburger" id="hamburger-btn">  
+      <i class="fas fa-bars"></i>  
+    </div>  
+    <div class="header-title" id="header-title">Haramaya Jama'aa Home</div>  
+    <div class="account-wrapper" id="account-btn">  
+      <div class="account-icon" id="account-img"></div>  
+      <div class="account-dropdown" id="account-dropdown">  
+        <!-- Options when not logged in -->  
+        <div id="not-logged-in">  
+          <a href="login.html"><i class="fas fa-sign-in-alt"></i> Log In</a>  
+          <a href="explore.html"><i class="fas fa-compass"></i> Explore Courses</a>  
+        </div>  
+        <!-- Options when logged in -->  
+        <div id="logged-in" style="display: none;">  
+          <a href="profile.html"><i class="fas fa-user-circle"></i> My Profile</a>  
+          <a href="dashboard.html"><i class="fas fa-book-open"></i> Enrollment</a>  
+          <a href="progress.html"><i class="fas fa-chart-line"></i> Progression</a>  
+          <a href="interact.html"><i class="fas fa-comments"></i> Interact</a>  
+          <a href="#" id="logout-btn"><i class="fas fa-sign-out-alt"></i> Logout</a>  
+        </div>  
+      </div>  
+    </div>  
+  </header>  
+  
+  <!-- SIDEBAR - Preserved Structure with Added Header -->  
+  <nav class="sidebar" id="sidebar">  
+    <div class="sidebar-header">  
+      <img src="haramaya.png" alt="Haramaya">  
+    </div>  
+    <ul>  
+      <li>  
+        <a href="dashboard.html"><i class="fas fa-home"></i> Dashboard</a>  
+      </li>  
+      <li class="has-dropdown">  
+        <a href="#" class="dropdown-toggle"><i class="fas fa-mosque"></i> Islam Studies</a>  
+        <ul class="dropdown-content">  
+          <li><a href="quran.html"><i class="fas fa-quran"></i> Quran Classes</a></li>  
+          <li><a href="searchquran.html"><i class="fas fa-search"></i> Explore Quran</a></li>  
+          <li><a href="quiz.html"><i class="fas fa-question-circle"></i> Questions</a></li>  
+        </ul>  
+      </li>  
+      <li class="has-dropdown">  
+        <a href="#" class="dropdown-toggle"><i class="fas fa-cog"></i> Settings</a>  
+        <ul class="dropdown-content">  
+          <!-- Retaining only the Account submenu -->  
+          <li class="has-dropdown">  
+            <a href="#" class="dropdown-toggle"><i class="fas fa-user-cog"></i> Account</a>  
+            <ul class="dropdown-content">  
+              <li><a href="#" id="settings-logout-btn"><i class="fas fa-sign-out-alt"></i> Logout</a></li>  
+            </ul>  
+          </li>  
+        </ul>  
+      </li>  
+    </ul>  
+  </nav>  
+  
+  <!-- MAIN CONTENT - Preserved Structure -->  
+  <div class="content" id="content">  
+    <h2>Welcome to Haramaya Jama'aa Group</h2>  
+    <p>This is the home page for Haramaya University Jama'aa students. Use the sidebar to navigate through your courses, profile, settings and more. Enjoy the colorful experience!</p>  
+      
+    <!-- Added Dashboard Widgets -->  
+    <div class="dashboard-widgets">  
+      <div class="widget">  
+        <div class="widget-header">  
+          <h3 class="widget-title">Active Courses</h3>  
+          <div class="widget-icon">  
+            <i class="fas fa-book-open"></i>  
+          </div>  
+        </div>  
+        <div class="widget-value" id="active-courses">0</div>  
+        <p class="widget-description">Courses you're currently enrolled in</p>  
+      </div>  
+  
+      <div class="widget">  
+        <div class="widget-header">  
+          <h3 class="widget-title">Completed Lessons</h3>  
+          <div class="widget-icon">  
+            <i class="fas fa-check-circle"></i>  
+          </div>  
+        </div>  
+        <div class="widget-value" id="completed-lessons">0</div>  
+        <p class="widget-description">Lessons you've completed</p>  
+      </div>  
+  
+      <div class="widget">  
+        <div class="widget-header">  
+          <h3 class="widget-title">Study Streak</h3>  
+          <div class="widget-icon">  
+            <i class="fas fa-fire"></i>  
+          </div>  
+        </div>  
+        <div class="widget-value" id="streak-days">0</div>  
+        <p class="widget-description">Consecutive days of learning</p>  
+      </div>  
+    </div>  
+  </div>  
+  
+  <!-- Theme toggle button -->  
+  <div class="theme-toggle" id="theme-toggle">  
+    <i class="fas fa-moon"></i>  
+  </div>  
+  
+  <!-- FIREBASE & APP SCRIPT - Preserved Functionality -->  
+  <script type="module">  
+    // Firebase modules.  
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-app.js";  
+    import { getAnalytics } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-analytics.js";  
+    import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-auth.js";  
+    import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-firestore.js";  
+  
+    // Firebase config – replace with your Firebase project configuration.  
+    const firebaseConfig = {  
+      apiKey: "AIzaSyBQyNVWh1BtCkXlBfuS7jHAa36FTklZayo",  
+      authDomain: "pharma-quiz-b5a07.firebaseapp.com",  
+      databaseURL: "https://pharma-quiz-b5a07-default-rtdb.firebaseio.com",  
+      projectId: "pharma-quiz-b5a07",  
+      storageBucket: "pharma-quiz-b5a07.firebasestorage.app",  
+      messagingSenderId: "161067776789",  
+      appId: "1:161067776789:web:88b8a61145dc5f5c31471c",  
+      measurementId: "G-3QRQE9HQFB"  
+    };  
+  
+    const app = initializeApp(firebaseConfig);  
+    const analytics = getAnalytics(app);  
+    const auth = getAuth();  
+    const db = getFirestore(app);  
+    
+    // Hide loading screen after 1.5 seconds
+    setTimeout(() => {
+      document.getElementById('loading').style.opacity = '0';
+      document.getElementById('loading').style.visibility = 'hidden';
+    }, 1500);
+    
+    // Create floating particles
+    function createParticles() {
+      const colors = ['rgba(106, 17, 203, 0.1)', 'rgba(37, 117, 252, 0.1)', 'rgba(255, 204, 0, 0.1)'];
+      
+      for (let i = 0; i < 20; i++) {
+        const particle = document.createElement('div');
+        particle.classList.add('particle');
+        
+        // Random properties
+        const size = Math.random() * 20 + 5;
+        const posX = Math.random() * 100;
+        const posY = Math.random() * 100;
+        const color = colors[Math.floor(Math.random() * colors.length)];
+        const duration = Math.random() * 20 + 10;
+        const delay = Math.random() * 5;
+        
+        particle.style.width = `${size}px`;
+        particle.style.height = `${size}px`;
+        particle.style.left = `${posX}%`;
+        particle.style.top = `${posY}%`;
+        particle.style.background = color;
+        particle.style.animation = `float ${duration}s ease-in-out ${delay}s infinite`;
+        
+        document.body.appendChild(particle);
+      }
+    }
+    
+    // Theme toggle functionality
+    const themeToggle = document.getElementById('theme-toggle');
+    themeToggle.addEventListener('click', () => {
+      document.body.classList.toggle('dark');
+      
+      if (document.body.classList.contains('dark')) {
+        themeToggle.innerHTML = '<i class="fas fa-sun"></i>';
+        themeToggle.style.background = 'linear-gradient(135deg, #ff9a9e 0%, #fad0c4 100%)';
       } else {
-        content.classList.add("full");
-      }
-    });
-
-    /* ACCOUNT DROPDOWN */
-    const accountBtn = document.getElementById("account-btn");
-    const accountDropdown = document.getElementById("account-dropdown");
-    const notLoggedInDiv = document.getElementById("not-logged-in");
-    const loggedInDiv = document.getElementById("logged-in");
-    const logoutBtn = document.getElementById("logout-btn");
-    const settingsLogoutBtn = document.getElementById("settings-logout-btn");
-
-    accountBtn.addEventListener("click", (e) => {
-      e.stopPropagation();
-      accountDropdown.style.display = (accountDropdown.style.display === "block") ? "none" : "block";
-    });
-    
-    document.addEventListener("click", (e) => {
-      if (!accountBtn.contains(e.target)) {
-        accountDropdown.style.display = "none";
+        themeToggle.innerHTML = '<i class="fas fa-moon"></i>';
+        themeToggle.style.background = 'linear-gradient(135deg, #6a11cb 0%, #2575fc 100%)';
       }
     });
     
-    onAuthStateChanged(auth, (user) => {
-      if (user) {
-        loggedInDiv.style.display = "block";
-        notLoggedInDiv.style.display = "none";
-      } else {
-        loggedInDiv.style.display = "none";
-        notLoggedInDiv.style.display = "block";
-      }
-    });
-    
-    async function handleLogout() {
-      if (confirm("Are you sure you want to logout?")) {
-        await signOut(auth);
-        window.location.href = "login.html";
-      }
-    }
-    
-    logoutBtn.addEventListener("click", handleLogout);
-    settingsLogoutBtn.addEventListener("click", handleLogout);
+    // Initialize particles
+    createParticles();
 
-    /* SIDEBAR DROPDOWN TOGGLERS */
-    const dropdownToggles = document.querySelectorAll(".dropdown-toggle");
-    dropdownToggles.forEach(toggle => {
-      toggle.addEventListener("click", (e) => {
-        e.preventDefault();
-        const parentLi = toggle.parentElement;
-        parentLi.classList.toggle("open");
-      });
-    });
-
-    /* Language and Theme Options */
-    const languageOptions = document.querySelectorAll(".language-option");
-    languageOptions.forEach(option => {
-      option.addEventListener("click", () => {
-        alert("Language selected: " + option.getAttribute("data-lang"));
-      });
-    });
-    
-    const themeOptions = document.querySelectorAll(".theme-option");
-    themeOptions.forEach(option => {
-      option.addEventListener("click", () => {
-        alert("Theme selected: " + option.getAttribute("data-theme"));
-      });
-    });
-  </script>
-</body>
+    /* SIDEBAR TOGGLE - Preserved Exactly */  
+    const hamburgerBtn = document.getElementById("hamburger-btn");  
+    const sidebar = document.getElementById("sidebar");  
+    const content = document.getElementById("content");  
+  
+    hamburgerBtn.addEventListener("click", () => {  
+      sidebar.classList.toggle("open");  
+      if (sidebar.classList.contains("open")) {  
+        content.classList.remove("full");  
+      } else {  
+        content.classList.add("full");  
+      }  
+    });  
+  
+    /* ACCOUNT DROPDOWN - Preserved Exactly */  
+    const accountBtn = document.getElementById("account-btn");  
+    const accountDropdown = document.getElementById("account-dropdown");  
+    const notLoggedInDiv = document.getElementById("not-logged-in");  
+    const loggedInDiv = document.getElementById("logged-in");  
+    const logoutBtn = document.getElementById("logout-btn");  
+    const settingsLogoutBtn = document.getElementById("settings-logout-btn");  
+  
+    accountBtn.addEventListener("click", (e) => {  
+      e.stopPropagation();  
+      accountDropdown.style.display = (accountDropdown.style.display === "block") ? "none" : "block";  
+    });  
+      
+    document.addEventListener("click", (e) => {  
+      if (!accountBtn.contains(e.target)) {  
+        accountDropdown.style.display = "none";  
+      }  
+    });  
+      
+    onAuthStateChanged(auth, (user) => {  
+      if (user) {  
+        loggedInDiv.style.display = "block";  
+        notLoggedInDiv.style.display = "none";  
+        loadUserData(user.uid);  
+      } else {  
+        loggedInDiv.style.display = "none";  
+        notLoggedInDiv.style.display = "block";  
+      }  
+    });  
+  
+    async function handleLogout() {  
+      if (confirm("Are you sure you want to logout?")) {  
+        await signOut(auth);  
+        window.location.href = "login.html";  
+      }  
+    }  
+  
+    logoutBtn.addEventListener("click", handleLogout);  
+    settingsLogoutBtn.addEventListener("click", handleLogout);  
+  
+    /* SIDEBAR DROPDOWN TOGGLERS - Preserved Exactly */  
+    const dropdownToggles = document.querySelectorAll(".dropdown-toggle");  
+    dropdownToggles.forEach(toggle => {  
+      toggle.addEventListener("click", (e) => {  
+        e.preventDefault();  
+        const parentLi = toggle.parentElement;  
+        parentLi.classList.toggle("open");  
+      });  
+    });  
+  
+    /* Load User Data from Firestore */  
+    async function loadUserData(userId) {  
+      try {  
+        const userDoc = await getDoc(doc(db, "users", userId));  
+        if (userDoc.exists()) {  
+          const userData = userDoc.data();  
+            
+          // Update dashboard stats  
+          if (userData.enrolledCourses) {  
+            document.getElementById("active-courses").textContent = userData.enrolledCourses.length;  
+              
+            // Calculate completed lessons  
+            let completedLessons = 0;  
+            userData.enrolledCourses.forEach(course => {  
+              completedLessons += course.completedLessons || 0;  
+            });  
+            document.getElementById("completed-lessons").textContent = completedLessons;  
+          }  
+            
+          // Calculate streak (simple implementation)  
+          if (userData.lastLogin) {  
+            const lastLogin = userData.lastLogin.toDate();  
+            const today = new Date();  
+            const diffTime = Math.abs(today - lastLogin);  
+            const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));  
+              
+            // If logged in today or yesterday, continue streak  
+            if (diffDays <= 1) {  
+              const currentStreak = userData.streakDays || 0;  
+              document.getElementById("streak-days").textContent = currentStreak + 1;  
+            } else {  
+              document.getElementById("streak-days").textContent = 0;  
+            }  
+          }  
+        }  
+      } catch (error) {  
+        console.error("Error loading user data:", error);  
+      }  
+    }  
+  </script>  
+</body>  
 </html>
