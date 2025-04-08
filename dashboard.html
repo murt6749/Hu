@@ -25,6 +25,11 @@
             --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
             --radius: 12px;
             --transition: all 0.3s ease;
+            --qirat-gradient: linear-gradient(135deg, #4361ee, #3a0ca3);
+            --hifz-gradient: linear-gradient(135deg, #f72585, #b5179e);
+            --nezer-gradient: linear-gradient(135deg, #4cc9f0, #4895ef);
+            --glass-bg: rgba(255, 255, 255, 0.2);
+            --glass-border: rgba(255, 255, 255, 0.3);
         }
 
         .dark-theme {
@@ -43,6 +48,8 @@
             --card-bg: #343a40;
             --border: #495057;
             --shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+            --glass-bg: rgba(0, 0, 0, 0.2);
+            --glass-border: rgba(0, 0, 0, 0.3);
         }
 
         * {
@@ -57,14 +64,81 @@
             color: var(--text);
             line-height: 1.6;
             transition: var(--transition);
+            min-height: 100vh;
+            overflow-x: hidden;
         }
 
         .container {
-            max-width: 1200px;
+            max-width: 1400px;
             margin: 0 auto;
             padding: 20px;
         }
 
+        /* Animated Background */
+        .bg-animation {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+        }
+
+        .bg-circle {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(60px);
+            opacity: 0.2;
+            animation: float 15s infinite ease-in-out;
+        }
+
+        .circle-1 {
+            width: 300px;
+            height: 300px;
+            background: var(--primary);
+            top: 20%;
+            left: 10%;
+            animation-delay: 0s;
+        }
+
+        .circle-2 {
+            width: 400px;
+            height: 400px;
+            background: var(--accent);
+            top: 60%;
+            left: 30%;
+            animation-delay: 3s;
+        }
+
+        .circle-3 {
+            width: 250px;
+            height: 250px;
+            background: var(--success);
+            top: 30%;
+            left: 70%;
+            animation-delay: 6s;
+        }
+
+        .circle-4 {
+            width: 350px;
+            height: 350px;
+            background: var(--secondary);
+            top: 70%;
+            left: 80%;
+            animation-delay: 9s;
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0) translateX(0);
+            }
+            50% {
+                transform: translateY(-50px) translateX(50px);
+            }
+        }
+
+        /* Header Styles */
         header {
             background: linear-gradient(135deg, var(--primary), var(--secondary));
             color: white;
@@ -74,12 +148,20 @@
             box-shadow: var(--shadow);
             margin-bottom: 30px;
             position: relative;
+            backdrop-filter: blur(10px);
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
         }
 
         h1 {
-            font-size: 2.2rem;
+            font-size: 2.5rem;
             margin-bottom: 10px;
             font-weight: 600;
+            background: linear-gradient(to right, white, #f3f4f6);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.1);
         }
 
         .user-info {
@@ -91,8 +173,8 @@
         }
 
         .avatar {
-            width: 50px;
-            height: 50px;
+            width: 60px;
+            height: 60px;
             border-radius: 50%;
             background-color: var(--primary-light);
             display: flex;
@@ -100,8 +182,14 @@
             justify-content: center;
             font-weight: bold;
             color: white;
-            font-size: 1.2rem;
+            font-size: 1.5rem;
             box-shadow: var(--shadow);
+            border: 3px solid rgba(255,255,255,0.3);
+            transition: var(--transition);
+        }
+
+        .avatar:hover {
+            transform: scale(1.1) rotate(10deg);
         }
 
         .theme-toggle {
@@ -110,8 +198,8 @@
             right: 20px;
             background: rgba(255,255,255,0.2);
             border: none;
-            width: 40px;
-            height: 40px;
+            width: 45px;
+            height: 45px;
             border-radius: 50%;
             display: flex;
             align-items: center;
@@ -119,13 +207,16 @@
             color: white;
             cursor: pointer;
             transition: var(--transition);
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255,255,255,0.1);
         }
 
         .theme-toggle:hover {
             background: rgba(255,255,255,0.3);
-            transform: rotate(30deg);
+            transform: rotate(30deg) scale(1.1);
         }
 
+        /* Tabs Navigation */
         .tabs {
             display: flex;
             justify-content: center;
@@ -144,20 +235,42 @@
             transition: var(--transition);
             box-shadow: var(--shadow);
             color: var(--text);
+            position: relative;
+            overflow: hidden;
+            backdrop-filter: blur(5px);
+            border: 1px solid var(--border);
+        }
+
+        .tab-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: 0.5s;
+        }
+
+        .tab-btn:hover::before {
+            left: 100%;
         }
 
         .tab-btn.active {
             background: var(--primary);
             color: white;
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(67, 97, 238, 0.3);
         }
 
+        /* Tab Content */
         .tab-content {
             display: none;
             animation: fadeIn 0.5s ease;
         }
 
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
+            from { opacity: 0; transform: translateY(20px); }
             to { opacity: 1; transform: translateY(0); }
         }
 
@@ -165,177 +278,168 @@
             display: block;
         }
 
-        .registration-card {
-            background: var(--card-bg);
+        /* Glass Card Effect */
+        .glass-card {
+            background: var(--glass-bg);
             border-radius: var(--radius);
             padding: 25px;
             box-shadow: var(--shadow);
             margin-bottom: 30px;
             transition: var(--transition);
-            border: 1px solid var(--border);
+            border: 1px solid var(--glass-border);
+            backdrop-filter: blur(10px);
         }
 
-        .filter-container {
+        .glass-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Course Selection - New Interactive Design */
+        .course-selection {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-            gap: 15px;
+            grid-template-columns: 1fr 2fr;
+            gap: 30px;
+        }
+
+        @media (max-width: 992px) {
+            .course-selection {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .filter-panel {
+            background: var(--glass-bg);
+            border-radius: var(--radius);
+            padding: 20px;
+            border: 1px solid var(--glass-border);
+            backdrop-filter: blur(10px);
+            height: fit-content;
+            position: sticky;
+            top: 20px;
+        }
+
+        .filter-panel h3 {
             margin-bottom: 20px;
-        }
-
-        .form-group {
-            margin-bottom: 20px;
-        }
-
-        label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: 500;
-            color: var(--text);
-        }
-
-        select, input {
-            width: 100%;
-            padding: 12px 15px;
-            border: 2px solid var(--border);
-            border-radius: 8px;
-            font-size: 1rem;
-            transition: var(--transition);
-            background: var(--card-bg);
-            color: var(--text);
-        }
-
-        select:focus, input:focus {
-            border-color: var(--primary);
-            outline: none;
-            box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.2);
-        }
-
-        /* Enhanced dropdown styling */
-        #course-select {
-            padding: 12px;
-            border-radius: 8px;
-            border: 2px solid var(--primary);
-            background: var(--card-bg);
-            color: var(--text);
-            font-size: 1rem;
-            transition: var(--transition);
-        }
-
-        #course-select option {
-            padding: 12px;
-            margin: 5px 0;
-            border-bottom: 1px solid var(--border);
-            font-size: 14px;
-            background: var(--card-bg);
-            color: var(--text);
-        }
-
-        #course-select option[data-type="qirat"] {
-            background-color: rgba(67, 97, 238, 0.1);
             color: var(--primary);
-            font-weight: 500;
-        }
-
-        #course-select option[data-type="hifz"] {
-            background-color: rgba(248, 37, 133, 0.1);
-            color: var(--accent);
-            font-weight: 500;
-        }
-
-        #course-select option[data-type="nezer"] {
-            background-color: rgba(76, 201, 240, 0.1);
-            color: var(--success);
-            font-weight: 500;
-        }
-
-        #course-select optgroup {
-            font-weight: 600;
-            color: var(--primary);
-            font-size: 16px;
-            padding: 10px;
-        }
-
-        #course-select optgroup[data-type="qirat"] {
-            color: var(--primary);
-        }
-
-        #course-select optgroup[data-type="hifz"] {
-            color: var(--accent);
-        }
-
-        #course-select optgroup[data-type="nezer"] {
-            color: var(--success);
-        }
-
-        .course-title {
-            font-weight: 600;
-            font-size: 15px;
-        }
-
-        .course-details {
-            font-size: 12px;
-            color: var(--text-light);
-            margin-left: 5px;
-        }
-
-        .btn {
-            padding: 12px 25px;
-            border: none;
-            border-radius: 8px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: var(--transition);
-            display: inline-flex;
+            display: flex;
             align-items: center;
-            justify-content: center;
+            gap: 10px;
+        }
+
+        .filter-group {
+            margin-bottom: 20px;
+        }
+
+        .filter-group h4 {
+            margin-bottom: 10px;
+            color: var(--text-light);
+            font-weight: 500;
+            display: flex;
+            align-items: center;
             gap: 8px;
         }
 
-        .btn-primary {
+        .filter-options {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .filter-option {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .filter-option:hover {
+            background: rgba(67, 97, 238, 0.1);
+        }
+
+        .filter-option.active {
             background: var(--primary);
             color: white;
         }
 
-        .btn-primary:hover {
-            background: var(--primary-light);
-            transform: translateY(-2px);
-            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
-        }
-
-        .btn-outline {
-            background: transparent;
-            border: 2px solid var(--primary);
+        .filter-option .icon {
+            width: 24px;
+            height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 6px;
+            background: rgba(67, 97, 238, 0.1);
             color: var(--primary);
         }
 
-        .btn-outline:hover {
-            background: var(--primary);
+        .filter-option.active .icon {
+            background: rgba(255,255,255,0.2);
             color: white;
         }
 
-        .courses-grid {
+        .filter-option .checkmark {
+            margin-left: auto;
+            opacity: 0;
+            transition: var(--transition);
+        }
+
+        .filter-option.active .checkmark {
+            opacity: 1;
+        }
+
+        /* Course Grid - New Interactive Design */
+        .courses-container {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
             gap: 20px;
         }
 
         .course-card {
-            background: var(--card-bg);
+            background: var(--glass-bg);
             border-radius: var(--radius);
             overflow: hidden;
             box-shadow: var(--shadow);
             transition: var(--transition);
-            border: 2px solid transparent;
+            border: 1px solid var(--glass-border);
+            backdrop-filter: blur(10px);
             position: relative;
+            transform-style: preserve-3d;
+            perspective: 1000px;
+        }
+
+        .course-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 5px;
+            background: var(--primary);
+        }
+
+        .course-card.qirat::before {
+            background: var(--primary);
+        }
+
+        .course-card.hifz::before {
+            background: var(--accent);
+        }
+
+        .course-card.nezer::before {
+            background: var(--success);
         }
 
         .course-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+            transform: translateY(-10px) rotateX(5deg);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
         }
 
         .course-card.over-limit {
-            border-color: var(--danger);
+            border-left: 5px solid var(--danger);
         }
 
         .course-card.over-limit::after {
@@ -349,26 +453,153 @@
             border-radius: 20px;
             font-size: 0.8rem;
             font-weight: 600;
+            z-index: 2;
         }
 
         .course-header {
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            color: white;
-            padding: 15px;
+            padding: 20px;
             position: relative;
+            overflow: hidden;
+        }
+
+        .course-header.qirat {
+            background: var(--qirat-gradient);
+        }
+
+        .course-header.hifz {
+            background: var(--hifz-gradient);
+        }
+
+        .course-header.nezer {
+            background: var(--nezer-gradient);
+        }
+
+        .course-header::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 100%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+            transform: rotate(30deg);
+        }
+
+        .course-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: white;
+            margin-bottom: 5px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .course-type {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            background: rgba(255,255,255,0.2);
+            color: white;
+            position: relative;
+            z-index: 1;
         }
 
         .course-body {
-            padding: 15px;
+            padding: 20px;
         }
 
         .course-meta {
             display: flex;
-            justify-content: space-between;
-            margin-bottom: 10px;
-            font-size: 0.9rem;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 15px;
         }
 
+        .meta-item {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 0.9rem;
+            color: var(--text-light);
+        }
+
+        .meta-item i {
+            color: var(--primary);
+        }
+
+        .course-description {
+            margin-bottom: 20px;
+            color: var(--text);
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+
+        .course-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            flex: 1;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: var(--primary-light);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(67, 97, 238, 0.3);
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 2px solid var(--primary);
+            color: var(--primary);
+        }
+
+        .btn-outline:hover {
+            background: var(--primary);
+            color: white;
+        }
+
+        .btn-accent {
+            background: var(--accent);
+            color: white;
+        }
+
+        .btn-accent:hover {
+            background: #d1167e;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(247, 37, 133, 0.3);
+        }
+
+        .btn-success {
+            background: var(--success);
+            color: white;
+        }
+
+        .btn-success:hover {
+            background: #3ab4d9;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(76, 201, 240, 0.3);
+        }
+
+        /* Badges */
         .badge {
             display: inline-flex;
             align-items: center;
@@ -389,94 +620,142 @@
             color: white;
         }
 
-        .badge-qirat {
-            background: var(--primary);
-            color: white;
-        }
-
-        .badge-hifz {
-            background: var(--accent);
-            color: white;
-        }
-
-        .badge-nezer {
+        .badge-success {
             background: var(--success);
             color: white;
         }
 
-        .badge i {
-            font-size: 0.7rem;
+        .badge-danger {
+            background: var(--danger);
+            color: white;
         }
 
+        /* Progress */
+        .progress-container {
+            margin: 20px 0;
+        }
+
+        .progress-label {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 5px;
+            font-size: 0.9rem;
+        }
+
+        .progress-bar {
+            height: 8px;
+            background: var(--border);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            border-radius: 4px;
+            transition: width 0.5s ease;
+        }
+
+        .qirat .progress-fill {
+            background: var(--qirat-gradient);
+        }
+
+        .hifz .progress-fill {
+            background: var(--hifz-gradient);
+        }
+
+        .nezer .progress-fill {
+            background: var(--nezer-gradient);
+        }
+
+        /* Classmates Section */
         .classmates-section {
-            margin-top: 30px;
+            margin-top: 40px;
         }
 
         .classmates-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-            gap: 15px;
-            margin-top: 15px;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
         }
 
         .classmate-card {
             text-align: center;
-            background: var(--card-bg);
-            padding: 15px;
+            background: var(--glass-bg);
+            padding: 20px;
             border-radius: var(--radius);
             box-shadow: var(--shadow);
             transition: var(--transition);
+            border: 1px solid var(--glass-border);
+            backdrop-filter: blur(10px);
         }
 
         .classmate-card:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
         }
 
         .classmate-avatar {
-            width: 60px;
-            height: 60px;
+            width: 70px;
+            height: 70px;
             border-radius: 50%;
             background: linear-gradient(135deg, var(--primary), var(--secondary));
             display: flex;
             align-items: center;
             justify-content: center;
-            margin: 0 auto 10px;
+            margin: 0 auto 15px;
             font-weight: bold;
             color: white;
-            font-size: 1.2rem;
+            font-size: 1.5rem;
             box-shadow: var(--shadow);
+            transition: var(--transition);
+        }
+
+        .classmate-card:hover .classmate-avatar {
+            transform: scale(1.1) rotate(5deg);
+        }
+
+        .classmate-name {
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .classmate-courses {
+            font-size: 0.8rem;
+            color: var(--text-light);
+        }
+
+        /* Messages */
+        .message {
+            padding: 15px;
+            border-radius: var(--radius);
+            margin-bottom: 20px;
+            text-align: center;
+            display: none;
+            animation: fadeIn 0.5s ease;
+            backdrop-filter: blur(10px);
         }
 
         .success-message {
-            background: var(--success);
+            background: rgba(76, 201, 240, 0.2);
             color: white;
-            padding: 15px;
-            border-radius: var(--radius);
-            margin-bottom: 20px;
-            text-align: center;
-            display: none;
-            animation: fadeIn 0.5s ease;
+            border: 1px solid rgba(76, 201, 240, 0.3);
         }
 
         .error-message {
-            background: var(--danger);
+            background: rgba(239, 35, 60, 0.2);
             color: white;
-            padding: 15px;
-            border-radius: var(--radius);
-            margin-bottom: 20px;
-            text-align: center;
-            display: none;
-            animation: fadeIn 0.5s ease;
+            border: 1px solid rgba(239, 35, 60, 0.3);
         }
 
+        /* Modal Styles */
         .modal {
             position: fixed;
             top: 0;
             left: 0;
             right: 0;
             bottom: 0;
-            background: rgba(0, 0, 0, 0.5);
+            background: rgba(0, 0, 0, 0.7);
             display: flex;
             align-items: center;
             justify-content: center;
@@ -493,15 +772,16 @@
         }
 
         .modal-content {
-            background: var(--card-bg);
+            background: var(--glass-bg);
             border-radius: var(--radius);
             width: 90%;
             max-width: 500px;
-            padding: 25px;
+            padding: 30px;
             transform: translateY(20px);
             transition: var(--transition);
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
-            border: 1px solid var(--border);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
+            border: 1px solid var(--glass-border);
+            backdrop-filter: blur(20px);
         }
 
         .modal.active .modal-content {
@@ -513,14 +793,14 @@
             justify-content: space-between;
             align-items: center;
             margin-bottom: 20px;
-            padding-bottom: 10px;
-            border-bottom: 1px solid var(--border);
+            padding-bottom: 15px;
+            border-bottom: 1px solid var(--glass-border);
         }
 
         .modal-title {
             font-size: 1.5rem;
-            color: var(--primary);
             font-weight: 600;
+            color: var(--primary);
         }
 
         .modal-close {
@@ -537,43 +817,32 @@
             transform: rotate(90deg);
         }
 
+        .modal-body {
+            padding: 15px 0;
+        }
+
         .modal-footer {
             display: flex;
             justify-content: flex-end;
-            gap: 10px;
-            margin-top: 20px;
+            gap: 15px;
+            margin-top: 25px;
             padding-top: 15px;
-            border-top: 1px solid var(--border);
+            border-top: 1px solid var(--glass-border);
         }
 
-        .progress-container {
-            width: 100%;
-            height: 10px;
-            background: var(--border);
-            border-radius: 5px;
-            margin: 20px 0;
-            overflow: hidden;
-        }
-
-        .progress-bar {
-            height: 100%;
-            background: linear-gradient(90deg, var(--primary), var(--accent));
-            border-radius: 5px;
-            transition: width 0.5s ease;
-        }
-
+        /* Loading Spinner */
         .loading {
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100px;
+            height: 200px;
         }
 
         .loading-spinner {
-            width: 40px;
-            height: 40px;
-            border: 4px solid var(--border);
-            border-top: 4px solid var(--primary);
+            width: 50px;
+            height: 50px;
+            border: 5px solid var(--border);
+            border-top: 5px solid var(--primary);
             border-radius: 50%;
             animation: spin 1s linear infinite;
         }
@@ -583,8 +852,9 @@
             100% { transform: rotate(360deg); }
         }
 
+        /* Responsive Adjustments */
         @media (max-width: 768px) {
-            .courses-grid {
+            .courses-container {
                 grid-template-columns: 1fr;
             }
             
@@ -592,17 +862,189 @@
                 flex-direction: column;
             }
             
-            .filter-container {
+            .classmates-grid {
+                grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            }
+
+            h1 {
+                font-size: 2rem;
+            }
+
+            .course-selection {
                 grid-template-columns: 1fr;
             }
 
-            .classmates-grid {
-                grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+            .filter-panel {
+                position: static;
             }
+        }
+
+        /* Floating Action Button */
+        .fab {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 60px;
+            height: 60px;
+            background: var(--primary);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            box-shadow: 0 10px 25px rgba(67, 97, 238, 0.5);
+            cursor: pointer;
+            transition: var(--transition);
+            z-index: 100;
+            border: none;
+        }
+
+        .fab:hover {
+            transform: scale(1.1) rotate(90deg);
+            box-shadow: 0 15px 30px rgba(67, 97, 238, 0.7);
+        }
+
+        /* Course Path Visualization */
+        .path-container {
+            position: relative;
+            height: 100px;
+            margin: 40px 0;
+            overflow: hidden;
+        }
+
+        .path-line {
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: var(--border);
+            transform: translateY(-50%);
+        }
+
+        .path-progress {
+            position: absolute;
+            top: 50%;
+            left: 0;
+            height: 4px;
+            background: var(--primary);
+            transform: translateY(-50%);
+            transition: width 1s ease;
+        }
+
+        .path-milestone {
+            position: absolute;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background: var(--bg);
+            border: 4px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: var(--transition);
+        }
+
+        .path-milestone.active {
+            border-color: var(--primary);
+            background: var(--primary);
+            color: white;
+            transform: translate(-50%, -50%) scale(1.2);
+        }
+
+        .path-milestone.completed {
+            border-color: var(--success);
+            background: var(--success);
+            color: white;
+        }
+
+        .path-label {
+            position: absolute;
+            top: calc(100% + 10px);
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 0.8rem;
+            white-space: nowrap;
+        }
+
+        /* 3D Flip Card for Course Details */
+        .flip-card {
+            perspective: 1000px;
+            width: 100%;
+            height: 300px;
+        }
+
+        .flip-card-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            transition: transform 0.6s;
+            transform-style: preserve-3d;
+        }
+
+        .flip-card:hover .flip-card-inner {
+            transform: rotateY(180deg);
+        }
+
+        .flip-card-front, .flip-card-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            border-radius: var(--radius);
+            overflow: hidden;
+        }
+
+        .flip-card-back {
+            background: var(--card-bg);
+            transform: rotateY(180deg);
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        /* Pulse Animation for Important Elements */
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        .pulse {
+            animation: pulse 2s infinite;
+        }
+
+        /* Confetti Effect */
+        .confetti {
+            position: fixed;
+            width: 10px;
+            height: 10px;
+            background: var(--accent);
+            opacity: 0;
+            z-index: 999;
+            animation: confetti 5s ease-in-out;
+        }
+
+        @keyframes confetti {
+            0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(1000px) rotate(720deg); opacity: 0; }
         }
     </style>
 </head>
 <body>
+    <!-- Animated Background -->
+    <div class="bg-animation">
+        <div class="bg-circle circle-1"></div>
+        <div class="bg-circle circle-2"></div>
+        <div class="bg-circle circle-3"></div>
+        <div class="bg-circle circle-4"></div>
+    </div>
+
+    <!-- Header -->
     <header>
         <div class="container">
             <button class="theme-toggle" id="theme-toggle">
@@ -619,90 +1061,180 @@
     </header>
 
     <div class="container">
+        <!-- Tabs Navigation -->
         <div class="tabs">
-            <button class="tab-btn active" data-tab="registration">Registration</button>
-            <button class="tab-btn" data-tab="my-courses">My Courses</button>
-            <button class="tab-btn" data-tab="progress">Progress</button>
-            <button class="tab-btn" id="logout-btn">Logout</button>
+            <button class="tab-btn active" data-tab="discover">
+                <i class="fas fa-compass"></i> Discover
+            </button>
+            <button class="tab-btn" data-tab="my-courses">
+                <i class="fas fa-book-open"></i> My Courses
+            </button>
+            <button class="tab-btn" data-tab="progress">
+                <i class="fas fa-chart-line"></i> Progress
+            </button>
+            <button class="tab-btn" id="profile-btn">
+                <i class="fas fa-user"></i> Profile
+            </button>
         </div>
 
-        <div class="success-message" id="success-message">
-            <i class="fas fa-check-circle"></i> Course enrolled successfully!
+        <!-- Messages -->
+        <div class="message success-message" id="success-message">
+            <i class="fas fa-check-circle"></i> <span id="success-text">Course enrolled successfully!</span>
         </div>
 
-        <div class="error-message" id="error-message">
+        <div class="message error-message" id="error-message">
             <i class="fas fa-exclamation-circle"></i> <span id="error-text"></span>
         </div>
 
-        <div class="tab-content active" id="registration-tab">
-            <div class="registration-card">
-                <h2>Register for Courses</h2>
-                <p>Select your desired courses from the options below</p>
-                
-                <div class="filter-container">
-                    <div class="form-group">
-                        <label for="type-filter"><i class="fas fa-book"></i> Course Type</label>
-                        <select id="type-filter" class="form-control">
-                            <option value="all">All Types</option>
-                            <option value="qirat">Qir'at</option>
-                            <option value="hifz">Hifz</option>
-                            <option value="nezer">Nezer</option>
-                        </select>
+        <!-- Discover Tab - New Interactive Course Selection -->
+        <div class="tab-content active" id="discover-tab">
+            <div class="course-selection">
+                <!-- Filter Panel -->
+                <div class="filter-panel">
+                    <h3><i class="fas fa-sliders-h"></i> Filters</h3>
+                    
+                    <div class="filter-group">
+                        <h4><i class="fas fa-book"></i> Course Type</h4>
+                        <div class="filter-options">
+                            <div class="filter-option active" data-filter="type" data-value="all">
+                                <div class="icon"><i class="fas fa-globe"></i></div>
+                                <span>All Types</span>
+                                <i class="fas fa-check checkmark"></i>
+                            </div>
+                            <div class="filter-option" data-filter="type" data-value="qirat">
+                                <div class="icon"><i class="fas fa-book-open"></i></div>
+                                <span>Qir'at</span>
+                                <i class="fas fa-check checkmark"></i>
+                            </div>
+                            <div class="filter-option" data-filter="type" data-value="hifz">
+                                <div class="icon"><i class="fas fa-quran"></i></div>
+                                <span>Hifz</span>
+                                <i class="fas fa-check checkmark"></i>
+                            </div>
+                            <div class="filter-option" data-filter="type" data-value="nezer">
+                                <div class="icon"><i class="fas fa-graduation-cap"></i></div>
+                                <span>Nezer</span>
+                                <i class="fas fa-check checkmark"></i>
+                            </div>
+                        </div>
                     </div>
                     
-                    <div class="form-group">
-                        <label for="gender-filter"><i class="fas fa-venus-mars"></i> Gender</label>
-                        <select id="gender-filter" class="form-control" disabled>
-                            <option value="all">All Genders</option>
-                            <option value="male">Male</option>
-                            <option value="female">Female</option>
-                        </select>
+                    <div class="filter-group">
+                        <h4><i class="fas fa-venus-mars"></i> Gender</h4>
+                        <div class="filter-options">
+                            <div class="filter-option active" data-filter="gender" data-value="all">
+                                <div class="icon"><i class="fas fa-users"></i></div>
+                                <span>All Genders</span>
+                                <i class="fas fa-check checkmark"></i>
+                            </div>
+                            <div class="filter-option" data-filter="gender" data-value="male">
+                                <div class="icon"><i class="fas fa-mars"></i></div>
+                                <span>Male</span>
+                                <i class="fas fa-check checkmark"></i>
+                            </div>
+                            <div class="filter-option" data-filter="gender" data-value="female">
+                                <div class="icon"><i class="fas fa-venus"></i></div>
+                                <span>Female</span>
+                                <i class="fas fa-check checkmark"></i>
+                            </div>
+                        </div>
                     </div>
                     
-                    <div class="form-group">
-                        <label for="language-filter"><i class="fas fa-language"></i> Language</label>
-                        <select id="language-filter" class="form-control">
-                            <option value="all">All Languages</option>
-                            <option value="amharic">Amharic</option>
-                            <option value="oromifa">Oromifa</option>
-                        </select>
+                    <div class="filter-group">
+                        <h4><i class="fas fa-language"></i> Language</h4>
+                        <div class="filter-options">
+                            <div class="filter-option active" data-filter="language" data-value="all">
+                                <div class="icon"><i class="fas fa-globe"></i></div>
+                                <span>All Languages</span>
+                                <i class="fas fa-check checkmark"></i>
+                            </div>
+                            <div class="filter-option" data-filter="language" data-value="amharic">
+                                <div class="icon"><i class="fas fa-font"></i></div>
+                                <span>Amharic</span>
+                                <i class="fas fa-check checkmark"></i>
+                            </div>
+                            <div class="filter-option" data-filter="language" data-value="oromifa">
+                                <div class="icon"><i class="fas fa-font"></i></div>
+                                <span>Oromifa</span>
+                                <i class="fas fa-check checkmark"></i>
+                            </div>
+                        </div>
                     </div>
                     
-                    <div class="form-group">
-                        <label for="level-filter"><i class="fas fa-layer-group"></i> Level</label>
-                        <select id="level-filter" class="form-control">
-                            <option value="all">All Levels</option>
-                            <option value="fresh">Fresh</option>
-                            <option value="senior">Senior</option>
-                        </select>
+                    <div class="filter-group">
+                        <h4><i class="fas fa-layer-group"></i> Level</h4>
+                        <div class="filter-options">
+                            <div class="filter-option active" data-filter="level" data-value="all">
+                                <div class="icon"><i class="fas fa-star"></i></div>
+                                <span>All Levels</span>
+                                <i class="fas fa-check checkmark"></i>
+                            </div>
+                            <div class="filter-option" data-filter="level" data-value="fresh">
+                                <div class="icon"><i class="fas fa-seedling"></i></div>
+                                <span>Fresh</span>
+                                <i class="fas fa-check checkmark"></i>
+                            </div>
+                            <div class="filter-option" data-filter="level" data-value="senior">
+                                <div class="icon"><i class="fas fa-tree"></i></div>
+                                <span>Senior</span>
+                                <i class="fas fa-check checkmark"></i>
+                            </div>
+                        </div>
                     </div>
+                    
+                    <button class="btn btn-primary w-100 mt-3" id="apply-filters">
+                        <i class="fas fa-filter"></i> Apply Filters
+                    </button>
                 </div>
                 
-                <div class="form-group">
-                    <label for="course-select"><i class="fas fa-list"></i> Available Courses</label>
-                    <select id="course-select" class="form-control">
-                        <option value="">-- Select a Course --</option>
-                    </select>
+                <!-- Courses Grid -->
+                <div class="courses-container" id="courses-container">
+                    <!-- Courses will be loaded here dynamically -->
                 </div>
-                
-                <button class="btn btn-primary" id="register-btn">
-                    <i class="fas fa-plus-circle"></i> Register
-                </button>
             </div>
         </div>
 
+        <!-- My Courses Tab -->
         <div class="tab-content" id="my-courses-tab">
             <div class="loading" id="courses-loading">
                 <div class="loading-spinner"></div>
             </div>
             <div id="courses-content" style="display: none;">
-                <h2>My Enrolled Courses</h2>
-                <div class="courses-grid" id="enrolled-courses">
+                <h2>My Learning Journey</h2>
+                <p>Manage your enrolled courses and track your progress</p>
+                
+                <div class="path-container">
+                    <div class="path-line"></div>
+                    <div class="path-progress" id="path-progress" style="width: 0%"></div>
+                    <div class="path-milestone" style="left: 0%;">
+                        <i class="fas fa-book"></i>
+                        <div class="path-label">Start</div>
+                    </div>
+                    <div class="path-milestone" style="left: 25%;">
+                        <i class="fas fa-quran"></i>
+                        <div class="path-label">25%</div>
+                    </div>
+                    <div class="path-milestone" style="left: 50%;">
+                        <i class="fas fa-pray"></i>
+                        <div class="path-label">50%</div>
+                    </div>
+                    <div class="path-milestone" style="left: 75%;">
+                        <i class="fas fa-star"></i>
+                        <div class="path-label">75%</div>
+                    </div>
+                    <div class="path-milestone" style="left: 100%;">
+                        <i class="fas fa-graduation-cap"></i>
+                        <div class="path-label">Complete</div>
+                    </div>
+                </div>
+                
+                <div class="courses-container" id="enrolled-courses">
                     <!-- Enrolled courses will be loaded here -->
                 </div>
                 
                 <div class="classmates-section" id="classmates-section">
-                    <h3><i class="fas fa-users"></i> Classmates in Your Courses</h3>
+                    <h3><i class="fas fa-users"></i> Your Study Community</h3>
+                    <p>Connect with classmates in your courses</p>
                     <div class="classmates-grid" id="classmates-grid">
                         <!-- Classmates will be loaded here -->
                     </div>
@@ -710,28 +1242,39 @@
             </div>
         </div>
 
+        <!-- Progress Tab -->
         <div class="tab-content" id="progress-tab">
-            <div class="registration-card">
+            <div class="glass-card">
                 <h2>Your Learning Progress</h2>
                 <p>Track your course completion and achievements</p>
                 
                 <div class="progress-container">
-                    <div class="progress-bar" id="progress-bar" style="width: 0%"></div>
+                    <div class="progress-label">
+                        <span>Overall Completion</span>
+                        <span id="progress-percent">0%</span>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="progress-bar" style="width: 0%"></div>
+                    </div>
                 </div>
                 
-                <div id="progress-stats">
-                    <div style="display: flex; justify-content: space-between; margin-bottom: 20px;">
-                        <div>
-                            <h3>Enrolled Courses</h3>
-                            <p id="enrolled-count">0</p>
+                <div id="progress-stats" class="mt-4">
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 20px; margin-bottom: 30px;">
+                        <div class="glass-card text-center">
+                            <h3>Enrolled</h3>
+                            <p class="text-2xl" id="enrolled-count">0</p>
                         </div>
-                        <div>
+                        <div class="glass-card text-center">
                             <h3>Completed</h3>
-                            <p id="completed-count">0</p>
+                            <p class="text-2xl" id="completed-count">0</p>
                         </div>
-                        <div>
-                            <h3>Progress</h3>
-                            <p id="progress-percent">0%</p>
+                        <div class="glass-card text-center">
+                            <h3>In Progress</h3>
+                            <p class="text-2xl" id="inprogress-count">0</p>
+                        </div>
+                        <div class="glass-card text-center">
+                            <h3>Avg. Progress</h3>
+                            <p class="text-2xl" id="avg-progress">0%</p>
                         </div>
                     </div>
                     
@@ -740,6 +1283,87 @@
                         <!-- Progress by course will be shown here -->
                     </div>
                 </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Floating Action Button -->
+    <button class="fab" id="help-fab">
+        <i class="fas fa-question"></i>
+    </button>
+
+    <!-- Course Details Modal -->
+    <div class="modal" id="course-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title" id="course-modal-title">Course Details</h3>
+                <button class="modal-close" id="close-course-modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="flip-card">
+                    <div class="flip-card-inner">
+                        <div class="flip-card-front">
+                            <div class="course-header qirat" id="modal-course-header">
+                                <h3 class="course-title" id="modal-course-title">Course Title</h3>
+                                <span class="course-type" id="modal-course-type">Qir'at</span>
+                            </div>
+                            <div class="course-body">
+                                <div class="course-meta">
+                                    <div class="meta-item">
+                                        <i class="fas fa-venus-mars"></i>
+                                        <span id="modal-course-gender">All Genders</span>
+                                    </div>
+                                    <div class="meta-item">
+                                        <i class="fas fa-language"></i>
+                                        <span id="modal-course-language">Amharic</span>
+                                    </div>
+                                    <div class="meta-item">
+                                        <i class="fas fa-layer-group"></i>
+                                        <span id="modal-course-level">All Levels</span>
+                                    </div>
+                                </div>
+                                <div class="course-description" id="modal-course-description">
+                                    This course covers the fundamental principles of Qir'at with a focus on proper recitation techniques.
+                                </div>
+                                <div class="progress-container">
+                                    <div class="progress-label">
+                                        <span>Class Capacity</span>
+                                        <span>15/20</span>
+                                    </div>
+                                    <div class="progress-bar">
+                                        <div class="progress-fill" style="width: 75%"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flip-card-back">
+                            <h4>About This Course</h4>
+                            <p id="modal-course-about">Detailed information about the course content, objectives, and requirements will appear here.</p>
+                            
+                            <h4 class="mt-3">Instructor</h4>
+                            <div class="d-flex align-center gap-3">
+                                <div class="avatar small">
+                                    <i class="fas fa-user-tie"></i>
+                                </div>
+                                <div>
+                                    <h5 id="modal-course-instructor">Sheikh Mohammed Ali</h5>
+                                    <p class="text-sm">Senior Instructor</p>
+                                </div>
+                            </div>
+                            
+                            <h4 class="mt-3">Schedule</h4>
+                            <p id="modal-course-schedule">Monday & Wednesday, 2:00 PM - 4:00 PM</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-outline" id="cancel-enroll-btn">
+                    <i class="fas fa-times"></i> Cancel
+                </button>
+                <button class="btn btn-primary" id="enroll-btn">
+                    <i class="fas fa-plus"></i> Enroll Now
+                </button>
             </div>
         </div>
     </div>
@@ -753,31 +1377,64 @@
             </div>
             <div class="modal-body">
                 <p id="confirmation-text">You're about to enroll in your 4th course. Please confirm you can handle this workload?</p>
-                <div class="form-group" id="reason-field" style="display: none;">
+                <div class="form-group mt-3" id="reason-field" style="display: none;">
                     <label for="enrollment-reason">What makes you think you can handle more than 3 courses?</label>
-                    <input type="text" id="enrollment-reason" placeholder="Your reason...">
+                    <textarea id="enrollment-reason" class="form-control" placeholder="Explain your reasoning..." rows="3"></textarea>
                 </div>
             </div>
             <div class="modal-footer">
-                <button class="btn btn-outline" id="cancel-btn">Cancel</button>
-                <button class="btn btn-primary" id="confirm-btn">Confirm</button>
+                <button class="btn btn-outline" id="cancel-btn">
+                    <i class="fas fa-arrow-left"></i> Go Back
+                </button>
+                <button class="btn btn-primary" id="confirm-btn">
+                    <i class="fas fa-check"></i> Confirm
+                </button>
             </div>
         </div>
     </div>
 
-    <!-- General Confirmation Modal -->
-    <div class="modal" id="general-confirmation-modal">
+    <!-- Help Modal -->
+    <div class="modal" id="help-modal">
         <div class="modal-content">
             <div class="modal-header">
-                <h3 class="modal-title">Confirm Enrollment</h3>
-                <button class="modal-close" id="close-general-modal">&times;</button>
+                <h3 class="modal-title"><i class="fas fa-question-circle"></i> Registration Help</h3>
+                <button class="modal-close" id="close-help-modal">&times;</button>
             </div>
             <div class="modal-body">
-                <p id="general-confirmation-text">Are you sure you want to enroll in this course?</p>
+                <div class="accordion">
+                    <div class="accordion-item">
+                        <button class="accordion-button">
+                            <i class="fas fa-book"></i> How do I enroll in a course?
+                            <i class="fas fa-chevron-down"></i>
+                        </button>
+                        <div class="accordion-content">
+                            <p>Browse available courses in the Discover tab, click on a course to view details, then click "Enroll Now" to register. You'll receive a confirmation once enrolled.</p>
+                        </div>
+                    </div>
+                    <div class="accordion-item">
+                        <button class="accordion-button">
+                            <i class="fas fa-user-graduate"></i> What's the course limit?
+                            <i class="fas fa-chevron-down"></i>
+                        </button>
+                        <div class="accordion-content">
+                            <p>You can enroll in up to 3 courses by default. If you wish to take more, you'll need to provide justification for the additional workload.</p>
+                        </div>
+                    </div>
+                    <div class="accordion-item">
+                        <button class="accordion-button">
+                            <i class="fas fa-calendar-check"></i> How do I track my progress?
+                            <i class="fas fa-chevron-down"></i>
+                        </button>
+                        <div class="accordion-content">
+                            <p>The Progress tab shows your overall completion rate and detailed progress for each course. Your instructors will update your progress regularly.</p>
+                        </div>
+                    </div>
+                </div>
             </div>
             <div class="modal-footer">
-                <button class="btn btn-outline" id="cancel-general-btn">Cancel</button>
-                <button class="btn btn-primary" id="confirm-general-btn">Confirm</button>
+                <button class="btn btn-primary" id="close-help-btn">
+                    <i class="fas fa-check"></i> Got it!
+                </button>
             </div>
         </div>
     </div>
@@ -806,44 +1463,72 @@
         const db = getFirestore(app);
         const auth = getAuth(app);
 
-        // All available courses
+        // All available courses with enhanced details
         const allCourses = [
             // Qir'at courses
-            { id: 'q1', title: 'Sifetu Solah', type: 'qirat', language: 'amharic', level: 'all', gender: 'all' },
-            { id: 'q2', title: 'Usulu Selasah', type: 'qirat', language: 'amharic', level: 'all', gender: 'all' },
-            { id: 'q3', title: 'Tejwid Hidayetul Mustefid', type: 'qirat', language: 'amharic', level: 'all', gender: 'all' },
-            { id: 'q4', title: 'Kula Setun Urely Eqin', type: 'qirat', language: 'amharic', level: 'all', gender: 'all' },
-            { id: 'q5', title: 'Sifetu Solah', type: 'qirat', language: 'oromifa', level: 'all', gender: 'all' },
-            { id: 'q6', title: 'Usulu Selasah', type: 'qirat', language: 'oromifa', level: 'all', gender: 'all' },
-            { id: 'q7', title: 'Tejwid Hidayetul Mustefid', type: 'qirat', language: 'oromifa', level: 'all', gender: 'all' },
-            { id: 'q8', title: 'Umdetul Ahkam', type: 'qirat', language: 'oromifa', level: 'all', gender: 'all' },
-            { id: 'q9', title: 'Riyadus Ualihin', type: 'qirat', language: 'oromifa', level: 'all', gender: 'all' },
-            { id: 'q10', title: 'Tefsir', type: 'qirat', language: 'oromifa', level: 'all', gender: 'all' },
-            { id: 'q11', title: 'Aqidetu Tahawiya', type: 'qirat', language: 'oromifa', level: 'all', gender: 'all' },
-            
+            { 
+                id: 'q1', 
+                title: 'Sifetu Solah', 
+                type: 'qirat', 
+                language: 'amharic', 
+                level: 'all', 
+                gender: 'all',
+                description: 'Master the proper recitation of daily prayers with correct tajweed rules.',
+                about: 'This course focuses on the correct pronunciation and recitation of the daily prayers (Salah). Students will learn the proper articulation points, characteristics of Arabic letters, and the rules of tajweed as applied to prayer recitation.',
+                instructor: 'Sheikh Ahmed Mohammed',
+                schedule: 'Monday & Wednesday, 9:00 AM - 11:00 AM',
+                capacity: 20,
+                enrolled: 15,
+                duration: '8 weeks'
+            },
+            { 
+                id: 'q2', 
+                title: 'Usulu Selasah', 
+                type: 'qirat', 
+                language: 'amharic', 
+                level: 'all', 
+                gender: 'all',
+                description: 'Learn the three fundamental principles of Islam with proper recitation.',
+                about: 'This course covers the three fundamental principles of Islam with emphasis on proper recitation and understanding. Students will study the text "Thalatha al-Usool" (The Three Principles) while perfecting their tajweed.',
+                instructor: 'Sheikh Yusuf Ibrahim',
+                schedule: 'Tuesday & Thursday, 2:00 PM - 4:00 PM',
+                capacity: 15,
+                enrolled: 10,
+                duration: '6 weeks'
+            },
             // Hifz courses
-            { id: 'h1', title: 'Hifz for Fresh Students', type: 'hifz', language: 'amharic', level: 'fresh', gender: 'female' },
-            { id: 'h2', title: 'Hifz for Fresh Students', type: 'hifz', language: 'amharic', level: 'fresh', gender: 'female' },
-            { id: 'h3', title: 'Hifz for Fresh Students', type: 'hifz', language: 'amharic', level: 'fresh', gender: 'female' },
-            { id: 'h4', title: 'Hifz for Fresh Students', type: 'hifz', language: 'amharic', level: 'fresh', gender: 'male' },
-            { id: 'h5', title: 'Hifz for Fresh Students', type: 'hifz', language: 'amharic', level: 'fresh', gender: 'male' },
-            { id: 'h6', title: 'Hifz for Senior Students', type: 'hifz', language: 'amharic', level: 'senior', gender: 'female' },
-            { id: 'h7', title: 'Hifz for Senior Students', type: 'hifz', language: 'amharic', level: 'senior', gender: 'female' },
-            { id: 'h8', title: 'Hifz for Senior Students', type: 'hifz', language: 'amharic', level: 'senior', gender: 'female' },
-            { id: 'h9', title: 'Hifz for Senior Students', type: 'hifz', language: 'amharic', level: 'senior', gender: 'male' },
-            { id: 'h10', title: 'Hifz for Senior Students', type: 'hifz', language: 'amharic', level: 'senior', gender: 'male' },
-            
+            { 
+                id: 'h1', 
+                title: 'Hifz: Juz Amma', 
+                type: 'hifz', 
+                language: 'amharic', 
+                level: 'fresh', 
+                gender: 'female',
+                description: 'Begin your memorization journey with the 30th chapter of the Quran.',
+                about: 'This course guides students through memorizing the 30th chapter (Juz) of the Quran, starting with Surah An-Naba and ending with Surah An-Nas. Emphasis is placed on proper pronunciation, memorization techniques, and retention strategies.',
+                instructor: 'Sheikha Amina Hassan',
+                schedule: 'Sunday & Wednesday, 8:00 AM - 10:00 AM',
+                capacity: 12,
+                enrolled: 8,
+                duration: '12 weeks'
+            },
             // Nezer courses
-            { id: 'n1', title: 'Nezer for Fresh Students', type: 'nezer', language: 'amharic', level: 'fresh', gender: 'female' },
-            { id: 'n2', title: 'Nezer for Fresh Students', type: 'nezer', language: 'oromifa', level: 'fresh', gender: 'female' },
-            { id: 'n3', title: 'Nezer for Fresh Students', type: 'nezer', language: 'amharic', level: 'fresh', gender: 'male' },
-            { id: 'n4', title: 'Nezer for Fresh Students', type: 'nezer', language: 'oromifa', level: 'fresh', gender: 'male' },
-            { id: 'n5', title: 'Nezer for Fresh Students', type: 'nezer', language: 'amharic', level: 'fresh', gender: 'male' },
-            { id: 'n6', title: 'Nezer for Senior Students', type: 'nezer', language: 'amharic', level: 'senior', gender: 'female' },
-            { id: 'n7', title: 'Nezer for Senior Students', type: 'nezer', language: 'amharic', level: 'senior', gender: 'female' },
-            { id: 'n8', title: 'Nezer for Senior Students', type: 'nezer', language: 'amharic', level: 'senior', gender: 'male' },
-            { id: 'n9', title: 'Nezer for Senior Students', type: 'nezer', language: 'amharic', level: 'senior', gender: 'male' },
-            { id: 'n10', title: 'Nezer for Senior Students', type: 'nezer', language: 'amharic', level: 'senior', gender: 'male' }
+            { 
+                id: 'n1', 
+                title: 'Nezer Fundamentals', 
+                type: 'nezer', 
+                language: 'amharic', 
+                level: 'fresh', 
+                gender: 'male',
+                description: 'Introduction to Quranic recitation with proper tajweed rules.',
+                about: 'This foundational course introduces students to the science of tajweed (proper Quranic recitation). Students will learn the articulation points of Arabic letters, characteristics of letters, and basic tajweed rules through practical application.',
+                instructor: 'Sheikh Omar Abdullah',
+                schedule: 'Saturday & Tuesday, 3:00 PM - 5:00 PM',
+                capacity: 18,
+                enrolled: 12,
+                duration: '10 weeks'
+            },
+            // Add more courses with similar detailed structure
         ];
 
         // Current user data
@@ -860,8 +1545,7 @@
         };
 
         // DOM elements
-        const courseSelect = document.getElementById('course-select');
-        const registerBtn = document.getElementById('register-btn');
+        const courseContainer = document.getElementById('courses-container');
         const enrolledCoursesGrid = document.getElementById('enrolled-courses');
         const classmatesGrid = document.getElementById('classmates-grid');
         const confirmationModal = document.getElementById('confirmation-modal');
@@ -871,33 +1555,55 @@
         const confirmationText = document.getElementById('confirmation-text');
         const reasonField = document.getElementById('reason-field');
         const successMessage = document.getElementById('success-message');
+        const successText = document.getElementById('success-text');
         const errorMessage = document.getElementById('error-message');
         const errorText = document.getElementById('error-text');
         const tabBtns = document.querySelectorAll('.tab-btn');
         const tabContents = document.querySelectorAll('.tab-content');
         const themeToggle = document.getElementById('theme-toggle');
-        const typeFilter = document.getElementById('type-filter');
-        const genderFilter = document.getElementById('gender-filter');
-        const languageFilter = document.getElementById('language-filter');
-        const levelFilter = document.getElementById('level-filter');
         const userAvatar = document.getElementById('user-avatar');
         const usernameElement = document.getElementById('username');
+        const profileBtn = document.getElementById('profile-btn');
         const logoutBtn = document.getElementById('logout-btn');
-        const generalConfirmationModal = document.getElementById('general-confirmation-modal');
-        const closeGeneralModalBtn = document.getElementById('close-general-modal');
-        const cancelGeneralBtn = document.getElementById('cancel-general-btn');
-        const confirmGeneralBtn = document.getElementById('confirm-general-btn');
-        const generalConfirmationText = document.getElementById('general-confirmation-text');
         const coursesLoading = document.getElementById('courses-loading');
         const coursesContent = document.getElementById('courses-content');
         const progressBar = document.getElementById('progress-bar');
+        const pathProgress = document.getElementById('path-progress');
         const enrolledCount = document.getElementById('enrolled-count');
         const completedCount = document.getElementById('completed-count');
+        const inProgressCount = document.getElementById('inprogress-count');
+        const avgProgress = document.getElementById('avg-progress');
         const progressPercent = document.getElementById('progress-percent');
         const progressCourses = document.getElementById('progress-courses');
+        const courseModal = document.getElementById('course-modal');
+        const closeCourseModal = document.getElementById('close-course-modal');
+        const cancelEnrollBtn = document.getElementById('cancel-enroll-btn');
+        const enrollBtn = document.getElementById('enroll-btn');
+        const modalCourseTitle = document.getElementById('modal-course-title');
+        const modalCourseType = document.getElementById('modal-course-type');
+        const modalCourseHeader = document.getElementById('modal-course-header');
+        const modalCourseGender = document.getElementById('modal-course-gender');
+        const modalCourseLanguage = document.getElementById('modal-course-language');
+        const modalCourseLevel = document.getElementById('modal-course-level');
+        const modalCourseDescription = document.getElementById('modal-course-description');
+        const modalCourseAbout = document.getElementById('modal-course-about');
+        const modalCourseInstructor = document.getElementById('modal-course-instructor');
+        const modalCourseSchedule = document.getElementById('modal-course-schedule');
+        const helpFab = document.getElementById('help-fab');
+        const helpModal = document.getElementById('help-modal');
+        const closeHelpModal = document.getElementById('close-help-modal');
+        const closeHelpBtn = document.getElementById('close-help-btn');
+        const applyFiltersBtn = document.getElementById('apply-filters');
+        const filterOptions = document.querySelectorAll('.filter-option');
 
         // Track pending course
         let pendingCourse = null;
+        let currentFilters = {
+            type: 'all',
+            gender: 'all',
+            language: 'all',
+            level: 'all'
+        };
 
         // Initialize the page
         function init() {
@@ -987,11 +1693,11 @@
 
         // Setup UI based on user data
         function setupUI() {
-            // Set level filter based on user level
-            levelFilter.value = currentUser.level;
+            // Set initial filters based on user data
+            updateFilterOptions();
             
-            // Update course options
-            updateCourseOptions();
+            // Load courses based on filters
+            loadFilteredCourses();
             
             // Load enrolled courses
             loadEnrolledCourses();
@@ -1008,124 +1714,215 @@
                 currentUser.email.charAt(0).toUpperCase();
         }
 
-        // Load filters and courses
-        function loadFilters() {
-            // Set up filter change listeners
-            typeFilter.addEventListener('change', function() {
-                const type = this.value;
-                // Enable/disable gender filter based on course type
-                genderFilter.disabled = type !== 'hifz' && type !== 'nezer';
-                // Reset gender filter when disabled
-                if (genderFilter.disabled) {
-                    genderFilter.value = 'all';
-                }
-                // Disable level filter for qirat courses
-                levelFilter.disabled = type === 'qirat';
-                if (type === 'qirat') {
-                    levelFilter.value = 'all';
-                }
-                // Set language to amharic for hifz courses
-                if (type === 'hifz') {
-                    languageFilter.value = 'amharic';
-                    languageFilter.disabled = true;
-                } else {
-                    languageFilter.disabled = false;
-                }
-                updateCourseOptions();
-            });
+        // Update filter options based on user data
+        function updateFilterOptions() {
+            // Set gender filter based on user gender
+            document.querySelector(`.filter-option[data-filter="gender"][data-value="${currentUser.gender}"]`).classList.add('active');
+            document.querySelector(`.filter-option[data-filter="gender"][data-value="all"]`).classList.remove('active');
             
-            languageFilter.addEventListener('change', updateCourseOptions);
-            levelFilter.addEventListener('change', updateCourseOptions);
-            genderFilter.addEventListener('change', updateCourseOptions);
+            // Set level filter based on user level
+            document.querySelector(`.filter-option[data-filter="level"][data-value="${currentUser.level}"]`).classList.add('active');
+            document.querySelector(`.filter-option[data-filter="level"][data-value="all"]`).classList.remove('active');
             
-            // Initial course load
-            updateCourseOptions();
+            // Update current filters
+            currentFilters.gender = currentUser.gender;
+            currentFilters.level = currentUser.level;
         }
 
-        // Update course options based on filters
-        function updateCourseOptions() {
-            const type = typeFilter.value;
-            const language = languageFilter.value;
-            const level = levelFilter.value;
-            const gender = genderFilter.value;
+        // Load courses based on current filters
+        function loadFilteredCourses() {
+            courseContainer.innerHTML = '';
             
             // Filter courses
             let filteredCourses = allCourses.filter(course => {
-                return (type === 'all' || course.type === type) &&
-                       (language === 'all' || course.language === language) &&
-                       (level === 'all' || course.level === level) &&
-                       (gender === 'all' || course.gender === gender || course.type === 'qirat') &&
+                return (currentFilters.type === 'all' || course.type === currentFilters.type) &&
+                       (currentFilters.gender === 'all' || course.gender === currentFilters.gender || course.type === 'qirat') &&
+                       (currentFilters.language === 'all' || course.language === currentFilters.language) &&
+                       (currentFilters.level === 'all' || course.level === currentFilters.level) &&
                        !currentUser.enrolledCourses.includes(course.id);
             });
             
-            // Update dropdown with enhanced styling
-            courseSelect.innerHTML = '<option value="">-- Select a Course --</option>';
+            if (filteredCourses.length === 0) {
+                courseContainer.innerHTML = `
+                    <div class="glass-card" style="grid-column: 1/-1; text-align: center; padding: 40px;">
+                        <i class="fas fa-book-open" style="font-size: 3rem; color: var(--primary); margin-bottom: 20px;"></i>
+                        <h3>No courses match your current filters</h3>
+                        <p>Try adjusting your filters or check back later for new courses</p>
+                        <button class="btn btn-primary mt-3" id="reset-filters">
+                            <i class="fas fa-sync-alt"></i> Reset Filters
+                        </button>
+                    </div>
+                `;
+                
+                document.getElementById('reset-filters').addEventListener('click', resetFilters);
+                return;
+            }
             
-            // Group courses by type for better organization
-            const coursesByType = {
-                qirat: filteredCourses.filter(c => c.type === 'qirat'),
-                hifz: filteredCourses.filter(c => c.type === 'hifz'),
-                nezer: filteredCourses.filter(c => c.type === 'nezer')
+            // Display filtered courses
+            filteredCourses.forEach(course => {
+                const courseCard = document.createElement('div');
+                courseCard.className = `course-card ${course.type}`;
+                courseCard.dataset.id = course.id;
+                
+                // Determine type-specific details
+                let typeIcon, typeClass;
+                if (course.type === 'qirat') {
+                    typeIcon = 'book-open';
+                    typeClass = 'qirat';
+                } else if (course.type === 'hifz') {
+                    typeIcon = 'quran';
+                    typeClass = 'hifz';
+                } else {
+                    typeIcon = 'graduation-cap';
+                    typeClass = 'nezer';
+                }
+                
+                courseCard.innerHTML = `
+                    <div class="course-header ${typeClass}">
+                        <h3 class="course-title">${course.title}</h3>
+                        <span class="course-type">
+                            <i class="fas fa-${typeIcon}"></i> ${course.type.charAt(0).toUpperCase() + course.type.slice(1)}
+                        </span>
+                    </div>
+                    <div class="course-body">
+                        <div class="course-description">${course.description}</div>
+                        <div class="course-meta">
+                            <div class="meta-item">
+                                <i class="fas fa-${course.gender === 'male' ? 'mars' : 'venus'}"></i>
+                                <span>${course.gender === 'all' ? 'All Genders' : course.gender === 'male' ? 'Male' : 'Female'}</span>
+                            </div>
+                            <div class="meta-item">
+                                <i class="fas fa-language"></i>
+                                <span>${course.language.charAt(0).toUpperCase() + course.language.slice(1)}</span>
+                            </div>
+                            <div class="meta-item">
+                                <i class="fas fa-layer-group"></i>
+                                <span>${course.level === 'all' ? 'All Levels' : course.level === 'fresh' ? 'Fresh' : 'Senior'}</span>
+                            </div>
+                        </div>
+                        <div class="progress-container">
+                            <div class="progress-label">
+                                <span>Available Spots</span>
+                                <span>${course.capacity - course.enrolled}/${course.capacity}</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: ${(course.enrolled / course.capacity) * 100}%"></div>
+                            </div>
+                        </div>
+                        <div class="course-actions">
+                            <button class="btn btn-outline view-details-btn">
+                                <i class="fas fa-info-circle"></i> Details
+                            </button>
+                            <button class="btn btn-primary enroll-btn">
+                                <i class="fas fa-plus"></i> Enroll
+                            </button>
+                        </div>
+                    </div>
+                `;
+                
+                courseContainer.appendChild(courseCard);
+            });
+            
+            // Add event listeners to course cards
+            document.querySelectorAll('.view-details-btn').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    const courseId = e.target.closest('.course-card').dataset.id;
+                    showCourseDetails(courseId);
+                });
+            });
+            
+            document.querySelectorAll('.enroll-btn').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    const courseId = e.target.closest('.course-card').dataset.id;
+                    initiateEnrollment(courseId);
+                });
+            });
+        }
+
+        // Reset all filters
+        function resetFilters() {
+            document.querySelectorAll('.filter-option').forEach(option => {
+                option.classList.remove('active');
+                if (option.dataset.value === 'all') {
+                    option.classList.add('active');
+                }
+            });
+            
+            // Reset gender and level to user defaults
+            document.querySelector(`.filter-option[data-filter="gender"][data-value="${currentUser.gender}"]`).classList.add('active');
+            document.querySelector(`.filter-option[data-filter="gender"][data-value="all"]`).classList.remove('active');
+            
+            document.querySelector(`.filter-option[data-filter="level"][data-value="${currentUser.level}"]`).classList.add('active');
+            document.querySelector(`.filter-option[data-filter="level"][data-value="all"]`).classList.remove('active');
+            
+            currentFilters = {
+                type: 'all',
+                gender: currentUser.gender,
+                language: 'all',
+                level: currentUser.level
             };
             
-            // Add Qir'at courses group
-            if (coursesByType.qirat.length > 0) {
-                const optgroup = document.createElement('optgroup');
-                optgroup.label = "Qir'at Courses";
-                optgroup.setAttribute('data-type', 'qirat');
-                
-                coursesByType.qirat.forEach(course => {
-                    const option = document.createElement('option');
-                    option.value = course.id;
-                    option.setAttribute('data-type', 'qirat');
-                    option.innerHTML = `
-                        <span class="course-title">${course.title}</span>
-                        <span class="course-details">(${course.language.toUpperCase()})</span>
-                    `;
-                    optgroup.appendChild(option);
-                });
-                
-                courseSelect.appendChild(optgroup);
-            }
+            loadFilteredCourses();
+        }
+
+        // Show course details in modal
+        function showCourseDetails(courseId) {
+            const course = allCourses.find(c => c.id === courseId);
+            if (!course) return;
             
-            // Add Hifz courses group
-            if (coursesByType.hifz.length > 0) {
-                const optgroup = document.createElement('optgroup');
-                optgroup.label = "Hifz Courses";
-                optgroup.setAttribute('data-type', 'hifz');
-                
-                coursesByType.hifz.forEach(course => {
-                    const option = document.createElement('option');
-                    option.value = course.id;
-                    option.setAttribute('data-type', 'hifz');
-                    option.innerHTML = `
-                        <span class="course-title">${course.title}</span>
-                        <span class="course-details">(${course.gender === 'male' ? 'Male' : 'Female'} - ${course.level.toUpperCase()})</span>
-                    `;
-                    optgroup.appendChild(option);
-                });
-                
-                courseSelect.appendChild(optgroup);
-            }
+            // Set modal content
+            modalCourseTitle.textContent = course.title;
+            modalCourseType.textContent = course.type.charAt(0).toUpperCase() + course.type.slice(1);
+            modalCourseGender.textContent = course.gender === 'all' ? 'All Genders' : course.gender === 'male' ? 'Male' : 'Female';
+            modalCourseLanguage.textContent = course.language.charAt(0).toUpperCase() + course.language.slice(1);
+            modalCourseLevel.textContent = course.level === 'all' ? 'All Levels' : course.level === 'fresh' ? 'Fresh' : 'Senior';
+            modalCourseDescription.textContent = course.description;
+            modalCourseAbout.textContent = course.about;
+            modalCourseInstructor.textContent = course.instructor;
+            modalCourseSchedule.textContent = course.schedule;
             
-            // Add Nezer courses group
-            if (coursesByType.nezer.length > 0) {
-                const optgroup = document.createElement('optgroup');
-                optgroup.label = "Nezer Courses";
-                optgroup.setAttribute('data-type', 'nezer');
-                
-                coursesByType.nezer.forEach(course => {
-                    const option = document.createElement('option');
-                    option.value = course.id;
-                    option.setAttribute('data-type', 'nezer');
-                    option.innerHTML = `
-                        <span class="course-title">${course.title}</span>
-                        <span class="course-details">(${course.gender === 'male' ? 'Male' : 'Female'} - ${course.language.toUpperCase()} - ${course.level.toUpperCase()})</span>
-                    `;
-                    optgroup.appendChild(option);
-                });
-                
-                courseSelect.appendChild(optgroup);
+            // Set header class based on course type
+            modalCourseHeader.className = `course-header ${course.type}`;
+            
+            // Set enroll button data
+            enrollBtn.dataset.courseId = course.id;
+            
+            // Show modal
+            courseModal.classList.add('active');
+        }
+
+        // Initiate enrollment process
+        function initiateEnrollment(courseId) {
+            const course = allCourses.find(c => c.id === courseId);
+            if (!course) {
+                showError("Invalid course selected");
+                return;
+            }
+
+            // Check if already enrolled
+            if (currentUser.enrolledCourses.includes(courseId)) {
+                showError("You are already enrolled in this course!");
+                return;
+            }
+
+            // Check course capacity
+            if (course.enrolled >= course.capacity) {
+                showError("This course has reached maximum capacity");
+                return;
+            }
+
+            // Store pending course
+            pendingCourse = courseId;
+
+            // Check if over 3 courses
+            if (currentUser.enrolledCourses.length >= 3) {
+                // Show special confirmation modal for 4th+ course
+                confirmationText.textContent = `You're about to enroll in your ${currentUser.enrolledCourses.length + 1}th course (${course.title}). Please confirm you can handle this workload?`;
+                reasonField.style.display = 'block';
+                confirmationModal.classList.add('active');
+            } else {
+                // Show general confirmation in the course modal
+                enrollBtn.innerHTML = `<i class="fas fa-check"></i> Confirm Enrollment`;
             }
         }
 
@@ -1137,65 +1934,131 @@
             enrolledCoursesGrid.innerHTML = '';
             
             if (currentUser.enrolledCourses.length === 0) {
-                enrolledCoursesGrid.innerHTML = '<p>You are not enrolled in any courses yet.</p>';
+                enrolledCoursesGrid.innerHTML = `
+                    <div class="glass-card" style="grid-column: 1/-1; text-align: center; padding: 40px;">
+                        <i class="fas fa-book-open" style="font-size: 3rem; color: var(--primary); margin-bottom: 20px;"></i>
+                        <h3>You haven't enrolled in any courses yet</h3>
+                        <p>Browse available courses and start your learning journey today</p>
+                        <button class="btn btn-primary mt-3" id="browse-courses-btn">
+                            <i class="fas fa-compass"></i> Browse Courses
+                        </button>
+                    </div>
+                `;
+                
+                document.getElementById('browse-courses-btn').addEventListener('click', () => {
+                    document.querySelector('.tab-btn[data-tab="discover"]').click();
+                });
+                
                 coursesLoading.style.display = 'none';
                 coursesContent.style.display = 'block';
                 return;
             }
+
+            // Update path visualization
+            const totalCourses = currentUser.enrolledCourses.length;
+            const completedCourses = currentUser.completedCourses.length;
+            const progressPercentage = totalCourses > 0 ? Math.round((completedCourses / totalCourses) * 100) : 0;
+            pathProgress.style.width = `${progressPercentage}%`;
+            
+            // Update path milestones
+            const milestones = document.querySelectorAll('.path-milestone');
+            milestones.forEach((milestone, index) => {
+                const percentage = index * 25;
+                milestone.classList.remove('active', 'completed');
+                
+                if (percentage < progressPercentage) {
+                    milestone.classList.add('completed');
+                } else if (percentage === Math.round(progressPercentage / 25) * 25) {
+                    milestone.classList.add('active');
+                }
+            });
 
             currentUser.enrolledCourses.forEach((courseId, index) => {
                 const course = allCourses.find(c => c.id === courseId);
                 if (course) {
                     const isOverLimit = index >= 3;
                     const isOverloaded = currentUser.overloadedCourses.includes(courseId);
-                    const courseCard = document.createElement('div');
-                    courseCard.className = `course-card ${isOverLimit ? 'over-limit' : ''}`;
-                    
-                    // Determine badge class based on course type
-                    let badgeClass = 'badge-primary';
-                    if (course.type === 'qirat') badgeClass = 'badge-qirat';
-                    else if (course.type === 'hifz') badgeClass = 'badge-hifz';
-                    else if (course.type === 'nezer') badgeClass = 'badge-nezer';
-                    
-                    // Check if course is completed
                     const isCompleted = currentUser.completedCourses.includes(courseId);
                     const progress = currentUser.progress[courseId] || 0;
                     
+                    // Determine type-specific details
+                    let typeIcon, typeClass, typeName;
+                    if (course.type === 'qirat') {
+                        typeIcon = 'book-open';
+                        typeClass = 'qirat';
+                        typeName = 'Qir\'at';
+                    } else if (course.type === 'hifz') {
+                        typeIcon = 'quran';
+                        typeClass = 'hifz';
+                        typeName = 'Hifz';
+                    } else {
+                        typeIcon = 'graduation-cap';
+                        typeClass = 'nezer';
+                        typeName = 'Nezer';
+                    }
+                    
+                    const courseCard = document.createElement('div');
+                    courseCard.className = `course-card ${typeClass} ${isOverLimit ? 'over-limit' : ''}`;
+                    
                     courseCard.innerHTML = `
-                        <div class="course-header">
-                            <h3>${course.title}</h3>
+                        <div class="course-header ${typeClass}">
+                            <h3 class="course-title">${course.title}</h3>
                             ${isOverloaded ? '<span class="badge badge-warning"><i class="fas fa-exclamation-triangle"></i> Overloaded</span>' : ''}
                             ${isCompleted ? '<span class="badge badge-success"><i class="fas fa-check"></i> Completed</span>' : ''}
                         </div>
                         <div class="course-body">
                             <div class="course-meta">
-                                <span class="badge ${badgeClass}">
-                                    <i class="fas fa-${course.type === 'qirat' ? 'book-open' : course.type === 'hifz' ? 'quran' : 'graduation-cap'}"></i>
-                                    ${course.type.toUpperCase()}
+                                <span class="badge badge-${typeClass}">
+                                    <i class="fas fa-${typeIcon}"></i>
+                                    ${typeName}
                                 </span>
-                                <span class="badge ${badgeClass}">
-                                    <i class="fas fa-globe"></i>
-                                    ${course.language.toUpperCase()}
+                                <span class="badge badge-${typeClass}">
+                                    <i class="fas fa-language"></i>
+                                    ${course.language.charAt(0).toUpperCase() + course.language.slice(1)}
                                 </span>
                             </div>
-                            ${course.gender !== 'all' ? `
-                                <p><i class="fas fa-${course.gender === 'male' ? 'mars' : 'venus'}"></i> 
-                                ${course.gender === 'male' ? 'Male' : 'Female'}</p>
-                            ` : ''}
-                            ${course.level !== 'all' ? `
-                                <p><i class="fas fa-layer-group"></i> 
-                                ${course.level.toUpperCase()}</p>
-                            ` : ''}
-                            ${!isCompleted ? `
-                                <div class="progress-container" style="margin-top: 10px;">
-                                    <div class="progress-bar" style="width: ${progress}%"></div>
+                            <div class="course-description">${course.description}</div>
+                            <div class="progress-container">
+                                <div class="progress-label">
+                                    <span>Your Progress</span>
+                                    <span>${progress}%</span>
                                 </div>
-                                <p style="text-align: right; font-size: 0.8rem; margin-top: 5px;">${progress}% complete</p>
-                            ` : ''}
+                                <div class="progress-bar">
+                                    <div class="progress-fill" style="width: ${progress}%"></div>
+                                </div>
+                            </div>
+                            <div class="course-actions">
+                                <button class="btn btn-outline view-course-btn">
+                                    <i class="fas fa-eye"></i> View
+                                </button>
+                                ${!isCompleted ? `
+                                    <button class="btn btn-${typeClass} progress-btn">
+                                        <i class="fas fa-tasks"></i> Update Progress
+                                    </button>
+                                ` : ''}
+                            </div>
                         </div>
                     `;
+                    
                     enrolledCoursesGrid.appendChild(courseCard);
                 }
+            });
+            
+            // Add event listeners to enrolled course buttons
+            document.querySelectorAll('.view-course-btn').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    const courseId = e.target.closest('.course-card').dataset.id;
+                    // In a real app, this would navigate to the course page
+                    showSuccess(`Viewing course details would open here`);
+                });
+            });
+            
+            document.querySelectorAll('.progress-btn').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    const courseId = e.target.closest('.course-card').dataset.id;
+                    // In a real app, this would open a progress update modal
+                    showSuccess(`Progress update feature would open here`);
+                });
             });
             
             // Load classmates
@@ -1226,19 +2089,39 @@
                 );
 
                 if (sharedClassmates.length === 0) {
-                    classmatesGrid.innerHTML = '<p>No classmates found in your courses.</p>';
+                    classmatesGrid.innerHTML = `
+                        <div class="glass-card" style="grid-column: 1/-1; text-align: center; padding: 40px;">
+                            <i class="fas fa-users" style="font-size: 3rem; color: var(--primary); margin-bottom: 20px;"></i>
+                            <h3>No classmates found in your courses</h3>
+                            <p>As more students enroll, you'll see them here</p>
+                        </div>
+                    `;
                     return;
                 }
 
                 sharedClassmates.forEach(classmate => {
+                    const sharedCourseCount = classmate.courses.filter(c => currentUser.enrolledCourses.includes(c)).length;
+                    
                     const classmateCard = document.createElement('div');
                     classmateCard.className = 'classmate-card';
                     classmateCard.innerHTML = `
                         <div class="classmate-avatar">${classmate.avatar}</div>
-                        <h4>${classmate.name}</h4>
-                        <p>${classmate.courses.filter(c => currentUser.enrolledCourses.includes(c)).length} shared courses</p>
+                        <h4 class="classmate-name">${classmate.name}</h4>
+                        <p class="classmate-courses">${sharedCourseCount} shared course${sharedCourseCount > 1 ? 's' : ''}</p>
+                        <button class="btn btn-outline btn-sm mt-2 connect-btn">
+                            <i class="fas fa-user-plus"></i> Connect
+                        </button>
                     `;
+                    
                     classmatesGrid.appendChild(classmateCard);
+                });
+                
+                // Add event listeners to connect buttons
+                document.querySelectorAll('.connect-btn').forEach(btn => {
+                    btn.addEventListener('click', (e) => {
+                        const classmateName = e.target.closest('.classmate-card').querySelector('.classmate-name').textContent;
+                        showSuccess(`Connection request sent to ${classmateName}`);
+                    });
                 });
             } catch (error) {
                 console.error("Error loading classmates:", error);
@@ -1249,120 +2132,77 @@
         async function loadProgress() {
             const totalCourses = currentUser.enrolledCourses.length;
             const completedCourses = currentUser.completedCourses.length;
-            const progressPercent = totalCourses > 0 ? Math.round((completedCourses / totalCourses) * 100) : 0;
+            const inProgressCourses = totalCourses - completedCourses;
+            const progressPercentage = totalCourses > 0 ? Math.round((completedCourses / totalCourses) * 100) : 0;
+            
+            // Calculate average progress across all courses
+            let totalProgress = 0;
+            currentUser.enrolledCourses.forEach(courseId => {
+                totalProgress += currentUser.progress[courseId] || 0;
+            });
+            const avgProgressPercentage = totalCourses > 0 ? Math.round(totalProgress / totalCourses) : 0;
             
             // Update progress bar
-            progressBar.style.width = `${progressPercent}%`;
+            progressBar.style.width = `${progressPercentage}%`;
+            pathProgress.style.width = `${progressPercentage}%`;
             
             // Update stats
             enrolledCount.textContent = totalCourses;
             completedCount.textContent = completedCourses;
-            progressPercent.textContent = `${progressPercent}%`;
+            inProgressCount.textContent = inProgressCourses;
+            avgProgress.textContent = `${avgProgressPercentage}%`;
+            progressPercent.textContent = `${progressPercentage}%`;
             
             // Update course breakdown
             progressCourses.innerHTML = '';
+            
+            if (totalCourses === 0) {
+                progressCourses.innerHTML = `
+                    <div class="glass-card text-center" style="padding: 30px;">
+                        <i class="fas fa-book-open" style="font-size: 3rem; color: var(--primary); margin-bottom: 20px;"></i>
+                        <h3>No courses enrolled</h3>
+                        <p>Your progress will appear here once you enroll in courses</p>
+                    </div>
+                `;
+                return;
+            }
+            
             currentUser.enrolledCourses.forEach(courseId => {
                 const course = allCourses.find(c => c.id === courseId);
                 if (course) {
                     const isCompleted = currentUser.completedCourses.includes(courseId);
                     const progress = currentUser.progress[courseId] || 0;
                     
+                    // Determine type-specific details
+                    let typeClass;
+                    if (course.type === 'qirat') {
+                        typeClass = 'qirat';
+                    } else if (course.type === 'hifz') {
+                        typeClass = 'hifz';
+                    } else {
+                        typeClass = 'nezer';
+                    }
+                    
                     const courseProgress = document.createElement('div');
+                    courseProgress.className = 'glass-card';
                     courseProgress.style.marginBottom = '15px';
+                    courseProgress.style.padding = '15px';
                     courseProgress.innerHTML = `
-                        <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
-                            <span>${course.title}</span>
-                            <span>${isCompleted ? 'Completed' : `${progress}%`}</span>
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                            <h4 style="margin: 0;">${course.title}</h4>
+                            <span class="badge badge-${typeClass}">${course.type.charAt(0).toUpperCase() + course.type.slice(1)}</span>
                         </div>
-                        <div class="progress-container" style="height: 8px;">
-                            <div class="progress-bar" style="width: ${isCompleted ? '100%' : `${progress}%`}; height: 100%;"></div>
+                        <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
+                            <span>${isCompleted ? 'Completed' : 'In Progress'}</span>
+                            <span>${progress}%</span>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress-fill ${typeClass}" style="width: ${progress}%"></div>
                         </div>
                     `;
                     progressCourses.appendChild(courseProgress);
                 }
             });
-        }
-
-        // Setup event listeners
-        function setupEventListeners() {
-            // Registration button
-            registerBtn.addEventListener('click', registerForCourse);
-            
-            // Modal buttons
-            closeModalBtn.addEventListener('click', () => toggleModal(false));
-            cancelBtn.addEventListener('click', () => toggleModal(false));
-            confirmBtn.addEventListener('click', confirmEnrollment);
-            
-            // General modal buttons
-            closeGeneralModalBtn.addEventListener('click', () => toggleGeneralModal(false));
-            cancelGeneralBtn.addEventListener('click', () => toggleGeneralModal(false));
-            confirmGeneralBtn.addEventListener('click', confirmGeneralEnrollment);
-            
-            // Tab buttons
-            tabBtns.forEach(btn => {
-                if (btn.id !== 'logout-btn') {
-                    btn.addEventListener('click', () => {
-                        const tabId = btn.getAttribute('data-tab');
-                        switchTab(tabId);
-                    });
-                }
-            });
-            
-            // Logout button
-            logoutBtn.addEventListener('click', async () => {
-                try {
-                    await signOut(auth);
-                    window.location.href = 'login.html';
-                } catch (error) {
-                    showError("Error signing out: " + error.message);
-                }
-            });
-
-            // Theme toggle
-            themeToggle.addEventListener('click', toggleTheme);
-            
-            // Initialize filters
-            loadFilters();
-        }
-
-        // Register for a course
-        function registerForCourse() {
-            const courseId = courseSelect.value;
-            if (!courseId) {
-                showError("Please select a course to register");
-                return;
-            }
-
-            const course = allCourses.find(c => c.id === courseId);
-            if (!course) {
-                showError("Invalid course selected");
-                return;
-            }
-
-            // Check if already enrolled
-            if (currentUser.enrolledCourses.includes(courseId)) {
-                showError("You are already enrolled in this course!");
-                return;
-            }
-
-            // Store pending course
-            pendingCourse = courseId;
-
-            // Check if over 3 courses
-            if (currentUser.enrolledCourses.length >= 3) {
-                // Show special confirmation modal for 4th+ course
-                if (currentUser.enrolledCourses.length === 3) {
-                    confirmationText.textContent = `You're about to enroll in your 4th course (${course.title}). Please confirm you can handle this workload?`;
-                } else {
-                    confirmationText.textContent = `You're about to enroll in your ${currentUser.enrolledCourses.length + 1}th course (${course.title}). Are you sure you can handle this workload?`;
-                }
-                reasonField.style.display = 'block';
-                toggleModal(true);
-            } else {
-                // Show general confirmation modal for 1st-3rd courses
-                generalConfirmationText.textContent = `Are you sure you want to enroll in ${course.title}?`;
-                toggleGeneralModal(true);
-            }
         }
 
         // Confirm enrollment after warning (for 4th+ courses)
@@ -1389,53 +2229,54 @@
                 await saveUserData();
                 
                 // Update UI
-                updateCourseOptions();
+                loadFilteredCourses();
                 loadEnrolledCourses();
                 loadProgress();
-                courseSelect.value = '';
                 
-                // Show success message
-                showSuccess('Course enrolled successfully!');
+                // Show success message with confetti
+                showSuccess('Course enrolled successfully!', true);
                 
-                toggleModal(false);
-            } catch (error) {
-                showError("Error enrolling in course: " + error.message);
-            }
-        }
-
-        // Confirm general enrollment (for 1st-3rd courses)
-        async function confirmGeneralEnrollment() {
-            try {
-                // Add to enrolled courses
-                currentUser.enrolledCourses.push(pendingCourse);
-                
-                // Initialize progress for this course
-                currentUser.progress[pendingCourse] = 0;
-                
-                // Save to Firebase
-                await saveUserData();
-                
-                // Update UI
-                updateCourseOptions();
-                loadEnrolledCourses();
-                loadProgress();
-                courseSelect.value = '';
-                
-                // Show success message
-                showSuccess('Course enrolled successfully!');
-                
-                toggleGeneralModal(false);
+                // Close modals
+                confirmationModal.classList.remove('active');
+                courseModal.classList.remove('active');
             } catch (error) {
                 showError("Error enrolling in course: " + error.message);
             }
         }
 
         // Show success message
-        function showSuccess(message) {
+        function showSuccess(message, withConfetti = false) {
+            successText.textContent = message;
             successMessage.style.display = 'block';
+            
+            if (withConfetti) {
+                createConfetti();
+            }
+            
             setTimeout(() => {
                 successMessage.style.display = 'none';
             }, 3000);
+        }
+
+        // Create confetti effect
+        function createConfetti() {
+            const colors = [var(--primary), var(--accent), var(--success), var(--warning)];
+            
+            for (let i = 0; i < 100; i++) {
+                const confetti = document.createElement('div');
+                confetti.className = 'confetti';
+                confetti.style.background = colors[Math.floor(Math.random() * colors.length)];
+                confetti.style.left = Math.random() * 100 + 'vw';
+                confetti.style.top = -10 + 'px';
+                confetti.style.width = Math.random() * 10 + 5 + 'px';
+                confetti.style.height = Math.random() * 10 + 5 + 'px';
+                confetti.style.animationDuration = Math.random() * 3 + 2 + 's';
+                document.body.appendChild(confetti);
+                
+                setTimeout(() => {
+                    confetti.remove();
+                }, 5000);
+            }
         }
 
         // Show error message
@@ -1447,22 +2288,104 @@
             }, 5000);
         }
 
-        // Toggle modal visibility (for 4th+ courses)
-        function toggleModal(show) {
-            if (show) {
-                confirmationModal.classList.add('active');
-                document.getElementById('enrollment-reason').value = '';
-            } else {
-                confirmationModal.classList.remove('active');
-            }
+        // Setup event listeners
+        function setupEventListeners() {
+            // Filter options
+            filterOptions.forEach(option => {
+                option.addEventListener('click', () => {
+                    const filterType = option.dataset.filter;
+                    const filterValue = option.dataset.value;
+                    
+                    // Update active state
+                    document.querySelectorAll(`.filter-option[data-filter="${filterType}"]`).forEach(opt => {
+                        opt.classList.remove('active');
+                    });
+                    option.classList.add('active');
+                    
+                    // Update current filters
+                    currentFilters[filterType] = filterValue;
+                });
+            });
+            
+            // Apply filters button
+            applyFiltersBtn.addEventListener('click', loadFilteredCourses);
+            
+            // Course modal buttons
+            closeCourseModal.addEventListener('click', () => courseModal.classList.remove('active'));
+            cancelEnrollBtn.addEventListener('click', () => courseModal.classList.remove('active'));
+            enrollBtn.addEventListener('click', () => {
+                const courseId = enrollBtn.dataset.courseId;
+                if (currentUser.enrolledCourses.length < 3) {
+                    // Direct enrollment for 1st-3rd courses
+                    completeEnrollment(courseId);
+                } else {
+                    // Show confirmation for 4th+ courses
+                    confirmationModal.classList.add('active');
+                    courseModal.classList.remove('active');
+                }
+            });
+            
+            // Confirmation modal buttons
+            closeModalBtn.addEventListener('click', () => confirmationModal.classList.remove('active'));
+            cancelBtn.addEventListener('click', () => confirmationModal.classList.remove('active'));
+            confirmBtn.addEventListener('click', confirmEnrollment);
+            
+            // Tab buttons
+            tabBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const tabId = btn.getAttribute('data-tab');
+                    switchTab(tabId);
+                });
+            });
+            
+            // Profile button
+            profileBtn.addEventListener('click', () => {
+                window.location.href = 'profile.html';
+            });
+            
+            // Logout button
+            logoutBtn.addEventListener('click', async () => {
+                try {
+                    await signOut(auth);
+                    window.location.href = 'login.html';
+                } catch (error) {
+                    showError("Error signing out: " + error.message);
+                }
+            });
+
+            // Theme toggle
+            themeToggle.addEventListener('click', toggleTheme);
+            
+            // Help FAB
+            helpFab.addEventListener('click', () => helpModal.classList.add('active'));
+            closeHelpModal.addEventListener('click', () => helpModal.classList.remove('active'));
+            closeHelpBtn.addEventListener('click', () => helpModal.classList.remove('active'));
         }
 
-        // Toggle general modal visibility (for 1st-3rd courses)
-        function toggleGeneralModal(show) {
-            if (show) {
-                generalConfirmationModal.classList.add('active');
-            } else {
-                generalConfirmationModal.classList.remove('active');
+        // Complete enrollment process
+        async function completeEnrollment(courseId) {
+            try {
+                // Add to enrolled courses
+                currentUser.enrolledCourses.push(courseId);
+                
+                // Initialize progress for this course
+                currentUser.progress[courseId] = 0;
+                
+                // Save to Firebase
+                await saveUserData();
+                
+                // Update UI
+                loadFilteredCourses();
+                loadEnrolledCourses();
+                loadProgress();
+                
+                // Show success message with confetti
+                showSuccess('Course enrolled successfully!', true);
+                
+                // Close modal
+                courseModal.classList.remove('active');
+            } catch (error) {
+                showError("Error enrolling in course: " + error.message);
             }
         }
 
