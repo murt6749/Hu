@@ -1,77 +1,178 @@
-      }
-
-      matches.forEach((match, index) => {
-        const itemDiv = document.createElement('div');
-        itemDiv.className = 'result-item';
-
-        // Retrieve surah information (fallback if missing)
-        const surahName = match.surah && match.surah.name ? match.surah.name : "Unknown Surah";
-        const surahNumber = match.surah && match.surah.number ? match.surah.number : "";
-        const ayahNumber = match.number || '';
-
-        // Create meta info element
-        const metaDiv = document.createElement('div');
-        metaDiv.className = 'result-meta';
-        metaDiv.textContent = `Surah ${surahName} (${surahNumber}), Ayah ${ayahNumber}`;
-
-        // Create text element
-        const textDiv = document.createElement('div');
-        textDiv.className = 'result-text';
-        textDiv.textContent = match.text || '';
-
-        // Append meta and text to the result item
-        itemDiv.appendChild(metaDiv);
-        itemDiv.appendChild(textDiv);
-
-        resultsContainer.appendChild(itemDiv);
-      });
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Quran Search – Haramaya U. Muslim Jama'a</title>
+  <style>
+    body { font-family:sans-serif; margin:0; padding:0; background:#f7f7f7; color:#333 }
+    .container { max-width:800px; margin:1rem auto; padding:1rem }
+    .search-bar { display:flex; flex-wrap:wrap; gap:.5rem; }
+    .search-bar input, .search-bar select { flex:1; padding:.5rem; }
+    .search-bar button { padding:.5rem 1rem; }
+    .history-list { position:relative; }
+    .history-list ul { 
+      list-style:none; margin:0; padding:.5rem; border:1px solid #ccc;
+      background:#fff; position:absolute; width:100%; max-height:150px; overflow:auto;
+      z-index:10;
     }
+    .history-list li { padding:.3rem; cursor:pointer; }
+    .history-list li:hover { background:#eee; }
+    .result-item { background:#fff; border:1px solid #ddd; padding:.75rem; margin-bottom:.75rem }
+    .result-meta { font-size:.85rem; color:#666; }
+    .result-text { margin:.5rem 0; }
+    .tafsir-text { font-size:.85rem; color:#444; margin-top:.5rem; padding-left:1rem; border-left:2px solid #ccc }
+    #filter-results { margin:1rem 0; padding:.5rem; width:100%; }
+    #export-btns { margin:1rem 0; }
+  </style>
+</head>
+<body>
+  <div class="container" id="app">
+    <div class="search-bar">
+      <div class="history-list" style="flex:2">
+        <input id="quran-search" placeholder="Search keyword…" autocomplete="off" />
+        <ul id="history-ul" hidden></ul>
+      </div>
+      <select id="juz-filter">
+        <option value="all">All Juz'</option>
+        <!-- 1–30 -->
+        ${Array.from({length:30},(_,i)=>`<option value="${i+1}">Juz' ${i+1}</option>`).join('')}
+      </select>
+      <label><input type="checkbox" id="regex-toggle" /> Regex</label>
+      <label><input type="checkbox" id="root-toggle" /> Root search</label>
+      <label><input type="checkbox" id="tafsir-toggle" /> Show Tafsir</label>
+      <button id="search-btn">Search</button>
+    </div>
 
-    // Function to perform search using the API
-    function performSearch() {
-      const keyword = document.getElementById('quran-search').value.trim();
-      if (!keyword) return;
+    <input id="filter-results" placeholder="Filter within results…" />
 
-      // Default values for surah and edition; these can be customized further
-      const surah = "all";
-      const edition = "en";
-      // Use HTTPS for the API endpoint to avoid mixed-content issues
-      const url = `https://api.alquran.cloud/v1/search/${encodeURIComponent(keyword)}/${surah}/${edition}`;
+    <div id="results"></div>
 
-      // Optionally, show a loading message
-      const resultsContainer = document.getElementById('results');
-      resultsContainer.innerHTML = '<p>Loading results...</p>';
+    <div id="export-btns">
+      <button id="export-json">Export JSON</button>
+      <button id="export-csv">Export CSV</button>
+    </div>
+  </div>
 
-      fetch(url)
-        .then(response => response.json())
-        .then(data => {
-          if (data && data.data && data.data.matches) {
-            // Update the results and count badge
-            displayResults(data.data.matches, data.data.count);
-            // Add a class to move the search bar upward when results are shown
-            document.getElementById('app').classList.add('has-results');
-          } else {
-            resultsContainer.innerHTML = '<p>No results found.</p>';
-          }
-        })
-        .catch(error => {
-          console.error("Error fetching Quran data:", error);
-          resultsContainer.innerHTML = '<p>Error fetching results. Please try again later.</p>';
-        });
-    }
+  <script>
+    // --- State ---
+    let lastResults = [];
+    const historyKey = 'quranSearchHistory';
 
-    // Event listeners for search functionality
-    const searchIcon = document.querySelector('.search-icon');
-    const submitBtn = document.querySelector('.submit-btn');
+    // --- Search History & Autocomplete ---
+    const histUl = document.getElementById('history-ul');
     const searchInput = document.getElementById('quran-search');
 
-    searchIcon.addEventListener('click', performSearch);
-    submitBtn.addEventListener('click', performSearch);
-    searchInput.addEventListener('keypress', function (e) {
-      if (e.key === 'Enter') {
+    function loadHistory() {
+      return JSON.parse(localStorage.getItem(historyKey) || '[]');
+    }
+    function saveToHistory(term) {
+      let h = loadHistory();
+      h = [term, ...h.filter(t=>t!==term)].slice(0,20);
+      localStorage.setItem(historyKey, JSON.stringify(h));
+    }
+    function showHistory() {
+      const h = loadHistory();
+      if (!h.length) return histUl.hidden = true;
+      histUl.innerHTML = h.map(t=>`<li>${t}</li>`).join('');
+      histUl.hidden = false;
+    }
+    searchInput.addEventListener('focus', showHistory);
+    searchInput.addEventListener('blur', ()=>setTimeout(()=>histUl.hidden=true,200));
+    histUl.addEventListener('click', e=>{
+      if (e.target.tagName==='LI') {
+        searchInput.value = e.target.textContent;
+        histUl.hidden = true;
         performSearch();
       }
     });
+
+    // --- Perform Search ---
+    async function performSearch() {
+      const q = searchInput.value.trim();
+      if (!q) return;
+      saveToHistory(q);
+
+      // Build API URL
+      const juz = document.getElementById('juz-filter').value;
+      const isRegex = document.getElementById('regex-toggle').checked;
+      const isRoot = document.getElementById('root-toggle').checked;
+      const edition = isRoot
+        ? 'https://api.quran.com/api/v4/search?query=' + encodeURIComponent(q)
+          + '&language=en&size=50&search_fields=text_uthmani,translations.text&search_by_root=true'
+        : `https://api.alquran.cloud/v1/search/${encodeURIComponent(q)}/${juz==='all'? 'all':`juz/${juz}`}/en.sahih`;
+
+      const resp = await fetch(edition);
+      const data = await resp.json();
+      const matches = isRoot
+        ? data.data.matches.map(m=>({
+            surah: { englishName: m.resource_name, number: m.verse_key.split(':')[0] },
+            number: m.verse_key.split(':')[1],
+            text: m.text
+          }))
+        : data.data.matches;
+
+      lastResults = matches;
+      renderResults(matches);
+    }
+
+    // --- Render & Filter Results ---
+    const resultsDiv = document.getElementById('results');
+    function renderResults(matches) {
+      resultsDiv.innerHTML = '';
+      matches.forEach(m => {
+        const item = document.createElement('div');
+        item.className = 'result-item';
+        item.innerHTML = `
+          <div class="result-meta">
+            Surah ${m.surah.englishName||m.surah.name} (${m.surah.number}), Ayah ${m.number}
+          </div>
+          <div class="result-text">${m.text}</div>
+        `;
+        if (document.getElementById('tafsir-toggle').checked) {
+          const tafDiv = document.createElement('div');
+          tafDiv.className = 'tafsir-text';
+          // fetch tafsir for this ayah
+          fetch(`https://api.alquran.cloud/v1/ayah/${m.surah.number}:${m.number}/en.asad`)
+            .then(r=>r.json())
+            .then(r=> tafDiv.textContent = r.data.text )
+            .catch(()=> tafDiv.textContent = '[Tafsir unavailable]');
+          item.appendChild(tafDiv);
+        }
+        resultsDiv.appendChild(item);
+      });
+    }
+    document.getElementById('filter-results').addEventListener('input', e=>{
+      const term = e.target.value.trim().toLowerCase();
+      const filtered = lastResults.filter(m=>m.text.toLowerCase().includes(term));
+      renderResults(filtered);
+    });
+
+    // --- Export ---
+    document.getElementById('export-json').onclick = () => {
+      const blob = new Blob([JSON.stringify(lastResults, null,2)], {type:'application/json'});
+      downloadBlob(blob, 'quran-results.json');
+    };
+    document.getElementById('export-csv').onclick = () => {
+      const rows = [['Surah','Ayah','Text'], ...lastResults.map(m=>[
+        `"${m.surah.englishName||m.surah.name}"`,
+        m.number,
+        `"${m.text.replace(/"/g,'""')}"`
+      ])];
+      const csv = rows.map(r=>r.join(',')).join('\n');
+      downloadBlob(new Blob([csv],{type:'text/csv'}), 'quran-results.csv');
+    };
+    function downloadBlob(blob, filename) {
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url; a.download = filename;
+      a.click();
+      URL.revokeObjectURL(url);
+    }
+
+    // --- Bind Search Button & Enter Key ---
+    document.getElementById('search-btn').addEventListener('click', ()=>performSearch());
+    searchInput.addEventListener('keypress', e=>{ if(e.key==='Enter') performSearch(); });
   </script>
 </body>
 </html>
