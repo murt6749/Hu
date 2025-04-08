@@ -1,0 +1,1020 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HU Jama'aa - My Profile</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #1a4d2e;
+            --secondary-color: #4f6f52;
+            --accent-color: #f5efe6;
+            --light-color: #e8dfca;
+            --white: #ffffff;
+            --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --success-color: #28a745;
+            --info-color: #17a2b8;
+            --warning-color: #ffc107;
+            --danger-color: #dc3545;
+            --border-radius: 12px;
+            --box-padding: 16px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background-color: #f8f9fa;
+            min-height: 100vh;
+            font-size: 14px;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 100%;
+            padding: 0;
+        }
+
+        /* Header Styles */
+        .header {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: var(--box-padding);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .header h1 {
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .btn-icon {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.2rem;
+            cursor: pointer;
+        }
+
+        /* Main Content Area */
+        .main-content {
+            padding: var(--box-padding);
+            padding-bottom: 70px;
+        }
+
+        /* Bottom Navigation */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background-color: var(--white);
+            display: flex;
+            justify-content: space-around;
+            padding: 10px 0;
+            box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
+            z-index: 100;
+        }
+
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-decoration: none;
+            color: var(--secondary-color);
+            font-size: 0.8rem;
+        }
+
+        .nav-item i {
+            font-size: 1.2rem;
+            margin-bottom: 4px;
+        }
+
+        .nav-item.active {
+            color: var(--primary-color);
+        }
+
+        /* Card Styles */
+        .card {
+            background-color: var(--white);
+            border-radius: var(--border-radius);
+            padding: var(--box-padding);
+            margin-bottom: 15px;
+            box-shadow: var(--shadow);
+        }
+
+        .card-title {
+            color: var(--primary-color);
+            margin-bottom: 10px;
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+
+        /* Form Elements */
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            color: var(--secondary-color);
+            font-weight: 500;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 1rem;
+        }
+
+        .btn {
+            padding: 12px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 100%;
+        }
+
+        .btn-primary {
+            background-color: var(--primary-color);
+            color: var(--white);
+        }
+
+        .btn-primary:hover {
+            background-color: var(--secondary-color);
+        }
+
+        .btn-outline {
+            background-color: transparent;
+            border: 1px solid var(--primary-color);
+            color: var(--primary-color);
+        }
+
+        .btn-sm {
+            padding: 8px 12px;
+            font-size: 0.9rem;
+        }
+
+        /* Badges */
+        .badge {
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: 20px;
+            font-size: 0.7rem;
+            font-weight: 500;
+        }
+
+        .badge-primary {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        .badge-success {
+            background-color: var(--success-color);
+            color: white;
+        }
+
+        .badge-warning {
+            background-color: var(--warning-color);
+            color: black;
+        }
+
+        .badge-danger {
+            background-color: var(--danger-color);
+            color: white;
+        }
+
+        /* Progress Bar */
+        .progress-container {
+            margin-bottom: 15px;
+        }
+
+        .progress-label {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 5px;
+            font-size: 0.9rem;
+        }
+
+        .progress-bar {
+            height: 8px;
+            background-color: var(--light-color);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background-color: var(--success-color);
+            border-radius: 4px;
+        }
+
+        /* Profile Section */
+        .profile-section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .profile-avatar {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background-color: var(--light-color);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 2.5rem;
+            color: var(--primary-color);
+            margin-bottom: 15px;
+        }
+
+        .profile-info {
+            text-align: center;
+        }
+
+        .profile-info h2 {
+            color: var(--primary-color);
+            margin-bottom: 5px;
+        }
+
+        .profile-details {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .detail-item {
+            background-color: var(--light-color);
+            padding: 10px;
+            border-radius: 5px;
+        }
+
+        .detail-label {
+            font-size: 0.8rem;
+            color: var(--secondary-color);
+            margin-bottom: 5px;
+        }
+
+        .detail-value {
+            font-weight: 500;
+        }
+
+        /* Courses List */
+        .courses-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .course-item {
+            border: 1px solid #eee;
+            border-radius: var(--border-radius);
+            padding: 12px;
+        }
+
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0,0,0,0.5);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+            padding: 15px;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background-color: white;
+            border-radius: var(--border-radius);
+            width: 100%;
+            max-width: 500px;
+            max-height: 90vh;
+            overflow-y: auto;
+            animation: modalFadeIn 0.3s ease;
+        }
+
+        @keyframes modalFadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .modal-header {
+            padding: 15px;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-title {
+            font-size: 1.2rem;
+            color: var(--primary-color);
+            font-weight: 600;
+        }
+
+        .modal-close {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        .modal-body {
+            padding: 15px;
+        }
+
+        .modal-footer {
+            padding: 15px;
+            border-top: 1px solid #eee;
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+        }
+
+        /* Confirmation Modal */
+        .confirmation-modal .modal-body {
+            text-align: center;
+            padding: 20px;
+        }
+
+        .confirmation-icon {
+            font-size: 3rem;
+            color: var(--primary-color);
+            margin-bottom: 15px;
+        }
+
+        /* Edit Form */
+        .edit-form {
+            display: grid;
+            gap: 15px;
+        }
+
+        /* Status Badges */
+        .status-badge {
+            display: inline-block;
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-size: 0.7rem;
+            font-weight: 500;
+        }
+
+        .status-pending {
+            background-color: var(--warning-color);
+            color: black;
+        }
+
+        .status-approved {
+            background-color: var(--success-color);
+            color: white;
+        }
+
+        /* Responsive Adjustments */
+        @media (min-width: 768px) {
+            .container {
+                max-width: 768px;
+                margin: 0 auto;
+            }
+            
+            .profile-section {
+                flex-direction: row;
+                align-items: flex-start;
+                text-align: left;
+            }
+            
+            .profile-avatar {
+                margin-right: 20px;
+                margin-bottom: 0;
+            }
+            
+            .profile-info {
+                text-align: left;
+                flex: 1;
+            }
+        }
+
+        /* Utility Classes */
+        .text-center {
+            text-align: center;
+        }
+        .mb-3 {
+            margin-bottom: 15px;
+        }
+        .mt-3 {
+            margin-top: 15px;
+        }
+        .d-none {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <h1>My Profile</h1>
+            <div class="header-actions">
+                <button class="btn-icon" id="notifications-btn">
+                    <i class="fas fa-bell"></i>
+                </button>
+                <button class="btn-icon" id="logout-btn">
+                    <i class="fas fa-sign-out-alt"></i>
+                </button>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Profile Section -->
+            <div class="card">
+                <div class="profile-section">
+                    <div class="profile-avatar" id="profile-avatar">JD</div>
+                    <div class="profile-info">
+                        <h2 id="profile-name">John Doe</h2>
+                        <p id="profile-id">HU1234/21</p>
+                        <div class="profile-actions mt-3">
+                            <button class="btn btn-primary" id="edit-profile-btn">Edit Profile</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="profile-details">
+                    <div class="detail-item">
+                        <div class="detail-label">Email</div>
+                        <div class="detail-value" id="profile-email">john.doe@haramaya.edu.et</div>
+                    </div>
+                    <div class="detail-item">
+                        <div class="detail-label">Department</div>
+                        <div class="detail-value" id="profile-department">Computer Science</div>
+                    </div>
+                    <div class="detail-item">
+                        <div class="detail-label">Year</div>
+                        <div class="detail-value" id="profile-year">3rd Year</div>
+                    </div>
+                    <div class="detail-item">
+                        <div class="detail-label">Phone</div>
+                        <div class="detail-value" id="profile-phone">+251 912 345 678</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Account Security Section -->
+            <div class="card">
+                <h2 class="card-title">Account Security</h2>
+                <div class="form-group">
+                    <button class="btn btn-outline" id="change-password-btn">Change Password</button>
+                </div>
+                <div class="form-group">
+                    <button class="btn btn-outline" id="logout-btn-2">Logout</button>
+                </div>
+            </div>
+
+            <!-- Enrolled Courses Section -->
+            <div class="card">
+                <h2 class="card-title">My Enrolled Courses</h2>
+                <div class="courses-list" id="enrolled-courses">
+                    <!-- Courses will be loaded here -->
+                </div>
+            </div>
+        </main>
+
+        <!-- Bottom Navigation -->
+        <nav class="bottom-nav">
+            <a href="courses.html" class="nav-item">
+                <i class="fas fa-book"></i>
+                <span>Courses</span>
+            </a>
+            <a href="progress.html" class="nav-item">
+                <i class="fas fa-chart-line"></i>
+                <span>Progress</span>
+            </a>
+            <a href="classmates.html" class="nav-item">
+                <i class="fas fa-users"></i>
+                <span>Classmates</span>
+            </a>
+            <a href="profile.html" class="nav-item active">
+                <i class="fas fa-user"></i>
+                <span>Profile</span>
+            </a>
+        </nav>
+    </div>
+
+    <!-- Edit Profile Modal -->
+    <div class="modal" id="edit-profile-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">Edit Profile</h3>
+                <button class="modal-close" id="close-edit-modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="profile-form" class="edit-form">
+                    <div class="form-group">
+                        <label for="edit-name">Full Name</label>
+                        <input type="text" id="edit-name" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="edit-student-id">Student ID (XXXX/YY)</label>
+                        <input type="text" id="edit-student-id" class="form-control" pattern="\d{4}/\d{2}" required>
+                        <small class="text-muted">Format: 1234/21</small>
+                    </div>
+                    <div class="form-group">
+                        <label for="edit-department">Department</label>
+                        <input type="text" id="edit-department" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="edit-year">Year</label>
+                        <select id="edit-year" class="form-control" required>
+                            <option value="1st Year">1st Year</option>
+                            <option value="2nd Year">2nd Year</option>
+                            <option value="3rd Year">3rd Year</option>
+                            <option value="4th Year">4th Year</option>
+                            <option value="5th Year">5th Year</option>
+                            <option value="Graduate">Graduate</option>
+                            <option value="Staff">Staff</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="edit-phone">Phone Number</label>
+                        <input type="tel" id="edit-phone" class="form-control" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Save Changes</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Change Password Modal -->
+    <div class="modal" id="change-password-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">Change Password</h3>
+                <button class="modal-close" id="close-password-modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="password-form" class="edit-form">
+                    <div class="form-group">
+                        <label for="current-password">Current Password</label>
+                        <input type="password" id="current-password" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="new-password">New Password</label>
+                        <input type="password" id="new-password" class="form-control" required minlength="6">
+                    </div>
+                    <div class="form-group">
+                        <label for="confirm-password">Confirm New Password</label>
+                        <input type="password" id="confirm-password" class="form-control" required minlength="6">
+                    </div>
+                    <button type="submit" class="btn btn-primary">Update Password</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Unenroll Confirmation Modal -->
+    <div class="modal confirmation-modal" id="unenroll-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">Request Unenrollment</h3>
+                <button class="modal-close" id="close-unenroll-modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="confirmation-icon">
+                    <i class="fas fa-exclamation-triangle"></i>
+                </div>
+                <h4 id="unenroll-message">Are you sure you want to request unenrollment from this course?</h4>
+                <p>Your request will need to be approved by an administrator.</p>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-outline" id="cancel-unenroll">Cancel</button>
+                <button class="btn btn-primary" id="confirm-unenroll">Request Unenrollment</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Request Submitted Modal -->
+    <div class="modal confirmation-modal" id="request-submitted-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">Request Submitted</h3>
+                <button class="modal-close" id="close-request-modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="confirmation-icon">
+                    <i class="fas fa-check-circle" style="color: var(--success-color);"></i>
+                </div>
+                <h4>Your unenrollment request has been submitted</h4>
+                <p>You will be notified when an administrator reviews your request.</p>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-primary" id="close-request-btn">OK</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Firebase SDK -->
+    <script type="module">
+        // Import the functions you need from the SDKs you need
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+        import { 
+            getAuth, 
+            onAuthStateChanged,
+            signOut,
+            updatePassword,
+            EmailAuthProvider,
+            reauthenticateWithCredential
+        } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+        import { 
+            getFirestore,
+            collection,
+            doc,
+            getDoc,
+            setDoc,
+            updateDoc,
+            arrayUnion,
+            arrayRemove,
+            query,
+            where,
+            serverTimestamp,
+            addDoc
+        } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+        // Your web app's Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyBQyNVWh1BtCkXlBfuS7jHAa36FTklZayo",
+            authDomain: "pharma-quiz-b5a07.firebaseapp.com",
+            projectId: "pharma-quiz-b5a07",
+            storageBucket: "pharma-quiz-b5a07.appspot.com",
+            messagingSenderId: "161067776789",
+            appId: "1:161067776789:web:88b8a61145dc5f5c31471c",
+            measurementId: "G-3QRQE9HQFB"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+
+        // DOM Elements
+        const profileAvatar = document.getElementById('profile-avatar');
+        const profileName = document.getElementById('profile-name');
+        const profileId = document.getElementById('profile-id');
+        const profileEmail = document.getElementById('profile-email');
+        const profileDepartment = document.getElementById('profile-department');
+        const profileYear = document.getElementById('profile-year');
+        const profilePhone = document.getElementById('profile-phone');
+        const enrolledCoursesList = document.getElementById('enrolled-courses');
+        const editProfileBtn = document.getElementById('edit-profile-btn');
+        const editProfileModal = document.getElementById('edit-profile-modal');
+        const closeEditModal = document.getElementById('close-edit-modal');
+        const profileForm = document.getElementById('profile-form');
+        const editName = document.getElementById('edit-name');
+        const editStudentId = document.getElementById('edit-student-id');
+        const editDepartment = document.getElementById('edit-department');
+        const editYear = document.getElementById('edit-year');
+        const editPhone = document.getElementById('edit-phone');
+        const changePasswordBtn = document.getElementById('change-password-btn');
+        const changePasswordModal = document.getElementById('change-password-modal');
+        const closePasswordModal = document.getElementById('close-password-modal');
+        const passwordForm = document.getElementById('password-form');
+        const currentPassword = document.getElementById('current-password');
+        const newPassword = document.getElementById('new-password');
+        const confirmPassword = document.getElementById('confirm-password');
+        const logoutBtn = document.getElementById('logout-btn');
+        const logoutBtn2 = document.getElementById('logout-btn-2');
+        const unenrollModal = document.getElementById('unenroll-modal');
+        const closeUnenrollModal = document.getElementById('close-unenroll-modal');
+        const cancelUnenroll = document.getElementById('cancel-unenroll');
+        const confirmUnenroll = document.getElementById('confirm-unenroll');
+        const unenrollMessage = document.getElementById('unenroll-message');
+        const requestSubmittedModal = document.getElementById('request-submitted-modal');
+        const closeRequestModal = document.getElementById('close-request-modal');
+        const closeRequestBtn = document.getElementById('close-request-btn');
+
+        // Current user data
+        let currentUser = null;
+        let userData = null;
+        let enrolledCourses = [];
+        let pendingUnenrollCourseId = null;
+
+        // Initialize the application
+        function initApp() {
+            // Set up event listeners
+            editProfileBtn.addEventListener('click', () => editProfileModal.classList.add('active'));
+            closeEditModal.addEventListener('click', () => editProfileModal.classList.remove('active'));
+            profileForm.addEventListener('submit', saveProfile);
+            changePasswordBtn.addEventListener('click', () => changePasswordModal.classList.add('active'));
+            closePasswordModal.addEventListener('click', () => changePasswordModal.classList.remove('active'));
+            passwordForm.addEventListener('submit', changePassword);
+            logoutBtn.addEventListener('click', handleLogout);
+            logoutBtn2.addEventListener('click', handleLogout);
+            cancelUnenroll.addEventListener('click', () => unenrollModal.classList.remove('active'));
+            confirmUnenroll.addEventListener('click', submitUnenrollRequest);
+            closeUnenrollModal.addEventListener('click', () => unenrollModal.classList.remove('active'));
+            closeRequestBtn.addEventListener('click', () => requestSubmittedModal.classList.remove('active'));
+            closeRequestModal.addEventListener('click', () => requestSubmittedModal.classList.remove('active'));
+
+            // Check auth state
+            onAuthStateChanged(auth, async (user) => {
+                if (user) {
+                    currentUser = user;
+                    await loadUserData(user.uid);
+                    updateProfileUI();
+                    displayEnrolledCourses();
+                } else {
+                    // Redirect to login page if not authenticated
+                    window.location.href = 'login.html';
+                }
+            });
+        }
+
+        // Load user data from Firestore
+        async function loadUserData(userId) {
+            try {
+                const userDoc = await getDoc(doc(db, "users", userId));
+                if (userDoc.exists()) {
+                    userData = userDoc.data();
+                    
+                    // Initialize enrolledCourses if not exists
+                    if (!userData.enrolledCourses) {
+                        await updateDoc(doc(db, "users", userId), {
+                            enrolledCourses: []
+                        });
+                        userData.enrolledCourses = [];
+                    }
+                    enrolledCourses = userData.enrolledCourses;
+                } else {
+                    // Create user document if not exists
+                    const newUserData = {
+                        name: currentUser.displayName || "User",
+                        email: currentUser.email,
+                        enrolledCourses: [],
+                        studentId: "",
+                        department: "",
+                        year: "",
+                        phone: "",
+                        createdAt: serverTimestamp()
+                    };
+                    
+                    await setDoc(doc(db, "users", userId), newUserData);
+                    userData = newUserData;
+                    enrolledCourses = [];
+                }
+            } catch (error) {
+                console.error("Error loading user data:", error);
+            }
+        }
+
+        // Update profile UI with user data
+        function updateProfileUI() {
+            const displayName = userData?.name || currentUser.displayName || "User";
+            const initials = displayName.split(' ').map(n => n[0]).join('').toUpperCase();
+            
+            profileAvatar.textContent = initials;
+            profileName.textContent = displayName;
+            profileId.textContent = userData?.studentId || "No ID provided";
+            profileEmail.textContent = currentUser.email;
+            profileDepartment.textContent = userData?.department || "Not specified";
+            profileYear.textContent = userData?.year || "Not specified";
+            profilePhone.textContent = userData?.phone || "Not provided";
+
+            // Fill edit form with current data
+            if (editName) editName.value = displayName;
+            if (editStudentId) editStudentId.value = userData?.studentId || "";
+            if (editDepartment) editDepartment.value = userData?.department || "";
+            if (editYear) editYear.value = userData?.year || "";
+            if (editPhone) editPhone.value = userData?.phone || "";
+        }
+
+        // Save profile changes
+        async function saveProfile(e) {
+            e.preventDefault();
+            
+            try {
+                const updates = {
+                    name: editName.value,
+                    studentId: editStudentId.value,
+                    department: editDepartment.value,
+                    year: editYear.value,
+                    phone: editPhone.value,
+                    lastUpdated: serverTimestamp()
+                };
+                
+                // Update in Firestore
+                await updateDoc(doc(db, "users", currentUser.uid), updates);
+                
+                // Update local data
+                userData = { ...userData, ...updates };
+                
+                // Refresh UI
+                updateProfileUI();
+                
+                // Close modal
+                editProfileModal.classList.remove('active');
+                
+                // Show success message
+                alert('Profile updated successfully!');
+            } catch (error) {
+                console.error("Error updating profile:", error);
+                alert("Failed to update profile. Please try again.");
+            }
+        }
+
+        // Change password
+        async function changePassword(e) {
+            e.preventDefault();
+            
+            if (newPassword.value !== confirmPassword.value) {
+                alert("New passwords don't match!");
+                return;
+            }
+
+            try {
+                const user = auth.currentUser;
+                const credential = EmailAuthProvider.credential(
+                    user.email,
+                    currentPassword.value
+                );
+
+                // Reauthenticate user
+                await reauthenticateWithCredential(user, credential);
+                
+                // Update password
+                await updatePassword(user, newPassword.value);
+                
+                // Clear form
+                passwordForm.reset();
+                
+                // Close modal
+                changePasswordModal.classList.remove('active');
+                
+                // Show success message
+                alert("Password changed successfully!");
+            } catch (error) {
+                console.error("Error changing password:", error);
+                alert("Failed to change password. Please check your current password and try again.");
+            }
+        }
+
+        // Display enrolled courses
+        function displayEnrolledCourses() {
+            enrolledCoursesList.innerHTML = '';
+            
+            if (enrolledCourses.length === 0) {
+                enrolledCoursesList.innerHTML = '<p>You are not enrolled in any courses yet.</p>';
+                return;
+            }
+
+            enrolledCourses.forEach(course => {
+                const courseItem = document.createElement('div');
+                courseItem.className = 'course-item';
+                
+                // Check if unenrollment is pending
+                const pendingRequest = course.unenrollmentRequested;
+                
+                courseItem.innerHTML = `
+                    <div class="course-detail">
+                        <strong>${course.title}</strong>
+                        ${pendingRequest ? '<span class="status-badge status-pending">Pending Unenroll</span>' : ''}
+                    </div>
+                    <div class="course-detail">
+                        <strong>Instructor:</strong> ${course.instructor}
+                    </div>
+                    <div class="course-detail">
+                        <strong>Schedule:</strong> ${course.schedule}
+                    </div>
+                    <div class="progress-container mt-2">
+                        <div class="progress-label">
+                            <span>Progress: ${course.progress}%</span>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: ${course.progress}%"></div>
+                        </div>
+                    </div>
+                    <div class="course-actions mt-2">
+                        <button class="btn btn-outline btn-sm" onclick="viewCourseProgress('${course.id}')">View Progress</button>
+                        ${!pendingRequest ? `<button class="btn btn-outline btn-sm" onclick="requestUnenroll('${course.id}')">Request Unenroll</button>` : ''}
+                    </div>
+                `;
+                enrolledCoursesList.appendChild(courseItem);
+            });
+        }
+
+        // Request to unenroll from a course
+        function requestUnenroll(courseId) {
+            pendingUnenrollCourseId = courseId;
+            const course = enrolledCourses.find(c => c.id === courseId);
+            if (!course) return;
+
+            unenrollMessage.textContent = `Are you sure you want to request unenrollment from ${course.title}?`;
+            unenrollModal.classList.add('active');
+        }
+
+        // Submit unenrollment request
+        async function submitUnenrollRequest() {
+            if (!pendingUnenrollCourseId || !currentUser) return;
+
+            try {
+                const course = enrolledCourses.find(c => c.id === pendingUnenrollCourseId);
+                if (!course) return;
+
+                // Create unenrollment request in Firestore
+                await addDoc(collection(db, "unenrollmentRequests"), {
+                    userId: currentUser.uid,
+                    courseId: pendingUnenrollCourseId,
+                    courseTitle: course.title,
+                    userName: userData.name,
+                    userEmail: currentUser.email,
+                    studentId: userData.studentId,
+                    department: userData.department,
+                    requestedAt: serverTimestamp(),
+                    status: "pending"
+                });
+
+                // Mark course as having pending unenrollment request
+                const updatedCourses = enrolledCourses.map(c => {
+                    if (c.id === pendingUnenrollCourseId) {
+                        return { ...c, unenrollmentRequested: true };
+                    }
+                    return c;
+                });
+
+                await updateDoc(doc(db, "users", currentUser.uid), {
+                    enrolledCourses: updatedCourses
+                });
+
+                // Update local data
+                enrolledCourses = updatedCourses;
+
+                // Close modals and show success
+                unenrollModal.classList.remove('active');
+                requestSubmittedModal.classList.add('active');
+
+                // Refresh display
+                displayEnrolledCourses();
+            } catch (error) {
+                console.error("Error submitting unenrollment request:", error);
+                alert("Failed to submit unenrollment request. Please try again.");
+            } finally {
+                pendingUnenrollCourseId = null;
+            }
+        }
+
+        // Handle logout
+        async function handleLogout() {
+            try {
+                await signOut(auth);
+                window.location.href = 'login.html';
+            } catch (error) {
+                console.error("Error signing out:", error);
+                alert("Failed to logout. Please try again.");
+            }
+        }
+
+        // View course progress (would link to progress page)
+        function viewCourseProgress(courseId) {
+            // In a real app, this would redirect to the progress page
+            alert(`Viewing progress for course ${courseId}`);
+        }
+
+        // Initialize the app when DOM is loaded
+        document.addEventListener('DOMContentLoaded', initApp);
+
+        // Make functions available globally
+        window.requestUnenroll = requestUnenroll;
+        window.viewCourseProgress = viewCourseProgress;
+    </script>
+</body>
+</html>
