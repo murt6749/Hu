@@ -1,0 +1,686 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Islamic Learning Center - Schedule</title>
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" />
+  <style>
+    :root {
+      --primary-color: #2c5fa8;
+      --secondary-color: #f8f9fa;
+      --accent-color: #f0ad4e;
+    }
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #f5f5f5;
+    }
+    .navbar {
+      background-color: var(--primary-color);
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    }
+    .navbar-brand {
+      font-weight: 700;
+      color: white !important;
+    }
+    .user-dropdown .dropdown-toggle::after {
+      display: none;
+    }
+    .card {
+      border-radius: 10px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      transition: transform 0.3s ease;
+      margin-bottom: 20px;
+      border: none;
+    }
+    .card:hover {
+      transform: translateY(-5px);
+    }
+    .card-header {
+      background-color: var(--primary-color);
+      color: white;
+      border-radius: 10px 10px 0 0 !important;
+      font-weight: 600;
+    }
+    .filter-section, .user-schedule-section {
+      background-color: white;
+      border-radius: 10px;
+      padding: 20px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+      margin-bottom: 30px;
+    }
+    .schedule-day {
+      font-weight: 600;
+      color: var(--primary-color);
+    }
+    .badge-teacher {
+      background-color: var(--accent-color);
+      color: #333;
+    }
+    .time-badge {
+      background-color: #e9ecef;
+      color: #495057;
+      font-weight: 500;
+    }
+    .language-badge {
+      background-color: #d4edda;
+      color: #155724;
+    }
+    .no-results {
+      text-align: center;
+      padding: 40px;
+      color: #6c757d;
+    }
+    .dropdown-menu {
+      border-radius: 8px;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+      border: none;
+    }
+    .dropdown-item:hover {
+      background-color: #f8f9fa;
+    }
+    /* Table view styling */
+    #scheduleTableContainer {
+      display: none;
+    }
+    #scheduleTable td,
+    #scheduleTable th {
+      vertical-align: middle;
+    }
+    /* User Schedule Section Styling */
+    .user-schedule-title {
+      font-size: 1.5rem;
+      font-weight: 600;
+      color: var(--primary-color);
+      margin-bottom: 20px;
+    }
+  </style>
+</head>
+<body>
+  <!-- Navigation Bar -->
+  <nav class="navbar navbar-expand-lg navbar-dark sticky-top">
+    <div class="container">
+      <a class="navbar-brand" href="#">
+        <i class="bi bi-book-half me-2"></i>Islamic Learning Center
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+        <ul class="navbar-nav">
+          <li class="nav-item">
+            <a class="nav-link active" href="schedule.html"><i class="bi bi-calendar3 me-1"></i> Schedule</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="learning.html"><i class="bi bi-journal-bookmark me-1"></i> My Learning</a>
+          </li>
+          <!-- Authentication nav item, will update based on login state -->
+          <li class="nav-item" id="authItem">
+            <a class="nav-link" href="login.html"><i class="bi bi-box-arrow-in-right me-1"></i> Login</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Main Content -->
+  <div class="container py-5">
+    <!-- Header & Toggle Buttons -->
+    <div class="row mb-4">
+      <div class="col-12">
+        <h2 class="fw-bold mb-3">Class Schedule</h2>
+        <p class="text-muted">
+          View, filter and print your learning schedule. Choose between a card or table view.
+        </p>
+        <div class="mb-3">
+          <button id="toggleCards" class="btn btn-outline-primary me-2"><i class="bi bi-card-text me-1"></i> Card View</button>
+          <button id="toggleTable" class="btn btn-outline-secondary me-2"><i class="bi bi-table me-1"></i> Table View</button>
+          <button id="printSchedule" class="btn btn-success"><i class="bi bi-printer me-1"></i> Print Schedule</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Filter Section -->
+    <div class="filter-section">
+      <div class="row g-3">
+        <div class="col-md-3">
+          <label for="languageFilter" class="form-label">Language</label>
+          <select id="languageFilter" class="form-select">
+            <option value="all">All Languages</option>
+            <option value="amharic">Amharic</option>
+            <option value="oromifa">Oromifa</option>
+          </select>
+        </div>
+        <div class="col-md-3">
+          <label for="typeFilter" class="form-label">Type</label>
+          <select id="typeFilter" class="form-select">
+            <option value="all">All Types</option>
+            <option value="kitab">Kitab</option>
+            <option value="hifz">Hifz</option>
+            <option value="nezer">Nezer</option>
+          </select>
+        </div>
+        <div class="col-md-3">
+          <label for="levelFilter" class="form-label">Level</label>
+          <select id="levelFilter" class="form-select">
+            <option value="all">All Levels</option>
+            <option value="fresh">Fresh Students</option>
+            <option value="senior">Senior Students</option>
+          </select>
+        </div>
+        <div class="col-md-3">
+          <label for="genderFilter" class="form-label">Gender</label>
+          <select id="genderFilter" class="form-select">
+            <option value="all">All Genders</option>
+            <option value="female">Female</option>
+            <option value="male">Male</option>
+          </select>
+        </div>
+        <div class="col-12 mt-3">
+          <button id="resetFilters" class="btn btn-outline-secondary me-2"><i class="bi bi-arrow-counterclockwise me-1"></i> Reset Filters</button>
+          <button id="applyFilters" class="btn btn-primary"><i class="bi bi-funnel me-1"></i> Apply Filters</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Schedule Content: Card View -->
+    <div id="scheduleCards">
+      <!-- Kitab Section -->
+      <div class="row mb-4">
+        <div class="col-12">
+          <h4 class="fw-bold mb-3">Kitab Classes</h4>
+        </div>
+        <!-- Amharic Kitab -->
+        <div class="col-md-6 kitab-card" data-language="amharic" data-type="kitab">
+          <div class="card">
+            <div class="card-header d-flex justify-content-between align-items-center">
+              <span>Amharic Kitab</span>
+              <span class="badge language-badge">Amharic</span>
+            </div>
+            <div class="card-body">
+              <div class="mb-3">
+                <span class="schedule-day">Saturday & Sunday Morning</span>
+                <p class="mb-1">Tejwid hidayetul mustefid</p>
+                <span class="badge time-badge me-1">Morning</span>
+              </div>
+              <div class="mb-3">
+                <span class="schedule-day">Monday & Tuesday</span>
+                <p class="mb-1">Usulu sel asah</p>
+                <span class="badge time-badge me-1">Morning</span>
+              </div>
+              <div class="mb-3">
+                <span class="schedule-day">Thursday</span>
+                <p class="mb-1">Kula setun urel eqin</p>
+                <span class="badge time-badge me-1">Morning</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Oromifa Kitab -->
+        <div class="col-md-6 kitab-card" data-language="oromifa" data-type="kitab">
+          <div class="card">
+            <div class="card-header d-flex justify-content-between align-items-center">
+              <span>Oromifa Kitab</span>
+              <span class="badge language-badge">Oromifa</span>
+            </div>
+            <div class="card-body">
+              <div class="mb-3">
+                <span class="schedule-day">Saturday & Sunday Morning</span>
+                <p class="mb-1">Tejwid hidayetul mustefid</p>
+                <span class="badge time-badge me-1">Morning</span>
+              </div>
+              <div class="mb-3">
+                <span class="schedule-day">Monday & Tuesday</span>
+                <p class="mb-1">Usulu sel asah</p>
+                <span class="badge time-badge me-1">Morning</span>
+              </div>
+              <div class="mb-3">
+                <span class="schedule-day">Saturday & Sunday</span>
+                <p class="mb-1">Umd etul ahkam</p>
+                <span class="badge time-badge me-1">Morning</span>
+              </div>
+              <div class="mb-3">
+                <span class="schedule-day">Wednesday</span>
+                <p class="mb-1">Tefsir</p>
+                <span class="badge time-badge me-1">Morning</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Hifz Section -->
+      <div class="row mb-4">
+        <div class="col-12">
+          <h4 class="fw-bold mb-3">Hifz Classes</h4>
+        </div>
+        <!-- Fresh Students -->
+        <div class="col-md-6 hifz-card" data-level="fresh" data-type="hifz">
+          <div class="card">
+            <div class="card-header d-flex justify-content-between align-items-center">
+              <span>Hifz for Fresh Students</span>
+              <span class="badge bg-info">Fresh</span>
+            </div>
+            <div class="card-body">
+              <h6 class="fw-bold">Female Students</h6>
+              <div class="mb-3">
+                <span class="badge badge-teacher me-1">Ustaz Aymen</span>
+                <span class="badge time-badge">Mon-Wed Morning</span>
+              </div>
+              <div class="mb-3">
+                <span class="badge badge-teacher me-1">Ustaz Salah</span>
+                <span class="badge time-badge">Mon-Wed Morning</span>
+              </div>
+              <div class="mb-3">
+                <span class="badge badge-teacher me-1">Ustaz Ahmed</span>
+                <span class="badge time-badge">Mon-Wed Morning</span>
+              </div>
+              <div class="mb-3">
+                <span class="badge badge-teacher me-1">Ustaz Nejmudin</span>
+                <span class="badge time-badge">Between Maghrib & Isha</span>
+              </div>
+              <h6 class="fw-bold mt-4">Male Students</h6>
+              <div class="mb-3">
+                <span class="badge badge-teacher me-1">Ustaz Mekbul</span>
+              </div>
+              <div class="mb-3">
+                <span class="badge badge-teacher me-1">Ustaz Amir</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Senior Students -->
+        <div class="col-md-6 hifz-card" data-level="senior" data-type="hifz">
+          <div class="card">
+            <div class="card-header d-flex justify-content-between align-items-center">
+              <span>Hifz for Senior Students</span>
+              <span class="badge bg-info">Senior</span>
+            </div>
+            <div class="card-body">
+              <h6 class="fw-bold">Female Students</h6>
+              <div class="mb-3">
+                <span class="badge badge-teacher me-1">Ustaz Kamil</span>
+              </div>
+              <div class="mb-3">
+                <span class="badge badge-teacher me-1">Ustaz Mekbul</span>
+              </div>
+              <div class="mb-3">
+                <span class="badge badge-teacher me-1">Ustaz Abuki</span>
+              </div>
+              <div class="mb-3">
+                <span class="badge badge-teacher me-1">Ustaz Ibrahim</span>
+              </div>
+              <div class="mb-3">
+                <span class="badge badge-teacher me-1">Ustaz Abdulmejid</span>
+              </div>
+              <h6 class="fw-bold mt-4">Male Students</h6>
+              <div class="mb-3">
+                <span class="badge badge-teacher me-1">Ustaz Amir</span>
+              </div>
+              <div class="mb-3">
+                <span class="badge badge-teacher me-1">Ustaz Oumer (Local)</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Nezer Section -->
+      <div class="row">
+        <div class="col-12">
+          <h4 class="fw-bold mb-3">Nezer Classes</h4>
+        </div>
+        <!-- Fresh Students -->
+        <div class="col-md-6 nezer-card" data-level="fresh" data-type="nezer">
+          <div class="card">
+            <div class="card-header d-flex justify-content-between align-items-center">
+              <span>Nezer for Fresh Students</span>
+              <span class="badge bg-info">Fresh</span>
+            </div>
+            <div class="card-body">
+              <h6 class="fw-bold">Female Students</h6>
+              <div class="mb-3">
+                <span class="badge badge-teacher me-1">Ustaz Hamza (Amharic)</span>
+              </div>
+              <div class="mb-3">
+                <span class="badge badge-teacher me-1">Ustaz Bilal (Oromifa)</span>
+              </div>
+              <h6 class="fw-bold mt-4">Male Students</h6>
+              <div class="mb-3">
+                <span class="badge badge-teacher me-1">Ustaz Aymen</span>
+              </div>
+              <div class="mb-3">
+                <span class="badge badge-teacher me-1">Ustaz Fuad Aliyi</span>
+              </div>
+              <div class="mb-3">
+                <span class="badge badge-teacher me-1">Ustaz Kedamo</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Senior Students -->
+        <div class="col-md-6 nezer-card" data-level="senior" data-type="nezer">
+          <div class="card">
+            <div class="card-header d-flex justify-content-between align-items-center">
+              <span>Nezer for Senior Students</span>
+              <span class="badge bg-info">Senior</span>
+            </div>
+            <div class="card-body">
+              <h6 class="fw-bold">Female Students</h6>
+              <div class="mb-3">
+                <span class="badge badge-teacher me-1">Ustaz Abdulhafiz</span>
+              </div>
+              <div class="mb-3">
+                <span class="badge badge-teacher me-1">Ustaz Amir</span>
+              </div>
+              <h6 class="fw-bold mt-4">Male Students</h6>
+              <div class="mb-3">
+                <span class="badge badge-teacher me-1">Ustaz Marela</span>
+              </div>
+              <div class="mb-3">
+                <span class="badge badge-teacher me-1">Ustaz Fedlu</span>
+              </div>
+              <div class="mb-3">
+                <span class="badge badge-teacher me-1">Ustaz Husen</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Schedule Content: Table View -->
+    <div id="scheduleTableContainer">
+      <h4 class="fw-bold mb-3">Schedule Overview (Table View)</h4>
+      <div class="table-responsive">
+        <table class="table table-bordered table-hover">
+          <thead class="table-light">
+            <tr>
+              <th>Type</th>
+              <th>Language / Level</th>
+              <th>Schedule</th>
+              <th>Details</th>
+            </tr>
+          </thead>
+          <tbody id="scheduleTable">
+            <!-- Kitab rows -->
+            <tr data-type="kitab" data-language="amharic">
+              <td>Kitab</td>
+              <td>Amharic</td>
+              <td>Sat & Sun Morning, Mon & Tue, Thursday</td>
+              <td>Tejwid hidayetul mustefid, Usulu sel asah, Kula setun urel eqin</td>
+            </tr>
+            <tr data-type="kitab" data-language="oromifa">
+              <td>Kitab</td>
+              <td>Oromifa</td>
+              <td>Sat & Sun Morning, Mon & Tue, Sat & Sun, Wed</td>
+              <td>Tejwid hidayetul mustefid, Usulu sel asah, Umd etul ahkam, Tefsir</td>
+            </tr>
+            <!-- Hifz rows -->
+            <tr data-type="hifz" data-level="fresh">
+              <td>Hifz</td>
+              <td>Fresh</td>
+              <td>Female: Mon-Wed Morning<br>Male: Mon-Wed Morning</td>
+              <td>Female: Aymen, Salah, Ahmed, Nejmudin<br>Male: Mekbul, Amir</td>
+            </tr>
+            <tr data-type="hifz" data-level="senior">
+              <td>Hifz</td>
+              <td>Senior</td>
+              <td>Female: Various Times<br>Male: Various Times</td>
+              <td>Female: Kamil, Mekbul, Abuki, Ibrahim, Abdulmejid<br>Male: Amir, Oumer (Local)</td>
+            </tr>
+            <!-- Nezer rows -->
+            <tr data-type="nezer" data-level="fresh">
+              <td>Nezer</td>
+              <td>Fresh</td>
+              <td>Female: Specific Days<br>Male: Specific Days</td>
+              <td>Female: Hamza (Amharic), Bilal (Oromifa)<br>Male: Aymen, Fuad Aliyi, Kedamo</td>
+            </tr>
+            <tr data-type="nezer" data-level="senior">
+              <td>Nezer</td>
+              <td>Senior</td>
+              <td>Female: Specific Days<br>Male: Specific Days</td>
+              <td>Female: Abdulhafiz, Amir<br>Male: Marela, Fedlu, Husen</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- No Results Message (Hidden by default) -->
+    <div id="noResults" class="no-results" style="display: none;">
+      <i class="bi bi-calendar-x" style="font-size: 3rem;"></i>
+      <h4 class="mt-3">No classes match your filters</h4>
+      <p class="text-muted">Try adjusting your filter criteria</p>
+      <button id="resetFilters2" class="btn btn-primary mt-2"><i class="bi bi-arrow-counterclockwise me-1"></i> Reset Filters</button>
+    </div>
+
+    <!-- My Today’s Schedule Section (Loaded for logged in users) -->
+    <div id="userScheduleSection" class="user-schedule-section" style="display: none;">
+      <h4 class="user-schedule-title">My Today's Schedule</h4>
+      <div id="todayScheduleContent" class="row">
+        <!-- Today’s schedule items will be appended here dynamically -->
+      </div>
+      <div id="noTodaySchedule" class="no-results" style="display: none;">
+        <i class="bi bi-exclamation-circle" style="font-size: 3rem;"></i>
+        <h4 class="mt-3">You have no scheduled classes for today</h4>
+        <p class="text-muted">Check your enrolled courses for more details</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Firebase, Firestore and Scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  <!-- Firebase SDKs -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-app.js";
+    import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-auth.js";
+    import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-firestore.js";
+    import { getAnalytics } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-analytics.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyBQyNVWh1BtCkXlBfuS7jHAa36FTklZayo",
+      authDomain: "pharma-quiz-b5a07.firebaseapp.com",
+      databaseURL: "https://pharma-quiz-b5a07-default-rtdb.firebaseio.com",
+      projectId: "pharma-quiz-b5a07",
+      storageBucket: "pharma-quiz-b5a07.firebasestorage.app",
+      messagingSenderId: "161067776789",
+      appId: "1:161067776789:web:88b8a61145dc5f5c31471c",
+      measurementId: "G-3QRQE9HQFB"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const analytics = getAnalytics(app);
+    const auth = getAuth();
+    const db = getFirestore(app);
+
+    // Update authentication nav item
+    onAuthStateChanged(auth, (user) => {
+      const authItem = document.getElementById('authItem');
+      if (user) {
+        authItem.innerHTML = `
+          <div class="nav-item dropdown user-dropdown">
+            <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown">
+              <i class="bi bi-person-circle me-1"></i>
+              <span>${user.displayName || user.email || 'Account'}</span>
+            </a>
+            <ul class="dropdown-menu dropdown-menu-end">
+              <li><a class="dropdown-item" href="learning.html"><i class="bi bi-journal-bookmark me-2"></i>My Learning</a></li>
+              <li><hr class="dropdown-divider" /></li>
+              <li><a class="dropdown-item" href="#" id="logoutBtn"><i class="bi bi-box-arrow-right me-2"></i>Logout</a></li>
+            </ul>
+          </div>`;
+        // Load logged in user's today schedule
+        loadUserTodaySchedule();
+      } else {
+        authItem.innerHTML = `<a class="nav-link" href="login.html"><i class="bi bi-box-arrow-in-right me-1"></i> Login</a>`;
+      }
+    });
+
+    // Logout functionality
+    document.addEventListener('click', (e) => {
+      if (e.target && e.target.id === 'logoutBtn') {
+        signOut(auth)
+          .then(() => {
+            window.location.href = 'login.html';
+          })
+          .catch((error) => {
+            console.error('Logout error:', error);
+          });
+      }
+    });
+
+    // Filter & View toggle code (cards / table)
+    document.getElementById('applyFilters').addEventListener('click', applyFilters);
+    document.getElementById('resetFilters').addEventListener('click', resetFilters);
+    document.getElementById('resetFilters2').addEventListener('click', resetFilters);
+    document.getElementById('toggleCards').addEventListener('click', () => toggleView('cards'));
+    document.getElementById('toggleTable').addEventListener('click', () => toggleView('table'));
+    document.getElementById('printSchedule').addEventListener('click', () => window.print());
+
+    function applyFilters() {
+      const language = document.getElementById('languageFilter').value;
+      const type = document.getElementById('typeFilter').value;
+      const level = document.getElementById('levelFilter').value;
+      // The gender filter is not used in this code example
+      let visibleCards = 0;
+
+      // Apply filter on card view
+      document.querySelectorAll('.kitab-card, .hifz-card, .nezer-card').forEach(card => {
+        const cardLanguage = card.getAttribute('data-language');
+        const cardType = card.getAttribute('data-type');
+        const cardLevel = card.getAttribute('data-level');
+
+        const languageMatch = language === 'all' || !cardLanguage || cardLanguage === language;
+        const typeMatch = type === 'all' || cardType === type;
+        const levelMatch = level === 'all' || !cardLevel || cardLevel === level;
+
+        if (languageMatch && typeMatch && levelMatch) {
+          card.style.display = 'block';
+          visibleCards++;
+        } else {
+          card.style.display = 'none';
+        }
+      });
+
+      // Apply filter on table view
+      document.querySelectorAll('#scheduleTable tbody tr').forEach(row => {
+        const rowType = row.getAttribute('data-type');
+        let rowMatches = false;
+        const typeMatch = type === 'all' || rowType === type;
+        if (!typeMatch) {
+          rowMatches = false;
+        } else if (rowType === 'kitab') {
+          const rowLanguage = row.getAttribute('data-language');
+          rowMatches = language === 'all' || rowLanguage === language;
+        } else {
+          const rowLevel = row.getAttribute('data-level');
+          rowMatches = level === 'all' || rowLevel === level;
+        }
+        row.style.display = rowMatches ? '' : 'none';
+      });
+
+      // Show/hide no-results message if nothing is visible
+      if (visibleCards === 0) {
+        let visibleTableRows = Array.from(document.querySelectorAll('#scheduleTable tbody tr')).filter(row => row.style.display !== 'none').length;
+        if (visibleTableRows === 0) {
+          document.getElementById('scheduleCards').style.display = 'none';
+          document.getElementById('scheduleTableContainer').style.display = 'none';
+          document.getElementById('noResults').style.display = 'block';
+          return;
+        }
+      }
+      document.getElementById('noResults').style.display = 'none';
+      const currentView = document.getElementById('scheduleCards').style.display !== 'none' ? 'cards' : 'table';
+      toggleView(currentView);
+    }
+
+    function resetFilters() {
+      document.getElementById('languageFilter').value = 'all';
+      document.getElementById('typeFilter').value = 'all';
+      document.getElementById('levelFilter').value = 'all';
+      document.getElementById('genderFilter').value = 'all';
+
+      document.querySelectorAll('.kitab-card, .hifz-card, .nezer-card').forEach(card => {
+        card.style.display = 'block';
+      });
+      document.querySelectorAll('#scheduleTable tbody tr').forEach(row => {
+        row.style.display = '';
+      });
+      document.getElementById('noResults').style.display = 'none';
+      toggleView('cards');
+    }
+
+    function toggleView(viewType) {
+      if (viewType === 'cards') {
+        document.getElementById('scheduleCards').style.display = 'block';
+        document.getElementById('scheduleTableContainer').style.display = 'none';
+      } else if (viewType === 'table') {
+        document.getElementById('scheduleCards').style.display = 'none';
+        document.getElementById('scheduleTableContainer').style.display = 'block';
+      }
+    }
+
+    // Load today's schedule for the logged-in user based on their enrolled courses
+    async function loadUserTodaySchedule() {
+      // Ensure user is authenticated
+      if (!auth.currentUser) return;
+      const uid = auth.currentUser.uid;
+      try {
+        const userDocRef = doc(db, "users", uid);
+        const docSnap = await getDoc(userDocRef);
+        if (docSnap.exists()) {
+          const userData = docSnap.data();
+          // Assume userData.enrolledCourses is an array of objects.
+          // Each course object should have: courseName, courseType, schedule, time, days (an array of weekday names)
+          if (userData.enrolledCourses && Array.isArray(userData.enrolledCourses)) {
+            const today = new Date().toLocaleString('en-US', { weekday: 'long' });
+            const coursesForToday = userData.enrolledCourses.filter(course => 
+              course.days && Array.isArray(course.days) && course.days.includes(today)
+            );
+            displayTodaySchedule(coursesForToday);
+          }
+        }
+      } catch (error) {
+        console.error("Error loading user schedule:", error);
+      }
+    }
+
+    // Display today's schedule – as cards – for logged in user
+    function displayTodaySchedule(courses) {
+      const userScheduleSection = document.getElementById('userScheduleSection');
+      const todayScheduleContent = document.getElementById('todayScheduleContent');
+      const noTodaySchedule = document.getElementById('noTodaySchedule');
+      todayScheduleContent.innerHTML = ""; // reset
+      if (courses.length === 0) {
+        noTodaySchedule.style.display = 'block';
+      } else {
+        noTodaySchedule.style.display = 'none';
+        courses.forEach(course => {
+          const col = document.createElement('div');
+          col.className = 'col-md-4';
+          col.innerHTML = `
+            <div class="card">
+              <div class="card-header d-flex justify-content-between align-items-center">
+                <span>${course.courseName || course.courseType || "Course"}</span>
+                <span class="badge ${course.courseType === 'kitab' ? 'language-badge' : 'bg-info'}">
+                  ${course.courseType ? course.courseType.charAt(0).toUpperCase() + course.courseType.slice(1) : ''}
+                </span>
+              </div>
+              <div class="card-body">
+                <p class="mb-1"><strong>Schedule:</strong> ${course.schedule || "N/A"}</p>
+                <p class="mb-1"><strong>Time:</strong> ${course.time || "N/A"}</p>
+                ${course.notes ? `<p class="mb-0"><strong>Notes:</strong> ${course.notes}</p>` : ''}
+              </div>
+            </div>`;
+          todayScheduleContent.appendChild(col);
+        });
+      }
+      // Show the user schedule section regardless of content as long as the user is logged in
+      userScheduleSection.style.display = 'block';
+    }
+  </script>
+</body>
+</html>
