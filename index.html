@@ -1,1092 +1,639 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Haramaya Jama'a | Muslim Students Community</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Scheherazade+New:wght@400;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-        :root {
-            --primary: #4a6bff;
-            --secondary: #ff6b6b;
-            --accent: #6b4aff;
-            --light: #f5f5f5;
-            --dark: #222;
-            --text: #333;
-            --text-light: #777;
-            --shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-            --transition: all 0.3s ease;
-            --bg: #ffffff;
-            --card-bg: #ffffff;
-            --sidebar-bg: linear-gradient(to bottom, #4a6bff, #6b4aff);
-        }
-
-        [data-theme="dark"] {
-            --primary: #6b4aff;
-            --secondary: #ff9e4a;
-            --accent: #4aff6b;
-            --light: #2d2d2d;
-            --dark: #f5f5f5;
-            --text: #e0e0e0;
-            --text-light: #aaaaaa;
-            --bg: #1e1e1e;
-            --card-bg: #2d2d2d;
-            --sidebar-bg: linear-gradient(to bottom, #2d2d2d, #1a1a1a);
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Poppins', sans-serif;
-            background: var(--bg);
-            color: var(--text);
-            overflow-x: hidden;
-            min-height: 100vh;
-            transition: var(--transition);
-        }
-
-        .container {
-            display: flex;
-            min-height: 100vh;
-        }
-
-        /* Sidebar Styles */
-        .sidebar {
-            width: 280px;
-            background: var(--sidebar-bg);
-            color: white;
-            position: fixed;
-            height: 100vh;
-            padding: 20px 0;
-            transition: var(--transition);
-            z-index: 100;
-            box-shadow: 5px 0 15px rgba(0, 0, 0, 0.1);
-            transform: translateX(-100%);
-            left: 0;
-        }
-
-        .sidebar.show {
-            transform: translateX(0);
-        }
-
-        .logo-container {
-            text-align: center;
-            padding: 20px 0;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-            margin-bottom: 20px;
-            animation: fadeIn 1s ease;
-        }
-
-        .logo {
-            width: 80px;
-            height: 80px;
-            border-radius: 50%;
-            object-fit: cover;
-            border: 3px solid var(--secondary);
-            box-shadow: 0 0 20px rgba(255, 107, 107, 0.3);
-        }
-
-        .logo-text {
-            font-size: 1.5rem;
-            font-weight: 700;
-            margin-top: 10px;
-            font-family: 'Scheherazade New', serif;
-        }
-
-        .menu {
-            list-style: none;
-            padding: 0 15px;
-        }
-
-        .menu-item {
-            margin-bottom: 5px;
-            position: relative;
-            overflow: hidden;
-            border-radius: 8px;
-            transition: var(--transition);
-        }
-
-        .menu-item::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: rgba(255, 255, 255, 0.1);
-            transition: var(--transition);
-            z-index: -1;
-        }
-
-        .menu-item:hover::before {
-            left: 0;
-        }
-
-        .menu-item.active {
-            background: rgba(255, 255, 255, 0.1);
-        }
-
-        .menu-item.active::before {
-            left: 0;
-        }
-
-        .menu-link {
-            display: flex;
-            align-items: center;
-            padding: 12px 15px;
-            color: white;
-            text-decoration: none;
-            font-size: 1rem;
-            transition: var(--transition);
-        }
-
-        .menu-link i {
-            margin-right: 15px;
-            font-size: 1.1rem;
-            width: 20px;
-            text-align: center;
-        }
-
-        .submenu {
-            list-style: none;
-            max-height: 0;
-            overflow: hidden;
-            transition: max-height 0.3s ease;
-            padding-left: 20px;
-            background: rgba(0, 0, 0, 0.1);
-            border-radius: 0 0 8px 8px;
-        }
-
-        .submenu.show {
-            max-height: 500px;
-        }
-
-        .submenu-item {
-            margin-bottom: 0;
-        }
-
-        .submenu-link {
-            padding: 10px 15px;
-            display: block;
-            color: rgba(255, 255, 255, 0.8);
-            text-decoration: none;
-            font-size: 0.9rem;
-            transition: var(--transition);
-        }
-
-        .submenu-link:hover {
-            color: white;
-            padding-left: 20px;
-        }
-
-        .sidebar-footer {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            padding: 20px;
-            text-align: center;
-            font-size: 0.8rem;
-            color: rgba(255, 255, 255, 0.6);
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        /* Main Content Styles */
-        .main-content {
-            flex: 1;
-            transition: var(--transition);
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            width: 100%;
-        }
-
-        /* Header Styles */
-        .header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 15px 30px;
-            background: var(--card-bg);
-            box-shadow: var(--shadow);
-            position: sticky;
-            top: 0;
-            z-index: 10;
-        }
-
-        .header-left {
-            display: flex;
-            align-items: center;
-        }
-
-        .menu-toggle {
-            font-size: 1.5rem;
-            margin-right: 20px;
-            cursor: pointer;
-            color: var(--primary);
-            transition: var(--transition);
-        }
-
-        .menu-toggle:hover {
-            color: var(--accent);
-            transform: scale(1.1);
-        }
-
-        .page-title {
-            font-size: 1.5rem;
-            font-weight: 600;
-            color: var(--primary);
-        }
-
-        .header-right {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
-
-        .theme-toggle {
-            background: none;
-            border: none;
-            font-size: 1.2rem;
-            color: var(--primary);
-            cursor: pointer;
-            transition: var(--transition);
-        }
-
-        .theme-toggle:hover {
-            color: var(--accent);
-            transform: scale(1.1);
-        }
-
-        .language-switcher {
-            position: relative;
-        }
-
-        .language-btn {
-            background: none;
-            border: none;
-            color: var(--primary);
-            font-weight: 500;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            padding: 5px 10px;
-            border-radius: 5px;
-            transition: var(--transition);
-        }
-
-        .language-btn:hover {
-            background: rgba(0, 0, 0, 0.05);
-        }
-
-        .language-btn i {
-            margin-left: 5px;
-        }
-
-        .language-dropdown {
-            position: absolute;
-            top: 100%;
-            right: 0;
-            background: var(--card-bg);
-            border-radius: 8px;
-            box-shadow: var(--shadow);
-            padding: 10px 0;
-            min-width: 150px;
-            display: none;
-            z-index: 5;
-        }
-
-        .language-dropdown.show {
-            display: block;
-            animation: fadeInDown 0.3s ease;
-        }
-
-        .language-option {
-            padding: 8px 15px;
-            cursor: pointer;
-            transition: var(--transition);
-            display: flex;
-            align-items: center;
-        }
-
-        .language-option:hover {
-            background: rgba(0, 0, 0, 0.05);
-        }
-
-        .language-flag {
-            width: 20px;
-            height: 15px;
-            margin-right: 10px;
-            border-radius: 2px;
-        }
-
-        .user-profile {
-            display: flex;
-            align-items: center;
-            cursor: pointer;
-            position: relative;
-        }
-
-        .user-avatar {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            object-fit: cover;
-            margin-right: 10px;
-            border: 2px solid var(--secondary);
-        }
-
-        .user-name {
-            font-weight: 500;
-            color: var(--primary);
-        }
-
-        .user-dropdown {
-            position: absolute;
-            top: 100%;
-            right: 0;
-            background: var(--card-bg);
-            border-radius: 8px;
-            box-shadow: var(--shadow);
-            padding: 10px 0;
-            min-width: 200px;
-            display: none;
-            z-index: 5;
-        }
-
-        .user-dropdown.show {
-            display: block;
-            animation: fadeInDown 0.3s ease;
-        }
-
-        .user-dropdown-item {
-            padding: 10px 15px;
-            cursor: pointer;
-            transition: var(--transition);
-            display: flex;
-            align-items: center;
-        }
-
-        .user-dropdown-item:hover {
-            background: rgba(0, 0, 0, 0.05);
-        }
-
-        .user-dropdown-item i {
-            margin-right: 10px;
-            color: var(--text-light);
-            width: 20px;
-            text-align: center;
-        }
-
-        .login-btn {
-            background: var(--primary);
-            color: white;
-            border: none;
-            padding: 8px 20px;
-            border-radius: 5px;
-            font-weight: 500;
-            cursor: pointer;
-            transition: var(--transition);
-            display: flex;
-            align-items: center;
-        }
-
-        .login-btn:hover {
-            background: var(--accent);
-            transform: translateY(-2px);
-        }
-
-        .login-btn i {
-            margin-right: 8px;
-        }
-
-        /* Content Area Styles */
-        .content {
-            flex: 1;
-            padding: 30px;
-            background: var(--bg);
-        }
-
-        .welcome-section {
-            background: linear-gradient(135deg, var(--primary), var(--accent));
-            color: white;
-            padding: 40px;
-            border-radius: 15px;
-            margin-bottom: 30px;
-            position: relative;
-            overflow: hidden;
-            box-shadow: var(--shadow);
-            animation: fadeIn 1s ease;
-        }
-
-        .welcome-section::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0) 70%);
-            animation: rotate 20s linear infinite;
-        }
-
-        .welcome-title {
-            font-size: 2.5rem;
-            font-weight: 700;
-            margin-bottom: 10px;
-            position: relative;
-            font-family: 'Scheherazade New', serif;
-        }
-
-        .welcome-subtitle {
-            font-size: 1.2rem;
-            opacity: 0.9;
-            margin-bottom: 20px;
-            position: relative;
-        }
-
-        .welcome-text {
-            max-width: 600px;
-            line-height: 1.6;
-            position: relative;
-        }
-
-        .cards-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 25px;
-            margin-bottom: 30px;
-        }
-
-        .card {
-            background: var(--card-bg);
-            border-radius: 12px;
-            overflow: hidden;
-            box-shadow: var(--shadow);
-            transition: var(--transition);
-            position: relative;
-        }
-
-        .card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
-        }
-
-        .card-header {
-            height: 120px;
-            background: linear-gradient(135deg, var(--primary), var(--accent));
-            position: relative;
-            overflow: hidden;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .card-header i {
-            font-size: 3rem;
-            color: rgba(255, 255, 255, 0.8);
-            z-index: 1;
-        }
-
-        .card-header::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" preserveAspectRatio="none"><path d="M0,0 L100,0 L100,100 Q50,80 0,100 Z" fill="white"/></svg>');
-            background-size: 100% 100%;
-            bottom: 0;
-            transform: scaleY(-1);
-            opacity: 0.1;
-        }
-
-        .card-body {
-            padding: 20px;
-        }
-
-        .card-title {
-            font-size: 1.2rem;
-            font-weight: 600;
-            margin-bottom: 10px;
-            color: var(--primary);
-        }
-
-        .card-text {
-            color: var(--text-light);
-            font-size: 0.9rem;
-            line-height: 1.5;
-            margin-bottom: 15px;
-        }
-
-        .card-btn {
-            display: inline-block;
-            padding: 8px 15px;
-            background: var(--primary);
-            color: white;
-            border-radius: 5px;
-            text-decoration: none;
-            font-size: 0.9rem;
-            transition: var(--transition);
-        }
-
-        .card-btn:hover {
-            background: var(--accent);
-        }
-
-        /* Announcements Section */
-        .announcements {
-            background: var(--card-bg);
-            border-radius: 15px;
-            padding: 25px;
-            box-shadow: var(--shadow);
-        }
-
-        .section-title {
-            font-size: 1.5rem;
-            font-weight: 600;
-            margin-bottom: 20px;
-            color: var(--primary);
-            display: flex;
-            align-items: center;
-        }
-
-        .section-title i {
-            margin-right: 10px;
-            color: var(--secondary);
-        }
-
-        .announcement-list {
-            list-style: none;
-        }
-
-        .announcement-item {
-            padding: 15px 0;
-            border-bottom: 1px solid #eee;
-            display: flex;
-            align-items: flex-start;
-        }
-
-        .announcement-item:last-child {
-            border-bottom: none;
-        }
-
-        .announcement-icon {
-            font-size: 1.2rem;
-            color: var(--secondary);
-            margin-right: 15px;
-            margin-top: 3px;
-        }
-
-        .announcement-content {
-            flex: 1;
-        }
-
-        .announcement-title {
-            font-weight: 500;
-            margin-bottom: 5px;
-        }
-
-        .announcement-date {
-            font-size: 0.8rem;
-            color: var(--text-light);
-            margin-bottom: 5px;
-        }
-
-        .announcement-text {
-            font-size: 0.9rem;
-            line-height: 1.5;
-            color: var(--text-light);
-        }
-
-        .no-announcements {
-            text-align: center;
-            padding: 20px;
-            color: var(--text-light);
-            font-style: italic;
-        }
-
-        /* Animations */
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-
-        @keyframes fadeInDown {
-            from {
-                opacity: 0;
-                transform: translateY(-10px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        @keyframes rotate {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
-        }
-
-        /* Responsive Styles */
-        @media (max-width: 768px) {
-            .header {
-                padding: 15px;
-                flex-wrap: wrap;
-                gap: 10px;
-            }
-            .header-right {
-                order: 3;
-                width: 100%;
-                justify-content: flex-end;
-                margin-top: 10px;
-            }
-            .content {
-                padding: 20px;
-            }
-            .welcome-section {
-                padding: 25px;
-            }
-            .welcome-title {
-                font-size: 2rem;
-            }
-            .cards-container {
-                grid-template-columns: 1fr;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .welcome-title {
-                font-size: 1.8rem;
-            }
-            .welcome-subtitle {
-                font-size: 1rem;
-            }
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Haramaya Jama'aa Home</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    /* Reset & Global Styling */
+    :root {
+      --primary-color: #2980b9;
+      --secondary-color: #2c3e50;
+      --accent-color: #f39c12;
+      --light-color: #ecf0f1;
+      --dark-color: #2c3e50;
+      --success-color: #27ae60;
+      --danger-color: #e74c3c;
+      --sidebar-width: 250px;
+      --header-height: 60px;
+      --transition-speed: 0.3s;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: #f0f4f8;
+      color: #333;
+      line-height: 1.6;
+      display: flex;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    a {
+      text-decoration: none;
+      color: inherit;
+      transition: color var(--transition-speed);
+    }
+
+    /* HEADER */
+    header {
+      background: linear-gradient(135deg, var(--secondary-color), var(--dark-color));
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 1rem;
+      position: fixed;
+      width: 100%;
+      height: var(--header-height);
+      top: 0;
+      z-index: 1000;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .hamburger {
+      font-size: 1.8rem;
+      cursor: pointer;
+      transition: color var(--transition-speed);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+    }
+
+    .hamburger:hover {
+      color: var(--accent-color);
+      background-color: rgba(255, 255, 255, 0.1);
+    }
+
+    .header-title {
+      font-size: 1.3rem;
+      font-weight: 600;
+      text-align: center;
+      flex: 1;
+    }
+
+    /* ACCOUNT AREA */
+    .account-wrapper {
+      position: relative;
+      cursor: pointer;
+    }
+
+    .account-icon {
+      width: 45px;
+      height: 45px;
+      border-radius: 50%;
+      background-color: var(--light-color);
+      background-image: url('https://via.placeholder.com/45?text=ACC');
+      background-size: cover;
+      background-position: center;
+      border: 2px solid #fff;
+      transition: transform var(--transition-speed);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--dark-color);
+      font-weight: bold;
+      overflow: hidden;
+    }
+
+    .account-icon:hover {
+      transform: scale(1.1);
+    }
+
+    .account-dropdown {
+      position: absolute;
+      top: calc(var(--header-height) + 5px);
+      right: 0;
+      background: #fff;
+      border-radius: 8px;
+      overflow: hidden;
+      display: none;
+      z-index: 1100;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
+      min-width: 200px;
+      animation: fadeIn 0.2s ease-out;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .account-dropdown a,
+    .account-dropdown div {
+      color: var(--dark-color);
+      padding: 0.75rem 1rem;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      border-bottom: 1px solid #eee;
+      transition: all var(--transition-speed);
+    }
+
+    .account-dropdown a:last-child,
+    .account-dropdown div:last-child {
+      border-bottom: none;
+    }
+
+    .account-dropdown a:hover,
+    .account-dropdown div:hover {
+      background: #f8f9fa;
+      padding-left: 1.25rem;
+      color: var(--primary-color);
+    }
+
+    .account-dropdown i {
+      width: 20px;
+      text-align: center;
+      color: var(--primary-color);
+    }
+
+    /* SIDEBAR */
+    .sidebar {
+      background: linear-gradient(135deg, var(--primary-color), #3498db);
+      color: #fff;
+      position: fixed;
+      top: var(--header-height);
+      left: 0;
+      height: calc(100vh - var(--header-height));
+      width: var(--sidebar-width);
+      transform: translateX(-100%);
+      transition: transform var(--transition-speed) ease;
+      overflow-y: auto;
+      z-index: 900;
+      box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .sidebar.open {
+      transform: translateX(0);
+    }
+
+    .sidebar ul {
+      list-style: none;
+    }
+
+    .sidebar li {
+      position: relative;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .sidebar li a {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 1rem;
+      font-weight: 500;
+      transition: all var(--transition-speed);
+    }
+
+    .sidebar li a:hover {
+      background: rgba(255, 255, 255, 0.15);
+      padding-left: 1.5rem;
+    }
+
+    .sidebar li a i {
+      width: 24px;
+      text-align: center;
+      font-size: 1.1rem;
+    }
+
+    /* Dropdown arrow for toggles */
+    .dropdown-toggle::after {
+      content: "\f078";
+      font-family: "Font Awesome 6 Free";
+      font-weight: 900;
+      float: right;
+      margin-left: auto;
+      transition: transform var(--transition-speed);
+      font-size: 0.8rem;
+    }
+
+    .sidebar li.open > a.dropdown-toggle::after {
+      transform: rotate(-180deg);
+    }
+
+    /* Dropdown Content */
+    .dropdown-content {
+      display: none;
+      background: rgba(0, 0, 0, 0.1);
+    }
+
+    .sidebar li.open > .dropdown-content {
+      display: block;
+    }
+
+    .dropdown-content a {
+      padding: 0.75rem 1.5rem;
+      background: rgba(0, 0, 0, 0.05);
+      font-size: 0.95rem;
+    }
+
+    .dropdown-content a:hover {
+      background: rgba(0, 0, 0, 0.1);
+    }
+
+    /* MAIN CONTENT */
+    .content {
+      margin-top: var(--header-height);
+      margin-left: 0;
+      padding: 2rem;
+      width: 100%;
+      transition: margin-left var(--transition-speed) ease;
+      min-height: calc(100vh - var(--header-height));
+    }
+
+    .content.full {
+      margin-left: 0;
+      width: 100%;
+    }
+
+    .content h2 {
+      color: var(--secondary-color);
+      margin-bottom: 1.5rem;
+      font-size: 1.8rem;
+    }
+
+    .content p {
+      line-height: 1.6;
+      margin-bottom: 1.5rem;
+    }
+
+    /* Dashboard Widgets */
+    .dashboard-widgets {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      gap: 1.5rem;
+      margin-bottom: 2rem;
+    }
+
+    .widget {
+      background: #fff;
+      border-radius: 8px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+      padding: 1.5rem;
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+
+    .widget:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 6px 15px rgba(0, 0, 0, 0.12);
+    }
+
+    .widget-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 1rem;
+    }
+
+    .widget-title {
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--dark-color);
+    }
+
+    .widget-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      font-size: 1.2rem;
+      background: linear-gradient(135deg, var(--primary-color), #3498db);
+    }
+
+    .widget-value {
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: var(--dark-color);
+      margin: 0.5rem 0;
+    }
+
+    .widget-description {
+      font-size: 0.9rem;
+      color: #7f8c8d;
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+      .sidebar {
+        width: 200px;
+      }
+      
+      .content {
+        padding: 1.5rem;
+      }
+      
+      .dashboard-widgets {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (min-width: 992px) {
+      .sidebar.open + .content {
+        margin-left: var(--sidebar-width);
+        width: calc(100% - var(--sidebar-width));
+      }
+    }
+  </style>
 </head>
 <body>
-    <div class="container">
-        <!-- Sidebar -->
-        <aside class="sidebar">
-            <div class="logo-container">
-                <img src="haramaya1.png" alt="Haramaya Jama'a Logo" class="logo">
-                <div class="logo-text">Haramaya Jama'a</div>
-            </div>
-            
-            <ul class="menu">
-                <li class="menu-item active">
-                    <a href="dashboard.html" class="menu-link">
-                        <i class="fas fa-home"></i>
-                        <span>Dashboard</span>
-                    </a>
-                </li>
-                <li class="menu-item">
-                    <a href="#" class="menu-link">
-                        <i class="fas fa-calendar-alt"></i>
-                        <span>Events</span>
-                    </a>
-                </li>
-                <li class="menu-item">
-                    <a href="#" class="menu-link">
-                        <i class="fas fa-book"></i>
-                        <span>Islamic Studies</span>
-                    </a>
-                    <ul class="submenu">
-                        <li class="submenu-item">
-                            <a href="learning.html" class="submenu-link">Quran Classes</a>
-                        </li>
-                        <li class="submenu-item">
-                            <a href="searchquran.html" class="submenu-link">search quran</a>
-                        </li>
-                        <li class="submenu-item">
-                            <a href="questions.html" class="submenu-link">quiz of day</a>
-                        </li>
-                    </ul>
-                </li>
-                <li class="menu-item">
-                    <a href="community.html" class="menu-link">
-                        <i class="fas fa-users"></i>
-                        <span>Community</span>
-                    </a>
-                </li>
-                <li class="menu-item">
-                    <a href="faq.html" class="menu-link">
-                        <i class="fas fa-question-circle"></i>
-                        <span>FAQ</span>
-                    </a>
-                </li>
-            </ul>
-            
-            <div class="sidebar-footer">
-                &copy;  Haramaya Jama'a<br>
-                Muslim Students Community
-            </div>
-        </aside>
-        
-        <!-- Main Content -->
-        <main class="main-content">
-            <!-- Header -->
-            <header class="header">
-                <div class="header-left">
-                    <div class="menu-toggle">
-                        <i class="fas fa-bars"></i>
-                    </div>
-                    <h1 class="page-title">Dashboard</h1>
-                </div>
-                
-                <div class="header-right">
-                    <button class="theme-toggle" id="theme-toggle">
-                        <i class="fas fa-moon"></i>
-                    </button>
-                    
-                    <div class="language-switcher">
-                        <button class="language-btn">
-                            <img src="https://flagcdn.com/w20/us.png" alt="English" class="language-flag">
-                            English <i class="fas fa-chevron-down"></i>
-                        </button>
-                        <div class="language-dropdown">
-                            <div class="language-option" data-lang="am">
-                                <img src="https://flagcdn.com/w20/et.png" alt="Amharic" class="language-flag">
-                                <span>Amharic</span>
-                            </div>
-                            <div class="language-option" data-lang="om">
-                                <img src="https://flagcdn.com/w20/om.png" alt="Oromo" class="language-flag">
-                                <span>Oromo</span>
-                            </div>
-                            <div class="language-option" data-lang="ar">
-                                <img src="https://flagcdn.com/w20/ar.png" alt="Arabic" class="language-flag">
-                                <span>Arabic</span>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="user-profile">
-                        <img src="https://via.placeholder.com/40" alt="User" class="user-avatar">
-                        <span class="user-name">Guest</span>
-                        <div class="user-dropdown" id="user-dropdown">
-                            <!-- Dynamic content will be inserted here -->
-                        </div>
-                    </div>
-                </div>
-            </header>
-            
-            <!-- Content Area -->
-            <div class="content">
-                <!-- Welcome Section -->
-                <section class="welcome-section">
-                    <h2 class="welcome-title">Assalamu Alaikum</h2>
-                    <h3 class="welcome-subtitle">Haramaya University Muslim Students Community</h3>
-                    <p class="welcome-text">Welcome to our digital platform where we connect, learn, and grow together in faith and knowledge. Join us in our activities, events, and Islamic studies programs.</p>
-                </section>
-                
-                <!-- Cards Section -->
-                <div class="cards-container">
-                    <div class="card">
-                        <div class="card-header">
-                            <i class="fas fa-calendar-alt"></i>
-                        </div>
-                        <div class="card-body">
-                            <h3 class="card-title">Upcoming Events</h3>
-                            <p class="card-text">Check out our schedule of Islamic lectures, halaqas, and community events happening this month.</p>
-                            <a href="events.html" class="card-btn">View Events</a>
-                        </div>
-                    </div>
-                    
-                    <div class="card">
-                        <div class="card-header">
-                            <i class="fas fa-book-quran"></i>
-                        </div>
-                        <div class="card-body">
-                            <h3 class="card-title">Quran Classes</h3>
-                            <p class="card-text">Join our daily Quran recitation and memorization classes for all levels of students.</p>
-                            <a href="#" class="card-btn">Learn More</a>
-                        </div>
-                    </div>
-                    
-                    <div class="card">
-                        <div class="card-header">
-                            <i class="fas fa-users"></i>
-                        </div>
-                        <div class="card-body">
-                            <h3 class="card-title">Student Community</h3>
-                            <p class="card-text">Connect with fellow Muslim students and participate in our community activities.</p>
-                            <a href="#" class="card-btn">Join Now</a>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- Announcements Section -->
-                <section class="announcements">
-                    <h2 class="section-title">
-                        <i class="fas fa-bullhorn"></i>
-                        Announcements
-                    </h2>
-                    <ul class="announcement-list" id="announcement-list">
-                        <li class="no-announcements">Loading announcements...</li>
-                    </ul>
-                </section>
-            </div>
-        </main>
+  <!-- HEADER -->
+  <header>
+    <div class="hamburger" id="hamburger-btn">
+      <i class="fas fa-bars"></i>
     </div>
+    <div class="header-title">Haramaya Jama'aa Home</div>
+    <div class="account-wrapper" id="account-btn">
+      <div class="account-icon" id="account-img"></div>
+      <div class="account-dropdown" id="account-dropdown">
+        <!-- Options when not logged in -->
+        <div id="not-logged-in">
+          <a href="login.html">
+            <i class="fas fa-sign-in-alt"></i>
+            <span>Log In</span>
+          </a>
+          <a href="explore.html">
+            <i class="fas fa-compass"></i>
+            <span>Explore Courses</span>
+          </a>
+        </div>
+        <!-- Options when logged in -->
+        <div id="logged-in" style="display: none;">
+          <a href="profile.html">
+            <i class="fas fa-user-circle"></i>
+            <span>My Profile</span>
+          </a>
+          <a href="dashboard.html">
+            <i class="fas fa-book-open"></i>
+            <span>Enrollment</span>
+          </a>
+          <a href="progress.html">
+            <i class="fas fa-chart-line"></i>
+            <span>Progression</span>
+          </a>
+          <a href="interact.html">
+            <i class="fas fa-comments"></i>
+            <span>Interact</span>
+          </a>
+          <a href="#" id="logout-btn">
+            <i class="fas fa-sign-out-alt"></i>
+            <span>Logout</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- SIDEBAR -->
+  <nav class="sidebar" id="sidebar">
+    <ul>
+      <li>
+        <a href="dashboard.html">
+          <i class="fas fa-home"></i>
+          <span>Dashboard</span>
+        </a>
+      </li>
+      <li class="has-dropdown">
+        <a href="#" class="dropdown-toggle">
+          <i class="fas fa-mosque"></i>
+          <span>Islam Studies</span>
+        </a>
+        <ul class="dropdown-content">
+          <li><a href="quran.html">
+            <i class="fas fa-quran"></i>
+            <span>Quran Classes</span>
+          </a></li>
+          <li><a href="searchquran.html">
+            <i class="fas fa-search"></i>
+            <span>Explore Quran</span>
+          </a></li>
+          <li><a href="quiz.html">
+            <i class="fas fa-question-circle"></i>
+            <span>Questions</span>
+          </a></li>
+        </ul>
+      </li>
+      <li class="has-dropdown">
+        <a href="#" class="dropdown-toggle">
+          <i class="fas fa-cog"></i>
+          <span>Settings</span>
+        </a>
+        <ul class="dropdown-content">
+          <!-- Account submenu -->
+          <li class="has-dropdown">
+            <a href="#" class="dropdown-toggle">
+              <i class="fas fa-user-cog"></i>
+              <span>Account</span>
+            </a>
+            <ul class="dropdown-content">
+              <li><a href="#" id="settings-logout-btn">
+                <i class="fas fa-sign-out-alt"></i>
+                <span>Logout</span>
+              </a></li>
+            </ul>
+          </li>
+          <!-- Language submenu -->
+          <li class="has-dropdown">
+            <a href="#" class="dropdown-toggle">
+              <i class="fas fa-language"></i>
+              <span>Language</span>
+            </a>
+            <ul class="dropdown-content">
+              <li><a href="#" class="language-option" data-lang="oromoo">
+                <i class="fas fa-globe-africa"></i>
+                <span>Afaan Oromo</span>
+              </a></li>
+              <li><a href="#" class="language-option" data-lang="amharic">
+                <i class="fas fa-globe-africa"></i>
+                <span>Amharic</span>
+              </a></li>
+              <li><a href="#" class="language-option" data-lang="english">
+                <i class="fas fa-globe-americas"></i>
+                <span>English</span>
+              </a></li>
+            </ul>
+          </li>
+          <!-- Theme submenu -->
+          <li class="has-dropdown">
+            <a href="#" class="dropdown-toggle">
+              <i class="fas fa-palette"></i>
+              <span>Theme</span>
+            </a>
+            <ul class="dropdown-content">
+              <li><a href="#" class="theme-option" data-theme="light">
+                <i class="fas fa-sun"></i>
+                <span>Light</span>
+              </a></li>
+              <li><a href="#" class="theme-option" data-theme="dark">
+                <i class="fas fa-moon"></i>
+                <span>Dark</span>
+              </a></li>
+              <li><a href="#" class="theme-option" data-theme="system">
+                <i class="fas fa-desktop"></i>
+                <span>System</span>
+              </a></li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </nav>
+
+  <!-- MAIN CONTENT -->
+  <div class="content" id="content">
+    <h2>Welcome to Haramaya Jama'aa Group</h2>
+    <p>This is the home page for Haramaya University Jama'aa students. Use the sidebar to navigate through your courses, profile, settings and more. Enjoy the colorful experience!</p>
     
-    <script type="module">
-        // Import the functions you need from the SDKs you need
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-app.js";
-        import { getAnalytics } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-analytics.js";
-        import { 
-            getAuth, 
-            onAuthStateChanged,
-            signOut
-        } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-auth.js";
-        import { 
-            getFirestore, 
-            collection, 
-            getDocs,
-            query,
-            orderBy,
-            limit
-        } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-firestore.js";
+    <!-- Added Dashboard Widgets -->
+    <div class="dashboard-widgets">
+      <div class="widget">
+        <div class="widget-header">
+          <h3 class="widget-title">Active Courses</h3>
+          <div class="widget-icon">
+            <i class="fas fa-book-open"></i>
+          </div>
+        </div>
+        <div class="widget-value" id="active-courses">3</div>
+        <p class="widget-description">Courses you're currently enrolled in</p>
+      </div>
 
-        // Your web app's Firebase configuration
-        const firebaseConfig = {
-            apiKey: "AIzaSyBQyNVWh1BtCkXlBfuS7jHAa36FTklZayo",
-            authDomain: "pharma-quiz-b5a07.firebaseapp.com",
-            projectId: "pharma-quiz-b5a07",
-            storageBucket: "pharma-quiz-b5a07.appspot.com",
-            messagingSenderId: "161067776789",
-            appId: "1:161067776789:web:88b8a61145dc5f5c31471c",
-            measurementId: "G-3QRQE9HQFB"
-        };
+      <div class="widget">
+        <div class="widget-header">
+          <h3 class="widget-title">Completed Lessons</h3>
+          <div class="widget-icon">
+            <i class="fas fa-check-circle"></i>
+          </div>
+        </div>
+        <div class="widget-value" id="completed-lessons">12</div>
+        <p class="widget-description">Lessons you've completed</p>
+      </div>
 
-        // Initialize Firebase
-        const app = initializeApp(firebaseConfig);
-        const analytics = getAnalytics(app);
-        const auth = getAuth(app);
-        const db = getFirestore(app);
+      <div class="widget">
+        <div class="widget-header">
+          <h3 class="widget-title">Study Streak</h3>
+          <div class="widget-icon">
+            <i class="fas fa-fire"></i>
+          </div>
+        </div>
+        <div class="widget-value" id="streak-days">5</div>
+        <p class="widget-description">Consecutive days of learning</p>
+      </div>
+    </div>
+  </div>
 
-        // DOM Elements
-        const menuToggle = document.querySelector('.menu-toggle');
-        const sidebar = document.querySelector('.sidebar');
-        const themeToggle = document.getElementById('theme-toggle');
-        const languageBtn = document.querySelector('.language-btn');
-        const languageDropdown = document.querySelector('.language-dropdown');
-        const languageOptions = document.querySelectorAll('.language-option');
-        const userProfile = document.querySelector('.user-profile');
-        const userDropdown = document.getElementById('user-dropdown');
-        const userName = document.querySelector('.user-name');
-        const userAvatar = document.querySelector('.user-avatar');
-        const announcementList = document.getElementById('announcement-list');
+  <!-- FIREBASE & APP SCRIPT -->
+  <script type="module">
+    // Firebase modules.
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-app.js";
+    import { getAnalytics } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-analytics.js";
+    import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-auth.js";
 
-        // Sidebar Toggle - Fixed to properly show/hide
-        let sidebarVisible = false;
+    // Firebase config – replace with your Firebase project configuration.
+    const firebaseConfig = {
+      apiKey: "AIzaSyBQyNVWh1BtCkXlBfuS7jHAa36FTklZayo",
+      authDomain: "pharma-quiz-b5a07.firebaseapp.com",
+      databaseURL: "https://pharma-quiz-b5a07-default-rtdb.firebaseio.com",
+      projectId: "pharma-quiz-b5a07",
+      storageBucket: "pharma-quiz-b5a07.firebasestorage.app",
+      messagingSenderId: "161067776789",
+      appId: "1:161067776789:web:88b8a61145dc5f5c31471c",
+      measurementId: "G-3QRQE9HQFB"
+    };
 
-        menuToggle.addEventListener('click', () => {
-            sidebarVisible = !sidebarVisible;
-            sidebar.classList.toggle('show', sidebarVisible);
-            
-            // Change icon based on sidebar state
-            const icon = menuToggle.querySelector('i');
-            if (sidebarVisible) {
-                icon.classList.remove('fa-bars');
-                icon.classList.add('fa-times');
-            } else {
-                icon.classList.remove('fa-times');
-                icon.classList.add('fa-bars');
-            }
-        });
+    const app = initializeApp(firebaseConfig);
+    const analytics = getAnalytics(app);
+    const auth = getAuth();
 
-        // Theme Toggle
-        themeToggle.addEventListener('click', () => {
-            document.body.setAttribute('data-theme', 
-                document.body.getAttribute('data-theme') === 'dark' ? 'light' : 'dark');
-            
-            // Update icon
-            const icon = themeToggle.querySelector('i');
-            if (document.body.getAttribute('data-theme') === 'dark') {
-                icon.classList.remove('fa-moon');
-                icon.classList.add('fa-sun');
-            } else {
-                icon.classList.remove('fa-sun');
-                icon.classList.add('fa-moon');
-            }
-            
-            // Save preference to localStorage
-            localStorage.setItem('theme', document.body.getAttribute('data-theme'));
-        });
+    /* SIDEBAR TOGGLE */
+    const hamburgerBtn = document.getElementById("hamburger-btn");
+    const sidebar = document.getElementById("sidebar");
+    const content = document.getElementById("content");
 
-        // Check for saved theme preference
-        if (localStorage.getItem('theme') === 'dark') {
-            document.body.setAttribute('data-theme', 'dark');
-            const icon = themeToggle.querySelector('i');
-            icon.classList.remove('fa-moon');
-            icon.classList.add('fa-sun');
-        }
+    hamburgerBtn.addEventListener("click", () => {
+      sidebar.classList.toggle("open");
+      if (sidebar.classList.contains("open")) {
+        content.classList.remove("full");
+      } else {
+        content.classList.add("full");
+      }
+    });
 
-        // Language Switching
-        languageBtn.addEventListener('click', (e) => {
-            e.stopPropagation();
-            languageDropdown.classList.toggle('show');
-        });
+    /* ACCOUNT DROPDOWN */
+    const accountBtn = document.getElementById("account-btn");
+    const accountDropdown = document.getElementById("account-dropdown");
+    const notLoggedInDiv = document.getElementById("not-logged-in");
+    const loggedInDiv = document.getElementById("logged-in");
+    const logoutBtn = document.getElementById("logout-btn");
+    const settingsLogoutBtn = document.getElementById("settings-logout-btn");
 
-        languageOptions.forEach(option => {
-            option.addEventListener('click', () => {
-                const lang = option.getAttribute('data-lang');
-                const flag = option.querySelector('.language-flag').src;
-                const text = option.querySelector('span').textContent;
-                
-                // Update language button
-                languageBtn.innerHTML = `
-                    <img src="${flag}" alt="${text}" class="language-flag">
-                    ${text} <i class="fas fa-chevron-down"></i>
-                `;
-                
-                languageDropdown.classList.remove('show');
-                
-                // Here you would implement actual language switching
-                console.log(`Language changed to ${lang}`);
-            });
-        });
+    accountBtn.addEventListener("click", (e) => {
+      e.stopPropagation();
+      accountDropdown.style.display = (accountDropdown.style.display === "block") ? "none" : "block";
+    });
+    
+    document.addEventListener("click", (e) => {
+      if (!accountBtn.contains(e.target)) {
+        accountDropdown.style.display = "none";
+      }
+    });
+    
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        loggedInDiv.style.display = "block";
+        notLoggedInDiv.style.display = "none";
+      } else {
+        loggedInDiv.style.display = "none";
+        notLoggedInDiv.style.display = "block";
+      }
+    });
+    
+    async function handleLogout() {
+      if (confirm("Are you sure you want to logout?")) {
+        await signOut(auth);
+        window.location.href = "login.html";
+      }
+    }
+    
+    logoutBtn.addEventListener("click", handleLogout);
+    settingsLogoutBtn.addEventListener("click", handleLogout);
 
-        // Close dropdowns when clicking outside
-        document.addEventListener('click', () => {
-            languageDropdown.classList.remove('show');
-            userDropdown.classList.remove('show');
-        });
+    /* SIDEBAR DROPDOWN TOGGLERS */
+    const dropdownToggles = document.querySelectorAll(".dropdown-toggle");
+    dropdownToggles.forEach(toggle => {
+      toggle.addEventListener("click", (e) => {
+        e.preventDefault();
+        const parentLi = toggle.parentElement;
+        parentLi.classList.toggle("open");
+      });
+    });
 
-        // User Dropdown
-        userProfile.addEventListener('click', (e) => {
-            e.stopPropagation();
-            userDropdown.classList.toggle('show');
-        });
-
-        // Update User Dropdown Content based on auth state
-        const updateUserDropdown = (user) => {
-            if (user) {
-                // User is logged in - show logout option
-                userDropdown.innerHTML = `
-                    <div class="user-dropdown-item" id="logout-btn">
-                        <i class="fas fa-sign-out-alt"></i>
-                        <span>Logout</span>
-                    </div>
-                `;
-                
-                // Add logout event listener
-                document.getElementById('logout-btn').addEventListener('click', () => {
-                    signOut(auth).then(() => {
-                        console.log('User signed out');
-                    }).catch((error) => {
-                        console.error('Error signing out:', error);
-                    });
-                });
-            } else {
-                // User is not logged in - show login/register options
-                userDropdown.innerHTML = `
-                    <div class="user-dropdown-item" id="login-btn">
-                        <i class="fas fa-sign-in-alt"></i>
-                        <span>Login</span>
-                    </div>
-                    <div class="user-dropdown-item" id="register-btn">
-                        <i class="fas fa-user-plus"></i>
-                        <span>Register</span>
-                    </div>
-                `;
-                
-                // Add event listeners for login and register
-                document.getElementById('login-btn').addEventListener('click', () => {
-                    window.location.href = 'login.html';
-                });
-                
-                document.getElementById('register-btn').addEventListener('click', () => {
-                    window.location.href = 'register.html';
-                });
-            }
-        };
-
-        // Check Auth State
-        onAuthStateChanged(auth, (user) => {
-            if (user) {
-                // User is signed in
-                userName.textContent = user.displayName || user.email.split('@')[0];
-                userAvatar.src = user.photoURL || 'https://via.placeholder.com/40';
-            } else {
-                // User is signed out
-                userName.textContent = 'Guest';
-                userAvatar.src = 'https://via.placeholder.com/40';
-            }
-            updateUserDropdown(user);
-        });
-
-        // Fetch Announcements from Firestore
-        const fetchAnnouncements = async () => {
-            try {
-                const q = query(collection(db, "announcements"), 
-                              orderBy("date", "desc"), 
-                              limit(5));
-                const querySnapshot = await getDocs(q);
-                
-                announcementList.innerHTML = '';
-                
-                if (querySnapshot.empty) {
-                    announcementList.innerHTML = '<li class="no-announcements">No announcements found</li>';
-                    return;
-                }
-                
-                querySnapshot.forEach((doc) => {
-                    const data = doc.data();
-                    // Make sure date exists and is a Firestore timestamp
-                    const date = data.date?.toDate() || new Date();
-                    const formattedDate = date.toLocaleDateString('en-US', {
-                        year: 'numeric',
-                        month: 'long',
-                        day: 'numeric'
-                    });
-                    
-                    const announcementItem = document.createElement('li');
-                    announcementItem.className = 'announcement-item';
-                    announcementItem.innerHTML = `
-                        <div class="announcement-icon">
-                            <i class="fas fa-bullhorn"></i>
-                        </div>
-                        <div class="announcement-content">
-                            <h3 class="announcement-title">${data.title || 'No title'}</h3>
-                            <div class="announcement-date">${formattedDate}</div>
-                            <p class="announcement-text">${data.content || 'No content available'}</p>
-                        </div>
-                    `;
-                    
-                    announcementList.appendChild(announcementItem);
-                });
-            } catch (error) {
-                console.error("Error fetching announcements: ", error);
-                announcementList.innerHTML = '<li class="no-announcements">Failed to load announcements</li>';
-            }
-        };
-
-        // Initialize the page
-        document.addEventListener('DOMContentLoaded', () => {
-            fetchAnnouncements();
-            
-            // Submenu Toggle
-            const menuItemsWithSubmenu = document.querySelectorAll('.menu-item');
-            menuItemsWithSubmenu.forEach(item => {
-                if (item.querySelector('.submenu')) {
-                    item.addEventListener('click', (e) => {
-                        if (!e.target.classList.contains('submenu-link')) {
-                            e.preventDefault();
-                            const submenu = item.querySelector('.submenu');
-                            submenu.classList.toggle('show');
-                        }
-                    });
-                }
-            });
-        });
-    </script>
+    /* Language and Theme Options */
+    const languageOptions = document.querySelectorAll(".language-option");
+    languageOptions.forEach(option => {
+      option.addEventListener("click", () => {
+        alert("Language selected: " + option.getAttribute("data-lang"));
+      });
+    });
+    
+    const themeOptions = document.querySelectorAll(".theme-option");
+    themeOptions.forEach(option => {
+      option.addEventListener("click", () => {
+        alert("Theme selected: " + option.getAttribute("data-theme"));
+      });
+    });
+  </script>
 </body>
 </html>
