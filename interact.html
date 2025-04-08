@@ -252,32 +252,6 @@
             flex-shrink: 0;
         }
 
-        .group-actions {
-            position: absolute;
-            right: 10px;
-            top: 50%;
-            transform: translateY(-50%);
-            display: none;
-        }
-
-        .chat-item:hover .group-actions {
-            display: flex;
-            gap: 5px;
-        }
-
-        .group-action {
-            background: none;
-            border: none;
-            color: var(--text-light);
-            cursor: pointer;
-            font-size: 0.8rem;
-            transition: var(--transition);
-        }
-
-        .group-action:hover {
-            color: var(--primary);
-        }
-
         /* Main Chat Area */
         .chat-area {
             flex: 1;
@@ -293,7 +267,9 @@
             display: flex;
             align-items: center;
             background: var(--card-bg);
-            position: relative;
+            position: sticky;
+            top: 0;
+            z-index: 5;
         }
 
         .back-button {
@@ -336,12 +312,10 @@
         .message.sent {
             margin-left: auto;
             flex-direction: row-reverse;
-            align-self: flex-end;
         }
 
         .message.received {
             margin-right: auto;
-            align-self: flex-start;
         }
 
         .message-avatar {
@@ -357,7 +331,6 @@
             font-size: 0.8rem;
             flex-shrink: 0;
             margin-top: auto;
-            cursor: pointer;
         }
 
         .message.sent .message-avatar {
@@ -453,33 +426,6 @@
             color: var(--primary);
         }
 
-        .reactions-container {
-            display: flex;
-            gap: 5px;
-            margin-top: 5px;
-            flex-wrap: wrap;
-        }
-
-        .reaction {
-            background: var(--card-bg);
-            border-radius: 10px;
-            padding: 2px 6px;
-            font-size: 0.7rem;
-            display: flex;
-            align-items: center;
-            gap: 3px;
-            cursor: pointer;
-        }
-
-        .reaction:hover {
-            background: var(--border);
-        }
-
-        .reaction.active {
-            background: var(--primary-light);
-            color: white;
-        }
-
         .chat-input-container {
             padding: 15px;
             border-top: 1px solid var(--border);
@@ -567,25 +513,6 @@
 
         .attachment-button:hover {
             color: var(--primary);
-        }
-
-        .formatting-toolbar {
-            display: flex;
-            gap: 5px;
-            margin-bottom: 10px;
-        }
-
-        .format-button {
-            background: var(--bg);
-            border: 1px solid var(--border);
-            border-radius: 4px;
-            padding: 5px 10px;
-            cursor: pointer;
-            font-size: 0.8rem;
-        }
-
-        .format-button:hover {
-            background: var(--card-bg);
         }
 
         /* Chat Types */
@@ -745,64 +672,6 @@
             color: var(--success);
         }
 
-        /* Reaction Picker */
-        .reaction-picker {
-            position: absolute;
-            bottom: 60px;
-            right: 10px;
-            background: var(--card-bg);
-            border-radius: var(--radius);
-            padding: 10px;
-            display: flex;
-            gap: 5px;
-            box-shadow: var(--shadow);
-            z-index: 10;
-            display: none;
-        }
-
-        .reaction-picker.active {
-            display: flex;
-        }
-
-        .reaction-emoji {
-            font-size: 1.2rem;
-            cursor: pointer;
-            padding: 5px;
-            border-radius: 50%;
-        }
-
-        .reaction-emoji:hover {
-            background: var(--border);
-            transform: scale(1.2);
-        }
-
-        /* Message Context Menu */
-        .context-menu {
-            position: absolute;
-            background: var(--card-bg);
-            border-radius: var(--radius);
-            box-shadow: var(--shadow);
-            z-index: 100;
-            min-width: 150px;
-            display: none;
-        }
-
-        .context-menu.active {
-            display: block;
-        }
-
-        .context-menu-item {
-            padding: 8px 15px;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .context-menu-item:hover {
-            background: var(--border);
-        }
-
         /* Responsive Styles */
         @media (max-width: 768px) {
             .sidebar {
@@ -831,10 +700,6 @@
 
             .back-button {
                 display: block;
-            }
-
-            .chat-input-container {
-                padding-bottom: calc(15px + env(safe-area-inset-bottom));
             }
         }
 
@@ -944,57 +809,213 @@
         }
 
         .quran-course {
-            background-color: #3a0ca3;
-            color: white;
-        }
-
-        .qiraat-course {
             background-color: #4cc9f0;
             color: white;
         }
 
-        .hifz-course {
+        .qirat-course {
             background-color: #f72585;
             color: white;
         }
 
-        .female-course {
+        .hifz-course {
             background-color: #f8961e;
             color: white;
         }
 
-        /* Text Formatting */
-        .bold {
-            font-weight: bold;
+        .female-course {
+            background-color: #7209b7;
+            color: white;
         }
 
-        .italic {
-            font-style: italic;
-        }
-
-        .underline {
-            text-decoration: underline;
-        }
-
-        .strikethrough {
-            text-decoration: line-through;
-        }
-
-        .code {
-            font-family: monospace;
+        /* Message Menu */
+        .message-menu {
+            position: absolute;
+            right: 0;
+            top: 0;
             background: var(--card-bg);
-            padding: 2px 4px;
-            border-radius: 4px;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            z-index: 10;
+            display: none;
+            flex-direction: column;
+            min-width: 150px;
+            overflow: hidden;
         }
 
-        .link {
-            color: var(--primary);
-            text-decoration: underline;
+        .message-menu.active {
+            display: flex;
+        }
+
+        .message-menu-item {
+            padding: 8px 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
             cursor: pointer;
+            transition: var(--transition);
         }
 
-        .link:hover {
-            color: var(--primary-light);
+        .message-menu-item:hover {
+            background: rgba(67, 97, 238, 0.1);
+        }
+
+        .message-menu-item i {
+            width: 20px;
+            text-align: center;
+        }
+
+        /* Spoiler Content */
+        .spoiler {
+            background: var(--dark);
+            color: transparent;
+            cursor: pointer;
+            transition: var(--transition);
+            border-radius: 4px;
+            padding: 0 2px;
+        }
+
+        .spoiler.revealed {
+            background: transparent;
+            color: inherit;
+        }
+
+        /* Poll Styles */
+        .poll-container {
+            margin-top: 10px;
+            border-radius: var(--radius);
+            overflow: hidden;
+        }
+
+        .poll-question {
+            font-weight: 500;
+            margin-bottom: 10px;
+        }
+
+        .poll-option {
+            padding: 8px 12px;
+            margin-bottom: 8px;
+            background: var(--card-bg);
+            border-radius: var(--radius);
+            cursor: pointer;
+            transition: var(--transition);
+            position: relative;
+        }
+
+        .poll-option:hover {
+            background: rgba(67, 97, 238, 0.1);
+        }
+
+        .poll-option.selected {
+            background: rgba(67, 97, 238, 0.2);
+        }
+
+        .poll-percentage {
+            position: absolute;
+            right: 12px;
+            top: 8px;
+            font-size: 0.8rem;
+            color: var(--text-light);
+        }
+
+        .poll-bar {
+            height: 4px;
+            background: rgba(67, 97, 238, 0.2);
+            border-radius: 2px;
+            margin-top: 5px;
+            overflow: hidden;
+        }
+
+        .poll-progress {
+            height: 100%;
+            background: var(--primary);
+            border-radius: 2px;
+            transition: width 0.3s ease;
+        }
+
+        .poll-total {
+            font-size: 0.8rem;
+            color: var(--text-light);
+            margin-top: 5px;
+            text-align: right;
+        }
+
+        /* Formatting Toolbar */
+        .format-toolbar {
+            display: flex;
+            gap: 5px;
+            margin-bottom: 10px;
+            flex-wrap: wrap;
+        }
+
+        .format-button {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            padding: 5px 10px;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .format-button:hover {
+            background: var(--bg);
+        }
+
+        /* Reactions */
+        .reactions-container {
+            display: flex;
+            gap: 5px;
+            margin-top: 5px;
+            flex-wrap: wrap;
+        }
+
+        .reaction {
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 2px 6px;
+            font-size: 0.8rem;
+            display: flex;
+            align-items: center;
+            gap: 3px;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .reaction:hover {
+            background: var(--bg);
+        }
+
+        .reaction-count {
+            font-size: 0.7rem;
+        }
+
+        .reaction-picker {
+            position: absolute;
+            bottom: 100%;
+            right: 0;
+            background: var(--card-bg);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            padding: 5px;
+            display: none;
+            flex-wrap: wrap;
+            width: 200px;
+            z-index: 10;
+        }
+
+        .reaction-picker.active {
+            display: flex;
+        }
+
+        .reaction-emoji {
+            font-size: 1.2rem;
+            padding: 5px;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .reaction-emoji:hover {
+            transform: scale(1.2);
         }
     </style>
 </head>
@@ -1058,19 +1079,19 @@
                     <!-- Messages will be loaded here -->
                 </div>
                 <div class="chat-input-container">
+                    <div class="format-toolbar" id="format-toolbar">
+                        <button class="format-button" data-format="bold" title="Bold"><i class="fas fa-bold"></i></button>
+                        <button class="format-button" data-format="italic" title="Italic"><i class="fas fa-italic"></i></button>
+                        <button class="format-button" data-format="underline" title="Underline"><i class="fas fa-underline"></i></button>
+                        <button class="format-button" data-format="spoiler" title="Spoiler"><i class="fas fa-eye-slash"></i></button>
+                        <button class="format-button" data-format="link" title="Link"><i class="fas fa-link"></i></button>
+                        <button class="format-button" id="create-poll-btn" title="Create Poll"><i class="fas fa-poll"></i></button>
+                    </div>
                     <div id="reply-preview" class="reply-preview" style="display: none;">
                         <div class="reply-preview-content" id="reply-preview-content"></div>
                         <button class="cancel-reply" id="cancel-reply">
                             <i class="fas fa-times"></i>
                         </button>
-                    </div>
-                    <div class="formatting-toolbar" id="formatting-toolbar">
-                        <button class="format-button" data-format="bold" title="Bold"><i class="fas fa-bold"></i></button>
-                        <button class="format-button" data-format="italic" title="Italic"><i class="fas fa-italic"></i></button>
-                        <button class="format-button" data-format="underline" title="Underline"><i class="fas fa-underline"></i></button>
-                        <button class="format-button" data-format="strikethrough" title="Strikethrough"><i class="fas fa-strikethrough"></i></button>
-                        <button class="format-button" data-format="code" title="Code"><i class="fas fa-code"></i></button>
-                        <button class="format-button" data-format="link" title="Link"><i class="fas fa-link"></i></button>
                     </div>
                     <div class="chat-input-wrapper">
                         <button class="attachment-button">
@@ -1142,29 +1163,61 @@
         </div>
     </div>
 
-    <!-- Reaction Picker -->
-    <div class="reaction-picker" id="reaction-picker">
-        <span class="reaction-emoji">👍</span>
-        <span class="reaction-emoji">❤️</span>
-        <span class="reaction-emoji">😂</span>
-        <span class="reaction-emoji">😮</span>
-        <span class="reaction-emoji">😢</span>
-        <span class="reaction-emoji">🙏</span>
+    <!-- Poll Creation Modal -->
+    <div class="modal" id="poll-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">Create Poll</h3>
+                <button class="modal-close" id="close-poll-modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="poll-question">Question</label>
+                    <input type="text" id="poll-question" class="form-control" placeholder="Enter your question">
+                </div>
+                <div class="form-group">
+                    <label>Options</label>
+                    <div id="poll-options">
+                        <div class="poll-option-input">
+                            <input type="text" class="form-control poll-option" placeholder="Option 1">
+                        </div>
+                        <div class="poll-option-input">
+                            <input type="text" class="form-control poll-option" placeholder="Option 2">
+                        </div>
+                    </div>
+                    <button class="btn btn-outline" id="add-poll-option" style="margin-top: 10px;">
+                        <i class="fas fa-plus"></i> Add Option
+                    </button>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-outline" id="cancel-poll">Cancel</button>
+                <button class="btn btn-primary" id="create-poll">Create Poll</button>
+            </div>
+        </div>
     </div>
 
-    <!-- Context Menu -->
-    <div class="context-menu" id="context-menu">
-        <div class="context-menu-item" data-action="reply">
-            <i class="fas fa-reply"></i> Reply
-        </div>
-        <div class="context-menu-item" data-action="react">
-            <i class="fas fa-smile"></i> React
-        </div>
-        <div class="context-menu-item" data-action="edit" id="context-menu-edit">
-            <i class="fas fa-edit"></i> Edit
-        </div>
-        <div class="context-menu-item" data-action="delete" id="context-menu-delete">
-            <i class="fas fa-trash"></i> Delete
+    <!-- Link Creation Modal -->
+    <div class="modal" id="link-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">Insert Link</h3>
+                <button class="modal-close" id="close-link-modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="link-text">Text to display</label>
+                    <input type="text" id="link-text" class="form-control" placeholder="Link text">
+                </div>
+                <div class="form-group">
+                    <label for="link-url">URL</label>
+                    <input type="url" id="link-url" class="form-control" placeholder="https://example.com">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-outline" id="cancel-link">Cancel</button>
+                <button class="btn btn-primary" id="insert-link">Insert Link</button>
+            </div>
         </div>
     </div>
 
@@ -1200,16 +1253,15 @@
             avatar: 'G',
             enrolledCourses: [],
             gender: '',
-            isHifzStudent: false,
-            isQiraatStudent: false
+            isAdmin: false
         };
 
         // Current chat data
         let currentChat = null;
         let selectedMessage = null;
         let replyingToMessage = null;
-        let reactingToMessage = null;
-        let contextMenuPosition = { x: 0, y: 0 };
+        let selectedText = '';
+        let selectedTextRange = null;
 
         // DOM elements
         const themeToggle = document.getElementById('theme-toggle');
@@ -1249,11 +1301,21 @@
         const replyPreview = document.getElementById('reply-preview');
         const replyPreviewContent = document.getElementById('reply-preview-content');
         const cancelReply = document.getElementById('cancel-reply');
-        const reactionPicker = document.getElementById('reaction-picker');
-        const contextMenu = document.getElementById('context-menu');
-        const contextMenuEdit = document.getElementById('context-menu-edit');
-        const contextMenuDelete = document.getElementById('context-menu-delete');
-        const formattingToolbar = document.getElementById('formatting-toolbar');
+        const formatToolbar = document.getElementById('format-toolbar');
+        const createPollBtn = document.getElementById('create-poll-btn');
+        const pollModal = document.getElementById('poll-modal');
+        const closePollModal = document.getElementById('close-poll-modal');
+        const pollQuestion = document.getElementById('poll-question');
+        const pollOptions = document.getElementById('poll-options');
+        const addPollOption = document.getElementById('add-poll-option');
+        const cancelPoll = document.getElementById('cancel-poll');
+        const createPoll = document.getElementById('create-poll');
+        const linkModal = document.getElementById('link-modal');
+        const closeLinkModal = document.getElementById('close-link-modal');
+        const linkText = document.getElementById('link-text');
+        const linkUrl = document.getElementById('link-url');
+        const cancelLink = document.getElementById('cancel-link');
+        const insertLink = document.getElementById('insert-link');
 
         // Initialize the app
         function init() {
@@ -1299,33 +1361,34 @@
                         ...userData,
                         enrolledCourses: userData.enrolledCourses || [],
                         gender: userData.gender || '',
-                        isHifzStudent: userData.isHifzStudent || false,
-                        isQiraatStudent: userData.isQiraatStudent || false
+                        isAdmin: userData.isAdmin || false
                     };
                     
                     // Update UI
                     updateUI();
                     
+                    // Initialize system groups (Connect group is mandatory)
+                    await initializeSystemGroups();
+                    
                     // Load user's chats
                     loadUserChats();
-                    
-                    // Initialize course groups
-                    initializeCourseGroups();
                 } else {
                     // Create new user document if it doesn't exist
                     await set(userRef, {
                         name: currentUser.name,
                         email: currentUser.email,
                         avatar: currentUser.avatar,
-                        enrolledCourses: ['connect'], // Default group everyone joins
+                        enrolledCourses: ['connect'], // Everyone joins Connect group
                         gender: '',
-                        isHifzStudent: false,
-                        isQiraatStudent: false,
+                        isAdmin: false,
                         createdAt: new Date().toISOString()
                     });
                     
-                    // Update current user with default groups
+                    // Update current user with enrolled courses
                     currentUser.enrolledCourses = ['connect'];
+                    
+                    // Initialize system groups
+                    await initializeSystemGroups();
                 }
             } catch (error) {
                 console.error("Error loading user data:", error);
@@ -1333,16 +1396,16 @@
             }
         }
 
-        // Initialize course groups in database
-        async function initializeCourseGroups() {
+        // Initialize system groups
+        async function initializeSystemGroups() {
             try {
-                // Course data for HU Jama'aa
-                const groups = [
-                    { id: 'connect', name: 'Connect', type: 'group', mandatory: true, description: 'General group for all users' },
-                    { id: 'quran', name: 'Quran', type: 'group', mandatory: false, description: 'Group for Quran discussions' },
-                    { id: 'qiraat', name: 'Qir\'aat', type: 'group', mandatory: false, description: 'Group for Qir\'aat students' },
-                    { id: 'hifz', name: 'Hifz', type: 'group', mandatory: false, description: 'Group for Hifz students' },
-                    { id: 'female', name: 'Female', type: 'group', mandatory: false, description: 'Group for female students', genderRestricted: true }
+                // System groups data
+                const systemGroups = [
+                    { id: 'connect', title: 'Connect', type: 'system', mandatory: true, description: 'General discussion for all users' },
+                    { id: 'quran', title: 'Quran', type: 'system', mandatory: false, description: 'Discussion about Quran' },
+                    { id: 'qirat', title: 'Qir\'aat', type: 'system', mandatory: false, description: 'For Qir\'aat students' },
+                    { id: 'hifz', title: 'Hifz', type: 'system', mandatory: false, description: 'For Hifz students only' },
+                    { id: 'female', title: 'Female Group', type: 'system', mandatory: false, description: 'For female students only', genderRestriction: 'female' }
                 ];
 
                 // Check if groups already exist
@@ -1353,7 +1416,7 @@
                     // Create groups in database
                     const groupsToCreate = {};
                     
-                    groups.forEach(group => {
+                    systemGroups.forEach(group => {
                         groupsToCreate[group.id] = {
                             ...group,
                             createdAt: new Date().toISOString(),
@@ -1365,10 +1428,10 @@
                     await set(groupsRef, groupsToCreate);
                 }
                 
-                // Add user to their appropriate groups
+                // Add user to appropriate groups
                 await addUserToGroups();
             } catch (error) {
-                console.error("Error initializing course groups:", error);
+                console.error("Error initializing system groups:", error);
             }
         }
 
@@ -1376,38 +1439,38 @@
         async function addUserToGroups() {
             try {
                 const updates = {};
-                const groupsToJoin = ['connect']; // Everyone joins connect
+                const userGroups = ['connect']; // Everyone joins Connect group
                 
-                // Add optional groups based on user preferences
+                // Check if user should be in Quran group
                 if (currentUser.enrolledCourses.includes('quran')) {
-                    groupsToJoin.push('quran');
+                    userGroups.push('quran');
                 }
                 
-                if (currentUser.isQiraatStudent) {
-                    groupsToJoin.push('qiraat');
+                // Check if user should be in Qir'aat group
+                if (currentUser.enrolledCourses.includes('qirat')) {
+                    userGroups.push('qirat');
                 }
                 
-                if (currentUser.isHifzStudent) {
-                    groupsToJoin.push('hifz');
+                // Check if user should be in Hifz group
+                if (currentUser.enrolledCourses.includes('hifz')) {
+                    userGroups.push('hifz');
                 }
                 
+                // Check if user should be in Female group
                 if (currentUser.gender === 'female') {
-                    groupsToJoin.push('female');
+                    userGroups.push('female');
                 }
                 
                 // Add user to groups
-                groupsToJoin.forEach(groupId => {
+                userGroups.forEach(groupId => {
                     updates[`groups/${groupId}/members/${currentUser.id}`] = true;
                     updates[`users/${currentUser.id}/groups/${groupId}`] = true;
                 });
                 
-                // Update user's enrolled courses
-                updates[`users/${currentUser.id}/enrolledCourses`] = groupsToJoin;
-                
                 await update(ref(db), updates);
                 
-                // Update current user
-                currentUser.enrolledCourses = groupsToJoin;
+                // Update current user's enrolled courses
+                currentUser.enrolledCourses = userGroups;
             } catch (error) {
                 console.error("Error adding user to groups:", error);
             }
@@ -1419,27 +1482,43 @@
                 // Show loading state
                 chatList.innerHTML = '<div class="loading"><div class="loading-spinner"></div></div>';
                 
-                // Get user's chats
+                // Get user's chats (both private and groups)
                 const userChatsRef = ref(db, `users/${currentUser.id}/chats`);
-                onValue(userChatsRef, (snapshot) => {
-                    const chats = snapshot.val() || {};
-                    const chatIds = Object.keys(chats);
+                const userGroupsRef = ref(db, `users/${currentUser.id}/groups`);
+                
+                // Combine both private chats and groups
+                const [chatsSnapshot, groupsSnapshot] = await Promise.all([
+                    get(userChatsRef),
+                    get(userGroupsRef)
+                ]);
+                
+                const chatIds = chatsSnapshot.exists() ? Object.keys(chatsSnapshot.val()) : [];
+                const groupIds = groupsSnapshot.exists() ? Object.keys(groupsSnapshot.val()) : [];
+                
+                const allChatIds = [...new Set([...chatIds, ...groupIds])];
+                
+                if (allChatIds.length === 0) {
+                    chatList.innerHTML = '<div class="empty-state"><i class="fas fa-comment-slash"></i><p>No conversations yet</p></div>';
+                    return;
+                }
+                
+                // Get chat details for each chat/group
+                chatList.innerHTML = '';
+                allChatIds.forEach(chatId => {
+                    const chatRef = ref(db, `chats/${chatId}`);
+                    const groupRef = ref(db, `groups/${chatId}`);
                     
-                    if (chatIds.length === 0) {
-                        chatList.innerHTML = '<div class="empty-state"><i class="fas fa-comment-slash"></i><p>No conversations yet</p></div>';
-                        return;
-                    }
-                    
-                    // Get chat details for each chat
-                    chatList.innerHTML = '';
-                    chatIds.forEach(chatId => {
-                        const chatRef = ref(db, `chats/${chatId}`);
-                        onValue(chatRef, (chatSnapshot) => {
-                            const chatData = chatSnapshot.val();
-                            if (chatData) {
-                                addChatToList(chatId, chatData);
-                            }
-                        });
+                    // Try to get chat first, then group if chat doesn't exist
+                    get(chatRef).then((chatSnapshot) => {
+                        if (chatSnapshot.exists()) {
+                            addChatToList(chatId, chatSnapshot.val());
+                        } else {
+                            get(groupRef).then((groupSnapshot) => {
+                                if (groupSnapshot.exists()) {
+                                    addChatToList(chatId, groupSnapshot.val());
+                                }
+                            });
+                        }
                     });
                 });
             } catch (error) {
@@ -1460,7 +1539,6 @@
             const chatItem = document.createElement('div');
             chatItem.className = 'chat-item';
             chatItem.dataset.chatId = chatId;
-            chatItem.dataset.chatType = chatData.type;
             
             // Get last message
             const lastMessage = chatData.lastMessage || 'No messages yet';
@@ -1485,31 +1563,16 @@
                 ${unreadCount > 0 ? `<div class="chat-badge">${unreadCount}</div>` : ''}
             `;
             
-            // Add group actions for non-mandatory groups
-            if (chatData.type === 'group' && !chatData.mandatory) {
-                const groupActions = document.createElement('div');
-                groupActions.className = 'group-actions';
-                groupActions.innerHTML = `
-                    <button class="group-action" data-action="leave" title="Leave group">
-                        <i class="fas fa-sign-out-alt"></i>
-                    </button>
-                `;
-                chatItem.appendChild(groupActions);
-            }
-            
             // Add click event
-            chatItem.addEventListener('click', (e) => {
-                if (!e.target.closest('.group-action')) {
-                    openChat(chatId, chatData);
-                }
+            chatItem.addEventListener('click', () => {
+                openChat(chatId, chatData);
             });
             
-            // Add leave group action
-            const leaveBtn = chatItem.querySelector('[data-action="leave"]');
-            if (leaveBtn) {
-                leaveBtn.addEventListener('click', (e) => {
-                    e.stopPropagation();
-                    leaveGroup(chatId);
+            // Add context menu for groups that can be left (non-mandatory)
+            if (chatData.type === 'system' && !chatData.mandatory) {
+                chatItem.addEventListener('contextmenu', (e) => {
+                    e.preventDefault();
+                    showGroupContextMenu(e, chatId, chatData);
                 });
             }
             
@@ -1519,38 +1582,73 @@
             sortChatList();
         }
 
-        // Leave a group
+        // Show group context menu
+        function showGroupContextMenu(e, chatId, chatData) {
+            // Remove any existing context menus
+            document.querySelectorAll('.message-menu').forEach(menu => menu.remove());
+            
+            const menu = document.createElement('div');
+            menu.className = 'message-menu active';
+            
+            // Add leave option for non-mandatory groups
+            if (!chatData.mandatory) {
+                const leaveItem = document.createElement('div');
+                leaveItem.className = 'message-menu-item';
+                leaveItem.innerHTML = '<i class="fas fa-sign-out-alt"></i> Leave Group';
+                leaveItem.addEventListener('click', () => leaveGroup(chatId));
+                menu.appendChild(leaveItem);
+            }
+            
+            // Add info option
+            const infoItem = document.createElement('div');
+            infoItem.className = 'message-menu-item';
+            infoItem.innerHTML = '<i class="fas fa-info-circle"></i> Group Info';
+            infoItem.addEventListener('click', () => showGroupInfo(chatData));
+            menu.appendChild(infoItem);
+            
+            document.body.appendChild(menu);
+            
+            // Position menu
+            const rect = e.target.getBoundingClientRect();
+            menu.style.top = `${rect.top}px`;
+            menu.style.left = `${rect.right}px`;
+            
+            // Close menu when clicking elsewhere
+            const closeMenu = () => {
+                menu.remove();
+                document.removeEventListener('click', closeMenu);
+            };
+            
+            setTimeout(() => {
+                document.addEventListener('click', closeMenu);
+            }, 100);
+        }
+
+        // Show group info
+        function showGroupInfo(groupData) {
+            alert(`${groupData.name}\n\n${groupData.description || 'No description available'}`);
+        }
+
+        // Leave group
         async function leaveGroup(groupId) {
-            if (confirm('Are you sure you want to leave this group?')) {
-                try {
+            try {
+                if (confirm('Are you sure you want to leave this group?')) {
                     const updates = {
                         [`groups/${groupId}/members/${currentUser.id}`]: null,
                         [`users/${currentUser.id}/groups/${groupId}`]: null
                     };
                     
-                    // Remove from enrolled courses if not mandatory
-                    const groupRef = ref(db, `groups/${groupId}`);
-                    const groupSnapshot = await get(groupRef);
-                    if (groupSnapshot.exists() && !groupSnapshot.val().mandatory) {
-                        updates[`users/${currentUser.id}/enrolledCourses/${groupId}`] = null;
-                    }
-                    
                     await update(ref(db), updates);
                     
-                    // Remove chat from UI
-                    const chatItem = document.querySelector(`.chat-item[data-chat-id="${groupId}"]`);
-                    if (chatItem) {
-                        chatItem.remove();
-                    }
+                    // Remove from current user's enrolled courses
+                    currentUser.enrolledCourses = currentUser.enrolledCourses.filter(id => id !== groupId);
                     
-                    // If this was the current chat, close it
-                    if (currentChat && currentChat.id === groupId) {
-                        backButton.click();
-                    }
-                } catch (error) {
-                    console.error("Error leaving group:", error);
-                    showError("Failed to leave group. Please try again.");
+                    // Reload chats
+                    loadUserChats();
                 }
+            } catch (error) {
+                console.error("Error leaving group:", error);
+                showError("Failed to leave group. Please try again.");
             }
         }
 
@@ -1579,25 +1677,6 @@
                 ${unreadCount > 0 ? `<div class="chat-badge">${unreadCount}</div>` : ''}
             `;
             
-            // Add group actions for non-mandatory groups
-            if (chatData.type === 'group' && !chatData.mandatory) {
-                const groupActions = document.createElement('div');
-                groupActions.className = 'group-actions';
-                groupActions.innerHTML = `
-                    <button class="group-action" data-action="leave" title="Leave group">
-                        <i class="fas fa-sign-out-alt"></i>
-                    </button>
-                `;
-                chatElement.appendChild(groupActions);
-                
-                // Add leave group action
-                const leaveBtn = groupActions.querySelector('[data-action="leave"]');
-                leaveBtn.addEventListener('click', (e) => {
-                    e.stopPropagation();
-                    leaveGroup(chatData.id);
-                });
-            }
-            
             // Sort chats by last message time
             sortChatList();
         }
@@ -1621,8 +1700,7 @@
             
             // Update UI
             emptyChat.style.display = 'none';
-            activeChat.style.display = 'flex';
-            activeChat.style.flexDirection = 'column';
+            activeChat.style.display = 'block';
             
             // Hide sidebar on mobile
             if (window.innerWidth <= 768) {
@@ -1649,31 +1727,18 @@
                 chatTypeIndicator.className = 'chat-type-indicator group-chat';
                 
                 // Add group type badge if available
-                if (chatData.id === 'connect') {
-                    const connectBadge = document.createElement('span');
-                    connectBadge.className = 'course-badge connect-course';
-                    connectBadge.textContent = 'CONNECT';
-                    chatStatus.appendChild(connectBadge);
-                } else if (chatData.id === 'quran') {
-                    const quranBadge = document.createElement('span');
-                    quranBadge.className = 'course-badge quran-course';
-                    quranBadge.textContent = 'QURAN';
-                    chatStatus.appendChild(quranBadge);
-                } else if (chatData.id === 'qiraat') {
-                    const qiraatBadge = document.createElement('span');
-                    qiraatBadge.className = 'course-badge qiraat-course';
-                    qiraatBadge.textContent = 'QIR\'AAT';
-                    chatStatus.appendChild(qiraatBadge);
-                } else if (chatData.id === 'hifz') {
-                    const hifzBadge = document.createElement('span');
-                    hifzBadge.className = 'course-badge hifz-course';
-                    hifzBadge.textContent = 'HIFZ';
-                    chatStatus.appendChild(hifzBadge);
-                } else if (chatData.id === 'female') {
-                    const femaleBadge = document.createElement('span');
-                    femaleBadge.className = 'course-badge female-course';
-                    femaleBadge.textContent = 'FEMALE';
-                    chatStatus.appendChild(femaleBadge);
+                if (chatData.type === 'system') {
+                    let groupClass = '';
+                    if (chatData.id === 'connect') groupClass = 'connect-course';
+                    else if (chatData.id === 'quran') groupClass = 'quran-course';
+                    else if (chatData.id === 'qirat') groupClass = 'qirat-course';
+                    else if (chatData.id === 'hifz') groupClass = 'hifz-course';
+                    else if (chatData.id === 'female') groupClass = 'female-course';
+                    
+                    const groupBadge = document.createElement('span');
+                    groupBadge.className = `course-badge ${groupClass}`;
+                    groupBadge.textContent = chatData.id.toUpperCase();
+                    chatStatus.appendChild(groupBadge);
                 }
             }
             
@@ -1691,11 +1756,6 @@
             
             // Focus input
             chatInput.focus();
-            
-            // Scroll to bottom
-            setTimeout(() => {
-                chatMessages.scrollTop = chatMessages.scrollHeight;
-            }, 100);
         }
 
         // Load messages for a chat
@@ -1748,61 +1808,57 @@
                     `;
                 }
                 
-                // Add message text with formatting
-                let formattedText = message.text;
-                
-                // Apply formatting if exists
-                if (message.formattedText) {
-                    formattedText = message.formattedText;
+                // Add message text or poll
+                if (message.type === 'poll') {
+                    messageContent += createPollContent(message);
                 } else {
-                    // Simple formatting for backward compatibility
-                    formattedText = formatText(message.text);
+                    // Process text with formatting
+                    let formattedText = message.text;
+                    
+                    // Handle spoilers
+                    formattedText = formattedText.replace(/\[spoiler\](.*?)\[\/spoiler\]/g, 
+                        '<span class="spoiler" onclick="revealSpoiler(this)">$1</span>');
+                    
+                    // Handle links
+                    formattedText = formattedText.replace(/\[url=(.*?)\](.*?)\[\/url\]/g, 
+                        '<a href="$1" target="_blank">$2</a>');
+                    
+                    // Handle bold
+                    formattedText = formattedText.replace(/\[b\](.*?)\[\/b\]/g, 
+                        '<strong>$1</strong>');
+                    
+                    // Handle italic
+                    formattedText = formattedText.replace(/\[i\](.*?)\[\/i\]/g, 
+                        '<em>$1</em>');
+                    
+                    // Handle underline
+                    formattedText = formattedText.replace(/\[u\](.*?)\[\/u\]/g, 
+                        '<u>$1</u>');
+                    
+                    messageContent += `
+                        <div class="message-bubble">${formattedText}</div>
+                    `;
                 }
                 
+                // Add message info and actions
                 messageContent += `
-                    <div class="message-bubble">${formattedText}</div>
                     <div class="message-info">
                         <span>${messageTime}${editedText}</span>
                         <div class="message-actions">
                             <button class="message-action" data-action="reply"><i class="fas fa-reply"></i></button>
-                            <button class="message-action" data-action="react"><i class="fas fa-smile"></i></button>
                             ${message.senderId === currentUser.id ? `
                                 <button class="message-action" data-action="edit"><i class="fas fa-edit"></i></button>
                                 <button class="message-action" data-action="delete"><i class="fas fa-trash"></i></button>
                             ` : ''}
+                            <button class="message-action" data-action="react"><i class="far fa-smile"></i></button>
+                            <button class="message-action" data-action="more"><i class="fas fa-ellipsis-h"></i></button>
                         </div>
                     </div>
                 `;
                 
-                // Add reactions if exists
+                // Add reactions if they exist
                 if (message.reactions && Object.keys(message.reactions).length > 0) {
-                    messageContent += `<div class="reactions-container">`;
-                    
-                    // Group reactions by emoji
-                    const reactionGroups = {};
-                    Object.values(message.reactions).forEach(reaction => {
-                        if (!reactionGroups[reaction.emoji]) {
-                            reactionGroups[reaction.emoji] = {
-                                count: 0,
-                                userReacted: false
-                            };
-                        }
-                        reactionGroups[reaction.emoji].count++;
-                        if (reaction.userId === currentUser.id) {
-                            reactionGroups[reaction.emoji].userReacted = true;
-                        }
-                    });
-                    
-                    // Add reaction buttons
-                    for (const [emoji, data] of Object.entries(reactionGroups)) {
-                        messageContent += `
-                            <div class="reaction ${data.userReacted ? 'active' : ''}" data-emoji="${emoji}">
-                                ${emoji} ${data.count}
-                            </div>
-                        `;
-                    }
-                    
-                    messageContent += `</div>`;
+                    messageContent += createReactionsContent(message.reactions);
                 }
                 
                 messageElement.innerHTML = `
@@ -1814,23 +1870,16 @@
                 
                 // Add event listeners for message actions
                 const replyBtn = messageElement.querySelector('[data-action="reply"]');
-                const reactBtn = messageElement.querySelector('[data-action="react"]');
                 const editBtn = messageElement.querySelector('[data-action="edit"]');
                 const deleteBtn = messageElement.querySelector('[data-action="delete"]');
+                const reactBtn = messageElement.querySelector('[data-action="react"]');
+                const moreBtn = messageElement.querySelector('[data-action="more"]');
                 const replyContainer = messageElement.querySelector('.reply-container');
-                const reactions = messageElement.querySelectorAll('.reaction');
                 
                 if (replyBtn) {
                     replyBtn.addEventListener('click', (e) => {
                         e.stopPropagation();
                         replyToMessage(message);
-                    });
-                }
-                
-                if (reactBtn) {
-                    reactBtn.addEventListener('click', (e) => {
-                        e.stopPropagation();
-                        showReactionPicker(e, message);
                     });
                 }
                 
@@ -1852,39 +1901,40 @@
                     });
                 }
                 
-                if (replyContainer) {
-                    replyContainer.addEventListener('click', (e) => {
+                if (reactBtn) {
+                    reactBtn.addEventListener('click', (e) => {
                         e.stopPropagation();
-                        scrollToMessage(message.replyTo.messageId);
+                        showReactionPicker(e, message);
                     });
                 }
                 
-                reactions.forEach(reaction => {
-                    reaction.addEventListener('click', (e) => {
+                if (moreBtn) {
+                    moreBtn.addEventListener('click', (e) => {
                         e.stopPropagation();
-                        toggleReaction(message, reaction.dataset.emoji);
+                        openMessageOptions(message);
                     });
+                }
+                
+                if (replyContainer) {
+                    replyContainer.addEventListener('click', (e) => {
+                        e.stopPropagation();
+                        const replyId = replyContainer.dataset.replyId;
+                        scrollToMessage(replyId);
+                    });
+                }
+                
+                // Add click event to message for mobile
+                messageElement.addEventListener('click', (e) => {
+                    if (window.innerWidth <= 768 && !e.target.closest('.message-action')) {
+                        openMessageOptions(message);
+                    }
                 });
                 
-                // Add context menu on long press/hold
+                // Add long press for mobile
                 let pressTimer;
-                messageElement.addEventListener('mousedown', (e) => {
-                    pressTimer = setTimeout(() => {
-                        showContextMenu(e, message);
-                    }, 500);
-                });
-                
-                messageElement.addEventListener('mouseup', () => {
-                    clearTimeout(pressTimer);
-                });
-                
-                messageElement.addEventListener('mouseleave', () => {
-                    clearTimeout(pressTimer);
-                });
-                
                 messageElement.addEventListener('touchstart', (e) => {
                     pressTimer = setTimeout(() => {
-                        showContextMenu(e, message);
+                        openMessageOptions(message);
                     }, 500);
                 });
                 
@@ -1900,27 +1950,60 @@
             });
             
             // Scroll to bottom
-            setTimeout(() => {
-                chatMessages.scrollTop = chatMessages.scrollHeight;
-            }, 100);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
         }
 
-        // Format text with simple markdown-like syntax
-        function formatText(text) {
-            // Bold: **text**
-            text = text.replace(/\*\*(.*?)\*\*/g, '<span class="bold">$1</span>');
-            // Italic: *text*
-            text = text.replace(/\*(.*?)\*/g, '<span class="italic">$1</span>');
-            // Underline: _text_
-            text = text.replace(/_(.*?)_/g, '<span class="underline">$1</span>');
-            // Strikethrough: ~text~
-            text = text.replace(/~(.*?)~/g, '<span class="strikethrough">$1</span>');
-            // Code: `text`
-            text = text.replace(/`(.*?)`/g, '<span class="code">$1</span>');
-            // Links: [text](url)
-            text = text.replace(/\[(.*?)\]\((.*?)\)/g, '<a href="$2" class="link" target="_blank">$1</a>');
+        // Create poll content
+        function createPollContent(message) {
+            let pollContent = `
+                <div class="poll-container">
+                    <div class="poll-question">${message.poll.question}</div>
+            `;
             
-            return text;
+            // Calculate total votes
+            const totalVotes = message.poll.options.reduce((sum, option) => sum + (option.votes || 0), 0);
+            
+            // Add options
+            message.poll.options.forEach(option => {
+                const percentage = totalVotes > 0 ? Math.round((option.votes || 0) / totalVotes * 100) : 0;
+                const isSelected = option.voters && option.voters[currentUser.id];
+                
+                pollContent += `
+                    <div class="poll-option ${isSelected ? 'selected' : ''}" data-poll-id="${message.id}" data-option-id="${option.id}">
+                        ${option.text}
+                        <span class="poll-percentage">${percentage}%</span>
+                        <div class="poll-bar">
+                            <div class="poll-progress" style="width: ${percentage}%"></div>
+                        </div>
+                    </div>
+                `;
+            });
+            
+            pollContent += `
+                    <div class="poll-total">${totalVotes} vote${totalVotes !== 1 ? 's' : ''}</div>
+                </div>
+            `;
+            
+            return pollContent;
+        }
+
+        // Create reactions content
+        function createReactionsContent(reactions) {
+            let reactionsContent = '<div class="reactions-container">';
+            
+            Object.entries(reactions).forEach(([emoji, users]) => {
+                const userCount = Object.keys(users).length;
+                const hasReacted = users[currentUser.id];
+                
+                reactionsContent += `
+                    <div class="reaction ${hasReacted ? 'selected' : ''}" data-emoji="${emoji}">
+                        ${emoji} <span class="reaction-count">${userCount}</span>
+                    </div>
+                `;
+            });
+            
+            reactionsContent += '</div>';
+            return reactionsContent;
         }
 
         // Scroll to a specific message
@@ -1937,94 +2020,10 @@
             }
         }
 
-        // Show reaction picker
-        function showReactionPicker(event, message) {
-            reactingToMessage = message;
-            reactionPicker.style.display = 'flex';
-            reactionPicker.style.bottom = `${window.innerHeight - event.clientY + 60}px`;
-            reactionPicker.style.right = `${window.innerWidth - event.clientX - 10}px`;
-            
-            // Close picker when clicking outside
-            const closePicker = (e) => {
-                if (!reactionPicker.contains(e.target)) {
-                    reactionPicker.style.display = 'none';
-                    document.removeEventListener('click', closePicker);
-                }
-            };
-            
-            setTimeout(() => {
-                document.addEventListener('click', closePicker);
-            }, 100);
-        }
-
-        // Toggle reaction on a message
-        async function toggleReaction(message, emoji) {
-            try {
-                // Check if user already reacted with this emoji
-                let userReactionId = null;
-                if (message.reactions) {
-                    for (const [id, reaction] of Object.entries(message.reactions)) {
-                        if (reaction.userId === currentUser.id && reaction.emoji === emoji) {
-                            userReactionId = id;
-                            break;
-                        }
-                    }
-                }
-                
-                const updates = {};
-                
-                if (userReactionId) {
-                    // Remove reaction
-                    updates[`messages/${currentChat.id}/${message.id}/reactions/${userReactionId}`] = null;
-                } else {
-                    // Add reaction
-                    const newReactionRef = push(ref(db, `messages/${currentChat.id}/${message.id}/reactions`));
-                    updates[`messages/${currentChat.id}/${message.id}/reactions/${newReactionRef.key}`] = {
-                        emoji: emoji,
-                        userId: currentUser.id,
-                        timestamp: Date.now()
-                    };
-                }
-                
-                await update(ref(db), updates);
-            } catch (error) {
-                console.error("Error toggling reaction:", error);
-            }
-        }
-
-        // Show context menu
-        function showContextMenu(event, message) {
-            event.preventDefault();
-            
-            // Set position
-            contextMenu.style.left = `${event.clientX}px`;
-            contextMenu.style.top = `${event.clientY}px`;
-            contextMenuPosition = { x: event.clientX, y: event.clientY };
-            
-            // Show/hide edit/delete options based on ownership
-            if (message.senderId === currentUser.id) {
-                contextMenuEdit.style.display = 'flex';
-                contextMenuDelete.style.display = 'flex';
-            } else {
-                contextMenuEdit.style.display = 'none';
-                contextMenuDelete.style.display = 'none';
-            }
-            
-            contextMenu.classList.add('active');
-            selectedMessage = message;
-            
-            // Close menu when clicking outside
-            const closeMenu = (e) => {
-                if (!contextMenu.contains(e.target)) {
-                    contextMenu.classList.remove('active');
-                    document.removeEventListener('click', closeMenu);
-                }
-            };
-            
-            setTimeout(() => {
-                document.addEventListener('click', closeMenu);
-            }, 100);
-        }
+        // Reveal spoiler content
+        window.revealSpoiler = function(element) {
+            element.classList.add('revealed');
+        };
 
         // Reply to a message
         function replyToMessage(message) {
@@ -2032,7 +2031,8 @@
             
             // Show reply preview
             replyPreview.style.display = 'flex';
-            replyPreviewContent.textContent = message.text;
+            replyPreviewContent.textContent = message.text.length > 50 ? 
+                message.text.substring(0, 50) + '...' : message.text;
             
             // Focus input
             chatInput.focus();
@@ -2044,16 +2044,72 @@
             replyPreview.style.display = 'none';
         }
 
+        // Show reaction picker
+        function showReactionPicker(e, message) {
+            // Remove any existing reaction pickers
+            document.querySelectorAll('.reaction-picker').forEach(picker => picker.remove());
+            
+            const picker = document.createElement('div');
+            picker.className = 'reaction-picker active';
+            
+            // Common emojis
+            const emojis = ['👍', '❤️', '😂', '😮', '😢', '🙏', '👏'];
+            
+            emojis.forEach(emoji => {
+                const emojiElement = document.createElement('span');
+                emojiElement.className = 'reaction-emoji';
+                emojiElement.textContent = emoji;
+                emojiElement.addEventListener('click', () => addReaction(message, emoji));
+                picker.appendChild(emojiElement);
+            });
+            
+            document.body.appendChild(picker);
+            
+            // Position picker
+            const rect = e.target.getBoundingClientRect();
+            picker.style.top = `${rect.top - picker.offsetHeight - 10}px`;
+            picker.style.left = `${rect.left}px`;
+            
+            // Close picker when clicking elsewhere
+            const closePicker = () => {
+                picker.remove();
+                document.removeEventListener('click', closePicker);
+            };
+            
+            setTimeout(() => {
+                document.addEventListener('click', closePicker);
+            }, 100);
+        }
+
+        // Add reaction to message
+        async function addReaction(message, emoji) {
+            try {
+                const messageRef = ref(db, `messages/${currentChat.id}/${message.id}/reactions/${emoji}/${currentUser.id}`);
+                
+                // Check if user already reacted with this emoji
+                const reactionSnapshot = await get(messageRef);
+                if (reactionSnapshot.exists()) {
+                    // Remove reaction
+                    await remove(messageRef);
+                } else {
+                    // Add reaction
+                    await set(messageRef, true);
+                }
+            } catch (error) {
+                console.error("Error adding reaction:", error);
+                showError("Failed to add reaction. Please try again.");
+            }
+        }
+
         // Send a message
         async function sendMessage() {
             const messageText = chatInput.value.trim();
-            if (!messageText || !currentChat) return;
+            if ((!messageText && !replyingToMessage) || !currentChat) return;
             
             try {
                 // Create message object
                 const message = {
                     text: messageText,
-                    formattedText: formatText(messageText),
                     senderId: currentUser.id,
                     senderName: currentUser.name,
                     timestamp: Date.now(),
@@ -2108,14 +2164,119 @@
                 chatInput.value = '';
                 chatInput.style.height = 'auto';
                 cancelReplyToMessage();
-                
-                // Scroll to bottom
-                setTimeout(() => {
-                    chatMessages.scrollTop = chatMessages.scrollHeight;
-                }, 100);
             } catch (error) {
                 console.error("Error sending message:", error);
                 showError("Failed to send message. Please try again.");
+            }
+        }
+
+        // Create a poll
+        async function createPoll() {
+            const question = pollQuestion.value.trim();
+            const options = Array.from(document.querySelectorAll('.poll-option'))
+                .map(input => input.value.trim())
+                .filter(option => option !== '');
+            
+            if (!question || options.length < 2) {
+                showError("Please enter a question and at least 2 options");
+                return;
+            }
+            
+            try {
+                // Create poll object
+                const poll = {
+                    type: 'poll',
+                    senderId: currentUser.id,
+                    senderName: currentUser.name,
+                    timestamp: Date.now(),
+                    poll: {
+                        question,
+                        options: options.map((text, index) => ({
+                            id: index,
+                            text,
+                            votes: 0,
+                            voters: {}
+                        }))
+                    }
+                };
+                
+                // Push poll to database
+                const messagesRef = ref(db, `messages/${currentChat.id}`);
+                const newMessageRef = push(messagesRef);
+                await set(newMessageRef, poll);
+                
+                // Update chat last message
+                const chatUpdate = {
+                    lastMessage: `Poll: ${question}`,
+                    lastMessageTime: poll.timestamp
+                };
+                
+                const chatRef = ref(db, `chats/${currentChat.id}`);
+                await update(chatRef, chatUpdate);
+                
+                // Close poll modal
+                pollModal.classList.remove('active');
+                pollQuestion.value = '';
+                
+                // Reset options
+                pollOptions.innerHTML = `
+                    <div class="poll-option-input">
+                        <input type="text" class="form-control poll-option" placeholder="Option 1">
+                    </div>
+                    <div class="poll-option-input">
+                        <input type="text" class="form-control poll-option" placeholder="Option 2">
+                    </div>
+                `;
+            } catch (error) {
+                console.error("Error creating poll:", error);
+                showError("Failed to create poll. Please try again.");
+            }
+        }
+
+        // Vote in a poll
+        async function voteInPoll(messageId, optionId) {
+            try {
+                const pollRef = ref(db, `messages/${currentChat.id}/${messageId}/poll`);
+                const snapshot = await get(pollRef);
+                
+                if (snapshot.exists()) {
+                    const poll = snapshot.val();
+                    const option = poll.options[optionId];
+                    
+                    // Check if user already voted in this poll
+                    let alreadyVoted = false;
+                    let previousOptionId = null;
+                    
+                    poll.options.forEach((opt, idx) => {
+                        if (opt.voters && opt.voters[currentUser.id]) {
+                            alreadyVoted = true;
+                            previousOptionId = idx;
+                        }
+                    });
+                    
+                    const updates = {};
+                    
+                    if (alreadyVoted && previousOptionId === optionId) {
+                        // User is unvoting
+                        updates[`options/${optionId}/votes`] = option.votes - 1;
+                        updates[`options/${optionId}/voters/${currentUser.id}`] = null;
+                    } else {
+                        if (alreadyVoted) {
+                            // User is changing vote
+                            updates[`options/${previousOptionId}/votes`] = poll.options[previousOptionId].votes - 1;
+                            updates[`options/${previousOptionId}/voters/${currentUser.id}`] = null;
+                        }
+                        
+                        // Add new vote
+                        updates[`options/${optionId}/votes`] = (option.votes || 0) + 1;
+                        updates[`options/${optionId}/voters/${currentUser.id}`] = true;
+                    }
+                    
+                    await update(pollRef, updates);
+                }
+            } catch (error) {
+                console.error("Error voting in poll:", error);
+                showError("Failed to vote. Please try again.");
             }
         }
 
@@ -2142,13 +2303,10 @@
             } else if (defaultAction === 'reply') {
                 replyToMessage(message);
             } else if (defaultAction === 'react') {
-                showReactionPicker({ clientX: contextMenuPosition.x, clientY: contextMenuPosition.y }, message);
+                showReactionPicker(null, message);
             } else {
                 messageOptionsModal.classList.add('active');
             }
-            
-            // Close context menu if open
-            contextMenu.classList.remove('active');
         }
 
         // Edit message
@@ -2177,7 +2335,6 @@
                 const messageRef = ref(db, `messages/${currentChat.id}/${selectedMessage.id}`);
                 await update(messageRef, {
                     text: newText,
-                    formattedText: formatText(newText),
                     edited: true
                 });
                 
@@ -2390,7 +2547,6 @@
                 userList.innerHTML = '<div class="loading"><div class="loading-spinner"></div></div>';
                 
                 // In a real app, you would query users from database
-                // For demo purposes, we'll use mock data
                 const usersRef = ref(db, 'users');
                 const snapshot = await get(usersRef);
                 
@@ -2405,7 +2561,6 @@
                         id !== currentUser.id && 
                         (user.name.toLowerCase().includes(searchTerm.toLowerCase()) || 
                          user.email.toLowerCase().includes(searchTerm.toLowerCase()))
-                    )
                     .slice(0, 10); // Limit to 10 results
                 
                 if (filteredUsers.length === 0) {
@@ -2446,49 +2601,186 @@
         // Load available groups (courses)
         async function loadGroups() {
             try {
+                // Only show groups the user can join (not mandatory ones they're already in)
                 const groupsRef = ref(db, 'groups');
                 const snapshot = await get(groupsRef);
                 
                 if (!snapshot.exists()) {
-                    groupSelect.innerHTML = '<option value="">No courses available</option>';
+                    groupSelect.innerHTML = '<option value="">No groups available</option>';
                     return;
                 }
                 
                 const allGroups = snapshot.val();
-                groupSelect.innerHTML = '<option value="">Select a course</option>';
+                groupSelect.innerHTML = '<option value="">Select a group</option>';
                 
                 // Filter groups to only those the user can join
-                for (const [id, group] of Object.entries(allGroups)) {
-                    // Skip mandatory groups (user is already in them)
-                    if (group.mandatory) continue;
-                    
-                    // Skip female group if user is not female
-                    if (group.genderRestricted && currentUser.gender !== 'female') continue;
-                    
-                    // Skip Hifz group if user is not a Hifz student
-                    if (id === 'hifz' && !currentUser.isHifzStudent) continue;
-                    
-                    // Skip Qir'aat group if user is not a Qir'aat student
-                    if (id === 'qiraat' && !currentUser.isQiraatStudent) continue;
-                    
-                    const option = document.createElement('option');
-                    option.value = id;
-                    option.textContent = group.name;
-                    groupSelect.appendChild(option);
-                }
+                Object.entries(allGroups).forEach(([id, group]) => {
+                    if (!group.mandatory && !currentUser.enrolledCourses.includes(id)) {
+                        // Check gender restriction for female group
+                        if (id === 'female' && currentUser.gender !== 'female') {
+                            return;
+                        }
+                        
+                        const option = document.createElement('option');
+                        option.value = id;
+                        option.textContent = group.name;
+                        groupSelect.appendChild(option);
+                    }
+                });
             } catch (error) {
                 console.error("Error loading groups:", error);
-                groupSelect.innerHTML = '<option value="">Error loading courses</option>';
+                groupSelect.innerHTML = '<option value="">Error loading groups</option>';
             }
+        }
+
+        // Apply text formatting
+        function applyFormatting(format) {
+            const start = chatInput.selectionStart;
+            const end = chatInput.selectionEnd;
+            const selectedText = chatInput.value.substring(start, end);
+            
+            if (format === 'link') {
+                // Show link modal
+                linkModal.classList.add('active');
+                linkText.value = selectedText;
+                linkUrl.value = '';
+                selectedTextRange = { start, end };
+                return;
+            }
+            
+            let formattedText = '';
+            let cursorOffset = 0;
+            
+            switch (format) {
+                case 'bold':
+                    formattedText = `[b]${selectedText}[/b]`;
+                    cursorOffset = 3;
+                    break;
+                case 'italic':
+                    formattedText = `[i]${selectedText}[/i]`;
+                    cursorOffset = 3;
+                    break;
+                case 'underline':
+                    formattedText = `[u]${selectedText}[/u]`;
+                    cursorOffset = 3;
+                    break;
+                case 'spoiler':
+                    formattedText = `[spoiler]${selectedText}[/spoiler]`;
+                    cursorOffset = 9;
+                    break;
+            }
+            
+            // Replace selected text with formatted text
+            chatInput.setRangeText(formattedText, start, end);
+            
+            // Set cursor position after the opening tag
+            chatInput.setSelectionRange(start + cursorOffset, start + cursorOffset + selectedText.length);
+            
+            // Focus the input
+            chatInput.focus();
+        }
+
+        // Insert link
+        function insertLink() {
+            const text = linkText.value.trim();
+            const url = linkUrl.value.trim();
+            
+            if (!text || !url) {
+                showError("Please enter both text and URL");
+                return;
+            }
+            
+            if (!isValidUrl(url)) {
+                showError("Please enter a valid URL (starting with http:// or https://)");
+                return;
+            }
+            
+            const formattedText = `[url=${url}]${text}[/url]`;
+            
+            // Replace selected text with link
+            if (selectedTextRange) {
+                chatInput.setRangeText(
+                    formattedText,
+                    selectedTextRange.start,
+                    selectedTextRange.end
+                );
+                
+                // Set cursor position after the link
+                chatInput.setSelectionRange(
+                    selectedTextRange.start + formattedText.length,
+                    selectedTextRange.start + formattedText.length
+                );
+            } else {
+                // Insert at cursor position
+                const cursorPos = chatInput.selectionStart;
+                chatInput.setRangeText(
+                    formattedText,
+                    cursorPos,
+                    cursorPos
+                );
+                
+                // Set cursor position after the link
+                chatInput.setSelectionRange(
+                    cursorPos + formattedText.length,
+                    cursorPos + formattedText.length
+                );
+            }
+            
+            // Focus the input and close modal
+            chatInput.focus();
+            linkModal.classList.remove('active');
+            linkText.value = '';
+            linkUrl.value = '';
+            selectedTextRange = null;
+        }
+
+        // Check if URL is valid
+        function isValidUrl(url) {
+            try {
+                new URL(url);
+                return true;
+            } catch (e) {
+                return false;
+            }
+        }
+
+        // Add poll option
+        function addPollOptionInput() {
+            const optionCount = document.querySelectorAll('.poll-option').length;
+            if (optionCount >= 10) {
+                showError("Maximum 10 options allowed");
+                return;
+            }
+            
+            const optionDiv = document.createElement('div');
+            optionDiv.className = 'poll-option-input';
+            optionDiv.innerHTML = `
+                <input type="text" class="form-control poll-option" placeholder="Option ${optionCount + 1}">
+            `;
+            pollOptions.appendChild(optionDiv);
+            
+            // Focus the new input
+            optionDiv.querySelector('input').focus();
         }
 
         // Setup chat listeners
         function setupChatListeners() {
-            // Listen for new messages in current chat
-            // This is handled in the openChat function
-            
-            // Listen for chat updates (like last message changes)
-            // This is handled in the loadUserChats function
+            // Listen for clicks on poll options
+            chatMessages.addEventListener('click', (e) => {
+                const pollOption = e.target.closest('.poll-option');
+                if (pollOption && currentChat) {
+                    const messageId = pollOption.dataset.pollId;
+                    const optionId = parseInt(pollOption.dataset.optionId);
+                    voteInPoll(messageId, optionId);
+                }
+                
+                // Listen for clicks on reactions
+                const reaction = e.target.closest('.reaction');
+                if (reaction && currentChat && selectedMessage) {
+                    const emoji = reaction.dataset.emoji;
+                    addReaction(selectedMessage, emoji);
+                }
+            });
         }
 
         // Setup event listeners
@@ -2511,13 +2803,13 @@
                 this.style.height = (this.scrollHeight) + 'px';
             });
             
-            // Formatting buttons
-            formattingToolbar.querySelectorAll('.format-button').forEach(button => {
-                button.addEventListener('click', (e) => {
-                    e.preventDefault();
-                    const format = button.dataset.format;
-                    applyFormatting(format);
-                });
+            // Track text selection for formatting
+            chatInput.addEventListener('mouseup', () => {
+                selectedText = window.getSelection().toString();
+            });
+            
+            chatInput.addEventListener('keyup', () => {
+                selectedText = window.getSelection().toString();
             });
             
             // New chat modal
@@ -2574,9 +2866,10 @@
                 messageOptionsModal.classList.remove('active');
                 replyToMessage(selectedMessage);
             });
+            
             reactMessageBtn.addEventListener('click', () => {
                 messageOptionsModal.classList.remove('active');
-                showReactionPicker({ clientX: window.innerWidth/2, clientY: window.innerHeight/2 }, selectedMessage);
+                showReactionPicker(null, selectedMessage);
             });
             
             // Back button for mobile
@@ -2589,72 +2882,49 @@
             // Cancel reply
             cancelReply.addEventListener('click', cancelReplyToMessage);
             
-            // Context menu actions
-            document.querySelectorAll('#context-menu .context-menu-item').forEach(item => {
-                item.addEventListener('click', (e) => {
-                    e.stopPropagation();
-                    const action = item.dataset.action;
-                    openMessageOptions(selectedMessage, action);
+            // Formatting buttons
+            document.querySelectorAll('[data-format]').forEach(button => {
+                button.addEventListener('click', () => {
+                    applyFormatting(button.dataset.format);
                 });
             });
             
-            // Reaction picker
-            reactionPicker.querySelectorAll('.reaction-emoji').forEach(emoji => {
-                emoji.addEventListener('click', (e) => {
-                    e.stopPropagation();
-                    toggleReaction(reactingToMessage, emoji.textContent);
-                    reactionPicker.style.display = 'none';
-                });
+            // Poll creation
+            createPollBtn.addEventListener('click', () => {
+                pollModal.classList.add('active');
+                pollQuestion.focus();
             });
-        }
-
-        // Apply text formatting
-        function applyFormatting(format) {
-            const start = chatInput.selectionStart;
-            const end = chatInput.selectionEnd;
-            const text = chatInput.value;
-            const selectedText = text.substring(start, end);
             
-            let formattedText = '';
-            let newCursorPos = start;
+            closePollModal.addEventListener('click', () => {
+                pollModal.classList.remove('active');
+            });
             
-            switch (format) {
-                case 'bold':
-                    formattedText = `**${selectedText}**`;
-                    newCursorPos = start + 2;
-                    break;
-                case 'italic':
-                    formattedText = `*${selectedText}*`;
-                    newCursorPos = start + 1;
-                    break;
-                case 'underline':
-                    formattedText = `_${selectedText}_`;
-                    newCursorPos = start + 1;
-                    break;
-                case 'strikethrough':
-                    formattedText = `~${selectedText}~`;
-                    newCursorPos = start + 1;
-                    break;
-                case 'code':
-                    formattedText = `\`${selectedText}\``;
-                    newCursorPos = start + 1;
-                    break;
-                case 'link':
-                    const url = prompt('Enter URL:');
-                    if (url) {
-                        formattedText = `[${selectedText}](${url})`;
-                        newCursorPos = start + selectedText.length + 3;
-                    } else {
-                        return;
-                    }
-                    break;
-                default:
-                    return;
-            }
+            cancelPoll.addEventListener('click', () => {
+                pollModal.classList.remove('active');
+            });
             
-            chatInput.value = text.substring(0, start) + formattedText + text.substring(end);
-            chatInput.setSelectionRange(newCursorPos, newCursorPos + selectedText.length);
-            chatInput.focus();
+            createPoll.addEventListener('click', createPoll);
+            
+            addPollOption.addEventListener('click', addPollOptionInput);
+            
+            // Link creation
+            closeLinkModal.addEventListener('click', () => {
+                linkModal.classList.remove('active');
+            });
+            
+            cancelLink.addEventListener('click', () => {
+                linkModal.classList.remove('active');
+            });
+            
+            insertLink.addEventListener('click', insertLink);
+            
+            // Handle Enter key in poll options
+            pollOptions.addEventListener('keydown', (e) => {
+                if (e.target.classList.contains('poll-option') && e.key === 'Enter') {
+                    e.preventDefault();
+                    addPollOptionInput();
+                }
+            });
         }
 
         // Update UI with current user data
