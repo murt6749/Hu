@@ -184,6 +184,7 @@
             cursor: pointer;
             transition: var(--transition);
             border-bottom: 1px solid var(--border);
+            position: relative;
         }
 
         .chat-item:hover {
@@ -251,6 +252,32 @@
             flex-shrink: 0;
         }
 
+        .group-actions {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            display: none;
+        }
+
+        .chat-item:hover .group-actions {
+            display: flex;
+            gap: 5px;
+        }
+
+        .group-action {
+            background: none;
+            border: none;
+            color: var(--text-light);
+            cursor: pointer;
+            font-size: 0.8rem;
+            transition: var(--transition);
+        }
+
+        .group-action:hover {
+            color: var(--primary);
+        }
+
         /* Main Chat Area */
         .chat-area {
             flex: 1;
@@ -266,6 +293,7 @@
             display: flex;
             align-items: center;
             background: var(--card-bg);
+            position: relative;
         }
 
         .back-button {
@@ -294,21 +322,26 @@
             padding: 20px;
             overflow-y: auto;
             background: var(--bg);
+            display: flex;
+            flex-direction: column;
         }
 
         .message {
             display: flex;
             margin-bottom: 15px;
             max-width: 80%;
+            position: relative;
         }
 
         .message.sent {
             margin-left: auto;
             flex-direction: row-reverse;
+            align-self: flex-end;
         }
 
         .message.received {
             margin-right: auto;
+            align-self: flex-start;
         }
 
         .message-avatar {
@@ -324,6 +357,7 @@
             font-size: 0.8rem;
             flex-shrink: 0;
             margin-top: auto;
+            cursor: pointer;
         }
 
         .message.sent .message-avatar {
@@ -364,6 +398,7 @@
             padding: 5px 10px;
             margin-bottom: 5px;
             border-radius: 4px;
+            cursor: pointer;
         }
 
         .reply-container.sent {
@@ -418,10 +453,39 @@
             color: var(--primary);
         }
 
+        .reactions-container {
+            display: flex;
+            gap: 5px;
+            margin-top: 5px;
+            flex-wrap: wrap;
+        }
+
+        .reaction {
+            background: var(--card-bg);
+            border-radius: 10px;
+            padding: 2px 6px;
+            font-size: 0.7rem;
+            display: flex;
+            align-items: center;
+            gap: 3px;
+            cursor: pointer;
+        }
+
+        .reaction:hover {
+            background: var(--border);
+        }
+
+        .reaction.active {
+            background: var(--primary-light);
+            color: white;
+        }
+
         .chat-input-container {
             padding: 15px;
             border-top: 1px solid var(--border);
             background: var(--card-bg);
+            position: sticky;
+            bottom: 0;
         }
 
         .reply-preview {
@@ -503,6 +567,25 @@
 
         .attachment-button:hover {
             color: var(--primary);
+        }
+
+        .formatting-toolbar {
+            display: flex;
+            gap: 5px;
+            margin-bottom: 10px;
+        }
+
+        .format-button {
+            background: var(--bg);
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            padding: 5px 10px;
+            cursor: pointer;
+            font-size: 0.8rem;
+        }
+
+        .format-button:hover {
+            background: var(--card-bg);
         }
 
         /* Chat Types */
@@ -662,6 +745,64 @@
             color: var(--success);
         }
 
+        /* Reaction Picker */
+        .reaction-picker {
+            position: absolute;
+            bottom: 60px;
+            right: 10px;
+            background: var(--card-bg);
+            border-radius: var(--radius);
+            padding: 10px;
+            display: flex;
+            gap: 5px;
+            box-shadow: var(--shadow);
+            z-index: 10;
+            display: none;
+        }
+
+        .reaction-picker.active {
+            display: flex;
+        }
+
+        .reaction-emoji {
+            font-size: 1.2rem;
+            cursor: pointer;
+            padding: 5px;
+            border-radius: 50%;
+        }
+
+        .reaction-emoji:hover {
+            background: var(--border);
+            transform: scale(1.2);
+        }
+
+        /* Message Context Menu */
+        .context-menu {
+            position: absolute;
+            background: var(--card-bg);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            z-index: 100;
+            min-width: 150px;
+            display: none;
+        }
+
+        .context-menu.active {
+            display: block;
+        }
+
+        .context-menu-item {
+            padding: 8px 15px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .context-menu-item:hover {
+            background: var(--border);
+        }
+
         /* Responsive Styles */
         @media (max-width: 768px) {
             .sidebar {
@@ -690,6 +831,10 @@
 
             .back-button {
                 display: block;
+            }
+
+            .chat-input-container {
+                padding-bottom: calc(15px + env(safe-area-inset-bottom));
             }
         }
 
@@ -793,19 +938,63 @@
             margin-bottom: 5px;
         }
 
-        .qirat-course {
+        .connect-course {
             background-color: #4361ee;
             color: white;
         }
 
-        .hifz-course {
+        .quran-course {
+            background-color: #3a0ca3;
+            color: white;
+        }
+
+        .qiraat-course {
             background-color: #4cc9f0;
             color: white;
         }
 
-        .nezer-course {
+        .hifz-course {
             background-color: #f72585;
             color: white;
+        }
+
+        .female-course {
+            background-color: #f8961e;
+            color: white;
+        }
+
+        /* Text Formatting */
+        .bold {
+            font-weight: bold;
+        }
+
+        .italic {
+            font-style: italic;
+        }
+
+        .underline {
+            text-decoration: underline;
+        }
+
+        .strikethrough {
+            text-decoration: line-through;
+        }
+
+        .code {
+            font-family: monospace;
+            background: var(--card-bg);
+            padding: 2px 4px;
+            border-radius: 4px;
+        }
+
+        .link {
+            color: var(--primary);
+            text-decoration: underline;
+            cursor: pointer;
+        }
+
+        .link:hover {
+            color: var(--primary-light);
         }
     </style>
 </head>
@@ -875,6 +1064,14 @@
                             <i class="fas fa-times"></i>
                         </button>
                     </div>
+                    <div class="formatting-toolbar" id="formatting-toolbar">
+                        <button class="format-button" data-format="bold" title="Bold"><i class="fas fa-bold"></i></button>
+                        <button class="format-button" data-format="italic" title="Italic"><i class="fas fa-italic"></i></button>
+                        <button class="format-button" data-format="underline" title="Underline"><i class="fas fa-underline"></i></button>
+                        <button class="format-button" data-format="strikethrough" title="Strikethrough"><i class="fas fa-strikethrough"></i></button>
+                        <button class="format-button" data-format="code" title="Code"><i class="fas fa-code"></i></button>
+                        <button class="format-button" data-format="link" title="Link"><i class="fas fa-link"></i></button>
+                    </div>
                     <div class="chat-input-wrapper">
                         <button class="attachment-button">
                             <i class="fas fa-paperclip"></i>
@@ -939,8 +1136,35 @@
                 <button class="btn btn-outline" id="edit-message-btn">Edit</button>
                 <button class="btn btn-outline" id="delete-message-btn">Delete</button>
                 <button class="btn btn-outline" id="reply-message-btn">Reply</button>
+                <button class="btn btn-outline" id="react-message-btn">React</button>
                 <button class="btn btn-outline" id="cancel-message-options">Cancel</button>
             </div>
+        </div>
+    </div>
+
+    <!-- Reaction Picker -->
+    <div class="reaction-picker" id="reaction-picker">
+        <span class="reaction-emoji">👍</span>
+        <span class="reaction-emoji">❤️</span>
+        <span class="reaction-emoji">😂</span>
+        <span class="reaction-emoji">😮</span>
+        <span class="reaction-emoji">😢</span>
+        <span class="reaction-emoji">🙏</span>
+    </div>
+
+    <!-- Context Menu -->
+    <div class="context-menu" id="context-menu">
+        <div class="context-menu-item" data-action="reply">
+            <i class="fas fa-reply"></i> Reply
+        </div>
+        <div class="context-menu-item" data-action="react">
+            <i class="fas fa-smile"></i> React
+        </div>
+        <div class="context-menu-item" data-action="edit" id="context-menu-edit">
+            <i class="fas fa-edit"></i> Edit
+        </div>
+        <div class="context-menu-item" data-action="delete" id="context-menu-delete">
+            <i class="fas fa-trash"></i> Delete
         </div>
     </div>
 
@@ -974,13 +1198,18 @@
             name: 'Guest',
             email: '',
             avatar: 'G',
-            enrolledCourses: []
+            enrolledCourses: [],
+            gender: '',
+            isHifzStudent: false,
+            isQiraatStudent: false
         };
 
         // Current chat data
         let currentChat = null;
         let selectedMessage = null;
         let replyingToMessage = null;
+        let reactingToMessage = null;
+        let contextMenuPosition = { x: 0, y: 0 };
 
         // DOM elements
         const themeToggle = document.getElementById('theme-toggle');
@@ -1013,12 +1242,18 @@
         const editMessageBtn = document.getElementById('edit-message-btn');
         const deleteMessageBtn = document.getElementById('delete-message-btn');
         const replyMessageBtn = document.getElementById('reply-message-btn');
+        const reactMessageBtn = document.getElementById('react-message-btn');
         const cancelMessageOptions = document.getElementById('cancel-message-options');
         const backButton = document.getElementById('back-button');
         const sidebar = document.getElementById('sidebar');
         const replyPreview = document.getElementById('reply-preview');
         const replyPreviewContent = document.getElementById('reply-preview-content');
         const cancelReply = document.getElementById('cancel-reply');
+        const reactionPicker = document.getElementById('reaction-picker');
+        const contextMenu = document.getElementById('context-menu');
+        const contextMenuEdit = document.getElementById('context-menu-edit');
+        const contextMenuDelete = document.getElementById('context-menu-delete');
+        const formattingToolbar = document.getElementById('formatting-toolbar');
 
         // Initialize the app
         function init() {
@@ -1062,7 +1297,10 @@
                     currentUser = {
                         ...currentUser,
                         ...userData,
-                        enrolledCourses: userData.enrolledCourses || []
+                        enrolledCourses: userData.enrolledCourses || [],
+                        gender: userData.gender || '',
+                        isHifzStudent: userData.isHifzStudent || false,
+                        isQiraatStudent: userData.isQiraatStudent || false
                     };
                     
                     // Update UI
@@ -1079,14 +1317,15 @@
                         name: currentUser.name,
                         email: currentUser.email,
                         avatar: currentUser.avatar,
-                        enrolledCourses: [
-                            'q1', 'q2', 'h1', 'h2', 'n1', 'n2' // Enroll user in all courses by default
-                        ],
+                        enrolledCourses: ['connect'], // Default group everyone joins
+                        gender: '',
+                        isHifzStudent: false,
+                        isQiraatStudent: false,
                         createdAt: new Date().toISOString()
                     });
                     
-                    // Update current user with enrolled courses
-                    currentUser.enrolledCourses = ['q1', 'q2', 'h1', 'h2', 'n1', 'n2'];
+                    // Update current user with default groups
+                    currentUser.enrolledCourses = ['connect'];
                 }
             } catch (error) {
                 console.error("Error loading user data:", error);
@@ -1098,13 +1337,12 @@
         async function initializeCourseGroups() {
             try {
                 // Course data for HU Jama'aa
-                const courses = [
-                    { id: 'q1', title: 'Qir\'at - Sifetu Solah (Amharic)', type: 'qirat' },
-                    { id: 'q2', title: 'Qir\'at - Usulu Selasah (Amharic)', type: 'qirat' },
-                    { id: 'h1', title: 'Hifz - Fresh Students (Male)', type: 'hifz' },
-                    { id: 'h2', title: 'Hifz - Fresh Students (Female)', type: 'hifz' },
-                    { id: 'n1', title: 'Nezer - Fresh Students (Male)', type: 'nezer' },
-                    { id: 'n2', title: 'Nezer - Fresh Students (Female)', type: 'nezer' }
+                const groups = [
+                    { id: 'connect', name: 'Connect', type: 'group', mandatory: true, description: 'General group for all users' },
+                    { id: 'quran', name: 'Quran', type: 'group', mandatory: false, description: 'Group for Quran discussions' },
+                    { id: 'qiraat', name: 'Qir\'aat', type: 'group', mandatory: false, description: 'Group for Qir\'aat students' },
+                    { id: 'hifz', name: 'Hifz', type: 'group', mandatory: false, description: 'Group for Hifz students' },
+                    { id: 'female', name: 'Female', type: 'group', mandatory: false, description: 'Group for female students', genderRestricted: true }
                 ];
 
                 // Check if groups already exist
@@ -1115,12 +1353,9 @@
                     // Create groups in database
                     const groupsToCreate = {};
                     
-                    courses.forEach(course => {
-                        groupsToCreate[course.id] = {
-                            id: course.id,
-                            name: course.title,
-                            type: 'group',
-                            courseType: course.type,
+                    groups.forEach(group => {
+                        groupsToCreate[group.id] = {
+                            ...group,
                             createdAt: new Date().toISOString(),
                             members: {}
                         };
@@ -1130,26 +1365,51 @@
                     await set(groupsRef, groupsToCreate);
                 }
                 
-                // Add user to their course groups
-                await addUserToCourseGroups();
+                // Add user to their appropriate groups
+                await addUserToGroups();
             } catch (error) {
                 console.error("Error initializing course groups:", error);
             }
         }
 
-        // Add user to their enrolled course groups
-        async function addUserToCourseGroups() {
+        // Add user to appropriate groups
+        async function addUserToGroups() {
             try {
                 const updates = {};
+                const groupsToJoin = ['connect']; // Everyone joins connect
                 
-                currentUser.enrolledCourses.forEach(courseId => {
-                    updates[`groups/${courseId}/members/${currentUser.id}`] = true;
-                    updates[`users/${currentUser.id}/groups/${courseId}`] = true;
+                // Add optional groups based on user preferences
+                if (currentUser.enrolledCourses.includes('quran')) {
+                    groupsToJoin.push('quran');
+                }
+                
+                if (currentUser.isQiraatStudent) {
+                    groupsToJoin.push('qiraat');
+                }
+                
+                if (currentUser.isHifzStudent) {
+                    groupsToJoin.push('hifz');
+                }
+                
+                if (currentUser.gender === 'female') {
+                    groupsToJoin.push('female');
+                }
+                
+                // Add user to groups
+                groupsToJoin.forEach(groupId => {
+                    updates[`groups/${groupId}/members/${currentUser.id}`] = true;
+                    updates[`users/${currentUser.id}/groups/${groupId}`] = true;
                 });
                 
+                // Update user's enrolled courses
+                updates[`users/${currentUser.id}/enrolledCourses`] = groupsToJoin;
+                
                 await update(ref(db), updates);
+                
+                // Update current user
+                currentUser.enrolledCourses = groupsToJoin;
             } catch (error) {
-                console.error("Error adding user to course groups:", error);
+                console.error("Error adding user to groups:", error);
             }
         }
 
@@ -1200,6 +1460,7 @@
             const chatItem = document.createElement('div');
             chatItem.className = 'chat-item';
             chatItem.dataset.chatId = chatId;
+            chatItem.dataset.chatType = chatData.type;
             
             // Get last message
             const lastMessage = chatData.lastMessage || 'No messages yet';
@@ -1224,15 +1485,73 @@
                 ${unreadCount > 0 ? `<div class="chat-badge">${unreadCount}</div>` : ''}
             `;
             
+            // Add group actions for non-mandatory groups
+            if (chatData.type === 'group' && !chatData.mandatory) {
+                const groupActions = document.createElement('div');
+                groupActions.className = 'group-actions';
+                groupActions.innerHTML = `
+                    <button class="group-action" data-action="leave" title="Leave group">
+                        <i class="fas fa-sign-out-alt"></i>
+                    </button>
+                `;
+                chatItem.appendChild(groupActions);
+            }
+            
             // Add click event
-            chatItem.addEventListener('click', () => {
-                openChat(chatId, chatData);
+            chatItem.addEventListener('click', (e) => {
+                if (!e.target.closest('.group-action')) {
+                    openChat(chatId, chatData);
+                }
             });
+            
+            // Add leave group action
+            const leaveBtn = chatItem.querySelector('[data-action="leave"]');
+            if (leaveBtn) {
+                leaveBtn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    leaveGroup(chatId);
+                });
+            }
             
             chatList.appendChild(chatItem);
             
             // Sort chats by last message time
             sortChatList();
+        }
+
+        // Leave a group
+        async function leaveGroup(groupId) {
+            if (confirm('Are you sure you want to leave this group?')) {
+                try {
+                    const updates = {
+                        [`groups/${groupId}/members/${currentUser.id}`]: null,
+                        [`users/${currentUser.id}/groups/${groupId}`]: null
+                    };
+                    
+                    // Remove from enrolled courses if not mandatory
+                    const groupRef = ref(db, `groups/${groupId}`);
+                    const groupSnapshot = await get(groupRef);
+                    if (groupSnapshot.exists() && !groupSnapshot.val().mandatory) {
+                        updates[`users/${currentUser.id}/enrolledCourses/${groupId}`] = null;
+                    }
+                    
+                    await update(ref(db), updates);
+                    
+                    // Remove chat from UI
+                    const chatItem = document.querySelector(`.chat-item[data-chat-id="${groupId}"]`);
+                    if (chatItem) {
+                        chatItem.remove();
+                    }
+                    
+                    // If this was the current chat, close it
+                    if (currentChat && currentChat.id === groupId) {
+                        backButton.click();
+                    }
+                } catch (error) {
+                    console.error("Error leaving group:", error);
+                    showError("Failed to leave group. Please try again.");
+                }
+            }
         }
 
         // Update existing chat in the list
@@ -1260,6 +1579,25 @@
                 ${unreadCount > 0 ? `<div class="chat-badge">${unreadCount}</div>` : ''}
             `;
             
+            // Add group actions for non-mandatory groups
+            if (chatData.type === 'group' && !chatData.mandatory) {
+                const groupActions = document.createElement('div');
+                groupActions.className = 'group-actions';
+                groupActions.innerHTML = `
+                    <button class="group-action" data-action="leave" title="Leave group">
+                        <i class="fas fa-sign-out-alt"></i>
+                    </button>
+                `;
+                chatElement.appendChild(groupActions);
+                
+                // Add leave group action
+                const leaveBtn = groupActions.querySelector('[data-action="leave"]');
+                leaveBtn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    leaveGroup(chatData.id);
+                });
+            }
+            
             // Sort chats by last message time
             sortChatList();
         }
@@ -1283,7 +1621,8 @@
             
             // Update UI
             emptyChat.style.display = 'none';
-            activeChat.style.display = 'block';
+            activeChat.style.display = 'flex';
+            activeChat.style.flexDirection = 'column';
             
             // Hide sidebar on mobile
             if (window.innerWidth <= 768) {
@@ -1309,17 +1648,32 @@
                 chatTypeIndicator.textContent = 'Group';
                 chatTypeIndicator.className = 'chat-type-indicator group-chat';
                 
-                // Add course type badge if available
-                if (chatData.courseType) {
-                    let courseClass = '';
-                    if (chatData.courseType === 'qirat') courseClass = 'qirat-course';
-                    else if (chatData.courseType === 'hifz') courseClass = 'hifz-course';
-                    else if (chatData.courseType === 'nezer') courseClass = 'nezer-course';
-                    
-                    const courseBadge = document.createElement('span');
-                    courseBadge.className = `course-badge ${courseClass}`;
-                    courseBadge.textContent = chatData.courseType.toUpperCase();
-                    chatStatus.appendChild(courseBadge);
+                // Add group type badge if available
+                if (chatData.id === 'connect') {
+                    const connectBadge = document.createElement('span');
+                    connectBadge.className = 'course-badge connect-course';
+                    connectBadge.textContent = 'CONNECT';
+                    chatStatus.appendChild(connectBadge);
+                } else if (chatData.id === 'quran') {
+                    const quranBadge = document.createElement('span');
+                    quranBadge.className = 'course-badge quran-course';
+                    quranBadge.textContent = 'QURAN';
+                    chatStatus.appendChild(quranBadge);
+                } else if (chatData.id === 'qiraat') {
+                    const qiraatBadge = document.createElement('span');
+                    qiraatBadge.className = 'course-badge qiraat-course';
+                    qiraatBadge.textContent = 'QIR\'AAT';
+                    chatStatus.appendChild(qiraatBadge);
+                } else if (chatData.id === 'hifz') {
+                    const hifzBadge = document.createElement('span');
+                    hifzBadge.className = 'course-badge hifz-course';
+                    hifzBadge.textContent = 'HIFZ';
+                    chatStatus.appendChild(hifzBadge);
+                } else if (chatData.id === 'female') {
+                    const femaleBadge = document.createElement('span');
+                    femaleBadge.className = 'course-badge female-course';
+                    femaleBadge.textContent = 'FEMALE';
+                    chatStatus.appendChild(femaleBadge);
                 }
             }
             
@@ -1337,6 +1691,11 @@
             
             // Focus input
             chatInput.focus();
+            
+            // Scroll to bottom
+            setTimeout(() => {
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+            }, 100);
         }
 
         // Load messages for a chat
@@ -1382,20 +1741,31 @@
                 if (message.replyTo) {
                     const replyAuthor = message.replyTo.senderId === currentUser.id ? 'You' : message.replyTo.senderName;
                     messageContent += `
-                        <div class="reply-container ${message.senderId === currentUser.id ? 'sent' : ''}">
+                        <div class="reply-container ${message.senderId === currentUser.id ? 'sent' : ''}" data-reply-id="${message.replyTo.messageId}">
                             <div class="reply-author">Replying to ${replyAuthor}</div>
                             <div class="reply-content">${message.replyTo.text}</div>
                         </div>
                     `;
                 }
                 
-                // Add message text
+                // Add message text with formatting
+                let formattedText = message.text;
+                
+                // Apply formatting if exists
+                if (message.formattedText) {
+                    formattedText = message.formattedText;
+                } else {
+                    // Simple formatting for backward compatibility
+                    formattedText = formatText(message.text);
+                }
+                
                 messageContent += `
-                    <div class="message-bubble">${message.text}</div>
+                    <div class="message-bubble">${formattedText}</div>
                     <div class="message-info">
                         <span>${messageTime}${editedText}</span>
                         <div class="message-actions">
                             <button class="message-action" data-action="reply"><i class="fas fa-reply"></i></button>
+                            <button class="message-action" data-action="react"><i class="fas fa-smile"></i></button>
                             ${message.senderId === currentUser.id ? `
                                 <button class="message-action" data-action="edit"><i class="fas fa-edit"></i></button>
                                 <button class="message-action" data-action="delete"><i class="fas fa-trash"></i></button>
@@ -1403,6 +1773,37 @@
                         </div>
                     </div>
                 `;
+                
+                // Add reactions if exists
+                if (message.reactions && Object.keys(message.reactions).length > 0) {
+                    messageContent += `<div class="reactions-container">`;
+                    
+                    // Group reactions by emoji
+                    const reactionGroups = {};
+                    Object.values(message.reactions).forEach(reaction => {
+                        if (!reactionGroups[reaction.emoji]) {
+                            reactionGroups[reaction.emoji] = {
+                                count: 0,
+                                userReacted: false
+                            };
+                        }
+                        reactionGroups[reaction.emoji].count++;
+                        if (reaction.userId === currentUser.id) {
+                            reactionGroups[reaction.emoji].userReacted = true;
+                        }
+                    });
+                    
+                    // Add reaction buttons
+                    for (const [emoji, data] of Object.entries(reactionGroups)) {
+                        messageContent += `
+                            <div class="reaction ${data.userReacted ? 'active' : ''}" data-emoji="${emoji}">
+                                ${emoji} ${data.count}
+                            </div>
+                        `;
+                    }
+                    
+                    messageContent += `</div>`;
+                }
                 
                 messageElement.innerHTML = `
                     <div class="message-avatar">${message.senderName.charAt(0)}</div>
@@ -1413,13 +1814,23 @@
                 
                 // Add event listeners for message actions
                 const replyBtn = messageElement.querySelector('[data-action="reply"]');
+                const reactBtn = messageElement.querySelector('[data-action="react"]');
                 const editBtn = messageElement.querySelector('[data-action="edit"]');
                 const deleteBtn = messageElement.querySelector('[data-action="delete"]');
+                const replyContainer = messageElement.querySelector('.reply-container');
+                const reactions = messageElement.querySelectorAll('.reaction');
                 
                 if (replyBtn) {
                     replyBtn.addEventListener('click', (e) => {
                         e.stopPropagation();
                         replyToMessage(message);
+                    });
+                }
+                
+                if (reactBtn) {
+                    reactBtn.addEventListener('click', (e) => {
+                        e.stopPropagation();
+                        showReactionPicker(e, message);
                     });
                 }
                 
@@ -1441,18 +1852,178 @@
                     });
                 }
                 
-                // Add click event to message for mobile
-                messageElement.addEventListener('click', (e) => {
-                    if (window.innerWidth <= 768 && !e.target.closest('.message-action')) {
-                        openMessageOptions(message);
-                    }
+                if (replyContainer) {
+                    replyContainer.addEventListener('click', (e) => {
+                        e.stopPropagation();
+                        scrollToMessage(message.replyTo.messageId);
+                    });
+                }
+                
+                reactions.forEach(reaction => {
+                    reaction.addEventListener('click', (e) => {
+                        e.stopPropagation();
+                        toggleReaction(message, reaction.dataset.emoji);
+                    });
+                });
+                
+                // Add context menu on long press/hold
+                let pressTimer;
+                messageElement.addEventListener('mousedown', (e) => {
+                    pressTimer = setTimeout(() => {
+                        showContextMenu(e, message);
+                    }, 500);
+                });
+                
+                messageElement.addEventListener('mouseup', () => {
+                    clearTimeout(pressTimer);
+                });
+                
+                messageElement.addEventListener('mouseleave', () => {
+                    clearTimeout(pressTimer);
+                });
+                
+                messageElement.addEventListener('touchstart', (e) => {
+                    pressTimer = setTimeout(() => {
+                        showContextMenu(e, message);
+                    }, 500);
+                });
+                
+                messageElement.addEventListener('touchend', () => {
+                    clearTimeout(pressTimer);
+                });
+                
+                messageElement.addEventListener('touchmove', () => {
+                    clearTimeout(pressTimer);
                 });
                 
                 chatMessages.appendChild(messageElement);
             });
             
             // Scroll to bottom
-            chatMessages.scrollTop = chatMessages.scrollHeight;
+            setTimeout(() => {
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+            }, 100);
+        }
+
+        // Format text with simple markdown-like syntax
+        function formatText(text) {
+            // Bold: **text**
+            text = text.replace(/\*\*(.*?)\*\*/g, '<span class="bold">$1</span>');
+            // Italic: *text*
+            text = text.replace(/\*(.*?)\*/g, '<span class="italic">$1</span>');
+            // Underline: _text_
+            text = text.replace(/_(.*?)_/g, '<span class="underline">$1</span>');
+            // Strikethrough: ~text~
+            text = text.replace(/~(.*?)~/g, '<span class="strikethrough">$1</span>');
+            // Code: `text`
+            text = text.replace(/`(.*?)`/g, '<span class="code">$1</span>');
+            // Links: [text](url)
+            text = text.replace(/\[(.*?)\]\((.*?)\)/g, '<a href="$2" class="link" target="_blank">$1</a>');
+            
+            return text;
+        }
+
+        // Scroll to a specific message
+        function scrollToMessage(messageId) {
+            const messageElement = document.querySelector(`.message[data-message-id="${messageId}"]`);
+            if (messageElement) {
+                messageElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                
+                // Highlight the message temporarily
+                messageElement.style.backgroundColor = 'rgba(67, 97, 238, 0.2)';
+                setTimeout(() => {
+                    messageElement.style.backgroundColor = '';
+                }, 2000);
+            }
+        }
+
+        // Show reaction picker
+        function showReactionPicker(event, message) {
+            reactingToMessage = message;
+            reactionPicker.style.display = 'flex';
+            reactionPicker.style.bottom = `${window.innerHeight - event.clientY + 60}px`;
+            reactionPicker.style.right = `${window.innerWidth - event.clientX - 10}px`;
+            
+            // Close picker when clicking outside
+            const closePicker = (e) => {
+                if (!reactionPicker.contains(e.target)) {
+                    reactionPicker.style.display = 'none';
+                    document.removeEventListener('click', closePicker);
+                }
+            };
+            
+            setTimeout(() => {
+                document.addEventListener('click', closePicker);
+            }, 100);
+        }
+
+        // Toggle reaction on a message
+        async function toggleReaction(message, emoji) {
+            try {
+                // Check if user already reacted with this emoji
+                let userReactionId = null;
+                if (message.reactions) {
+                    for (const [id, reaction] of Object.entries(message.reactions)) {
+                        if (reaction.userId === currentUser.id && reaction.emoji === emoji) {
+                            userReactionId = id;
+                            break;
+                        }
+                    }
+                }
+                
+                const updates = {};
+                
+                if (userReactionId) {
+                    // Remove reaction
+                    updates[`messages/${currentChat.id}/${message.id}/reactions/${userReactionId}`] = null;
+                } else {
+                    // Add reaction
+                    const newReactionRef = push(ref(db, `messages/${currentChat.id}/${message.id}/reactions`));
+                    updates[`messages/${currentChat.id}/${message.id}/reactions/${newReactionRef.key}`] = {
+                        emoji: emoji,
+                        userId: currentUser.id,
+                        timestamp: Date.now()
+                    };
+                }
+                
+                await update(ref(db), updates);
+            } catch (error) {
+                console.error("Error toggling reaction:", error);
+            }
+        }
+
+        // Show context menu
+        function showContextMenu(event, message) {
+            event.preventDefault();
+            
+            // Set position
+            contextMenu.style.left = `${event.clientX}px`;
+            contextMenu.style.top = `${event.clientY}px`;
+            contextMenuPosition = { x: event.clientX, y: event.clientY };
+            
+            // Show/hide edit/delete options based on ownership
+            if (message.senderId === currentUser.id) {
+                contextMenuEdit.style.display = 'flex';
+                contextMenuDelete.style.display = 'flex';
+            } else {
+                contextMenuEdit.style.display = 'none';
+                contextMenuDelete.style.display = 'none';
+            }
+            
+            contextMenu.classList.add('active');
+            selectedMessage = message;
+            
+            // Close menu when clicking outside
+            const closeMenu = (e) => {
+                if (!contextMenu.contains(e.target)) {
+                    contextMenu.classList.remove('active');
+                    document.removeEventListener('click', closeMenu);
+                }
+            };
+            
+            setTimeout(() => {
+                document.addEventListener('click', closeMenu);
+            }, 100);
         }
 
         // Reply to a message
@@ -1482,6 +2053,7 @@
                 // Create message object
                 const message = {
                     text: messageText,
+                    formattedText: formatText(messageText),
                     senderId: currentUser.id,
                     senderName: currentUser.name,
                     timestamp: Date.now(),
@@ -1536,6 +2108,11 @@
                 chatInput.value = '';
                 chatInput.style.height = 'auto';
                 cancelReplyToMessage();
+                
+                // Scroll to bottom
+                setTimeout(() => {
+                    chatMessages.scrollTop = chatMessages.scrollHeight;
+                }, 100);
             } catch (error) {
                 console.error("Error sending message:", error);
                 showError("Failed to send message. Please try again.");
@@ -1564,9 +2141,14 @@
                 deleteMessage();
             } else if (defaultAction === 'reply') {
                 replyToMessage(message);
+            } else if (defaultAction === 'react') {
+                showReactionPicker({ clientX: contextMenuPosition.x, clientY: contextMenuPosition.y }, message);
             } else {
                 messageOptionsModal.classList.add('active');
             }
+            
+            // Close context menu if open
+            contextMenu.classList.remove('active');
         }
 
         // Edit message
@@ -1595,6 +2177,7 @@
                 const messageRef = ref(db, `messages/${currentChat.id}/${selectedMessage.id}`);
                 await update(messageRef, {
                     text: newText,
+                    formattedText: formatText(newText),
                     edited: true
                 });
                 
@@ -1863,7 +2446,6 @@
         // Load available groups (courses)
         async function loadGroups() {
             try {
-                // Only show groups the user is enrolled in
                 const groupsRef = ref(db, 'groups');
                 const snapshot = await get(groupsRef);
                 
@@ -1875,15 +2457,25 @@
                 const allGroups = snapshot.val();
                 groupSelect.innerHTML = '<option value="">Select a course</option>';
                 
-                // Filter groups to only those the user is enrolled in
-                currentUser.enrolledCourses.forEach(courseId => {
-                    if (allGroups[courseId]) {
-                        const option = document.createElement('option');
-                        option.value = courseId;
-                        option.textContent = allGroups[courseId].name;
-                        groupSelect.appendChild(option);
-                    }
-                });
+                // Filter groups to only those the user can join
+                for (const [id, group] of Object.entries(allGroups)) {
+                    // Skip mandatory groups (user is already in them)
+                    if (group.mandatory) continue;
+                    
+                    // Skip female group if user is not female
+                    if (group.genderRestricted && currentUser.gender !== 'female') continue;
+                    
+                    // Skip Hifz group if user is not a Hifz student
+                    if (id === 'hifz' && !currentUser.isHifzStudent) continue;
+                    
+                    // Skip Qir'aat group if user is not a Qir'aat student
+                    if (id === 'qiraat' && !currentUser.isQiraatStudent) continue;
+                    
+                    const option = document.createElement('option');
+                    option.value = id;
+                    option.textContent = group.name;
+                    groupSelect.appendChild(option);
+                }
             } catch (error) {
                 console.error("Error loading groups:", error);
                 groupSelect.innerHTML = '<option value="">Error loading courses</option>';
@@ -1917,6 +2509,15 @@
             chatInput.addEventListener('input', function() {
                 this.style.height = 'auto';
                 this.style.height = (this.scrollHeight) + 'px';
+            });
+            
+            // Formatting buttons
+            formattingToolbar.querySelectorAll('.format-button').forEach(button => {
+                button.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const format = button.dataset.format;
+                    applyFormatting(format);
+                });
             });
             
             // New chat modal
@@ -1973,6 +2574,10 @@
                 messageOptionsModal.classList.remove('active');
                 replyToMessage(selectedMessage);
             });
+            reactMessageBtn.addEventListener('click', () => {
+                messageOptionsModal.classList.remove('active');
+                showReactionPicker({ clientX: window.innerWidth/2, clientY: window.innerHeight/2 }, selectedMessage);
+            });
             
             // Back button for mobile
             backButton.addEventListener('click', () => {
@@ -1983,6 +2588,73 @@
             
             // Cancel reply
             cancelReply.addEventListener('click', cancelReplyToMessage);
+            
+            // Context menu actions
+            document.querySelectorAll('#context-menu .context-menu-item').forEach(item => {
+                item.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    const action = item.dataset.action;
+                    openMessageOptions(selectedMessage, action);
+                });
+            });
+            
+            // Reaction picker
+            reactionPicker.querySelectorAll('.reaction-emoji').forEach(emoji => {
+                emoji.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    toggleReaction(reactingToMessage, emoji.textContent);
+                    reactionPicker.style.display = 'none';
+                });
+            });
+        }
+
+        // Apply text formatting
+        function applyFormatting(format) {
+            const start = chatInput.selectionStart;
+            const end = chatInput.selectionEnd;
+            const text = chatInput.value;
+            const selectedText = text.substring(start, end);
+            
+            let formattedText = '';
+            let newCursorPos = start;
+            
+            switch (format) {
+                case 'bold':
+                    formattedText = `**${selectedText}**`;
+                    newCursorPos = start + 2;
+                    break;
+                case 'italic':
+                    formattedText = `*${selectedText}*`;
+                    newCursorPos = start + 1;
+                    break;
+                case 'underline':
+                    formattedText = `_${selectedText}_`;
+                    newCursorPos = start + 1;
+                    break;
+                case 'strikethrough':
+                    formattedText = `~${selectedText}~`;
+                    newCursorPos = start + 1;
+                    break;
+                case 'code':
+                    formattedText = `\`${selectedText}\``;
+                    newCursorPos = start + 1;
+                    break;
+                case 'link':
+                    const url = prompt('Enter URL:');
+                    if (url) {
+                        formattedText = `[${selectedText}](${url})`;
+                        newCursorPos = start + selectedText.length + 3;
+                    } else {
+                        return;
+                    }
+                    break;
+                default:
+                    return;
+            }
+            
+            chatInput.value = text.substring(0, start) + formattedText + text.substring(end);
+            chatInput.setSelectionRange(newCursorPos, newCursorPos + selectedText.length);
+            chatInput.focus();
         }
 
         // Update UI with current user data
