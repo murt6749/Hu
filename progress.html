@@ -1,0 +1,787 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>HU Jama'aa - Progress</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+  <style>
+    :root {
+      --primary-color: #1a4d2e;
+      --secondary-color: #4f6f52;
+      --accent-color: #f5efe6;
+      --light-color: #e8dfca;
+      --white: #ffffff;
+      --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      --success-color: #28a745;
+      --info-color: #17a2b8;
+      --warning-color: #ffc107;
+      --danger-color: #dc3545;
+      --border-radius: 12px;
+      --box-padding: 16px;
+    }
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Poppins', sans-serif;
+    }
+    body {
+      background-color: #f8f9fa;
+      min-height: 100vh;
+      font-size: 14px;
+    }
+    .container {
+      width: 100%;
+      max-width: 100%;
+      padding: 0;
+    }
+    /* Header Styles */
+    .header {
+      background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+      color: white;
+      padding: var(--box-padding);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    }
+    .header h1 {
+      font-size: 1.2rem;
+      font-weight: 600;
+    }
+    .header-actions {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+    }
+    .btn-icon {
+      background: none;
+      border: none;
+      color: white;
+      font-size: 1.2rem;
+      cursor: pointer;
+      position: relative;
+    }
+    /* Account Dropdown */
+    .account-dropdown {
+      position: relative;
+      display: inline-block;
+    }
+    .dropdown-content {
+      display: none;
+      position: absolute;
+      right: 0;
+      background-color: var(--white);
+      min-width: 160px;
+      box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+      z-index: 1;
+      border-radius: var(--border-radius);
+      overflow: hidden;
+    }
+    .dropdown-content a {
+      color: var(--secondary-color);
+      padding: 12px 16px;
+      text-decoration: none;
+      display: block;
+      font-size: 0.9rem;
+    }
+    .dropdown-content a:hover {
+      background-color: var(--light-color);
+    }
+    .account-dropdown:hover .dropdown-content {
+      display: block;
+    }
+    .user-name {
+      margin-right: 8px;
+      font-size: 0.9rem;
+      max-width: 100px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    /* Main Content Area */
+    .main-content {
+      padding: var(--box-padding);
+      padding-bottom: 70px; /* Space for bottom nav */
+    }
+    /* Bottom Navigation */
+    .bottom-nav {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background-color: var(--white);
+      display: flex;
+      justify-content: space-around;
+      padding: 10px 0;
+      box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+      z-index: 100;
+    }
+    .nav-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-decoration: none;
+      color: var(--secondary-color);
+      font-size: 0.8rem;
+    }
+    .nav-item i {
+      font-size: 1.2rem;
+      margin-bottom: 4px;
+    }
+    .nav-item.active {
+      color: var(--primary-color);
+    }
+    /* Card Styles */
+    .card {
+      background-color: var(--white);
+      border-radius: var(--border-radius);
+      padding: var(--box-padding);
+      margin-bottom: 15px;
+      box-shadow: var(--shadow);
+    }
+    .card-title {
+      color: var(--primary-color);
+      margin-bottom: 10px;
+      font-size: 1.1rem;
+      font-weight: 600;
+    }
+    /* Progress Card Styles */
+    .progress-card {
+      background-color: var(--white);
+      border-radius: var(--border-radius);
+      padding: var(--box-padding);
+      margin-bottom: 15px;
+      box-shadow: var(--shadow);
+      position: relative;
+    }
+    .progress-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+    .progress-title {
+      font-weight: 600;
+      color: var(--primary-color);
+    }
+    .progress-value {
+      font-weight: 700;
+      color: var(--secondary-color);
+    }
+    .progress-bar-container {
+      width: 100%;
+      height: 10px;
+      background-color: #e0e0e0;
+      border-radius: 5px;
+      overflow: hidden;
+      margin-bottom: 10px;
+    }
+    .progress-bar {
+      height: 100%;
+      background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+      border-radius: 5px;
+      transition: width 0.3s ease;
+    }
+    .progress-details {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.8rem;
+      color: var(--secondary-color);
+    }
+    .progress-actions {
+      display: flex;
+      justify-content: flex-end;
+      margin-top: 10px;
+    }
+    .action-btn {
+      background: none;
+      border: none;
+      color: var(--primary-color);
+      font-size: 0.9rem;
+      cursor: pointer;
+      margin-left: 10px;
+    }
+    /* Stats Grid */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+      margin-bottom: 15px;
+    }
+    .stat-card {
+      background-color: var(--white);
+      border-radius: var(--border-radius);
+      padding: var(--box-padding);
+      text-align: center;
+      box-shadow: var(--shadow);
+    }
+    .stat-value {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--primary-color);
+      margin-bottom: 5px;
+    }
+    .stat-label {
+      font-size: 0.8rem;
+      color: var(--secondary-color);
+    }
+    /* Form Elements */
+    .form-group {
+      margin-bottom: 15px;
+    }
+    .form-group label {
+      display: block;
+      margin-bottom: 5px;
+      font-weight: 500;
+      color: var(--secondary-color);
+    }
+    .form-control {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      font-size: 1rem;
+    }
+    .btn {
+      padding: 12px;
+      border: none;
+      border-radius: 8px;
+      font-size: 1rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      width: 100%;
+    }
+    .btn-primary {
+      background-color: var(--primary-color);
+      color: var(--white);
+    }
+    .btn-primary:hover {
+      background-color: var(--secondary-color);
+    }
+    .btn-outline {
+      background-color: transparent;
+      border: 1px solid var(--primary-color);
+      color: var(--primary-color);
+    }
+    .btn-sm {
+      padding: 8px 12px;
+      font-size: 0.9rem;
+    }
+    .d-none {
+      display: none;
+    }
+    /* Modal Styles */
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: rgba(0, 0, 0, 0.5);
+      z-index: 1000;
+      align-items: center;
+      justify-content: center;
+      padding: 15px;
+    }
+    .modal.active {
+      display: flex;
+    }
+    .modal-content {
+      background-color: var(--white);
+      border-radius: var(--border-radius);
+      width: 100%;
+      max-width: 500px;
+      max-height: 90vh;
+      overflow-y: auto;
+      animation: modalFadeIn 0.3s ease;
+    }
+    @keyframes modalFadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    .modal-header {
+      padding: 15px;
+      border-bottom: 1px solid #eee;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .modal-title {
+      font-size: 1.2rem;
+      color: var(--primary-color);
+      font-weight: 600;
+    }
+    .modal-close {
+      background: none;
+      border: none;
+      font-size: 1.5rem;
+      cursor: pointer;
+    }
+    .modal-body {
+      padding: 15px;
+    }
+    .modal-footer {
+      padding: 15px;
+      border-top: 1px solid #eee;
+      display: flex;
+      justify-content: flex-end;
+      gap: 10px;
+    }
+    /* Admin Controls */
+    .admin-controls {
+      margin-top: 15px;
+      padding-top: 15px;
+      border-top: 1px solid #eee;
+    }
+    .admin-only {
+      display: none;
+    }
+    .is-admin .admin-only {
+      display: block;
+    }
+    @media (min-width: 768px) {
+      .container {
+        max-width: 768px;
+        margin: 0 auto;
+      }
+      .stats-grid {
+        grid-template-columns: repeat(4, 1fr);
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- Header -->
+    <header class="header">
+      <h1 id="page-title">My Progress</h1>
+      <div class="header-actions">
+        <div class="account-dropdown">
+          <div style="display: flex; align-items: center;">
+            <span class="user-name" id="user-name-display">User</span>
+            <button class="btn-icon" id="account-btn">
+              <i class="fas fa-user-circle"></i>
+            </button>
+          </div>
+          <div class="dropdown-content" id="account-dropdown">
+            <a href="schedule.html"><i class="fas fa-calendar-alt"></i> Schedule</a>
+            <a href="#" id="logout-btn"><i class="fas fa-sign-out-alt"></i> Logout</a>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content" id="main-content">
+      <!-- Dynamic content loaded here -->
+    </main>
+
+    <!-- Bottom Navigation -->
+    <nav class="bottom-nav">
+      <a href="courses.html" class="nav-item" data-page="courses">
+        <i class="fas fa-book"></i>
+        <span>Courses</span>
+      </a>
+      <a href="#" class="nav-item active" data-page="progress">
+        <i class="fas fa-chart-line"></i>
+        <span>Progress</span>
+      </a>
+      <a href="classmates.html" class="nav-item" data-page="classmates">
+        <i class="fas fa-users"></i>
+        <span>Classmates</span>
+      </a>
+      <a href="profile.html" class="nav-item" data-page="profile">
+        <i class="fas fa-user"></i>
+        <span>Profile</span>
+      </a>
+    </nav>
+  </div>
+
+  <!-- Progress Update Modal -->
+  <div class="modal" id="progress-modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 class="modal-title" id="progress-modal-title">Update Progress</h3>
+        <button class="modal-close" id="close-progress-modal">&times;</button>
+      </div>
+      <div class="modal-body">
+        <form id="progress-form">
+          <input type="hidden" id="progress-course-id">
+          <div class="form-group">
+            <label for="progress-value">Progress Percentage</label>
+            <input type="number" id="progress-value" class="form-control" min="0" max="100" required>
+          </div>
+          <div class="form-group">
+            <label for="progress-notes">Notes (Optional)</label>
+            <textarea id="progress-notes" class="form-control" rows="3"></textarea>
+          </div>
+          <div class="form-group admin-only">
+            <label for="progress-verified">Verified by Instructor</label>
+            <select id="progress-verified" class="form-control">
+              <option value="false">Not Verified</option>
+              <option value="true">Verified</option>
+            </select>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-outline" id="cancel-progress-update">Cancel</button>
+        <button class="btn btn-primary" id="save-progress">Save</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Firebase SDK and Application Code -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+    import {
+      getAuth,
+      onAuthStateChanged,
+      signOut
+    } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+    import {
+      getFirestore,
+      collection,
+      doc,
+      getDoc,
+      getDocs,
+      setDoc,
+      updateDoc,
+      arrayUnion,
+      arrayRemove,
+      query,
+      where,
+      serverTimestamp
+    } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyBQyNVWh1BtCkXlBfuS7jHAa36FTklZayo",
+      authDomain: "pharma-quiz-b5a07.firebaseapp.com",
+      projectId: "pharma-quiz-b5a07",
+      storageBucket: "pharma-quiz-b5a07.appspot.com",
+      messagingSenderId: "161067776789",
+      appId: "1:161067776789:web:88b8a61145dc5f5c31471c",
+      measurementId: "G-3QRQE9HQFB"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
+
+    // DOM Elements
+    const mainContent = document.getElementById('main-content');
+    const pageTitle = document.getElementById('page-title');
+    const userNameDisplay = document.getElementById('user-name-display');
+    const logoutBtn = document.getElementById('logout-btn');
+    const progressModal = document.getElementById('progress-modal');
+    const closeProgressModal = document.getElementById('close-progress-modal');
+    const cancelProgressUpdate = document.getElementById('cancel-progress-update');
+    const saveProgressBtn = document.getElementById('save-progress');
+    const progressForm = document.getElementById('progress-form');
+    const progressCourseId = document.getElementById('progress-course-id');
+    const progressValue = document.getElementById('progress-value');
+    const progressNotes = document.getElementById('progress-notes');
+    const progressVerified = document.getElementById('progress-verified');
+
+    let currentUser = null;
+    let userData = null;
+    let enrolledCourses = [];
+    let isAdmin = false;
+    let currentEditingCourse = null;
+
+    // Initialize app and set up navigation and authentication
+    function initApp() {
+      // Set up event listeners
+      logoutBtn.addEventListener('click', async (e) => {
+        e.preventDefault();
+        try {
+          await signOut(auth);
+          window.location.href = 'login.html';
+        } catch (error) {
+          console.error("Error signing out:", error);
+        }
+      });
+
+      closeProgressModal.addEventListener('click', () => {
+        progressModal.classList.remove('active');
+      });
+
+      cancelProgressUpdate.addEventListener('click', () => {
+        progressModal.classList.remove('active');
+      });
+
+      saveProgressBtn.addEventListener('click', async () => {
+        await updateCourseProgress();
+      });
+
+      // Check auth state
+      onAuthStateChanged(auth, async (user) => {
+        if (user) {
+          currentUser = user;
+          await loadUserData(user.uid);
+          userNameDisplay.textContent = userData.name || user.displayName || "User";
+          loadProgressPage();
+        } else {
+          window.location.href = 'login.html';
+        }
+      });
+    }
+
+    async function loadUserData(userId) {
+      try {
+        const userDoc = await getDoc(doc(db, "users", userId));
+        if (userDoc.exists()) {
+          userData = userDoc.data();
+          if (!userData.enrolledCourses) {
+            await updateDoc(doc(db, "users", userId), { enrolledCourses: [] });
+            userData.enrolledCourses = [];
+          }
+          enrolledCourses = userData.enrolledCourses;
+          isAdmin = userData.role === 'admin'; // Check if user is admin
+          
+          if (isAdmin) {
+            document.body.classList.add('is-admin');
+          }
+        } else {
+          const newUserData = {
+            name: currentUser.displayName || "User",
+            email: currentUser.email,
+            enrolledCourses: [],
+            studentId: "",
+            department: "",
+            year: "",
+            phone: "",
+            role: "student", // Default role
+            createdAt: serverTimestamp()
+          };
+          await setDoc(doc(db, "users", userId), newUserData);
+          userData = newUserData;
+          enrolledCourses = [];
+        }
+      } catch (error) {
+        console.error("Error loading user data:", error);
+      }
+    }
+
+    function loadProgressPage() {
+      let html = `
+        <div class="stats-grid">
+          <div class="stat-card">
+            <div class="stat-value">${calculateAverageProgress()}%</div>
+            <div class="stat-label">Overall Progress</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-value">${getCompletedCoursesCount()}</div>
+            <div class="stat-label">Courses Completed</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-value">${enrolledCourses.length}</div>
+            <div class="stat-label">Total Courses</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-value">${getVerifiedCoursesCount()}</div>
+            <div class="stat-label">Verified</div>
+          </div>
+        </div>
+        
+        <div class="card">
+          <h2 class="card-title">My Course Progress</h2>
+          <div id="courses-progress"></div>
+        </div>
+      `;
+      mainContent.innerHTML = html;
+      displayCoursesProgress();
+    }
+
+    function calculateAverageProgress() {
+      if (enrolledCourses.length === 0) return 0;
+      const total = enrolledCourses.reduce((sum, course) => sum + (course.progress || 0), 0);
+      return Math.round(total / enrolledCourses.length);
+    }
+
+    function getCompletedCoursesCount() {
+      return enrolledCourses.filter(course => course.progress >= 100).length;
+    }
+
+    function getVerifiedCoursesCount() {
+      return enrolledCourses.filter(course => course.verified).length;
+    }
+
+    function displayCoursesProgress() {
+      const coursesProgress = document.getElementById('courses-progress');
+      if (!coursesProgress) return;
+      
+      if (enrolledCourses.length === 0) {
+        coursesProgress.innerHTML = '<p>You are not enrolled in any courses yet.</p>';
+        return;
+      }
+      
+      coursesProgress.innerHTML = '';
+      
+      enrolledCourses.forEach(course => {
+        const progress = course.progress || 0;
+        const progressCard = document.createElement('div');
+        progressCard.className = 'progress-card';
+        progressCard.innerHTML = `
+          <div class="progress-header">
+            <div class="progress-title">${course.title}</div>
+            <div class="progress-value">${progress}%</div>
+          </div>
+          <div class="progress-bar-container">
+            <div class="progress-bar" style="width: ${progress}%"></div>
+          </div>
+          <div class="progress-details">
+            <div>Enrolled: ${formatDate(course.enrollmentDate)}</div>
+            <div>${course.verified ? 'Verified' : 'Not Verified'}</div>
+          </div>
+          <div class="progress-actions">
+            <button class="action-btn" onclick="openProgressModal('${course.id}')">
+              <i class="fas fa-edit"></i> Update
+            </button>
+          </div>
+          ${course.notes ? `
+            <div class="notes-section">
+              <strong>Notes:</strong> ${course.notes}
+            </div>
+          ` : ''}
+          ${isAdmin ? `
+            <div class="admin-controls">
+              <button class="action-btn" onclick="verifyCourseProgress('${course.id}', ${!course.verified})">
+                <i class="fas fa-${course.verified ? 'times' : 'check'}"></i> 
+                ${course.verified ? 'Unverify' : 'Verify'}
+              </button>
+            </div>
+          ` : ''}
+        `;
+        coursesProgress.appendChild(progressCard);
+      });
+    }
+
+    function formatDate(dateString) {
+      if (!dateString) return 'N/A';
+      const options = { year: 'numeric', month: 'short', day: 'numeric' };
+      return new Date(dateString).toLocaleDateString(undefined, options);
+    }
+
+    function openProgressModal(courseId) {
+      const course = enrolledCourses.find(c => c.id === courseId);
+      if (!course) return;
+      
+      currentEditingCourse = courseId;
+      progressCourseId.value = courseId;
+      progressValue.value = course.progress || 0;
+      progressNotes.value = course.notes || '';
+      
+      if (isAdmin) {
+        progressVerified.value = course.verified ? 'true' : 'false';
+      }
+      
+      progressModal.classList.add('active');
+    }
+
+    async function updateCourseProgress() {
+      if (!currentUser || !currentEditingCourse) return;
+      
+      const progress = parseInt(progressValue.value);
+      if (isNaN(progress) || progress < 0 || progress > 100) {
+        alert("Please enter a valid progress percentage (0-100)");
+        return;
+      }
+      
+      try {
+        // Find the course in enrolledCourses array
+        const courseIndex = enrolledCourses.findIndex(c => c.id === currentEditingCourse);
+        if (courseIndex === -1) return;
+        
+        // Create updated course data
+        const updatedCourse = {
+          ...enrolledCourses[courseIndex],
+          progress: progress,
+          notes: progressNotes.value,
+          lastUpdated: new Date().toISOString()
+        };
+        
+        // If admin, update verification status
+        if (isAdmin) {
+          updatedCourse.verified = progressVerified.value === 'true';
+        }
+        
+        // Update Firestore
+        await updateDoc(doc(db, "users", currentUser.uid), {
+          enrolledCourses: arrayRemove(enrolledCourses[courseIndex])
+        });
+        
+        await updateDoc(doc(db, "users", currentUser.uid), {
+          enrolledCourses: arrayUnion(updatedCourse)
+        });
+        
+        // Update local data
+        enrolledCourses[courseIndex] = updatedCourse;
+        
+        // Refresh display
+        progressModal.classList.remove('active');
+        loadProgressPage();
+        
+      } catch (error) {
+        console.error("Error updating progress:", error);
+        alert("Failed to update progress. Please try again.");
+      }
+    }
+
+    async function verifyCourseProgress(courseId, verify) {
+      if (!isAdmin || !currentUser) return;
+      
+      try {
+        // Find the course in enrolledCourses array
+        const courseIndex = enrolledCourses.findIndex(c => c.id === courseId);
+        if (courseIndex === -1) return;
+        
+        // Create updated course data
+        const updatedCourse = {
+          ...enrolledCourses[courseIndex],
+          verified: verify,
+          verifiedBy: userData.name || "Admin",
+          verifiedAt: new Date().toISOString()
+        };
+        
+        // Update Firestore
+        await updateDoc(doc(db, "users", currentUser.uid), {
+          enrolledCourses: arrayRemove(enrolledCourses[courseIndex])
+        });
+        
+        await updateDoc(doc(db, "users", currentUser.uid), {
+          enrolledCourses: arrayUnion(updatedCourse)
+        });
+        
+        // Update local data
+        enrolledCourses[courseIndex] = updatedCourse;
+        
+        // Refresh display
+        loadProgressPage();
+        
+      } catch (error) {
+        console.error("Error verifying progress:", error);
+        alert("Failed to verify progress. Please try again.");
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', initApp);
+    window.openProgressModal = openProgressModal;
+    window.verifyCourseProgress = verifyCourseProgress;
+  </script>
+</body>
+</html>
