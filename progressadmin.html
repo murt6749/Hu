@@ -1,0 +1,1081 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>HU Jama'aa - Admin Dashboard</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+  <style>
+    :root {
+      --primary-color: #1a4d2e;
+      --secondary-color: #4f6f52;
+      --accent-color: #f5efe6;
+      --light-color: #e8dfca;
+      --white: #ffffff;
+      --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      --success-color: #28a745;
+      --info-color: #17a2b8;
+      --warning-color: #ffc107;
+      --danger-color: #dc3545;
+      --border-radius: 12px;
+      --box-padding: 16px;
+    }
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Poppins', sans-serif;
+    }
+    body {
+      background-color: #f8f9fa;
+      min-height: 100vh;
+      font-size: 14px;
+    }
+    .container {
+      width: 100%;
+      max-width: 100%;
+      padding: 0;
+    }
+    /* Header Styles */
+    .header {
+      background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+      color: white;
+      padding: var(--box-padding);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    }
+    .header h1 {
+      font-size: 1.2rem;
+      font-weight: 600;
+    }
+    .header-actions {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+    }
+    /* User Avatar */
+    .user-avatar {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background-color: var(--accent-color);
+      color: var(--primary-color);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      text-transform: uppercase;
+    }
+    /* Main Content Area */
+    .main-content {
+      padding: var(--box-padding);
+      padding-bottom: 20px;
+    }
+    /* Admin Dashboard Styles */
+    .admin-control-panel {
+      display: grid;
+      grid-template-columns: 300px 1fr;
+      gap: 20px;
+    }
+    .filters-section {
+      background-color: var(--white);
+      border-radius: var(--border-radius);
+      padding: var(--box-padding);
+      box-shadow: var(--shadow);
+      height: fit-content;
+      position: sticky;
+      top: 80px;
+    }
+    .results-section {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+    /* Filter Controls */
+    .filter-group {
+      margin-bottom: 15px;
+    }
+    .filter-group h3 {
+      font-size: 1rem;
+      color: var(--primary-color);
+      margin-bottom: 10px;
+      padding-bottom: 5px;
+      border-bottom: 1px solid #eee;
+    }
+    .form-control {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      font-size: 0.9rem;
+      margin-bottom: 10px;
+    }
+    .btn {
+      padding: 10px;
+      border: none;
+      border-radius: 8px;
+      font-size: 0.9rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    .btn-primary {
+      background-color: var(--primary-color);
+      color: var(--white);
+    }
+    .btn-primary:hover {
+      background-color: var(--secondary-color);
+    }
+    .btn-outline {
+      background-color: transparent;
+      border: 1px solid var(--primary-color);
+      color: var(--primary-color);
+    }
+    .btn-sm {
+      padding: 6px 10px;
+      font-size: 0.8rem;
+    }
+    /* User Cards */
+    .user-card {
+      background-color: var(--white);
+      border-radius: var(--border-radius);
+      padding: var(--box-padding);
+      box-shadow: var(--shadow);
+    }
+    .user-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+    .user-info {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .user-name {
+      font-weight: 600;
+    }
+    .user-id {
+      font-size: 0.8rem;
+      color: var(--secondary-color);
+    }
+    .user-courses {
+      margin-top: 10px;
+    }
+    .course-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 8px 0;
+      border-bottom: 1px solid #f0f0f0;
+    }
+    .course-title {
+      font-weight: 500;
+    }
+    .course-progress {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .progress-input {
+      width: 60px;
+      padding: 5px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      text-align: center;
+    }
+    .progress-actions {
+      display: flex;
+      gap: 5px;
+    }
+    /* Bulk Actions */
+    .bulk-actions {
+      background-color: var(--white);
+      border-radius: var(--border-radius);
+      padding: var(--box-padding);
+      box-shadow: var(--shadow);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 15px;
+    }
+    .bulk-controls {
+      display: flex;
+      gap: 10px;
+    }
+    /* Progress Bar */
+    .progress-bar-container {
+      width: 100%;
+      height: 8px;
+      background-color: #e0e0e0;
+      border-radius: 4px;
+      overflow: hidden;
+      margin-top: 5px;
+    }
+    .progress-bar {
+      height: 100%;
+      background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+      border-radius: 4px;
+    }
+    /* Verification Badge */
+    .verified-badge {
+      display: inline-flex;
+      align-items: center;
+      background-color: var(--success-color);
+      color: white;
+      padding: 2px 8px;
+      border-radius: 10px;
+      font-size: 0.7rem;
+      margin-left: 5px;
+    }
+    .verified-badge i {
+      font-size: 0.6rem;
+      margin-right: 3px;
+    }
+    /* Checkbox */
+    .checkbox-container {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+    /* Auto Progress Section */
+    .auto-progress-section {
+      background-color: var(--white);
+      border-radius: var(--border-radius);
+      padding: var(--box-padding);
+      box-shadow: var(--shadow);
+      margin-top: 15px;
+    }
+    .auto-progress-controls {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-top: 10px;
+    }
+    /* Modal Styles */
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: rgba(0, 0, 0, 0.5);
+      z-index: 1000;
+      align-items: center;
+      justify-content: center;
+      padding: 15px;
+    }
+    .modal.active {
+      display: flex;
+    }
+    .modal-content {
+      background-color: var(--white);
+      border-radius: var(--border-radius);
+      width: 100%;
+      max-width: 500px;
+      max-height: 90vh;
+      overflow-y: auto;
+      animation: modalFadeIn 0.3s ease;
+    }
+    @keyframes modalFadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    .modal-header {
+      padding: 15px;
+      border-bottom: 1px solid #eee;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .modal-title {
+      font-size: 1.2rem;
+      color: var(--primary-color);
+      font-weight: 600;
+    }
+    .modal-close {
+      background: none;
+      border: none;
+      font-size: 1.5rem;
+      cursor: pointer;
+    }
+    .modal-body {
+      padding: 15px;
+    }
+    .modal-footer {
+      padding: 15px;
+      border-top: 1px solid #eee;
+      display: flex;
+      justify-content: flex-end;
+      gap: 10px;
+    }
+    /* Responsive */
+    @media (max-width: 768px) {
+      .admin-control-panel {
+        grid-template-columns: 1fr;
+      }
+      .filters-section {
+        position: static;
+      }
+      .auto-progress-controls {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- Header -->
+    <header class="header">
+      <h1 id="page-title">Admin Dashboard</h1>
+      <div class="header-actions">
+        <div style="display: flex; align-items: center; gap: 10px;">
+          <span id="admin-name">Admin</span>
+          <div class="user-avatar" id="admin-avatar">A</div>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content" id="main-content">
+      <div class="admin-control-panel">
+        <!-- Filters Section -->
+        <div class="filters-section">
+          <h2>Filters</h2>
+          <div class="filter-group">
+            <h3>User Filters</h3>
+            <input type="text" id="name-filter" class="form-control" placeholder="Search by name">
+            <input type="text" id="id-filter" class="form-control" placeholder="Search by student ID">
+            <select id="department-filter" class="form-control">
+              <option value="">All Departments</option>
+              <option value="Qirat">Qirat</option>
+              <option value="Hifz">Hifz</option>
+              <option value="Nezer">Nezer</option>
+            </select>
+          </div>
+          
+          <div class="filter-group">
+            <h3>Course Filters</h3>
+            <select id="course-type-filter" class="form-control">
+              <option value="">All Course Types</option>
+              <option value="qirat">Qirat</option>
+              <option value="hifz">Hifz</option>
+              <option value="nezer">Nezer</option>
+            </select>
+            <select id="course-language-filter" class="form-control">
+              <option value="">All Languages</option>
+              <option value="Amharic">Amharic</option>
+              <option value="Oromifa">Oromifa</option>
+            </select>
+          </div>
+          
+          <div class="filter-group">
+            <h3>Progress Filters</h3>
+            <select id="progress-range-filter" class="form-control">
+              <option value="all">All Progress</option>
+              <option value="0-25">0-25%</option>
+              <option value="26-50">26-50%</option>
+              <option value="51-75">51-75%</option>
+              <option value="76-99">76-99%</option>
+              <option value="100">Completed (100%)</option>
+            </select>
+            <select id="verification-filter" class="form-control">
+              <option value="all">All Verification Status</option>
+              <option value="verified">Verified Only</option>
+              <option value="unverified">Unverified Only</option>
+            </select>
+          </div>
+          
+          <button id="apply-filters" class="btn btn-primary">Apply Filters</button>
+          <button id="reset-filters" class="btn btn-outline">Reset Filters</button>
+        </div>
+        
+        <!-- Results Section -->
+        <div class="results-section">
+          <div class="bulk-actions">
+            <div class="bulk-controls">
+              <div class="checkbox-container">
+                <input type="checkbox" id="select-all">
+                <label for="select-all">Select All</label>
+              </div>
+              <button id="bulk-update" class="btn btn-primary btn-sm">Bulk Update Selected</button>
+            </div>
+            <div>
+              <span id="selected-count">0 selected</span>
+            </div>
+          </div>
+          
+          <div class="auto-progress-section">
+            <h3>Automatic Progress Update</h3>
+            <div class="auto-progress-controls">
+              <div>
+                <label for="progress-increment">Progress Increment (%)</label>
+                <input type="number" id="progress-increment" class="form-control" min="1" max="100" value="5">
+              </div>
+              <div>
+                <label for="apply-to">Apply To</label>
+                <select id="apply-to" class="form-control">
+                  <option value="filtered">Currently Filtered Users</option>
+                  <option value="selected">Selected Users Only</option>
+                  <option value="all">All Users</option>
+                </select>
+              </div>
+            </div>
+            <button id="apply-auto-progress" class="btn btn-primary" style="margin-top: 10px;">
+              Apply Automatic Progress
+            </button>
+          </div>
+          
+          <div id="users-list">
+            <!-- Users will be loaded here -->
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <!-- Bulk Update Modal -->
+  <div class="modal" id="bulk-update-modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 class="modal-title">Bulk Progress Update</h3>
+        <button class="modal-close" id="close-bulk-modal">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <label for="bulk-progress-value">Set Progress Percentage</label>
+          <input type="number" id="bulk-progress-value" class="form-control" min="0" max="100" required>
+        </div>
+        <div class="form-group">
+          <label for="bulk-verification">Verification Status</label>
+          <select id="bulk-verification" class="form-control">
+            <option value="no-change">No Change</option>
+            <option value="verified">Verified</option>
+            <option value="unverified">Unverified</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="bulk-notes">Admin Notes</label>
+          <textarea id="bulk-notes" class="form-control" rows="3" placeholder="Optional notes for all selected users"></textarea>
+        </div>
+        <div class="form-group">
+          <label>Affected Users: <span id="affected-users-count">0</span></label>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-outline" id="cancel-bulk-update">Cancel</button>
+        <button class="btn btn-primary" id="confirm-bulk-update">Update All</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Firebase SDK and Application Code -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+    import {
+      getAuth,
+      onAuthStateChanged,
+      signOut
+    } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+    import {
+      getFirestore,
+      collection,
+      doc,
+      getDoc,
+      getDocs,
+      updateDoc,
+      arrayRemove,
+      arrayUnion,
+      query,
+      where,
+      serverTimestamp
+    } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyBQyNVWh1BtCkXlBfuS7jHAa36FTklZayo",
+      authDomain: "pharma-quiz-b5a07.firebaseapp.com",
+      projectId: "pharma-quiz-b5a07",
+      storageBucket: "pharma-quiz-b5a07.appspot.com",
+      messagingSenderId: "161067776789",
+      appId: "1:161067776789:web:88b8a61145dc5f5c31471c",
+      measurementId: "G-3QRQE9HQFB"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
+
+    // DOM Elements
+    const adminName = document.getElementById('admin-name');
+    const adminAvatar = document.getElementById('admin-avatar');
+    const usersList = document.getElementById('users-list');
+    const selectAllCheckbox = document.getElementById('select-all');
+    const selectedCount = document.getElementById('selected-count');
+    const bulkUpdateBtn = document.getElementById('bulk-update');
+    const applyFiltersBtn = document.getElementById('apply-filters');
+    const resetFiltersBtn = document.getElementById('reset-filters');
+    const applyAutoProgressBtn = document.getElementById('apply-auto-progress');
+    const bulkUpdateModal = document.getElementById('bulk-update-modal');
+    const closeBulkModal = document.getElementById('close-bulk-modal');
+    const cancelBulkUpdate = document.getElementById('cancel-bulk-update');
+    const confirmBulkUpdate = document.getElementById('confirm-bulk-update');
+    const bulkProgressValue = document.getElementById('bulk-progress-value');
+    const bulkVerification = document.getElementById('bulk-verification');
+    const bulkNotes = document.getElementById('bulk-notes');
+    const affectedUsersCount = document.getElementById('affected-users-count');
+    const progressIncrement = document.getElementById('progress-increment');
+    const applyTo = document.getElementById('apply-to');
+
+    // Data variables
+    let allUsers = [];
+    let filteredUsers = [];
+    let selectedUserIds = new Set();
+    let currentAdmin = null;
+    let isAdminVerified = false;
+
+    // Initialize the app
+    function initApp() {
+      // Check admin status
+      onAuthStateChanged(auth, async (user) => {
+        if (user) {
+          currentAdmin = user;
+          const userDoc = await getDoc(doc(db, "users", user.uid));
+          
+          if (userDoc.exists()) {
+            const userData = userDoc.data();
+            isAdminVerified = userData.role === 'admin' && userData.adminVerified;
+            
+            if (!isAdminVerified) {
+              window.location.href = 'progress.html';
+              return;
+            }
+            
+            // Set admin display
+            adminName.textContent = userData.name || "Admin";
+            adminAvatar.textContent = (userData.name || "A").charAt(0).toUpperCase();
+            
+            // Load all users
+            loadAllUsers();
+          } else {
+            window.location.href = 'progress.html';
+          }
+        } else {
+          window.location.href = 'login.html';
+        }
+      });
+
+      // Set up event listeners
+      selectAllCheckbox.addEventListener('change', toggleSelectAll);
+      bulkUpdateBtn.addEventListener('click', openBulkUpdateModal);
+      applyFiltersBtn.addEventListener('click', applyFilters);
+      resetFiltersBtn.addEventListener('click', resetFilters);
+      closeBulkModal.addEventListener('click', () => bulkUpdateModal.classList.remove('active'));
+      cancelBulkUpdate.addEventListener('click', () => bulkUpdateModal.classList.remove('active'));
+      confirmBulkUpdate.addEventListener('click', performBulkUpdate);
+      applyAutoProgressBtn.addEventListener('click', applyAutomaticProgress);
+    }
+
+    // Load all users from Firestore
+    async function loadAllUsers() {
+      try {
+        const usersSnapshot = await getDocs(collection(db, "users"));
+        allUsers = [];
+        
+        usersSnapshot.forEach(doc => {
+          const user = doc.data();
+          if (doc.id !== currentAdmin.uid) { // Exclude admin from the list
+            allUsers.push({
+              id: doc.id,
+              ...user,
+              enrolledCourses: user.enrolledCourses || []
+            });
+          }
+        });
+        
+        filteredUsers = [...allUsers];
+        displayUsers();
+      } catch (error) {
+        console.error("Error loading users:", error);
+      }
+    }
+
+    // Display users in the UI
+    function displayUsers() {
+      usersList.innerHTML = '';
+      
+      if (filteredUsers.length === 0) {
+        usersList.innerHTML = '<p>No users found matching your filters.</p>';
+        return;
+      }
+      
+      filteredUsers.forEach(user => {
+        const userCard = document.createElement('div');
+        userCard.className = 'user-card';
+        userCard.dataset.userId = user.id;
+        
+        // Check if user is selected
+        const isSelected = selectedUserIds.has(user.id);
+        if (isSelected) {
+          userCard.classList.add('selected');
+        }
+        
+        userCard.innerHTML = `
+          <div class="user-header">
+            <div class="user-info">
+              <div class="checkbox-container">
+                <input type="checkbox" id="select-${user.id}" ${isSelected ? 'checked' : ''}>
+              </div>
+              <div class="user-avatar">${(user.name || 'U').charAt(0).toUpperCase()}</div>
+              <div>
+                <div class="user-name">${user.name || 'No Name'}</div>
+                <div class="user-id">${user.studentId || 'No ID'} • ${user.department || 'No Dept'}</div>
+              </div>
+            </div>
+          </div>
+          <div class="user-courses">
+            ${user.enrolledCourses.length > 0 ? 
+              user.enrolledCourses.map(course => `
+                <div class="course-item">
+                  <div class="course-title">${course.title}</div>
+                  <div class="course-progress">
+                    <input type="number" 
+                           class="progress-input" 
+                           value="${course.progress || 0}" 
+                           min="0" 
+                           max="100"
+                           data-course-id="${course.id}"
+                           data-user-id="${user.id}">
+                    <span>%</span>
+                    <div class="progress-actions">
+                      <button class="btn btn-primary btn-sm save-progress" 
+                              data-course-id="${course.id}"
+                              data-user-id="${user.id}">
+                        Save
+                      </button>
+                    </div>
+                  </div>
+                  <div class="progress-bar-container">
+                    <div class="progress-bar" style="width: ${course.progress || 0}%"></div>
+                  </div>
+                  ${course.verified ? '<span class="verified-badge"><i class="fas fa-check"></i> Verified</span>' : ''}
+                  ${course.notes ? `<div class="course-notes"><small>Notes: ${course.notes}</small></div>` : ''}
+                </div>
+              `).join('') : 
+              '<p>No enrolled courses</p>'
+            }
+          </div>
+        `;
+        
+        usersList.appendChild(userCard);
+        
+        // Add event listeners for the checkboxes
+        const checkbox = userCard.querySelector(`#select-${user.id}`);
+        checkbox.addEventListener('change', (e) => {
+          if (e.target.checked) {
+            selectedUserIds.add(user.id);
+          } else {
+            selectedUserIds.delete(user.id);
+          }
+          updateSelectedCount();
+          selectAllCheckbox.checked = selectedUserIds.size === filteredUsers.length;
+        });
+        
+        // Add event listeners for save buttons
+        userCard.querySelectorAll('.save-progress').forEach(btn => {
+          btn.addEventListener('click', async (e) => {
+            const userId = e.target.dataset.userId;
+            const courseId = e.target.dataset.courseId;
+            const progressInput = userCard.querySelector(`.progress-input[data-course-id="${courseId}"]`);
+            const progressValue = parseInt(progressInput.value);
+            
+            if (isNaN(progressValue) {
+              alert('Please enter a valid progress percentage');
+              return;
+            }
+            
+            await updateUserProgress(userId, courseId, progressValue);
+          });
+        });
+      });
+      
+      updateSelectedCount();
+    }
+
+    // Toggle select all checkbox
+    function toggleSelectAll() {
+      if (selectAllCheckbox.checked) {
+        filteredUsers.forEach(user => selectedUserIds.add(user.id));
+      } else {
+        filteredUsers.forEach(user => selectedUserIds.delete(user.id));
+      }
+      updateSelectedCount();
+      
+      // Update all checkboxes in the UI
+      document.querySelectorAll('[id^="select-"]').forEach(checkbox => {
+        checkbox.checked = selectAllCheckbox.checked;
+      });
+    }
+
+    // Update the selected users count display
+    function updateSelectedCount() {
+      selectedCount.textContent = `${selectedUserIds.size} selected`;
+    }
+
+    // Apply filters to users
+    function applyFilters() {
+      const nameFilter = document.getElementById('name-filter').value.toLowerCase();
+      const idFilter = document.getElementById('id-filter').value.toLowerCase();
+      const departmentFilter = document.getElementById('department-filter').value;
+      const courseTypeFilter = document.getElementById('course-type-filter').value;
+      const courseLanguageFilter = document.getElementById('course-language-filter').value;
+      const progressRangeFilter = document.getElementById('progress-range-filter').value;
+      const verificationFilter = document.getElementById('verification-filter').value;
+      
+      filteredUsers = allUsers.filter(user => {
+        // Name filter
+        if (nameFilter && !(user.name || '').toLowerCase().includes(nameFilter)) {
+          return false;
+        }
+        
+        // ID filter
+        if (idFilter && !(user.studentId || '').toLowerCase().includes(idFilter)) {
+          return false;
+        }
+        
+        // Department filter
+        if (departmentFilter && user.department !== departmentFilter) {
+          return false;
+        }
+        
+        // Course filters
+        if (courseTypeFilter || courseLanguageFilter || progressRangeFilter || verificationFilter) {
+          const matchingCourses = user.enrolledCourses.filter(course => {
+            // Course type filter
+            if (courseTypeFilter && course.type !== courseTypeFilter) {
+              return false;
+            }
+            
+            // Course language filter
+            if (courseLanguageFilter && course.language !== courseLanguageFilter) {
+              return false;
+            }
+            
+            // Progress range filter
+            if (progressRangeFilter !== 'all') {
+              const progress = course.progress || 0;
+              const [min, max] = progressRangeFilter === '100' ? 
+                [100, 100] : 
+                progressRangeFilter.split('-').map(Number);
+              
+              if (progress < min || progress > max) {
+                return false;
+              }
+            }
+            
+            // Verification filter
+            if (verificationFilter === 'verified' && !course.verified) {
+              return false;
+            }
+            if (verificationFilter === 'unverified' && course.verified) {
+              return false;
+            }
+            
+            return true;
+          });
+          
+          if (matchingCourses.length === 0) {
+            return false;
+          }
+        }
+        
+        return true;
+      });
+      
+      // Reset selection when filters change
+      selectedUserIds.clear();
+      selectAllCheckbox.checked = false;
+      updateSelectedCount();
+      
+      displayUsers();
+    }
+
+    // Reset all filters
+    function resetFilters() {
+      document.getElementById('name-filter').value = '';
+      document.getElementById('id-filter').value = '';
+      document.getElementById('department-filter').value = '';
+      document.getElementById('course-type-filter').value = '';
+      document.getElementById('course-language-filter').value = '';
+      document.getElementById('progress-range-filter').value = 'all';
+      document.getElementById('verification-filter').value = 'all';
+      
+      filteredUsers = [...allUsers];
+      selectedUserIds.clear();
+      selectAllCheckbox.checked = false;
+      updateSelectedCount();
+      
+      displayUsers();
+    }
+
+    // Open bulk update modal
+    function openBulkUpdateModal() {
+      if (selectedUserIds.size === 0) {
+        alert('Please select at least one user');
+        return;
+      }
+      
+      affectedUsersCount.textContent = selectedUserIds.size;
+      bulkProgressValue.value = '';
+      bulkVerification.value = 'no-change';
+      bulkNotes.value = '';
+      
+      bulkUpdateModal.classList.add('active');
+    }
+
+    // Perform bulk update
+    async function performBulkUpdate() {
+      const progressValue = parseInt(bulkProgressValue.value);
+      const verification = bulkVerification.value;
+      const notes = bulkNotes.value.trim();
+      
+      if (isNaN(progressValue) || progressValue < 0 || progressValue > 100) {
+        alert('Please enter a valid progress percentage (0-100)');
+        return;
+      }
+      
+      const userIds = Array.from(selectedUserIds);
+      const promises = [];
+      
+      for (const userId of userIds) {
+        const user = allUsers.find(u => u.id === userId);
+        if (!user) continue;
+        
+        for (const course of user.enrolledCourses) {
+          // Only update if the course matches current filters
+          if (courseMatchesFilters(course)) {
+            const updatedCourse = {
+              ...course,
+              progress: progressValue,
+              lastUpdated: new Date().toISOString(),
+              updatedBy: currentAdmin.uid
+            };
+            
+            // Update verification if requested
+            if (verification === 'verified') {
+              updatedCourse.verified = true;
+              updatedCourse.verifiedBy = adminName.textContent;
+              updatedCourse.verifiedAt = new Date().toISOString();
+            } else if (verification === 'unverified') {
+              updatedCourse.verified = false;
+              updatedCourse.verifiedBy = null;
+              updatedCourse.verifiedAt = null;
+            }
+            
+            // Add notes if provided
+            if (notes) {
+              updatedCourse.notes = notes;
+            }
+            
+            // Create update promise
+            promises.push(
+              updateDoc(doc(db, "users", userId), {
+                enrolledCourses: arrayRemove(course)
+              }).then(() => {
+                return updateDoc(doc(db, "users", userId), {
+                  enrolledCourses: arrayUnion(updatedCourse)
+                });
+              })
+            );
+          }
+        }
+      }
+      
+      try {
+        await Promise.all(promises);
+        alert(`Successfully updated ${userIds.length} users`);
+        bulkUpdateModal.classList.remove('active');
+        loadAllUsers(); // Refresh data
+      } catch (error) {
+        console.error("Error during bulk update:", error);
+        alert("An error occurred during bulk update. Some changes may not have been saved.");
+      }
+    }
+
+    // Check if course matches current filters
+    function courseMatchesFilters(course) {
+      const courseTypeFilter = document.getElementById('course-type-filter').value;
+      const courseLanguageFilter = document.getElementById('course-language-filter').value;
+      const progressRangeFilter = document.getElementById('progress-range-filter').value;
+      const verificationFilter = document.getElementById('verification-filter').value;
+      
+      // Course type filter
+      if (courseTypeFilter && course.type !== courseTypeFilter) {
+        return false;
+      }
+      
+      // Course language filter
+      if (courseLanguageFilter && course.language !== courseLanguageFilter) {
+        return false;
+      }
+      
+      // Progress range filter
+      if (progressRangeFilter !== 'all') {
+        const progress = course.progress || 0;
+        const [min, max] = progressRangeFilter === '100' ? 
+          [100, 100] : 
+          progressRangeFilter.split('-').map(Number);
+        
+        if (progress < min || progress > max) {
+          return false;
+        }
+      }
+      
+      // Verification filter
+      if (verificationFilter === 'verified' && !course.verified) {
+        return false;
+      }
+      if (verificationFilter === 'unverified' && course.verified) {
+        return false;
+      }
+      
+      return true;
+    }
+
+    // Apply automatic progress to selected users
+    async function applyAutomaticProgress() {
+      const increment = parseInt(progressIncrement.value);
+      const applyToValue = applyTo.value;
+      
+      if (isNaN(increment) || increment <= 0 || increment > 100) {
+        alert('Please enter a valid progress increment (1-100)');
+        return;
+      }
+      
+      let userIds = [];
+      
+      if (applyToValue === 'selected') {
+        if (selectedUserIds.size === 0) {
+          alert('Please select at least one user');
+          return;
+        }
+        userIds = Array.from(selectedUserIds);
+      } else if (applyToValue === 'filtered') {
+        if (filteredUsers.length === 0) {
+          alert('No users match current filters');
+          return;
+        }
+        userIds = filteredUsers.map(user => user.id);
+      } else { // 'all'
+        userIds = allUsers.map(user => user.id);
+      }
+      
+      const confirmApply = confirm(`This will increment progress by ${increment}% for ${userIds.length} users. Continue?`);
+      if (!confirmApply) return;
+      
+      const promises = [];
+      
+      for (const userId of userIds) {
+        const user = allUsers.find(u => u.id === userId);
+        if (!user) continue;
+        
+        for (const course of user.enrolledCourses) {
+          // Only update if the course matches current filters
+          if (courseMatchesFilters(course)) {
+            const currentProgress = course.progress || 0;
+            const newProgress = Math.min(100, currentProgress + increment);
+            
+            const updatedCourse = {
+              ...course,
+              progress: newProgress,
+              lastUpdated: new Date().toISOString(),
+              updatedBy: currentAdmin.uid
+            };
+            
+            // Create update promise
+            promises.push(
+              updateDoc(doc(db, "users", userId), {
+                enrolledCourses: arrayRemove(course)
+              }).then(() => {
+                return updateDoc(doc(db, "users", userId), {
+                  enrolledCourses: arrayUnion(updatedCourse)
+                });
+              })
+            );
+          }
+        }
+      }
+      
+      try {
+        await Promise.all(promises);
+        alert(`Successfully updated progress for ${userIds.length} users`);
+        loadAllUsers(); // Refresh data
+      } catch (error) {
+        console.error("Error during automatic progress update:", error);
+        alert("An error occurred during update. Some changes may not have been saved.");
+      }
+    }
+
+    // Update individual user progress
+    async function updateUserProgress(userId, courseId, progressValue) {
+      const user = allUsers.find(u => u.id === userId);
+      if (!user) return;
+      
+      const course = user.enrolledCourses.find(c => c.id === courseId);
+      if (!course) return;
+      
+      try {
+        const updatedCourse = {
+          ...course,
+          progress: progressValue,
+          lastUpdated: new Date().toISOString(),
+          updatedBy: currentAdmin.uid
+        };
+        
+        await updateDoc(doc(db, "users", userId), {
+          enrolledCourses: arrayRemove(course)
+        });
+        
+        await updateDoc(doc(db, "users", userId), {
+          enrolledCourses: arrayUnion(updatedCourse)
+        });
+        
+        // Update local data
+        const userIndex = allUsers.findIndex(u => u.id === userId);
+        if (userIndex !== -1) {
+          const courseIndex = allUsers[userIndex].enrolledCourses.findIndex(c => c.id === courseId);
+          if (courseIndex !== -1) {
+            allUsers[userIndex].enrolledCourses[courseIndex] = updatedCourse;
+          }
+        }
+        
+        // Update UI
+        const progressBar = document.querySelector(`[data-user-id="${userId}"] .progress-input[data-course-id="${courseId}"]`).parentElement.nextElementSibling.querySelector('.progress-bar');
+        if (progressBar) {
+          progressBar.style.width = `${progressValue}%`;
+        }
+        
+        alert('Progress updated successfully');
+      } catch (error) {
+        console.error("Error updating progress:", error);
+        alert("Failed to update progress. Please try again.");
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', initApp);
+  </script>
+</body>
+</html>
