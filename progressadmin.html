@@ -74,7 +74,7 @@
     .header {
       background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
       color: white;
-      padding: var(--box-padding);
+      padding: 12px var(--box-padding);
       position: sticky;
       top: 0;
       z-index: 100;
@@ -113,8 +113,8 @@
     /* Admin Dashboard Styles */
     .admin-control-panel {
       display: grid;
-      grid-template-columns: 300px 1fr;
-      gap: 20px;
+      grid-template-columns: 280px 1fr;
+      gap: 15px;
     }
     .filters-section {
       background-color: var(--white);
@@ -123,7 +123,7 @@
       box-shadow: var(--shadow);
       height: fit-content;
       position: sticky;
-      top: 80px;
+      top: 70px;
     }
     .results-section {
       display: flex;
@@ -157,6 +157,10 @@
       font-weight: 500;
       cursor: pointer;
       transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 5px;
     }
     .btn-primary {
       background-color: var(--primary-color);
@@ -186,6 +190,10 @@
       background-color: var(--danger-color);
       color: white;
     }
+    .btn-info {
+      background-color: var(--info-color);
+      color: white;
+    }
     /* User Cards */
     .user-card {
       background-color: var(--white);
@@ -204,9 +212,11 @@
       display: flex;
       align-items: center;
       gap: 10px;
+      flex-wrap: wrap;
     }
     .user-name {
       font-weight: 600;
+      width: 100%;
     }
     .user-id {
       font-size: 0.8rem;
@@ -216,15 +226,24 @@
       font-size: 0.8rem;
       color: #666;
     }
+    .user-phone {
+      font-size: 0.8rem;
+      color: #666;
+    }
     .user-courses {
       margin-top: 10px;
     }
     .course-item {
       display: flex;
+      flex-direction: column;
+      gap: 8px;
+      padding: 10px 0;
+      border-bottom: 1px solid #f0f0f0;
+    }
+    .course-header {
+      display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 8px 0;
-      border-bottom: 1px solid #f0f0f0;
     }
     .course-title {
       font-weight: 500;
@@ -240,6 +259,7 @@
     .course-meta {
       display: flex;
       gap: 10px;
+      flex-wrap: wrap;
     }
     .course-meta span {
       font-size: 0.75rem;
@@ -249,8 +269,12 @@
       display: flex;
       align-items: center;
       gap: 10px;
-      min-width: 250px;
-      justify-content: flex-end;
+      margin-top: 5px;
+    }
+    .progress-input-container {
+      display: flex;
+      align-items: center;
+      gap: 5px;
     }
     .progress-input {
       width: 60px;
@@ -262,6 +286,7 @@
     .progress-actions {
       display: flex;
       gap: 5px;
+      flex-wrap: wrap;
     }
     /* Bulk Actions */
     .bulk-actions {
@@ -273,10 +298,13 @@
       justify-content: space-between;
       align-items: center;
       margin-bottom: 15px;
+      flex-wrap: wrap;
+      gap: 10px;
     }
     .bulk-controls {
       display: flex;
       gap: 10px;
+      flex-wrap: wrap;
     }
     /* Progress Bar */
     .progress-bar-container {
@@ -341,25 +369,55 @@
     /* Stats Cards */
     .stats-container {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-      gap: 15px;
-      margin-bottom: 20px;
+      grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+      gap: 10px;
+      margin-bottom: 15px;
     }
     .stat-card {
       background-color: var(--white);
       border-radius: var(--border-radius);
-      padding: var(--box-padding);
+      padding: 12px;
       box-shadow: var(--shadow);
       text-align: center;
     }
     .stat-value {
-      font-size: 1.5rem;
+      font-size: 1.2rem;
       font-weight: 600;
       color: var(--primary-color);
     }
     .stat-label {
-      font-size: 0.8rem;
+      font-size: 0.7rem;
       color: #666;
+    }
+    /* Admin Notes */
+    .admin-notes {
+      background-color: #f8f9fa;
+      border-left: 3px solid var(--primary-color);
+      padding: 8px 10px;
+      margin-top: 8px;
+      border-radius: 0 4px 4px 0;
+    }
+    .note-header {
+      font-size: 0.7rem;
+      color: #666;
+      margin-bottom: 3px;
+    }
+    .note-content {
+      font-size: 0.8rem;
+    }
+    /* Add Note Section */
+    .add-note-section {
+      margin-top: 10px;
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+    .note-input {
+      width: 100%;
+      padding: 8px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      font-size: 0.8rem;
     }
     /* Modal Styles */
     .modal {
@@ -425,24 +483,8 @@
       justify-content: flex-end;
       gap: 10px;
     }
-    /* Tabs */
-    .tabs {
-      display: flex;
-      border-bottom: 1px solid #ddd;
-      margin-bottom: 15px;
-    }
-    .tab {
-      padding: 10px 15px;
-      cursor: pointer;
-      border-bottom: 2px solid transparent;
-    }
-    .tab.active {
-      border-bottom: 2px solid var(--primary-color);
-      color: var(--primary-color);
-      font-weight: 500;
-    }
     /* Responsive */
-    @media (max-width: 768px) {
+    @media (max-width: 992px) {
       .admin-control-panel {
         grid-template-columns: 1fr;
       }
@@ -452,18 +494,43 @@
       .auto-progress-controls {
         grid-template-columns: 1fr;
       }
-      .stats-container {
-        grid-template-columns: 1fr 1fr;
-      }
-      .course-progress {
-        min-width: auto;
+    }
+    @media (max-width: 768px) {
+      .bulk-actions {
         flex-direction: column;
-        align-items: flex-end;
+        align-items: flex-start;
+      }
+      .bulk-controls {
+        width: 100%;
+        flex-wrap: wrap;
+      }
+      .btn {
+        width: 100%;
+      }
+      .progress-actions {
+        width: 100%;
+      }
+      .progress-input-container {
+        width: 100%;
+      }
+      .progress-input {
+        flex: 1;
       }
     }
     @media (max-width: 480px) {
       .stats-container {
-        grid-template-columns: 1fr;
+        grid-template-columns: 1fr 1fr;
+      }
+      .header h1 {
+        font-size: 1rem;
+      }
+      .header-actions {
+        gap: 5px;
+      }
+      .user-avatar {
+        width: 30px;
+        height: 30px;
+        font-size: 0.8rem;
       }
     }
   </style>
@@ -493,70 +560,48 @@
         <!-- Filters Section -->
         <div class="filters-section">
           <h2>Filters</h2>
-          <div class="tabs">
-            <div class="tab active" data-tab="users">Users</div>
-            <div class="tab" data-tab="courses">Courses</div>
+          
+          <div class="filter-group">
+            <h3>Search Users</h3>
+            <input type="text" id="user-search" class="form-control" placeholder="Search by name, email or phone">
           </div>
           
-          <div id="users-filters">
-            <div class="filter-group">
-              <h3>User Filters</h3>
-              <input type="text" id="name-filter" class="form-control" placeholder="Search by name">
-              <input type="text" id="id-filter" class="form-control" placeholder="Search by student ID">
-              <input type="text" id="email-filter" class="form-control" placeholder="Search by email">
-              <select id="department-filter" class="form-control">
-                <option value="">All Departments</option>
-                <option value="Qirat">Qirat</option>
-                <option value="Hifz">Hifz</option>
-                <option value="Nezer">Nezer</option>
-              </select>
-            </div>
-            
-            <div class="filter-group">
-              <h3>Course Filters</h3>
-              <select id="course-type-filter" class="form-control">
-                <option value="">All Course Types</option>
-                <option value="qirat">Qirat</option>
-                <option value="hifz">Hifz</option>
-                <option value="nezer">Nezer</option>
-              </select>
-              <select id="course-language-filter" class="form-control">
-                <option value="">All Languages</option>
-                <option value="Amharic">Amharic</option>
-                <option value="Oromifa">Oromifa</option>
-              </select>
-            </div>
-            
-            <div class="filter-group">
-              <h3>Progress Filters</h3>
-              <select id="progress-range-filter" class="form-control">
-                <option value="all">All Progress</option>
-                <option value="0-25">0-25%</option>
-                <option value="26-50">26-50%</option>
-                <option value="51-75">51-75%</option>
-                <option value="76-99">76-99%</option>
-                <option value="100">Completed (100%)</option>
-              </select>
-              <select id="verification-filter" class="form-control">
-                <option value="all">All Verification Status</option>
-                <option value="verified">Verified Only</option>
-                <option value="unverified">Unverified Only</option>
-              </select>
-            </div>
-            
-            <button id="apply-filters" class="btn btn-primary">Apply Filters</button>
-            <button id="reset-filters" class="btn btn-outline">Reset Filters</button>
+          <div class="filter-group">
+            <h3>Course Filters</h3>
+            <select id="course-filter" class="form-control">
+              <option value="">All Courses</option>
+              <!-- Dynamically populated -->
+            </select>
+            <select id="language-filter" class="form-control">
+              <option value="">All Languages</option>
+              <option value="Amharic">Amharic</option>
+              <option value="Oromifa">Oromifa</option>
+            </select>
           </div>
           
-          <div id="courses-filters" style="display: none;">
-            <div class="filter-group">
-              <h3>Course Management</h3>
-              <button id="add-course-btn" class="btn btn-primary" style="width: 100%; margin-bottom: 10px;">
-                <i class="fas fa-plus"></i> Add New Course
-              </button>
-              <input type="text" id="course-search" class="form-control" placeholder="Search courses">
-            </div>
+          <div class="filter-group">
+            <h3>Progress Filters</h3>
+            <select id="progress-filter" class="form-control">
+              <option value="all">All Progress</option>
+              <option value="0-25">0-25%</option>
+              <option value="26-50">26-50%</option>
+              <option value="51-75">51-75%</option>
+              <option value="76-99">76-99%</option>
+              <option value="100">Completed (100%)</option>
+            </select>
+            <select id="verification-filter" class="form-control">
+              <option value="all">All Verification Status</option>
+              <option value="verified">Verified Only</option>
+              <option value="unverified">Unverified Only</option>
+            </select>
           </div>
+          
+          <button id="apply-filters" class="btn btn-primary">
+            <i class="fas fa-filter"></i> Apply Filters
+          </button>
+          <button id="reset-filters" class="btn btn-outline">
+            <i class="fas fa-undo"></i> Reset Filters
+          </button>
         </div>
         
         <!-- Results Section -->
@@ -586,9 +631,18 @@
                 <input type="checkbox" id="select-all">
                 <label for="select-all">Select All</label>
               </div>
-              <button id="bulk-update" class="btn btn-primary btn-sm">Bulk Update Selected</button>
-              <button id="bulk-verify" class="btn btn-success btn-sm">Bulk Verify</button>
-              <button id="bulk-unverify" class="btn btn-warning btn-sm">Bulk Unverify</button>
+              <button id="bulk-update" class="btn btn-primary btn-sm">
+                <i class="fas fa-edit"></i> Bulk Update
+              </button>
+              <button id="bulk-verify" class="btn btn-success btn-sm">
+                <i class="fas fa-check"></i> Verify
+              </button>
+              <button id="bulk-unverify" class="btn btn-warning btn-sm">
+                <i class="fas fa-times"></i> Unverify
+              </button>
+              <button id="bulk-notes" class="btn btn-info btn-sm">
+                <i class="fas fa-comment"></i> Add Note
+              </button>
             </div>
             <div>
               <span id="selected-count">0 selected</span>
@@ -605,34 +659,30 @@
               <div>
                 <label for="apply-to">Apply To</label>
                 <select id="apply-to" class="form-control">
-                  <option value="filtered">Currently Filtered Users</option>
-                  <option value="selected">Selected Users Only</option>
+                  <option value="filtered">Filtered Users</option>
+                  <option value="selected">Selected Users</option>
                   <option value="all">All Users</option>
                 </select>
               </div>
             </div>
             <div style="display: flex; gap: 10px; margin-top: 10px;">
               <button id="apply-auto-progress" class="btn btn-primary" style="flex: 1;">
-                <i class="fas fa-arrow-up"></i> Increase Progress
+                <i class="fas fa-arrow-up"></i> Increase
               </button>
               <button id="decrease-auto-progress" class="btn btn-warning" style="flex: 1;">
-                <i class="fas fa-arrow-down"></i> Decrease Progress
+                <i class="fas fa-arrow-down"></i> Decrease
               </button>
               <button id="set-complete-progress" class="btn btn-success" style="flex: 1;">
-                <i class="fas fa-check"></i> Set to 100%
+                <i class="fas fa-check"></i> 100%
               </button>
               <button id="set-zero-progress" class="btn btn-danger" style="flex: 1;">
-                <i class="fas fa-times"></i> Set to 0%
+                <i class="fas fa-times"></i> 0%
               </button>
             </div>
           </div>
           
           <div id="users-list">
             <!-- Users will be loaded here -->
-          </div>
-          
-          <div id="courses-list" style="display: none;">
-            <!-- Courses will be loaded here -->
           </div>
         </div>
       </div>
@@ -660,10 +710,6 @@
           </select>
         </div>
         <div class="form-group">
-          <label for="bulk-notes">Admin Notes</label>
-          <textarea id="bulk-notes" class="form-control" rows="3" placeholder="Optional notes for all selected users"></textarea>
-        </div>
-        <div class="form-group">
           <label>Affected Users: <span id="affected-users-count">0</span></label>
         </div>
       </div>
@@ -674,43 +720,25 @@
     </div>
   </div>
 
-  <!-- Add Course Modal -->
-  <div class="modal" id="add-course-modal">
+  <!-- Add Note Modal -->
+  <div class="modal" id="add-note-modal">
     <div class="modal-content">
       <div class="modal-header">
-        <h3 class="modal-title">Add New Course</h3>
-        <button class="modal-close" id="close-course-modal">&times;</button>
+        <h3 class="modal-title">Add Admin Note</h3>
+        <button class="modal-close" id="close-note-modal">&times;</button>
       </div>
       <div class="modal-body">
         <div class="form-group">
-          <label for="course-title">Course Title</label>
-          <input type="text" id="course-title" class="form-control" required>
+          <label for="note-content">Note Content</label>
+          <textarea id="note-content" class="form-control" rows="4" required></textarea>
         </div>
         <div class="form-group">
-          <label for="course-type">Course Type</label>
-          <select id="course-type" class="form-control" required>
-            <option value="">Select Type</option>
-            <option value="qirat">Qirat</option>
-            <option value="hifz">Hifz</option>
-            <option value="nezer">Nezer</option>
-          </select>
-        </div>
-        <div class="form-group">
-          <label for="course-language">Language</label>
-          <select id="course-language" class="form-control" required>
-            <option value="">Select Language</option>
-            <option value="Amharic">Amharic</option>
-            <option value="Oromifa">Oromifa</option>
-          </select>
-        </div>
-        <div class="form-group">
-          <label for="course-description">Description</label>
-          <textarea id="course-description" class="form-control" rows="3"></textarea>
+          <label>Will be added to: <span id="note-affected-count">0</span> users</label>
         </div>
       </div>
       <div class="modal-footer">
-        <button class="btn btn-outline" id="cancel-add-course">Cancel</button>
-        <button class="btn btn-primary" id="confirm-add-course">Add Course</button>
+        <button class="btn btn-outline" id="cancel-add-note">Cancel</button>
+        <button class="btn btn-primary" id="confirm-add-note">Add Note</button>
       </div>
     </div>
   </div>
@@ -729,7 +757,6 @@
       doc,
       getDoc,
       getDocs,
-      setDoc,
       updateDoc,
       arrayRemove,
       arrayUnion,
@@ -758,12 +785,13 @@
     const adminName = document.getElementById('admin-name');
     const adminAvatar = document.getElementById('admin-avatar');
     const usersList = document.getElementById('users-list');
-    const coursesList = document.getElementById('courses-list');
+    const courseFilter = document.getElementById('course-filter');
     const selectAllCheckbox = document.getElementById('select-all');
     const selectedCount = document.getElementById('selected-count');
     const bulkUpdateBtn = document.getElementById('bulk-update');
     const bulkVerifyBtn = document.getElementById('bulk-verify');
     const bulkUnverifyBtn = document.getElementById('bulk-unverify');
+    const bulkNotesBtn = document.getElementById('bulk-notes');
     const applyFiltersBtn = document.getElementById('apply-filters');
     const resetFiltersBtn = document.getElementById('reset-filters');
     const applyAutoProgressBtn = document.getElementById('apply-auto-progress');
@@ -776,22 +804,19 @@
     const confirmBulkUpdate = document.getElementById('confirm-bulk-update');
     const bulkProgressValue = document.getElementById('bulk-progress-value');
     const bulkVerification = document.getElementById('bulk-verification');
-    const bulkNotes = document.getElementById('bulk-notes');
     const affectedUsersCount = document.getElementById('affected-users-count');
     const progressIncrement = document.getElementById('progress-increment');
     const applyTo = document.getElementById('apply-to');
-    const addCourseModal = document.getElementById('add-course-modal');
-    const addCourseBtn = document.getElementById('add-course-btn');
-    const closeCourseModal = document.getElementById('close-course-modal');
-    const cancelAddCourse = document.getElementById('cancel-add-course');
-    const confirmAddCourse = document.getElementById('confirm-add-course');
-    const courseTitle = document.getElementById('course-title');
-    const courseType = document.getElementById('course-type');
-    const courseLanguage = document.getElementById('course-language');
-    const courseDescription = document.getElementById('course-description');
-    const tabs = document.querySelectorAll('.tab');
-    const usersFilters = document.getElementById('users-filters');
-    const coursesFilters = document.getElementById('courses-filters');
+    const addNoteModal = document.getElementById('add-note-modal');
+    const closeNoteModal = document.getElementById('close-note-modal');
+    const cancelAddNote = document.getElementById('cancel-add-note');
+    const confirmAddNote = document.getElementById('confirm-add-note');
+    const noteContent = document.getElementById('note-content');
+    const noteAffectedCount = document.getElementById('note-affected-count');
+    const userSearch = document.getElementById('user-search');
+    const languageFilter = document.getElementById('language-filter');
+    const progressFilter = document.getElementById('progress-filter');
+    const verificationFilter = document.getElementById('verification-filter');
     const totalUsersEl = document.getElementById('total-users');
     const activeCoursesEl = document.getElementById('active-courses');
     const avgProgressEl = document.getElementById('avg-progress');
@@ -799,10 +824,10 @@
 
     // Data variables
     let allUsers = [];
-    let allCourses = [];
     let filteredUsers = [];
     let selectedUserIds = new Set();
     let currentAdmin = null;
+    let availableCourses = new Set();
     let stats = {
       totalUsers: 0,
       totalCourses: 0,
@@ -845,8 +870,6 @@
               
               // Load all data
               loadAllUsers();
-              loadAllCourses();
-              calculateStats();
             } else {
               // User document doesn't exist, redirect to progress page
               setTimeout(() => {
@@ -872,39 +895,22 @@
       bulkUpdateBtn.addEventListener('click', openBulkUpdateModal);
       bulkVerifyBtn.addEventListener('click', () => bulkVerifyCourses(true));
       bulkUnverifyBtn.addEventListener('click', () => bulkVerifyCourses(false));
+      bulkNotesBtn.addEventListener('click', openAddNoteModal);
       applyFiltersBtn.addEventListener('click', applyFilters);
       resetFiltersBtn.addEventListener('click', resetFilters);
       closeBulkModal.addEventListener('click', () => bulkUpdateModal.classList.remove('active'));
       cancelBulkUpdate.addEventListener('click', () => bulkUpdateModal.classList.remove('active'));
       confirmBulkUpdate.addEventListener('click', performBulkUpdate);
+      closeNoteModal.addEventListener('click', () => addNoteModal.classList.remove('active'));
+      cancelAddNote.addEventListener('click', () => addNoteModal.classList.remove('active'));
+      confirmAddNote.addEventListener('click', addBulkNotes);
       applyAutoProgressBtn.addEventListener('click', () => applyAutomaticProgress('increase'));
       decreaseAutoProgressBtn.addEventListener('click', () => applyAutomaticProgress('decrease'));
       setCompleteProgressBtn.addEventListener('click', () => applyAutomaticProgress('complete'));
       setZeroProgressBtn.addEventListener('click', () => applyAutomaticProgress('zero'));
-      addCourseBtn.addEventListener('click', () => addCourseModal.classList.add('active'));
-      closeCourseModal.addEventListener('click', () => addCourseModal.classList.remove('active'));
-      cancelAddCourse.addEventListener('click', () => addCourseModal.classList.remove('active'));
-      confirmAddCourse.addEventListener('click', addNewCourse);
       
-      // Tab switching
-      tabs.forEach(tab => {
-        tab.addEventListener('click', () => {
-          tabs.forEach(t => t.classList.remove('active'));
-          tab.classList.add('active');
-          
-          if (tab.dataset.tab === 'users') {
-            usersFilters.style.display = 'block';
-            coursesFilters.style.display = 'none';
-            usersList.style.display = 'block';
-            coursesList.style.display = 'none';
-          } else {
-            usersFilters.style.display = 'none';
-            coursesFilters.style.display = 'block';
-            usersList.style.display = 'none';
-            coursesList.style.display = 'block';
-          }
-        });
-      });
+      // Real-time search
+      userSearch.addEventListener('input', applyFilters);
     }
 
     // Load all users from Firestore
@@ -912,10 +918,18 @@
       try {
         const usersSnapshot = await getDocs(collection(db, "users"));
         allUsers = [];
+        availableCourses.clear();
         
         usersSnapshot.forEach(doc => {
           const user = doc.data();
           if (doc.id !== currentAdmin.uid) { // Exclude admin from the list
+            // Collect all unique courses
+            if (user.enrolledCourses) {
+              user.enrolledCourses.forEach(course => {
+                availableCourses.add(course.title);
+              });
+            }
+            
             allUsers.push({
               id: doc.id,
               ...user,
@@ -923,6 +937,9 @@
             });
           }
         });
+        
+        // Update course filter dropdown
+        updateCourseFilter();
         
         filteredUsers = [...allUsers];
         displayUsers();
@@ -932,24 +949,12 @@
       }
     }
 
-    // Load all courses from Firestore
-    async function loadAllCourses() {
-      try {
-        const coursesSnapshot = await getDocs(collection(db, "courses"));
-        allCourses = [];
-        
-        coursesSnapshot.forEach(doc => {
-          allCourses.push({
-            id: doc.id,
-            ...doc.data()
-          });
-        });
-        
-        displayCourses();
-        calculateStats();
-      } catch (error) {
-        console.error("Error loading courses:", error);
-      }
+    // Update course filter dropdown
+    function updateCourseFilter() {
+      courseFilter.innerHTML = '<option value="">All Courses</option>';
+      availableCourses.forEach(course => {
+        courseFilter.innerHTML += `<option value="${course}">${course}</option>`;
+      });
     }
 
     // Calculate statistics
@@ -957,8 +962,8 @@
       // Total users (excluding admin)
       stats.totalUsers = allUsers.length;
       
-      // Total courses
-      stats.totalCourses = allCourses.length;
+      // Total unique courses
+      stats.totalCourses = availableCourses.size;
       
       // Calculate average progress and verified courses
       let totalProgress = 0;
@@ -1017,8 +1022,9 @@
               <div class="user-avatar">${(user.name || 'U').charAt(0).toUpperCase()}</div>
               <div>
                 <div class="user-name">${user.name || 'No Name'}</div>
-                <div class="user-id">${user.studentId || 'No ID'} • ${user.department || 'No Dept'}</div>
+                <div class="user-id">${user.studentId || 'No ID'}</div>
                 <div class="user-email">${user.email || ''}</div>
+                ${user.phone ? `<div class="user-phone">${user.phone}</div>` : ''}
               </div>
             </div>
           </div>
@@ -1026,59 +1032,80 @@
             ${user.enrolledCourses.length > 0 ? 
               user.enrolledCourses.map(course => `
                 <div class="course-item">
-                  <div>
+                  <div class="course-header">
                     <div class="course-title">${course.title}</div>
-                    <div class="course-details">
-                      <div class="course-meta">
-                        <span>Type: ${course.type || 'N/A'}</span>
-                        <span>Language: ${course.language || 'N/A'}</span>
-                      </div>
-                      ${course.description ? `<small>${course.description}</small>` : ''}
+                    ${course.verified ? 
+                      `<span class="verified-badge">
+                        <i class="fas fa-check"></i> Verified
+                      </span>` : 
+                      '<span class="unverified-badge"><i class="fas fa-times"></i> Unverified</span>'
+                    }
+                  </div>
+                  <div class="course-details">
+                    <div class="course-meta">
+                      <span>Type: ${course.type || 'N/A'}</span>
+                      <span>Language: ${course.language || 'N/A'}</span>
                     </div>
                   </div>
                   <div class="course-progress">
-                    <input type="number" 
-                           class="progress-input" 
-                           value="${course.progress || 0}" 
-                           min="0" 
-                           max="100"
-                           data-course-id="${course.id}"
-                           data-user-id="${user.id}">
-                    <span>%</span>
+                    <div class="progress-input-container">
+                      <input type="number" 
+                             class="progress-input" 
+                             value="${course.progress || 0}" 
+                             min="0" 
+                             max="100"
+                             data-course-id="${course.id}"
+                             data-user-id="${user.id}">
+                      <span>%</span>
+                    </div>
                     <div class="progress-actions">
                       <button class="btn btn-primary btn-sm save-progress" 
                               data-course-id="${course.id}"
                               data-user-id="${user.id}">
-                        Save
+                        <i class="fas fa-save"></i> Save
                       </button>
                       ${course.verified ? 
                         `<button class="btn btn-warning btn-sm verify-course" 
                                 data-course-id="${course.id}"
                                 data-user-id="${user.id}"
                                 data-verified="true">
-                          Unverify
+                          <i class="fas fa-times"></i> Unverify
                         </button>` :
                         `<button class="btn btn-success btn-sm verify-course" 
                                 data-course-id="${course.id}"
                                 data-user-id="${user.id}"
                                 data-verified="false">
-                          Verify
+                          <i class="fas fa-check"></i> Verify
                         </button>`
                       }
+                      <button class="btn btn-info btn-sm add-note" 
+                              data-course-id="${course.id}"
+                              data-user-id="${user.id}">
+                        <i class="fas fa-comment"></i> Note
+                      </button>
                     </div>
                   </div>
                   <div class="progress-bar-container">
                     <div class="progress-bar" style="width: ${course.progress || 0}%"></div>
                   </div>
-                  ${course.verified ? 
-                    `<span class="verified-badge">
-                      <i class="fas fa-check"></i> Verified by ${course.verifiedBy || 'Admin'} 
-                      ${course.verifiedAt ? new Date(course.verifiedAt).toLocaleDateString() : ''}
-                    </span>` : 
-                    '<span class="unverified-badge"><i class="fas fa-times"></i> Unverified</span>'
-                  }
-                  ${course.notes ? `<div class="course-notes"><small><strong>Notes:</strong> ${course.notes}</small></div>` : ''}
-                  ${course.lastUpdated ? `<div class="course-updated"><small>Last updated: ${new Date(course.lastUpdated).toLocaleString()}</small></div>` : ''}
+                  ${course.notes && course.notes.length > 0 ? `
+                    <div class="admin-notes">
+                      ${course.notes.map(note => `
+                        <div class="note-header">
+                          ${note.addedBy || 'Admin'} - ${note.timestamp ? new Date(note.timestamp).toLocaleString() : ''}
+                        </div>
+                        <div class="note-content">${note.content}</div>
+                      `).join('')}
+                    </div>
+                  ` : ''}
+                  <div class="add-note-section" style="display: none;" id="note-section-${user.id}-${course.id}">
+                    <textarea class="note-input" placeholder="Add admin note..."></textarea>
+                    <button class="btn btn-primary btn-sm save-note" 
+                            data-course-id="${course.id}"
+                            data-user-id="${user.id}">
+                      <i class="fas fa-save"></i> Save Note
+                    </button>
+                  </div>
                 </div>
               `).join('') : 
               '<p>No enrolled courses</p>'
@@ -1127,135 +1154,38 @@
             await verifyUserCourse(userId, courseId, !verified);
           });
         });
+        
+        // Add event listeners for note buttons
+        userCard.querySelectorAll('.add-note').forEach(btn => {
+          btn.addEventListener('click', (e) => {
+            const userId = e.target.dataset.userId;
+            const courseId = e.target.dataset.courseId;
+            const noteSection = userCard.querySelector(`#note-section-${userId}-${courseId}`);
+            noteSection.style.display = noteSection.style.display === 'none' ? 'flex' : 'none';
+          });
+        });
+        
+        // Add event listeners for save note buttons
+        userCard.querySelectorAll('.save-note').forEach(btn => {
+          btn.addEventListener('click', async (e) => {
+            const userId = e.target.dataset.userId;
+            const courseId = e.target.dataset.courseId;
+            const noteInput = e.target.previousElementSibling;
+            const noteText = noteInput.value.trim();
+            
+            if (!noteText) {
+              alert('Please enter a note');
+              return;
+            }
+            
+            await addUserNote(userId, courseId, noteText);
+            noteInput.value = '';
+            userCard.querySelector(`#note-section-${userId}-${courseId}`).style.display = 'none';
+          });
+        });
       });
       
       updateSelectedCount();
-    }
-
-    // Display courses in the UI
-    function displayCourses() {
-      coursesList.innerHTML = '';
-      
-      if (allCourses.length === 0) {
-        coursesList.innerHTML = '<div class="user-card"><p>No courses found. Add your first course!</p></div>';
-        return;
-      }
-      
-      allCourses.forEach(course => {
-        const courseCard = document.createElement('div');
-        courseCard.className = 'user-card';
-        courseCard.innerHTML = `
-          <div class="user-header">
-            <div class="user-info">
-              <div class="user-avatar">${(course.title || 'C').charAt(0).toUpperCase()}</div>
-              <div>
-                <div class="user-name">${course.title}</div>
-                <div class="user-id">${course.type} • ${course.language}</div>
-              </div>
-            </div>
-            <div>
-              <button class="btn btn-danger btn-sm delete-course" data-course-id="${course.id}">
-                <i class="fas fa-trash"></i> Delete
-              </button>
-            </div>
-          </div>
-          <div class="user-courses">
-            <div class="course-details">
-              ${course.description ? `<p>${course.description}</p>` : '<p>No description provided</p>'}
-            </div>
-          </div>
-        `;
-        
-        coursesList.appendChild(courseCard);
-        
-        // Add event listener for delete button
-        courseCard.querySelector('.delete-course').addEventListener('click', async (e) => {
-          const courseId = e.target.dataset.courseId || e.target.closest('.delete-course').dataset.courseId;
-          if (confirm('Are you sure you want to delete this course? This will remove it from all users.')) {
-            await deleteCourse(courseId);
-          }
-        });
-      });
-    }
-
-    // Add new course
-    async function addNewCourse() {
-      const title = courseTitle.value.trim();
-      const type = courseType.value;
-      const language = courseLanguage.value;
-      const description = courseDescription.value.trim();
-      
-      if (!title || !type || !language) {
-        alert('Please fill in all required fields');
-        return;
-      }
-      
-      try {
-        // Generate a simple ID for the course
-        const courseId = title.toLowerCase().replace(/\s+/g, '-') + '-' + Date.now().toString().slice(-4);
-        
-        const newCourse = {
-          title,
-          type,
-          language,
-          description,
-          createdAt: new Date().toISOString(),
-          createdBy: currentAdmin.uid
-        };
-        
-        await setDoc(doc(db, "courses", courseId), newCourse);
-        
-        // Clear form
-        courseTitle.value = '';
-        courseType.value = '';
-        courseLanguage.value = '';
-        courseDescription.value = '';
-        
-        // Close modal
-        addCourseModal.classList.remove('active');
-        
-        // Refresh courses list
-        loadAllCourses();
-      } catch (error) {
-        console.error("Error adding course:", error);
-        alert("Failed to add course. Please try again.");
-      }
-    }
-
-    // Delete course
-    async function deleteCourse(courseId) {
-      try {
-        // First remove from all users
-        const usersSnapshot = await getDocs(collection(db, "users"));
-        const batchPromises = [];
-        
-        usersSnapshot.forEach(userDoc => {
-          const userData = userDoc.data();
-          if (userData.enrolledCourses) {
-            const courseIndex = userData.enrolledCourses.findIndex(c => c.id === courseId);
-            if (courseIndex !== -1) {
-              batchPromises.push(
-                updateDoc(doc(db, "users", userDoc.id), {
-                  enrolledCourses: arrayRemove(userData.enrolledCourses[courseIndex])
-                })
-              );
-            }
-          }
-        });
-        
-        // Wait for all user updates to complete
-        await Promise.all(batchPromises);
-        
-        // Then delete the course document
-        await deleteDoc(doc(db, "courses", courseId));
-        
-        // Refresh data
-        loadAllUsers();
-        loadAllCourses();
-      } catch (error) {
-        console.error("Error deleting course:", error);
-        alert("Failed to delete course. Please try again.");
-      }
     }
 
     // Toggle select all checkbox
@@ -1280,55 +1210,43 @@
 
     // Apply filters to users
     function applyFilters() {
-      const nameFilter = document.getElementById('name-filter').value.toLowerCase();
-      const idFilter = document.getElementById('id-filter').value.toLowerCase();
-      const emailFilter = document.getElementById('email-filter').value.toLowerCase();
-      const departmentFilter = document.getElementById('department-filter').value;
-      const courseTypeFilter = document.getElementById('course-type-filter').value;
-      const courseLanguageFilter = document.getElementById('course-language-filter').value;
-      const progressRangeFilter = document.getElementById('progress-range-filter').value;
-      const verificationFilter = document.getElementById('verification-filter').value;
+      const searchTerm = userSearch.value.toLowerCase();
+      const courseFilterValue = courseFilter.value;
+      const languageFilterValue = languageFilter.value;
+      const progressFilterValue = progressFilter.value;
+      const verificationFilterValue = verificationFilter.value;
       
       filteredUsers = allUsers.filter(user => {
-        // Name filter
-        if (nameFilter && !(user.name || '').toLowerCase().includes(nameFilter)) {
-          return false;
-        }
-        
-        // ID filter
-        if (idFilter && !(user.studentId || '').toLowerCase().includes(idFilter)) {
-          return false;
-        }
-        
-        // Email filter
-        if (emailFilter && !(user.email || '').toLowerCase().includes(emailFilter)) {
-          return false;
-        }
-        
-        // Department filter
-        if (departmentFilter && user.department !== departmentFilter) {
-          return false;
+        // Search filter (name, email, phone)
+        if (searchTerm) {
+          const nameMatch = (user.name || '').toLowerCase().includes(searchTerm);
+          const emailMatch = (user.email || '').toLowerCase().includes(searchTerm);
+          const phoneMatch = (user.phone || '').includes(searchTerm);
+          
+          if (!nameMatch && !emailMatch && !phoneMatch) {
+            return false;
+          }
         }
         
         // Course filters
-        if (courseTypeFilter || courseLanguageFilter || progressRangeFilter || verificationFilter) {
+        if (courseFilterValue || languageFilterValue || progressFilterValue || verificationFilterValue) {
           const matchingCourses = user.enrolledCourses.filter(course => {
-            // Course type filter
-            if (courseTypeFilter && course.type !== courseTypeFilter) {
+            // Course filter
+            if (courseFilterValue && course.title !== courseFilterValue) {
               return false;
             }
             
-            // Course language filter
-            if (courseLanguageFilter && course.language !== courseLanguageFilter) {
+            // Language filter
+            if (languageFilterValue && course.language !== languageFilterValue) {
               return false;
             }
             
             // Progress range filter
-            if (progressRangeFilter !== 'all') {
+            if (progressFilterValue !== 'all') {
               const progress = course.progress || 0;
-              const [min, max] = progressRangeFilter === '100' ? 
+              const [min, max] = progressFilterValue === '100' ? 
                 [100, 100] : 
-                progressRangeFilter.split('-').map(Number);
+                progressFilterValue.split('-').map(Number);
               
               if (progress < min || progress > max) {
                 return false;
@@ -1336,10 +1254,10 @@
             }
             
             // Verification filter
-            if (verificationFilter === 'verified' && !course.verified) {
+            if (verificationFilterValue === 'verified' && !course.verified) {
               return false;
             }
-            if (verificationFilter === 'unverified' && course.verified) {
+            if (verificationFilterValue === 'unverified' && course.verified) {
               return false;
             }
             
@@ -1364,14 +1282,11 @@
 
     // Reset all filters
     function resetFilters() {
-      document.getElementById('name-filter').value = '';
-      document.getElementById('id-filter').value = '';
-      document.getElementById('email-filter').value = '';
-      document.getElementById('department-filter').value = '';
-      document.getElementById('course-type-filter').value = '';
-      document.getElementById('course-language-filter').value = '';
-      document.getElementById('progress-range-filter').value = 'all';
-      document.getElementById('verification-filter').value = 'all';
+      userSearch.value = '';
+      courseFilter.value = '';
+      languageFilter.value = '';
+      progressFilter.value = 'all';
+      verificationFilter.value = 'all';
       
       filteredUsers = [...allUsers];
       selectedUserIds.clear();
@@ -1391,16 +1306,27 @@
       affectedUsersCount.textContent = selectedUserIds.size;
       bulkProgressValue.value = '';
       bulkVerification.value = 'no-change';
-      bulkNotes.value = '';
       
       bulkUpdateModal.classList.add('active');
+    }
+
+    // Open add note modal
+    function openAddNoteModal() {
+      if (selectedUserIds.size === 0) {
+        alert('Please select at least one user');
+        return;
+      }
+      
+      noteAffectedCount.textContent = selectedUserIds.size;
+      noteContent.value = '';
+      
+      addNoteModal.classList.add('active');
     }
 
     // Perform bulk update
     async function performBulkUpdate() {
       const progressValue = parseInt(bulkProgressValue.value);
       const verification = bulkVerification.value;
-      const notes = bulkNotes.value.trim();
       
       if (isNaN(progressValue) || progressValue < 0 || progressValue > 100) {
         alert('Please enter a valid progress percentage (0-100)');
@@ -1435,11 +1361,6 @@
               updatedCourse.verifiedAt = null;
             }
             
-            // Add notes if provided
-            if (notes) {
-              updatedCourse.notes = notes;
-            }
-            
             // Create update promise
             promises.push(
               updateDoc(doc(db, "users", userId), {
@@ -1462,6 +1383,123 @@
       } catch (error) {
         console.error("Error during bulk update:", error);
         alert("An error occurred during bulk update. Some changes may not have been saved.");
+      }
+    }
+
+    // Add bulk notes to selected users
+    async function addBulkNotes() {
+      const noteText = noteContent.value.trim();
+      
+      if (!noteText) {
+        alert('Please enter a note');
+        return;
+      }
+      
+      const userIds = Array.from(selectedUserIds);
+      const promises = [];
+      const newNote = {
+        content: noteText,
+        addedBy: adminName.textContent,
+        timestamp: new Date().toISOString()
+      };
+      
+      for (const userId of userIds) {
+        const user = allUsers.find(u => u.id === userId);
+        if (!user) continue;
+        
+        for (const course of user.enrolledCourses) {
+          // Only update if the course matches current filters
+          if (courseMatchesFilters(course)) {
+            const updatedCourse = {
+              ...course,
+              lastUpdated: new Date().toISOString(),
+              updatedBy: currentAdmin.uid
+            };
+            
+            // Initialize notes array if it doesn't exist
+            if (!updatedCourse.notes) {
+              updatedCourse.notes = [];
+            }
+            
+            // Add new note
+            updatedCourse.notes.push(newNote);
+            
+            // Create update promise
+            promises.push(
+              updateDoc(doc(db, "users", userId), {
+                enrolledCourses: arrayRemove(course)
+              }).then(() => {
+                return updateDoc(doc(db, "users", userId), {
+                  enrolledCourses: arrayUnion(updatedCourse)
+                });
+              })
+            );
+          }
+        }
+      }
+      
+      try {
+        await Promise.all(promises);
+        alert(`Successfully added notes to ${userIds.length} users`);
+        addNoteModal.classList.remove('active');
+        loadAllUsers(); // Refresh data
+      } catch (error) {
+        console.error("Error during bulk note addition:", error);
+        alert("An error occurred while adding notes. Some changes may not have been saved.");
+      }
+    }
+
+    // Add note to a single user course
+    async function addUserNote(userId, courseId, noteText) {
+      const user = allUsers.find(u => u.id === userId);
+      if (!user) return;
+      
+      const course = user.enrolledCourses.find(c => c.id === courseId);
+      if (!course) return;
+      
+      try {
+        const updatedCourse = {
+          ...course,
+          lastUpdated: new Date().toISOString(),
+          updatedBy: currentAdmin.uid
+        };
+        
+        // Initialize notes array if it doesn't exist
+        if (!updatedCourse.notes) {
+          updatedCourse.notes = [];
+        }
+        
+        // Add new note
+        updatedCourse.notes.push({
+          content: noteText,
+          addedBy: adminName.textContent,
+          timestamp: new Date().toISOString()
+        });
+        
+        await updateDoc(doc(db, "users", userId), {
+          enrolledCourses: arrayRemove(course)
+        });
+        
+        await updateDoc(doc(db, "users", userId), {
+          enrolledCourses: arrayUnion(updatedCourse)
+        });
+        
+        // Update local data
+        const userIndex = allUsers.findIndex(u => u.id === userId);
+        if (userIndex !== -1) {
+          const courseIndex = allUsers[userIndex].enrolledCourses.findIndex(c => c.id === courseId);
+          if (courseIndex !== -1) {
+            allUsers[userIndex].enrolledCourses[courseIndex] = updatedCourse;
+          }
+        }
+        
+        // Refresh display
+        displayUsers();
+        
+        alert('Note added successfully');
+      } catch (error) {
+        console.error("Error adding note:", error);
+        alert("Failed to add note. Please try again.");
       }
     }
 
@@ -1578,27 +1616,27 @@
 
     // Check if course matches current filters
     function courseMatchesFilters(course) {
-      const courseTypeFilter = document.getElementById('course-type-filter').value;
-      const courseLanguageFilter = document.getElementById('course-language-filter').value;
-      const progressRangeFilter = document.getElementById('progress-range-filter').value;
-      const verificationFilter = document.getElementById('verification-filter').value;
+      const courseFilterValue = courseFilter.value;
+      const languageFilterValue = languageFilter.value;
+      const progressFilterValue = progressFilter.value;
+      const verificationFilterValue = verificationFilter.value;
       
-      // Course type filter
-      if (courseTypeFilter && course.type !== courseTypeFilter) {
+      // Course filter
+      if (courseFilterValue && course.title !== courseFilterValue) {
         return false;
       }
       
-      // Course language filter
-      if (courseLanguageFilter && course.language !== courseLanguageFilter) {
+      // Language filter
+      if (languageFilterValue && course.language !== languageFilterValue) {
         return false;
       }
       
       // Progress range filter
-      if (progressRangeFilter !== 'all') {
+      if (progressFilterValue !== 'all') {
         const progress = course.progress || 0;
-        const [min, max] = progressRangeFilter === '100' ? 
+        const [min, max] = progressFilterValue === '100' ? 
           [100, 100] : 
-          progressRangeFilter.split('-').map(Number);
+          progressFilterValue.split('-').map(Number);
         
         if (progress < min || progress > max) {
           return false;
@@ -1606,10 +1644,10 @@
       }
       
       // Verification filter
-      if (verificationFilter === 'verified' && !course.verified) {
+      if (verificationFilterValue === 'verified' && !course.verified) {
         return false;
       }
-      if (verificationFilter === 'unverified' && course.verified) {
+      if (verificationFilterValue === 'unverified' && course.verified) {
         return false;
       }
       
