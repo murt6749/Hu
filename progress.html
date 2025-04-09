@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>HU Jama'aa - Progress Tracking</title>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
   <style>
     :root {
       --primary-color: #1a4d2e;
@@ -413,12 +413,69 @@
       gap: 15px;
     }
 
+    /* Form Elements */
+    .form-group {
+      margin-bottom: 15px;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 5px;
+      font-weight: 500;
+      color: var(--secondary-color);
+    }
+
+    .form-control {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ddd;
+      border-radius: var(--border-radius);
+      font-size: 1rem;
+    }
+
+    .btn {
+      padding: 10px 15px;
+      border: none;
+      border-radius: var(--border-radius);
+      font-size: 1rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .btn-primary {
+      background-color: var(--primary-color);
+      color: var(--white);
+    }
+
+    .btn-primary:hover {
+      background-color: var(--secondary-color);
+    }
+
+    .btn-outline {
+      background-color: transparent;
+      border: 1px solid var(--primary-color);
+      color: var(--primary-color);
+    }
+
+    /* Course Filter */
+    .filter-container {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+      margin-bottom: 15px;
+    }
+
+    /* Responsive */
     @media (min-width: 768px) {
       .container {
         max-width: 768px;
         margin: 0 auto;
       }
       .stats-grid {
+        grid-template-columns: repeat(4, 1fr);
+      }
+      .filter-container {
         grid-template-columns: repeat(4, 1fr);
       }
     }
@@ -451,7 +508,7 @@
 
     <!-- Bottom Navigation -->
     <nav class="bottom-nav">
-      <a href="courses.html" class="nav-item" data-page="courses">
+      <a href="dashboard.html" class="nav-item" data-page="courses">
         <i class="fas fa-book"></i>
         <span>Courses</span>
       </a>
@@ -459,7 +516,7 @@
         <i class="fas fa-chart-line"></i>
         <span>Progress</span>
       </a>
-      <a href="classmates.html" class="nav-item" data-page="classmates">
+      <a href="dashboard.html" class="nav-item" data-page="classmates">
         <i class="fas fa-users"></i>
         <span>Classmates</span>
       </a>
@@ -489,7 +546,7 @@
             <label for="progress-notes">Instructor Notes</label>
             <textarea id="progress-notes" class="form-control" rows="3"></textarea>
           </div>
-          <div class="form-group">
+          <div class="form-group admin-only">
             <label for="progress-verified">Verification Status</label>
             <select id="progress-verified" class="form-control">
               <option value="false">Not Verified</option>
@@ -514,35 +571,23 @@
       </div>
       <div class="modal-body">
         <div class="admin-confirmation">
-          <p>You have been verified as an administrator. Would you like to access the admin dashboard?</p>
+          <p>You have administrator privileges. Would you like to access the admin dashboard?</p>
           <div class="admin-confirmation-buttons">
-            <button class="btn btn-primary" id="go-to-admin">Yes, Go to Admin Panel</button>
-            <button class="btn btn-outline" id="stay-here">No, Stay Here</button>
+            <button class="btn btn-primary" id="go-to-admin">Go to Admin Panel</button>
+            <button class="btn btn-outline" id="stay-here">Continue Here</button>
           </div>
         </div>
       </div>
     </div>
   </div>
 
-  <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-    import {
-      getAuth,
-      onAuthStateChanged,
-      signOut
-    } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
-    import {
-      getFirestore,
-      collection,
-      doc,
-      getDoc,
-      setDoc,
-      updateDoc,
-      arrayUnion,
-      arrayRemove,
-      serverTimestamp
-    } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+  <!-- Firebase SDK -->
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
 
+  <script>
+    // Firebase configuration
     const firebaseConfig = {
       apiKey: "AIzaSyBQyNVWh1BtCkXlBfuS7jHAa36FTklZayo",
       authDomain: "pharma-quiz-b5a07.firebaseapp.com",
@@ -553,13 +598,13 @@
       measurementId: "G-3QRQE9HQFB"
     };
 
-    const app = initializeApp(firebaseConfig);
-    const auth = getAuth(app);
-    const db = getFirestore(app);
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+    const auth = firebase.auth();
+    const db = firebase.firestore();
 
     // DOM Elements
     const mainContent = document.getElementById('main-content');
-    const pageTitle = document.getElementById('page-title');
     const userNameDisplay = document.getElementById('user-name-display');
     const userAvatar = document.getElementById('user-avatar');
     const logoutBtn = document.getElementById('logout-btn');
@@ -583,10 +628,12 @@
     let currentUser = null;
     let userData = null;
     let enrolledCourses = [];
+    let allCourses = [];
     let isAdmin = false;
     let isVerifiedAdmin = false;
     let currentEditingCourse = null;
     let currentEditingUserId = null;
+    let adminPromptShown = false;
 
     // Initialize application
     function initApp() {
@@ -604,13 +651,14 @@
       stayHereBtn.addEventListener('click', () => adminConfirmationModal.classList.remove('active'));
     }
 
-    async function checkAuthState() {
-      onAuthStateChanged(auth, async (user) => {
+    function checkAuthState() {
+      auth.onAuthStateChanged(async (user) => {
         if (user) {
           currentUser = user;
           await loadUserData(user.uid);
           updateUserInterface();
           checkAdminStatus();
+          loadAllCourses();
           loadProgressPage();
         } else {
           window.location.href = 'login.html';
@@ -620,9 +668,9 @@
 
     async function loadUserData(userId) {
       try {
-        const userDoc = await getDoc(doc(db, "users", userId));
+        const userDoc = await db.collection("users").doc(userId).get();
         
-        if (userDoc.exists()) {
+        if (userDoc.exists) {
           userData = userDoc.data();
           enrolledCourses = userData.enrolledCourses || [];
           isAdmin = userData.role === 'admin';
@@ -632,6 +680,15 @@
         }
       } catch (error) {
         console.error("Error loading user data:", error);
+      }
+    }
+
+    async function loadAllCourses() {
+      try {
+        const snapshot = await db.collection("courses").get();
+        allCourses = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+      } catch (error) {
+        console.error("Error loading courses:", error);
       }
     }
 
@@ -646,10 +703,10 @@
         phone: "",
         role: "student",
         adminVerified: false,
-        createdAt: serverTimestamp()
+        createdAt: firebase.firestore.FieldValue.serverTimestamp()
       };
       
-      await setDoc(doc(db, "users", userId), newUserData);
+      await db.collection("users").doc(userId).set(newUserData);
       userData = newUserData;
       enrolledCourses = [];
     }
@@ -671,17 +728,6 @@
         profileLink.style.display = 'none';
         profileNavItem.style.display = 'none';
         document.body.classList.add('is-admin');
-      }
-
-      // Add admin welcome message
-      if (isAdmin && isVerifiedAdmin) {
-        const welcomeMsg = document.createElement('div');
-        welcomeMsg.className = 'admin-welcome';
-        welcomeMsg.innerHTML = `
-          <h3>Welcome, Administrator</h3>
-          <p>You have access to administrative functions</p>
-        `;
-        mainContent.prepend(welcomeMsg);
       }
     }
 
@@ -761,13 +807,14 @@
       coursesProgress.innerHTML = '';
       
       enrolledCourses.forEach(course => {
+        const fullCourse = allCourses.find(c => c.id === course.id) || course;
         const progress = course.progress || 0;
         const card = document.createElement('div');
         card.className = 'progress-card';
         
         card.innerHTML = `
           <div class="progress-header">
-            <div class="progress-title">${course.title}</div>
+            <div class="progress-title">${fullCourse.title}</div>
             <div class="progress-value">${progress}%</div>
           </div>
           <div class="progress-bar-container">
@@ -840,17 +887,17 @@
           progress: progress,
           notes: progressNotes.value,
           verified: progressVerified.value === 'true',
-          lastUpdated: new Date().toISOString(),
+          lastUpdated: firebase.firestore.FieldValue.serverTimestamp(),
           verifiedBy: progressVerified.value === 'true' ? (userData.name || "Admin") : null,
-          verifiedAt: progressVerified.value === 'true' ? new Date().toISOString() : null
+          verifiedAt: progressVerified.value === 'true' ? firebase.firestore.FieldValue.serverTimestamp() : null
         };
         
-        await updateDoc(doc(db, "users", currentEditingUserId), {
-          enrolledCourses: arrayRemove(enrolledCourses[courseIndex])
+        await db.collection("users").doc(currentEditingUserId).update({
+          enrolledCourses: firebase.firestore.FieldValue.arrayRemove(enrolledCourses[courseIndex])
         });
         
-        await updateDoc(doc(db, "users", currentEditingUserId), {
-          enrolledCourses: arrayUnion(updatedCourse)
+        await db.collection("users").doc(currentEditingUserId).update({
+          enrolledCourses: firebase.firestore.FieldValue.arrayUnion(updatedCourse)
         });
         
         enrolledCourses[courseIndex] = updatedCourse;
@@ -866,7 +913,7 @@
     async function handleLogout(e) {
       e.preventDefault();
       try {
-        await signOut(auth);
+        await auth.signOut();
         sessionStorage.removeItem('adminPromptShown');
         window.location.href = 'login.html';
       } catch (error) {
@@ -874,8 +921,11 @@
       }
     }
 
-    document.addEventListener('DOMContentLoaded', initApp);
+    // Make functions available globally
     window.openProgressModal = openProgressModal;
+
+    // Initialize the app
+    document.addEventListener('DOMContentLoaded', initApp);
   </script>
 </body>
 </html>
