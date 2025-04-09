@@ -14,7 +14,10 @@
       --light-color: #e8dfca;
       --white: #ffffff;
       --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      --success-color: #28a745;
       --info-color: #17a2b8;
+      --warning-color: #ffc107;
+      --danger-color: #dc3545;
       --border-radius: 12px;
       --box-padding: 16px;
     }
@@ -33,8 +36,6 @@
       width: 100%;
       max-width: 100%;
       padding: 0;
-      position: relative;
-      min-height: 100vh;
     }
     /* Header Styles */
     .header {
@@ -43,20 +44,19 @@
       padding: var(--box-padding);
       position: sticky;
       top: 0;
-      z-index: 200;
+      z-index: 100;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
     }
-    .header .logo {
-      font-size: 1.3rem;
-      font-weight: 700;
+    .header h1 {
+      font-size: 1.2rem;
+      font-weight: 600;
     }
     .header-actions {
       display: flex;
       gap: 10px;
-      position: relative;
     }
     .btn-icon {
       background: none;
@@ -64,59 +64,6 @@
       color: white;
       font-size: 1.2rem;
       cursor: pointer;
-    }
-    /* Profile Dropdown */
-    .profile-dropdown {
-      position: absolute;
-      top: 48px;
-      right: 0;
-      background-color: var(--white);
-      border-radius: var(--border-radius);
-      box-shadow: 0 4px 8px rgba(0,0,0,0.15);
-      overflow: hidden;
-      display: none;
-      z-index: 300;
-    }
-    .profile-dropdown a,
-    .profile-dropdown button {
-      display: block;
-      padding: 10px 15px;
-      text-decoration: none;
-      color: var(--primary-color);
-      background: transparent;
-      border: none;
-      width: 100%;
-      text-align: left;
-      cursor: pointer;
-    }
-    .profile-dropdown a:hover,
-    .profile-dropdown button:hover {
-      background-color: var(--light-color);
-    }
-    /* Welcome Screen */
-    .welcome-screen {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-      padding: 20px;
-      height: calc(100vh - 70px); /* deduct bottom nav height */
-    }
-    .welcome-screen .logo-large {
-      font-size: 3rem;
-      font-weight: 700;
-      color: var(--primary-color);
-      margin-bottom: 10px;
-    }
-    .welcome-screen h2 {
-      font-size: 1.5rem;
-      margin-bottom: 10px;
-      color: var(--primary-color);
-    }
-    .welcome-screen p {
-      font-size: 1rem;
-      color: var(--secondary-color);
     }
     /* Main Content Area */
     .main-content {
@@ -133,8 +80,8 @@
       display: flex;
       justify-content: space-around;
       padding: 10px 0;
-      box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
-      z-index: 200;
+      box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+      z-index: 100;
     }
     .nav-item {
       display: flex;
@@ -165,7 +112,7 @@
       font-size: 1.1rem;
       font-weight: 600;
     }
-    /* Course Card (Only Title & Language) */
+    /* Course Card Custom (only title and language) */
     .course-card {
       background-color: var(--white);
       border: 1px solid #eee;
@@ -224,7 +171,7 @@
       right: 0;
       bottom: 0;
       background-color: rgba(0, 0, 0, 0.5);
-      z-index: 300;
+      z-index: 1000;
       align-items: center;
       justify-content: center;
       padding: 15px;
@@ -340,36 +287,22 @@
   <div class="container">
     <!-- Header -->
     <header class="header">
-      <div class="logo">HU Jama'aa</div>
+      <h1 id="page-title">My Courses</h1>
       <div class="header-actions">
         <button class="btn-icon" id="notifications-btn">
           <i class="fas fa-bell"></i>
         </button>
-        <!-- Profile Icon -->
-        <button class="btn-icon" id="profile-btn">
-          <span id="profile-initials" style="background: var(--light-color); color: var(--primary-color); width: 32px; height: 32px; border-radius: 50%; display: inline-flex; justify-content: center; align-items: center; font-weight: 600;"></span>
-        </button>
-        <!-- Dropdown Menu -->
-        <div class="profile-dropdown" id="profile-dropdown">
-          <a href="schedule.html">Schedule</a>
-          <button onclick="handleLogout()">Logout</button>
-        </div>
       </div>
     </header>
 
-    <!-- Main Content (Welcome screen or loaded page) -->
+    <!-- Main Content -->
     <main class="main-content" id="main-content">
-      <!-- Initially, display welcome screen -->
-      <div class="welcome-screen" id="welcome-screen">
-        <div class="logo-large">HU Jama'aa</div>
-        <h2 id="welcome-message">Welcome!</h2>
-        <p>Please use the bottom navigation to explore courses, progress, classmates and your profile.</p>
-      </div>
+      <!-- Dynamic content loaded here -->
     </main>
 
     <!-- Bottom Navigation -->
     <nav class="bottom-nav">
-      <a href="#" class="nav-item" data-page="courses">
+      <a href="#" class="nav-item active" data-page="courses">
         <i class="fas fa-book"></i>
         <span>Courses</span>
       </a>
@@ -388,7 +321,7 @@
     </nav>
   </div>
 
-  <!-- Confirmation Modal (for enrollment with verification) -->
+  <!-- Confirmation Modal (for enrollment) -->
   <div class="modal" id="confirmation-modal">
     <div class="modal-content">
       <div class="modal-header">
@@ -397,6 +330,7 @@
       </div>
       <div class="modal-body">
         <h4 id="confirmation-message">Are you sure you want to enroll?</h4>
+        <!-- This extra input appears only when enrolling the fourth course -->
         <div class="form-group d-none" id="verification-group">
           <label for="verification-input">Verification:</label>
           <input type="text" id="verification-input" class="form-control" placeholder="Enter verification text" />
@@ -409,13 +343,12 @@
     </div>
   </div>
 
-  <!-- Firebase SDK and Application Script -->
+  <!-- Firebase SDK and Application Code -->
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
     import {
       getAuth,
-      onAuthStateChanged,
-      signOut
+      onAuthStateChanged
     } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
     import {
       getFirestore,
@@ -441,18 +374,15 @@
       appId: "1:161067776789:web:88b8a61145dc5f5c31471c",
       measurementId: "G-3QRQE9HQFB"
     };
+
     const app = initializeApp(firebaseConfig);
     const auth = getAuth(app);
     const db = getFirestore(app);
 
     // DOM Elements
     const mainContent = document.getElementById('main-content');
-    const welcomeScreen = document.getElementById('welcome-screen');
     const pageTitle = document.getElementById('page-title');
     const bottomNavItems = document.querySelectorAll('.bottom-nav .nav-item');
-    const profileBtn = document.getElementById('profile-btn');
-    const profileDropdown = document.getElementById('profile-dropdown');
-    const profileInitials = document.getElementById('profile-initials');
     const confirmationModal = document.getElementById('confirmation-modal');
     const confirmationTitle = document.getElementById('confirmation-title');
     const confirmationMessage = document.getElementById('confirmation-message');
@@ -468,42 +398,197 @@
     let classmatesData = [];
     let pendingAction = null; // { type: 'enroll', courseId: string, requireVerification: boolean }
 
-    // Complete course data with full list
+    // Complete course data (all courses are included)
     const completeCoursesData = [
-      { id: "q1", title: "Sifetu Solah (Amharic)", type: "qirat", language: "Amharic" },
-      { id: "q2", title: "Usulu Selasah (Amharic)", type: "qirat", language: "Amharic" },
-      { id: "q3", title: "Tejwid Hidayetul Mustefid (Amharic)", type: "qirat", language: "Amharic" },
-      { id: "q4", title: "Kula Setun Urely Eqin (Amharic)", type: "qirat", language: "Amharic" },
-      { id: "q5", title: "Sifetu Solah (Oromifa)", type: "qirat", language: "Oromifa" },
-      { id: "q6", title: "Usulu Selasah (Oromifa)", type: "qirat", language: "Oromifa" },
-      { id: "q7", title: "Tejwid Hidayetul Mustefid (Oromifa)", type: "qirat", language: "Oromifa" },
-      { id: "q8", title: "Umdetul Ahkam (Oromifa)", type: "qirat", language: "Oromifa" },
-      { id: "q9", title: "Riyadus Ualihin (Oromifa)", type: "qirat", language: "Oromifa" },
-      { id: "q10", title: "Tefsir (Oromifa)", type: "qirat", language: "Oromifa" },
-      { id: "q11", title: "Aqidetu Tahawiya (Oromifa)", type: "qirat", language: "Oromifa" },
-      { id: "h1", title: "Hifz for Fresh Students (Female)", type: "hifz", language: "Amharic" },
-      { id: "h2", title: "Hifz for Fresh Students (Female)", type: "hifz", language: "Amharic" },
-      { id: "h3", title: "Hifz for Fresh Students (Female)", type: "hifz", language: "Amharic" },
-      { id: "h4", title: "Hifz for Fresh Students (Male)", type: "hifz", language: "Amharic" },
-      { id: "h5", title: "Hifz for Fresh Students (Male)", type: "hifz", language: "Amharic" },
-      { id: "h6", title: "Hifz for Senior Students (Female)", type: "hifz", language: "Amharic" },
-      { id: "h7", title: "Hifz for Senior Students (Female)", type: "hifz", language: "Amharic" },
-      { id: "h8", title: "Hifz for Senior Students (Female)", type: "hifz", language: "Amharic" },
-      { id: "h9", title: "Hifz for Senior Students (Male)", type: "hifz", language: "Amharic" },
-      { id: "h10", title: "Hifz for Senior Students (Male)", type: "hifz", language: "Amharic" },
-      { id: "n1", title: "Nezer for Fresh Students (Female - Amharic)", type: "nezer", language: "Amharic" },
-      { id: "n2", title: "Nezer for Fresh Students (Female - Oromifa)", type: "nezer", language: "Oromifa" },
-      { id: "n3", title: "Nezer for Fresh Students (Male - Amharic)", type: "nezer", language: "Amharic" },
-      { id: "n4", title: "Nezer for Fresh Students (Male - Oromifa)", type: "nezer", language: "Oromifa" },
-      { id: "n5", title: "Nezer for Fresh Students (Male)", type: "nezer", language: "Amharic" },
-      { id: "n6", title: "Nezer for Senior Students (Female)", type: "nezer", language: "Amharic" },
-      { id: "n7", title: "Nezer for Senior Students (Female)", type: "nezer", language: "Amharic" },
-      { id: "n8", title: "Nezer for Senior Students (Male)", type: "nezer", language: "Amharic" },
-      { id: "n9", title: "Nezer for Senior Students (Male)", type: "nezer", language: "Amharic" },
-      { id: "n10", title: "Nezer for Senior Students (Male)", type: "nezer", language: "Amharic" }
+      {
+        id: "q1",
+        title: "Sifetu Solah (Amharic)",
+        type: "qirat",
+        language: "Amharic"
+      },
+      {
+        id: "q2",
+        title: "Usulu Selasah (Amharic)",
+        type: "qirat",
+        language: "Amharic"
+      },
+      {
+        id: "q3",
+        title: "Tejwid Hidayetul Mustefid (Amharic)",
+        type: "qirat",
+        language: "Amharic"
+      },
+      {
+        id: "q4",
+        title: "Kula Setun Urely Eqin (Amharic)",
+        type: "qirat",
+        language: "Amharic"
+      },
+      {
+        id: "q5",
+        title: "Sifetu Solah (Oromifa)",
+        type: "qirat",
+        language: "Oromifa"
+      },
+      {
+        id: "q6",
+        title: "Usulu Selasah (Oromifa)",
+        type: "qirat",
+        language: "Oromifa"
+      },
+      {
+        id: "q7",
+        title: "Tejwid Hidayetul Mustefid (Oromifa)",
+        type: "qirat",
+        language: "Oromifa"
+      },
+      {
+        id: "q8",
+        title: "Umdetul Ahkam (Oromifa)",
+        type: "qirat",
+        language: "Oromifa"
+      },
+      {
+        id: "q9",
+        title: "Riyadus Ualihin (Oromifa)",
+        type: "qirat",
+        language: "Oromifa"
+      },
+      {
+        id: "q10",
+        title: "Tefsir (Oromifa)",
+        type: "qirat",
+        language: "Oromifa"
+      },
+      {
+        id: "q11",
+        title: "Aqidetu Tahawiya (Oromifa)",
+        type: "qirat",
+        language: "Oromifa"
+      },
+      {
+        id: "h1",
+        title: "Hifz for Fresh Students (Female)",
+        type: "hifz",
+        language: "Amharic"
+      },
+      {
+        id: "h2",
+        title: "Hifz for Fresh Students (Female)",
+        type: "hifz",
+        language: "Amharic"
+      },
+      {
+        id: "h3",
+        title: "Hifz for Fresh Students (Female)",
+        type: "hifz",
+        language: "Amharic"
+      },
+      {
+        id: "h4",
+        title: "Hifz for Fresh Students (Male)",
+        type: "hifz",
+        language: "Amharic"
+      },
+      {
+        id: "h5",
+        title: "Hifz for Fresh Students (Male)",
+        type: "hifz",
+        language: "Amharic"
+      },
+      {
+        id: "h6",
+        title: "Hifz for Senior Students (Female)",
+        type: "hifz",
+        language: "Amharic"
+      },
+      {
+        id: "h7",
+        title: "Hifz for Senior Students (Female)",
+        type: "hifz",
+        language: "Amharic"
+      },
+      {
+        id: "h8",
+        title: "Hifz for Senior Students (Female)",
+        type: "hifz",
+        language: "Amharic"
+      },
+      {
+        id: "h9",
+        title: "Hifz for Senior Students (Male)",
+        type: "hifz",
+        language: "Amharic"
+      },
+      {
+        id: "h10",
+        title: "Hifz for Senior Students (Male)",
+        type: "hifz",
+        language: "Amharic"
+      },
+      {
+        id: "n1",
+        title: "Nezer for Fresh Students (Female - Amharic)",
+        type: "nezer",
+        language: "Amharic"
+      },
+      {
+        id: "n2",
+        title: "Nezer for Fresh Students (Female - Oromifa)",
+        type: "nezer",
+        language: "Oromifa"
+      },
+      {
+        id: "n3",
+        title: "Nezer for Fresh Students (Male - Amharic)",
+        type: "nezer",
+        language: "Amharic"
+      },
+      {
+        id: "n4",
+        title: "Nezer for Fresh Students (Male - Oromifa)",
+        type: "nezer",
+        language: "Oromifa"
+      },
+      {
+        id: "n5",
+        title: "Nezer for Fresh Students (Male)",
+        type: "nezer",
+        language: "Amharic"
+      },
+      {
+        id: "n6",
+        title: "Nezer for Senior Students (Female)",
+        type: "nezer",
+        language: "Amharic"
+      },
+      {
+        id: "n7",
+        title: "Nezer for Senior Students (Female)",
+        type: "nezer",
+        language: "Amharic"
+      },
+      {
+        id: "n8",
+        title: "Nezer for Senior Students (Male)",
+        type: "nezer",
+        language: "Amharic"
+      },
+      {
+        id: "n9",
+        title: "Nezer for Senior Students (Male)",
+        type: "nezer",
+        language: "Amharic"
+      },
+      {
+        id: "n10",
+        title: "Nezer for Senior Students (Male)",
+        type: "nezer",
+        language: "Amharic"
+      }
     ];
 
-    // Initialize the application
+    // Initialize app and set up navigation and authentication
     function initApp() {
       bottomNavItems.forEach(item => {
         item.addEventListener('click', (e) => {
@@ -511,9 +596,7 @@
           const page = item.getAttribute('data-page');
           bottomNavItems.forEach(nav => nav.classList.remove('active'));
           item.classList.add('active');
-          // Hide welcome screen when any nav is clicked
-          if(welcomeScreen) { welcomeScreen.style.display = 'none'; }
-          if(page === 'progress'){
+          if (page === 'progress') {
             window.location.href = 'progress.html';
           } else {
             switchTab(page);
@@ -525,24 +608,11 @@
         pendingAction = null;
       });
       confirmActionBtn.addEventListener('click', executePendingAction);
-      // Toggle profile dropdown on profile icon click
-      profileBtn.addEventListener('click', () => {
-        profileDropdown.style.display = profileDropdown.style.display === 'block' ? 'none' : 'block';
-      });
-      // Hide dropdown if clicked outside
-      document.addEventListener('click', (e) => {
-        if (!document.getElementById('profile-btn').contains(e.target) && !profileDropdown.contains(e.target)){
-          profileDropdown.style.display = 'none';
-        }
-      });
       onAuthStateChanged(auth, async (user) => {
         if (user) {
           currentUser = user;
           await loadUserData(user.uid);
-          // Set profile icon initials
-          profileInitials.textContent = userData.name ? userData.name.split(' ').map(n => n[0]).join('').toUpperCase() : "U";
-          // Show welcome screen message with user name
-          document.getElementById('welcome-message').textContent = `Welcome, ${userData.name || "User"}!`;
+          switchTab('courses');
         } else {
           window.location.href = 'login.html';
         }
@@ -602,7 +672,7 @@
       }
     }
 
-    // COURSES PAGE: List all courses (with filters)
+    // COURSES PAGE
     function loadCoursesPage() {
       let html = `
         <div class="card">
@@ -650,6 +720,7 @@
       if (languageFilter !== 'all') {
         filteredCourses = filteredCourses.filter(course => course.language === languageFilter);
       }
+      // Show all courses (even if already enrolled) so that none are left out
       displayCoursesAsCards(filteredCourses);
     }
 
@@ -662,6 +733,7 @@
       }
       coursesDisplay.innerHTML = '';
       courses.forEach(course => {
+        // Create a course card with a flex container:
         const card = document.createElement('div');
         card.className = 'course-card';
         card.innerHTML = `
@@ -677,7 +749,7 @@
       });
     }
 
-    // Display enrolled courses (only title and language)
+    // Display enrolled courses (only showing title and language)
     function displayEnrolledCourses() {
       const enrolledContainer = document.getElementById('enrolled-courses');
       if (!enrolledContainer) return;
@@ -687,6 +759,7 @@
       }
       enrolledContainer.innerHTML = '';
       enrolledCourses.forEach(course => {
+        // Find the full course in allCourses (if needed)
         const fullCourse = allCourses.find(c => c.id === course.id) || course;
         const item = document.createElement('div');
         item.className = 'course-card';
@@ -700,24 +773,25 @@
       });
     }
 
-    // Enrollment & Verification Modal
+    // Verification and Enrollment Handling
     function showEnrollConfirmation(courseId) {
       const course = allCourses.find(c => c.id === courseId);
       if (!course) return;
       pendingAction = {
         type: 'enroll',
         courseId: courseId,
-        requireVerification: enrolledCourses.length >= 3
+        requireVerification: enrolledCourses.length >= 3 // for 4th and subsequent enrollments
       };
       if (pendingAction.requireVerification) {
         confirmationTitle.textContent = 'Verify Enrollment';
-        confirmationMessage.textContent = `You are enrolling in your 4th (or later) course: "${course.title}". Please enter verification:`;
+        confirmationMessage.textContent = `You are enrolling your 4th (or later) course: "${course.title}". Please enter verification:`;
         verificationGroup.classList.remove('d-none');
       } else {
         confirmationTitle.textContent = 'Confirm Enrollment';
         confirmationMessage.textContent = `Are you sure you want to enroll in "${course.title}"?`;
         verificationGroup.classList.add('d-none');
       }
+      // Clear any previous input
       verificationInput.value = "";
       confirmationModal.classList.add('active');
     }
@@ -766,21 +840,19 @@
       }
     }
 
-    // CLASSMATES PAGE
+    // CLASSMATES PAGE (unchanged filtering logic)
     function loadClassmatesPage() {
       let html = `
         <div class="card">
           <h2 class="card-title">My Classmates</h2>
-          <div class="form-group">
+          <div class="filter-group mb-3">
             <label for="classmate-filter">Filter by Course</label>
             <select id="classmate-filter" class="form-control">
               <option value="all">All Classmates</option>
               ${enrolledCourses.map(course => `<option value="${course.id}">${course.title}</option>`).join('')}
             </select>
           </div>
-          <div class="card" style="padding: 10px;">
-            <div id="classmates-list"></div>
-          </div>
+          <div class="classmates-grid" id="classmates-list"></div>
         </div>
       `;
       mainContent.innerHTML = html;
@@ -790,11 +862,9 @@
     function displayClassmates(filterCourseId = 'all') {
       const classmatesList = document.getElementById('classmates-list');
       if (!classmatesList) return;
-      // For demo, get classmates from a query (or use dummy data)
-      // Here, assume classmatesData is already populated (if not, it could be fetched similarly as before)
       let filteredClassmates = classmatesData;
       if (filterCourseId !== 'all') {
-        filteredClassmates = classmatesData.filter(classmate =>
+        filteredClassmates = classmatesData.filter(classmate => 
           classmate.enrolledCourses?.some(ec => ec.id === filterCourseId)
         );
       }
@@ -819,52 +889,54 @@
       displayClassmates(filterValue);
     }
 
-    // PROFILE PAGE: Show user profile with enrolled courses and a profile header with dropdown
+    // PROFILE PAGE (show available courses with direct enrollment button)
     function loadProfilePage() {
       let html = `
         <div class="card">
-          <div style="display: flex; align-items: center;">
-            <div style="width: 60px; height: 60px; border-radius: 50%; background-color: var(--light-color); display: flex; align-items: center; justify-content: center; font-size: 1.5rem; font-weight: 600; margin-right: 15px;">
-              ${userData.name.split(' ').map(n => n[0]).join('').toUpperCase()}
-            </div>
-            <div>
-              <h2>${userData.name}</h2>
-              <p>${userData.email}</p>
-            </div>
+          <h2 class="card-title">My Profile</h2>
+          <div class="course-actions mt-3">
+            <button class="btn btn-primary" onclick="window.location.href='profile.html'">Edit Profile</button>
           </div>
         </div>
         <div class="card mt-3">
-          <h2 class="card-title">My Enrolled Courses</h2>
-          <div id="profile-enrolled-courses">
-            ${enrolledCourses.length > 0 ? enrolledCourses.map(course => `
+          <h2 class="card-title">Available Courses</h2>
+          <div id="available-courses">
+            ${allCourses.map(course => `
               <div class="course-card">
                 <div class="course-info">
                   <div class="course-title">${course.title}</div>
                   <div class="course-language">${course.language}</div>
                 </div>
+                <button class="enroll-btn" onclick="directEnroll('${course.id}')">
+                  <i class="fas fa-plus"></i>
+                </button>
               </div>
-            `).join('') : '<p>You have not enrolled in any courses yet.</p>'}
+            `).join('')}
           </div>
         </div>
       `;
       mainContent.innerHTML = html;
     }
-
-    // Logout function
-    async function handleLogout() {
-      try {
-        await signOut(auth);
-        window.location.href = 'login.html';
-      } catch (error) {
-        console.error("Error signing out:", error);
-        alert("Failed to logout. Please try again.");
+    async function directEnroll(courseId) {
+      // Use the same verification if needed
+      const course = allCourses.find(c => c.id === courseId);
+      if (!course) return;
+      if (enrolledCourses.some(ec => ec.id === courseId)) {
+        alert("You are already enrolled in this course.");
+        return;
+      }
+      if (enrolledCourses.length >= 3) {
+        // If 4th or later, require verification via confirmation modal
+        showEnrollConfirmation(courseId);
+      } else {
+        await enrollInCourse(courseId);
+        loadProfilePage();
       }
     }
 
     document.addEventListener('DOMContentLoaded', initApp);
     window.showEnrollConfirmation = showEnrollConfirmation;
-    window.directEnroll = enrollInCourse;
-    window.handleLogout = handleLogout;
+    window.directEnroll = directEnroll;
   </script>
 </body>
 </html>
