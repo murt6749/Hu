@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>HU Jama'aa - Progress</title>
+  <title>HU Jama'aa - Progress Tracking</title>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
   <style>
@@ -21,22 +21,26 @@
       --border-radius: 12px;
       --box-padding: 16px;
     }
+
     * {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
       font-family: 'Poppins', sans-serif;
     }
+
     body {
       background-color: #f8f9fa;
       min-height: 100vh;
       font-size: 14px;
     }
+
     .container {
       width: 100%;
       max-width: 100%;
       padding: 0;
     }
+
     /* Header Styles */
     .header {
       background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
@@ -50,23 +54,18 @@
       align-items: center;
       box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
     }
+
     .header h1 {
       font-size: 1.2rem;
       font-weight: 600;
     }
+
     .header-actions {
       display: flex;
       gap: 10px;
       align-items: center;
     }
-    .btn-icon {
-      background: none;
-      border: none;
-      color: white;
-      font-size: 1.2rem;
-      cursor: pointer;
-      position: relative;
-    }
+
     /* User Avatar */
     .user-avatar {
       width: 36px;
@@ -80,11 +79,13 @@
       font-weight: bold;
       text-transform: uppercase;
     }
+
     /* Account Dropdown */
     .account-dropdown {
       position: relative;
       display: inline-block;
     }
+
     .dropdown-content {
       display: none;
       position: absolute;
@@ -96,6 +97,7 @@
       border-radius: var(--border-radius);
       overflow: hidden;
     }
+
     .dropdown-content a {
       color: var(--secondary-color);
       padding: 12px 16px;
@@ -103,12 +105,15 @@
       display: block;
       font-size: 0.9rem;
     }
+
     .dropdown-content a:hover {
       background-color: var(--light-color);
     }
+
     .account-dropdown:hover .dropdown-content {
       display: block;
     }
+
     .user-name {
       margin-right: 8px;
       font-size: 0.9rem;
@@ -117,11 +122,13 @@
       overflow: hidden;
       text-overflow: ellipsis;
     }
+
     /* Main Content Area */
     .main-content {
       padding: var(--box-padding);
-      padding-bottom: 70px; /* Space for bottom nav */
+      padding-bottom: 70px;
     }
+
     /* Bottom Navigation */
     .bottom-nav {
       position: fixed;
@@ -135,6 +142,7 @@
       box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
       z-index: 100;
     }
+
     .nav-item {
       display: flex;
       flex-direction: column;
@@ -143,13 +151,16 @@
       color: var(--secondary-color);
       font-size: 0.8rem;
     }
+
     .nav-item i {
       font-size: 1.2rem;
       margin-bottom: 4px;
     }
+
     .nav-item.active {
       color: var(--primary-color);
     }
+
     /* Card Styles */
     .card {
       background-color: var(--white);
@@ -158,12 +169,14 @@
       margin-bottom: 15px;
       box-shadow: var(--shadow);
     }
+
     .card-title {
       color: var(--primary-color);
       margin-bottom: 10px;
       font-size: 1.1rem;
       font-weight: 600;
     }
+
     /* Progress Card Styles */
     .progress-card {
       background-color: var(--white);
@@ -173,20 +186,24 @@
       box-shadow: var(--shadow);
       position: relative;
     }
+
     .progress-header {
       display: flex;
       justify-content: space-between;
       align-items: center;
       margin-bottom: 10px;
     }
+
     .progress-title {
       font-weight: 600;
       color: var(--primary-color);
     }
+
     .progress-value {
       font-weight: 700;
       color: var(--secondary-color);
     }
+
     .progress-bar-container {
       width: 100%;
       height: 10px;
@@ -195,23 +212,27 @@
       overflow: hidden;
       margin-bottom: 10px;
     }
+
     .progress-bar {
       height: 100%;
       background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
       border-radius: 5px;
       transition: width 0.3s ease;
     }
+
     .progress-details {
       display: flex;
       justify-content: space-between;
       font-size: 0.8rem;
       color: var(--secondary-color);
     }
+
     .progress-actions {
       display: flex;
       justify-content: flex-end;
       margin-top: 10px;
     }
+
     .action-btn {
       background: none;
       border: none;
@@ -220,6 +241,7 @@
       cursor: pointer;
       margin-left: 10px;
     }
+
     /* Stats Grid */
     .stats-grid {
       display: grid;
@@ -227,6 +249,7 @@
       gap: 10px;
       margin-bottom: 15px;
     }
+
     .stat-card {
       background-color: var(--white);
       border-radius: var(--border-radius);
@@ -234,62 +257,58 @@
       text-align: center;
       box-shadow: var(--shadow);
     }
+
     .stat-value {
       font-size: 1.5rem;
       font-weight: 700;
       color: var(--primary-color);
       margin-bottom: 5px;
     }
+
     .stat-label {
       font-size: 0.8rem;
       color: var(--secondary-color);
     }
-    /* Form Elements */
-    .form-group {
+
+    /* Admin Welcome */
+    .admin-welcome {
+      background-color: var(--accent-color);
+      padding: 15px;
+      border-radius: var(--border-radius);
       margin-bottom: 15px;
+      text-align: center;
     }
-    .form-group label {
-      display: block;
-      margin-bottom: 5px;
-      font-weight: 500;
-      color: var(--secondary-color);
-    }
-    .form-control {
-      width: 100%;
-      padding: 12px;
-      border: 1px solid #ddd;
-      border-radius: 8px;
-      font-size: 1rem;
-    }
-    .btn {
-      padding: 12px;
-      border: none;
-      border-radius: 8px;
-      font-size: 1rem;
-      font-weight: 500;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      width: 100%;
-    }
-    .btn-primary {
-      background-color: var(--primary-color);
-      color: var(--white);
-    }
-    .btn-primary:hover {
-      background-color: var(--secondary-color);
-    }
-    .btn-outline {
-      background-color: transparent;
-      border: 1px solid var(--primary-color);
+
+    .admin-welcome h3 {
       color: var(--primary-color);
+      margin-bottom: 10px;
     }
-    .btn-sm {
-      padding: 8px 12px;
-      font-size: 0.9rem;
+
+    /* Read-only Message */
+    .read-only-message {
+      font-size: 0.8rem;
+      color: var(--secondary-color);
+      margin: 10px 0;
+      text-align: center;
     }
-    .d-none {
-      display: none;
+
+    /* Verification Badge */
+    .verified-badge {
+      display: inline-flex;
+      align-items: center;
+      background-color: var(--success-color);
+      color: white;
+      padding: 2px 8px;
+      border-radius: 10px;
+      font-size: 0.7rem;
+      margin-left: 5px;
     }
+
+    .verified-badge i {
+      font-size: 0.6rem;
+      margin-right: 3px;
+    }
+
     /* Modal Styles */
     .modal {
       display: none;
@@ -304,9 +323,11 @@
       justify-content: center;
       padding: 15px;
     }
+
     .modal.active {
       display: flex;
     }
+
     .modal-content {
       background-color: var(--white);
       border-radius: var(--border-radius);
@@ -316,6 +337,7 @@
       overflow-y: auto;
       animation: modalFadeIn 0.3s ease;
     }
+
     @keyframes modalFadeIn {
       from {
         opacity: 0;
@@ -326,6 +348,7 @@
         transform: translateY(0);
       }
     }
+
     .modal-header {
       padding: 15px;
       border-bottom: 1px solid #eee;
@@ -333,20 +356,24 @@
       justify-content: space-between;
       align-items: center;
     }
+
     .modal-title {
       font-size: 1.2rem;
       color: var(--primary-color);
       font-weight: 600;
     }
+
     .modal-close {
       background: none;
       border: none;
       font-size: 1.5rem;
       cursor: pointer;
     }
+
     .modal-body {
       padding: 15px;
     }
+
     .modal-footer {
       padding: 15px;
       border-top: 1px solid #eee;
@@ -354,53 +381,38 @@
       justify-content: flex-end;
       gap: 10px;
     }
+
     /* Admin Controls */
     .admin-controls {
       margin-top: 15px;
       padding-top: 15px;
       border-top: 1px solid #eee;
     }
+
     .admin-only {
       display: none;
     }
+
     .is-admin .admin-only {
       display: block;
     }
-    /* Admin Confirmation Modal */
+
+    /* Admin Confirmation */
     .admin-confirmation {
       text-align: center;
       padding: 20px;
     }
+
     .admin-confirmation p {
       margin-bottom: 20px;
     }
+
     .admin-confirmation-buttons {
       display: flex;
       justify-content: center;
       gap: 15px;
     }
-    /* Verification Badge */
-    .verified-badge {
-      display: inline-flex;
-      align-items: center;
-      background-color: var(--success-color);
-      color: white;
-      padding: 2px 8px;
-      border-radius: 10px;
-      font-size: 0.7rem;
-      margin-left: 5px;
-    }
-    .verified-badge i {
-      font-size: 0.6rem;
-      margin-right: 3px;
-    }
-    /* Read-only Progress */
-    .read-only-message {
-      font-size: 0.8rem;
-      color: var(--secondary-color);
-      margin-top: 10px;
-      text-align: center;
-    }
+
     @media (min-width: 768px) {
       .container {
         max-width: 768px;
@@ -416,7 +428,7 @@
   <div class="container">
     <!-- Header -->
     <header class="header">
-      <h1 id="page-title">My Progress</h1>
+      <h1 id="page-title">Progress Tracking</h1>
       <div class="header-actions">
         <div class="account-dropdown">
           <div style="display: flex; align-items: center;">
@@ -425,7 +437,7 @@
           </div>
           <div class="dropdown-content" id="account-dropdown">
             <a href="schedule.html"><i class="fas fa-calendar-alt"></i> Schedule</a>
-            <a href="profile.html"><i class="fas fa-user"></i> Profile</a>
+            <a href="profile.html" class="profile-link"><i class="fas fa-user"></i> Profile</a>
             <a href="#" id="logout-btn"><i class="fas fa-sign-out-alt"></i> Logout</a>
           </div>
         </div>
@@ -434,7 +446,7 @@
 
     <!-- Main Content -->
     <main class="main-content" id="main-content">
-      <!-- Dynamic content loaded here -->
+      <!-- Content loaded dynamically -->
     </main>
 
     <!-- Bottom Navigation -->
@@ -451,18 +463,18 @@
         <i class="fas fa-users"></i>
         <span>Classmates</span>
       </a>
-      <a href="profile.html" class="nav-item" data-page="profile">
+      <a href="profile.html" class="nav-item profile-nav-item" data-page="profile">
         <i class="fas fa-user"></i>
         <span>Profile</span>
       </a>
     </nav>
   </div>
 
-  <!-- Progress Update Modal (Admin Only) -->
+  <!-- Progress Update Modal -->
   <div class="modal" id="progress-modal">
     <div class="modal-content">
       <div class="modal-header">
-        <h3 class="modal-title" id="progress-modal-title">Update Student Progress</h3>
+        <h3 class="modal-title">Update Student Progress</h3>
         <button class="modal-close" id="close-progress-modal">&times;</button>
       </div>
       <div class="modal-body">
@@ -497,12 +509,12 @@
   <div class="modal" id="admin-confirmation-modal">
     <div class="modal-content">
       <div class="modal-header">
-        <h3 class="modal-title">Admin Privileges Detected</h3>
+        <h3 class="modal-title">Administrator Access</h3>
         <button class="modal-close" id="close-admin-modal">&times;</button>
       </div>
       <div class="modal-body">
         <div class="admin-confirmation">
-          <p>You have been verified as an administrator. Would you like to manage users and progress?</p>
+          <p>You have been verified as an administrator. Would you like to access the admin dashboard?</p>
           <div class="admin-confirmation-buttons">
             <button class="btn btn-primary" id="go-to-admin">Yes, Go to Admin Panel</button>
             <button class="btn btn-outline" id="stay-here">No, Stay Here</button>
@@ -512,7 +524,6 @@
     </div>
   </div>
 
-  <!-- Firebase SDK and Application Code -->
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
     import {
@@ -525,13 +536,10 @@
       collection,
       doc,
       getDoc,
-      getDocs,
       setDoc,
       updateDoc,
       arrayUnion,
       arrayRemove,
-      query,
-      where,
       serverTimestamp
     } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
@@ -569,6 +577,8 @@
     const closeAdminModal = document.getElementById('close-admin-modal');
     const goToAdminBtn = document.getElementById('go-to-admin');
     const stayHereBtn = document.getElementById('stay-here');
+    const profileLink = document.querySelector('.profile-link');
+    const profileNavItem = document.querySelector('.profile-nav-item');
 
     let currentUser = null;
     let userData = null;
@@ -577,60 +587,30 @@
     let isVerifiedAdmin = false;
     let currentEditingCourse = null;
     let currentEditingUserId = null;
-    let adminPromptShown = false;
 
-    // Initialize app and set up navigation and authentication
+    // Initialize application
     function initApp() {
-      // Set up event listeners
-      logoutBtn.addEventListener('click', async (e) => {
-        e.preventDefault();
-        try {
-          await signOut(auth);
-          window.location.href = 'login.html';
-        } catch (error) {
-          console.error("Error signing out:", error);
-        }
-      });
+      setupEventListeners();
+      checkAuthState();
+    }
 
-      closeProgressModal.addEventListener('click', () => {
-        progressModal.classList.remove('active');
-      });
+    function setupEventListeners() {
+      logoutBtn.addEventListener('click', handleLogout);
+      closeProgressModal.addEventListener('click', () => progressModal.classList.remove('active'));
+      cancelProgressUpdate.addEventListener('click', () => progressModal.classList.remove('active'));
+      saveProgressBtn.addEventListener('click', updateCourseProgress);
+      closeAdminModal.addEventListener('click', () => adminConfirmationModal.classList.remove('active'));
+      goToAdminBtn.addEventListener('click', () => window.location.href = 'progressadmin.html');
+      stayHereBtn.addEventListener('click', () => adminConfirmationModal.classList.remove('active'));
+    }
 
-      cancelProgressUpdate.addEventListener('click', () => {
-        progressModal.classList.remove('active');
-      });
-
-      saveProgressBtn.addEventListener('click', async () => {
-        await updateCourseProgress();
-      });
-
-      closeAdminModal.addEventListener('click', () => {
-        adminConfirmationModal.classList.remove('active');
-      });
-
-      goToAdminBtn.addEventListener('click', () => {
-        window.location.href = 'progressadmin.html';
-      });
-
-      stayHereBtn.addEventListener('click', () => {
-        adminConfirmationModal.classList.remove('active');
-      });
-
-      // Check auth state
+    async function checkAuthState() {
       onAuthStateChanged(auth, async (user) => {
         if (user) {
           currentUser = user;
           await loadUserData(user.uid);
-          updateUserDisplay();
-          
-          // Show admin confirmation if applicable
-          if (isAdmin && isVerifiedAdmin && !adminPromptShown) {
-            setTimeout(() => {
-              adminConfirmationModal.classList.add('active');
-              adminPromptShown = true;
-            }, 1000);
-          }
-          
+          updateUserInterface();
+          checkAdminStatus();
           loadProgressPage();
         } else {
           window.location.href = 'login.html';
@@ -638,58 +618,79 @@
       });
     }
 
-    function updateUserDisplay() {
-      const name = userData.name || currentUser.displayName || "User";
-      userNameDisplay.textContent = name;
-      
-      // Set avatar with first letter of name
-      const firstLetter = name.charAt(0).toUpperCase();
-      userAvatar.textContent = firstLetter;
-      
-      // Add verified badge if admin
-      if (isAdmin && isVerifiedAdmin) {
-        const badge = document.createElement('span');
-        badge.className = 'verified-badge';
-        badge.innerHTML = '<i class="fas fa-check"></i> Verified Admin';
-        userNameDisplay.parentNode.insertBefore(badge, userNameDisplay.nextSibling);
-      }
-    }
-
     async function loadUserData(userId) {
       try {
         const userDoc = await getDoc(doc(db, "users", userId));
+        
         if (userDoc.exists()) {
           userData = userDoc.data();
-          if (!userData.enrolledCourses) {
-            await updateDoc(doc(db, "users", userId), { enrolledCourses: [] });
-            userData.enrolledCourses = [];
-          }
-          enrolledCourses = userData.enrolledCourses;
-          isAdmin = userData.role === 'admin'; // Check if user is admin
-          isVerifiedAdmin = userData.adminVerified || false; // Check if admin is verified
-          
-          if (isAdmin) {
-            document.body.classList.add('is-admin');
-          }
+          enrolledCourses = userData.enrolledCourses || [];
+          isAdmin = userData.role === 'admin';
+          isVerifiedAdmin = userData.adminVerified === true;
         } else {
-          const newUserData = {
-            name: currentUser.displayName || "User",
-            email: currentUser.email,
-            enrolledCourses: [],
-            studentId: "",
-            department: "",
-            year: "",
-            phone: "",
-            role: "student", // Default role
-            adminVerified: false,
-            createdAt: serverTimestamp()
-          };
-          await setDoc(doc(db, "users", userId), newUserData);
-          userData = newUserData;
-          enrolledCourses = [];
+          await createNewUser(userId);
         }
       } catch (error) {
         console.error("Error loading user data:", error);
+      }
+    }
+
+    async function createNewUser(userId) {
+      const newUserData = {
+        name: currentUser.displayName || "User",
+        email: currentUser.email,
+        enrolledCourses: [],
+        studentId: "",
+        department: "",
+        year: "",
+        phone: "",
+        role: "student",
+        adminVerified: false,
+        createdAt: serverTimestamp()
+      };
+      
+      await setDoc(doc(db, "users", userId), newUserData);
+      userData = newUserData;
+      enrolledCourses = [];
+    }
+
+    function updateUserInterface() {
+      // Set user display name and avatar
+      const name = userData.name || currentUser.displayName || "User";
+      userNameDisplay.textContent = name;
+      userAvatar.textContent = name.charAt(0).toUpperCase();
+
+      // Add admin badge if verified admin
+      if (isAdmin && isVerifiedAdmin) {
+        const badge = document.createElement('span');
+        badge.className = 'verified-badge';
+        badge.innerHTML = '<i class="fas fa-check"></i> Admin';
+        userNameDisplay.parentNode.insertBefore(badge, userNameDisplay.nextSibling);
+        
+        // Hide profile editing for admins
+        profileLink.style.display = 'none';
+        profileNavItem.style.display = 'none';
+        document.body.classList.add('is-admin');
+      }
+
+      // Add admin welcome message
+      if (isAdmin && isVerifiedAdmin) {
+        const welcomeMsg = document.createElement('div');
+        welcomeMsg.className = 'admin-welcome';
+        welcomeMsg.innerHTML = `
+          <h3>Welcome, Administrator</h3>
+          <p>You have access to administrative functions</p>
+        `;
+        mainContent.prepend(welcomeMsg);
+      }
+    }
+
+    function checkAdminStatus() {
+      if (isAdmin && isVerifiedAdmin && !sessionStorage.getItem('adminPromptShown')) {
+        setTimeout(() => {
+          adminConfirmationModal.classList.add('active');
+          sessionStorage.setItem('adminPromptShown', 'true');
+        }, 1500);
       }
     }
 
@@ -715,12 +716,22 @@
         </div>
         
         <div class="card">
-          <h2 class="card-title">My Course Progress</h2>
+          <h2 class="card-title">${isAdmin ? 'Student' : 'My'} Course Progress</h2>
           ${!isAdmin ? '<p class="read-only-message">Your progress is managed by instructors. Contact them for updates.</p>' : ''}
           <div id="courses-progress"></div>
         </div>
       `;
-      mainContent.innerHTML = html;
+
+      const contentContainer = isAdmin ? 
+        document.querySelector('.card') || mainContent : 
+        mainContent;
+      
+      if (isAdmin && document.querySelector('.card')) {
+        document.querySelector('.card').outerHTML = html;
+      } else {
+        mainContent.innerHTML = html;
+      }
+
       displayCoursesProgress();
     }
 
@@ -743,7 +754,7 @@
       if (!coursesProgress) return;
       
       if (enrolledCourses.length === 0) {
-        coursesProgress.innerHTML = '<p>You are not enrolled in any courses yet.</p>';
+        coursesProgress.innerHTML = '<p>No courses enrolled yet.</p>';
         return;
       }
       
@@ -751,10 +762,10 @@
       
       enrolledCourses.forEach(course => {
         const progress = course.progress || 0;
-        const progressCard = document.createElement('div');
-        progressCard.className = 'progress-card';
+        const card = document.createElement('div');
+        card.className = 'progress-card';
         
-        progressCard.innerHTML = `
+        card.innerHTML = `
           <div class="progress-header">
             <div class="progress-title">${course.title}</div>
             <div class="progress-value">${progress}%</div>
@@ -785,7 +796,8 @@
             </div>
           ` : ''}
         `;
-        coursesProgress.appendChild(progressCard);
+        
+        coursesProgress.appendChild(card);
       });
     }
 
@@ -820,11 +832,9 @@
       }
       
       try {
-        // Find the course in enrolledCourses array
         const courseIndex = enrolledCourses.findIndex(c => c.id === currentEditingCourse);
         if (courseIndex === -1) return;
         
-        // Create updated course data
         const updatedCourse = {
           ...enrolledCourses[courseIndex],
           progress: progress,
@@ -835,7 +845,6 @@
           verifiedAt: progressVerified.value === 'true' ? new Date().toISOString() : null
         };
         
-        // Update Firestore
         await updateDoc(doc(db, "users", currentEditingUserId), {
           enrolledCourses: arrayRemove(enrolledCourses[courseIndex])
         });
@@ -844,18 +853,24 @@
           enrolledCourses: arrayUnion(updatedCourse)
         });
         
-        // Update local data if editing current user's progress
-        if (currentEditingUserId === currentUser.uid) {
-          enrolledCourses[courseIndex] = updatedCourse;
-        }
-        
-        // Refresh display
+        enrolledCourses[courseIndex] = updatedCourse;
         progressModal.classList.remove('active');
         loadProgressPage();
         
       } catch (error) {
         console.error("Error updating progress:", error);
         alert("Failed to update progress. Please try again.");
+      }
+    }
+
+    async function handleLogout(e) {
+      e.preventDefault();
+      try {
+        await signOut(auth);
+        sessionStorage.removeItem('adminPromptShown');
+        window.location.href = 'login.html';
+      } catch (error) {
+        console.error("Error signing out:", error);
       }
     }
 
