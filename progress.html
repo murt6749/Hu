@@ -41,6 +41,38 @@
       padding: 0;
     }
 
+    /* Loading Animation */
+    .loading-container {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(255, 255, 255, 0.9);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      z-index: 9999;
+    }
+    .loading-spinner {
+      width: 50px;
+      height: 50px;
+      border: 5px solid var(--light-color);
+      border-top: 5px solid var(--primary-color);
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+      margin-bottom: 20px;
+    }
+    .loading-text {
+      color: var(--primary-color);
+      font-weight: 500;
+    }
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
     /* Header Styles */
     .header {
       background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
@@ -309,6 +341,23 @@
       margin-right: 3px;
     }
 
+    /* Admin Badge */
+    .admin-badge {
+      display: inline-flex;
+      align-items: center;
+      background-color: var(--info-color);
+      color: white;
+      padding: 2px 8px;
+      border-radius: 10px;
+      font-size: 0.7rem;
+      margin-left: 5px;
+    }
+
+    .admin-badge i {
+      font-size: 0.6rem;
+      margin-right: 3px;
+    }
+
     /* Modal Styles */
     .modal {
       display: none;
@@ -466,6 +515,26 @@
       margin-bottom: 15px;
     }
 
+    /* Course Details */
+    .course-details-section {
+      margin-top: 10px;
+      padding: 10px;
+      background-color: var(--light-color);
+      border-radius: var(--border-radius);
+    }
+
+    .course-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 5px;
+    }
+
+    .course-meta-item {
+      font-size: 0.8rem;
+      color: var(--secondary-color);
+    }
+
     /* Responsive */
     @media (min-width: 768px) {
       .container {
@@ -482,6 +551,12 @@
   </style>
 </head>
 <body>
+  <!-- Loading Animation -->
+  <div class="loading-container" id="loading-container">
+    <div class="loading-spinner"></div>
+    <div class="loading-text">Loading your progress...</div>
+  </div>
+
   <div class="container">
     <!-- Header -->
     <header class="header">
@@ -495,6 +570,9 @@
           <div class="dropdown-content" id="account-dropdown">
             <a href="schedule.html"><i class="fas fa-calendar-alt"></i> Schedule</a>
             <a href="profile.html" class="profile-link"><i class="fas fa-user"></i> Profile</a>
+            <div class="admin-only">
+              <a href="progressadmin.html"><i class="fas fa-tachometer-alt"></i> Admin Panel</a>
+            </div>
             <a href="#" id="logout-btn"><i class="fas fa-sign-out-alt"></i> Logout</a>
           </div>
         </div>
@@ -531,7 +609,7 @@
   <div class="modal" id="progress-modal">
     <div class="modal-content">
       <div class="modal-header">
-        <h3 class="modal-title">Update Student Progress</h3>
+        <h3 class="modal-title">Update Progress</h3>
         <button class="modal-close" id="close-progress-modal">&times;</button>
       </div>
       <div class="modal-body">
@@ -543,7 +621,7 @@
             <input type="number" id="progress-value" class="form-control" min="0" max="100" required>
           </div>
           <div class="form-group">
-            <label for="progress-notes">Instructor Notes</label>
+            <label for="progress-notes">Notes</label>
             <textarea id="progress-notes" class="form-control" rows="3"></textarea>
           </div>
           <div class="form-group admin-only">
@@ -624,6 +702,7 @@
     const stayHereBtn = document.getElementById('stay-here');
     const profileLink = document.querySelector('.profile-link');
     const profileNavItem = document.querySelector('.profile-nav-item');
+    const loadingContainer = document.getElementById('loading-container');
 
     let currentUser = null;
     let userData = null;
@@ -655,11 +734,13 @@
       auth.onAuthStateChanged(async (user) => {
         if (user) {
           currentUser = user;
+          loadingContainer.style.display = 'flex';
           await loadUserData(user.uid);
           updateUserInterface();
           checkAdminStatus();
           loadAllCourses();
           loadProgressPage();
+          loadingContainer.style.display = 'none';
         } else {
           window.location.href = 'login.html';
         }
@@ -675,6 +756,11 @@
           enrolledCourses = userData.enrolledCourses || [];
           isAdmin = userData.role === 'admin';
           isVerifiedAdmin = userData.adminVerified === true;
+          
+          // Add admin class to body if admin
+          if (isAdmin && isVerifiedAdmin) {
+            document.body.classList.add('is-admin');
+          }
         } else {
           await createNewUser(userId);
         }
@@ -720,14 +806,13 @@
       // Add admin badge if verified admin
       if (isAdmin && isVerifiedAdmin) {
         const badge = document.createElement('span');
-        badge.className = 'verified-badge';
-        badge.innerHTML = '<i class="fas fa-check"></i> Admin';
+        badge.className = 'admin-badge';
+        badge.innerHTML = '<i class="fas fa-user-shield"></i> Admin';
         userNameDisplay.parentNode.insertBefore(badge, userNameDisplay.nextSibling);
         
         // Hide profile editing for admins
         profileLink.style.display = 'none';
         profileNavItem.style.display = 'none';
-        document.body.classList.add('is-admin');
       }
     }
 
@@ -838,10 +923,17 @@
             </div>
           ` : ''}
           ${course.notes ? `
-            <div class="notes-section">
-              <strong>Instructor Notes:</strong> ${course.notes}
+            <div class="course-details-section">
+              <strong>Instructor Notes:</strong> 
+              <p>${course.notes}</p>
+              ${course.lastUpdated ? `<small>Last updated: ${formatDateTime(course.lastUpdated)}</small>` : ''}
             </div>
           ` : ''}
+          <div class="course-meta">
+            <span class="course-meta-item"><i class="fas fa-book"></i> ${fullCourse.type || 'N/A'}</span>
+            <span class="course-meta-item"><i class="fas fa-language"></i> ${fullCourse.language || 'N/A'}</span>
+            ${fullCourse.duration ? `<span class="course-meta-item"><i class="fas fa-clock"></i> ${fullCourse.duration}</span>` : ''}
+          </div>
         `;
         
         coursesProgress.appendChild(card);
@@ -851,6 +943,18 @@
     function formatDate(dateString) {
       if (!dateString) return 'N/A';
       const options = { year: 'numeric', month: 'short', day: 'numeric' };
+      return new Date(dateString).toLocaleDateString(undefined, options);
+    }
+
+    function formatDateTime(dateString) {
+      if (!dateString) return 'N/A';
+      const options = { 
+        year: 'numeric', 
+        month: 'short', 
+        day: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit'
+      };
       return new Date(dateString).toLocaleDateString(undefined, options);
     }
 
@@ -870,7 +974,7 @@
     }
 
     async function updateCourseProgress() {
-      if (!currentUser || !currentEditingCourse || !isAdmin) return;
+      if (!currentUser || !currentEditingCourse) return;
       
       const progress = parseInt(progressValue.value);
       if (isNaN(progress) || progress < 0 || progress > 100) {
@@ -886,11 +990,15 @@
           ...enrolledCourses[courseIndex],
           progress: progress,
           notes: progressNotes.value,
-          verified: progressVerified.value === 'true',
-          lastUpdated: firebase.firestore.FieldValue.serverTimestamp(),
-          verifiedBy: progressVerified.value === 'true' ? (userData.name || "Admin") : null,
-          verifiedAt: progressVerified.value === 'true' ? firebase.firestore.FieldValue.serverTimestamp() : null
+          lastUpdated: firebase.firestore.FieldValue.serverTimestamp()
         };
+        
+        // Only admins can verify courses
+        if (isAdmin) {
+          updatedCourse.verified = progressVerified.value === 'true';
+          updatedCourse.verifiedBy = progressVerified.value === 'true' ? (userData.name || "Admin") : null;
+          updatedCourse.verifiedAt = progressVerified.value === 'true' ? firebase.firestore.FieldValue.serverTimestamp() : null;
+        }
         
         await db.collection("users").doc(currentEditingUserId).update({
           enrolledCourses: firebase.firestore.FieldValue.arrayRemove(enrolledCourses[courseIndex])
