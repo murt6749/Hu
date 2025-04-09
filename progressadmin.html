@@ -174,12 +174,25 @@
       padding: 6px 10px;
       font-size: 0.8rem;
     }
+    .btn-success {
+      background-color: var(--success-color);
+      color: white;
+    }
+    .btn-warning {
+      background-color: var(--warning-color);
+      color: black;
+    }
+    .btn-danger {
+      background-color: var(--danger-color);
+      color: white;
+    }
     /* User Cards */
     .user-card {
       background-color: var(--white);
       border-radius: var(--border-radius);
       padding: var(--box-padding);
       box-shadow: var(--shadow);
+      margin-bottom: 15px;
     }
     .user-header {
       display: flex;
@@ -199,6 +212,10 @@
       font-size: 0.8rem;
       color: var(--secondary-color);
     }
+    .user-email {
+      font-size: 0.8rem;
+      color: #666;
+    }
     .user-courses {
       margin-top: 10px;
     }
@@ -211,11 +228,29 @@
     }
     .course-title {
       font-weight: 500;
+      flex: 1;
+    }
+    .course-details {
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+      font-size: 0.8rem;
+      color: #666;
+    }
+    .course-meta {
+      display: flex;
+      gap: 10px;
+    }
+    .course-meta span {
+      font-size: 0.75rem;
+      color: #888;
     }
     .course-progress {
       display: flex;
       align-items: center;
       gap: 10px;
+      min-width: 250px;
+      justify-content: flex-end;
     }
     .progress-input {
       width: 60px;
@@ -256,6 +291,7 @@
       height: 100%;
       background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
       border-radius: 4px;
+      transition: width 0.3s ease;
     }
     /* Verification Badge */
     .verified-badge {
@@ -271,6 +307,16 @@
     .verified-badge i {
       font-size: 0.6rem;
       margin-right: 3px;
+    }
+    .unverified-badge {
+      display: inline-flex;
+      align-items: center;
+      background-color: var(--warning-color);
+      color: black;
+      padding: 2px 8px;
+      border-radius: 10px;
+      font-size: 0.7rem;
+      margin-left: 5px;
     }
     /* Checkbox */
     .checkbox-container {
@@ -291,6 +337,29 @@
       grid-template-columns: 1fr 1fr;
       gap: 10px;
       margin-top: 10px;
+    }
+    /* Stats Cards */
+    .stats-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 15px;
+      margin-bottom: 20px;
+    }
+    .stat-card {
+      background-color: var(--white);
+      border-radius: var(--border-radius);
+      padding: var(--box-padding);
+      box-shadow: var(--shadow);
+      text-align: center;
+    }
+    .stat-value {
+      font-size: 1.5rem;
+      font-weight: 600;
+      color: var(--primary-color);
+    }
+    .stat-label {
+      font-size: 0.8rem;
+      color: #666;
     }
     /* Modal Styles */
     .modal {
@@ -356,6 +425,22 @@
       justify-content: flex-end;
       gap: 10px;
     }
+    /* Tabs */
+    .tabs {
+      display: flex;
+      border-bottom: 1px solid #ddd;
+      margin-bottom: 15px;
+    }
+    .tab {
+      padding: 10px 15px;
+      cursor: pointer;
+      border-bottom: 2px solid transparent;
+    }
+    .tab.active {
+      border-bottom: 2px solid var(--primary-color);
+      color: var(--primary-color);
+      font-weight: 500;
+    }
     /* Responsive */
     @media (max-width: 768px) {
       .admin-control-panel {
@@ -365,6 +450,19 @@
         position: static;
       }
       .auto-progress-controls {
+        grid-template-columns: 1fr;
+      }
+      .stats-container {
+        grid-template-columns: 1fr 1fr;
+      }
+      .course-progress {
+        min-width: auto;
+        flex-direction: column;
+        align-items: flex-end;
+      }
+    }
+    @media (max-width: 480px) {
+      .stats-container {
         grid-template-columns: 1fr;
       }
     }
@@ -395,56 +493,93 @@
         <!-- Filters Section -->
         <div class="filters-section">
           <h2>Filters</h2>
-          <div class="filter-group">
-            <h3>User Filters</h3>
-            <input type="text" id="name-filter" class="form-control" placeholder="Search by name">
-            <input type="text" id="id-filter" class="form-control" placeholder="Search by student ID">
-            <select id="department-filter" class="form-control">
-              <option value="">All Departments</option>
-              <option value="Qirat">Qirat</option>
-              <option value="Hifz">Hifz</option>
-              <option value="Nezer">Nezer</option>
-            </select>
+          <div class="tabs">
+            <div class="tab active" data-tab="users">Users</div>
+            <div class="tab" data-tab="courses">Courses</div>
           </div>
           
-          <div class="filter-group">
-            <h3>Course Filters</h3>
-            <select id="course-type-filter" class="form-control">
-              <option value="">All Course Types</option>
-              <option value="qirat">Qirat</option>
-              <option value="hifz">Hifz</option>
-              <option value="nezer">Nezer</option>
-            </select>
-            <select id="course-language-filter" class="form-control">
-              <option value="">All Languages</option>
-              <option value="Amharic">Amharic</option>
-              <option value="Oromifa">Oromifa</option>
-            </select>
+          <div id="users-filters">
+            <div class="filter-group">
+              <h3>User Filters</h3>
+              <input type="text" id="name-filter" class="form-control" placeholder="Search by name">
+              <input type="text" id="id-filter" class="form-control" placeholder="Search by student ID">
+              <input type="text" id="email-filter" class="form-control" placeholder="Search by email">
+              <select id="department-filter" class="form-control">
+                <option value="">All Departments</option>
+                <option value="Qirat">Qirat</option>
+                <option value="Hifz">Hifz</option>
+                <option value="Nezer">Nezer</option>
+              </select>
+            </div>
+            
+            <div class="filter-group">
+              <h3>Course Filters</h3>
+              <select id="course-type-filter" class="form-control">
+                <option value="">All Course Types</option>
+                <option value="qirat">Qirat</option>
+                <option value="hifz">Hifz</option>
+                <option value="nezer">Nezer</option>
+              </select>
+              <select id="course-language-filter" class="form-control">
+                <option value="">All Languages</option>
+                <option value="Amharic">Amharic</option>
+                <option value="Oromifa">Oromifa</option>
+              </select>
+            </div>
+            
+            <div class="filter-group">
+              <h3>Progress Filters</h3>
+              <select id="progress-range-filter" class="form-control">
+                <option value="all">All Progress</option>
+                <option value="0-25">0-25%</option>
+                <option value="26-50">26-50%</option>
+                <option value="51-75">51-75%</option>
+                <option value="76-99">76-99%</option>
+                <option value="100">Completed (100%)</option>
+              </select>
+              <select id="verification-filter" class="form-control">
+                <option value="all">All Verification Status</option>
+                <option value="verified">Verified Only</option>
+                <option value="unverified">Unverified Only</option>
+              </select>
+            </div>
+            
+            <button id="apply-filters" class="btn btn-primary">Apply Filters</button>
+            <button id="reset-filters" class="btn btn-outline">Reset Filters</button>
           </div>
           
-          <div class="filter-group">
-            <h3>Progress Filters</h3>
-            <select id="progress-range-filter" class="form-control">
-              <option value="all">All Progress</option>
-              <option value="0-25">0-25%</option>
-              <option value="26-50">26-50%</option>
-              <option value="51-75">51-75%</option>
-              <option value="76-99">76-99%</option>
-              <option value="100">Completed (100%)</option>
-            </select>
-            <select id="verification-filter" class="form-control">
-              <option value="all">All Verification Status</option>
-              <option value="verified">Verified Only</option>
-              <option value="unverified">Unverified Only</option>
-            </select>
+          <div id="courses-filters" style="display: none;">
+            <div class="filter-group">
+              <h3>Course Management</h3>
+              <button id="add-course-btn" class="btn btn-primary" style="width: 100%; margin-bottom: 10px;">
+                <i class="fas fa-plus"></i> Add New Course
+              </button>
+              <input type="text" id="course-search" class="form-control" placeholder="Search courses">
+            </div>
           </div>
-          
-          <button id="apply-filters" class="btn btn-primary">Apply Filters</button>
-          <button id="reset-filters" class="btn btn-outline">Reset Filters</button>
         </div>
         
         <!-- Results Section -->
         <div class="results-section">
+          <div class="stats-container">
+            <div class="stat-card">
+              <div class="stat-value" id="total-users">0</div>
+              <div class="stat-label">Total Users</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-value" id="active-courses">0</div>
+              <div class="stat-label">Active Courses</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-value" id="avg-progress">0%</div>
+              <div class="stat-label">Avg. Progress</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-value" id="verified-courses">0</div>
+              <div class="stat-label">Verified</div>
+            </div>
+          </div>
+          
           <div class="bulk-actions">
             <div class="bulk-controls">
               <div class="checkbox-container">
@@ -452,6 +587,8 @@
                 <label for="select-all">Select All</label>
               </div>
               <button id="bulk-update" class="btn btn-primary btn-sm">Bulk Update Selected</button>
+              <button id="bulk-verify" class="btn btn-success btn-sm">Bulk Verify</button>
+              <button id="bulk-unverify" class="btn btn-warning btn-sm">Bulk Unverify</button>
             </div>
             <div>
               <span id="selected-count">0 selected</span>
@@ -459,7 +596,7 @@
           </div>
           
           <div class="auto-progress-section">
-            <h3>Automatic Progress Update</h3>
+            <h3>Progress Management</h3>
             <div class="auto-progress-controls">
               <div>
                 <label for="progress-increment">Progress Increment (%)</label>
@@ -474,13 +611,28 @@
                 </select>
               </div>
             </div>
-            <button id="apply-auto-progress" class="btn btn-primary" style="margin-top: 10px;">
-              Apply Automatic Progress
-            </button>
+            <div style="display: flex; gap: 10px; margin-top: 10px;">
+              <button id="apply-auto-progress" class="btn btn-primary" style="flex: 1;">
+                <i class="fas fa-arrow-up"></i> Increase Progress
+              </button>
+              <button id="decrease-auto-progress" class="btn btn-warning" style="flex: 1;">
+                <i class="fas fa-arrow-down"></i> Decrease Progress
+              </button>
+              <button id="set-complete-progress" class="btn btn-success" style="flex: 1;">
+                <i class="fas fa-check"></i> Set to 100%
+              </button>
+              <button id="set-zero-progress" class="btn btn-danger" style="flex: 1;">
+                <i class="fas fa-times"></i> Set to 0%
+              </button>
+            </div>
           </div>
           
           <div id="users-list">
             <!-- Users will be loaded here -->
+          </div>
+          
+          <div id="courses-list" style="display: none;">
+            <!-- Courses will be loaded here -->
           </div>
         </div>
       </div>
@@ -522,6 +674,47 @@
     </div>
   </div>
 
+  <!-- Add Course Modal -->
+  <div class="modal" id="add-course-modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 class="modal-title">Add New Course</h3>
+        <button class="modal-close" id="close-course-modal">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <label for="course-title">Course Title</label>
+          <input type="text" id="course-title" class="form-control" required>
+        </div>
+        <div class="form-group">
+          <label for="course-type">Course Type</label>
+          <select id="course-type" class="form-control" required>
+            <option value="">Select Type</option>
+            <option value="qirat">Qirat</option>
+            <option value="hifz">Hifz</option>
+            <option value="nezer">Nezer</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="course-language">Language</label>
+          <select id="course-language" class="form-control" required>
+            <option value="">Select Language</option>
+            <option value="Amharic">Amharic</option>
+            <option value="Oromifa">Oromifa</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="course-description">Description</label>
+          <textarea id="course-description" class="form-control" rows="3"></textarea>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-outline" id="cancel-add-course">Cancel</button>
+        <button class="btn btn-primary" id="confirm-add-course">Add Course</button>
+      </div>
+    </div>
+  </div>
+
   <!-- Firebase SDK and Application Code -->
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
@@ -536,6 +729,7 @@
       doc,
       getDoc,
       getDocs,
+      setDoc,
       updateDoc,
       arrayRemove,
       arrayUnion,
@@ -564,12 +758,18 @@
     const adminName = document.getElementById('admin-name');
     const adminAvatar = document.getElementById('admin-avatar');
     const usersList = document.getElementById('users-list');
+    const coursesList = document.getElementById('courses-list');
     const selectAllCheckbox = document.getElementById('select-all');
     const selectedCount = document.getElementById('selected-count');
     const bulkUpdateBtn = document.getElementById('bulk-update');
+    const bulkVerifyBtn = document.getElementById('bulk-verify');
+    const bulkUnverifyBtn = document.getElementById('bulk-unverify');
     const applyFiltersBtn = document.getElementById('apply-filters');
     const resetFiltersBtn = document.getElementById('reset-filters');
     const applyAutoProgressBtn = document.getElementById('apply-auto-progress');
+    const decreaseAutoProgressBtn = document.getElementById('decrease-auto-progress');
+    const setCompleteProgressBtn = document.getElementById('set-complete-progress');
+    const setZeroProgressBtn = document.getElementById('set-zero-progress');
     const bulkUpdateModal = document.getElementById('bulk-update-modal');
     const closeBulkModal = document.getElementById('close-bulk-modal');
     const cancelBulkUpdate = document.getElementById('cancel-bulk-update');
@@ -580,12 +780,35 @@
     const affectedUsersCount = document.getElementById('affected-users-count');
     const progressIncrement = document.getElementById('progress-increment');
     const applyTo = document.getElementById('apply-to');
+    const addCourseModal = document.getElementById('add-course-modal');
+    const addCourseBtn = document.getElementById('add-course-btn');
+    const closeCourseModal = document.getElementById('close-course-modal');
+    const cancelAddCourse = document.getElementById('cancel-add-course');
+    const confirmAddCourse = document.getElementById('confirm-add-course');
+    const courseTitle = document.getElementById('course-title');
+    const courseType = document.getElementById('course-type');
+    const courseLanguage = document.getElementById('course-language');
+    const courseDescription = document.getElementById('course-description');
+    const tabs = document.querySelectorAll('.tab');
+    const usersFilters = document.getElementById('users-filters');
+    const coursesFilters = document.getElementById('courses-filters');
+    const totalUsersEl = document.getElementById('total-users');
+    const activeCoursesEl = document.getElementById('active-courses');
+    const avgProgressEl = document.getElementById('avg-progress');
+    const verifiedCoursesEl = document.getElementById('verified-courses');
 
     // Data variables
     let allUsers = [];
+    let allCourses = [];
     let filteredUsers = [];
     let selectedUserIds = new Set();
     let currentAdmin = null;
+    let stats = {
+      totalUsers: 0,
+      totalCourses: 0,
+      avgProgress: 0,
+      verifiedCourses: 0
+    };
 
     // Initialize the app
     function initApp() {
@@ -620,8 +843,10 @@
               loadingContainer.style.display = 'none';
               mainContainer.style.display = 'block';
               
-              // Load all users
+              // Load all data
               loadAllUsers();
+              loadAllCourses();
+              calculateStats();
             } else {
               // User document doesn't exist, redirect to progress page
               setTimeout(() => {
@@ -645,12 +870,41 @@
       // Set up event listeners
       selectAllCheckbox.addEventListener('change', toggleSelectAll);
       bulkUpdateBtn.addEventListener('click', openBulkUpdateModal);
+      bulkVerifyBtn.addEventListener('click', () => bulkVerifyCourses(true));
+      bulkUnverifyBtn.addEventListener('click', () => bulkVerifyCourses(false));
       applyFiltersBtn.addEventListener('click', applyFilters);
       resetFiltersBtn.addEventListener('click', resetFilters);
       closeBulkModal.addEventListener('click', () => bulkUpdateModal.classList.remove('active'));
       cancelBulkUpdate.addEventListener('click', () => bulkUpdateModal.classList.remove('active'));
       confirmBulkUpdate.addEventListener('click', performBulkUpdate);
-      applyAutoProgressBtn.addEventListener('click', applyAutomaticProgress);
+      applyAutoProgressBtn.addEventListener('click', () => applyAutomaticProgress('increase'));
+      decreaseAutoProgressBtn.addEventListener('click', () => applyAutomaticProgress('decrease'));
+      setCompleteProgressBtn.addEventListener('click', () => applyAutomaticProgress('complete'));
+      setZeroProgressBtn.addEventListener('click', () => applyAutomaticProgress('zero'));
+      addCourseBtn.addEventListener('click', () => addCourseModal.classList.add('active'));
+      closeCourseModal.addEventListener('click', () => addCourseModal.classList.remove('active'));
+      cancelAddCourse.addEventListener('click', () => addCourseModal.classList.remove('active'));
+      confirmAddCourse.addEventListener('click', addNewCourse);
+      
+      // Tab switching
+      tabs.forEach(tab => {
+        tab.addEventListener('click', () => {
+          tabs.forEach(t => t.classList.remove('active'));
+          tab.classList.add('active');
+          
+          if (tab.dataset.tab === 'users') {
+            usersFilters.style.display = 'block';
+            coursesFilters.style.display = 'none';
+            usersList.style.display = 'block';
+            coursesList.style.display = 'none';
+          } else {
+            usersFilters.style.display = 'none';
+            coursesFilters.style.display = 'block';
+            usersList.style.display = 'none';
+            coursesList.style.display = 'block';
+          }
+        });
+      });
     }
 
     // Load all users from Firestore
@@ -672,9 +926,66 @@
         
         filteredUsers = [...allUsers];
         displayUsers();
+        calculateStats();
       } catch (error) {
         console.error("Error loading users:", error);
       }
+    }
+
+    // Load all courses from Firestore
+    async function loadAllCourses() {
+      try {
+        const coursesSnapshot = await getDocs(collection(db, "courses"));
+        allCourses = [];
+        
+        coursesSnapshot.forEach(doc => {
+          allCourses.push({
+            id: doc.id,
+            ...doc.data()
+          });
+        });
+        
+        displayCourses();
+        calculateStats();
+      } catch (error) {
+        console.error("Error loading courses:", error);
+      }
+    }
+
+    // Calculate statistics
+    function calculateStats() {
+      // Total users (excluding admin)
+      stats.totalUsers = allUsers.length;
+      
+      // Total courses
+      stats.totalCourses = allCourses.length;
+      
+      // Calculate average progress and verified courses
+      let totalProgress = 0;
+      let totalCourses = 0;
+      let verifiedCount = 0;
+      
+      allUsers.forEach(user => {
+        user.enrolledCourses.forEach(course => {
+          totalProgress += course.progress || 0;
+          totalCourses++;
+          if (course.verified) verifiedCount++;
+        });
+      });
+      
+      stats.avgProgress = totalCourses > 0 ? Math.round(totalProgress / totalCourses) : 0;
+      stats.verifiedCourses = verifiedCount;
+      
+      // Update UI
+      updateStatsDisplay();
+    }
+
+    // Update statistics display
+    function updateStatsDisplay() {
+      totalUsersEl.textContent = stats.totalUsers;
+      activeCoursesEl.textContent = stats.totalCourses;
+      avgProgressEl.textContent = `${stats.avgProgress}%`;
+      verifiedCoursesEl.textContent = stats.verifiedCourses;
     }
 
     // Display users in the UI
@@ -682,7 +993,7 @@
       usersList.innerHTML = '';
       
       if (filteredUsers.length === 0) {
-        usersList.innerHTML = '<p>No users found matching your filters.</p>';
+        usersList.innerHTML = '<div class="user-card"><p>No users found matching your filters.</p></div>';
         return;
       }
       
@@ -707,6 +1018,7 @@
               <div>
                 <div class="user-name">${user.name || 'No Name'}</div>
                 <div class="user-id">${user.studentId || 'No ID'} • ${user.department || 'No Dept'}</div>
+                <div class="user-email">${user.email || ''}</div>
               </div>
             </div>
           </div>
@@ -714,7 +1026,16 @@
             ${user.enrolledCourses.length > 0 ? 
               user.enrolledCourses.map(course => `
                 <div class="course-item">
-                  <div class="course-title">${course.title}</div>
+                  <div>
+                    <div class="course-title">${course.title}</div>
+                    <div class="course-details">
+                      <div class="course-meta">
+                        <span>Type: ${course.type || 'N/A'}</span>
+                        <span>Language: ${course.language || 'N/A'}</span>
+                      </div>
+                      ${course.description ? `<small>${course.description}</small>` : ''}
+                    </div>
+                  </div>
                   <div class="course-progress">
                     <input type="number" 
                            class="progress-input" 
@@ -730,13 +1051,34 @@
                               data-user-id="${user.id}">
                         Save
                       </button>
+                      ${course.verified ? 
+                        `<button class="btn btn-warning btn-sm verify-course" 
+                                data-course-id="${course.id}"
+                                data-user-id="${user.id}"
+                                data-verified="true">
+                          Unverify
+                        </button>` :
+                        `<button class="btn btn-success btn-sm verify-course" 
+                                data-course-id="${course.id}"
+                                data-user-id="${user.id}"
+                                data-verified="false">
+                          Verify
+                        </button>`
+                      }
                     </div>
                   </div>
                   <div class="progress-bar-container">
                     <div class="progress-bar" style="width: ${course.progress || 0}%"></div>
                   </div>
-                  ${course.verified ? '<span class="verified-badge"><i class="fas fa-check"></i> Verified</span>' : ''}
-                  ${course.notes ? `<div class="course-notes"><small>Notes: ${course.notes}</small></div>` : ''}
+                  ${course.verified ? 
+                    `<span class="verified-badge">
+                      <i class="fas fa-check"></i> Verified by ${course.verifiedBy || 'Admin'} 
+                      ${course.verifiedAt ? new Date(course.verifiedAt).toLocaleDateString() : ''}
+                    </span>` : 
+                    '<span class="unverified-badge"><i class="fas fa-times"></i> Unverified</span>'
+                  }
+                  ${course.notes ? `<div class="course-notes"><small><strong>Notes:</strong> ${course.notes}</small></div>` : ''}
+                  ${course.lastUpdated ? `<div class="course-updated"><small>Last updated: ${new Date(course.lastUpdated).toLocaleString()}</small></div>` : ''}
                 </div>
               `).join('') : 
               '<p>No enrolled courses</p>'
@@ -774,9 +1116,146 @@
             await updateUserProgress(userId, courseId, progressValue);
           });
         });
+        
+        // Add event listeners for verify buttons
+        userCard.querySelectorAll('.verify-course').forEach(btn => {
+          btn.addEventListener('click', async (e) => {
+            const userId = e.target.dataset.userId;
+            const courseId = e.target.dataset.courseId;
+            const verified = e.target.dataset.verified === 'true';
+            
+            await verifyUserCourse(userId, courseId, !verified);
+          });
+        });
       });
       
       updateSelectedCount();
+    }
+
+    // Display courses in the UI
+    function displayCourses() {
+      coursesList.innerHTML = '';
+      
+      if (allCourses.length === 0) {
+        coursesList.innerHTML = '<div class="user-card"><p>No courses found. Add your first course!</p></div>';
+        return;
+      }
+      
+      allCourses.forEach(course => {
+        const courseCard = document.createElement('div');
+        courseCard.className = 'user-card';
+        courseCard.innerHTML = `
+          <div class="user-header">
+            <div class="user-info">
+              <div class="user-avatar">${(course.title || 'C').charAt(0).toUpperCase()}</div>
+              <div>
+                <div class="user-name">${course.title}</div>
+                <div class="user-id">${course.type} • ${course.language}</div>
+              </div>
+            </div>
+            <div>
+              <button class="btn btn-danger btn-sm delete-course" data-course-id="${course.id}">
+                <i class="fas fa-trash"></i> Delete
+              </button>
+            </div>
+          </div>
+          <div class="user-courses">
+            <div class="course-details">
+              ${course.description ? `<p>${course.description}</p>` : '<p>No description provided</p>'}
+            </div>
+          </div>
+        `;
+        
+        coursesList.appendChild(courseCard);
+        
+        // Add event listener for delete button
+        courseCard.querySelector('.delete-course').addEventListener('click', async (e) => {
+          const courseId = e.target.dataset.courseId || e.target.closest('.delete-course').dataset.courseId;
+          if (confirm('Are you sure you want to delete this course? This will remove it from all users.')) {
+            await deleteCourse(courseId);
+          }
+        });
+      });
+    }
+
+    // Add new course
+    async function addNewCourse() {
+      const title = courseTitle.value.trim();
+      const type = courseType.value;
+      const language = courseLanguage.value;
+      const description = courseDescription.value.trim();
+      
+      if (!title || !type || !language) {
+        alert('Please fill in all required fields');
+        return;
+      }
+      
+      try {
+        // Generate a simple ID for the course
+        const courseId = title.toLowerCase().replace(/\s+/g, '-') + '-' + Date.now().toString().slice(-4);
+        
+        const newCourse = {
+          title,
+          type,
+          language,
+          description,
+          createdAt: new Date().toISOString(),
+          createdBy: currentAdmin.uid
+        };
+        
+        await setDoc(doc(db, "courses", courseId), newCourse);
+        
+        // Clear form
+        courseTitle.value = '';
+        courseType.value = '';
+        courseLanguage.value = '';
+        courseDescription.value = '';
+        
+        // Close modal
+        addCourseModal.classList.remove('active');
+        
+        // Refresh courses list
+        loadAllCourses();
+      } catch (error) {
+        console.error("Error adding course:", error);
+        alert("Failed to add course. Please try again.");
+      }
+    }
+
+    // Delete course
+    async function deleteCourse(courseId) {
+      try {
+        // First remove from all users
+        const usersSnapshot = await getDocs(collection(db, "users"));
+        const batchPromises = [];
+        
+        usersSnapshot.forEach(userDoc => {
+          const userData = userDoc.data();
+          if (userData.enrolledCourses) {
+            const courseIndex = userData.enrolledCourses.findIndex(c => c.id === courseId);
+            if (courseIndex !== -1) {
+              batchPromises.push(
+                updateDoc(doc(db, "users", userDoc.id), {
+                  enrolledCourses: arrayRemove(userData.enrolledCourses[courseIndex])
+                })
+              );
+            }
+          }
+        });
+        
+        // Wait for all user updates to complete
+        await Promise.all(batchPromises);
+        
+        // Then delete the course document
+        await deleteDoc(doc(db, "courses", courseId));
+        
+        // Refresh data
+        loadAllUsers();
+        loadAllCourses();
+      } catch (error) {
+        console.error("Error deleting course:", error);
+        alert("Failed to delete course. Please try again.");
+      }
     }
 
     // Toggle select all checkbox
@@ -803,6 +1282,7 @@
     function applyFilters() {
       const nameFilter = document.getElementById('name-filter').value.toLowerCase();
       const idFilter = document.getElementById('id-filter').value.toLowerCase();
+      const emailFilter = document.getElementById('email-filter').value.toLowerCase();
       const departmentFilter = document.getElementById('department-filter').value;
       const courseTypeFilter = document.getElementById('course-type-filter').value;
       const courseLanguageFilter = document.getElementById('course-language-filter').value;
@@ -817,6 +1297,11 @@
         
         // ID filter
         if (idFilter && !(user.studentId || '').toLowerCase().includes(idFilter)) {
+          return false;
+        }
+        
+        // Email filter
+        if (emailFilter && !(user.email || '').toLowerCase().includes(emailFilter)) {
           return false;
         }
         
@@ -881,6 +1366,7 @@
     function resetFilters() {
       document.getElementById('name-filter').value = '';
       document.getElementById('id-filter').value = '';
+      document.getElementById('email-filter').value = '';
       document.getElementById('department-filter').value = '';
       document.getElementById('course-type-filter').value = '';
       document.getElementById('course-language-filter').value = '';
@@ -979,6 +1465,117 @@
       }
     }
 
+    // Bulk verify/unverify courses
+    async function bulkVerifyCourses(verify) {
+      if (selectedUserIds.size === 0) {
+        alert('Please select at least one user');
+        return;
+      }
+      
+      const confirmAction = confirm(`Are you sure you want to ${verify ? 'verify' : 'unverify'} all selected courses for ${selectedUserIds.size} users?`);
+      if (!confirmAction) return;
+      
+      const userIds = Array.from(selectedUserIds);
+      const promises = [];
+      
+      for (const userId of userIds) {
+        const user = allUsers.find(u => u.id === userId);
+        if (!user) continue;
+        
+        for (const course of user.enrolledCourses) {
+          // Only update if the course matches current filters
+          if (courseMatchesFilters(course)) {
+            const updatedCourse = {
+              ...course,
+              verified: verify,
+              lastUpdated: new Date().toISOString(),
+              updatedBy: currentAdmin.uid
+            };
+            
+            if (verify) {
+              updatedCourse.verifiedBy = adminName.textContent;
+              updatedCourse.verifiedAt = new Date().toISOString();
+            } else {
+              updatedCourse.verifiedBy = null;
+              updatedCourse.verifiedAt = null;
+            }
+            
+            // Create update promise
+            promises.push(
+              updateDoc(doc(db, "users", userId), {
+                enrolledCourses: arrayRemove(course)
+              }).then(() => {
+                return updateDoc(doc(db, "users", userId), {
+                  enrolledCourses: arrayUnion(updatedCourse)
+                });
+              })
+            );
+          }
+        }
+      }
+      
+      try {
+        await Promise.all(promises);
+        alert(`Successfully ${verify ? 'verified' : 'unverified'} courses for ${userIds.length} users`);
+        loadAllUsers(); // Refresh data
+      } catch (error) {
+        console.error("Error during bulk verification:", error);
+        alert("An error occurred during bulk verification. Some changes may not have been saved.");
+      }
+    }
+
+    // Verify/unverify a single course for a user
+    async function verifyUserCourse(userId, courseId, verify) {
+      const user = allUsers.find(u => u.id === userId);
+      if (!user) return;
+      
+      const course = user.enrolledCourses.find(c => c.id === courseId);
+      if (!course) return;
+      
+      try {
+        const updatedCourse = {
+          ...course,
+          verified: verify,
+          lastUpdated: new Date().toISOString(),
+          updatedBy: currentAdmin.uid
+        };
+        
+        if (verify) {
+          updatedCourse.verifiedBy = adminName.textContent;
+          updatedCourse.verifiedAt = new Date().toISOString();
+        } else {
+          updatedCourse.verifiedBy = null;
+          updatedCourse.verifiedAt = null;
+        }
+        
+        await updateDoc(doc(db, "users", userId), {
+          enrolledCourses: arrayRemove(course)
+        });
+        
+        await updateDoc(doc(db, "users", userId), {
+          enrolledCourses: arrayUnion(updatedCourse)
+        });
+        
+        // Update local data
+        const userIndex = allUsers.findIndex(u => u.id === userId);
+        if (userIndex !== -1) {
+          const courseIndex = allUsers[userIndex].enrolledCourses.findIndex(c => c.id === courseId);
+          if (courseIndex !== -1) {
+            allUsers[userIndex].enrolledCourses[courseIndex] = updatedCourse;
+          }
+        }
+        
+        // Refresh display
+        displayUsers();
+        calculateStats();
+        
+        alert(`Course ${verify ? 'verified' : 'unverified'} successfully`);
+      } catch (error) {
+        console.error("Error verifying course:", error);
+        alert("Failed to update verification status. Please try again.");
+      }
+    }
+
     // Check if course matches current filters
     function courseMatchesFilters(course) {
       const courseTypeFilter = document.getElementById('course-type-filter').value;
@@ -1020,11 +1617,11 @@
     }
 
     // Apply automatic progress to selected users
-    async function applyAutomaticProgress() {
+    async function applyAutomaticProgress(action) {
       const increment = parseInt(progressIncrement.value);
       const applyToValue = applyTo.value;
       
-      if (isNaN(increment) || increment <= 0 || increment > 100) {
+      if (action !== 'complete' && action !== 'zero' && (isNaN(increment) || increment <= 0 || increment > 100)) {
         alert('Please enter a valid progress increment (1-100)');
         return;
       }
@@ -1047,7 +1644,27 @@
         userIds = allUsers.map(user => user.id);
       }
       
-      const confirmApply = confirm(`This will increment progress by ${increment}% for ${userIds.length} users. Continue?`);
+      let actionText = '';
+      let newProgress = 0;
+      
+      switch (action) {
+        case 'increase':
+          actionText = `increase progress by ${increment}%`;
+          break;
+        case 'decrease':
+          actionText = `decrease progress by ${increment}%`;
+          break;
+        case 'complete':
+          actionText = 'set progress to 100%';
+          newProgress = 100;
+          break;
+        case 'zero':
+          actionText = 'set progress to 0%';
+          newProgress = 0;
+          break;
+      }
+      
+      const confirmApply = confirm(`This will ${actionText} for ${userIds.length} users. Continue?`);
       if (!confirmApply) return;
       
       const promises = [];
@@ -1059,12 +1676,19 @@
         for (const course of user.enrolledCourses) {
           // Only update if the course matches current filters
           if (courseMatchesFilters(course)) {
-            const currentProgress = course.progress || 0;
-            const newProgress = Math.min(100, currentProgress + increment);
+            let updatedProgress;
+            
+            if (action === 'increase') {
+              updatedProgress = Math.min(100, (course.progress || 0) + increment);
+            } else if (action === 'decrease') {
+              updatedProgress = Math.max(0, (course.progress || 0) - increment);
+            } else {
+              updatedProgress = newProgress;
+            }
             
             const updatedCourse = {
               ...course,
-              progress: newProgress,
+              progress: updatedProgress,
               lastUpdated: new Date().toISOString(),
               updatedBy: currentAdmin.uid
             };
