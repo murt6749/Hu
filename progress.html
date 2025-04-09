@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>HU Jama'aa - Progress Tracker</title>
+  <title>HU Jama'aa - Progress</title>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
   <style>
@@ -20,10 +20,6 @@
       --danger-color: #dc3545;
       --border-radius: 12px;
       --box-padding: 16px;
-      --progress-low: #ff6b6b;
-      --progress-medium: #ffd166;
-      --progress-high: #06d6a0;
-      --progress-complete: #4f6f52;
     }
     * {
       margin: 0;
@@ -73,16 +69,15 @@
     }
     /* User Avatar */
     .user-avatar {
-      width: 32px;
-      height: 32px;
+      width: 36px;
+      height: 36px;
       border-radius: 50%;
-      background-color: var(--primary-color);
-      color: white;
+      background-color: var(--accent-color);
+      color: var(--primary-color);
       display: flex;
       align-items: center;
       justify-content: center;
-      font-weight: 600;
-      font-size: 0.9rem;
+      font-weight: bold;
       text-transform: uppercase;
     }
     /* Account Dropdown */
@@ -202,6 +197,7 @@
     }
     .progress-bar {
       height: 100%;
+      background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
       border-radius: 5px;
       transition: width 0.3s ease;
     }
@@ -370,75 +366,40 @@
     .is-admin .admin-only {
       display: block;
     }
-    /* Admin Dashboard */
-    .admin-dashboard {
-      margin-top: 20px;
+    /* Admin Confirmation Modal */
+    .admin-confirmation {
+      text-align: center;
+      padding: 20px;
     }
-    .users-table {
-      width: 100%;
-      border-collapse: collapse;
-      margin-top: 15px;
+    .admin-confirmation p {
+      margin-bottom: 20px;
     }
-    .users-table th, .users-table td {
-      padding: 12px;
-      text-align: left;
-      border-bottom: 1px solid #eee;
-    }
-    .users-table th {
-      background-color: var(--light-color);
-      color: var(--primary-color);
-      font-weight: 600;
-    }
-    .users-table tr:hover {
-      background-color: #f5f5f5;
-    }
-    .user-row {
-      cursor: pointer;
-    }
-    .user-info {
+    .admin-confirmation-buttons {
       display: flex;
+      justify-content: center;
+      gap: 15px;
+    }
+    /* Verification Badge */
+    .verified-badge {
+      display: inline-flex;
       align-items: center;
-      gap: 10px;
+      background-color: var(--success-color);
+      color: white;
+      padding: 2px 8px;
+      border-radius: 10px;
+      font-size: 0.7rem;
+      margin-left: 5px;
     }
-    .user-avatar.small {
-      width: 28px;
-      height: 28px;
+    .verified-badge i {
+      font-size: 0.6rem;
+      margin-right: 3px;
+    }
+    /* Read-only Progress */
+    .read-only-message {
       font-size: 0.8rem;
-    }
-    /* Tabs */
-    .tabs {
-      display: flex;
-      border-bottom: 1px solid #ddd;
-      margin-bottom: 15px;
-    }
-    .tab {
-      padding: 10px 15px;
-      cursor: pointer;
-      border-bottom: 2px solid transparent;
-    }
-    .tab.active {
-      border-bottom: 2px solid var(--primary-color);
-      color: var(--primary-color);
-      font-weight: 600;
-    }
-    .tab-content {
-      display: none;
-    }
-    .tab-content.active {
-      display: block;
-    }
-    /* Progress colors */
-    .progress-low {
-      background-color: var(--progress-low);
-    }
-    .progress-medium {
-      background-color: var(--progress-medium);
-    }
-    .progress-high {
-      background-color: var(--progress-high);
-    }
-    .progress-complete {
-      background-color: var(--progress-complete);
+      color: var(--secondary-color);
+      margin-top: 10px;
+      text-align: center;
     }
     @media (min-width: 768px) {
       .container {
@@ -455,7 +416,7 @@
   <div class="container">
     <!-- Header -->
     <header class="header">
-      <h1 id="page-title">Progress Tracker</h1>
+      <h1 id="page-title">My Progress</h1>
       <div class="header-actions">
         <div class="account-dropdown">
           <div style="display: flex; align-items: center;">
@@ -464,6 +425,7 @@
           </div>
           <div class="dropdown-content" id="account-dropdown">
             <a href="schedule.html"><i class="fas fa-calendar-alt"></i> Schedule</a>
+            <a href="profile.html"><i class="fas fa-user"></i> Profile</a>
             <a href="#" id="logout-btn"><i class="fas fa-sign-out-alt"></i> Logout</a>
           </div>
         </div>
@@ -472,25 +434,12 @@
 
     <!-- Main Content -->
     <main class="main-content" id="main-content">
-      <!-- Tabs -->
-      <div class="tabs">
-        <div class="tab active" data-tab="my-progress">My Progress</div>
-        <div class="tab admin-only" data-tab="admin-dashboard">Admin Dashboard</div>
-      </div>
-      
-      <!-- Tab Contents -->
-      <div id="my-progress" class="tab-content active">
-        <!-- My Progress content will be loaded here -->
-      </div>
-      
-      <div id="admin-dashboard" class="tab-content admin-only">
-        <!-- Admin Dashboard content will be loaded here -->
-      </div>
+      <!-- Dynamic content loaded here -->
     </main>
 
     <!-- Bottom Navigation -->
     <nav class="bottom-nav">
-      <a href="dashboard.html" class="nav-item" data-page="courses">
+      <a href="courses.html" class="nav-item" data-page="courses">
         <i class="fas fa-book"></i>
         <span>Courses</span>
       </a>
@@ -498,7 +447,7 @@
         <i class="fas fa-chart-line"></i>
         <span>Progress</span>
       </a>
-      <a href="dashboard.html" class="nav-item" data-page="classmates">
+      <a href="classmates.html" class="nav-item" data-page="classmates">
         <i class="fas fa-users"></i>
         <span>Classmates</span>
       </a>
@@ -509,11 +458,11 @@
     </nav>
   </div>
 
-  <!-- Progress Update Modal -->
+  <!-- Progress Update Modal (Admin Only) -->
   <div class="modal" id="progress-modal">
     <div class="modal-content">
       <div class="modal-header">
-        <h3 class="modal-title" id="progress-modal-title">Update Progress</h3>
+        <h3 class="modal-title" id="progress-modal-title">Update Student Progress</h3>
         <button class="modal-close" id="close-progress-modal">&times;</button>
       </div>
       <div class="modal-body">
@@ -525,11 +474,11 @@
             <input type="number" id="progress-value" class="form-control" min="0" max="100" required>
           </div>
           <div class="form-group">
-            <label for="progress-notes">Notes (Optional)</label>
+            <label for="progress-notes">Instructor Notes</label>
             <textarea id="progress-notes" class="form-control" rows="3"></textarea>
           </div>
-          <div class="form-group admin-only">
-            <label for="progress-verified">Verified by Instructor</label>
+          <div class="form-group">
+            <label for="progress-verified">Verification Status</label>
             <select id="progress-verified" class="form-control">
               <option value="false">Not Verified</option>
               <option value="true">Verified</option>
@@ -539,52 +488,26 @@
       </div>
       <div class="modal-footer">
         <button class="btn btn-outline" id="cancel-progress-update">Cancel</button>
-        <button class="btn btn-primary" id="save-progress">Save</button>
+        <button class="btn btn-primary" id="save-progress">Save Changes</button>
       </div>
     </div>
   </div>
 
-  <!-- Admin Edit Modal -->
-  <div class="modal" id="admin-edit-modal">
+  <!-- Admin Confirmation Modal -->
+  <div class="modal" id="admin-confirmation-modal">
     <div class="modal-content">
       <div class="modal-header">
-        <h3 class="modal-title">Edit User Progress</h3>
+        <h3 class="modal-title">Admin Privileges Detected</h3>
         <button class="modal-close" id="close-admin-modal">&times;</button>
       </div>
       <div class="modal-body">
-        <form id="admin-edit-form">
-          <div class="form-group">
-            <label for="edit-user">User</label>
-            <select id="edit-user" class="form-control" required>
-              <option value="">Select User</option>
-            </select>
+        <div class="admin-confirmation">
+          <p>You have been verified as an administrator. Would you like to manage users and progress?</p>
+          <div class="admin-confirmation-buttons">
+            <button class="btn btn-primary" id="go-to-admin">Yes, Go to Admin Panel</button>
+            <button class="btn btn-outline" id="stay-here">No, Stay Here</button>
           </div>
-          <div class="form-group">
-            <label for="edit-course">Course</label>
-            <select id="edit-course" class="form-control" required>
-              <option value="">Select Course</option>
-            </select>
-          </div>
-          <div class="form-group">
-            <label for="edit-progress">Progress Percentage</label>
-            <input type="number" id="edit-progress" class="form-control" min="0" max="100" required>
-          </div>
-          <div class="form-group">
-            <label for="edit-notes">Notes</label>
-            <textarea id="edit-notes" class="form-control" rows="3"></textarea>
-          </div>
-          <div class="form-group">
-            <label for="edit-verified">Verification Status</label>
-            <select id="edit-verified" class="form-control">
-              <option value="false">Not Verified</option>
-              <option value="true">Verified</option>
-            </select>
-          </div>
-        </form>
-      </div>
-      <div class="modal-footer">
-        <button class="btn btn-outline" id="cancel-admin-edit">Cancel</button>
-        <button class="btn btn-primary" id="save-admin-edit">Save Changes</button>
+        </div>
       </div>
     </div>
   </div>
@@ -642,26 +565,19 @@
     const progressValue = document.getElementById('progress-value');
     const progressNotes = document.getElementById('progress-notes');
     const progressVerified = document.getElementById('progress-verified');
-    const adminEditModal = document.getElementById('admin-edit-modal');
+    const adminConfirmationModal = document.getElementById('admin-confirmation-modal');
     const closeAdminModal = document.getElementById('close-admin-modal');
-    const cancelAdminEdit = document.getElementById('cancel-admin-edit');
-    const saveAdminEdit = document.getElementById('save-admin-edit');
-    const adminEditForm = document.getElementById('admin-edit-form');
-    const editUserSelect = document.getElementById('edit-user');
-    const editCourseSelect = document.getElementById('edit-course');
-    const editProgress = document.getElementById('edit-progress');
-    const editNotes = document.getElementById('edit-notes');
-    const editVerified = document.getElementById('edit-verified');
-    const tabs = document.querySelectorAll('.tab');
-    const tabContents = document.querySelectorAll('.tab-content');
+    const goToAdminBtn = document.getElementById('go-to-admin');
+    const stayHereBtn = document.getElementById('stay-here');
 
     let currentUser = null;
     let userData = null;
     let enrolledCourses = [];
     let isAdmin = false;
+    let isVerifiedAdmin = false;
     let currentEditingCourse = null;
-    let allUsers = [];
-    let allCourses = [];
+    let currentEditingUserId = null;
+    let adminPromptShown = false;
 
     // Initialize app and set up navigation and authentication
     function initApp() {
@@ -689,26 +605,15 @@
       });
 
       closeAdminModal.addEventListener('click', () => {
-        adminEditModal.classList.remove('active');
+        adminConfirmationModal.classList.remove('active');
       });
 
-      cancelAdminEdit.addEventListener('click', () => {
-        adminEditModal.classList.remove('active');
+      goToAdminBtn.addEventListener('click', () => {
+        window.location.href = 'progressadmin.html';
       });
 
-      saveAdminEdit.addEventListener('click', async () => {
-        await saveAdminProgressEdit();
-      });
-
-      // Tab switching
-      tabs.forEach(tab => {
-        tab.addEventListener('click', () => {
-          tabs.forEach(t => t.classList.remove('active'));
-          tabContents.forEach(c => c.classList.remove('active'));
-          
-          tab.classList.add('active');
-          document.getElementById(tab.dataset.tab).classList.add('active');
-        });
+      stayHereBtn.addEventListener('click', () => {
+        adminConfirmationModal.classList.remove('active');
       });
 
       // Check auth state
@@ -716,19 +621,38 @@
         if (user) {
           currentUser = user;
           await loadUserData(user.uid);
-          updateUserAvatar(userData.name || user.displayName || user.email);
-          userNameDisplay.textContent = userData.name || user.displayName || "User";
-          loadMyProgressPage();
+          updateUserDisplay();
+          
+          // Show admin confirmation if applicable
+          if (isAdmin && isVerifiedAdmin && !adminPromptShown) {
+            setTimeout(() => {
+              adminConfirmationModal.classList.add('active');
+              adminPromptShown = true;
+            }, 1000);
+          }
+          
+          loadProgressPage();
         } else {
           window.location.href = 'login.html';
         }
       });
     }
 
-    function updateUserAvatar(name) {
-      if (!name) return;
-      const initials = name.split(' ').map(part => part[0]).join('').toUpperCase();
-      userAvatar.textContent = initials.substring(0, 2);
+    function updateUserDisplay() {
+      const name = userData.name || currentUser.displayName || "User";
+      userNameDisplay.textContent = name;
+      
+      // Set avatar with first letter of name
+      const firstLetter = name.charAt(0).toUpperCase();
+      userAvatar.textContent = firstLetter;
+      
+      // Add verified badge if admin
+      if (isAdmin && isVerifiedAdmin) {
+        const badge = document.createElement('span');
+        badge.className = 'verified-badge';
+        badge.innerHTML = '<i class="fas fa-check"></i> Verified Admin';
+        userNameDisplay.parentNode.insertBefore(badge, userNameDisplay.nextSibling);
+      }
     }
 
     async function loadUserData(userId) {
@@ -742,11 +666,10 @@
           }
           enrolledCourses = userData.enrolledCourses;
           isAdmin = userData.role === 'admin'; // Check if user is admin
+          isVerifiedAdmin = userData.adminVerified || false; // Check if admin is verified
           
           if (isAdmin) {
             document.body.classList.add('is-admin');
-            await loadAllUsers();
-            loadAdminDashboard();
           }
         } else {
           const newUserData = {
@@ -758,6 +681,7 @@
             year: "",
             phone: "",
             role: "student", // Default role
+            adminVerified: false,
             createdAt: serverTimestamp()
           };
           await setDoc(doc(db, "users", userId), newUserData);
@@ -769,29 +693,7 @@
       }
     }
 
-    async function loadAllUsers() {
-      try {
-        const usersSnapshot = await getDocs(collection(db, "users"));
-        allUsers = [];
-        usersSnapshot.forEach(doc => {
-          const user = doc.data();
-          allUsers.push({
-            id: doc.id,
-            name: user.name || "Anonymous",
-            email: user.email,
-            role: user.role || "student",
-            enrolledCourses: user.enrolledCourses || []
-          });
-        });
-      } catch (error) {
-        console.error("Error loading all users:", error);
-      }
-    }
-
-    function loadMyProgressPage() {
-      const myProgressContent = document.getElementById('my-progress');
-      if (!myProgressContent) return;
-      
+    function loadProgressPage() {
       let html = `
         <div class="stats-grid">
           <div class="stat-card">
@@ -814,119 +716,26 @@
         
         <div class="card">
           <h2 class="card-title">My Course Progress</h2>
+          ${!isAdmin ? '<p class="read-only-message">Your progress is managed by instructors. Contact them for updates.</p>' : ''}
           <div id="courses-progress"></div>
         </div>
       `;
-      myProgressContent.innerHTML = html;
+      mainContent.innerHTML = html;
       displayCoursesProgress();
-    }
-
-    function loadAdminDashboard() {
-      const adminDashboardContent = document.getElementById('admin-dashboard');
-      if (!adminDashboardContent) return;
-      
-      let html = `
-        <div class="card">
-          <h2 class="card-title">Admin Dashboard</h2>
-          <button class="btn btn-primary" id="edit-user-progress-btn">
-            <i class="fas fa-edit"></i> Edit User Progress
-          </button>
-        </div>
-        
-        <div class="card admin-dashboard">
-          <h2 class="card-title">All Users Progress</h2>
-          <div class="table-responsive">
-            <table class="users-table">
-              <thead>
-                <tr>
-                  <th>User</th>
-                  <th>Courses</th>
-                  <th>Avg Progress</th>
-                  <th>Completed</th>
-                  <th>Verified</th>
-                  <th>Actions</th>
-                </tr>
-              </thead>
-              <tbody id="users-table-body">
-                <!-- Users will be loaded here -->
-              </tbody>
-            </table>
-          </div>
-        </div>
-      `;
-      adminDashboardContent.innerHTML = html;
-      
-      document.getElementById('edit-user-progress-btn').addEventListener('click', () => {
-        openAdminEditModal();
-      });
-      
-      displayAllUsersProgress();
-    }
-
-    function displayAllUsersProgress() {
-      const usersTableBody = document.getElementById('users-table-body');
-      if (!usersTableBody) return;
-      
-      usersTableBody.innerHTML = '';
-      
-      allUsers.forEach(user => {
-        const avgProgress = calculateUserAverageProgress(user);
-        const completedCount = getCompletedCoursesCount(user);
-        const verifiedCount = getVerifiedCoursesCount(user);
-        
-        const row = document.createElement('tr');
-        row.className = 'user-row';
-        row.innerHTML = `
-          <td>
-            <div class="user-info">
-              <div class="user-avatar small">${getUserInitials(user.name || user.email)}</div>
-              <div>
-                <div>${user.name || 'Anonymous'}</div>
-                <small>${user.email}</small>
-              </div>
-            </div>
-          </td>
-          <td>${user.enrolledCourses?.length || 0}</td>
-          <td>${avgProgress}%</td>
-          <td>${completedCount}</td>
-          <td>${verifiedCount}</td>
-          <td>
-            <button class="action-btn" onclick="viewUserProgress('${user.id}')">
-              <i class="fas fa-eye"></i> View
-            </button>
-          </td>
-        `;
-        usersTableBody.appendChild(row);
-      });
-    }
-
-    function getUserInitials(name) {
-      if (!name) return '?';
-      return name.split(' ').map(part => part[0]).join('').toUpperCase().substring(0, 2);
-    }
-
-    function calculateUserAverageProgress(user) {
-      if (!user.enrolledCourses || user.enrolledCourses.length === 0) return 0;
-      const total = user.enrolledCourses.reduce((sum, course) => sum + (course.progress || 0), 0);
-      return Math.round(total / user.enrolledCourses.length);
-    }
-
-    function getCompletedCoursesCount(user = null) {
-      const courses = user ? user.enrolledCourses : enrolledCourses;
-      if (!courses) return 0;
-      return courses.filter(course => course.progress >= 100).length;
-    }
-
-    function getVerifiedCoursesCount(user = null) {
-      const courses = user ? user.enrolledCourses : enrolledCourses;
-      if (!courses) return 0;
-      return courses.filter(course => course.verified).length;
     }
 
     function calculateAverageProgress() {
       if (enrolledCourses.length === 0) return 0;
       const total = enrolledCourses.reduce((sum, course) => sum + (course.progress || 0), 0);
       return Math.round(total / enrolledCourses.length);
+    }
+
+    function getCompletedCoursesCount() {
+      return enrolledCourses.filter(course => course.progress >= 100).length;
+    }
+
+    function getVerifiedCoursesCount() {
+      return enrolledCourses.filter(course => course.verified).length;
     }
 
     function displayCoursesProgress() {
@@ -942,42 +751,42 @@
       
       enrolledCourses.forEach(course => {
         const progress = course.progress || 0;
-        const progressBarClass = getProgressBarClass(progress);
-        
         const progressCard = document.createElement('div');
         progressCard.className = 'progress-card';
+        
         progressCard.innerHTML = `
           <div class="progress-header">
             <div class="progress-title">${course.title}</div>
             <div class="progress-value">${progress}%</div>
           </div>
           <div class="progress-bar-container">
-            <div class="progress-bar ${progressBarClass}" style="width: ${progress}%"></div>
+            <div class="progress-bar" style="width: ${progress}%"></div>
           </div>
           <div class="progress-details">
             <div>Enrolled: ${formatDate(course.enrollmentDate)}</div>
-            <div>${course.verified ? 'Verified' : 'Not Verified'}</div>
+            <div>
+              ${course.verified ? 
+                '<span class="verified-badge"><i class="fas fa-check"></i> Verified</span>' : 
+                'Not Verified'
+              }
+              ${course.verifiedBy ? ` by ${course.verifiedBy}` : ''}
+            </div>
           </div>
-          <div class="progress-actions">
-            <button class="action-btn" onclick="openProgressModal('${course.id}', '${currentUser.uid}')">
-              <i class="fas fa-edit"></i> Update
-            </button>
-          </div>
+          ${isAdmin ? `
+            <div class="progress-actions">
+              <button class="action-btn" onclick="openProgressModal('${course.id}', '${currentUser.uid}')">
+                <i class="fas fa-edit"></i> Update
+              </button>
+            </div>
+          ` : ''}
           ${course.notes ? `
             <div class="notes-section">
-              <strong>Notes:</strong> ${course.notes}
+              <strong>Instructor Notes:</strong> ${course.notes}
             </div>
           ` : ''}
         `;
         coursesProgress.appendChild(progressCard);
       });
-    }
-
-    function getProgressBarClass(progress) {
-      if (progress >= 100) return 'progress-complete';
-      if (progress >= 70) return 'progress-high';
-      if (progress >= 40) return 'progress-medium';
-      return 'progress-low';
     }
 
     function formatDate(dateString) {
@@ -986,36 +795,23 @@
       return new Date(dateString).toLocaleDateString(undefined, options);
     }
 
-    function openProgressModal(courseId, userId = null) {
-      let course;
-      
-      if (userId && userId !== currentUser.uid) {
-        // Admin editing another user's course
-        const user = allUsers.find(u => u.id === userId);
-        if (!user) return;
-        course = user.enrolledCourses.find(c => c.id === courseId);
-      } else {
-        // User editing their own course
-        course = enrolledCourses.find(c => c.id === courseId);
-      }
-      
+    function openProgressModal(courseId, userId) {
+      const course = enrolledCourses.find(c => c.id === courseId);
       if (!course) return;
       
       currentEditingCourse = courseId;
+      currentEditingUserId = userId;
       progressCourseId.value = courseId;
-      progressUserId.value = userId || currentUser.uid;
+      progressUserId.value = userId;
       progressValue.value = course.progress || 0;
       progressNotes.value = course.notes || '';
-      
-      if (isAdmin) {
-        progressVerified.value = course.verified ? 'true' : 'false';
-      }
+      progressVerified.value = course.verified ? 'true' : 'false';
       
       progressModal.classList.add('active');
     }
 
     async function updateCourseProgress() {
-      if (!currentUser || !currentEditingCourse) return;
+      if (!currentUser || !currentEditingCourse || !isAdmin) return;
       
       const progress = parseInt(progressValue.value);
       if (isNaN(progress) || progress < 0 || progress > 100) {
@@ -1023,59 +819,39 @@
         return;
       }
       
-      const userId = progressUserId.value || currentUser.uid;
-      
       try {
-        // Get the user's current data
-        const userDoc = await getDoc(doc(db, "users", userId));
-        if (!userDoc.exists()) return;
-        
-        const userData = userDoc.data();
-        const courses = userData.enrolledCourses || [];
-        
-        // Find the course to update
-        const courseIndex = courses.findIndex(c => c.id === currentEditingCourse);
+        // Find the course in enrolledCourses array
+        const courseIndex = enrolledCourses.findIndex(c => c.id === currentEditingCourse);
         if (courseIndex === -1) return;
         
         // Create updated course data
         const updatedCourse = {
-          ...courses[courseIndex],
+          ...enrolledCourses[courseIndex],
           progress: progress,
           notes: progressNotes.value,
-          lastUpdated: new Date().toISOString()
+          verified: progressVerified.value === 'true',
+          lastUpdated: new Date().toISOString(),
+          verifiedBy: progressVerified.value === 'true' ? (userData.name || "Admin") : null,
+          verifiedAt: progressVerified.value === 'true' ? new Date().toISOString() : null
         };
         
-        // If admin, update verification status
-        if (isAdmin) {
-          updatedCourse.verified = progressVerified.value === 'true';
-        }
-        
         // Update Firestore
-        await updateDoc(doc(db, "users", userId), {
-          enrolledCourses: arrayRemove(courses[courseIndex])
+        await updateDoc(doc(db, "users", currentEditingUserId), {
+          enrolledCourses: arrayRemove(enrolledCourses[courseIndex])
         });
         
-        await updateDoc(doc(db, "users", userId), {
+        await updateDoc(doc(db, "users", currentEditingUserId), {
           enrolledCourses: arrayUnion(updatedCourse)
         });
         
-        // Update local data if it's the current user
-        if (userId === currentUser.uid) {
-          const localIndex = enrolledCourses.findIndex(c => c.id === currentEditingCourse);
-          if (localIndex !== -1) {
-            enrolledCourses[localIndex] = updatedCourse;
-          }
+        // Update local data if editing current user's progress
+        if (currentEditingUserId === currentUser.uid) {
+          enrolledCourses[courseIndex] = updatedCourse;
         }
         
         // Refresh display
         progressModal.classList.remove('active');
-        
-        if (userId === currentUser.uid) {
-          loadMyProgressPage();
-        } else {
-          await loadAllUsers();
-          displayAllUsersProgress();
-        }
+        loadProgressPage();
         
       } catch (error) {
         console.error("Error updating progress:", error);
@@ -1083,213 +859,8 @@
       }
     }
 
-    function openAdminEditModal() {
-      // Populate user dropdown
-      editUserSelect.innerHTML = '<option value="">Select User</option>';
-      allUsers.forEach(user => {
-        const option = document.createElement('option');
-        option.value = user.id;
-        option.textContent = `${user.name || 'Anonymous'} (${user.email})`;
-        editUserSelect.appendChild(option);
-      });
-      
-      // Reset form
-      adminEditForm.reset();
-      adminEditModal.classList.add('active');
-    }
-
-    async function saveAdminProgressEdit() {
-      const userId = editUserSelect.value;
-      const courseId = editCourseSelect.value;
-      const progress = parseInt(editProgress.value);
-      
-      if (!userId || !courseId || isNaN(progress) || progress < 0 || progress > 100) {
-        alert("Please fill all fields with valid values");
-        return;
-      }
-      
-      try {
-        // Get the user's current data
-        const userDoc = await getDoc(doc(db, "users", userId));
-        if (!userDoc.exists()) return;
-        
-        const userData = userDoc.data();
-        const courses = userData.enrolledCourses || [];
-        
-        // Find the course to update
-        const courseIndex = courses.findIndex(c => c.id === courseId);
-        if (courseIndex === -1) {
-          // Course not found, create new progress entry
-          const course = allCourses.find(c => c.id === courseId);
-          if (!course) {
-            alert("Course not found");
-            return;
-          }
-          
-          const newCourse = {
-            id: course.id,
-            title: course.title,
-            language: course.language,
-            progress: progress,
-            notes: editNotes.value,
-            verified: editVerified.value === 'true',
-            enrollmentDate: new Date().toISOString(),
-            lastUpdated: new Date().toISOString()
-          };
-          
-          await updateDoc(doc(db, "users", userId), {
-            enrolledCourses: arrayUnion(newCourse)
-          });
-        } else {
-          // Update existing course
-          const updatedCourse = {
-            ...courses[courseIndex],
-            progress: progress,
-            notes: editNotes.value,
-            verified: editVerified.value === 'true',
-            lastUpdated: new Date().toISOString()
-          };
-          
-          await updateDoc(doc(db, "users", userId), {
-            enrolledCourses: arrayRemove(courses[courseIndex])
-          });
-          
-          await updateDoc(doc(db, "users", userId), {
-            enrolledCourses: arrayUnion(updatedCourse)
-          });
-        }
-        
-        // Refresh data
-        await loadAllUsers();
-        displayAllUsersProgress();
-        adminEditModal.classList.remove('active');
-        
-      } catch (error) {
-        console.error("Error updating progress:", error);
-        alert("Failed to update progress. Please try again.");
-      }
-    }
-
-    function viewUserProgress(userId) {
-      const user = allUsers.find(u => u.id === userId);
-      if (!user) return;
-      
-      const userProgressContent = document.getElementById('my-progress');
-      if (!userProgressContent) return;
-      
-      let html = `
-        <div class="card">
-          <h2 class="card-title">${user.name || 'Anonymous'}'s Progress</h2>
-          <div class="user-info" style="margin-bottom: 15px;">
-            <div class="user-avatar">${getUserInitials(user.name || user.email)}</div>
-            <div>
-              <div>${user.email}</div>
-              <small>${user.enrolledCourses?.length || 0} courses enrolled</small>
-            </div>
-          </div>
-          
-          <div class="stats-grid">
-            <div class="stat-card">
-              <div class="stat-value">${calculateUserAverageProgress(user)}%</div>
-              <div class="stat-label">Overall Progress</div>
-            </div>
-            <div class="stat-card">
-              <div class="stat-value">${getCompletedCoursesCount(user)}</div>
-              <div class="stat-label">Courses Completed</div>
-            </div>
-            <div class="stat-card">
-              <div class="stat-value">${getVerifiedCoursesCount(user)}</div>
-              <div class="stat-label">Verified</div>
-            </div>
-          </div>
-          
-          <div id="user-courses-progress"></div>
-        </div>
-      `;
-      userProgressContent.innerHTML = html;
-      
-      // Display the user's courses
-      const userCoursesProgress = document.getElementById('user-courses-progress');
-      if (!userCoursesProgress) return;
-      
-      if (!user.enrolledCourses || user.enrolledCourses.length === 0) {
-        userCoursesProgress.innerHTML = '<p>User is not enrolled in any courses yet.</p>';
-        return;
-      }
-      
-      userCoursesProgress.innerHTML = '';
-      
-      user.enrolledCourses.forEach(course => {
-        const progress = course.progress || 0;
-        const progressBarClass = getProgressBarClass(progress);
-        
-        const progressCard = document.createElement('div');
-        progressCard.className = 'progress-card';
-        progressCard.innerHTML = `
-          <div class="progress-header">
-            <div class="progress-title">${course.title}</div>
-            <div class="progress-value">${progress}%</div>
-          </div>
-          <div class="progress-bar-container">
-            <div class="progress-bar ${progressBarClass}" style="width: ${progress}%"></div>
-          </div>
-          <div class="progress-details">
-            <div>Enrolled: ${formatDate(course.enrollmentDate)}</div>
-            <div>${course.verified ? 'Verified' : 'Not Verified'}</div>
-          </div>
-          <div class="progress-actions">
-            <button class="action-btn" onclick="openProgressModal('${course.id}', '${user.id}')">
-              <i class="fas fa-edit"></i> Edit
-            </button>
-          </div>
-          ${course.notes ? `
-            <div class="notes-section">
-              <strong>Notes:</strong> ${course.notes}
-            </div>
-          ` : ''}
-        `;
-        userCoursesProgress.appendChild(progressCard);
-      });
-      
-      // Switch to the My Progress tab to view the user's progress
-      tabs.forEach(t => t.classList.remove('active'));
-      tabContents.forEach(c => c.classList.remove('active'));
-      
-      document.querySelector('.tab[data-tab="my-progress"]').classList.add('active');
-      document.getElementById('my-progress').classList.add('active');
-    }
-
-    // Load all courses data
-    async function loadAllCourses() {
-      // This would normally come from your database
-      // For now we'll use a static list similar to the previous implementation
-      allCourses = [
-        // Qirat courses
-        { id: "q1", title: "Sifetu Solah (Amharic)", type: "qirat", language: "Amharic" },
-        { id: "q2", title: "Usulu Selasah (Amharic)", type: "qirat", language: "Amharic" },
-        // Add all other courses here...
-        // Hifz courses
-        { id: "h1", title: "Hifz for Fresh Students (Female)", type: "hifz", language: "Amharic" },
-        // Add all other courses...
-      ];
-      
-      // Populate course dropdown in admin edit modal
-      editCourseSelect.innerHTML = '<option value="">Select Course</option>';
-      allCourses.forEach(course => {
-        const option = document.createElement('option');
-        option.value = course.id;
-        option.textContent = `${course.title} (${course.type})`;
-        editCourseSelect.appendChild(option);
-      });
-    }
-
-    document.addEventListener('DOMContentLoaded', async () => {
-      await initApp();
-      await loadAllCourses();
-    });
-    
+    document.addEventListener('DOMContentLoaded', initApp);
     window.openProgressModal = openProgressModal;
-    window.viewUserProgress = viewUserProgress;
   </script>
 </body>
 </html>
