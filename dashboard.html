@@ -57,6 +57,7 @@
     .header-actions {
       display: flex;
       gap: 10px;
+      align-items: center;
     }
     .btn-icon {
       background: none;
@@ -64,6 +65,44 @@
       color: white;
       font-size: 1.2rem;
       cursor: pointer;
+      position: relative;
+    }
+    /* Account Dropdown */
+    .account-dropdown {
+      position: relative;
+      display: inline-block;
+    }
+    .dropdown-content {
+      display: none;
+      position: absolute;
+      right: 0;
+      background-color: var(--white);
+      min-width: 160px;
+      box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+      z-index: 1;
+      border-radius: var(--border-radius);
+      overflow: hidden;
+    }
+    .dropdown-content a {
+      color: var(--secondary-color);
+      padding: 12px 16px;
+      text-decoration: none;
+      display: block;
+      font-size: 0.9rem;
+    }
+    .dropdown-content a:hover {
+      background-color: var(--light-color);
+    }
+    .account-dropdown:hover .dropdown-content {
+      display: block;
+    }
+    .user-name {
+      margin-right: 8px;
+      font-size: 0.9rem;
+      max-width: 100px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
     /* Main Content Area */
     .main-content {
@@ -272,6 +311,31 @@
     .d-none {
       display: none;
     }
+    /* Classmates styles */
+    .classmate-card {
+      background-color: var(--white);
+      border-radius: var(--border-radius);
+      padding: var(--box-padding);
+      margin-bottom: 15px;
+      box-shadow: var(--shadow);
+    }
+    .classmate-info {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 8px;
+    }
+    .classmate-name {
+      font-weight: 600;
+    }
+    .classmate-department {
+      color: var(--secondary-color);
+      font-size: 0.9rem;
+    }
+    .shared-courses {
+      margin-top: 8px;
+      font-size: 0.8rem;
+      color: var(--info-color);
+    }
     @media (min-width: 768px) {
       .container {
         max-width: 768px;
@@ -289,9 +353,18 @@
     <header class="header">
       <h1 id="page-title">My Courses</h1>
       <div class="header-actions">
-        <button class="btn-icon" id="notifications-btn">
-          <i class="fas fa-bell"></i>
-        </button>
+        <div class="account-dropdown">
+          <div style="display: flex; align-items: center;">
+            <span class="user-name" id="user-name-display">User</span>
+            <button class="btn-icon" id="account-btn">
+              <i class="fas fa-user-circle"></i>
+            </button>
+          </div>
+          <div class="dropdown-content" id="account-dropdown">
+            <a href="schedule.html"><i class="fas fa-calendar-alt"></i> Schedule</a>
+            <a href="#" id="logout-btn"><i class="fas fa-sign-out-alt"></i> Logout</a>
+          </div>
+        </div>
       </div>
     </header>
 
@@ -348,7 +421,8 @@
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
     import {
       getAuth,
-      onAuthStateChanged
+      onAuthStateChanged,
+      signOut
     } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
     import {
       getFirestore,
@@ -390,6 +464,9 @@
     const confirmActionBtn = document.getElementById('confirm-action');
     const verificationGroup = document.getElementById('verification-group');
     const verificationInput = document.getElementById('verification-input');
+    const userNameDisplay = document.getElementById('user-name-display');
+    const logoutBtn = document.getElementById('logout-btn');
+    const accountDropdown = document.getElementById('account-dropdown');
 
     let currentUser = null;
     let userData = null;
@@ -603,20 +680,35 @@
           }
         });
       });
+      
       cancelConfirmBtn.addEventListener('click', () => {
         confirmationModal.classList.remove('active');
         pendingAction = null;
       });
+      
       confirmActionBtn.addEventListener('click', executePendingAction);
+      
+      logoutBtn.addEventListener('click', async (e) => {
+        e.preventDefault();
+        try {
+          await signOut(auth);
+          window.location.href = 'login.html';
+        } catch (error) {
+          console.error("Error signing out:", error);
+        }
+      });
+      
       onAuthStateChanged(auth, async (user) => {
         if (user) {
           currentUser = user;
           await loadUserData(user.uid);
+          userNameDisplay.textContent = userData.name || user.displayName || "User";
           switchTab('courses');
         } else {
           window.location.href = 'login.html';
         }
       });
+      
       allCourses = completeCoursesData;
     }
 
@@ -630,6 +722,21 @@
             userData.enrolledCourses = [];
           }
           enrolledCourses = userData.enrolledCourses;
+          
+          // Load classmates data (all users except current user)
+          const usersSnapshot = await getDocs(query(collection(db, "users"), where("__name__", "!=", userId)));
+          classmatesData = [];
+          usersSnapshot.forEach(doc => {
+            const user = doc.data();
+            if (user.enrolledCourses && user.enrolledCourses.length > 0) {
+              classmatesData.push({
+                id: doc.id,
+                name: user.name || "Anonymous",
+                department: user.department || "Not specified",
+                enrolledCourses: user.enrolledCourses
+              });
+            }
+          });
         } else {
           const newUserData = {
             name: currentUser.displayName || "User",
@@ -840,103 +947,115 @@
       }
     }
 
-    // CLASSMATES PAGE (unchanged filtering logic)
+    // CLASSMATES PAGE
     function loadClassmatesPage() {
       let html = `
         <div class="card">
           <h2 class="card-title">My Classmates</h2>
-          <div class="filter-group mb-3">
+          <div class="form-group">
             <label for="classmate-filter">Filter by Course</label>
             <select id="classmate-filter" class="form-control">
               <option value="all">All Classmates</option>
               ${enrolledCourses.map(course => `<option value="${course.id}">${course.title}</option>`).join('')}
             </select>
           </div>
-          <div class="classmates-grid" id="classmates-list"></div>
+          <div id="classmates-list"></div>
         </div>
       `;
       mainContent.innerHTML = html;
       document.getElementById('classmate-filter').addEventListener('change', filterClassmates);
       displayClassmates();
     }
+
     function displayClassmates(filterCourseId = 'all') {
       const classmatesList = document.getElementById('classmates-list');
       if (!classmatesList) return;
+      
       let filteredClassmates = classmatesData;
       if (filterCourseId !== 'all') {
         filteredClassmates = classmatesData.filter(classmate => 
           classmate.enrolledCourses?.some(ec => ec.id === filterCourseId)
         );
       }
+      
       if (filteredClassmates.length === 0) {
         classmatesList.innerHTML = '<p>No classmates found matching your filter.</p>';
         return;
       }
+      
       classmatesList.innerHTML = '';
+      
       filteredClassmates.forEach(classmate => {
+        // Find shared courses between current user and this classmate
+        const sharedCourses = [];
+        enrolledCourses.forEach(userCourse => {
+          if (classmate.enrolledCourses.some(c => c.id === userCourse.id)) {
+            const course = allCourses.find(c => c.id === userCourse.id) || userCourse;
+            sharedCourses.push(course.title);
+          }
+        });
+        
         const card = document.createElement('div');
-        card.className = 'course-card';
+        card.className = 'classmate-card';
         card.innerHTML = `
-          <div class="course-info">
-            <div class="course-title">${classmate.name}</div>
+          <div class="classmate-info">
+            <div>
+              <div class="classmate-name">${classmate.name}</div>
+              <div class="classmate-department">${classmate.department}</div>
+            </div>
           </div>
+          ${sharedCourses.length > 0 ? 
+            `<div class="shared-courses">
+              <strong>Shared Courses:</strong> ${sharedCourses.join(', ')}
+            </div>` : ''
+          }
         `;
         classmatesList.appendChild(card);
       });
     }
+
     function filterClassmates() {
       const filterValue = document.getElementById('classmate-filter').value;
       displayClassmates(filterValue);
     }
 
-    // PROFILE PAGE (show available courses with direct enrollment button)
+    // PROFILE PAGE
     function loadProfilePage() {
       let html = `
         <div class="card">
           <h2 class="card-title">My Profile</h2>
+          <div class="course-info">
+            <div><strong>Name:</strong> ${userData.name || 'Not set'}</div>
+            <div><strong>Email:</strong> ${currentUser.email || 'Not set'}</div>
+            <div><strong>Department:</strong> ${userData.department || 'Not set'}</div>
+            <div><strong>Student ID:</strong> ${userData.studentId || 'Not set'}</div>
+          </div>
           <div class="course-actions mt-3">
             <button class="btn btn-primary" onclick="window.location.href='profile.html'">Edit Profile</button>
           </div>
         </div>
         <div class="card mt-3">
-          <h2 class="card-title">Available Courses</h2>
-          <div id="available-courses">
-            ${allCourses.map(course => `
-              <div class="course-card">
-                <div class="course-info">
-                  <div class="course-title">${course.title}</div>
-                  <div class="course-language">${course.language}</div>
+          <h2 class="card-title">My Enrolled Courses</h2>
+          <div id="profile-courses">
+            ${enrolledCourses.length > 0 ? 
+              enrolledCourses.map(course => `
+                <div class="course-card">
+                  <div class="course-info">
+                    <div class="course-title">${course.title}</div>
+                    <div class="course-language">${course.language}</div>
+                  </div>
                 </div>
-                <button class="enroll-btn" onclick="directEnroll('${course.id}')">
-                  <i class="fas fa-plus"></i>
-                </button>
-              </div>
-            `).join('')}
+              `).join('') : 
+              '<p>You are not enrolled in any courses yet.</p>'
+            }
           </div>
         </div>
       `;
       mainContent.innerHTML = html;
     }
-    async function directEnroll(courseId) {
-      // Use the same verification if needed
-      const course = allCourses.find(c => c.id === courseId);
-      if (!course) return;
-      if (enrolledCourses.some(ec => ec.id === courseId)) {
-        alert("You are already enrolled in this course.");
-        return;
-      }
-      if (enrolledCourses.length >= 3) {
-        // If 4th or later, require verification via confirmation modal
-        showEnrollConfirmation(courseId);
-      } else {
-        await enrollInCourse(courseId);
-        loadProfilePage();
-      }
-    }
 
     document.addEventListener('DOMContentLoaded', initApp);
     window.showEnrollConfirmation = showEnrollConfirmation;
-    window.directEnroll = directEnroll;
   </script>
 </body>
 </html>
