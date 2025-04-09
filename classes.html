@@ -1,0 +1,668 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Classes - Qirat System</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <style>
+        .sidebar {
+            min-height: 100vh;
+            background-color: #f8f9fa;
+            border-right: 1px solid #dee2e6;
+        }
+        .nav-link {
+            color: #495057;
+        }
+        .nav-link.active {
+            color: #0d6efd;
+            font-weight: bold;
+        }
+        .card {
+            margin-bottom: 20px;
+            box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+        }
+    </style>
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <!-- Sidebar -->
+            <div class="col-md-3 col-lg-2 sidebar p-3">
+                <h4 class="mb-4">Qirat System</h4>
+                <ul class="nav flex-column">
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.html">
+                            <i class="bi bi-speedometer2 me-2"></i>Dashboard
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="classes.html">
+                            <i class="bi bi-book me-2"></i>Classes
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="students.html">
+                            <i class="bi bi-people me-2"></i>Students
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="attendance.html">
+                            <i class="bi bi-clipboard-check me-2"></i>Attendance
+                        </a>
+                    </li>
+                    <li class="nav-item mt-3">
+                        <button id="logoutBtn" class="btn btn-outline-danger">
+                            <i class="bi bi-box-arrow-right me-2"></i>Logout
+                        </button>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Main Content -->
+            <div class="col-md-9 col-lg-10 ms-sm-auto px-4 py-4">
+                <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                    <h1 class="h2">Manage Classes</h1>
+                    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addClassModal">
+                        <i class="bi bi-plus-circle me-2"></i>Add New Class
+                    </button>
+                </div>
+
+                <!-- Filter/Search Bar -->
+                <div class="row mb-4">
+                    <div class="col-md-4">
+                        <select id="languageFilter" class="form-select">
+                            <option value="">All Languages</option>
+                            <option value="Amharic">Amharic</option>
+                            <option value="Oromifa">Oromifa</option>
+                        </select>
+                    </div>
+                    <div class="col-md-4">
+                        <select id="levelFilter" class="form-select">
+                            <option value="">All Levels</option>
+                            <option value="Fresh">Fresh</option>
+                            <option value="Senior">Senior</option>
+                        </select>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="input-group">
+                            <input type="text" id="searchInput" class="form-control" placeholder="Search classes...">
+                            <button class="btn btn-outline-secondary" type="button" id="searchBtn">
+                                <i class="bi bi-search"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Classes Table -->
+                <div class="card">
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>Class Name</th>
+                                        <th>Language</th>
+                                        <th>Level</th>
+                                        <th>Schedule</th>
+                                        <th>Instructor</th>
+                                        <th>Students</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="classesTableBody">
+                                    <!-- Classes will be loaded here -->
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="d-flex justify-content-center">
+                            <nav>
+                                <ul class="pagination" id="pagination">
+                                    <!-- Pagination will be added here -->
+                                </ul>
+                            </nav>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Class Modal -->
+    <div class="modal fade" id="addClassModal" tabindex="-1" aria-labelledby="addClassModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="addClassModalLabel">Add New Class</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="addClassForm">
+                        <div class="mb-3">
+                            <label for="className" class="form-label">Class Name</label>
+                            <input type="text" class="form-control" id="className" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="classLanguage" class="form-label">Language</label>
+                            <select class="form-select" id="classLanguage" required>
+                                <option value="Amharic">Amharic</option>
+                                <option value="Oromifa">Oromifa</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="classLevel" class="form-label">Level</label>
+                            <select class="form-select" id="classLevel" required>
+                                <option value="Fresh">Fresh</option>
+                                <option value="Senior">Senior</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="classSchedule" class="form-label">Schedule</label>
+                            <input type="text" class="form-control" id="classSchedule" placeholder="E.g., Mon-Wed Morning" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="classInstructor" class="form-label">Instructor</label>
+                            <select class="form-select" id="classInstructor" required>
+                                <!-- Instructors will be loaded here -->
+                            </select>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-primary" id="saveClassBtn">Save Class</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Edit Class Modal -->
+    <div class="modal fade" id="editClassModal" tabindex="-1" aria-labelledby="editClassModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editClassModalLabel">Edit Class</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="editClassForm">
+                        <input type="hidden" id="editClassId">
+                        <div class="mb-3">
+                            <label for="editClassName" class="form-label">Class Name</label>
+                            <input type="text" class="form-control" id="editClassName" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="editClassLanguage" class="form-label">Language</label>
+                            <select class="form-select" id="editClassLanguage" required>
+                                <option value="Amharic">Amharic</option>
+                                <option value="Oromifa">Oromifa</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="editClassLevel" class="form-label">Level</label>
+                            <select class="form-select" id="editClassLevel" required>
+                                <option value="Fresh">Fresh</option>
+                                <option value="Senior">Senior</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="editClassSchedule" class="form-label">Schedule</label>
+                            <input type="text" class="form-control" id="editClassSchedule" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="editClassInstructor" class="form-label">Instructor</label>
+                            <select class="form-select" id="editClassInstructor" required>
+                                <!-- Instructors will be loaded here -->
+                            </select>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-primary" id="updateClassBtn">Update Class</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- View Students Modal -->
+    <div class="modal fade" id="viewStudentsModal" tabindex="-1" aria-labelledby="viewStudentsModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="viewStudentsModalLabel">Class Students</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Student ID</th>
+                                    <th>Name</th>
+                                    <th>Gender</th>
+                                    <th>Progress</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="classStudentsBody">
+                                <!-- Students will be loaded here -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script type="module">
+        // Import Firebase modules
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+        import { 
+            getFirestore, 
+            collection, 
+            getDocs, 
+            doc, 
+            setDoc, 
+            updateDoc, 
+            deleteDoc,
+            query,
+            where,
+            serverTimestamp 
+        } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+        import { 
+            getAuth, 
+            onAuthStateChanged, 
+            signOut 
+        } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+
+        // Firebase Configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyBQyNVWh1BtCkXlBfuS7jHAa36FTklZayo",
+            authDomain: "pharma-quiz-b5a07.firebaseapp.com",
+            projectId: "pharma-quiz-b5a07",
+            storageBucket: "pharma-quiz-b5a07.appspot.com",
+            messagingSenderId: "161067776789",
+            appId: "1:161067776789:web:88b8a61145dc5f5c31471c",
+            measurementId: "G-3QRQE9HQFB"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+        const auth = getAuth(app);
+
+        // DOM Elements
+        const classesTableBody = document.getElementById('classesTableBody');
+        const logoutBtn = document.getElementById('logoutBtn');
+        const addClassForm = document.getElementById('addClassForm');
+        const saveClassBtn = document.getElementById('saveClassBtn');
+        const editClassForm = document.getElementById('editClassForm');
+        const updateClassBtn = document.getElementById('updateClassBtn');
+        const classInstructor = document.getElementById('classInstructor');
+        const editClassInstructor = document.getElementById('editClassInstructor');
+        const languageFilter = document.getElementById('languageFilter');
+        const levelFilter = document.getElementById('levelFilter');
+        const searchInput = document.getElementById('searchInput');
+        const searchBtn = document.getElementById('searchBtn');
+
+        // Current user and classes data
+        let currentUser = null;
+        let classesData = [];
+        let instructorsData = [];
+
+        // Check authentication state
+        onAuthStateChanged(auth, async (user) => {
+            if (!user) {
+                window.location.href = 'login.html';
+            } else {
+                currentUser = user;
+                await checkUserRole(user.uid);
+                await loadInstructors();
+                await loadClasses();
+            }
+        });
+
+        // Logout
+        logoutBtn.addEventListener('click', () => {
+            signOut(auth).then(() => {
+                window.location.href = 'login.html';
+            });
+        });
+
+        // Check user role from Firestore
+        async function checkUserRole(uid) {
+            const usersRef = collection(db, 'users');
+            const q = query(usersRef, where('uid', '==', uid));
+            const querySnapshot = await getDocs(q);
+            
+            if (querySnapshot.empty) {
+                alert('User not found in database');
+                await signOut(auth);
+                window.location.href = 'login.html';
+                return;
+            }
+
+            const userData = querySnapshot.docs[0].data();
+            if (userData.role !== 'admin') {
+                alert('You do not have permission to access this page');
+                window.location.href = 'index.html';
+            }
+        }
+
+        // Load instructors from Firestore
+        async function loadInstructors() {
+            const instructorsRef = collection(db, 'instructors');
+            const querySnapshot = await getDocs(instructorsRef);
+            
+            instructorsData = [];
+            classInstructor.innerHTML = '';
+            editClassInstructor.innerHTML = '';
+            
+            // Add default option
+            const defaultOption = document.createElement('option');
+            defaultOption.value = '';
+            defaultOption.textContent = 'Select Instructor';
+            defaultOption.selected = true;
+            defaultOption.disabled = true;
+            classInstructor.appendChild(defaultOption.cloneNode(true));
+            editClassInstructor.appendChild(defaultOption.cloneNode(true));
+            
+            querySnapshot.forEach((doc) => {
+                instructorsData.push({ id: doc.id, ...doc.data() });
+                
+                const option = document.createElement('option');
+                option.value = doc.id;
+                option.textContent = doc.data().name;
+                
+                classInstructor.appendChild(option.cloneNode(true));
+                editClassInstructor.appendChild(option.cloneNode(true));
+            });
+        }
+
+        // Load classes from Firestore with optional filters
+        async function loadClasses(filters = {}) {
+            let classesRef = collection(db, 'classes');
+            let q = classesRef;
+            
+            // Apply filters if provided
+            const conditions = [];
+            if (filters.language) {
+                conditions.push(where('language', '==', filters.language));
+            }
+            if (filters.level) {
+                conditions.push(where('level', '==', filters.level));
+            }
+            if (filters.search) {
+                conditions.push(where('name', '>=', filters.search));
+                conditions.push(where('name', '<=', filters.search + '\uf8ff'));
+            }
+            
+            if (conditions.length > 0) {
+                q = query(classesRef, ...conditions);
+            }
+            
+            const querySnapshot = await getDocs(q);
+            classesData = [];
+            classesTableBody.innerHTML = '';
+            
+            querySnapshot.forEach((doc) => {
+                const classData = { id: doc.id, ...doc.data() };
+                classesData.push(classData);
+                
+                // Find instructor name
+                const instructor = instructorsData.find(i => i.id === classData.instructorId) || {};
+                
+                // Create table row
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${classData.name}</td>
+                    <td>${classData.language}</td>
+                    <td>${classData.level}</td>
+                    <td>${classData.schedule}</td>
+                    <td>${instructor.name || 'Not assigned'}</td>
+                    <td>${classData.studentCount || 0}</td>
+                    <td>
+                        <button class="btn btn-sm btn-outline-primary view-students-btn" data-id="${doc.id}">
+                            <i class="bi bi-people"></i>
+                        </button>
+                        <button class="btn btn-sm btn-outline-success edit-class-btn" data-id="${doc.id}">
+                            <i class="bi bi-pencil"></i>
+                        </button>
+                        <button class="btn btn-sm btn-outline-danger delete-class-btn" data-id="${doc.id}">
+                            <i class="bi bi-trash"></i>
+                        </button>
+                    </td>
+                `;
+                classesTableBody.appendChild(row);
+            });
+            
+            // Add event listeners to action buttons
+            document.querySelectorAll('.view-students-btn').forEach(btn => {
+                btn.addEventListener('click', () => viewClassStudents(btn.dataset.id));
+            });
+            
+            document.querySelectorAll('.edit-class-btn').forEach(btn => {
+                btn.addEventListener('click', () => editClass(btn.dataset.id));
+            });
+            
+            document.querySelectorAll('.delete-class-btn').forEach(btn => {
+                btn.addEventListener('click', () => deleteClass(btn.dataset.id));
+            });
+        }
+
+        // Save new class
+        saveClassBtn.addEventListener('click', async () => {
+            const className = document.getElementById('className').value;
+            const classLanguage = document.getElementById('classLanguage').value;
+            const classLevel = document.getElementById('classLevel').value;
+            const classSchedule = document.getElementById('classSchedule').value;
+            const classInstructorId = document.getElementById('classInstructor').value;
+            
+            if (!className || !classLanguage || !classLevel || !classSchedule || !classInstructorId) {
+                alert('Please fill all fields');
+                return;
+            }
+            
+            try {
+                // Create new class document
+                const newClassRef = doc(collection(db, 'classes'));
+                await setDoc(newClassRef, {
+                    name: className,
+                    language: classLanguage,
+                    level: classLevel,
+                    schedule: classSchedule,
+                    instructorId: classInstructorId,
+                    createdAt: serverTimestamp(),
+                    updatedAt: serverTimestamp(),
+                    studentCount: 0
+                });
+                
+                // Update instructor's assigned classes
+                const instructorRef = doc(db, 'instructors', classInstructorId);
+                await updateDoc(instructorRef, {
+                    assignedClasses: arrayUnion(newClassRef.id)
+                });
+                
+                // Reset form and close modal
+                addClassForm.reset();
+                bootstrap.Modal.getInstance(document.getElementById('addClassModal')).hide();
+                
+                // Reload classes
+                await loadClasses();
+                
+                alert('Class created successfully!');
+            } catch (error) {
+                console.error('Error adding class: ', error);
+                alert('Error creating class: ' + error.message);
+            }
+        });
+
+        // Edit class - load data into modal
+        async function editClass(classId) {
+            const classData = classesData.find(c => c.id === classId);
+            if (!classData) return;
+            
+            document.getElementById('editClassId').value = classId;
+            document.getElementById('editClassName').value = classData.name;
+            document.getElementById('editClassLanguage').value = classData.language;
+            document.getElementById('editClassLevel').value = classData.level;
+            document.getElementById('editClassSchedule').value = classData.schedule;
+            document.getElementById('editClassInstructor').value = classData.instructorId;
+            
+            const editModal = new bootstrap.Modal(document.getElementById('editClassModal'));
+            editModal.show();
+        }
+
+        // Update class
+        updateClassBtn.addEventListener('click', async () => {
+            const classId = document.getElementById('editClassId').value;
+            const className = document.getElementById('editClassName').value;
+            const classLanguage = document.getElementById('editClassLanguage').value;
+            const classLevel = document.getElementById('editClassLevel').value;
+            const classSchedule = document.getElementById('editClassSchedule').value;
+            const classInstructorId = document.getElementById('editClassInstructor').value;
+            
+            if (!classId || !className || !classLanguage || !classLevel || !classSchedule || !classInstructorId) {
+                alert('Please fill all fields');
+                return;
+            }
+            
+            try {
+                const classRef = doc(db, 'classes', classId);
+                const classData = classesData.find(c => c.id === classId);
+                
+                // Update class document
+                await updateDoc(classRef, {
+                    name: className,
+                    language: classLanguage,
+                    level: classLevel,
+                    schedule: classSchedule,
+                    instructorId: classInstructorId,
+                    updatedAt: serverTimestamp()
+                });
+                
+                // If instructor changed, update both instructors' records
+                if (classData.instructorId !== classInstructorId) {
+                    // Remove from old instructor
+                    const oldInstructorRef = doc(db, 'instructors', classData.instructorId);
+                    await updateDoc(oldInstructorRef, {
+                        assignedClasses: arrayRemove(classId)
+                    });
+                    
+                    // Add to new instructor
+                    const newInstructorRef = doc(db, 'instructors', classInstructorId);
+                    await updateDoc(newInstructorRef, {
+                        assignedClasses: arrayUnion(classId)
+                    });
+                }
+                
+                // Close modal and reload data
+                bootstrap.Modal.getInstance(document.getElementById('editClassModal')).hide();
+                await loadClasses();
+                
+                alert('Class updated successfully!');
+            } catch (error) {
+                console.error('Error updating class: ', error);
+                alert('Error updating class: ' + error.message);
+            }
+        });
+
+        // Delete class
+        async function deleteClass(classId) {
+            if (!confirm('Are you sure you want to delete this class?')) return;
+            
+            try {
+                // Delete class document
+                await deleteDoc(doc(db, 'classes', classId));
+                
+                // Remove from instructor's assigned classes
+                const classData = classesData.find(c => c.id === classId);
+                if (classData && classData.instructorId) {
+                    const instructorRef = doc(db, 'instructors', classData.instructorId);
+                    await updateDoc(instructorRef, {
+                        assignedClasses: arrayRemove(classId)
+                    });
+                }
+                
+                // Reload classes
+                await loadClasses();
+                
+                alert('Class deleted successfully!');
+            } catch (error) {
+                console.error('Error deleting class: ', error);
+                alert('Error deleting class: ' + error.message);
+            }
+        }
+
+        // View class students
+        async function viewClassStudents(classId) {
+            const classStudentsBody = document.getElementById('classStudentsBody');
+            classStudentsBody.innerHTML = '<tr><td colspan="5" class="text-center">Loading students...</td></tr>';
+            
+            // Get students in this class
+            const studentsRef = collection(db, 'students');
+            const q = query(studentsRef, where('classId', '==', classId));
+            const querySnapshot = await getDocs(q);
+            
+            classStudentsBody.innerHTML = '';
+            
+            if (querySnapshot.empty) {
+                classStudentsBody.innerHTML = '<tr><td colspan="5" class="text-center">No students enrolled in this class</td></tr>';
+            } else {
+                querySnapshot.forEach((doc) => {
+                    const student = doc.data();
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td>${doc.id}</td>
+                        <td>${student.name}</td>
+                        <td>${student.gender}</td>
+                        <td>${student.progress || 'Not started'}</td>
+                        <td>
+                            <button class="btn btn-sm btn-outline-primary view-progress-btn" data-id="${doc.id}">
+                                <i class="bi bi-journal-text"></i>
+                            </button>
+                        </td>
+                    `;
+                    classStudentsBody.appendChild(row);
+                });
+            }
+            
+            // Set modal title
+            const classData = classesData.find(c => c.id === classId);
+            document.getElementById('viewStudentsModalLabel').textContent = 
+                `Students in ${classData?.name || 'Class'}`;
+            
+            const viewModal = new bootstrap.Modal(document.getElementById('viewStudentsModal'));
+            viewModal.show();
+        }
+
+        // Apply filters
+        languageFilter.addEventListener('change', applyFilters);
+        levelFilter.addEventListener('change', applyFilters);
+        searchBtn.addEventListener('click', applyFilters);
+        searchInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') applyFilters();
+        });
+
+        function applyFilters() {
+            const filters = {
+                language: languageFilter.value || null,
+                level: levelFilter.value || null,
+                search: searchInput.value.trim() || null
+            };
+            loadClasses(filters);
+        }
+
+        // Helper function for array operations (Firestore doesn't have native arrayRemove)
+        function arrayRemove(arr, value) {
+            return arr.filter(item => item !== value);
+        }
+    </script>
+</body>
+</html>
