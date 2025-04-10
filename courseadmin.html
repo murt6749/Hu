@@ -10,39 +10,50 @@
   <style>
     :root {
       --primary-color: #1a4d2e;
+      --primary-dark: #0e3a23;
       --secondary-color: #4f6f52;
       --accent-color: #f5efe6;
       --light-color: #e8dfca;
       --white: #ffffff;
-      --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      --light-gray: #f8f9fa;
+      --medium-gray: #e9ecef;
+      --dark-gray: #495057;
+      --shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
       --success-color: #28a745;
       --info-color: #17a2b8;
       --warning-color: #ffc107;
       --danger-color: #dc3545;
-      --border-radius: 12px;
-      --box-padding: 16px;
+      --border-radius: 8px;
+      --box-padding: 20px;
+      --transition: all 0.3s ease;
     }
+
     * {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
       font-family: 'Poppins', sans-serif;
     }
+
     body {
-      background-color: #f8f9fa;
+      background-color: var(--light-gray);
       min-height: 100vh;
       font-size: 14px;
+      color: #333;
+      line-height: 1.6;
     }
+
     .container {
       width: 100%;
       max-width: 100%;
       padding: 0;
     }
+
     /* Header Styles */
     .header {
-      background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+      background: linear-gradient(135deg, var(--primary-dark), var(--primary-color));
       color: white;
-      padding: var(--box-padding);
+      padding: 15px var(--box-padding);
       position: sticky;
       top: 0;
       z-index: 100;
@@ -51,15 +62,25 @@
       align-items: center;
       box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
     }
+
     .header h1 {
-      font-size: 1.2rem;
+      font-size: 1.3rem;
       font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 10px;
     }
+
+    .header h1 i {
+      font-size: 1.1rem;
+    }
+
     .header-actions {
       display: flex;
-      gap: 10px;
+      gap: 15px;
       align-items: center;
     }
+
     .btn-icon {
       background: none;
       border: none;
@@ -67,251 +88,496 @@
       font-size: 1.2rem;
       cursor: pointer;
       position: relative;
+      transition: var(--transition);
     }
+
+    .btn-icon:hover {
+      transform: scale(1.1);
+    }
+
+    /* Admin Panel Indicator */
+    .admin-badge {
+      background-color: var(--warning-color);
+      color: #000;
+      padding: 3px 8px;
+      border-radius: 12px;
+      font-size: 0.7rem;
+      font-weight: 600;
+      margin-left: 8px;
+    }
+
     /* Account Dropdown */
     .account-dropdown {
       position: relative;
       display: inline-block;
     }
+
     .dropdown-content {
       display: none;
       position: absolute;
       right: 0;
       background-color: var(--white);
-      min-width: 160px;
-      box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-      z-index: 1;
+      min-width: 180px;
+      box-shadow: var(--shadow);
+      z-index: 100;
       border-radius: var(--border-radius);
       overflow: hidden;
+      border: 1px solid var(--medium-gray);
     }
+
     .dropdown-content a {
-      color: var(--secondary-color);
-      padding: 12px 16px;
+      color: var(--dark-gray);
+      padding: 10px 15px;
       text-decoration: none;
-      display: block;
-      font-size: 0.9rem;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.85rem;
+      transition: var(--transition);
     }
+
     .dropdown-content a:hover {
-      background-color: var(--light-color);
+      background-color: rgba(79, 111, 82, 0.1);
+      color: var(--primary-color);
     }
+
+    .dropdown-content a i {
+      width: 18px;
+      text-align: center;
+    }
+
     .account-dropdown:hover .dropdown-content {
       display: block;
     }
+
     .user-name {
       margin-right: 8px;
       font-size: 0.9rem;
-      max-width: 100px;
+      max-width: 120px;
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
     }
+
     /* Main Content Area */
     .main-content {
       padding: var(--box-padding);
       padding-bottom: 20px;
     }
+
     /* Admin Navigation */
     .admin-nav {
       display: flex;
       background: white;
       border-radius: var(--border-radius);
       overflow: hidden;
-      margin-bottom: 15px;
+      margin-bottom: 20px;
       box-shadow: var(--shadow);
+      border: 1px solid var(--medium-gray);
     }
+
     .admin-nav-item {
       padding: 12px 15px;
       text-align: center;
       cursor: pointer;
       flex: 1;
-      transition: all 0.2s ease;
+      transition: var(--transition);
       border-bottom: 3px solid transparent;
+      font-size: 0.85rem;
+      font-weight: 500;
+      color: var(--dark-gray);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
     }
+
     .admin-nav-item.active {
       border-bottom: 3px solid var(--primary-color);
       color: var(--primary-color);
-      font-weight: 500;
+      background-color: rgba(79, 111, 82, 0.05);
     }
-    .admin-nav-item:hover {
-      background: rgba(26, 77, 46, 0.1);
+
+    .admin-nav-item:hover:not(.active) {
+      background: rgba(79, 111, 82, 0.05);
     }
+
+    .admin-nav-item i {
+      font-size: 0.9rem;
+    }
+
     /* Card Styles */
     .card {
       background-color: var(--white);
       border-radius: var(--border-radius);
       padding: var(--box-padding);
-      margin-bottom: 15px;
+      margin-bottom: 20px;
       box-shadow: var(--shadow);
+      border: 1px solid var(--medium-gray);
     }
+
+    .card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 15px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid var(--medium-gray);
+    }
+
     .card-title {
       color: var(--primary-color);
-      margin-bottom: 10px;
       font-size: 1.1rem;
       font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 8px;
     }
+
+    .card-title i {
+      color: var(--secondary-color);
+    }
+
+    .card-actions {
+      display: flex;
+      gap: 10px;
+    }
+
     /* Table Styles */
     .table-responsive {
       width: 100%;
       overflow-x: auto;
+      border-radius: var(--border-radius);
+      border: 1px solid var(--medium-gray);
     }
+
     .data-table {
       width: 100%;
       border-collapse: collapse;
+      min-width: 800px;
     }
+
     .data-table th, .data-table td {
       padding: 12px 15px;
       text-align: left;
-      border-bottom: 1px solid #eee;
+      border-bottom: 1px solid var(--medium-gray);
     }
+
     .data-table th {
       background-color: var(--primary-color);
       color: white;
       font-weight: 500;
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
     }
+
+    .data-table tr:nth-child(even) {
+      background-color: var(--light-gray);
+    }
+
     .data-table tr:hover {
       background-color: rgba(79, 111, 82, 0.05);
     }
+
     .data-table .badge {
       display: inline-block;
       padding: 4px 8px;
-      border-radius: 20px;
-      font-size: 0.7rem;
+      border-radius: 12px;
+      font-size: 0.75rem;
       font-weight: 500;
+      white-space: nowrap;
     }
+
     .badge-primary {
       background-color: var(--primary-color);
       color: white;
     }
+
     .badge-secondary {
       background-color: var(--secondary-color);
       color: white;
     }
+
     .badge-info {
       background-color: var(--info-color);
       color: white;
     }
+
     .badge-warning {
       background-color: var(--warning-color);
       color: black;
     }
+
     .badge-danger {
       background-color: var(--danger-color);
       color: white;
     }
+
+    .badge-success {
+      background-color: var(--success-color);
+      color: white;
+    }
+
+    .badge-light {
+      background-color: var(--medium-gray);
+      color: var(--dark-gray);
+    }
+
     /* Form Elements */
     .form-group {
       margin-bottom: 15px;
     }
+
     .form-group label {
       display: block;
-      margin-bottom: 5px;
+      margin-bottom: 6px;
       font-weight: 500;
-      color: var(--secondary-color);
+      color: var(--dark-gray);
+      font-size: 0.85rem;
     }
+
     .form-control {
       width: 100%;
-      padding: 12px;
-      border: 1px solid #ddd;
-      border-radius: 8px;
-      font-size: 1rem;
+      padding: 10px 12px;
+      border: 1px solid var(--medium-gray);
+      border-radius: var(--border-radius);
+      font-size: 0.9rem;
+      transition: var(--transition);
     }
+
+    .form-control:focus {
+      outline: none;
+      border-color: var(--primary-color);
+      box-shadow: 0 0 0 3px rgba(26, 77, 46, 0.1);
+    }
+
+    textarea.form-control {
+      min-height: 100px;
+      resize: vertical;
+    }
+
+    .form-row {
+      display: flex;
+      gap: 15px;
+    }
+
+    .form-row .form-group {
+      flex: 1;
+    }
+
+    /* Buttons */
     .btn {
-      padding: 12px;
+      padding: 10px 15px;
       border: none;
-      border-radius: 8px;
-      font-size: 1rem;
+      border-radius: var(--border-radius);
+      font-size: 0.85rem;
       font-weight: 500;
       cursor: pointer;
-      transition: all 0.3s ease;
+      transition: var(--transition);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
     }
+
     .btn-block {
       width: 100%;
     }
+
     .btn-primary {
       background-color: var(--primary-color);
       color: var(--white);
     }
+
     .btn-primary:hover {
-      background-color: var(--secondary-color);
+      background-color: var(--primary-dark);
+      transform: translateY(-1px);
     }
+
     .btn-outline {
       background-color: transparent;
       border: 1px solid var(--primary-color);
       color: var(--primary-color);
     }
-    .btn-sm {
-      padding: 8px 12px;
-      font-size: 0.9rem;
+
+    .btn-outline:hover {
+      background-color: rgba(79, 111, 82, 0.1);
     }
+
+    .btn-sm {
+      padding: 6px 10px;
+      font-size: 0.8rem;
+    }
+
     .btn-danger {
       background-color: var(--danger-color);
       color: white;
     }
-    .d-none {
-      display: none;
+
+    .btn-danger:hover {
+      background-color: #c82333;
     }
-    /* Filter Section */
-    .filter-section {
-      display: flex;
-      gap: 10px;
-      margin-bottom: 15px;
-      flex-wrap: wrap;
+
+    .btn-success {
+      background-color: var(--success-color);
+      color: white;
     }
-    .filter-item {
-      flex: 1;
-      min-width: 150px;
+
+    .btn-success:hover {
+      background-color: #218838;
     }
-    /* Export Section */
-    .export-section {
-      background: rgba(79, 111, 82, 0.1);
-      padding: 15px;
-      border-radius: var(--border-radius);
-      margin-bottom: 15px;
+
+    .btn-info {
+      background-color: var(--info-color);
+      color: white;
     }
-    .export-options {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-      gap: 10px;
-      margin-top: 10px;
+
+    .btn-info:hover {
+      background-color: #138496;
     }
-    .export-checkbox {
-      display: flex;
-      align-items: center;
-      gap: 5px;
+
+    .btn i {
+      font-size: 0.8rem;
     }
+
     /* Stats Cards */
     .stats-container {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
       gap: 15px;
-      margin-bottom: 15px;
+      margin-bottom: 20px;
     }
+
     .stat-card {
       background: white;
       border-radius: var(--border-radius);
       padding: 15px;
       box-shadow: var(--shadow);
-      text-align: center;
+      border: 1px solid var(--medium-gray);
+      transition: var(--transition);
     }
+
+    .stat-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+    }
+
     .stat-card h3 {
-      color: var(--primary-color);
+      color: var(--dark-gray);
       margin-bottom: 5px;
+      font-size: 0.9rem;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: 6px;
     }
+
+    .stat-card h3 i {
+      color: var(--secondary-color);
+    }
+
     .stat-card p {
       font-size: 1.5rem;
       font-weight: 600;
-      color: var(--secondary-color);
+      color: var(--primary-color);
+      margin-left: 24px;
     }
+
+    /* Filter Section */
+    .filter-section {
+      display: flex;
+      gap: 15px;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+    }
+
+    .filter-item {
+      flex: 1;
+      min-width: 180px;
+    }
+
+    /* Export Section */
+    .export-section {
+      background: rgba(79, 111, 82, 0.05);
+      padding: 15px;
+      border-radius: var(--border-radius);
+      margin-bottom: 20px;
+      border: 1px solid var(--medium-gray);
+    }
+
+    .export-section h3 {
+      font-size: 0.95rem;
+      margin-bottom: 10px;
+      color: var(--dark-gray);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .export-section h3 i {
+      color: var(--primary-color);
+    }
+
+    .export-options {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+      gap: 10px;
+      margin-top: 10px;
+    }
+
+    .export-checkbox {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.85rem;
+    }
+
+    /* Empty State */
+    .empty-state {
+      text-align: center;
+      padding: 30px;
+      color: var(--dark-gray);
+    }
+
+    .empty-state i {
+      font-size: 2.5rem;
+      margin-bottom: 10px;
+      color: var(--medium-gray);
+      opacity: 0.7;
+    }
+
+    .empty-state p {
+      font-size: 0.95rem;
+      color: var(--dark-gray);
+    }
+
     /* Course Type Colors */
     .qirat-bg {
       background: rgba(23, 162, 184, 0.1);
     }
+
     .hifz-bg {
       background: rgba(40, 167, 69, 0.1);
     }
+
     .nezer-bg {
       background: rgba(255, 193, 7, 0.1);
     }
+
+    /* User Role Colors */
+    .role-student {
+      color: var(--info-color);
+    }
+
+    .role-moderator {
+      color: var(--warning-color);
+    }
+
+    .role-admin {
+      color: var(--danger-color);
+    }
+
     /* Modal Styles */
     .modal {
       display: none;
@@ -326,9 +592,11 @@
       justify-content: center;
       padding: 15px;
     }
+
     .modal.active {
       display: flex;
     }
+
     .modal-content {
       background-color: var(--white);
       border-radius: var(--border-radius);
@@ -337,7 +605,10 @@
       max-height: 90vh;
       overflow-y: auto;
       animation: modalFadeIn 0.3s ease;
+      box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+      border: 1px solid var(--medium-gray);
     }
+
     @keyframes modalFadeIn {
       from {
         opacity: 0;
@@ -348,47 +619,130 @@
         transform: translateY(0);
       }
     }
+
     .modal-header {
       padding: 15px;
-      border-bottom: 1px solid #eee;
+      border-bottom: 1px solid var(--medium-gray);
       display: flex;
       justify-content: space-between;
       align-items: center;
     }
+
     .modal-title {
       font-size: 1.2rem;
       color: var(--primary-color);
       font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 8px;
     }
+
+    .modal-title i {
+      color: var(--secondary-color);
+    }
+
     .modal-close {
       background: none;
       border: none;
       font-size: 1.5rem;
       cursor: pointer;
+      color: var(--dark-gray);
+      transition: var(--transition);
     }
+
+    .modal-close:hover {
+      color: var(--danger-color);
+      transform: rotate(90deg);
+    }
+
     .modal-body {
       padding: 15px;
     }
+
     .modal-footer {
       padding: 15px;
-      border-top: 1px solid #eee;
+      border-top: 1px solid var(--medium-gray);
       display: flex;
       justify-content: flex-end;
       gap: 10px;
     }
+
+    /* Notification */
+    .notification {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      padding: 12px 20px;
+      border-radius: var(--border-radius);
+      box-shadow: var(--shadow);
+      z-index: 1100;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      animation: slideIn 0.3s ease-out;
+      border: 1px solid transparent;
+    }
+
+    @keyframes slideIn {
+      from { transform: translateX(100%); opacity: 0; }
+      to { transform: translateX(0); opacity: 1; }
+    }
+
+    .notification-success {
+      background-color: var(--success-color);
+      color: white;
+      border-color: rgba(255, 255, 255, 0.2);
+    }
+
+    .notification-error {
+      background-color: var(--danger-color);
+      color: white;
+      border-color: rgba(255, 255, 255, 0.2);
+    }
+
+    .notification-warning {
+      background-color: var(--warning-color);
+      color: black;
+      border-color: rgba(0, 0, 0, 0.1);
+    }
+
     /* Responsive */
-    @media (max-width: 768px) {
+    @media (max-width: 992px) {
       .admin-nav {
-        flex-direction: column;
+        flex-wrap: wrap;
       }
       .admin-nav-item {
-        text-align: left;
-        border-bottom: 1px solid #eee;
-        border-left: 3px solid transparent;
+        flex: 1 0 120px;
+        font-size: 0.8rem;
+        padding: 10px;
       }
-      .admin-nav-item.active {
-        border-bottom: 1px solid #eee;
-        border-left: 3px solid var(--primary-color);
+    }
+
+    @media (max-width: 768px) {
+      .header h1 {
+        font-size: 1.1rem;
+      }
+      .main-content {
+        padding: 15px;
+      }
+      .form-row {
+        flex-direction: column;
+        gap: 0;
+      }
+      .stats-container {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+
+    @media (max-width: 576px) {
+      .stats-container {
+        grid-template-columns: 1fr;
+      }
+      .admin-nav-item {
+        flex: 1 0 100px;
+      }
+      .filter-item {
+        min-width: 100%;
       }
     }
   </style>
@@ -397,17 +751,21 @@
   <div class="container">
     <!-- Header -->
     <header class="header">
-      <h1 id="page-title">Admin Panel</h1>
+      <h1 id="page-title">
+        <i class="fas fa-shield-alt"></i>
+        HU Jama'aa Admin Panel
+        <span class="admin-badge">MODERATOR</span>
+      </h1>
       <div class="header-actions">
         <div class="account-dropdown">
           <div style="display: flex; align-items: center;">
-            <span class="user-name" id="user-name-display">Admin</span>
+            <span class="user-name" id="user-name-display">Admin User</span>
             <button class="btn-icon" id="account-btn">
               <i class="fas fa-user-circle"></i>
             </button>
           </div>
           <div class="dropdown-content" id="account-dropdown">
-            <a href="courses.html"><i class="fas fa-book"></i> Courses</a>
+            <a href="courses.html"><i class="fas fa-book"></i> Student View</a>
             <a href="#" id="logout-btn"><i class="fas fa-sign-out-alt"></i> Logout</a>
           </div>
         </div>
@@ -416,11 +774,26 @@
 
     <!-- Admin Navigation -->
     <div class="admin-nav">
-      <div class="admin-nav-item active" data-section="dashboard">Dashboard</div>
-      <div class="admin-nav-item" data-section="users">Users</div>
-      <div class="admin-nav-item" data-section="courses">Courses</div>
-      <div class="admin-nav-item" data-section="enrollments">Enrollments</div>
-      <div class="admin-nav-item" data-section="overflow">Overflow</div>
+      <div class="admin-nav-item active" data-section="dashboard">
+        <i class="fas fa-tachometer-alt"></i>
+        Dashboard
+      </div>
+      <div class="admin-nav-item" data-section="users">
+        <i class="fas fa-users"></i>
+        Users
+      </div>
+      <div class="admin-nav-item" data-section="courses">
+        <i class="fas fa-book-open"></i>
+        Courses
+      </div>
+      <div class="admin-nav-item" data-section="enrollments">
+        <i class="fas fa-clipboard-list"></i>
+        Enrollments
+      </div>
+      <div class="admin-nav-item" data-section="overflow">
+        <i class="fas fa-exclamation-triangle"></i>
+        Overflow
+      </div>
     </div>
 
     <!-- Main Content -->
@@ -429,25 +802,35 @@
       <div id="dashboard-section">
         <div class="stats-container">
           <div class="stat-card">
-            <h3>Total Users</h3>
+            <h3><i class="fas fa-users"></i> Total Users</h3>
             <p id="total-users">0</p>
           </div>
           <div class="stat-card">
-            <h3>Total Courses</h3>
+            <h3><i class="fas fa-book"></i> Total Courses</h3>
             <p id="total-courses">0</p>
           </div>
           <div class="stat-card">
-            <h3>Active Enrollments</h3>
+            <h3><i class="fas fa-clipboard-check"></i> Active Enrollments</h3>
             <p id="total-enrollments">0</p>
           </div>
           <div class="stat-card">
-            <h3>Overflow Users</h3>
+            <h3><i class="fas fa-exclamation-circle"></i> Overflow Users</h3>
             <p id="overflow-users">0</p>
           </div>
         </div>
 
         <div class="card">
-          <h2 class="card-title">Recent Enrollments</h2>
+          <div class="card-header">
+            <h2 class="card-title">
+              <i class="fas fa-history"></i>
+              Recent Enrollments
+            </h2>
+            <div class="card-actions">
+              <button class="btn btn-sm btn-outline" id="refresh-data">
+                <i class="fas fa-sync-alt"></i> Refresh
+              </button>
+            </div>
+          </div>
           <div class="table-responsive">
             <table class="data-table" id="recent-enrollments-table">
               <thead>
@@ -457,6 +840,7 @@
                   <th>Type</th>
                   <th>Language</th>
                   <th>Date</th>
+                  <th>Status</th>
                 </tr>
               </thead>
               <tbody></tbody>
@@ -469,21 +853,22 @@
       <div id="users-section" class="d-none">
         <div class="filter-section">
           <div class="filter-item">
-            <label for="user-type-filter">Filter by Type</label>
+            <label for="user-type-filter"><i class="fas fa-filter"></i> Filter by Type</label>
             <select id="user-type-filter" class="form-control">
               <option value="all">All Users</option>
               <option value="student">Students</option>
               <option value="moderator">Moderators</option>
+              <option value="admin">Admins</option>
             </select>
           </div>
           <div class="filter-item">
-            <label for="user-search">Search</label>
-            <input type="text" id="user-search" class="form-control" placeholder="Search users...">
+            <label for="user-search"><i class="fas fa-search"></i> Search Users</label>
+            <input type="text" id="user-search" class="form-control" placeholder="Search by name, email, or department...">
           </div>
         </div>
 
         <div class="export-section">
-          <h3>Export Users Data</h3>
+          <h3><i class="fas fa-file-export"></i> Export Users Data</h3>
           <div class="export-options">
             <div class="export-checkbox">
               <input type="checkbox" id="export-name" checked>
@@ -502,8 +887,20 @@
               <label for="export-role">Role</label>
             </div>
             <div class="export-checkbox">
+              <input type="checkbox" id="export-id" checked>
+              <label for="export-id">Student ID</label>
+            </div>
+            <div class="export-checkbox">
+              <input type="checkbox" id="export-phone" checked>
+              <label for="export-phone">Phone</label>
+            </div>
+            <div class="export-checkbox">
               <input type="checkbox" id="export-courses" checked>
               <label for="export-courses">Courses</label>
+            </div>
+            <div class="export-checkbox">
+              <input type="checkbox" id="export-enrollment-date" checked>
+              <label for="export-enrollment-date">Enrollment Dates</label>
             </div>
           </div>
           <button class="btn btn-primary btn-sm mt-2" id="export-users-btn">
@@ -512,7 +909,17 @@
         </div>
 
         <div class="card">
-          <h2 class="card-title">All Users</h2>
+          <div class="card-header">
+            <h2 class="card-title">
+              <i class="fas fa-users-cog"></i>
+              User Management
+            </h2>
+            <div class="card-actions">
+              <button class="btn btn-sm btn-outline" id="refresh-users">
+                <i class="fas fa-sync-alt"></i> Refresh
+              </button>
+            </div>
+          </div>
           <div class="table-responsive">
             <table class="data-table" id="users-table">
               <thead>
@@ -520,6 +927,7 @@
                   <th>Name</th>
                   <th>Email</th>
                   <th>Department</th>
+                  <th>Student ID</th>
                   <th>Role</th>
                   <th>Courses</th>
                   <th>Actions</th>
@@ -535,7 +943,7 @@
       <div id="courses-section" class="d-none">
         <div class="filter-section">
           <div class="filter-item">
-            <label for="course-type-filter">Filter by Type</label>
+            <label for="course-type-filter"><i class="fas fa-filter"></i> Filter by Type</label>
             <select id="course-type-filter" class="form-control">
               <option value="all">All Types</option>
               <option value="qirat">Qirat</option>
@@ -544,7 +952,7 @@
             </select>
           </div>
           <div class="filter-item">
-            <label for="course-language-filter">Filter by Language</label>
+            <label for="course-language-filter"><i class="fas fa-language"></i> Filter by Language</label>
             <select id="course-language-filter" class="form-control">
               <option value="all">All Languages</option>
               <option value="Amharic">Amharic</option>
@@ -553,12 +961,21 @@
           </div>
         </div>
 
-        <button class="btn btn-primary mb-3" id="add-course-btn">
-          <i class="fas fa-plus"></i> Add New Course
-        </button>
-
         <div class="card">
-          <h2 class="card-title">All Courses</h2>
+          <div class="card-header">
+            <h2 class="card-title">
+              <i class="fas fa-book"></i>
+              Course Management
+            </h2>
+            <div class="card-actions">
+              <button class="btn btn-primary btn-sm" id="add-course-btn">
+                <i class="fas fa-plus"></i> Add Course
+              </button>
+              <button class="btn btn-outline btn-sm" id="refresh-courses">
+                <i class="fas fa-sync-alt"></i> Refresh
+              </button>
+            </div>
+          </div>
           <div class="table-responsive">
             <table class="data-table" id="courses-table">
               <thead>
@@ -566,6 +983,7 @@
                   <th>Title</th>
                   <th>Type</th>
                   <th>Language</th>
+                  <th>Description</th>
                   <th>Enrollments</th>
                   <th>Actions</th>
                 </tr>
@@ -580,13 +998,13 @@
       <div id="enrollments-section" class="d-none">
         <div class="filter-section">
           <div class="filter-item">
-            <label for="enrollment-course-filter">Filter by Course</label>
+            <label for="enrollment-course-filter"><i class="fas fa-book"></i> Filter by Course</label>
             <select id="enrollment-course-filter" class="form-control">
               <option value="all">All Courses</option>
             </select>
           </div>
           <div class="filter-item">
-            <label for="enrollment-type-filter">Filter by Type</label>
+            <label for="enrollment-type-filter"><i class="fas fa-filter"></i> Filter by Type</label>
             <select id="enrollment-type-filter" class="form-control">
               <option value="all">All Types</option>
               <option value="qirat">Qirat</option>
@@ -594,10 +1012,28 @@
               <option value="nezer">Nezer</option>
             </select>
           </div>
+          <div class="filter-item">
+            <label for="enrollment-status-filter"><i class="fas fa-info-circle"></i> Filter by Status</label>
+            <select id="enrollment-status-filter" class="form-control">
+              <option value="all">All Statuses</option>
+              <option value="normal">Normal</option>
+              <option value="overflow">Overflow</option>
+            </select>
+          </div>
         </div>
 
         <div class="card">
-          <h2 class="card-title">Course Enrollments</h2>
+          <div class="card-header">
+            <h2 class="card-title">
+              <i class="fas fa-clipboard-list"></i>
+              Enrollment Management
+            </h2>
+            <div class="card-actions">
+              <button class="btn btn-outline btn-sm" id="refresh-enrollments">
+                <i class="fas fa-sync-alt"></i> Refresh
+              </button>
+            </div>
+          </div>
           <div class="table-responsive">
             <table class="data-table" id="enrollments-table">
               <thead>
@@ -607,6 +1043,7 @@
                   <th>Type</th>
                   <th>Language</th>
                   <th>Enrollment Date</th>
+                  <th>Status</th>
                   <th>Actions</th>
                 </tr>
               </thead>
@@ -619,8 +1056,18 @@
       <!-- Overflow Section -->
       <div id="overflow-section" class="d-none">
         <div class="card">
-          <h2 class="card-title">Users with Overflow Enrollments</h2>
-          <p>These users have enrolled in more than 3 courses (4th+ enrollments require verification)</p>
+          <div class="card-header">
+            <h2 class="card-title">
+              <i class="fas fa-exclamation-triangle"></i>
+              Overflow Enrollments
+            </h2>
+            <div class="card-actions">
+              <button class="btn btn-outline btn-sm" id="refresh-overflow">
+                <i class="fas fa-sync-alt"></i> Refresh
+              </button>
+            </div>
+          </div>
+          <p style="padding: 0 15px 15px;">Users who have enrolled in more than 3 courses (4th+ enrollments require verification)</p>
           <div class="table-responsive">
             <table class="data-table" id="overflow-table">
               <thead>
@@ -644,51 +1091,89 @@
   <div class="modal" id="course-modal">
     <div class="modal-content">
       <div class="modal-header">
-        <h3 class="modal-title" id="course-modal-title">Add New Course</h3>
+        <h3 class="modal-title" id="course-modal-title">
+          <i class="fas fa-book"></i>
+          Add New Course
+        </h3>
         <button class="modal-close" id="close-course-modal">&times;</button>
       </div>
       <div class="modal-body">
         <form id="course-form">
           <input type="hidden" id="course-id">
-          <div class="form-group">
-            <label for="course-title">Course Title</label>
-            <input type="text" id="course-title" class="form-control" required>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="course-title">Course Title *</label>
+              <input type="text" id="course-title" class="form-control" required>
+            </div>
+            <div class="form-group">
+              <label for="course-code">Course Code</label>
+              <input type="text" id="course-code" class="form-control" placeholder="Optional">
+            </div>
           </div>
-          <div class="form-group">
-            <label for="course-type">Course Type</label>
-            <select id="course-type" class="form-control" required>
-              <option value="">Select Type</option>
-              <option value="qirat">Qirat</option>
-              <option value="hifz">Hifz</option>
-              <option value="nezer">Nezer</option>
-            </select>
-          </div>
-          <div class="form-group">
-            <label for="course-language">Language</label>
-            <select id="course-language" class="form-control" required>
-              <option value="">Select Language</option>
-              <option value="Amharic">Amharic</option>
-              <option value="Oromifa">Oromifa</option>
-            </select>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="course-type">Course Type *</label>
+              <select id="course-type" class="form-control" required>
+                <option value="">Select Type</option>
+                <option value="qirat">Qirat</option>
+                <option value="hifz">Hifz</option>
+                <option value="nezer">Nezer</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="course-language">Language *</label>
+              <select id="course-language" class="form-control" required>
+                <option value="">Select Language</option>
+                <option value="Amharic">Amharic</option>
+                <option value="Oromifa">Oromifa</option>
+              </select>
+            </div>
           </div>
           <div class="form-group">
             <label for="course-description">Description</label>
-            <textarea id="course-description" class="form-control" rows="3"></textarea>
+            <textarea id="course-description" class="form-control" rows="4" placeholder="Enter course description..."></textarea>
+          </div>
+          <div class="form-group">
+            <small class="text-muted">* Required fields</small>
           </div>
         </form>
       </div>
       <div class="modal-footer">
         <button class="btn btn-outline" id="cancel-course">Cancel</button>
-        <button class="btn btn-primary" id="save-course">Save Course</button>
+        <button class="btn btn-primary" id="save-course">
+          <i class="fas fa-save"></i> Save Course
+        </button>
       </div>
     </div>
   </div>
 
-  <!-- Confirm Delete Modal -->
+  <!-- User Detail Modal -->
+  <div class="modal" id="user-modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 class="modal-title" id="user-modal-title">
+          <i class="fas fa-user"></i>
+          User Details
+        </h3>
+        <button class="modal-close" id="close-user-modal">&times;</button>
+      </div>
+      <div class="modal-body" id="user-modal-body">
+        <!-- Dynamic content loaded here -->
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-outline" id="close-user-modal-btn">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Confirm Action Modal -->
   <div class="modal" id="confirm-modal">
     <div class="modal-content">
       <div class="modal-header">
-        <h3 class="modal-title" id="confirm-title">Confirm Action</h3>
+        <h3 class="modal-title" id="confirm-title">
+          <i class="fas fa-exclamation-circle"></i>
+          Confirm Action
+        </h3>
         <button class="modal-close" id="close-confirm-modal">&times;</button>
       </div>
       <div class="modal-body">
@@ -696,7 +1181,9 @@
       </div>
       <div class="modal-footer">
         <button class="btn btn-outline" id="cancel-confirm">Cancel</button>
-        <button class="btn btn-danger" id="confirm-action">Confirm</button>
+        <button class="btn btn-danger" id="confirm-action">
+          <i class="fas fa-check"></i> Confirm
+        </button>
       </div>
     </div>
   </div>
@@ -776,12 +1263,18 @@
     const courseLanguageFilter = document.getElementById('course-language-filter');
     const enrollmentCourseFilter = document.getElementById('enrollment-course-filter');
     const enrollmentTypeFilter = document.getElementById('enrollment-type-filter');
+    const enrollmentStatusFilter = document.getElementById('enrollment-status-filter');
     
     // Export elements
     const exportUsersBtn = document.getElementById('export-users-btn');
     
     // Buttons
     const addCourseBtn = document.getElementById('add-course-btn');
+    const refreshDataBtn = document.getElementById('refresh-data');
+    const refreshUsersBtn = document.getElementById('refresh-users');
+    const refreshCoursesBtn = document.getElementById('refresh-courses');
+    const refreshEnrollmentsBtn = document.getElementById('refresh-enrollments');
+    const refreshOverflowBtn = document.getElementById('refresh-overflow');
     
     // Modals
     const courseModal = document.getElementById('course-modal');
@@ -789,12 +1282,19 @@
     const courseForm = document.getElementById('course-form');
     const courseIdInput = document.getElementById('course-id');
     const courseTitleInput = document.getElementById('course-title');
+    const courseCodeInput = document.getElementById('course-code');
     const courseTypeInput = document.getElementById('course-type');
     const courseLanguageInput = document.getElementById('course-language');
     const courseDescriptionInput = document.getElementById('course-description');
     const saveCourseBtn = document.getElementById('save-course');
     const cancelCourseBtn = document.getElementById('cancel-course');
     const closeCourseModalBtn = document.getElementById('close-course-modal');
+    
+    const userModal = document.getElementById('user-modal');
+    const userModalTitle = document.getElementById('user-modal-title');
+    const userModalBody = document.getElementById('user-modal-body');
+    const closeUserModalBtn = document.getElementById('close-user-modal-btn');
+    const closeUserModalXBtn = document.getElementById('close-user-modal');
     
     const confirmModal = document.getElementById('confirm-modal');
     const confirmTitle = document.getElementById('confirm-title');
@@ -830,12 +1330,20 @@
           window.location.href = 'login.html';
         } catch (error) {
           console.error("Error signing out:", error);
+          showNotification('Error signing out. Please try again.', 'error');
         }
       });
       
+      // Refresh buttons
+      refreshDataBtn?.addEventListener('click', loadAllData);
+      refreshUsersBtn?.addEventListener('click', loadAllData);
+      refreshCoursesBtn?.addEventListener('click', loadAllData);
+      refreshEnrollmentsBtn?.addEventListener('click', loadAllData);
+      refreshOverflowBtn?.addEventListener('click', loadAllData);
+      
       // Course modal buttons
       addCourseBtn?.addEventListener('click', () => {
-        courseModalTitle.textContent = 'Add New Course';
+        courseModalTitle.innerHTML = `<i class="fas fa-plus"></i> Add New Course`;
         courseForm.reset();
         courseIdInput.value = '';
         courseModal.classList.add('active');
@@ -844,6 +1352,10 @@
       saveCourseBtn.addEventListener('click', saveCourse);
       cancelCourseBtn.addEventListener('click', () => courseModal.classList.remove('active'));
       closeCourseModalBtn.addEventListener('click', () => courseModal.classList.remove('active'));
+      
+      // User modal buttons
+      closeUserModalBtn.addEventListener('click', () => userModal.classList.remove('active'));
+      closeUserModalXBtn.addEventListener('click', () => userModal.classList.remove('active'));
       
       // Confirm modal buttons
       cancelConfirmBtn.addEventListener('click', () => confirmModal.classList.remove('active'));
@@ -857,20 +1369,37 @@
       courseLanguageFilter?.addEventListener('change', filterCourses);
       enrollmentCourseFilter?.addEventListener('change', filterEnrollments);
       enrollmentTypeFilter?.addEventListener('change', filterEnrollments);
+      enrollmentStatusFilter?.addEventListener('change', filterEnrollments);
       
       // Export button
       exportUsersBtn?.addEventListener('click', exportUsersToExcel);
       
-      // Check auth state
+      // Check auth state and verify moderator role
       onAuthStateChanged(auth, async (user) => {
         if (user) {
           currentUser = user;
           await loadUserData(user.uid);
+          
+          // Verify user has moderator or admin role
           if (userData.role !== 'moderator' && userData.role !== 'admin') {
-            window.location.href = 'courses.html';
+            showNotification('Access denied. Moderator privileges required.', 'error');
+            setTimeout(() => {
+              window.location.href = 'courses.html';
+            }, 2000);
             return;
           }
+          
+          // Update UI based on role
           userNameDisplay.textContent = userData.name || user.displayName || "Admin";
+          const adminBadge = document.querySelector('.admin-badge');
+          if (userData.role === 'admin') {
+            adminBadge.textContent = 'ADMIN';
+            adminBadge.style.backgroundColor = 'var(--danger-color)';
+          } else {
+            adminBadge.textContent = 'MODERATOR';
+            adminBadge.style.backgroundColor = 'var(--warning-color)';
+          }
+          
           await loadAllData();
           switchSection('dashboard');
         } else {
@@ -884,16 +1413,23 @@
         const userDoc = await getDoc(doc(db, "users", userId));
         if (userDoc.exists()) {
           userData = userDoc.data();
+          userData.id = userId;
         } else {
-          window.location.href = 'login.html';
+          showNotification('User data not found. Please contact support.', 'error');
+          setTimeout(() => {
+            window.location.href = 'login.html';
+          }, 2000);
         }
       } catch (error) {
         console.error("Error loading user data:", error);
+        showNotification('Error loading user data. Please try again.', 'error');
       }
     }
 
     async function loadAllData() {
       try {
+        showNotification('Loading data...', 'warning');
+        
         // Load all users
         const usersSnapshot = await getDocs(collection(db, "users"));
         allUsers = [];
@@ -903,41 +1439,14 @@
           allUsers.push(user);
         });
         
-        // Load all courses (from Firestore or use default if none exist)
+        // Load all courses
         const coursesSnapshot = await getDocs(collection(db, "courses"));
-        if (coursesSnapshot.empty) {
-          // Initialize with default courses if none exist
-          const defaultCourses = [
-            {
-              id: "q1",
-              title: "Sifetu Solah (Amharic)",
-              type: "qirat",
-              language: "Amharic",
-              description: "Learn the fundamentals of prayer in Amharic"
-            },
-            // Add all other default courses here...
-          ];
-          
-          for (const course of defaultCourses) {
-            await setDoc(doc(db, "courses", course.id), course);
-          }
-          
-          // Reload courses after initialization
-          const newCoursesSnapshot = await getDocs(collection(db, "courses"));
-          allCourses = [];
-          newCoursesSnapshot.forEach(doc => {
-            const course = doc.data();
-            course.id = doc.id;
-            allCourses.push(course);
-          });
-        } else {
-          allCourses = [];
-          coursesSnapshot.forEach(doc => {
-            const course = doc.data();
-            course.id = doc.id;
-            allCourses.push(course);
-          });
-        }
+        allCourses = [];
+        coursesSnapshot.forEach(doc => {
+          const course = doc.data();
+          course.id = doc.id;
+          allCourses.push(course);
+        });
         
         // Process enrollments from users
         allEnrollments = [];
@@ -959,18 +1468,21 @@
             }
             
             // Add all enrollments
-            user.enrolledCourses.forEach(course => {
+            user.enrolledCourses.forEach((course, index) => {
               const fullCourse = allCourses.find(c => c.id === course.id) || course;
               allEnrollments.push({
                 userId: user.id,
                 userName: user.name || "Unknown",
                 userEmail: user.email,
+                userDepartment: user.department || "N/A",
+                userStudentId: user.studentId || "N/A",
                 courseId: course.id,
-                courseTitle: fullCourse.title,
-                courseType: fullCourse.type,
-                courseLanguage: fullCourse.language,
+                courseTitle: fullCourse.title || course.title,
+                courseType: fullCourse.type || course.type,
+                courseLanguage: fullCourse.language || course.language,
                 enrollmentDate: course.enrollmentDate || "Unknown",
-                isOverflow: user.enrolledCourses.length > 3 && user.enrolledCourses.indexOf(course) >= 3
+                isOverflow: user.enrolledCourses.length > 3 && index >= 3,
+                verification: course.overflow || null
               });
             });
           }
@@ -992,8 +1504,10 @@
         displayEnrollments();
         displayOverflowUsers();
         
+        showNotification('Data loaded successfully', 'success');
       } catch (error) {
         console.error("Error loading data:", error);
+        showNotification('Error loading data. Please try again.', 'error');
       }
     }
 
@@ -1045,14 +1559,37 @@
       recentEnrollmentsTable.innerHTML = '';
       const recentEnrollments = allEnrollments.slice(0, 10); // Show last 10 enrollments
       
+      if (recentEnrollments.length === 0) {
+        recentEnrollmentsTable.innerHTML = `
+          <tr>
+            <td colspan="6" class="empty-state">
+              <i class="fas fa-info-circle"></i>
+              <p>No recent enrollments found</p>
+            </td>
+          </tr>
+        `;
+        return;
+      }
+      
       recentEnrollments.forEach(enrollment => {
         const row = document.createElement('tr');
         row.innerHTML = `
-          <td>${enrollment.userName}</td>
+          <td>
+            <div class="user-name">${enrollment.userName}</div>
+            <small class="text-muted">${enrollment.userEmail}</small>
+          </td>
           <td>${enrollment.courseTitle}</td>
           <td><span class="badge ${getTypeBadgeClass(enrollment.courseType)}">${enrollment.courseType}</span></td>
           <td>${enrollment.courseLanguage}</td>
-          <td>${new Date(enrollment.enrollmentDate).toLocaleDateString()}</td>
+          <td>${formatDate(enrollment.enrollmentDate)}</td>
+          <td>
+            ${enrollment.isOverflow ? 
+              (enrollment.verification ? 
+                '<span class="badge badge-success">Verified</span>' : 
+                '<span class="badge badge-warning">Pending</span>') : 
+              '<span class="badge badge-light">Normal</span>'
+            }
+          </td>
         `;
         recentEnrollmentsTable.appendChild(row);
       });
@@ -1062,30 +1599,64 @@
     function displayUsers() {
       usersTable.innerHTML = '';
       
+      if (allUsers.length === 0) {
+        usersTable.innerHTML = `
+          <tr>
+            <td colspan="7" class="empty-state">
+              <i class="fas fa-users-slash"></i>
+              <p>No users found</p>
+            </td>
+          </tr>
+        `;
+        return;
+      }
+      
       allUsers.forEach(user => {
         const enrolledCourses = user.enrolledCourses || [];
         const row = document.createElement('tr');
+        row.setAttribute('data-user-id', user.id);
         row.innerHTML = `
-          <td>${user.name || 'Unknown'}</td>
+          <td>
+            <div class="user-name">${user.name || 'Unknown'}</div>
+            <small class="text-muted">${user.email || 'N/A'}</small>
+          </td>
           <td>${user.email || 'N/A'}</td>
           <td>${user.department || 'N/A'}</td>
-          <td><span class="badge ${user.role === 'moderator' ? 'badge-warning' : 'badge-info'}">${user.role || 'student'}</span></td>
+          <td>${user.studentId || 'N/A'}</td>
+          <td>
+            <span class="badge ${getRoleBadgeClass(user.role)}">
+              ${user.role || 'student'}
+            </span>
+          </td>
           <td>
             ${enrolledCourses.length > 0 ? 
-              enrolledCourses.map(course => {
+              enrolledCourses.slice(0, 2).map(course => {
                 const fullCourse = allCourses.find(c => c.id === course.id) || course;
                 return `<span class="badge" style="background: ${getTypeColor(fullCourse.type)}; margin: 2px;">${fullCourse.title}</span>`;
               }).join('') : 
-              'None'
+              '<span class="badge badge-light">None</span>'
+            }
+            ${enrolledCourses.length > 2 ? 
+              `<span class="badge badge-light">+${enrolledCourses.length - 2} more</span>` : 
+              ''
             }
           </td>
           <td>
-            ${user.role !== 'moderator' && user.role !== 'admin' ? 
-              `<button class="btn btn-sm btn-primary" onclick="promoteToModerator('${user.id}')">Make Moderator</button>` : 
-              user.role === 'moderator' ? 
-                `<button class="btn btn-sm btn-danger" onclick="demoteModerator('${user.id}')">Remove Moderator</button>` : 
-                ''
-            }
+            <div style="display: flex; gap: 5px;">
+              <button class="btn btn-sm btn-info" onclick="viewUserDetails('${user.id}')">
+                <i class="fas fa-eye"></i>
+              </button>
+              ${user.role !== 'moderator' && user.role !== 'admin' ? 
+                `<button class="btn btn-sm btn-primary" onclick="promoteToModerator('${user.id}')">
+                  <i class="fas fa-user-shield"></i>
+                </button>` : 
+                user.role === 'moderator' && userData.role === 'admin' ? 
+                  `<button class="btn btn-sm btn-danger" onclick="demoteModerator('${user.id}')">
+                    <i class="fas fa-user-minus"></i>
+                  </button>` : 
+                  ''
+              }
+            </div>
           </td>
         `;
         usersTable.appendChild(row);
@@ -1096,45 +1667,97 @@
       const typeFilter = userTypeFilter.value;
       const searchTerm = userSearch.value.toLowerCase();
       
-      const rows = usersTable.querySelectorAll('tr');
+      const rows = usersTable.querySelectorAll('tr[data-user-id]');
+      let visibleCount = 0;
+      
       rows.forEach(row => {
         const name = row.cells[0].textContent.toLowerCase();
         const email = row.cells[1].textContent.toLowerCase();
-        const role = row.cells[3].textContent.toLowerCase();
+        const department = row.cells[2].textContent.toLowerCase();
+        const studentId = row.cells[3].textContent.toLowerCase();
+        const role = row.cells[4].textContent.toLowerCase();
         
         const typeMatch = typeFilter === 'all' || 
                          (typeFilter === 'student' && (role.includes('student') || role === 'n/a')) ||
-                         (typeFilter === 'moderator' && role.includes('moderator'));
+                         (typeFilter === 'moderator' && role.includes('moderator')) ||
+                         (typeFilter === 'admin' && role.includes('admin'));
         
         const searchMatch = searchTerm === '' || 
                           name.includes(searchTerm) || 
-                          email.includes(searchTerm);
+                          email.includes(searchTerm) ||
+                          department.includes(searchTerm) ||
+                          studentId.includes(searchTerm);
         
-        row.style.display = typeMatch && searchMatch ? '' : 'none';
+        if (typeMatch && searchMatch) {
+          row.style.display = '';
+          visibleCount++;
+        } else {
+          row.style.display = 'none';
+        }
       });
+      
+      // Show empty state if no matches
+      const emptyState = usersTable.querySelector('.empty-state');
+      if (visibleCount === 0 && !emptyState) {
+        usersTable.innerHTML = `
+          <tr>
+            <td colspan="7" class="empty-state">
+              <i class="fas fa-search"></i>
+              <p>No users match your filters</p>
+            </td>
+          </tr>
+        `;
+      } else if (visibleCount > 0 && emptyState) {
+        usersTable.innerHTML = '';
+        displayUsers();
+        filterUsers(); // Reapply filters
+      }
     }
 
     // COURSES SECTION
     function displayCourses() {
       coursesTable.innerHTML = '';
       
+      if (allCourses.length === 0) {
+        coursesTable.innerHTML = `
+          <tr>
+            <td colspan="6" class="empty-state">
+              <i class="fas fa-book"></i>
+              <p>No courses found</p>
+            </td>
+          </tr>
+        `;
+        return;
+      }
+      
       allCourses.forEach(course => {
         // Count enrollments for this course
         const enrollmentCount = allEnrollments.filter(e => e.courseId === course.id).length;
         
         const row = document.createElement('tr');
+        row.setAttribute('data-course-id', course.id);
         row.innerHTML = `
-          <td>${course.title}</td>
+          <td>
+            <div class="course-title">${course.title}</div>
+            ${course.description ? `<small class="text-muted">${course.description.substring(0, 50)}${course.description.length > 50 ? '...' : ''}</small>` : ''}
+          </td>
           <td><span class="badge ${getTypeBadgeClass(course.type)}">${course.type}</span></td>
           <td>${course.language}</td>
-          <td>${enrollmentCount}</td>
+          <td>${course.description || 'No description'}</td>
           <td>
-            <button class="btn btn-sm btn-primary" onclick="editCourse('${course.id}')">
-              <i class="fas fa-edit"></i>
-            </button>
-            <button class="btn btn-sm btn-danger" onclick="confirmDeleteCourse('${course.id}')">
-              <i class="fas fa-trash"></i>
-            </button>
+            <span class="badge ${enrollmentCount > 0 ? 'badge-primary' : 'badge-light'}">
+              ${enrollmentCount} ${enrollmentCount === 1 ? 'student' : 'students'}
+            </span>
+          </td>
+          <td>
+            <div style="display: flex; gap: 5px;">
+              <button class="btn btn-sm btn-primary" onclick="editCourse('${course.id}')">
+                <i class="fas fa-edit"></i>
+              </button>
+              <button class="btn btn-sm btn-danger" onclick="confirmDeleteCourse('${course.id}')">
+                <i class="fas fa-trash"></i>
+              </button>
+            </div>
           </td>
         `;
         coursesTable.appendChild(row);
@@ -1145,7 +1768,9 @@
       const typeFilter = courseTypeFilter.value;
       const languageFilter = courseLanguageFilter.value;
       
-      const rows = coursesTable.querySelectorAll('tr');
+      const rows = coursesTable.querySelectorAll('tr[data-course-id]');
+      let visibleCount = 0;
+      
       rows.forEach(row => {
         const type = row.cells[1].textContent.toLowerCase();
         const language = row.cells[2].textContent.toLowerCase();
@@ -1153,25 +1778,70 @@
         const typeMatch = typeFilter === 'all' || type.includes(typeFilter);
         const languageMatch = languageFilter === 'all' || language.includes(languageFilter.toLowerCase());
         
-        row.style.display = typeMatch && languageMatch ? '' : 'none';
+        if (typeMatch && languageMatch) {
+          row.style.display = '';
+          visibleCount++;
+        } else {
+          row.style.display = 'none';
+        }
       });
+      
+      // Show empty state if no matches
+      const emptyState = coursesTable.querySelector('.empty-state');
+      if (visibleCount === 0 && !emptyState) {
+        coursesTable.innerHTML = `
+          <tr>
+            <td colspan="6" class="empty-state">
+              <i class="fas fa-search"></i>
+              <p>No courses match your filters</p>
+            </td>
+          </tr>
+        `;
+      } else if (visibleCount > 0 && emptyState) {
+        coursesTable.innerHTML = '';
+        displayCourses();
+        filterCourses(); // Reapply filters
+      }
     }
 
     // ENROLLMENTS SECTION
     function displayEnrollments() {
       enrollmentsTable.innerHTML = '';
       
+      if (allEnrollments.length === 0) {
+        enrollmentsTable.innerHTML = `
+          <tr>
+            <td colspan="7" class="empty-state">
+              <i class="fas fa-clipboard"></i>
+              <p>No enrollments found</p>
+            </td>
+          </tr>
+        `;
+        return;
+      }
+      
       allEnrollments.forEach(enrollment => {
         const row = document.createElement('tr');
         row.innerHTML = `
-          <td>${enrollment.userName}</td>
+          <td>
+            <div class="user-name">${enrollment.userName}</div>
+            <small class="text-muted">${enrollment.userEmail}</small>
+          </td>
           <td>${enrollment.courseTitle}</td>
           <td><span class="badge ${getTypeBadgeClass(enrollment.courseType)}">${enrollment.courseType}</span></td>
           <td>${enrollment.courseLanguage}</td>
-          <td>${new Date(enrollment.enrollmentDate).toLocaleDateString()}</td>
+          <td>${formatDate(enrollment.enrollmentDate)}</td>
+          <td>
+            ${enrollment.isOverflow ? 
+              (enrollment.verification ? 
+                '<span class="badge badge-success">Verified</span>' : 
+                '<span class="badge badge-warning">Pending</span>') : 
+              '<span class="badge badge-light">Normal</span>'
+            }
+          </td>
           <td>
             <button class="btn btn-sm btn-danger" onclick="confirmUnenroll('${enrollment.userId}', '${enrollment.courseId}')">
-              <i class="fas fa-user-minus"></i> Remove
+              <i class="fas fa-user-minus"></i>
             </button>
           </td>
         `;
@@ -1182,22 +1852,65 @@
     function filterEnrollments() {
       const courseFilter = enrollmentCourseFilter.value;
       const typeFilter = enrollmentTypeFilter.value;
+      const statusFilter = enrollmentStatusFilter.value;
       
       const rows = enrollmentsTable.querySelectorAll('tr');
+      let visibleCount = 0;
+      
       rows.forEach(row => {
+        if (row.classList.contains('empty-state')) return;
+        
         const courseId = allCourses.find(c => c.title === row.cells[1].textContent)?.id || '';
         const type = row.cells[2].textContent.toLowerCase();
+        const status = row.cells[5].textContent.toLowerCase();
         
         const courseMatch = courseFilter === 'all' || courseId === courseFilter;
         const typeMatch = typeFilter === 'all' || type.includes(typeFilter);
+        const statusMatch = statusFilter === 'all' || 
+                          (statusFilter === 'normal' && status.includes('normal')) ||
+                          (statusFilter === 'overflow' && (status.includes('verified') || status.includes('pending')));
         
-        row.style.display = courseMatch && typeMatch ? '' : 'none';
+        if (courseMatch && typeMatch && statusMatch) {
+          row.style.display = '';
+          visibleCount++;
+        } else {
+          row.style.display = 'none';
+        }
       });
+      
+      // Show empty state if no matches
+      const emptyState = enrollmentsTable.querySelector('.empty-state');
+      if (visibleCount === 0 && !emptyState) {
+        enrollmentsTable.innerHTML = `
+          <tr>
+            <td colspan="7" class="empty-state">
+              <i class="fas fa-search"></i>
+              <p>No enrollments match your filters</p>
+            </td>
+          </tr>
+        `;
+      } else if (visibleCount > 0 && emptyState) {
+        enrollmentsTable.innerHTML = '';
+        displayEnrollments();
+        filterEnrollments(); // Reapply filters
+      }
     }
 
     // OVERFLOW SECTION
     function displayOverflowUsers() {
       overflowTable.innerHTML = '';
+      
+      if (overflowUsers.length === 0) {
+        overflowTable.innerHTML = `
+          <tr>
+            <td colspan="5" class="empty-state">
+              <i class="fas fa-check-circle"></i>
+              <p>No overflow enrollments found</p>
+            </td>
+          </tr>
+        `;
+        return;
+      }
       
       overflowUsers.forEach(user => {
         const row = document.createElement('tr');
@@ -1206,13 +1919,17 @@
             <div><strong>${user.name}</strong></div>
             <small>${user.email}</small>
           </td>
-          <td>${user.totalCourses}</td>
+          <td>
+            <span class="badge ${user.totalCourses > 4 ? 'badge-danger' : 'badge-warning'}">
+              ${user.totalCourses} courses
+            </span>
+          </td>
           <td>
             ${user.overflowCourses.map(course => {
               const fullCourse = allCourses.find(c => c.id === course.id) || course;
               return `<div style="margin-bottom: 5px;">
                 <span class="badge" style="background: ${getTypeColor(fullCourse.type)}">${fullCourse.title}</span>
-                <small>${new Date(course.enrollmentDate).toLocaleDateString()}</small>
+                <small>${formatDate(course.enrollmentDate)}</small>
               </div>`;
             }).join('')}
           </td>
@@ -1223,7 +1940,7 @@
             }
           </td>
           <td>
-            <button class="btn btn-sm btn-primary" onclick="viewUser('${user.userId}')">
+            <button class="btn btn-sm btn-info" onclick="viewUserDetails('${user.userId}')">
               <i class="fas fa-eye"></i> View
             </button>
           </td>
@@ -1235,11 +1952,15 @@
     // COURSE MANAGEMENT
     async function editCourse(courseId) {
       const course = allCourses.find(c => c.id === courseId);
-      if (!course) return;
+      if (!course) {
+        showNotification('Course not found', 'error');
+        return;
+      }
       
-      courseModalTitle.textContent = 'Edit Course';
+      courseModalTitle.innerHTML = `<i class="fas fa-edit"></i> Edit Course`;
       courseIdInput.value = course.id;
       courseTitleInput.value = course.title;
+      courseCodeInput.value = course.code || '';
       courseTypeInput.value = course.type;
       courseLanguageInput.value = course.language;
       courseDescriptionInput.value = course.description || '';
@@ -1249,13 +1970,14 @@
 
     async function saveCourse() {
       const id = courseIdInput.value || generateCourseId();
-      const title = courseTitleInput.value;
+      const title = courseTitleInput.value.trim();
+      const code = courseCodeInput.value.trim();
       const type = courseTypeInput.value;
       const language = courseLanguageInput.value;
-      const description = courseDescriptionInput.value;
+      const description = courseDescriptionInput.value.trim();
       
       if (!title || !type || !language) {
-        alert('Please fill in all required fields');
+        showNotification('Please fill in all required fields', 'error');
         return;
       }
       
@@ -1265,21 +1987,26 @@
           title,
           type,
           language,
-          description
+          description,
+          updatedAt: serverTimestamp()
         };
         
-        await setDoc(doc(db, "courses", id), courseData);
+        if (code) courseData.code = code;
         
-        // Update local data
         if (!courseIdInput.value) {
           // New course
+          courseData.createdAt = serverTimestamp();
+          await setDoc(doc(db, "courses", id), courseData);
           allCourses.push(courseData);
+          showNotification(`Course "${title}" created successfully`, 'success');
         } else {
           // Update existing course
+          await updateDoc(doc(db, "courses", id), courseData);
           const index = allCourses.findIndex(c => c.id === id);
           if (index !== -1) {
             allCourses[index] = courseData;
           }
+          showNotification(`Course "${title}" updated successfully`, 'success');
         }
         
         // Refresh display
@@ -1288,16 +2015,18 @@
         updateStats();
         
         courseModal.classList.remove('active');
-        showSuccessNotification(`Course "${title}" saved successfully`);
       } catch (error) {
         console.error("Error saving course:", error);
-        alert("Failed to save course. Please try again.");
+        showNotification("Failed to save course. Please try again.", 'error');
       }
     }
 
     function confirmDeleteCourse(courseId) {
       const course = allCourses.find(c => c.id === courseId);
-      if (!course) return;
+      if (!course) {
+        showNotification('Course not found', 'error');
+        return;
+      }
       
       pendingAction = {
         type: 'delete-course',
@@ -1305,8 +2034,11 @@
         courseTitle: course.title
       };
       
-      confirmTitle.textContent = 'Delete Course';
-      confirmMessage.textContent = `Are you sure you want to delete the course "${course.title}"? This action cannot be undone.`;
+      confirmTitle.innerHTML = `<i class="fas fa-trash"></i> Delete Course`;
+      confirmMessage.innerHTML = `
+        <p>Are you sure you want to delete the course <strong>"${course.title}"</strong>?</p>
+        <p class="text-muted">This action cannot be undone.</p>
+      `;
       confirmModal.classList.add('active');
     }
 
@@ -1315,7 +2047,8 @@
         // Check if there are enrollments for this course
         const enrollments = allEnrollments.filter(e => e.courseId === courseId);
         if (enrollments.length > 0) {
-          alert('Cannot delete course with active enrollments. Please unenroll students first.');
+          showNotification('Cannot delete course with active enrollments. Please unenroll students first.', 'error');
+          confirmModal.classList.remove('active');
           return;
         }
         
@@ -1330,17 +2063,116 @@
         updateStats();
         
         confirmModal.classList.remove('active');
-        showSuccessNotification('Course deleted successfully');
+        showNotification('Course deleted successfully', 'success');
       } catch (error) {
         console.error("Error deleting course:", error);
-        alert("Failed to delete course. Please try again.");
+        showNotification("Failed to delete course. Please try again.", 'error');
       }
     }
 
     // USER MANAGEMENT
+    function viewUserDetails(userId) {
+      const user = allUsers.find(u => u.id === userId);
+      if (!user) {
+        showNotification('User not found', 'error');
+        return;
+      }
+      
+      const enrolledCourses = user.enrolledCourses || [];
+      const overflowCourses = enrolledCourses.length > 3 ? enrolledCourses.slice(3) : [];
+      
+      userModalTitle.innerHTML = `<i class="fas fa-user"></i> User Details: ${user.name || 'Unknown'}`;
+      
+      userModalBody.innerHTML = `
+        <div class="form-group">
+          <label>Full Name</label>
+          <div class="form-control" style="background: #f8f9fa;">${user.name || 'Not provided'}</div>
+        </div>
+        
+        <div class="form-row">
+          <div class="form-group">
+            <label>Email</label>
+            <div class="form-control" style="background: #f8f9fa;">${user.email || 'Not provided'}</div>
+          </div>
+          <div class="form-group">
+            <label>Role</label>
+            <div class="form-control" style="background: #f8f9fa;">
+              <span class="${getRoleTextClass(user.role)}">${user.role || 'student'}</span>
+            </div>
+          </div>
+        </div>
+        
+        <div class="form-row">
+          <div class="form-group">
+            <label>Department</label>
+            <div class="form-control" style="background: #f8f9fa;">${user.department || 'Not provided'}</div>
+          </div>
+          <div class="form-group">
+            <label>Student ID</label>
+            <div class="form-control" style="background: #f8f9fa;">${user.studentId || 'Not provided'}</div>
+          </div>
+        </div>
+        
+        <div class="form-group">
+          <label>Phone Number</label>
+          <div class="form-control" style="background: #f8f9fa;">${user.phone || 'Not provided'}</div>
+        </div>
+        
+        <div class="form-group">
+          <label>Enrolled Courses (${enrolledCourses.length})</label>
+          <div style="max-height: 200px; overflow-y: auto; border: 1px solid #eee; border-radius: var(--border-radius); padding: 10px;">
+            ${enrolledCourses.length > 0 ? 
+              enrolledCourses.map((course, index) => {
+                const fullCourse = allCourses.find(c => c.id === course.id) || course;
+                return `
+                  <div style="padding: 8px; border-bottom: 1px solid #eee; ${index >= 3 ? 'background: rgba(255, 193, 7, 0.1);' : ''}">
+                    <div style="display: flex; justify-content: space-between;">
+                      <strong>${fullCourse.title}</strong>
+                      <span class="badge" style="background: ${getTypeColor(fullCourse.type)}">${fullCourse.type}</span>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; font-size: 0.8rem;">
+                      <span>${fullCourse.language}</span>
+                      <span>${formatDate(course.enrollmentDate)}</span>
+                    </div>
+                    ${index >= 3 && course.overflow ? `
+                      <div style="font-size: 0.8rem; margin-top: 5px;">
+                        <strong>Verification:</strong> ${course.overflow}
+                      </div>
+                    ` : ''}
+                  </div>
+                `;
+              }).join('') : 
+              '<div style="text-align: center; padding: 10px; color: #6c757d;">No enrolled courses</div>'
+            }
+          </div>
+        </div>
+        
+        ${overflowCourses.length > 0 ? `
+          <div class="form-group">
+            <label>Overflow Verification</label>
+            <div style="max-height: 150px; overflow-y: auto; border: 1px solid #eee; border-radius: var(--border-radius); padding: 10px;">
+              ${overflowCourses.map(course => `
+                <div style="padding: 8px; border-bottom: 1px solid #eee; background: rgba(255, 193, 7, 0.1);">
+                  <div style="font-weight: 500;">${allCourses.find(c => c.id === course.id)?.title || course.title}</div>
+                  <div style="font-size: 0.8rem;">
+                    <strong>Verification:</strong> ${course.overflow || 'Not provided'}
+                  </div>
+                </div>
+              `).join('')}
+            </div>
+          </div>
+        ` : ''}
+      `;
+      
+      userModal.classList.add('active');
+    }
+
     function promoteToModerator(userId) {
       const user = allUsers.find(u => u.id === userId);
-      if (!user) return;
+      if (!user) {
+        showNotification('User not found', 'error');
+        return;
+      }
       
       pendingAction = {
         type: 'promote-user',
@@ -1348,15 +2180,19 @@
         userName: user.name || 'User'
       };
       
-      confirmTitle.textContent = 'Promote to Moderator';
-      confirmMessage.textContent = `Are you sure you want to promote ${user.name || 'this user'} to moderator?`;
+      confirmTitle.innerHTML = `<i class="fas fa-user-shield"></i> Promote to Moderator`;
+      confirmMessage.innerHTML = `
+        <p>Are you sure you want to promote <strong>${user.name || 'this user'}</strong> to moderator?</p>
+        <p class="text-muted">Moderators will have access to this admin panel.</p>
+      `;
       confirmModal.classList.add('active');
     }
 
     async function promoteUser(userId) {
       try {
         await updateDoc(doc(db, "users", userId), {
-          role: 'moderator'
+          role: 'moderator',
+          updatedAt: serverTimestamp()
         });
         
         // Update local data
@@ -1370,16 +2206,19 @@
         updateStats();
         
         confirmModal.classList.remove('active');
-        showSuccessNotification('User promoted to moderator');
+        showNotification('User promoted to moderator successfully', 'success');
       } catch (error) {
         console.error("Error promoting user:", error);
-        alert("Failed to promote user. Please try again.");
+        showNotification("Failed to promote user. Please try again.", 'error');
       }
     }
 
     function demoteModerator(userId) {
       const user = allUsers.find(u => u.id === userId);
-      if (!user) return;
+      if (!user) {
+        showNotification('User not found', 'error');
+        return;
+      }
       
       pendingAction = {
         type: 'demote-user',
@@ -1387,15 +2226,19 @@
         userName: user.name || 'User'
       };
       
-      confirmTitle.textContent = 'Remove Moderator';
-      confirmMessage.textContent = `Are you sure you want to remove moderator privileges from ${user.name || 'this user'}?`;
+      confirmTitle.innerHTML = `<i class="fas fa-user-minus"></i> Remove Moderator`;
+      confirmMessage.innerHTML = `
+        <p>Are you sure you want to remove moderator privileges from <strong>${user.name || 'this user'}</strong>?</p>
+        <p class="text-muted">They will no longer have access to this admin panel.</p>
+      `;
       confirmModal.classList.add('active');
     }
 
     async function demoteUser(userId) {
       try {
         await updateDoc(doc(db, "users", userId), {
-          role: 'student'
+          role: 'student',
+          updatedAt: serverTimestamp()
         });
         
         // Update local data
@@ -1409,10 +2252,10 @@
         updateStats();
         
         confirmModal.classList.remove('active');
-        showSuccessNotification('Moderator privileges removed');
+        showNotification('Moderator privileges removed successfully', 'success');
       } catch (error) {
         console.error("Error demoting user:", error);
-        alert("Failed to remove moderator privileges. Please try again.");
+        showNotification("Failed to remove moderator privileges. Please try again.", 'error');
       }
     }
 
@@ -1422,7 +2265,10 @@
       const course = allCourses.find(c => c.id === courseId) || 
                     allEnrollments.find(e => e.userId === userId && e.courseId === courseId);
       
-      if (!user || !course) return;
+      if (!user || !course) {
+        showNotification('Enrollment not found', 'error');
+        return;
+      }
       
       pendingAction = {
         type: 'unenroll-user',
@@ -1432,8 +2278,11 @@
         courseTitle: course.title || course.courseTitle
       };
       
-      confirmTitle.textContent = 'Unenroll User';
-      confirmMessage.textContent = `Are you sure you want to unenroll ${user.name || 'this user'} from "${course.title || course.courseTitle}"?`;
+      confirmTitle.innerHTML = `<i class="fas fa-user-minus"></i> Unenroll User`;
+      confirmMessage.innerHTML = `
+        <p>Are you sure you want to unenroll <strong>${user.name || 'this user'}</strong> from <strong>"${course.title || course.courseTitle}"</strong>?</p>
+        <p class="text-muted">This action cannot be undone.</p>
+      `;
       confirmModal.classList.add('active');
     }
 
@@ -1444,7 +2293,7 @@
         const userDoc = await getDoc(userRef);
         
         if (!userDoc.exists()) {
-          alert('User not found');
+          showNotification('User not found', 'error');
           return;
         }
         
@@ -1454,7 +2303,7 @@
         // Find the enrollment to remove
         const enrollmentIndex = enrollments.findIndex(e => e.id === courseId);
         if (enrollmentIndex === -1) {
-          alert('Enrollment not found');
+          showNotification('Enrollment not found', 'error');
           return;
         }
         
@@ -1464,7 +2313,8 @@
         
         // Update user document
         await updateDoc(userRef, {
-          enrolledCourses: updatedEnrollments
+          enrolledCourses: updatedEnrollments,
+          updatedAt: serverTimestamp()
         });
         
         // Update local data
@@ -1492,10 +2342,10 @@
         updateStats();
         
         confirmModal.classList.remove('active');
-        showSuccessNotification('User unenrolled successfully');
+        showNotification('User unenrolled successfully', 'success');
       } catch (error) {
         console.error("Error unenrolling user:", error);
-        alert("Failed to unenroll user. Please try again.");
+        showNotification("Failed to unenroll user. Please try again.", 'error');
       }
     }
 
@@ -1506,7 +2356,10 @@
       const includeEmail = document.getElementById('export-email').checked;
       const includeDepartment = document.getElementById('export-department').checked;
       const includeRole = document.getElementById('export-role').checked;
+      const includeId = document.getElementById('export-id').checked;
+      const includePhone = document.getElementById('export-phone').checked;
       const includeCourses = document.getElementById('export-courses').checked;
+      const includeEnrollmentDate = document.getElementById('export-enrollment-date').checked;
       
       // Prepare data
       const data = allUsers.map(user => {
@@ -1516,13 +2369,20 @@
         if (includeEmail) row['Email'] = user.email || '';
         if (includeDepartment) row['Department'] = user.department || '';
         if (includeRole) row['Role'] = user.role || 'student';
+        if (includeId) row['Student ID'] = user.studentId || '';
+        if (includePhone) row['Phone'] = user.phone || '';
         
-        if (includeCourses) {
+        if (includeCourses || includeEnrollmentDate) {
           const courses = user.enrolledCourses || [];
-          row['Courses'] = courses.map(c => {
-            const fullCourse = allCourses.find(course => course.id === c.id) || c;
-            return `${fullCourse.title} (${fullCourse.type})`;
-          }).join(', ');
+          if (includeCourses) {
+            row['Courses'] = courses.map(c => {
+              const fullCourse = allCourses.find(course => course.id === c.id) || c;
+              return `${fullCourse.title} (${fullCourse.type})`;
+            }).join(', ');
+          }
+          if (includeEnrollmentDate) {
+            row['Enrollment Dates'] = courses.map(c => formatDate(c.enrollmentDate)).join(', ');
+          }
         }
         
         return row;
@@ -1535,13 +2395,22 @@
       const wb = XLSX.utils.book_new();
       XLSX.utils.book_append_sheet(wb, ws, "Users");
       
+      // Generate filename with current date
+      const today = new Date();
+      const dateString = `${today.getFullYear()}-${(today.getMonth()+1).toString().padStart(2, '0')}-${today.getDate().toString().padStart(2, '0')}`;
+      const filename = `HU_Jamaaa_Users_${dateString}.xlsx`;
+      
       // Export to Excel
-      XLSX.writeFile(wb, "HU_Jamaaa_Users.xlsx");
+      XLSX.writeFile(wb, filename);
+      
+      showNotification('Export completed successfully', 'success');
     }
 
     // UTILITY FUNCTIONS
     function generateCourseId() {
-      return 'c' + Math.random().toString(36).substr(2, 9);
+      const prefix = 'cr-';
+      const random = Math.random().toString(36).substr(2, 8);
+      return prefix + random;
     }
 
     function getTypeBadgeClass(type) {
@@ -1550,6 +2419,22 @@
         case 'hifz': return 'badge-primary';
         case 'nezer': return 'badge-warning';
         default: return 'badge-secondary';
+      }
+    }
+
+    function getRoleBadgeClass(role) {
+      switch((role || '').toLowerCase()) {
+        case 'admin': return 'badge-danger';
+        case 'moderator': return 'badge-warning';
+        default: return 'badge-info';
+      }
+    }
+
+    function getRoleTextClass(role) {
+      switch((role || '').toLowerCase()) {
+        case 'admin': return 'role-admin';
+        case 'moderator': return 'role-moderator';
+        default: return 'role-student';
       }
     }
 
@@ -1562,41 +2447,36 @@
       }
     }
 
-    function showSuccessNotification(message) {
+    function formatDate(dateString) {
+      if (!dateString) return 'Unknown';
+      try {
+        const date = new Date(dateString);
+        return date.toLocaleDateString('en-US', {
+          year: 'numeric',
+          month: 'short',
+          day: 'numeric'
+        });
+      } catch (e) {
+        return dateString;
+      }
+    }
+
+    function showNotification(message, type = 'success') {
       const notification = document.createElement('div');
-      notification.className = 'admin-notification';
-      notification.style.backgroundColor = 'var(--success-color)';
-      notification.style.color = 'white';
+      notification.className = `notification notification-${type}`;
       notification.innerHTML = `
-        <i class="fas fa-check-circle"></i>
+        <i class="fas fa-${type === 'success' ? 'check-circle' : type === 'error' ? 'times-circle' : 'info-circle'}"></i>
         <span>${message}</span>
       `;
       document.body.appendChild(notification);
+      
+      // Remove notification after 3 seconds
       setTimeout(() => {
-        notification.remove();
-      }, 3000);
-    }
-
-    function viewUser(userId) {
-      // Switch to users section and scroll to the user
-      const userItem = document.querySelector(`[data-section="users"]`);
-      if (userItem) {
-        userItem.click();
-        
-        // Scroll to user after a short delay
+        notification.style.opacity = '0';
         setTimeout(() => {
-          const userRow = document.querySelector(`tr[data-user-id="${userId}"]`);
-          if (userRow) {
-            userRow.scrollIntoView({ behavior: 'smooth', block: 'center' });
-            
-            // Highlight the row temporarily
-            userRow.style.backgroundColor = 'rgba(255, 193, 7, 0.3)';
-            setTimeout(() => {
-              userRow.style.backgroundColor = '';
-            }, 2000);
-          }
+          notification.remove();
         }, 300);
-      }
+      }, 3000);
     }
 
     function executePendingAction() {
@@ -1617,6 +2497,7 @@
           break;
         default:
           console.warn('Unknown action type:', pendingAction.type);
+          showNotification('Unknown action type', 'error');
       }
       
       confirmModal.classList.remove('active');
@@ -1629,7 +2510,7 @@
     window.promoteToModerator = promoteToModerator;
     window.demoteModerator = demoteModerator;
     window.confirmUnenroll = confirmUnenroll;
-    window.viewUser = viewUser;
+    window.viewUserDetails = viewUserDetails;
 
     document.addEventListener('DOMContentLoaded', initApp);
   </script>
