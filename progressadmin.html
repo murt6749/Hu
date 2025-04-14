@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -210,29 +211,13 @@
       background-color: var(--success-color);
       color: white;
     }
-    .btn-success:hover {
-      background-color: #218838;
-    }
     .btn-warning {
       background-color: var(--warning-color);
       color: black;
     }
-    .btn-warning:hover {
-      background-color: #e0a800;
-    }
     .btn-danger {
       background-color: var(--danger-color);
       color: white;
-    }
-    .btn-danger:hover {
-      background-color: #c82333;
-    }
-    .btn-info {
-      background-color: var(--info-color);
-      color: white;
-    }
-    .btn-info:hover {
-      background-color: #138496;
     }
     
     /* Bulk Actions */
@@ -326,10 +311,6 @@
       border: none;
       font-size: 1.5rem;
       cursor: pointer;
-      color: #777;
-    }
-    .modal-close:hover {
-      color: #333;
     }
     .modal-body {
       padding: 15px;
@@ -357,9 +338,6 @@
       align-items: center;
       gap: 5px;
     }
-    .filter-btn:hover {
-      background-color: #e9e9e9;
-    }
     .filter-content {
       display: none;
       position: absolute;
@@ -381,63 +359,6 @@
       font-size: 0.9rem;
       margin-bottom: 5px;
       color: var(--primary-color);
-    }
-    
-    /* Form Controls */
-    .form-control {
-      width: 100%;
-      padding: 8px 12px;
-      border: 1px solid #ddd;
-      border-radius: 4px;
-      font-size: 0.9rem;
-    }
-    .form-control:focus {
-      border-color: var(--primary-color);
-      outline: none;
-    }
-    
-    /* User Avatar */
-    .user-avatar {
-      width: 32px;
-      height: 32px;
-      border-radius: 50%;
-      background-color: var(--primary-color);
-      color: white;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-weight: 600;
-    }
-    
-    /* Checkbox */
-    .checkbox-container {
-      display: flex;
-      align-items: center;
-      gap: 5px;
-    }
-    
-    /* Status Indicators */
-    .status-indicator {
-      display: inline-block;
-      width: 10px;
-      height: 10px;
-      border-radius: 50%;
-      margin-right: 5px;
-    }
-    .status-active {
-      background-color: var(--success-color);
-    }
-    .status-inactive {
-      background-color: var(--danger-color);
-    }
-    .status-pending {
-      background-color: var(--warning-color);
-    }
-    
-    /* Last Activity */
-    .last-activity {
-      font-size: 0.8rem;
-      color: #666;
     }
     
     /* Responsive */
@@ -467,99 +388,6 @@
       .progress-buttons .btn {
         width: 100%;
       }
-    }
-    
-    /* Additional Styles for Enhanced Features */
-    .course-progress-container {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-    .progress-details {
-      font-size: 0.8rem;
-      color: #666;
-    }
-    .last-updated {
-      font-size: 0.7rem;
-      color: #999;
-      margin-top: 2px;
-    }
-    .course-actions {
-      display: flex;
-      gap: 5px;
-      flex-wrap: wrap;
-    }
-    .notes-indicator {
-      position: relative;
-    }
-    .notes-badge {
-      position: absolute;
-      top: -5px;
-      right: -5px;
-      background-color: var(--danger-color);
-      color: white;
-      border-radius: 50%;
-      width: 16px;
-      height: 16px;
-      font-size: 10px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-    .auto-progress-toggle {
-      display: flex;
-      align-items: center;
-      gap: 5px;
-      font-size: 0.8rem;
-    }
-    .toggle-switch {
-      position: relative;
-      display: inline-block;
-      width: 36px;
-      height: 20px;
-    }
-    .toggle-switch input {
-      opacity: 0;
-      width: 0;
-      height: 0;
-    }
-    .toggle-slider {
-      position: absolute;
-      cursor: pointer;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background-color: #ccc;
-      transition: .4s;
-      border-radius: 20px;
-    }
-    .toggle-slider:before {
-      position: absolute;
-      content: "";
-      height: 16px;
-      width: 16px;
-      left: 2px;
-      bottom: 2px;
-      background-color: white;
-      transition: .4s;
-      border-radius: 50%;
-    }
-    input:checked + .toggle-slider {
-      background-color: var(--success-color);
-    }
-    input:checked + .toggle-slider:before {
-      transform: translateX(16px);
-    }
-    .auto-progress-settings {
-      margin-top: 10px;
-      padding: 10px;
-      background-color: #f5f5f5;
-      border-radius: 4px;
-      display: none;
-    }
-    .auto-progress-settings.show {
-      display: block;
     }
   </style>
 </head>
@@ -601,9 +429,6 @@
           <button id="bulk-notes" class="btn btn-primary">
             <i class="fas fa-comment"></i> Add Note
           </button>
-          <button id="bulk-auto-progress" class="btn btn-info">
-            <i class="fas fa-magic"></i> Auto Progress
-          </button>
         </div>
         <div>
           <span id="selected-count">0 selected</span>
@@ -640,33 +465,6 @@
           <button id="reset-progress" class="btn btn-danger">
             <i class="fas fa-undo"></i> Set to 0%
           </button>
-        </div>
-        
-        <!-- Auto Progress Settings -->
-        <div class="auto-progress-toggle" style="margin-top: 15px;">
-          <label class="toggle-switch">
-            <input type="checkbox" id="enable-auto-progress">
-            <span class="toggle-slider"></span>
-          </label>
-          <span>Enable Automatic Progress Updates</span>
-        </div>
-        
-        <div class="auto-progress-settings" id="auto-progress-settings">
-          <div class="progress-controls">
-            <div>
-              <label for="auto-progress-rate">Daily Progress Rate (%)</label>
-              <input type="number" id="auto-progress-rate" class="form-control" min="1" max="100" value="5">
-            </div>
-            <div>
-              <label for="auto-progress-max">Maximum Progress (%)</label>
-              <input type="number" id="auto-progress-max" class="form-control" min="1" max="100" value="100">
-            </div>
-          </div>
-          <div class="progress-buttons">
-            <button id="apply-auto-progress" class="btn btn-success">
-              <i class="fas fa-save"></i> Apply Settings
-            </button>
-          </div>
         </div>
       </div>
       
@@ -705,26 +503,8 @@
                   <option value="unverified">Unverified Only</option>
                 </select>
               </div>
-              <div class="filter-group">
-                <h4>Progress Range</h4>
-                <div style="display: flex; gap: 5px;">
-                  <input type="number" id="progress-min" class="form-control" placeholder="Min" min="0" max="100">
-                  <input type="number" id="progress-max" class="form-control" placeholder="Max" min="0" max="100">
-                </div>
-              </div>
-              <div class="filter-group">
-                <h4>Auto Progress</h4>
-                <select id="auto-progress-filter" class="form-control">
-                  <option value="all">All</option>
-                  <option value="enabled">Auto Progress Enabled</option>
-                  <option value="disabled">Auto Progress Disabled</option>
-                </select>
-              </div>
               <button id="apply-filters" class="btn btn-primary" style="width: 100%;">
                 Apply Filters
-              </button>
-              <button id="reset-filters" class="btn btn-outline" style="width: 100%; margin-top: 5px;">
-                Reset Filters
               </button>
             </div>
           </div>
@@ -794,33 +574,6 @@
     </div>
   </div>
 
-  <!-- Auto Progress Modal -->
-  <div class="modal" id="auto-progress-modal">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h3 class="modal-title">Automatic Progress Settings</h3>
-        <button class="modal-close" id="close-auto-progress-modal">&times;</button>
-      </div>
-      <div class="modal-body">
-        <div class="form-group">
-          <label for="auto-progress-rate-modal">Daily Progress Rate (%)</label>
-          <input type="number" id="auto-progress-rate-modal" class="form-control" min="1" max="100" value="5">
-        </div>
-        <div class="form-group">
-          <label for="auto-progress-max-modal">Maximum Progress (%)</label>
-          <input type="number" id="auto-progress-max-modal" class="form-control" min="1" max="100" value="100">
-        </div>
-        <div class="form-group">
-          <label>Affected Users: <span id="affected-users-auto-count">0</span></label>
-        </div>
-      </div>
-      <div class="modal-footer">
-        <button class="btn btn-outline" id="cancel-auto-progress">Cancel</button>
-        <button class="btn btn-primary" id="confirm-auto-progress">Apply Settings</button>
-      </div>
-    </div>
-  </div>
-
   <!-- Firebase SDK and Application Code -->
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
@@ -838,8 +591,7 @@
       arrayRemove,
       arrayUnion,
       query,
-      where,
-      writeBatch
+      where
     } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
     const firebaseConfig = {
@@ -870,7 +622,6 @@
     const bulkVerifyBtn = document.getElementById('bulk-verify');
     const bulkUnverifyBtn = document.getElementById('bulk-unverify');
     const bulkNotesBtn = document.getElementById('bulk-notes');
-    const bulkAutoProgressBtn = document.getElementById('bulk-auto-progress');
     const increaseProgressBtn = document.getElementById('increase-progress');
     const decreaseProgressBtn = document.getElementById('decrease-progress');
     const completeProgressBtn = document.getElementById('complete-progress');
@@ -882,11 +633,7 @@
     const courseFilter = document.getElementById('course-filter');
     const languageFilter = document.getElementById('language-filter');
     const verificationFilter = document.getElementById('verification-filter');
-    const progressMinFilter = document.getElementById('progress-min');
-    const progressMaxFilter = document.getElementById('progress-max');
-    const autoProgressFilter = document.getElementById('auto-progress-filter');
     const applyFiltersBtn = document.getElementById('apply-filters');
-    const resetFiltersBtn = document.getElementById('reset-filters');
     const bulkUpdateModal = document.getElementById('bulk-update-modal');
     const closeBulkModal = document.getElementById('close-bulk-modal');
     const cancelBulkUpdate = document.getElementById('cancel-bulk-update');
@@ -899,18 +646,6 @@
     const confirmNote = document.getElementById('confirm-note');
     const adminNote = document.getElementById('admin-note');
     const affectedUsersNoteCount = document.getElementById('affected-users-note-count');
-    const autoProgressModal = document.getElementById('auto-progress-modal');
-    const closeAutoProgressModal = document.getElementById('close-auto-progress-modal');
-    const cancelAutoProgress = document.getElementById('cancel-auto-progress');
-    const confirmAutoProgress = document.getElementById('confirm-auto-progress');
-    const autoProgressRateModal = document.getElementById('auto-progress-rate-modal');
-    const autoProgressMaxModal = document.getElementById('auto-progress-max-modal');
-    const affectedUsersAutoCount = document.getElementById('affected-users-auto-count');
-    const enableAutoProgress = document.getElementById('enable-auto-progress');
-    const autoProgressSettings = document.getElementById('auto-progress-settings');
-    const autoProgressRate = document.getElementById('auto-progress-rate');
-    const autoProgressMax = document.getElementById('auto-progress-max');
-    const applyAutoProgressBtn = document.getElementById('apply-auto-progress');
 
     // Data variables
     let allUsers = [];
@@ -980,7 +715,6 @@
       bulkVerifyBtn.addEventListener('click', () => bulkVerifyCourses(true));
       bulkUnverifyBtn.addEventListener('click', () => bulkVerifyCourses(false));
       bulkNotesBtn.addEventListener('click', openNoteModal);
-      bulkAutoProgressBtn.addEventListener('click', openAutoProgressModal);
       increaseProgressBtn.addEventListener('click', () => adjustProgress('increase'));
       decreaseProgressBtn.addEventListener('click', () => adjustProgress('decrease'));
       completeProgressBtn.addEventListener('click', () => adjustProgress('complete'));
@@ -991,15 +725,9 @@
       closeNoteModal.addEventListener('click', () => noteModal.classList.remove('active'));
       cancelNote.addEventListener('click', () => noteModal.classList.remove('active'));
       confirmNote.addEventListener('click', addAdminNote);
-      closeAutoProgressModal.addEventListener('click', () => autoProgressModal.classList.remove('active'));
-      cancelAutoProgress.addEventListener('click', () => autoProgressModal.classList.remove('active'));
-      confirmAutoProgress.addEventListener('click', applyAutoProgressSettings);
       userSearch.addEventListener('input', applySearchFilter);
       filterBtn.addEventListener('click', toggleFilterDropdown);
       applyFiltersBtn.addEventListener('click', applyFilters);
-      resetFiltersBtn.addEventListener('click', resetFilters);
-      enableAutoProgress.addEventListener('change', toggleAutoProgressSettings);
-      applyAutoProgressBtn.addEventListener('click', applyGlobalAutoProgressSettings);
       
       // Close filter dropdown when clicking outside
       document.addEventListener('click', (e) => {
@@ -1014,11 +742,6 @@
       filterContent.classList.toggle('show');
     }
 
-    // Toggle auto progress settings visibility
-    function toggleAutoProgressSettings() {
-      autoProgressSettings.style.display = enableAutoProgress.checked ? 'block' : 'none';
-    }
-
     // Load all users from Firestore
     async function loadAllUsers() {
       try {
@@ -1030,94 +753,18 @@
           if (doc.id !== currentAdmin.uid) { // Exclude admin from the list
             // Ensure enrolledCourses exists and is an array
             const enrolledCourses = Array.isArray(user.enrolledCourses) ? user.enrolledCourses : [];
-            
-            // Add autoProgress settings if they don't exist
-            const coursesWithAutoProgress = enrolledCourses.map(course => {
-              return {
-                autoProgress: false,
-                autoProgressRate: 5,
-                autoProgressMax: 100,
-                lastAutoProgressUpdate: null,
-                ...course
-              };
-            });
-            
             allUsers.push({
               id: doc.id,
               ...user,
-              enrolledCourses: coursesWithAutoProgress
+              enrolledCourses: enrolledCourses
             });
           }
         });
         
         filteredUsers = [...allUsers];
         displayUsers();
-        
-        // Check if we need to process auto progress updates
-        checkAutoProgressUpdates();
       } catch (error) {
         console.error("Error loading users:", error);
-      }
-    }
-
-    // Check and process auto progress updates
-    async function checkAutoProgressUpdates() {
-      const now = new Date();
-      const today = new Date(now.getFullYear(), now.getMonth(), now.getDate()).toISOString();
-      
-      const usersNeedingUpdate = allUsers.filter(user => 
-        user.enrolledCourses.some(course => 
-          course.autoProgress && 
-          (!course.lastAutoProgressUpdate || 
-           new Date(course.lastAutoProgressUpdate).toISOString().split('T')[0] !== today.split('T')[0])
-        )
-      );
-      
-      if (usersNeedingUpdate.length > 0) {
-        const batch = writeBatch(db);
-        
-        for (const user of usersNeedingUpdate) {
-          for (const course of user.enrolledCourses) {
-            if (course.autoProgress && 
-                (!course.lastAutoProgressUpdate || 
-                 new Date(course.lastAutoProgressUpdate).toISOString().split('T')[0] !== today.split('T')[0])) {
-              
-              // Calculate new progress
-              let newProgress = Math.min(
-                course.autoProgressMax, 
-                (course.progress || 0) + course.autoProgressRate
-              );
-              
-              // Only update if progress will change
-              if (newProgress !== course.progress) {
-                const updatedCourse = {
-                  ...course,
-                  progress: newProgress,
-                  lastAutoProgressUpdate: now.toISOString(),
-                  lastUpdated: now.toISOString(),
-                  updatedBy: currentAdmin.uid
-                };
-                
-                // Add to batch
-                const userRef = doc(db, "users", user.id);
-                batch.update(userRef, {
-                  enrolledCourses: arrayRemove(course)
-                });
-                batch.update(userRef, {
-                  enrolledCourses: arrayUnion(updatedCourse)
-                });
-              }
-            }
-          }
-        }
-        
-        try {
-          await batch.commit();
-          console.log(`Processed auto progress updates for ${usersNeedingUpdate.length} users`);
-          loadAllUsers(); // Refresh data
-        } catch (error) {
-          console.error("Error processing auto progress updates:", error);
-        }
       }
     }
 
@@ -1152,9 +799,6 @@
         } else {
           user.enrolledCourses.forEach(course => {
             const isSelected = selectedUserIds.has(user.id);
-            const hasNotes = course.notes && course.notes.trim() !== '';
-            const lastUpdated = course.lastUpdated ? new Date(course.lastUpdated).toLocaleString() : 'Never';
-            
             const row = document.createElement('tr');
             row.innerHTML = `
               <td>
@@ -1171,68 +815,42 @@
                 </div>
               </td>
               <td>
-                <div class="course-progress-container">
-                  <div class="progress-container">
-                    <div class="progress-bar" style="width: ${course.progress || 0}%"></div>
-                  </div>
-                  <span style="margin-left: 5px;">${course.progress || 0}%</span>
+                <div class="progress-container">
+                  <div class="progress-bar" style="width: ${course.progress || 0}%"></div>
                 </div>
-                <div class="progress-details">
-                  ${course.autoProgress ? 
-                    `<span class="badge" style="background-color: var(--info-color); color: white; margin-top: 3px;">
-                      Auto: +${course.autoProgressRate}%/day (max ${course.autoProgressMax}%)
-                    </span>` : ''
-                  }
-                </div>
-                <div class="last-updated">Last updated: ${lastUpdated}</div>
+                <span style="margin-left: 5px;">${course.progress || 0}%</span>
               </td>
               <td>
                 <span class="badge ${course.verified ? 'verified' : 'unverified'}">
                   ${course.verified ? 'Verified' : 'Unverified'}
                 </span>
-                ${course.verified && course.verifiedBy ? 
-                  `<div class="last-updated">By: ${course.verifiedBy}</div>` : ''
-                }
               </td>
               <td>
-                <div class="course-actions">
-                  <button class="btn btn-primary btn-sm save-progress" 
+                <button class="btn btn-primary btn-sm save-progress" 
+                        data-user-id="${user.id}" 
+                        data-course-id="${course.id}">
+                  <i class="fas fa-save"></i>
+                </button>
+                ${course.verified ? 
+                  `<button class="btn btn-warning btn-sm verify-btn" 
                           data-user-id="${user.id}" 
-                          data-course-id="${course.id}">
-                    <i class="fas fa-save"></i>
-                  </button>
-                  ${course.verified ? 
-                    `<button class="btn btn-warning btn-sm verify-btn" 
-                            data-user-id="${user.id}" 
-                            data-course-id="${course.id}"
-                            data-verify="false">
-                      <i class="fas fa-times"></i>
-                    </button>` :
-                    `<button class="btn btn-success btn-sm verify-btn" 
-                            data-user-id="${user.id}" 
-                            data-course-id="${course.id}"
-                            data-verify="true">
-                      <i class="fas fa-check"></i>
-                    </button>`
-                  }
-                  <input type="number" class="progress-input" 
-                         value="${course.progress || 0}" 
-                         min="0" max="100"
-                         data-user-id="${user.id}"
-                         data-course-id="${course.id}"
-                         style="width: 50px; padding: 2px; text-align: center;">
-                  <button class="btn btn-info btn-sm notes-btn ${hasNotes ? 'notes-indicator' : ''}" 
+                          data-course-id="${course.id}"
+                          data-verify="false">
+                    <i class="fas fa-times"></i>
+                  </button>` :
+                  `<button class="btn btn-success btn-sm verify-btn" 
                           data-user-id="${user.id}" 
-                          data-course-id="${course.id}">
-                    <i class="fas fa-comment"></i>
-                    ${hasNotes ? '<span class="notes-badge">!</span>' : ''}
-                  </button>
-                  <button class="btn btn-sm ${course.autoProgress ? 'btn-success' : 'btn-outline'} auto-progress-btn"
-                          data-user-id="${user.id}" 
-                          data-course-id="${course.id}">
-                    <i class="fas fa-magic"></i>
-                  </button>
-                </div>
+                          data-course-id="${course.id}"
+                          data-verify="true">
+                    <i class="fas fa-check"></i>
+                  </button>`
+                }
+                <input type="number" class="progress-input" 
+                       value="${course.progress || 0}" 
+                       min="0" max="100"
+                       data-user-id="${user.id}"
+                       data-course-id="${course.id}"
+                       style="width: 50px; padding: 2px; text-align: center;">
               </td>
             `;
             usersTableBody.appendChild(row);
@@ -1272,54 +890,6 @@
               
               await verifyUserCourse(userId, courseId, verify);
             });
-            
-            // Notes button
-            row.querySelector('.notes-btn').addEventListener('click', (e) => {
-              const userId = e.target.dataset.userId;
-              const courseId = e.target.dataset.courseId;
-              const user = allUsers.find(u => u.id === userId);
-              const course = user?.enrolledCourses.find(c => c.id === courseId);
-              
-              if (course) {
-                const notes = course.notes || 'No notes available';
-                alert(`Course Notes:\n\n${notes}`);
-              }
-            });
-            
-            // Auto progress button
-            row.querySelector('.auto-progress-btn').addEventListener('click', async (e) => {
-              const userId = e.target.dataset.userId;
-              const courseId = e.target.dataset.courseId;
-              const user = allUsers.find(u => u.id === userId);
-              const course = user?.enrolledCourses.find(c => c.id === courseId);
-              
-              if (course) {
-                const currentAutoProgress = course.autoProgress || false;
-                const rate = course.autoProgressRate || 5;
-                const max = course.autoProgressMax || 100;
-                
-                const newRate = prompt('Enter daily progress rate (%):', rate);
-                if (newRate === null) return;
-                
-                const newMax = prompt('Enter maximum progress (%):', max);
-                if (newMax === null) return;
-                
-                const parsedRate = parseInt(newRate);
-                const parsedMax = parseInt(newMax);
-                
-                if (isNaN(parsedRate) {
-                  alert('Please enter a valid number for progress rate');
-                  return;
-                }
-                
-                if (isNaN(parsedMax)) {
-                  alert('Please enter a valid number for maximum progress');
-                  return;
-                }
-                
-                await updateAutoProgressSettings(userId, courseId, true, parsedRate, parsedMax);
-              }
-            });
           });
         }
       });
@@ -1357,15 +927,11 @@
       const courseType = courseFilter.value;
       const language = languageFilter.value;
       const verification = verificationFilter.value;
-      const progressMin = progressMinFilter.value ? parseInt(progressMinFilter.value) : null;
-      const progressMax = progressMaxFilter.value ? parseInt(progressMaxFilter.value) : null;
-      const autoProgress = autoProgressFilter.value;
       
       filteredUsers = allUsers.filter(user => {
         // If user has no courses, only include if no filters are set
         if (user.enrolledCourses.length === 0) {
-          return !courseType && !language && verification === 'all' && 
-                 progressMin === null && progressMax === null && autoProgress === 'all';
+          return !courseType && !language && verification === 'all';
         }
         
         // Check if any course matches the filters
@@ -1388,22 +954,6 @@
             return false;
           }
           
-          // Progress range filter
-          if (progressMin !== null && (course.progress || 0) < progressMin) {
-            return false;
-          }
-          if (progressMax !== null && (course.progress || 0) > progressMax) {
-            return false;
-          }
-          
-          // Auto progress filter
-          if (autoProgress === 'enabled' && !course.autoProgress) {
-            return false;
-          }
-          if (autoProgress === 'disabled' && course.autoProgress) {
-            return false;
-          }
-          
           return true;
         });
       });
@@ -1417,19 +967,6 @@
       updateSelectAllCheckbox();
       
       displayUsers();
-    }
-
-    // Reset all filters
-    function resetFilters() {
-      courseFilter.value = '';
-      languageFilter.value = '';
-      verificationFilter.value = 'all';
-      progressMinFilter.value = '';
-      progressMaxFilter.value = '';
-      autoProgressFilter.value = 'all';
-      
-      // Apply the reset filters
-      applyFilters();
     }
 
     // Toggle select all checkbox
@@ -1465,7 +1002,6 @@
       selectedCount.textContent = `${selectedUserIds.size} selected`;
       affectedUsersCount.textContent = selectedUserIds.size;
       affectedUsersNoteCount.textContent = selectedUserIds.size;
-      affectedUsersAutoCount.textContent = selectedUserIds.size;
     }
 
     // Open bulk update modal
@@ -1488,18 +1024,6 @@
       
       adminNote.value = '';
       noteModal.classList.add('active');
-    }
-
-    // Open auto progress modal
-    function openAutoProgressModal() {
-      if (selectedUserIds.size === 0) {
-        alert('Please select at least one user');
-        return;
-      }
-      
-      autoProgressRateModal.value = '5';
-      autoProgressMaxModal.value = '100';
-      autoProgressModal.classList.add('active');
     }
 
     // Perform bulk update
@@ -1604,144 +1128,6 @@
         console.error("Error adding note:", error);
         alert("An error occurred while adding note. Some changes may not have been saved.");
       }
-    }
-
-    // Apply auto progress settings to selected users
-    async function applyAutoProgressSettings() {
-      const rate = parseInt(autoProgressRateModal.value);
-      const max = parseInt(autoProgressMaxModal.value);
-      
-      if (isNaN(rate) || rate <= 0 || rate > 100) {
-        alert('Please enter a valid progress rate (1-100)');
-        return;
-      }
-      
-      if (isNaN(max) || max <= 0 || max > 100) {
-        alert('Please enter a valid maximum progress (1-100)');
-        return;
-      }
-      
-      if (rate > max) {
-        alert('Daily progress rate cannot be greater than maximum progress');
-        return;
-      }
-      
-      const userIds = Array.from(selectedUserIds);
-      const promises = [];
-      
-      for (const userId of userIds) {
-        const user = allUsers.find(u => u.id === userId);
-        if (!user) continue;
-        
-        for (const course of user.enrolledCourses) {
-          // Only update if the course matches current filters
-          if (courseMatchesFilters(course)) {
-            const updatedCourse = {
-              ...course,
-              autoProgress: true,
-              autoProgressRate: rate,
-              autoProgressMax: max,
-              lastUpdated: new Date().toISOString(),
-              updatedBy: currentAdmin.uid
-            };
-            
-            // Create update promise
-            promises.push(
-              updateDoc(doc(db, "users", userId), {
-                enrolledCourses: arrayRemove(course)
-              }).then(() => {
-                return updateDoc(doc(db, "users", userId), {
-                  enrolledCourses: arrayUnion(updatedCourse)
-                });
-              })
-            );
-          }
-        }
-      }
-      
-      try {
-        await Promise.all(promises);
-        alert(`Auto progress settings applied to ${userIds.length} users`);
-        autoProgressModal.classList.remove('active');
-        loadAllUsers(); // Refresh data
-      } catch (error) {
-        console.error("Error applying auto progress settings:", error);
-        alert("An error occurred while applying settings. Some changes may not have been saved.");
-      }
-    }
-
-    // Update auto progress settings for a single course
-    async function updateAutoProgressSettings(userId, courseId, enabled, rate, max) {
-      const user = allUsers.find(u => u.id === userId);
-      if (!user) return;
-      
-      const course = user.enrolledCourses.find(c => c.id === courseId);
-      if (!course) return;
-      
-      try {
-        const updatedCourse = {
-          ...course,
-          autoProgress: enabled,
-          autoProgressRate: rate,
-          autoProgressMax: max,
-          lastUpdated: new Date().toISOString(),
-          updatedBy: currentAdmin.uid
-        };
-        
-        await updateDoc(doc(db, "users", userId), {
-          enrolledCourses: arrayRemove(course)
-        });
-        
-        await updateDoc(doc(db, "users", userId), {
-          enrolledCourses: arrayUnion(updatedCourse)
-        });
-        
-        // Update local data
-        const userIndex = allUsers.findIndex(u => u.id === userId);
-        if (userIndex !== -1) {
-          const courseIndex = allUsers[userIndex].enrolledCourses.findIndex(c => c.id === courseId);
-          if (courseIndex !== -1) {
-            allUsers[userIndex].enrolledCourses[courseIndex] = updatedCourse;
-          }
-        }
-        
-        // Refresh display
-        displayUsers();
-        
-        alert('Auto progress settings updated successfully');
-      } catch (error) {
-        console.error("Error updating auto progress settings:", error);
-        alert("Failed to update settings. Please try again.");
-      }
-    }
-
-    // Apply global auto progress settings
-    async function applyGlobalAutoProgressSettings() {
-      const rate = parseInt(autoProgressRate.value);
-      const max = parseInt(autoProgressMax.value);
-      
-      if (isNaN(rate) {
-        alert('Please enter a valid progress rate');
-        return;
-      }
-      
-      if (isNaN(max)) {
-        alert('Please enter a valid maximum progress');
-        return;
-      }
-      
-      if (rate > max) {
-        alert('Daily progress rate cannot be greater than maximum progress');
-        return;
-      }
-      
-      // Store these settings for all new courses
-      // In a real implementation, you might want to store these in a configuration document
-      alert('Global auto progress settings saved. These will be applied to new courses.');
-      
-      // For now, we'll just update the UI
-      enableAutoProgress.checked = true;
-      toggleAutoProgressSettings();
     }
 
     // Bulk verify/unverify courses
@@ -1995,9 +1381,6 @@
       const courseType = courseFilter.value;
       const language = languageFilter.value;
       const verification = verificationFilter.value;
-      const progressMin = progressMinFilter.value ? parseInt(progressMinFilter.value) : null;
-      const progressMax = progressMaxFilter.value ? parseInt(progressMaxFilter.value) : null;
-      const autoProgress = autoProgressFilter.value;
       
       // Course type filter
       if (courseType && course.type !== courseType) {
@@ -2014,22 +1397,6 @@
         return false;
       }
       if (verification === 'unverified' && course.verified) {
-        return false;
-      }
-      
-      // Progress range filter
-      if (progressMin !== null && (course.progress || 0) < progressMin) {
-        return false;
-      }
-      if (progressMax !== null && (course.progress || 0) > progressMax) {
-        return false;
-      }
-      
-      // Auto progress filter
-      if (autoProgress === 'enabled' && !course.autoProgress) {
-        return false;
-      }
-      if (autoProgress === 'disabled' && course.autoProgress) {
         return false;
       }
       
