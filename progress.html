@@ -8,18 +8,21 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
   <style>
     :root {
-      --primary-color: #1a4d2e;
-      --secondary-color: #4f6f52;
-      --accent-color: #f5efe6;
-      --light-color: #e8dfca;
+      --primary-color: #1a4d2e; /* Dark Green */
+      --secondary-color: #4f6f52; /* Medium Green */
+      --accent-color: #f5efe6; /* Light Beige */
+      --light-color: #e8dfca; /* Lighter Beige */
       --white: #ffffff;
-      --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      --text-dark: #333333;
+      --text-light: #555555;
+      --shadow: 0 5px 15px rgba(0, 0, 0, 0.08); /* Softer shadow */
       --success-color: #28a745;
       --info-color: #17a2b8;
       --warning-color: #ffc107;
       --danger-color: #dc3545;
-      --border-radius: 12px;
+      --border-radius: 10px; /* Slightly smaller radius */
       --box-padding: 16px;
+      --transition-speed: 0.3s;
     }
 
     * {
@@ -30,9 +33,10 @@
     }
 
     body {
-      background-color: #f8f9fa;
+      background-color: #f9fafb; /* Slightly off-white background */
       min-height: 100vh;
       font-size: 14px;
+      color: var(--text-dark);
     }
 
     .container {
@@ -41,550 +45,298 @@
       padding: 0;
     }
 
-    /* Loading Animation */
+    /* Loading Animation - No changes needed */
     .loading-container {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background-color: rgba(255, 255, 255, 0.9);
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
+      position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+      background-color: rgba(255, 255, 255, 0.95); display: flex;
+      flex-direction: column; justify-content: center; align-items: center;
       z-index: 9999;
     }
     .loading-spinner {
-      width: 50px;
-      height: 50px;
-      border: 5px solid var(--light-color);
-      border-top: 5px solid var(--primary-color);
-      border-radius: 50%;
-      animation: spin 1s linear infinite;
-      margin-bottom: 20px;
+      width: 50px; height: 50px; border: 5px solid var(--light-color);
+      border-top: 5px solid var(--primary-color); border-radius: 50%;
+      animation: spin 1s linear infinite; margin-bottom: 20px;
     }
-    .loading-text {
-      color: var(--primary-color);
-      font-weight: 500;
-    }
-    @keyframes spin {
-      0% { transform: rotate(0deg); }
-      100% { transform: rotate(360deg); }
-    }
+    .loading-text { color: var(--primary-color); font-weight: 500; }
+    @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
 
     /* Header Styles */
     .header {
       background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
-      color: white;
-      padding: var(--box-padding);
-      position: sticky;
-      top: 0;
-      z-index: 100;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      color: white; padding: var(--box-padding); position: sticky; top: 0;
+      z-index: 100; display: flex; justify-content: space-between;
+      align-items: center; box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     }
+    .header h1 { font-size: 1.1rem; font-weight: 600; } /* Slightly smaller title */
+    .header-actions { display: flex; gap: 10px; align-items: center; }
 
-    .header h1 {
-      font-size: 1.2rem;
-      font-weight: 600;
-    }
-
-    .header-actions {
-      display: flex;
-      gap: 10px;
-      align-items: center;
-    }
-
-    /* User Avatar */
+    /* User Avatar & Dropdown - Adjusted styles */
     .user-avatar {
-      width: 36px;
-      height: 36px;
-      border-radius: 50%;
-      background-color: var(--accent-color);
-      color: var(--primary-color);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-weight: bold;
-      text-transform: uppercase;
+      width: 36px; height: 36px; border-radius: 50%;
+      background-color: var(--accent-color); color: var(--primary-color);
+      display: flex; align-items: center; justify-content: center;
+      font-weight: bold; text-transform: uppercase; cursor: pointer;
+      transition: transform var(--transition-speed) ease;
     }
+    .user-avatar:hover { transform: scale(1.1); }
 
-    /* Account Dropdown */
-    .account-dropdown {
-      position: relative;
-      display: inline-block;
-    }
-
+    .account-dropdown { position: relative; display: inline-block; }
     .dropdown-content {
-      display: none;
-      position: absolute;
-      right: 0;
-      background-color: var(--white);
-      min-width: 160px;
-      box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-      z-index: 1;
-      border-radius: var(--border-radius);
-      overflow: hidden;
+      display: none; position: absolute; right: 0; top: 110%; /* Position below avatar */
+      background-color: var(--white); min-width: 180px; /* Wider dropdown */
+      box-shadow: var(--shadow); z-index: 1;
+      border-radius: var(--border-radius); overflow: hidden;
+      animation: fadeInDropdown 0.2s ease-out;
     }
-
+    @keyframes fadeInDropdown { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
     .dropdown-content a {
-      color: var(--secondary-color);
-      padding: 12px 16px;
-      text-decoration: none;
-      display: block;
-      font-size: 0.9rem;
+      color: var(--secondary-color); padding: 12px 16px; text-decoration: none;
+      display: flex; align-items: center; gap: 10px; /* Add gap for icon */
+      font-size: 0.9rem; transition: background-color var(--transition-speed) ease;
     }
-
-    .dropdown-content a:hover {
-      background-color: var(--light-color);
-    }
-
-    .account-dropdown:hover .dropdown-content {
-      display: block;
-    }
+    .dropdown-content a i { width: 16px; text-align: center; } /* Align icons */
+    .dropdown-content a:hover { background-color: var(--accent-color); color: var(--primary-color); }
+    .account-dropdown:hover .dropdown-content { display: block; }
 
     .user-name {
-      margin-right: 8px;
-      font-size: 0.9rem;
-      max-width: 100px;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
+        margin-right: 8px; font-size: 0.9rem; max-width: 100px;
+        white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+        color: var(--accent-color); /* Lighter name color */
     }
 
     /* Main Content Area */
-    .main-content {
-      padding: var(--box-padding);
-      padding-bottom: 70px;
-    }
+    .main-content { padding: var(--box-padding); padding-bottom: 80px; /* More space for bottom nav */ }
 
-    /* Bottom Navigation */
+    /* Bottom Navigation - Adjusted styles */
     .bottom-nav {
-      position: fixed;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      background-color: var(--white);
-      display: flex;
-      justify-content: space-around;
-      padding: 10px 0;
-      box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
-      z-index: 100;
+      position: fixed; bottom: 0; left: 0; right: 0;
+      background-color: var(--white); display: flex; justify-content: space-around;
+      padding: 8px 0 10px 0; /* Adjust padding */
+      box-shadow: 0 -3px 10px rgba(0, 0, 0, 0.05); /* Subtle top shadow */
+      z-index: 100; border-top: 1px solid #eee; /* Add a faint top border */
     }
-
     .nav-item {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      text-decoration: none;
-      color: var(--secondary-color);
-      font-size: 0.8rem;
+      display: flex; flex-direction: column; align-items: center;
+      text-decoration: none; color: var(--secondary-color); font-size: 0.75rem; /* Smaller text */
+      transition: color var(--transition-speed) ease; padding: 5px 0;
     }
+    .nav-item i { font-size: 1.1rem; margin-bottom: 3px; }
+    .nav-item.active { color: var(--primary-color); font-weight: 500; }
+    .nav-item:hover:not(.active) { color: var(--primary-color); }
 
-    .nav-item i {
-      font-size: 1.2rem;
-      margin-bottom: 4px;
-    }
-
-    .nav-item.active {
-      color: var(--primary-color);
-    }
-
-    /* Card Styles */
+    /* Card Styles - Consistent styling */
     .card {
-      background-color: var(--white);
-      border-radius: var(--border-radius);
-      padding: var(--box-padding);
-      margin-bottom: 15px;
-      box-shadow: var(--shadow);
+      background-color: var(--white); border-radius: var(--border-radius);
+      padding: var(--box-padding); margin-bottom: 20px; /* More margin */
+      box-shadow: var(--shadow); border: 1px solid #eee; /* Subtle border */
     }
-
     .card-title {
-      color: var(--primary-color);
-      margin-bottom: 10px;
-      font-size: 1.1rem;
-      font-weight: 600;
+      color: var(--primary-color); margin-bottom: 15px; /* More space */
+      font-size: 1.1rem; font-weight: 600; border-bottom: 1px solid #f0f0f0; /* Separator line */
+      padding-bottom: 10px;
     }
 
-    /* Progress Card Styles */
+    /* Progress Card Styles - Updated */
     .progress-card {
-      background-color: var(--white);
-      border-radius: var(--border-radius);
-      padding: var(--box-padding);
-      margin-bottom: 15px;
-      box-shadow: var(--shadow);
-      position: relative;
+        background-color: var(--white); border-radius: var(--border-radius);
+        padding: var(--box-padding); margin-bottom: 15px; box-shadow: var(--shadow);
+        position: relative; border: 1px solid #eee; overflow: hidden; /* For potential future effects */
     }
-
     .progress-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 10px;
+      display: flex; justify-content: space-between; align-items: baseline; /* Align baseline */
+      margin-bottom: 12px;
     }
-
-    .progress-title {
-      font-weight: 600;
-      color: var(--primary-color);
-    }
-
-    .progress-value {
-      font-weight: 700;
-      color: var(--secondary-color);
-    }
+    .progress-title { font-weight: 600; color: var(--primary-color); font-size: 1rem; }
+    .progress-value { font-weight: 700; color: var(--text-dark); font-size: 1rem; }
 
     .progress-bar-container {
-      width: 100%;
-      height: 10px;
-      background-color: #e0e0e0;
-      border-radius: 5px;
-      overflow: hidden;
-      margin-bottom: 10px;
+      width: 100%; height: 12px; /* Slightly thicker bar */
+      background-color: #e9ecef; /* Light grey background */
+      border-radius: 6px; overflow: hidden; margin-bottom: 10px;
     }
-
+    /* --- REMOVED background gradient --- */
+    /* The actual background color is now set via inline style in JS */
     .progress-bar {
       height: 100%;
-      background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
-      border-radius: 5px;
-      transition: width 0.3s ease;
+      border-radius: 6px;
+      transition: width var(--transition-speed) ease, background-color var(--transition-speed) ease; /* Animate color change too */
+      /* Default starting color (optional) */
+      background-color: var(--danger-color);
     }
 
     .progress-details {
-      display: flex;
-      justify-content: space-between;
-      font-size: 0.8rem;
-      color: var(--secondary-color);
+      display: flex; justify-content: space-between; font-size: 0.75rem; /* Smaller text */
+      color: var(--text-light); flex-wrap: wrap; gap: 5px;
     }
 
-    .progress-actions {
-      display: flex;
-      justify-content: flex-end;
-      margin-top: 10px;
-    }
-
+    .progress-actions { display: flex; justify-content: flex-end; margin-top: 15px; }
     .action-btn {
-      background: none;
-      border: none;
-      color: var(--primary-color);
-      font-size: 0.9rem;
-      cursor: pointer;
-      margin-left: 10px;
+      background: none; border: none; color: var(--primary-color); font-size: 0.85rem;
+      cursor: pointer; margin-left: 10px; transition: color var(--transition-speed) ease;
+      display: inline-flex; align-items: center; gap: 5px;
     }
+    .action-btn i { font-size: 0.8rem; }
+    .action-btn:hover { color: var(--secondary-color); }
 
     /* Stats Grid */
-    .stats-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 10px;
-      margin-bottom: 15px;
-    }
-
+    .stats-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; margin-bottom: 20px; }
     .stat-card {
-      background-color: var(--white);
-      border-radius: var(--border-radius);
-      padding: var(--box-padding);
-      text-align: center;
-      box-shadow: var(--shadow);
+      background-color: var(--white); border-radius: var(--border-radius);
+      padding: var(--box-padding); text-align: center; box-shadow: var(--shadow);
+      border: 1px solid #eee;
     }
-
     .stat-value {
-      font-size: 1.5rem;
-      font-weight: 700;
-      color: var(--primary-color);
-      margin-bottom: 5px;
+      font-size: 1.6rem; font-weight: 700; color: var(--primary-color);
+      margin-bottom: 5px; line-height: 1.2;
     }
-
-    .stat-label {
-      font-size: 0.8rem;
-      color: var(--secondary-color);
-    }
-
-    /* Admin Welcome */
-    .admin-welcome {
-      background-color: var(--accent-color);
-      padding: 15px;
-      border-radius: var(--border-radius);
-      margin-bottom: 15px;
-      text-align: center;
-    }
-
-    .admin-welcome h3 {
-      color: var(--primary-color);
-      margin-bottom: 10px;
-    }
+    .stat-label { font-size: 0.8rem; color: var(--text-light); }
 
     /* Read-only Message */
     .read-only-message {
-      font-size: 0.8rem;
-      color: var(--secondary-color);
-      margin: 10px 0;
-      text-align: center;
+        font-size: 0.8rem; color: var(--secondary-color); margin: 10px 0 15px 0;
+        text-align: center; background-color: var(--accent-color); padding: 8px;
+        border-radius: var(--border-radius); border: 1px dashed var(--secondary-color);
     }
 
-    /* Verification Badge */
-    .verified-badge {
-      display: inline-flex;
-      align-items: center;
-      background-color: var(--success-color);
-      color: white;
-      padding: 2px 8px;
-      border-radius: 10px;
-      font-size: 0.7rem;
-      margin-left: 5px;
+    /* Verification & Admin Badges */
+    .verified-badge, .admin-badge {
+      display: inline-flex; align-items: center; color: white;
+      padding: 3px 8px; border-radius: 12px; font-size: 0.7rem;
+      margin-left: 5px; font-weight: 500;
     }
+    .verified-badge { background-color: var(--success-color); }
+    .admin-badge { background-color: var(--info-color); }
+    .verified-badge i, .admin-badge i { font-size: 0.65rem; margin-right: 4px; }
 
-    .verified-badge i {
-      font-size: 0.6rem;
-      margin-right: 3px;
-    }
-
-    /* Admin Badge */
-    .admin-badge {
-      display: inline-flex;
-      align-items: center;
-      background-color: var(--info-color);
-      color: white;
-      padding: 2px 8px;
-      border-radius: 10px;
-      font-size: 0.7rem;
-      margin-left: 5px;
-    }
-
-    .admin-badge i {
-      font-size: 0.6rem;
-      margin-right: 3px;
-    }
-
-    /* Modal Styles */
+    /* Modal Styles - Adjusted animations */
     .modal {
-      display: none;
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background-color: rgba(0, 0, 0, 0.5);
-      z-index: 1000;
-      align-items: center;
-      justify-content: center;
-      padding: 15px;
+      display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+      background-color: rgba(0, 0, 0, 0.6); /* Darker overlay */
+      z-index: 1000; align-items: center; justify-content: center; padding: 15px;
     }
-
-    .modal.active {
-      display: flex;
-    }
+    .modal.active { display: flex; animation: modalFadeInBg 0.3s ease; }
+    @keyframes modalFadeInBg { from { background-color: rgba(0, 0, 0, 0); } to { background-color: rgba(0, 0, 0, 0.6); } }
 
     .modal-content {
-      background-color: var(--white);
-      border-radius: var(--border-radius);
-      width: 100%;
-      max-width: 500px;
-      max-height: 90vh;
-      overflow-y: auto;
-      animation: modalFadeIn 0.3s ease;
+      background-color: var(--white); border-radius: var(--border-radius);
+      width: 100%; max-width: 500px; max-height: 90vh; overflow-y: auto;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+      animation: modalSlideIn 0.3s ease-out;
     }
-
-    @keyframes modalFadeIn {
-      from {
-        opacity: 0;
-        transform: translateY(20px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
+    @keyframes modalSlideIn { from { opacity: 0; transform: translateY(30px) scale(0.98); } to { opacity: 1; transform: translateY(0) scale(1); } }
 
     .modal-header {
-      padding: 15px;
-      border-bottom: 1px solid #eee;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
+      padding: 15px var(--box-padding); border-bottom: 1px solid #eee;
+      display: flex; justify-content: space-between; align-items: center;
     }
-
-    .modal-title {
-      font-size: 1.2rem;
-      color: var(--primary-color);
-      font-weight: 600;
-    }
-
+    .modal-title { font-size: 1.1rem; color: var(--primary-color); font-weight: 600; }
     .modal-close {
-      background: none;
-      border: none;
-      font-size: 1.5rem;
-      cursor: pointer;
+      background: none; border: none; font-size: 1.6rem; cursor: pointer;
+      color: var(--text-light); transition: color var(--transition-speed) ease;
     }
-
-    .modal-body {
-      padding: 15px;
-    }
-
+    .modal-close:hover { color: var(--danger-color); }
+    .modal-body { padding: var(--box-padding); }
     .modal-footer {
-      padding: 15px;
-      border-top: 1px solid #eee;
-      display: flex;
-      justify-content: flex-end;
-      gap: 10px;
+      padding: 15px var(--box-padding); border-top: 1px solid #eee;
+      display: flex; justify-content: flex-end; gap: 10px;
+      background-color: #f9fafb; /* Light footer background */
+      border-bottom-left-radius: var(--border-radius); /* Match content radius */
+      border-bottom-right-radius: var(--border-radius);
     }
 
     /* Admin Controls */
-    .admin-controls {
-      margin-top: 15px;
-      padding-top: 15px;
-      border-top: 1px solid #eee;
-    }
-
-    .admin-only {
-      display: none;
-    }
-
-    .is-admin .admin-only {
-      display: block;
-    }
-
-    /* Admin Confirmation */
-    .admin-confirmation {
-      text-align: center;
-      padding: 20px;
-    }
-
-    .admin-confirmation p {
-      margin-bottom: 20px;
-    }
-
-    .admin-confirmation-buttons {
-      display: flex;
-      justify-content: center;
-      gap: 15px;
-    }
+    .admin-controls { margin-top: 15px; padding-top: 15px; border-top: 1px solid #eee; }
+    .admin-only { display: none; }
+    body.is-admin .admin-only { display: block; } /* Control via body class */
 
     /* Form Elements */
-    .form-group {
-      margin-bottom: 15px;
-    }
-
+    .form-group { margin-bottom: 15px; }
     .form-group label {
-      display: block;
-      margin-bottom: 5px;
-      font-weight: 500;
-      color: var(--secondary-color);
+      display: block; margin-bottom: 6px; font-weight: 500; font-size: 0.9rem;
+      color: var(--text-dark);
     }
-
     .form-control {
-      width: 100%;
-      padding: 10px;
-      border: 1px solid #ddd;
-      border-radius: var(--border-radius);
-      font-size: 1rem;
+      width: 100%; padding: 10px 12px; border: 1px solid #ccc;
+      border-radius: var(--border-radius); font-size: 1rem; color: var(--text-dark);
+      transition: border-color var(--transition-speed) ease, box-shadow var(--transition-speed) ease;
     }
+    .form-control:focus {
+      border-color: var(--primary-color); outline: none;
+      box-shadow: 0 0 0 3px rgba(26, 77, 46, 0.15);
+    }
+    textarea.form-control { min-height: 80px; }
 
+    /* Buttons */
     .btn {
-      padding: 10px 15px;
-      border: none;
-      border-radius: var(--border-radius);
-      font-size: 1rem;
-      font-weight: 500;
-      cursor: pointer;
-      transition: all 0.3s ease;
+      padding: 10px 20px; border: none; border-radius: var(--border-radius);
+      font-size: 0.95rem; font-weight: 500; cursor: pointer;
+      transition: all var(--transition-speed) ease;
+      text-align: center; text-decoration: none; display: inline-block;
     }
-
-    .btn-primary {
-      background-color: var(--primary-color);
-      color: var(--white);
-    }
-
-    .btn-primary:hover {
-      background-color: var(--secondary-color);
-    }
-
+    .btn-primary { background-color: var(--primary-color); color: var(--white); }
+    .btn-primary:hover { background-color: var(--secondary-color); transform: translateY(-2px); box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); }
     .btn-outline {
-      background-color: transparent;
-      border: 1px solid var(--primary-color);
-      color: var(--primary-color);
-    }
-
-    /* Course Filter */
-    .filter-container {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 10px;
-      margin-bottom: 15px;
-    }
-
-    /* Course Details */
-    .course-details-section {
-      margin-top: 10px;
-      padding: 10px;
-      background-color: var(--light-color);
-      border-radius: var(--border-radius);
-    }
-
-    .course-meta {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-      margin-bottom: 5px;
-    }
-
-    .course-meta-item {
-      font-size: 0.8rem;
+      background-color: transparent; border: 1px solid var(--secondary-color);
       color: var(--secondary-color);
     }
+    .btn-outline:hover { background-color: var(--accent-color); color: var(--primary-color); border-color: var(--primary-color); }
+
+    /* Course Details Section */
+    .course-details-section {
+      margin-top: 15px; padding: 12px; background-color: var(--accent-color);
+      border-radius: var(--border-radius); border: 1px solid var(--light-color);
+    }
+    .course-details-section strong { color: var(--primary-color); }
+    .course-details-section p { margin: 5px 0; font-size: 0.85rem; color: var(--text-dark); }
+    .course-details-section small { font-size: 0.75rem; color: var(--text-light); }
+
+    .course-meta { display: flex; flex-wrap: wrap; gap: 5px 15px; margin-top: 10px; }
+    .course-meta-item {
+      font-size: 0.75rem; color: var(--secondary-color); display: flex;
+      align-items: center; gap: 5px;
+    }
+    .course-meta-item i { font-size: 0.8rem; }
 
     /* Responsive */
     @media (min-width: 768px) {
-      .container {
-        max-width: 768px;
-        margin: 0 auto;
-      }
-      .stats-grid {
-        grid-template-columns: repeat(4, 1fr);
-      }
-      .filter-container {
-        grid-template-columns: repeat(4, 1fr);
-      }
+      .container { max-width: 720px; margin: 0 auto; } /* Adjusted max-width */
+      .stats-grid { grid-template-columns: repeat(4, 1fr); }
+      .header h1 { font-size: 1.2rem; }
+      .main-content { padding: 25px; padding-bottom: 80px; }
+      .card { padding: 20px; }
+      .modal-content { max-width: 600px; }
     }
   </style>
 </head>
-<body>
-  <!-- Loading Animation -->
-  <div class="loading-container" id="loading-container">
+<body > <div class="loading-container" id="loading-container">
     <div class="loading-spinner"></div>
     <div class="loading-text">Loading your progress...</div>
   </div>
 
   <div class="container">
-    <!-- Header -->
     <header class="header">
       <h1 id="page-title">Progress Tracking</h1>
       <div class="header-actions">
         <div class="account-dropdown">
-          <div style="display: flex; align-items: center;">
+          <div style="display: flex; align-items: center; cursor: pointer;">
             <span class="user-name" id="user-name-display">User</span>
             <div class="user-avatar" id="user-avatar">U</div>
           </div>
           <div class="dropdown-content" id="account-dropdown">
-            <a href="schedule.html"><i class="fas fa-calendar-alt"></i> Schedule</a>
-            <a href="profile.html" class="profile-link"><i class="fas fa-user"></i> Profile</a>
+             <a href="schedule.html"><i class="fas fa-calendar-alt fa-fw"></i> Schedule</a>
+            <a href="profile.html" class="profile-link"><i class="fas fa-user fa-fw"></i> Profile</a>
             <div class="admin-only">
-              <a href="progressadmin.html"><i class="fas fa-tachometer-alt"></i> Admin Panel</a>
+              <a href="progressadmin.html"><i class="fas fa-tachometer-alt fa-fw"></i> Admin Panel</a>
             </div>
-            <a href="#" id="logout-btn"><i class="fas fa-sign-out-alt"></i> Logout</a>
+            <a href="#" id="logout-btn"><i class="fas fa-sign-out-alt fa-fw"></i> Logout</a>
           </div>
         </div>
       </div>
     </header>
 
-    <!-- Main Content -->
     <main class="main-content" id="main-content">
-      <!-- Content loaded dynamically -->
-    </main>
+      <p>Loading content...</p> </main>
 
-    <!-- Bottom Navigation -->
     <nav class="bottom-nav">
       <a href="dashboard.html" class="nav-item" data-page="courses">
         <i class="fas fa-book"></i>
@@ -605,23 +357,22 @@
     </nav>
   </div>
 
-  <!-- Progress Update Modal -->
-  <div class="modal" id="progress-modal">
+  <div class="modal" id="progress-modal" role="dialog" aria-modal="true" aria-labelledby="progress-modal-title">
     <div class="modal-content">
       <div class="modal-header">
-        <h3 class="modal-title">Update Progress</h3>
-        <button class="modal-close" id="close-progress-modal">&times;</button>
+        <h3 class="modal-title" id="progress-modal-title">Update Progress</h3>
+        <button class="modal-close" id="close-progress-modal" aria-label="Close modal">&times;</button>
       </div>
       <div class="modal-body">
         <form id="progress-form">
           <input type="hidden" id="progress-course-id">
           <input type="hidden" id="progress-user-id">
           <div class="form-group">
-            <label for="progress-value">Progress Percentage</label>
+            <label for="progress-value">Progress Percentage (0-100)</label>
             <input type="number" id="progress-value" class="form-control" min="0" max="100" required>
           </div>
           <div class="form-group">
-            <label for="progress-notes">Notes</label>
+            <label for="progress-notes">Instructor Notes (Optional)</label>
             <textarea id="progress-notes" class="form-control" rows="3"></textarea>
           </div>
           <div class="form-group admin-only">
@@ -640,17 +391,16 @@
     </div>
   </div>
 
-  <!-- Admin Confirmation Modal -->
-  <div class="modal" id="admin-confirmation-modal">
+  <div class="modal" id="admin-confirmation-modal" role="dialog" aria-modal="true" aria-labelledby="admin-confirm-title">
     <div class="modal-content">
       <div class="modal-header">
-        <h3 class="modal-title">Administrator Access</h3>
-        <button class="modal-close" id="close-admin-modal">&times;</button>
+        <h3 class="modal-title" id="admin-confirm-title">Administrator Access</h3>
+        <button class="modal-close" id="close-admin-modal" aria-label="Close modal">&times;</button>
       </div>
       <div class="modal-body">
-        <div class="admin-confirmation">
+        <div class="admin-confirmation" style="text-align: center; padding: 20px;">
           <p>You have administrator privileges. Would you like to access the admin dashboard?</p>
-          <div class="admin-confirmation-buttons">
+          <div class="admin-confirmation-buttons" style="display: flex; justify-content: center; gap: 15px; margin-top: 20px;">
             <button class="btn btn-primary" id="go-to-admin">Go to Admin Panel</button>
             <button class="btn btn-outline" id="stay-here">Continue Here</button>
           </div>
@@ -659,25 +409,31 @@
     </div>
   </div>
 
-  <!-- Firebase SDK -->
   <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
   <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
   <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
 
   <script>
-    // Firebase configuration
+    // --- IMPORTANT SECURITY WARNING ---
+    // Hardcoding API keys like this is insecure for production apps!
+    // Anyone can view your source code and find these keys.
+    // Consider using Firebase Hosting environment variables or a backend
+    // function to handle sensitive operations or configuration.
     const firebaseConfig = {
-      apiKey: "AIzaSyBQyNVWh1BtCkXlBfuS7jHAa36FTklZayo",
-      authDomain: "pharma-quiz-b5a07.firebaseapp.com",
-      projectId: "pharma-quiz-b5a07",
-      storageBucket: "pharma-quiz-b5a07.appspot.com",
-      messagingSenderId: "161067776789",
-      appId: "1:161067776789:web:88b8a61145dc5f5c31471c",
-      measurementId: "G-3QRQE9HQFB"
+        apiKey: "YOUR_API_KEY", // Replace with your actual key or use secure method
+        authDomain: "YOUR_AUTH_DOMAIN",
+        projectId: "YOUR_PROJECT_ID",
+        storageBucket: "YOUR_STORAGE_BUCKET",
+        messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
+        appId: "YOUR_APP_ID",
+        measurementId: "YOUR_MEASUREMENT_ID" // Optional
     };
 
     // Initialize Firebase
-    firebase.initializeApp(firebaseConfig);
+    // Check if Firebase is already initialized to prevent errors on hot reloads/multiple scripts
+    if (!firebase.apps.length) {
+        firebase.initializeApp(firebaseConfig);
+    }
     const auth = firebase.auth();
     const db = firebase.firestore();
 
@@ -703,6 +459,7 @@
     const profileLink = document.querySelector('.profile-link');
     const profileNavItem = document.querySelector('.profile-nav-item');
     const loadingContainer = document.getElementById('loading-container');
+    const accountDropdownContent = document.getElementById('account-dropdown'); // Get dropdown content
 
     let currentUser = null;
     let userData = null;
@@ -712,7 +469,7 @@
     let isVerifiedAdmin = false;
     let currentEditingCourse = null;
     let currentEditingUserId = null;
-    let adminPromptShown = false;
+    // Removed adminPromptShown, using sessionStorage instead
 
     // Initialize application
     function initApp() {
@@ -728,194 +485,299 @@
       closeAdminModal.addEventListener('click', () => adminConfirmationModal.classList.remove('active'));
       goToAdminBtn.addEventListener('click', () => window.location.href = 'progressadmin.html');
       stayHereBtn.addEventListener('click', () => adminConfirmationModal.classList.remove('active'));
+
+      // Close dropdown if clicking outside
+      document.addEventListener('click', function(event) {
+          const dropdown = document.querySelector('.account-dropdown');
+          if (dropdown && !dropdown.contains(event.target)) {
+             const content = dropdown.querySelector('.dropdown-content');
+             if (content) content.style.display = 'none';
+          }
+      });
+       // Prevent clicks inside dropdown from closing it immediately
+      if (accountDropdownContent) {
+          accountDropdownContent.addEventListener('click', function(event) {
+              event.stopPropagation();
+          });
+      }
+    }
+
+    function showLoading() {
+        loadingContainer.style.display = 'flex';
+    }
+
+    function hideLoading() {
+        loadingContainer.style.display = 'none';
     }
 
     function checkAuthState() {
       auth.onAuthStateChanged(async (user) => {
+        showLoading();
         if (user) {
           currentUser = user;
-          loadingContainer.style.display = 'flex';
           await loadUserData(user.uid);
           updateUserInterface();
-          checkAdminStatus();
-          loadAllCourses();
-          loadProgressPage();
-          loadingContainer.style.display = 'none';
+          await loadAllCourses(); // Load all courses before loading progress page
+          checkAdminStatus(); // Check admin status after user data loaded
+          loadProgressPage(); // Load page content
         } else {
           window.location.href = 'login.html';
         }
+        // Hide loading slightly delayed to allow UI painting
+        setTimeout(hideLoading, 200);
       });
     }
 
     async function loadUserData(userId) {
       try {
         const userDoc = await db.collection("users").doc(userId).get();
-        
+
         if (userDoc.exists) {
           userData = userDoc.data();
-          enrolledCourses = userData.enrolledCourses || [];
+          // Ensure enrolledCourses is always an array, handle potential Firestore Timestamp objects
+          enrolledCourses = (userData.enrolledCourses || []).map(course => ({
+              ...course,
+              enrollmentDate: course.enrollmentDate?.toDate ? course.enrollmentDate.toDate().toISOString() : course.enrollmentDate,
+              lastUpdated: course.lastUpdated?.toDate ? course.lastUpdated.toDate().toISOString() : course.lastUpdated,
+              verifiedAt: course.verifiedAt?.toDate ? course.verifiedAt.toDate().toISOString() : course.verifiedAt
+          }));
           isAdmin = userData.role === 'admin';
           isVerifiedAdmin = userData.adminVerified === true;
-          
+
           // Add admin class to body if admin
           if (isAdmin && isVerifiedAdmin) {
             document.body.classList.add('is-admin');
+          } else {
+            document.body.classList.remove('is-admin'); // Ensure it's removed if not admin
           }
         } else {
+          // If user doc doesn't exist, create one (maybe redirect to profile setup?)
+          console.warn("User document not found for ID:", userId, ". Creating a new one.");
           await createNewUser(userId);
         }
       } catch (error) {
         console.error("Error loading user data:", error);
+        // Show error message to user?
+        mainContent.innerHTML = "<p class='error-message'>Could not load your data. Please try again later.</p>";
       }
     }
 
     async function loadAllCourses() {
-      try {
-        const snapshot = await db.collection("courses").get();
-        allCourses = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-      } catch (error) {
-        console.error("Error loading courses:", error);
-      }
+        try {
+            const snapshot = await db.collection("courses").get();
+            allCourses = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+        } catch (error) {
+            console.error("Error loading all courses:", error);
+            // Maybe display a non-blocking error
+        }
     }
+
 
     async function createNewUser(userId) {
       const newUserData = {
-        name: currentUser.displayName || "User",
+        name: currentUser.displayName || `User_${userId.substring(0, 5)}`, // Default name
         email: currentUser.email,
         enrolledCourses: [],
-        studentId: "",
-        department: "",
-        year: "",
-        phone: "",
-        role: "student",
+        studentId: "", department: "", year: "", phone: "", // Empty profile fields
+        role: "student", // Default role
         adminVerified: false,
         createdAt: firebase.firestore.FieldValue.serverTimestamp()
       };
-      
-      await db.collection("users").doc(userId).set(newUserData);
-      userData = newUserData;
-      enrolledCourses = [];
+
+      try {
+            await db.collection("users").doc(userId).set(newUserData);
+            userData = newUserData; // Update local userData
+            enrolledCourses = []; // Reset local courses
+            isAdmin = false;
+            isVerifiedAdmin = false;
+            document.body.classList.remove('is-admin');
+            console.log("New user profile created in Firestore.");
+      } catch (error) {
+            console.error("Error creating new user profile:", error);
+            mainContent.innerHTML = "<p class='error-message'>Failed to set up your profile. Please contact support.</p>";
+      }
     }
 
     function updateUserInterface() {
-      // Set user display name and avatar
+      if (!userData) return; // Don't run if userData failed to load
+
       const name = userData.name || currentUser.displayName || "User";
       userNameDisplay.textContent = name;
       userAvatar.textContent = name.charAt(0).toUpperCase();
+      userAvatar.title = name; // Add tooltip with full name
 
-      // Add admin badge if verified admin
+      // Clear existing badges before adding new ones
+      const existingBadges = accountDropdownContent.querySelectorAll('.admin-badge');
+      existingBadges.forEach(badge => badge.remove());
+
       if (isAdmin && isVerifiedAdmin) {
+        // Add admin badge inside the dropdown for better layout
         const badge = document.createElement('span');
         badge.className = 'admin-badge';
         badge.innerHTML = '<i class="fas fa-user-shield"></i> Admin';
-        userNameDisplay.parentNode.insertBefore(badge, userNameDisplay.nextSibling);
-        
-        // Hide profile editing for admins
-        profileLink.style.display = 'none';
-        profileNavItem.style.display = 'none';
+        // Insert after the Profile link (or as the first item if profile is hidden)
+        const profileLinkElement = accountDropdownContent.querySelector('.profile-link');
+        if (profileLinkElement) {
+            profileLinkElement.after(badge); // Place badge after Profile link
+        } else {
+             accountDropdownContent.insertBefore(badge, accountDropdownContent.firstChild); // Place at top if no profile link
+        }
+
+        // Optionally hide profile links/nav for admins if desired
+        // profileLink.style.display = 'none';
+        // profileNavItem.style.display = 'none';
+      } else {
+        // Ensure profile links are visible for non-admins
+        profileLink.style.display = 'flex'; // Use flex to match other items
+        profileNavItem.style.display = 'flex'; // Use flex to match other items
       }
     }
 
     function checkAdminStatus() {
-      if (isAdmin && isVerifiedAdmin && !sessionStorage.getItem('adminPromptShown')) {
+      // Use sessionStorage to show the prompt only once per session
+      if (isAdmin && isVerifiedAdmin && !sessionStorage.getItem('adminPromptShownThisSession')) {
         setTimeout(() => {
           adminConfirmationModal.classList.add('active');
-          sessionStorage.setItem('adminPromptShown', 'true');
-        }, 1500);
+          sessionStorage.setItem('adminPromptShownThisSession', 'true');
+        }, 1500); // Show after 1.5 seconds
       }
     }
 
+    // --- NEW Function: Get Progress Bar Color ---
+    function getProgressColor(percentage) {
+        percentage = Math.max(0, Math.min(100, percentage)); // Clamp between 0 and 100
+
+        // Simple thresholds: Red -> Yellow -> Green
+        // if (percentage < 34) return 'var(--danger-color)'; // Red
+        // if (percentage < 67) return 'var(--warning-color)'; // Yellow
+        // return 'var(--success-color)'; // Green
+
+        // Smooth Gradient Logic: Red (0%) -> Yellow (50%) -> Green (100%)
+        let r, g, b;
+        if (percentage < 50) {
+            // Interpolate between Red (220, 53, 69) and Yellow (255, 193, 7)
+            const ratio = percentage / 50;
+            r = Math.round(220 + (255 - 220) * ratio);
+            g = Math.round(53 + (193 - 53) * ratio);
+            b = Math.round(69 + (7 - 69) * ratio);
+        } else {
+            // Interpolate between Yellow (255, 193, 7) and Green (40, 167, 69)
+            const ratio = (percentage - 50) / 50;
+            r = Math.round(255 + (40 - 255) * ratio);
+            g = Math.round(193 + (167 - 193) * ratio);
+            b = Math.round(7 + (69 - 7) * ratio);
+        }
+        return `rgb(${r}, ${g}, ${b})`;
+    }
+
+
     function loadProgressPage() {
+      if (!userData) { // Guard clause if user data isn't loaded
+          mainContent.innerHTML = "<p>Could not load user data.</p>";
+          return;
+      }
+
+      // Use default 0 if stats calculations result in NaN
+      const avgProgress = calculateAverageProgress() || 0;
+      const completedCount = getCompletedCoursesCount() || 0;
+      const totalCount = enrolledCourses.length || 0;
+      const verifiedCount = getVerifiedCoursesCount() || 0;
+
       let html = `
         <div class="stats-grid">
           <div class="stat-card">
-            <div class="stat-value">${calculateAverageProgress()}%</div>
+            <div class="stat-value">${avgProgress}%</div>
             <div class="stat-label">Overall Progress</div>
           </div>
           <div class="stat-card">
-            <div class="stat-value">${getCompletedCoursesCount()}</div>
-            <div class="stat-label">Courses Completed</div>
+            <div class="stat-value">${completedCount}</div>
+            <div class="stat-label">Completed</div>
           </div>
           <div class="stat-card">
-            <div class="stat-value">${enrolledCourses.length}</div>
-            <div class="stat-label">Total Courses</div>
+            <div class="stat-value">${totalCount}</div>
+            <div class="stat-label">Enrolled</div>
           </div>
           <div class="stat-card">
-            <div class="stat-value">${getVerifiedCoursesCount()}</div>
+            <div class="stat-value">${verifiedCount}</div>
             <div class="stat-label">Verified</div>
           </div>
         </div>
-        
+
         <div class="card">
-          <h2 class="card-title">${isAdmin ? 'Student' : 'My'} Course Progress</h2>
-          ${!isAdmin ? '<p class="read-only-message">Your progress is managed by instructors. Contact them for updates.</p>' : ''}
-          <div id="courses-progress"></div>
+          <h2 class="card-title">${isVerifiedAdmin ? 'Your Student' : 'My'} Course Progress</h2>
+          ${!isAdmin ? '<p class="read-only-message">Your progress is updated by instructors. Contact them if adjustments are needed.</p>' : ''}
+          <div id="courses-progress">
+             <p>Loading course progress...</p> </div>
         </div>
       `;
 
-      const contentContainer = isAdmin ? 
-        document.querySelector('.card') || mainContent : 
-        mainContent;
-      
-      if (isAdmin && document.querySelector('.card')) {
-        document.querySelector('.card').outerHTML = html;
-      } else {
-        mainContent.innerHTML = html;
-      }
-
-      displayCoursesProgress();
+      mainContent.innerHTML = html; // Render the basic layout first
+      displayCoursesProgress(); // Then populate the course progress section
     }
 
     function calculateAverageProgress() {
-      if (enrolledCourses.length === 0) return 0;
-      const total = enrolledCourses.reduce((sum, course) => sum + (course.progress || 0), 0);
+      if (!enrolledCourses || enrolledCourses.length === 0) return 0;
+      const total = enrolledCourses.reduce((sum, course) => sum + (Number(course.progress) || 0), 0);
       return Math.round(total / enrolledCourses.length);
     }
 
     function getCompletedCoursesCount() {
-      return enrolledCourses.filter(course => course.progress >= 100).length;
+      if (!enrolledCourses) return 0;
+      return enrolledCourses.filter(course => (Number(course.progress) || 0) >= 100).length;
     }
 
     function getVerifiedCoursesCount() {
-      return enrolledCourses.filter(course => course.verified).length;
+        if (!enrolledCourses) return 0;
+      return enrolledCourses.filter(course => course.verified === true).length;
     }
 
     function displayCoursesProgress() {
-      const coursesProgress = document.getElementById('courses-progress');
-      if (!coursesProgress) return;
-      
-      if (enrolledCourses.length === 0) {
-        coursesProgress.innerHTML = '<p>No courses enrolled yet.</p>';
+      const coursesProgressContainer = document.getElementById('courses-progress');
+      if (!coursesProgressContainer) return; // Exit if container not found
+
+      if (!enrolledCourses || enrolledCourses.length === 0) {
+        coursesProgressContainer.innerHTML = '<p style="text-align: center; color: var(--text-light); padding: 20px 0;">You are not enrolled in any courses yet.</p>';
         return;
       }
-      
-      coursesProgress.innerHTML = '';
-      
-      enrolledCourses.forEach(course => {
-        const fullCourse = allCourses.find(c => c.id === course.id) || course;
-        const progress = course.progress || 0;
+
+      coursesProgressContainer.innerHTML = ''; // Clear placeholder
+
+      // Sort courses perhaps? e.g., by title or enrollment date
+      const sortedCourses = [...enrolledCourses].sort((a, b) => {
+          const courseA = allCourses.find(c => c.id === a.id);
+          const courseB = allCourses.find(c => c.id === b.id);
+          return (courseA?.title || '').localeCompare(courseB?.title || '');
+      });
+
+
+      sortedCourses.forEach(course => {
+        const fullCourse = allCourses.find(c => c.id === course.id);
+        // Use 'Unknown Course' if details not found in allCourses
+        const courseTitle = fullCourse?.title || course.title || 'Unknown Course';
+        const progress = Number(course.progress) || 0;
+        const progressBarColor = getProgressColor(progress); // Get dynamic color
+
         const card = document.createElement('div');
         card.className = 'progress-card';
-        
+
         card.innerHTML = `
           <div class="progress-header">
-            <div class="progress-title">${fullCourse.title}</div>
+            <div class="progress-title">${courseTitle}</div>
             <div class="progress-value">${progress}%</div>
           </div>
           <div class="progress-bar-container">
-            <div class="progress-bar" style="width: ${progress}%"></div>
+            <div class="progress-bar" style="width: ${progress}%; background-color: ${progressBarColor};"></div>
           </div>
           <div class="progress-details">
-            <div>Enrolled: ${formatDate(course.enrollmentDate)}</div>
-            <div>
-              ${course.verified ? 
-                '<span class="verified-badge"><i class="fas fa-check"></i> Verified</span>' : 
-                'Not Verified'
+            <span>Enrolled: ${formatDate(course.enrollmentDate)}</span>
+            <span>
+              ${course.verified ?
+                `<span class="verified-badge" title="Verified ${course.verifiedBy ? 'by ' + course.verifiedBy : ''} on ${formatDate(course.verifiedAt)}"><i class="fas fa-check"></i> Verified</span>` :
+                '<span style="color: var(--warning-color);">Not Verified</span>'
               }
-              ${course.verifiedBy ? ` by ${course.verifiedBy}` : ''}
-            </div>
+            </span>
           </div>
-          ${isAdmin ? `
+          ${isAdmin && isVerifiedAdmin ? `
             <div class="progress-actions">
               <button class="action-btn" onclick="openProgressModal('${course.id}', '${currentUser.uid}')">
                 <i class="fas fa-edit"></i> Update
@@ -924,116 +786,197 @@
           ` : ''}
           ${course.notes ? `
             <div class="course-details-section">
-              <strong>Instructor Notes:</strong> 
-              <p>${course.notes}</p>
+              <strong>Instructor Notes:</strong>
+              <p>${escapeHTML(course.notes)}</p>
               ${course.lastUpdated ? `<small>Last updated: ${formatDateTime(course.lastUpdated)}</small>` : ''}
             </div>
           ` : ''}
-          <div class="course-meta">
-            <span class="course-meta-item"><i class="fas fa-book"></i> ${fullCourse.type || 'N/A'}</span>
-            <span class="course-meta-item"><i class="fas fa-language"></i> ${fullCourse.language || 'N/A'}</span>
-            ${fullCourse.duration ? `<span class="course-meta-item"><i class="fas fa-clock"></i> ${fullCourse.duration}</span>` : ''}
-          </div>
+          ${fullCourse ? `
+            <div class="course-meta">
+              ${fullCourse.type ? `<span class="course-meta-item"><i class="fas fa-tag"></i> ${escapeHTML(fullCourse.type)}</span>` : ''}
+              ${fullCourse.language ? `<span class="course-meta-item"><i class="fas fa-language"></i> ${escapeHTML(fullCourse.language)}</span>` : ''}
+              ${fullCourse.duration ? `<span class="course-meta-item"><i class="fas fa-clock"></i> ${escapeHTML(fullCourse.duration)}</span>` : ''}
+            </div>` : ''
+          }
         `;
-        
-        coursesProgress.appendChild(card);
+        coursesProgressContainer.appendChild(card);
       });
     }
 
-    function formatDate(dateString) {
-      if (!dateString) return 'N/A';
-      const options = { year: 'numeric', month: 'short', day: 'numeric' };
-      return new Date(dateString).toLocaleDateString(undefined, options);
+    // Helper function to escape HTML to prevent XSS from notes/course details
+    function escapeHTML(str) {
+        if (!str) return '';
+        const div = document.createElement('div');
+        div.textContent = str;
+        return div.innerHTML;
     }
 
-    function formatDateTime(dateString) {
-      if (!dateString) return 'N/A';
-      const options = { 
-        year: 'numeric', 
-        month: 'short', 
-        day: 'numeric',
-        hour: '2-digit',
-        minute: '2-digit'
-      };
-      return new Date(dateString).toLocaleDateString(undefined, options);
+
+    function formatDate(dateInput) {
+        if (!dateInput) return 'N/A';
+        try {
+            const date = new Date(dateInput);
+            // Check if date is valid before formatting
+            if (isNaN(date.getTime())) return 'Invalid Date';
+            const options = { year: 'numeric', month: 'short', day: 'numeric' };
+            return date.toLocaleDateString(undefined, options);
+        } catch (e) {
+            console.error("Error formatting date:", dateInput, e);
+            return 'Error'; // Or return the original string
+        }
+    }
+
+    function formatDateTime(dateInput) {
+        if (!dateInput) return 'N/A';
+        try {
+            const date = new Date(dateInput);
+             if (isNaN(date.getTime())) return 'Invalid Date';
+            const options = { year: 'numeric', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' };
+            return date.toLocaleDateString(undefined, options);
+        } catch (e) {
+             console.error("Error formatting datetime:", dateInput, e);
+            return 'Error';
+        }
     }
 
     function openProgressModal(courseId, userId) {
-      const course = enrolledCourses.find(c => c.id === courseId);
-      if (!course) return;
-      
-      currentEditingCourse = courseId;
-      currentEditingUserId = userId;
-      progressCourseId.value = courseId;
-      progressUserId.value = userId;
-      progressValue.value = course.progress || 0;
-      progressNotes.value = course.notes || '';
-      progressVerified.value = course.verified ? 'true' : 'false';
-      
-      progressModal.classList.add('active');
+        // Find course in the CURRENT user's data (even if admin is viewing)
+        const course = enrolledCourses.find(c => c.id === courseId);
+        if (!course) {
+            console.error("Could not find course data for ID:", courseId);
+            alert("Error: Could not load course details for editing.");
+            return;
+        }
+
+        currentEditingCourse = courseId;
+        // IMPORTANT: Use the userId passed to the function, which should be the student's ID
+        currentEditingUserId = userId;
+
+        progressCourseId.value = courseId;
+        progressUserId.value = userId; // Store the target user ID
+        progressValue.value = course.progress || 0;
+        progressNotes.value = course.notes || '';
+        progressVerified.value = course.verified ? 'true' : 'false';
+
+        // Update modal title to show course name if available
+        const fullCourse = allCourses.find(c => c.id === courseId);
+        const modalTitleElement = document.getElementById('progress-modal-title');
+        if (modalTitleElement) {
+            modalTitleElement.textContent = `Update Progress: ${fullCourse?.title || courseId}`;
+        }
+
+
+        progressModal.classList.add('active');
     }
 
     async function updateCourseProgress() {
-      if (!currentUser || !currentEditingCourse) return;
-      
-      const progress = parseInt(progressValue.value);
+      // Ensure we have the target user ID and course ID
+      if (!currentEditingUserId || !currentEditingCourse) {
+          console.error("Missing user or course ID for update.");
+          alert("An error occurred. Cannot determine which progress to update.");
+          return;
+      }
+       // Only verified admins should be able to update progress
+      if (!isAdmin || !isVerifiedAdmin) {
+          alert("You do not have permission to update progress.");
+          return;
+      }
+
+
+      const progress = parseInt(progressValue.value, 10); // Use radix 10
       if (isNaN(progress) || progress < 0 || progress > 100) {
-        alert("Please enter a valid progress percentage (0-100)");
+        alert("Please enter a valid progress percentage (0-100).");
         return;
       }
-      
+
+      saveProgressBtn.disabled = true; // Prevent double clicks
+      saveProgressBtn.textContent = 'Saving...';
+
       try {
-        const courseIndex = enrolledCourses.findIndex(c => c.id === currentEditingCourse);
-        if (courseIndex === -1) return;
-        
-        const updatedCourse = {
-          ...enrolledCourses[courseIndex],
-          progress: progress,
-          notes: progressNotes.value,
-          lastUpdated: firebase.firestore.FieldValue.serverTimestamp()
-        };
-        
-        // Only admins can verify courses
-        if (isAdmin) {
-          updatedCourse.verified = progressVerified.value === 'true';
-          updatedCourse.verifiedBy = progressVerified.value === 'true' ? (userData.name || "Admin") : null;
-          updatedCourse.verifiedAt = progressVerified.value === 'true' ? firebase.firestore.FieldValue.serverTimestamp() : null;
-        }
-        
-        await db.collection("users").doc(currentEditingUserId).update({
-          enrolledCourses: firebase.firestore.FieldValue.arrayRemove(enrolledCourses[courseIndex])
-        });
-        
-        await db.collection("users").doc(currentEditingUserId).update({
-          enrolledCourses: firebase.firestore.FieldValue.arrayUnion(updatedCourse)
-        });
-        
-        enrolledCourses[courseIndex] = updatedCourse;
-        progressModal.classList.remove('active');
-        loadProgressPage();
-        
+            // Fetch the target user's document to get their current enrolledCourses array
+            const userDocRef = db.collection("users").doc(currentEditingUserId);
+            const userDoc = await userDocRef.get();
+            if (!userDoc.exists) {
+                throw new Error("Target user document not found.");
+            }
+
+            const targetUserData = userDoc.data();
+            const targetEnrolledCourses = targetUserData.enrolledCourses || [];
+
+            const courseIndex = targetEnrolledCourses.findIndex(c => c.id === currentEditingCourse);
+            if (courseIndex === -1) {
+                 throw new Error("Course not found in target user's enrolled list.");
+            }
+
+            const originalCourseData = targetEnrolledCourses[courseIndex];
+
+            // Create the updated course object
+            const updatedCourse = {
+                ...originalCourseData, // Keep original fields like enrollmentDate
+                id: currentEditingCourse, // Ensure ID is present
+                progress: progress,
+                notes: progressNotes.value.trim(), // Trim notes
+                lastUpdated: firebase.firestore.FieldValue.serverTimestamp(),
+                // Admin-specific fields
+                verified: progressVerified.value === 'true',
+                verifiedBy: progressVerified.value === 'true' ? (userData?.name || "Admin") : null, // Store current admin's name
+                verifiedAt: progressVerified.value === 'true' ? firebase.firestore.FieldValue.serverTimestamp() : null
+            };
+
+            // Create a new array with the updated course replacing the old one
+            const newEnrolledCoursesArray = targetEnrolledCourses.map((course, index) =>
+                index === courseIndex ? updatedCourse : course
+            );
+
+            // Update the entire enrolledCourses array in Firestore for the target user
+            await userDocRef.update({
+                enrolledCourses: newEnrolledCoursesArray
+            });
+
+            // Update local state *only if* the currently logged-in user is the one being edited
+            if (currentUser.uid === currentEditingUserId) {
+                 // We need to refresh the local enrolledCourses array as the timestamp fields are now server values
+                 await loadUserData(currentUser.uid); // Reload data to get correct timestamps
+                 loadProgressPage(); // Re-render the page with updated local data
+            } else {
+                // If admin edited another user, maybe just show a success message or refresh admin view if needed
+                console.log(`Progress updated successfully for user ${currentEditingUserId}`);
+                 // If on an admin page viewing this user, refresh that view.
+                 // Since this is the user's own progress page, we don't need to reload their view here.
+            }
+
+
+            progressModal.classList.remove('active');
+            // Maybe show a success toast/message here
+
       } catch (error) {
         console.error("Error updating progress:", error);
-        alert("Failed to update progress. Please try again.");
+        alert(`Failed to update progress: ${error.message}. Please try again.`);
+      } finally {
+          saveProgressBtn.disabled = false; // Re-enable button
+          saveProgressBtn.textContent = 'Save Changes';
       }
     }
+
 
     async function handleLogout(e) {
       e.preventDefault();
       try {
         await auth.signOut();
-        sessionStorage.removeItem('adminPromptShown');
+        sessionStorage.removeItem('adminPromptShownThisSession'); // Clear session storage on logout
         window.location.href = 'login.html';
       } catch (error) {
         console.error("Error signing out:", error);
+         alert("Error signing out. Please try again.");
       }
     }
 
-    // Make functions available globally
+    // Make functions available globally if called directly from HTML (like onclick)
     window.openProgressModal = openProgressModal;
 
     // Initialize the app
     document.addEventListener('DOMContentLoaded', initApp);
+
   </script>
 </body>
 </html>
