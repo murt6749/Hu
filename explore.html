@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HU Muslim Jama'a - Explore Learning Opportunities (Ultra)</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&family=Merriweather:wght@400;700;900&display=swap');
+
+        :root {
+            --primary-color: #005000; /* Slightly darker primary */
+            --secondary-color: #F0B429; /* Brighter, richer Gold */
+            --accent-color: #008f00; /* Vibrant Green Accent */
+            --background-color: #f8fff8; /* Even lighter background */
+            --text-color: #223344; /* Slightly softer dark text */
+            --card-bg: #ffffff;
+            --header-bg-gradient-start: #004d00;
+            --header-bg-gradient-mid: #006400;
+            --header-bg-gradient-end: #005000;
+            --footer-bg: #003e00; /* Darker footer */
+            --glow-color: rgba(240, 180, 41, 0.6); /* Gold glow */
+            --animation-speed-fast: 0.35s;
+            --animation-speed-medium: 0.7s;
+            --animation-speed-slow: 1.2s;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--background-color);
+            color: var(--text-color);
+            line-height: 1.7;
+            overflow-x: hidden;
+            /* Animated subtle background pattern */
+            background-image:
+                linear-gradient(45deg, #eaf7ea 25%, transparent 25%),
+                linear-gradient(-45deg, #eaf7ea 25%, transparent 25%),
+                linear-gradient(45deg, transparent 75%, #eaf7ea 75%),
+                linear-gradient(-45deg, transparent 75%, #eaf7ea 75%);
+            background-size: 24px 24px; /* Slightly larger pattern */
+            background-position: 0 0, 0 12px, 12px -12px, -12px 0px;
+            animation: subtlePatternMove 60s linear infinite;
+        }
+
+        @keyframes subtlePatternMove {
+            0% { background-position: 0 0, 0 12px, 12px -12px, -12px 0px; }
+            100% { background-position: 24px 24px, 24px 36px, 36px -36px, -36px 24px; }
+        }
+
+
+        .container {
+            max-width: 1350px; /* Slightly wider */
+            margin: 0 auto;
+            padding: 30px;
+        }
+
+        /* --- Header Styling --- */
+        header {
+            color: #ffffff;
+            padding: 2.5rem 1rem; /* More padding */
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            border-bottom: 8px solid var(--secondary-color); /* Thicker border */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 50px;
+            /* Animated Gradient Background */
+            background: linear-gradient(-45deg, var(--header-bg-gradient-start), var(--header-bg-gradient-mid), var(--header-bg-gradient-end), var(--accent-color));
+            background-size: 400% 400%;
+            animation: gradientBG 15s ease infinite;
+        }
+
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .logo-container {
+            margin-bottom: 1.5rem;
+            animation: logoPulse var(--animation-speed-slow) ease-out infinite alternate; /* Pulsing effect */
+            background-color: rgba(255, 255, 255, 0.15);
+            border-radius: 50%;
+            padding: 12px; /* Slightly more padding */
+            box-shadow: 0 0 25px var(--glow-color); /* More pronounced glow */
+        }
+
+        @keyframes logoPulse {
+             from { transform: scale(1); box-shadow: 0 0 25px var(--glow-color); }
+             to { transform: scale(1.05); box-shadow: 0 0 35px var(--glow-color); }
+        }
+
+        .logo {
+            display: block;
+            width: 100px; /* Larger logo */
+            height: 100px;
+            border-radius: 50%;
+            border: 4px solid var(--secondary-color); /* Thicker border */
+            object-fit: cover;
+        }
+
+        header h1 {
+            font-family: 'Merriweather', serif;
+            font-weight: 900; /* Bolder */
+            font-size: 3rem; /* Larger */
+            margin-bottom: 0.7rem;
+            position: relative;
+            z-index: 1;
+            animation: slideDownFade var(--animation-speed-medium) ease-out;
+            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.4); /* Stronger shadow */
+        }
+
+        header p {
+            font-size: 1.2rem;
+            position: relative;
+            z-index: 1;
+            animation: slideUpFade var(--animation-speed-medium) ease-out 0.4s;
+            animation-fill-mode: backwards;
+            max-width: 650px;
+            margin: 0 auto;
+            color: #e8f5e9; /* Lighter green */
+            font-weight: 300;
+        }
+
+        /* --- Section Styling --- */
+        section {
+            margin-bottom: 60px; /* More space */
+            padding: 40px; /* More padding */
+            background-color: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(10px);
+            border-radius: 25px; /* Even more rounded */
+            box-shadow: 0 15px 45px rgba(0, 77, 0, 0.15); /* Deeper shadow */
+            border: 1px solid #d0e0d0;
+            animation: zoomInFade var(--animation-speed-medium) ease-out forwards;
+            opacity: 0;
+            transform: scale(0.95); /* Start slightly smaller for zoom */
+        }
+
+        /* Stagger section animations */
+        section:nth-of-type(1) { animation-delay: 0.2s; }
+        section:nth-of-type(2) { animation-delay: 0.45s; }
+        section:nth-of-type(3) { animation-delay: 0.7s; }
+
+        @keyframes zoomInFade {
+            from { opacity: 0; transform: scale(0.95) translateY(15px); }
+            to { opacity: 1; transform: scale(1) translateY(0); }
+        }
+
+        section h2 {
+            font-family: 'Merriweather', serif;
+            font-weight: 700;
+            color: var(--primary-color);
+            font-size: 2.6rem; /* Larger section titles */
+            text-align: center;
+            margin-bottom: 40px;
+            padding-bottom: 18px;
+            border-bottom: 4px solid var(--secondary-color);
+            position: relative;
+            letter-spacing: 0.5px;
+        }
+
+        section h2 i {
+            margin-right: 12px;
+            color: var(--accent-color);
+            transform: translateY(2px); /* Fine-tune icon position */
+        }
+
+        section h2::after {
+            content: '';
+            position: absolute;
+            bottom: -4px; /* Align with border */
+            left: 50%;
+            transform: translateX(-50%);
+            width: 90px; /* Wider underline accent */
+            height: 6px; /* Thicker */
+            background: linear-gradient(90deg, var(--accent-color), var(--primary-color)); /* Gradient underline */
+            border-radius: 3px;
+        }
+
+        /* --- Grid & Card Styling --- */
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); /* Min card width */
+            gap: 35px; /* Increased gap */
+        }
+
+        .card {
+            background: linear-gradient(155deg, var(--card-bg) 0%, #fAfDfa 100%);
+            border-radius: 20px; /* More rounded cards */
+            padding: 30px; /* More padding in cards */
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+            transition: transform var(--animation-speed-fast) ease,
+                        box-shadow var(--animation-speed-fast) ease,
+                        border-color var(--animation-speed-fast) ease;
+            border: 1px solid transparent; /* Start transparent */
+            border-top: 6px solid var(--accent-color); /* Thicker top border */
+            position: relative;
+            overflow: hidden; /* Needed for pseudo-elements */
+        }
+
+        /* Glint effect on hover */
+         .card::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: -100%; /* Start off-screen */
+            width: 50%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transform: skewX(-25deg);
+            transition: left var(--animation-speed-medium) ease;
+            z-index: 1;
+         }
+
+        .card:hover {
+            transform: translateY(-15px) scale(1.02); /* More lift */
+            box-shadow: 0 20px 50px rgba(0, 77, 0, 0.22); /* Stronger hover shadow */
+            border-color: var(--secondary-color); /* Gold border on hover */
+        }
+
+        .card:hover::before {
+            left: 120%; /* Move glint across */
+        }
+
+        .card h3 {
+            color: var(--primary-color);
+            margin-bottom: 20px;
+            font-size: 1.7rem; /* Larger card titles */
+            font-weight: 700; /* Bolder */
+            border-bottom: 2px solid #f0f0f0; /* Thicker separator */
+            padding-bottom: 12px;
+            display: flex;
+            align-items: center;
+            position: relative; /* For icon animation */
+            z-index: 2; /* Above glint */
+        }
+         .card h3 i {
+            margin-right: 10px;
+            color: var(--secondary-color);
+            font-size: 1.5rem;
+            transition: transform var(--animation-speed-fast) ease;
+         }
+
+         .card:hover h3 i {
+             transform: rotate(-10deg) scale(1.1); /* Animate icon on hover */
+         }
+
+         .card h4 {
+            color: var(--accent-color);
+            margin-top: 25px;
+            margin-bottom: 15px;
+            font-size: 1.3rem; /* Larger sub-headings */
+            font-weight: 600;
+            position: relative;
+            z-index: 2;
+         }
+
+        .card ul {
+            list-style: none;
+            padding-left: 5px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .card li {
+            margin-bottom: 12px; /* More spacing */
+            padding-left: 30px; /* More indent */
+            position: relative;
+            font-size: 1.05rem; /* Slightly larger list text */
+            color: #445566; /* Softer list text */
+        }
+
+        .card li::before {
+            content: '\f058';
+            font-family: 'Font Awesome 6 Free';
+            font-weight: 900;
+            color: var(--accent-color);
+            position: absolute;
+            left: 0;
+            top: 3px;
+            font-size: 1em; /* Larger check icon */
+            transition: color var(--animation-speed-fast) ease;
+        }
+
+        .card:hover li::before {
+            color: var(--secondary-color); /* Change icon color on hover */
+        }
+
+
+        .card strong {
+            font-weight: 700; /* Bolder strong text */
+            color: var(--primary-color);
+        }
+
+        /* --- Footer Styling --- */
+        footer {
+            background-color: var(--footer-bg);
+            color: #d8f0d8; /* Lighter footer text */
+            text-align: center;
+            padding: 2.5rem 1rem; /* More footer padding */
+            margin-top: 60px;
+            border-top: 8px solid var(--secondary-color); /* Match header border */
+            font-size: 1rem;
+        }
+        footer p {
+            margin-bottom: 0.6rem;
+            line-height: 1.6;
+        }
+        footer p:last-child {
+            margin-bottom: 0;
+            opacity: 0.85;
+            font-size: 0.9rem;
+        }
+
+        /* --- Animations (Re-used & New) --- */
+        @keyframes fadeInScale { /* Kept from previous */
+            from { opacity: 0; transform: scale(0.8); }
+            to { opacity: 1; transform: scale(1); }
+        }
+        @keyframes slideDownFade { /* Kept from previous */
+            from { opacity: 0; transform: translateY(-40px); } /* More distance */
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes slideUpFade { /* Kept from previous */
+            from { opacity: 0; transform: translateY(40px); } /* More distance */
+            to { opacity: 1; transform: translateY(0); }
+        }
+        /* PopIn replaced with zoomInFade */
+
+        /* --- Responsive Design --- */
+        @media (max-width: 1200px) {
+            .container { padding: 20px; }
+        }
+
+        @media (max-width: 992px) {
+            header h1 { font-size: 2.6rem; }
+            section h2 { font-size: 2.2rem; }
+            .card h3 { font-size: 1.5rem; }
+            .grid-container { grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); }
+        }
+
+        @media (max-width: 768px) {
+            header h1 { font-size: 2.2rem; }
+            header p { font-size: 1.1rem; }
+            section { padding: 30px; }
+            section h2 { font-size: 2rem; margin-bottom: 30px;}
+            .grid-container { grid-template-columns: 1fr; gap: 30px; }
+            .logo { width: 80px; height: 80px; }
+            .card li { font-size: 1rem; }
+            .card { padding: 25px; }
+        }
+        @media (max-width: 480px) {
+            body { line-height: 1.6; }
+            header { padding: 2rem 1rem; }
+            header h1 { font-size: 1.9rem; }
+            header p { font-size: 1rem; }
+            section h2 { font-size: 1.8rem; }
+            .card h3 { font-size: 1.4rem; }
+            .card h4 { font-size: 1.2rem; }
+            footer { padding: 2rem 1rem; font-size: 0.9rem;}
+            .logo { width: 70px; height: 70px; }
+        }
+
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="logo-container">
+            <img src="https://placehold.co/100x100/006400/FFD700?text=HU+Jamaa" alt="HU Jama'a Logo" class="logo" onerror="this.src='https://placehold.co/100x100/006400/FFFFFF?text=Logo+Error'; this.onerror=null;">
+        </div>
+        <h1>Haramaya University Muslim Jama'a</h1>
+        <p>Explore Dynamic Islamic Learning Programs & Schedules</p>
+    </header>
+
+    <div class="container">
+
+        <section id="kitab">
+            <h2><i class="fas fa-book-open"></i> Kitab Learning Sessions</h2>
+            <div class="grid-container">
+                <div class="card">
+                     <h3><i class="fas fa-language"></i> Amharic Language</h3>
+                     <ul>
+                         <li><strong>Sifetu Solah:</strong> Saturday and Sunday</li>
+                         <li><strong>Usulu Selasah:</strong> Monday and Tuesday</li>
+                         <li><strong>Tejwid (Hidayetul Mustefid):</strong> Saturday and Sunday Morning</li>
+                         <li><strong>Kulasetu Nurel Yeqin:</strong> Only Thursday</li>
+                     </ul>
+                </div>
+                 <div class="card">
+                     <h3><i class="fas fa-language"></i> Oromifa Language</h3>
+                     <ul>
+                         <li><strong>Sifetu Solah:</strong> Monday and Tuesday</li>
+                         <li><strong>Usulu Selasah:</strong> Saturday and Sunday</li>
+                         <li><strong>Tejwid (Hidayetul Mustefid):</strong> Saturday and Sunday Morning</li>
+                         <li><strong>Umdetul Ahkam:</strong> Saturday and Sunday</li>
+                         <li><strong>Riyadusualihin:</strong> Saturday and Sunday</li>
+                         <li><strong>Tefsir:</strong> Only Wednesday</li>
+                         <li><strong>Aqidetu Tuhawiya:</strong> Only Wednesday</li>
+                     </ul>
+                </div>
+            </div>
+        </section>
+
+        <section id="hifz">
+            <h2><i class="fas fa-quran"></i> Hifz (Memorization) Programs</h2>
+            <div class="grid-container">
+                 <div class="card">
+                    <h3><i class="fas fa-user-graduate"></i> Fresh Students</h3>
+                    <h4><i class="fas fa-female"></i> Female Students</h4>
+                    <ul>
+                        <li><strong>Schedule:</strong> Morning (Monday - Wednesday)</li>
+                        <li>Multiple instructors available.</li>
+                    </ul>
+                     <h4><i class="fas fa-male"></i> Male Students</h4>
+                     <ul>
+                        <li><strong>Schedule 1:</strong> Between Maghrib & Isha (Monday - Wednesday)</li>
+                        <li>Other schedules/instructors may be available.</li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <h3><i class="fas fa-user-tie"></i> Senior Students</h3>
+                     <h4><i class="fas fa-female"></i> Female Students</h4>
+                    <ul>
+                       <li>Dedicated sessions available.</li>
+                       <li>Multiple instructors available.</li>
+                    </ul>
+                     <h4><i class="fas fa-male"></i> Male Students</h4>
+                     <ul>
+                        <li>Dedicated sessions available.</li>
+                        <li>Includes local instructors.</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section id="nezer">
+            <h2><i class="fas fa-book-reader"></i> Nezer (Reading & Study) Programs</h2>
+            <div class="grid-container">
+                <div class="card">
+                    <h3><i class="fas fa-user-graduate"></i> Fresh Students</h3>
+                     <h4><i class="fas fa-female"></i> Female Students</h4>
+                    <ul>
+                       <li><strong>Language Options:</strong> Amharic, Oromifa</li>
+                       <li>Instructors available for both languages.</li>
+                    </ul>
+                     <h4><i class="fas fa-male"></i> Male Students</h4>
+                     <ul>
+                        <li>Dedicated sessions available.</li>
+                        <li>Multiple instructors available.</li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <h3><i class="fas fa-user-tie"></i> Senior Students</h3>
+                    <h4><i class="fas fa-female"></i> Female Students</h4>
+                    <ul>
+                       <li>Dedicated sessions available.</li>
+                       <li>Multiple instructors available.</li>
+                    </ul>
+                     <h4><i class="fas fa-male"></i> Male Students</h4>
+                    <ul>
+                       <li>Dedicated sessions available.</li>
+                       <li>Multiple instructors available.</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+    </div>
+
+    <footer>
+        <p>&copy; 2024 Haramaya University Muslim Jama'a | Striving for Knowledge & Community</p>
+        <p>Information based on document dated 29/05/2017 E.C. Schedules subject to change. Please confirm with Jama'a officials.</p>
+    </footer>
+
+</body>
+</html>
+```
+
+**Key Enhancements in this "Ultra" Version:**
+
+1.  **Animated Header Gradient:** The header now features a smoothly transitioning gradient background.
+2.  **Pulsing Logo:** The logo container gently pulses, drawing attention.
+3.  **Subtle Background Animation:** The geometric pattern in the body background now subtly shifts over time.
+4.  **Enhanced Entrance Animations:** Sections now use a "zoom-in-fade" effect.
+5.  **Upgraded Card Design:**
+    * More rounded corners and padding.
+    * Thicker top border accent.
+    * **Glint Effect:** A subtle shine animates across cards on hover.
+    * **Border Highlight:** The card border subtly highlights in gold on hover.
+    * **Icon Animation:** Icons within card titles rotate slightly on hover.
+    * **List Item Icon:** Checkmark icons before list items change color on hover.
+6.  **Refined Typography & Spacing:** Increased font sizes, bolder weights, and more generous spacing for a more impactful look.
+7.  **Richer Colors:** Adjusted the primary and secondary colors for more vibrancy.
+8.  **Improved Shadows & Borders:** Deeper shadows and thicker borders for more definition.
+
+Remember to replace the placeholder logo URL with your `haramaya.png` path. I hope this version achieves the "super super ultra" design and animation level you were looking f
