@@ -24,8 +24,8 @@
       --info-color: #17a2b8;
       --warning-color: #ffc107;
       --danger-color: #dc3545;
-      --border-radius: 8px;
-      --box-padding: 20px;
+      --border-radius: 12px;
+      --box-padding: 24px;
       --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
     }
 
@@ -39,7 +39,7 @@
     body {
       background-color: var(--gray-light);
       min-height: 100vh;
-      font-size: 14px;
+      font-size: 15px;
       color: #333;
       line-height: 1.6;
     }
@@ -54,7 +54,7 @@
     .header {
       background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
       color: white;
-      padding: 15px var(--box-padding);
+      padding: 18px var(--box-padding);
       position: sticky;
       top: 0;
       z-index: 1000;
@@ -65,15 +65,15 @@
     }
 
     .header h1 {
-      font-size: 1.3rem;
+      font-size: 1.4rem;
       font-weight: 600;
       display: flex;
       align-items: center;
-      gap: 10px;
+      gap: 12px;
     }
 
     .header h1 i {
-      font-size: 1.1rem;
+      font-size: 1.2rem;
     }
 
     .header-actions {
@@ -86,7 +86,7 @@
       background: none;
       border: none;
       color: white;
-      font-size: 1.2rem;
+      font-size: 1.3rem;
       cursor: pointer;
       position: relative;
       transition: var(--transition);
@@ -94,17 +94,20 @@
 
     .btn-icon:hover {
       transform: scale(1.1);
+      opacity: 0.9;
     }
 
     /* Admin Panel Indicator */
     .admin-badge {
       background-color: var(--warning-color);
       color: #000;
-      padding: 4px 8px;
-      border-radius: 12px;
-      font-size: 0.7rem;
-      font-weight: 600;
-      margin-left: 8px;
+      padding: 5px 10px;
+      border-radius: 20px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      margin-left: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
     }
 
     /* Account Dropdown */
@@ -118,7 +121,7 @@
       position: absolute;
       right: 0;
       background-color: var(--white);
-      min-width: 180px;
+      min-width: 200px;
       box-shadow: var(--shadow-hover);
       z-index: 1000;
       border-radius: var(--border-radius);
@@ -133,19 +136,21 @@
 
     .dropdown-content a {
       color: var(--secondary-color);
-      padding: 12px 16px;
+      padding: 14px 18px;
       text-decoration: none;
       display: block;
-      font-size: 0.85rem;
+      font-size: 0.9rem;
       transition: var(--transition);
+      border-left: 3px solid transparent;
     }
 
     .dropdown-content a:hover {
       background-color: rgba(79, 111, 82, 0.1);
+      border-left: 3px solid var(--primary-color);
     }
 
     .dropdown-content a i {
-      margin-right: 8px;
+      margin-right: 10px;
       width: 18px;
       text-align: center;
     }
@@ -155,18 +160,19 @@
     }
 
     .user-name {
-      margin-right: 8px;
-      font-size: 0.9rem;
-      max-width: 120px;
+      margin-right: 10px;
+      font-size: 0.95rem;
+      max-width: 150px;
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
+      font-weight: 500;
     }
 
     /* Main Content Area */
     .main-content {
       padding: var(--box-padding);
-      padding-bottom: 20px;
+      padding-bottom: 30px;
     }
 
     /* Admin Navigation */
@@ -175,24 +181,28 @@
       background: white;
       border-radius: var(--border-radius);
       overflow: hidden;
-      margin-bottom: 20px;
+      margin-bottom: 25px;
       box-shadow: var(--shadow);
     }
 
     .admin-nav-item {
-      padding: 14px 20px;
+      padding: 16px 20px;
       text-align: center;
       cursor: pointer;
       flex: 1;
       transition: var(--transition);
-      border-bottom: 3px solid transparent;
-      font-size: 0.85rem;
+      border-bottom: 4px solid transparent;
+      font-size: 0.9rem;
       font-weight: 500;
       color: var(--gray-dark);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
     }
 
     .admin-nav-item.active {
-      border-bottom: 3px solid var(--primary-color);
+      border-bottom: 4px solid var(--primary-color);
       color: var(--primary-color);
       font-weight: 600;
       background-color: rgba(26, 77, 46, 0.05);
@@ -203,8 +213,7 @@
     }
 
     .admin-nav-item i {
-      margin-right: 8px;
-      font-size: 0.9rem;
+      font-size: 1rem;
     }
 
     /* Card Styles */
@@ -212,27 +221,31 @@
       background-color: var(--white);
       border-radius: var(--border-radius);
       padding: var(--box-padding);
-      margin-bottom: 20px;
+      margin-bottom: 25px;
       box-shadow: var(--shadow);
       transition: var(--transition);
+      border: 1px solid rgba(0, 0, 0, 0.03);
     }
 
     .card:hover {
       box-shadow: var(--shadow-hover);
+      transform: translateY(-2px);
     }
 
     .card-title {
       color: var(--primary-color);
-      margin-bottom: 15px;
-      font-size: 1.2rem;
+      margin-bottom: 20px;
+      font-size: 1.3rem;
       font-weight: 600;
       display: flex;
       align-items: center;
-      gap: 10px;
+      gap: 12px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.05);
     }
 
     .card-title i {
-      font-size: 1rem;
+      font-size: 1.1rem;
     }
 
     /* Table Styles */
@@ -250,7 +263,7 @@
     }
 
     .data-table th, .data-table td {
-      padding: 14px 16px;
+      padding: 16px 18px;
       text-align: left;
       border-bottom: 1px solid var(--gray-medium);
     }
@@ -275,9 +288,9 @@
     /* Badges */
     .badge {
       display: inline-block;
-      padding: 4px 10px;
-      border-radius: 12px;
-      font-size: 0.75rem;
+      padding: 5px 12px;
+      border-radius: 20px;
+      font-size: 0.8rem;
       font-weight: 600;
       letter-spacing: 0.3px;
     }
@@ -319,17 +332,18 @@
 
     /* Buttons */
     .btn {
-      padding: 10px 16px;
+      padding: 12px 20px;
       border: none;
       border-radius: var(--border-radius);
-      font-size: 0.85rem;
+      font-size: 0.9rem;
       font-weight: 500;
       cursor: pointer;
       transition: var(--transition);
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      gap: 6px;
+      gap: 8px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     }
 
     .btn-block {
@@ -343,22 +357,24 @@
 
     .btn-primary:hover {
       background-color: var(--primary-light);
-      box-shadow: 0 2px 8px rgba(26, 77, 46, 0.3);
+      box-shadow: 0 4px 12px rgba(26, 77, 46, 0.3);
+      transform: translateY(-2px);
     }
 
     .btn-outline {
       background-color: transparent;
-      border: 1px solid var(--primary-color);
+      border: 2px solid var(--primary-color);
       color: var(--primary-color);
     }
 
     .btn-outline:hover {
       background-color: rgba(26, 77, 46, 0.05);
+      transform: translateY(-2px);
     }
 
     .btn-sm {
-      padding: 6px 12px;
-      font-size: 0.8rem;
+      padding: 8px 14px;
+      font-size: 0.85rem;
     }
 
     .btn-danger {
@@ -368,7 +384,8 @@
 
     .btn-danger:hover {
       background-color: #c82333;
-      box-shadow: 0 2px 8px rgba(220, 53, 69, 0.3);
+      box-shadow: 0 4px 12px rgba(220, 53, 69, 0.3);
+      transform: translateY(-2px);
     }
 
     .btn-success {
@@ -378,7 +395,8 @@
 
     .btn-success:hover {
       background-color: #218838;
-      box-shadow: 0 2px 8px rgba(40, 167, 69, 0.3);
+      box-shadow: 0 4px 12px rgba(40, 167, 69, 0.3);
+      transform: translateY(-2px);
     }
 
     .btn-warning {
@@ -388,133 +406,90 @@
 
     .btn-warning:hover {
       background-color: #e0a800;
-      box-shadow: 0 2px 8px rgba(255, 193, 7, 0.3);
+      box-shadow: 0 4px 12px rgba(255, 193, 7, 0.3);
+      transform: translateY(-2px);
     }
 
     /* Form Elements */
     .form-group {
-      margin-bottom: 16px;
+      margin-bottom: 20px;
     }
 
     .form-group label {
       display: block;
-      margin-bottom: 6px;
+      margin-bottom: 8px;
       font-weight: 500;
       color: var(--secondary-color);
-      font-size: 0.85rem;
+      font-size: 0.9rem;
     }
 
     .form-control {
       width: 100%;
-      padding: 12px;
-      border: 1px solid var(--gray-medium);
+      padding: 14px;
+      border: 2px solid var(--gray-medium);
       border-radius: var(--border-radius);
-      font-size: 0.9rem;
+      font-size: 0.95rem;
       transition: var(--transition);
     }
 
     .form-control:focus {
       outline: none;
       border-color: var(--primary-color);
-      box-shadow: 0 0 0 3px rgba(26, 77, 46, 0.1);
+      box-shadow: 0 0 0 4px rgba(26, 77, 46, 0.1);
     }
 
     textarea.form-control {
-      min-height: 100px;
+      min-height: 120px;
       resize: vertical;
-    }
-
-    /* Filter Section */
-    .filter-section {
-      display: flex;
-      gap: 15px;
-      margin-bottom: 20px;
-      flex-wrap: wrap;
-    }
-
-    .filter-item {
-      flex: 1;
-      min-width: 180px;
-    }
-
-    /* Export Section */
-    .export-section {
-      background: rgba(79, 111, 82, 0.05);
-      padding: 16px;
-      border-radius: var(--border-radius);
-      margin-bottom: 20px;
-      border: 1px dashed rgba(79, 111, 82, 0.3);
-    }
-
-    .export-section h3 {
-      font-size: 0.95rem;
-      color: var(--secondary-color);
-      margin-bottom: 10px;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-
-    .export-section h3 i {
-      font-size: 0.9rem;
-    }
-
-    .export-options {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
-      gap: 10px;
-      margin-top: 10px;
-    }
-
-    .export-checkbox {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-
-    .export-checkbox input {
-      accent-color: var(--primary-color);
-    }
-
-    .export-checkbox label {
-      font-size: 0.85rem;
-      cursor: pointer;
     }
 
     /* Stats Cards */
     .stats-container {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-      gap: 20px;
-      margin-bottom: 20px;
+      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+      gap: 25px;
+      margin-bottom: 30px;
     }
 
     .stat-card {
       background: white;
       border-radius: var(--border-radius);
-      padding: 20px;
+      padding: 25px;
       box-shadow: var(--shadow);
       text-align: center;
       transition: var(--transition);
+      border: 1px solid rgba(0, 0, 0, 0.03);
+      position: relative;
+      overflow: hidden;
     }
 
     .stat-card:hover {
-      transform: translateY(-3px);
+      transform: translateY(-5px);
       box-shadow: var(--shadow-hover);
+    }
+
+    .stat-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 5px;
+      background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
     }
 
     .stat-card h3 {
       color: var(--primary-color);
-      margin-bottom: 8px;
-      font-size: 0.9rem;
+      margin-bottom: 12px;
+      font-size: 1rem;
       font-weight: 500;
       text-transform: uppercase;
       letter-spacing: 0.5px;
     }
 
     .stat-card p {
-      font-size: 1.8rem;
-      font-weight: 600;
+      font-size: 2.2rem;
+      font-weight: 700;
       color: var(--secondary-color);
     }
 
@@ -534,34 +509,34 @@
     /* Empty State */
     .empty-state {
       text-align: center;
-      padding: 40px 20px;
+      padding: 50px 20px;
       color: var(--gray-dark);
     }
 
     .empty-state i {
-      font-size: 2.5rem;
-      margin-bottom: 15px;
+      font-size: 3rem;
+      margin-bottom: 20px;
       color: var(--gray-medium);
       opacity: 0.7;
     }
 
     .empty-state p {
-      font-size: 0.95rem;
+      font-size: 1.1rem;
       max-width: 400px;
-      margin: 0 auto;
+      margin: 0 auto 20px;
     }
 
     /* Loading State */
     .loading-state {
       display: flex;
       justify-content: center;
-      padding: 40px;
+      padding: 50px;
     }
 
     .spinner {
-      width: 40px;
-      height: 40px;
-      border: 4px solid rgba(26, 77, 46, 0.1);
+      width: 50px;
+      height: 50px;
+      border: 5px solid rgba(26, 77, 46, 0.1);
       border-radius: 50%;
       border-top-color: var(--primary-color);
       animation: spin 1s ease-in-out infinite;
@@ -602,7 +577,7 @@
       overflow-y: auto;
       transform: translateY(20px);
       transition: transform 0.3s ease;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+      box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
     }
 
     .modal.active .modal-content {
@@ -610,7 +585,7 @@
     }
 
     .modal-header {
-      padding: 16px 20px;
+      padding: 18px 25px;
       border-bottom: 1px solid var(--gray-medium);
       display: flex;
       justify-content: space-between;
@@ -618,15 +593,18 @@
     }
 
     .modal-title {
-      font-size: 1.2rem;
+      font-size: 1.4rem;
       color: var(--primary-color);
       font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 10px;
     }
 
     .modal-close {
       background: none;
       border: none;
-      font-size: 1.5rem;
+      font-size: 1.8rem;
       cursor: pointer;
       color: var(--gray-dark);
       transition: var(--transition);
@@ -638,29 +616,29 @@
     }
 
     .modal-body {
-      padding: 20px;
+      padding: 25px;
     }
 
     .modal-footer {
-      padding: 16px 20px;
+      padding: 18px 25px;
       border-top: 1px solid var(--gray-medium);
       display: flex;
       justify-content: flex-end;
-      gap: 10px;
+      gap: 12px;
     }
 
     /* Notification */
     .notification {
       position: fixed;
-      top: 20px;
-      right: 20px;
-      padding: 14px 20px;
+      top: 25px;
+      right: 25px;
+      padding: 16px 24px;
       border-radius: var(--border-radius);
       box-shadow: var(--shadow-hover);
       z-index: 3000;
       display: flex;
       align-items: center;
-      gap: 12px;
+      gap: 14px;
       transform: translateX(150%);
       transition: transform 0.4s cubic-bezier(0.68, -0.55, 0.27, 1.55);
     }
@@ -670,7 +648,7 @@
     }
 
     .notification i {
-      font-size: 1.2rem;
+      font-size: 1.4rem;
     }
 
     .notification-success {
@@ -683,6 +661,55 @@
       color: white;
     }
 
+    /* Action Buttons */
+    .action-buttons {
+      display: flex;
+      gap: 15px;
+      margin-top: 25px;
+      flex-wrap: wrap;
+    }
+
+    .action-button {
+      flex: 1;
+      min-width: 200px;
+      text-align: center;
+      padding: 20px;
+      border-radius: var(--border-radius);
+      background: white;
+      box-shadow: var(--shadow);
+      transition: var(--transition);
+      color: var(--gray-dark);
+      text-decoration: none;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid rgba(0, 0, 0, 0.05);
+    }
+
+    .action-button:hover {
+      transform: translateY(-5px);
+      box-shadow: var(--shadow-hover);
+      color: var(--primary-color);
+    }
+
+    .action-button i {
+      font-size: 2.5rem;
+      margin-bottom: 15px;
+      color: var(--primary-color);
+    }
+
+    .action-button h3 {
+      font-size: 1.2rem;
+      margin-bottom: 8px;
+    }
+
+    .action-button p {
+      font-size: 0.9rem;
+      color: var(--gray-dark);
+      opacity: 0.8;
+    }
+
     /* Responsive */
     @media (max-width: 992px) {
       .admin-nav {
@@ -690,26 +717,52 @@
       }
       .admin-nav-item {
         flex: 1 0 50%;
-        padding: 12px;
+        padding: 14px;
+      }
+      
+      .action-buttons {
+        gap: 12px;
+      }
+      
+      .action-button {
+        min-width: 160px;
+        padding: 18px;
       }
     }
 
     @media (max-width: 768px) {
+      :root {
+        --box-padding: 18px;
+      }
+      
       .header h1 {
-        font-size: 1.1rem;
+        font-size: 1.2rem;
       }
+      
       .main-content {
-        padding: 15px;
+        padding: 18px;
       }
+      
       .stats-container {
         grid-template-columns: 1fr 1fr;
       }
-      .filter-section {
+      
+      .action-buttons {
         flex-direction: column;
-        gap: 10px;
+        gap: 12px;
       }
-      .filter-item {
+      
+      .action-button {
+        width: 100%;
         min-width: 100%;
+      }
+      
+      .card-title {
+        font-size: 1.2rem;
+      }
+      
+      .stat-card p {
+        font-size: 1.8rem;
       }
     }
 
@@ -717,14 +770,33 @@
       .stats-container {
         grid-template-columns: 1fr;
       }
+      
       .admin-nav-item {
         flex: 1 0 100%;
       }
+      
+      .header h1 {
+        font-size: 1.1rem;
+      }
+      
+      .user-name {
+        max-width: 100px;
+      }
+      
       .modal-footer {
         flex-direction: column;
       }
+      
       .modal-footer .btn {
         width: 100%;
+      }
+      
+      .action-button i {
+        font-size: 2rem;
+      }
+      
+      .action-button h3 {
+        font-size: 1.1rem;
       }
     }
   </style>
@@ -735,7 +807,7 @@
     <header class="header">
       <h1 id="page-title">
         <i class="fas fa-shield-alt"></i>
-        HU Jama'aa Admin Panel
+        HU Jama'aa Admin
         <span class="admin-badge">MODERATOR</span>
       </h1>
       <div class="header-actions">
@@ -759,17 +831,14 @@
       <div class="admin-nav-item active" data-section="dashboard">
         <i class="fas fa-tachometer-alt"></i> Dashboard
       </div>
-      <div class="admin-nav-item" data-section="users">
-        <i class="fas fa-users"></i> Users
-      </div>
       <div class="admin-nav-item" data-section="courses">
         <i class="fas fa-book"></i> Courses
       </div>
-      <div class="admin-nav-item" data-section="enrollments">
-        <i class="fas fa-clipboard-list"></i> Enrollments
+      <div class="admin-nav-item" onclick="window.location.href='users.html'">
+        <i class="fas fa-users"></i> Users
       </div>
-      <div class="admin-nav-item" data-section="overflow">
-        <i class="fas fa-exclamation-triangle"></i> Overflow
+      <div class="admin-nav-item" onclick="window.location.href='enrollments.html'">
+        <i class="fas fa-clipboard-list"></i> Enrollments
       </div>
     </div>
 
@@ -796,6 +865,29 @@
           </div>
         </div>
 
+        <div class="action-buttons">
+          <a href="users.html" class="action-button">
+            <i class="fas fa-users-cog"></i>
+            <h3>Manage Users</h3>
+            <p>View and manage all system users</p>
+          </a>
+          <a href="enrollments.html" class="action-button">
+            <i class="fas fa-clipboard-check"></i>
+            <h3>Enrollments</h3>
+            <p>Manage course enrollments</p>
+          </a>
+          <a href="reports.html" class="action-button">
+            <i class="fas fa-chart-bar"></i>
+            <h3>Reports</h3>
+            <p>View system analytics</p>
+          </a>
+          <a href="settings.html" class="action-button">
+            <i class="fas fa-cog"></i>
+            <h3>Settings</h3>
+            <p>Configure system settings</p>
+          </a>
+        </div>
+
         <div class="card">
           <h2 class="card-title">
             <i class="fas fa-history"></i>
@@ -815,93 +907,6 @@
               <tbody>
                 <tr>
                   <td colspan="5" class="loading-state">
-                    <div class="spinner"></div>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-      </div>
-
-      <!-- Users Section -->
-      <div id="users-section" class="d-none">
-        <div class="filter-section">
-          <div class="filter-item">
-            <label for="user-type-filter">User Type</label>
-            <select id="user-type-filter" class="form-control">
-              <option value="all">All Users</option>
-              <option value="student">Students</option>
-              <option value="moderator">Moderators</option>
-              <option value="admin">Admins</option>
-            </select>
-          </div>
-          <div class="filter-item">
-            <label for="user-course-filter">Enrolled Course</label>
-            <select id="user-course-filter" class="form-control">
-              <option value="all">All Courses</option>
-              <!-- Dynamically populated -->
-            </select>
-          </div>
-          <div class="filter-item">
-            <label for="user-search">Search Users</label>
-            <input type="text" id="user-search" class="form-control" placeholder="Name, email, department...">
-          </div>
-        </div>
-
-        <div class="export-section">
-          <h3><i class="fas fa-file-export"></i> Export User Data</h3>
-          <div class="export-options">
-            <div class="export-checkbox">
-              <input type="checkbox" id="export-name" checked>
-              <label for="export-name">Name</label>
-            </div>
-            <div class="export-checkbox">
-              <input type="checkbox" id="export-email" checked>
-              <label for="export-email">Email</label>
-            </div>
-            <div class="export-checkbox">
-              <input type="checkbox" id="export-department" checked>
-              <label for="export-department">Department</label>
-            </div>
-            <div class="export-checkbox">
-              <input type="checkbox" id="export-role" checked>
-              <label for="export-role">Role</label>
-            </div>
-            <div class="export-checkbox">
-              <input type="checkbox" id="export-courses" checked>
-              <label for="export-courses">Courses</label>
-            </div>
-            <div class="export-checkbox">
-              <input type="checkbox" id="export-enrollment-dates">
-              <label for="export-enrollment-dates">Enrollment Dates</label>
-            </div>
-          </div>
-          <button class="btn btn-primary btn-sm mt-2" id="export-users-btn">
-            <i class="fas fa-download"></i> Export to Excel
-          </button>
-        </div>
-
-        <div class="card">
-          <h2 class="card-title">
-            <i class="fas fa-users-cog"></i>
-            User Management
-          </h2>
-          <div class="table-responsive">
-            <table class="data-table" id="users-table">
-              <thead>
-                <tr>
-                  <th>Name</th>
-                  <th>Email</th>
-                  <th>Department</th>
-                  <th>Role</th>
-                  <th>Courses</th>
-                  <th>Actions</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td colspan="6" class="loading-state">
                     <div class="spinner"></div>
                   </td>
                 </tr>
@@ -950,107 +955,6 @@
                   <th>Type</th>
                   <th>Language</th>
                   <th>Enrollments</th>
-                  <th>Actions</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td colspan="5" class="loading-state">
-                    <div class="spinner"></div>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-      </div>
-
-      <!-- Enrollments Section -->
-      <div id="enrollments-section" class="d-none">
-        <div class="filter-section">
-          <div class="filter-item">
-            <label for="enrollment-course-filter">Course</label>
-            <select id="enrollment-course-filter" class="form-control">
-              <option value="all">All Courses</option>
-              <!-- Dynamically populated -->
-            </select>
-          </div>
-          <div class="filter-item">
-            <label for="enrollment-type-filter">Type</label>
-            <select id="enrollment-type-filter" class="form-control">
-              <option value="all">All Types</option>
-              <option value="qirat">Qirat</option>
-              <option value="hifz">Hifz</option>
-              <option value="nezer">Nezer</option>
-            </select>
-          </div>
-          <div class="filter-item">
-            <label for="enrollment-user-filter">User</label>
-            <input type="text" id="enrollment-user-filter" class="form-control" placeholder="Filter by user name...">
-          </div>
-        </div>
-
-        <div class="card">
-          <h2 class="card-title">
-            <i class="fas fa-clipboard-check"></i>
-            Enrollment Management
-          </h2>
-          <div class="table-responsive">
-            <table class="data-table" id="enrollments-table">
-              <thead>
-                <tr>
-                  <th>User</th>
-                  <th>Course</th>
-                  <th>Type</th>
-                  <th>Language</th>
-                  <th>Enrollment Date</th>
-                  <th>Actions</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td colspan="6" class="loading-state">
-                    <div class="spinner"></div>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-      </div>
-
-      <!-- Overflow Section -->
-      <div id="overflow-section" class="d-none">
-        <div class="card">
-          <h2 class="card-title">
-            <i class="fas fa-exclamation-circle"></i>
-            Overflow Enrollments
-          </h2>
-          <p class="mb-3">Users who have enrolled in more than 3 courses (4th+ enrollments require verification)</p>
-          
-          <div class="filter-section">
-            <div class="filter-item">
-              <label for="overflow-verification-filter">Verification Status</label>
-              <select id="overflow-verification-filter" class="form-control">
-                <option value="all">All Statuses</option>
-                <option value="verified">Verified</option>
-                <option value="pending">Pending</option>
-              </select>
-            </div>
-            <div class="filter-item">
-              <label for="overflow-search">Search Users</label>
-              <input type="text" id="overflow-search" class="form-control" placeholder="Filter by user name...">
-            </div>
-          </div>
-
-          <div class="table-responsive">
-            <table class="data-table" id="overflow-table">
-              <thead>
-                <tr>
-                  <th>User</th>
-                  <th>Total Courses</th>
-                  <th>Overflow Courses</th>
-                  <th>Verification</th>
                   <th>Actions</th>
                 </tr>
               </thead>
@@ -1200,20 +1104,14 @@
     
     // Section elements
     const dashboardSection = document.getElementById('dashboard-section');
-    const usersSection = document.getElementById('users-section');
     const coursesSection = document.getElementById('courses-section');
-    const enrollmentsSection = document.getElementById('enrollments-section');
-    const overflowSection = document.getElementById('overflow-section');
     
     // Navigation items
     const adminNavItems = document.querySelectorAll('.admin-nav-item');
     
     // Tables
     const recentEnrollmentsTable = document.getElementById('recent-enrollments-table').querySelector('tbody');
-    const usersTable = document.getElementById('users-table').querySelector('tbody');
     const coursesTable = document.getElementById('courses-table').querySelector('tbody');
-    const enrollmentsTable = document.getElementById('enrollments-table').querySelector('tbody');
-    const overflowTable = document.getElementById('overflow-table').querySelector('tbody');
     
     // Stats elements
     const totalUsersEl = document.getElementById('total-users');
@@ -1222,19 +1120,8 @@
     const overflowUsersEl = document.getElementById('overflow-users');
     
     // Filter elements
-    const userTypeFilter = document.getElementById('user-type-filter');
-    const userCourseFilter = document.getElementById('user-course-filter');
-    const userSearch = document.getElementById('user-search');
     const courseTypeFilter = document.getElementById('course-type-filter');
     const courseLanguageFilter = document.getElementById('course-language-filter');
-    const enrollmentCourseFilter = document.getElementById('enrollment-course-filter');
-    const enrollmentTypeFilter = document.getElementById('enrollment-type-filter');
-    const enrollmentUserFilter = document.getElementById('enrollment-user-filter');
-    const overflowVerificationFilter = document.getElementById('overflow-verification-filter');
-    const overflowSearch = document.getElementById('overflow-search');
-    
-    // Export elements
-    const exportUsersBtn = document.getElementById('export-users-btn');
     
     // Buttons
     const addCourseBtn = document.getElementById('add-course-btn');
@@ -1277,11 +1164,13 @@
     function initApp() {
       // Navigation event listeners
       adminNavItems.forEach(item => {
-        item.addEventListener('click', () => {
-          adminNavItems.forEach(nav => nav.classList.remove('active'));
-          item.classList.add('active');
-          switchSection(item.getAttribute('data-section'));
-        });
+        if (item.getAttribute('data-section')) {
+          item.addEventListener('click', () => {
+            adminNavItems.forEach(nav => nav.classList.remove('active'));
+            item.classList.add('active');
+            switchSection(item.getAttribute('data-section'));
+          });
+        }
       });
       
       // Logout button
@@ -1314,19 +1203,8 @@
       closeConfirmModalBtn.addEventListener('click', () => confirmModal.classList.remove('active'));
       
       // Filter event listeners
-      userTypeFilter?.addEventListener('change', filterUsers);
-      userCourseFilter?.addEventListener('change', filterUsers);
-      userSearch?.addEventListener('input', filterUsers);
       courseTypeFilter?.addEventListener('change', filterCourses);
       courseLanguageFilter?.addEventListener('change', filterCourses);
-      enrollmentCourseFilter?.addEventListener('change', filterEnrollments);
-      enrollmentTypeFilter?.addEventListener('change', filterEnrollments);
-      enrollmentUserFilter?.addEventListener('input', filterEnrollments);
-      overflowVerificationFilter?.addEventListener('change', filterOverflowUsers);
-      overflowSearch?.addEventListener('input', filterOverflowUsers);
-      
-      // Export button
-      exportUsersBtn?.addEventListener('click', exportUsersToExcel);
       
       // Check auth state
       onAuthStateChanged(auth, async (user) => {
@@ -1440,15 +1318,9 @@
         // Update stats
         updateStats();
         
-        // Update filters
-        updateFilters();
-        
         // Display data
         displayRecentEnrollments();
-        displayUsers();
         displayCourses();
-        displayEnrollments();
-        displayOverflowUsers();
         
         hideLoadingState();
         
@@ -1466,27 +1338,6 @@
       overflowUsersEl.textContent = overflowUsers.length;
     }
 
-    function updateFilters() {
-      // Update user course filter
-      userCourseFilter.innerHTML = '<option value="all">All Courses</option>';
-      const uniqueCourses = [...new Set(allCourses.map(c => c.id))];
-      uniqueCourses.forEach(courseId => {
-        const course = allCourses.find(c => c.id === courseId);
-        if (course) {
-          userCourseFilter.innerHTML += `<option value="${course.id}">${course.title}</option>`;
-        }
-      });
-      
-      // Update enrollment course filter
-      enrollmentCourseFilter.innerHTML = '<option value="all">All Courses</option>';
-      uniqueCourses.forEach(courseId => {
-        const course = allCourses.find(c => c.id === courseId);
-        if (course) {
-          enrollmentCourseFilter.innerHTML += `<option value="${course.id}">${course.title}</option>`;
-        }
-      });
-    }
-
     function showLoadingState() {
       document.querySelectorAll('.loading-text').forEach(el => {
         el.innerHTML = '<div class="spinner" style="width: 20px; height: 20px; border-width: 2px;"></div>';
@@ -1501,26 +1352,14 @@
 
     function switchSection(section) {
       dashboardSection.classList.add('d-none');
-      usersSection.classList.add('d-none');
       coursesSection.classList.add('d-none');
-      enrollmentsSection.classList.add('d-none');
-      overflowSection.classList.add('d-none');
       
       switch(section) {
         case 'dashboard':
           dashboardSection.classList.remove('d-none');
           break;
-        case 'users':
-          usersSection.classList.remove('d-none');
-          break;
         case 'courses':
           coursesSection.classList.remove('d-none');
-          break;
-        case 'enrollments':
-          enrollmentsSection.classList.remove('d-none');
-          break;
-        case 'overflow':
-          overflowSection.classList.remove('d-none');
           break;
         default:
           dashboardSection.classList.remove('d-none');
@@ -1560,129 +1399,6 @@
         `;
         recentEnrollmentsTable.appendChild(row);
       });
-    }
-
-    // USERS SECTION
-    function displayUsers() {
-      usersTable.innerHTML = '';
-      
-      if (allUsers.length === 0) {
-        usersTable.innerHTML = `
-          <tr>
-            <td colspan="6" class="empty-state">
-              <i class="fas fa-users-slash"></i>
-              <p>No users found in the system</p>
-            </td>
-          </tr>
-        `;
-        return;
-      }
-      
-      allUsers.forEach(user => {
-        const enrolledCourses = user.enrolledCourses || [];
-        const row = document.createElement('tr');
-        row.setAttribute('data-user-id', user.id);
-        
-        row.innerHTML = `
-          <td>
-            <div class="user-info">
-              <strong>${user.name || 'Unknown'}</strong>
-              <small>${user.email || 'N/A'}</small>
-            </div>
-          </td>
-          <td>${user.email || 'N/A'}</td>
-          <td>${user.department || 'N/A'}</td>
-          <td>
-            <span class="badge ${user.role === 'admin' ? 'badge-danger' : 
-                              user.role === 'moderator' ? 'badge-warning' : 'badge-info'}">
-              ${user.role || 'student'}
-            </span>
-          </td>
-          <td>
-            ${enrolledCourses.length > 0 ? 
-              enrolledCourses.slice(0, 3).map(course => {
-                const fullCourse = allCourses.find(c => c.id === course.id) || course;
-                return `<span class="badge" style="background: ${getTypeColor(fullCourse.type)}; margin: 2px;">${fullCourse.title}</span>`;
-              }).join('') + 
-              (enrolledCourses.length > 3 ? `<span class="badge badge-light">+${enrolledCourses.length - 3} more</span>` : '')
-              : 
-              '<span class="badge badge-light">None</span>'
-            }
-          </td>
-          <td>
-            ${user.role !== 'moderator' && user.role !== 'admin' ? 
-              `<button class="btn btn-sm btn-primary" onclick="promoteToModerator('${user.id}')">
-                <i class="fas fa-user-shield"></i> Make Moderator
-              </button>` : 
-              user.role === 'moderator' && isAdmin ? 
-                `<button class="btn btn-sm btn-danger" onclick="demoteModerator('${user.id}')">
-                  <i class="fas fa-user-minus"></i> Remove Moderator
-                </button>` : 
-                '<span class="text-muted">N/A</span>'
-            }
-          </td>
-        `;
-        usersTable.appendChild(row);
-      });
-      
-      filterUsers();
-    }
-
-    function filterUsers() {
-      const typeFilter = userTypeFilter.value;
-      const courseFilter = userCourseFilter.value;
-      const searchTerm = userSearch.value.toLowerCase();
-      
-      const rows = usersTable.querySelectorAll('tr[data-user-id]');
-      let visibleCount = 0;
-      
-      rows.forEach(row => {
-        const userId = row.getAttribute('data-user-id');
-        const user = allUsers.find(u => u.id === userId);
-        if (!user) return;
-        
-        const name = (user.name || '').toLowerCase();
-        const email = (user.email || '').toLowerCase();
-        const department = (user.department || '').toLowerCase();
-        const role = (user.role || 'student').toLowerCase();
-        const enrolledCourses = user.enrolledCourses || [];
-        
-        // Type filter
-        const typeMatch = typeFilter === 'all' || 
-                         (typeFilter === 'student' && role === 'student') ||
-                         (typeFilter === 'moderator' && role === 'moderator') ||
-                         (typeFilter === 'admin' && role === 'admin');
-        
-        // Course filter
-        const courseMatch = courseFilter === 'all' || 
-                           enrolledCourses.some(c => c.id === courseFilter);
-        
-        // Search filter
-        const searchMatch = searchTerm === '' || 
-                          name.includes(searchTerm) || 
-                          email.includes(searchTerm) ||
-                          department.includes(searchTerm);
-        
-        if (typeMatch && courseMatch && searchMatch) {
-          row.style.display = '';
-          visibleCount++;
-        } else {
-          row.style.display = 'none';
-        }
-      });
-      
-      // Show empty state if no users match filters
-      const emptyState = usersTable.querySelector('.empty-state');
-      if (visibleCount === 0 && !emptyState) {
-        usersTable.innerHTML = `
-          <tr>
-            <td colspan="6" class="empty-state">
-              <i class="fas fa-search"></i>
-              <p>No users match your filters</p>
-            </td>
-          </tr>
-        `;
-      }
     }
 
     // COURSES SECTION
@@ -1773,218 +1489,6 @@
             <td colspan="5" class="empty-state">
               <i class="fas fa-search"></i>
               <p>No courses match your filters</p>
-            </td>
-          </tr>
-        `;
-      }
-    }
-
-    // ENROLLMENTS SECTION
-    function displayEnrollments() {
-      enrollmentsTable.innerHTML = '';
-      
-      if (allEnrollments.length === 0) {
-        enrollmentsTable.innerHTML = `
-          <tr>
-            <td colspan="6" class="empty-state">
-              <i class="fas fa-book-open"></i>
-              <p>No enrollments found in the system</p>
-            </td>
-          </tr>
-        `;
-        return;
-      }
-      
-      allEnrollments.forEach(enrollment => {
-        const row = document.createElement('tr');
-        row.setAttribute('data-enrollment-id', `${enrollment.userId}-${enrollment.courseId}`);
-        
-        row.innerHTML = `
-          <td>
-            <div class="user-info">
-              <strong>${enrollment.userName}</strong>
-              <small>${enrollment.userEmail}</small>
-            </div>
-          </td>
-          <td>${enrollment.courseTitle}</td>
-          <td><span class="badge ${getTypeBadgeClass(enrollment.courseType)}">${enrollment.courseType}</span></td>
-          <td>${enrollment.courseLanguage}</td>
-          <td>${formatDate(enrollment.enrollmentDate)}</td>
-          <td>
-            <button class="btn btn-sm btn-danger" onclick="confirmUnenroll('${enrollment.userId}', '${enrollment.courseId}')">
-              <i class="fas fa-user-minus"></i> Remove
-            </button>
-          </td>
-        `;
-        enrollmentsTable.appendChild(row);
-      });
-      
-      filterEnrollments();
-    }
-
-    function filterEnrollments() {
-      const courseFilter = enrollmentCourseFilter.value;
-      const typeFilter = enrollmentTypeFilter.value;
-      const userFilter = enrollmentUserFilter.value.toLowerCase();
-      
-      const rows = enrollmentsTable.querySelectorAll('tr[data-enrollment-id]');
-      let visibleCount = 0;
-      
-      rows.forEach(row => {
-        const enrollmentId = row.getAttribute('data-enrollment-id');
-        const [userId, courseId] = enrollmentId.split('-');
-        const enrollment = allEnrollments.find(e => e.userId === userId && e.courseId === courseId);
-        if (!enrollment) return;
-        
-        const userName = enrollment.userName.toLowerCase();
-        const userEmail = enrollment.userEmail.toLowerCase();
-        
-        // Course filter
-        const courseMatch = courseFilter === 'all' || enrollment.courseId === courseFilter;
-        
-        // Type filter
-        const typeMatch = typeFilter === 'all' || enrollment.courseType.toLowerCase() === typeFilter.toLowerCase();
-        
-        // User filter
-        const userMatch = userFilter === '' || 
-                         userName.includes(userFilter) || 
-                         userEmail.includes(userFilter);
-        
-        if (courseMatch && typeMatch && userMatch) {
-          row.style.display = '';
-          visibleCount++;
-        } else {
-          row.style.display = 'none';
-        }
-      });
-      
-      // Show empty state if no enrollments match filters
-      const emptyState = enrollmentsTable.querySelector('.empty-state');
-      if (visibleCount === 0 && !emptyState) {
-        enrollmentsTable.innerHTML = `
-          <tr>
-            <td colspan="6" class="empty-state">
-              <i class="fas fa-search"></i>
-              <p>No enrollments match your filters</p>
-            </td>
-          </tr>
-        `;
-      }
-    }
-
-    // OVERFLOW SECTION
-    function displayOverflowUsers() {
-      overflowTable.innerHTML = '';
-      
-      if (overflowUsers.length === 0) {
-        overflowTable.innerHTML = `
-          <tr>
-            <td colspan="5" class="empty-state">
-              <i class="fas fa-check-circle"></i>
-              <p>No users with overflow enrollments found</p>
-            </td>
-          </tr>
-        `;
-        return;
-      }
-      
-      overflowUsers.forEach(user => {
-        const row = document.createElement('tr');
-        row.setAttribute('data-user-id', user.userId);
-        
-        row.innerHTML = `
-          <td>
-            <div class="user-info">
-              <strong>${user.name}</strong>
-              <small>${user.email}</small>
-              <small style="display: block; margin-top: 4px;">${user.department}</small>
-            </div>
-          </td>
-          <td>
-            <span class="badge ${user.totalCourses > 4 ? 'badge-danger' : 'badge-warning'}">
-              ${user.totalCourses} courses
-            </span>
-          </td>
-          <td>
-            ${user.overflowCourses.map(course => {
-              const fullCourse = allCourses.find(c => c.id === course.id) || course;
-              return `
-                <div style="margin-bottom: 8px;">
-                  <span class="badge" style="background: ${getTypeColor(fullCourse.type)}">
-                    ${fullCourse.title}
-                  </span>
-                  <small style="display: block; margin-top: 2px;">
-                    Enrolled: ${formatDate(course.enrollmentDate)}
-                  </small>
-                </div>
-              `;
-            }).join('')}
-          </td>
-          <td>
-            ${user.verification.length > 0 ? 
-              `<span class="badge badge-success">
-                <i class="fas fa-check-circle"></i> Verified
-              </span>` : 
-              `<span class="badge badge-light">
-                <i class="fas fa-clock"></i> Pending
-              </span>`
-            }
-          </td>
-          <td>
-            <button class="btn btn-sm btn-primary" onclick="viewUser('${user.userId}')">
-              <i class="fas fa-eye"></i> View
-            </button>
-          </td>
-        `;
-        overflowTable.appendChild(row);
-      });
-      
-      filterOverflowUsers();
-    }
-
-    function filterOverflowUsers() {
-      const verificationFilter = overflowVerificationFilter.value;
-      const searchTerm = overflowSearch.value.toLowerCase();
-      
-      const rows = overflowTable.querySelectorAll('tr[data-user-id]');
-      let visibleCount = 0;
-      
-      rows.forEach(row => {
-        const userId = row.getAttribute('data-user-id');
-        const user = overflowUsers.find(u => u.userId === userId);
-        if (!user) return;
-        
-        const name = user.name.toLowerCase();
-        const email = user.email.toLowerCase();
-        const department = user.department.toLowerCase();
-        
-        // Verification filter
-        const verificationMatch = verificationFilter === 'all' || 
-                                 (verificationFilter === 'verified' && user.verification.length > 0) ||
-                                 (verificationFilter === 'pending' && user.verification.length === 0);
-        
-        // Search filter
-        const searchMatch = searchTerm === '' || 
-                           name.includes(searchTerm) || 
-                           email.includes(searchTerm) ||
-                           department.includes(searchTerm);
-        
-        if (verificationMatch && searchMatch) {
-          row.style.display = '';
-          visibleCount++;
-        } else {
-          row.style.display = 'none';
-        }
-      });
-      
-      // Show empty state if no overflow users match filters
-      const emptyState = overflowTable.querySelector('.empty-state');
-      if (visibleCount === 0 && !emptyState) {
-        overflowTable.innerHTML = `
-          <tr>
-            <td colspan="5" class="empty-state">
-              <i class="fas fa-search"></i>
-              <p>No overflow users match your filters</p>
             </td>
           </tr>
         `;
@@ -2088,190 +1592,6 @@
       }
     }
 
-    // USER MANAGEMENT
-    function promoteToModerator(userId) {
-      const user = allUsers.find(u => u.id === userId);
-      if (!user) return;
-      
-      pendingAction = {
-        type: 'promote-user',
-        userId: userId,
-        userName: user.name || 'User'
-      };
-      
-      confirmTitle.textContent = 'Promote to Moderator';
-      confirmMessage.textContent = `Are you sure you want to promote ${user.name || 'this user'} to moderator? They will gain access to this admin panel.`;
-      confirmModal.classList.add('active');
-    }
-
-    async function promoteUser(userId) {
-      try {
-        await updateDoc(doc(db, "users", userId), {
-          role: 'moderator',
-          updatedAt: serverTimestamp()
-        });
-        
-        // Reload all data to reflect changes
-        await loadAllData();
-        showNotification('User promoted to moderator successfully', 'success');
-        
-      } catch (error) {
-        console.error("Error promoting user:", error);
-        showNotification('Failed to promote user. Please try again.', 'error');
-      }
-    }
-
-    function demoteModerator(userId) {
-      const user = allUsers.find(u => u.id === userId);
-      if (!user) return;
-      
-      pendingAction = {
-        type: 'demote-user',
-        userId: userId,
-        userName: user.name || 'User'
-      };
-      
-      confirmTitle.textContent = 'Remove Moderator';
-      confirmMessage.textContent = `Are you sure you want to remove moderator privileges from ${user.name || 'this user'}? They will lose access to this admin panel.`;
-      confirmModal.classList.add('active');
-    }
-
-    async function demoteUser(userId) {
-      try {
-        await updateDoc(doc(db, "users", userId), {
-          role: 'student',
-          updatedAt: serverTimestamp()
-        });
-        
-        // Reload all data to reflect changes
-        await loadAllData();
-        showNotification('Moderator privileges removed successfully', 'success');
-        
-      } catch (error) {
-        console.error("Error demoting user:", error);
-        showNotification('Failed to remove moderator privileges. Please try again.', 'error');
-      }
-    }
-
-    // ENROLLMENT MANAGEMENT
-    function confirmUnenroll(userId, courseId) {
-      const enrollment = allEnrollments.find(e => e.userId === userId && e.courseId === courseId);
-      if (!enrollment) return;
-      
-      pendingAction = {
-        type: 'unenroll-user',
-        userId: userId,
-        courseId: courseId,
-        userName: enrollment.userName,
-        courseTitle: enrollment.courseTitle
-      };
-      
-      confirmTitle.textContent = 'Unenroll User';
-      confirmMessage.textContent = `Are you sure you want to unenroll ${enrollment.userName} from "${enrollment.courseTitle}"?`;
-      confirmModal.classList.add('active');
-    }
-
-    async function unenrollUser(userId, courseId) {
-      try {
-        // Get user's current enrollments
-        const userRef = doc(db, "users", userId);
-        const userDoc = await getDoc(userRef);
-        
-        if (!userDoc.exists()) {
-          showNotification('User not found', 'error');
-          return;
-        }
-        
-        const userData = userDoc.data();
-        const enrollments = userData.enrolledCourses || [];
-        
-        // Find the enrollment to remove
-        const enrollmentIndex = enrollments.findIndex(e => e.id === courseId);
-        if (enrollmentIndex === -1) {
-          showNotification('Enrollment not found', 'error');
-          return;
-        }
-        
-        // Remove the enrollment
-        const updatedEnrollments = [...enrollments];
-        updatedEnrollments.splice(enrollmentIndex, 1);
-        
-        // Update user document
-        await updateDoc(userRef, {
-          enrolledCourses: updatedEnrollments,
-          updatedAt: serverTimestamp()
-        });
-        
-        // Reload all data to reflect changes
-        await loadAllData();
-        showNotification('User unenrolled successfully', 'success');
-        
-      } catch (error) {
-        console.error("Error unenrolling user:", error);
-        showNotification('Failed to unenroll user. Please try again.', 'error');
-      }
-    }
-
-    // EXPORT FUNCTIONALITY
-    function exportUsersToExcel() {
-      // Get selected fields
-      const includeName = document.getElementById('export-name').checked;
-      const includeEmail = document.getElementById('export-email').checked;
-      const includeDepartment = document.getElementById('export-department').checked;
-      const includeRole = document.getElementById('export-role').checked;
-      const includeCourses = document.getElementById('export-courses').checked;
-      const includeEnrollmentDates = document.getElementById('export-enrollment-dates').checked;
-      
-      // Prepare data
-      const data = allUsers.map(user => {
-        const row = {};
-        
-        if (includeName) row['Name'] = user.name || '';
-        if (includeEmail) row['Email'] = user.email || '';
-        if (includeDepartment) row['Department'] = user.department || '';
-        if (includeRole) row['Role'] = user.role || 'student';
-        
-        if (includeCourses || includeEnrollmentDates) {
-          const courses = user.enrolledCourses || [];
-          
-          if (includeCourses) {
-            row['Courses'] = courses.map(c => {
-              const fullCourse = allCourses.find(course => course.id === c.id) || c;
-              return `${fullCourse.title} (${fullCourse.type})`;
-            }).join('; ');
-          }
-          
-          if (includeEnrollmentDates) {
-            row['Enrollment Dates'] = courses.map(c => {
-              return formatDate(c.enrollmentDate, true);
-            }).join('; ');
-          }
-        }
-        
-        return row;
-      });
-      
-      try {
-        // Create worksheet
-        const ws = XLSX.utils.json_to_sheet(data);
-        
-        // Create workbook
-        const wb = XLSX.utils.book_new();
-        XLSX.utils.book_append_sheet(wb, ws, "Users");
-        
-        // Generate filename with current date
-        const today = new Date();
-        const dateString = `${today.getFullYear()}-${(today.getMonth()+1).toString().padStart(2, '0')}-${today.getDate().toString().padStart(2, '0')}`;
-        
-        // Export to Excel
-        XLSX.writeFile(wb, `HU_Jamaaa_Users_${dateString}.xlsx`);
-        showNotification('User data exported successfully', 'success');
-      } catch (error) {
-        console.error("Error exporting data:", error);
-        showNotification('Failed to export data. Please try again.', 'error');
-      }
-    }
-
     // UTILITY FUNCTIONS
     function generateCourseId() {
       const prefix = 'crs-';
@@ -2338,40 +1658,12 @@
       }, 3000);
     }
 
-    function viewUser(userId) {
-      // Switch to users section
-      document.querySelector('[data-section="users"]').click();
-      
-      // Highlight the user row after a short delay
-      setTimeout(() => {
-        const userRow = document.querySelector(`tr[data-user-id="${userId}"]`);
-        if (userRow) {
-          userRow.scrollIntoView({ behavior: 'smooth', block: 'center' });
-          
-          // Highlight the row temporarily
-          userRow.style.backgroundColor = 'rgba(255, 193, 7, 0.2)';
-          setTimeout(() => {
-            userRow.style.backgroundColor = '';
-          }, 2000);
-        }
-      }, 300);
-    }
-
     function executePendingAction() {
       if (!pendingAction) return;
       
       switch(pendingAction.type) {
         case 'delete-course':
           deleteCourse(pendingAction.courseId);
-          break;
-        case 'promote-user':
-          promoteUser(pendingAction.userId);
-          break;
-        case 'demote-user':
-          demoteUser(pendingAction.userId);
-          break;
-        case 'unenroll-user':
-          unenrollUser(pendingAction.userId, pendingAction.courseId);
           break;
         default:
           console.warn('Unknown action type:', pendingAction.type);
@@ -2385,10 +1677,6 @@
     // Make functions available globally for onclick handlers
     window.editCourse = editCourse;
     window.confirmDeleteCourse = confirmDeleteCourse;
-    window.promoteToModerator = promoteToModerator;
-    window.demoteModerator = demoteModerator;
-    window.confirmUnenroll = confirmUnenroll;
-    window.viewUser = viewUser;
 
     document.addEventListener('DOMContentLoaded', initApp);
   </script>
