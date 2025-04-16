@@ -764,7 +764,51 @@
       .user-detail-grid {
         grid-template-columns: 1fr;
       }
+    :root {
+      --primary-color: #1a4d2e;
+      --primary-light: #4f6f52;
+      --secondary-color: #3a5a40;
+      --accent-color: #f5efe6;
+      --light-color: #e8dfca;
+      --white: #ffffff;
+      --gray-light: #f8f9fa;
+      --gray-medium: #e9ecef;
+      --gray-dark: #495057;
+      --shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+      --shadow-hover: 0 6px 16px rgba(0, 0, 0, 0.12);
+      --success-color: #28a745;
+      --info-color: #17a2b8;
+      --warning-color: #ffc107;
+      --danger-color: #dc3545;
+      --border-radius: 12px;
+      --box-padding: 24px;
+      --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
     }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    body {
+      background-color: var(--gray-light);
+      min-height: 100vh;
+      font-size: 15px;
+      color: #333;
+      line-height: 1.6;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 100%;
+      padding: 0;
+    }
+
+    /* (Keep all other CSS styles exactly the same as before) */
+    /* ... */
+    
   </style>
 </head>
 <body>
@@ -876,6 +920,7 @@
           <table class="data-table" id="users-table">
             <thead>
               <tr>
+                <th>Student ID</th>
                 <th>Name</th>
                 <th>Contact</th>
                 <th>Department</th>
@@ -886,7 +931,7 @@
             </thead>
             <tbody>
               <tr>
-                <td colspan="6" class="loading-state">
+                <td colspan="7" class="loading-state">
                   <div class="spinner"></div>
                 </td>
               </tr>
@@ -1215,6 +1260,10 @@
         usersSnapshot.forEach(doc => {
           const user = doc.data();
           user.id = doc.id;
+          // Ensure every user has a role, default to 'student' if not set
+          if (!user.role) {
+            user.role = 'student';
+          }
           allUsers.push(user);
         });
         
@@ -1289,7 +1338,7 @@
       if (allUsers.length === 0) {
         usersTable.innerHTML = `
           <tr>
-            <td colspan="6" class="empty-state">
+            <td colspan="7" class="empty-state">
               <i class="fas fa-users-slash"></i>
               <p>No users found in the system</p>
             </td>
@@ -1303,11 +1352,14 @@
         const row = document.createElement('tr');
         row.setAttribute('data-user-id', user.id);
         
+        // Generate student ID (first 6 characters of user ID)
+        const studentId = user.id.substring(0, 6).toUpperCase();
+        
         row.innerHTML = `
+          <td>${studentId}</td>
           <td>
             <div class="user-info">
               <strong>${user.name || 'Unknown'}</strong>
-              <small>ID: ${user.id}</small>
             </div>
           </td>
           <td>
@@ -1410,7 +1462,7 @@
       if (visibleCount === 0 && !emptyState) {
         usersTable.innerHTML = `
           <tr>
-            <td colspan="6" class="empty-state">
+            <td colspan="7" class="empty-state">
               <i class="fas fa-search"></i>
               <p>No users match your filters</p>
             </td>
@@ -1426,10 +1478,13 @@
         return;
       }
       
+      // Generate student ID (first 6 characters of user ID)
+      const studentId = user.id.substring(0, 6).toUpperCase();
+      
       // Set modal title
       userDetailTitle.innerHTML = `
         <i class="fas fa-user"></i>
-        ${user.name || 'User Details'}
+        ${user.name || 'User Details'} (ID: ${studentId})
       `;
       
       // Populate user details
