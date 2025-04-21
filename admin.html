@@ -6,7 +6,7 @@
     <title>Admin Dashboard - Haramaya Jama'aa</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        /* ====== CORE STRUCTURE & RESETS ====== */
+        /* ====== CORE STYLES ====== */
         * { box-sizing: border-box; margin: 0; padding: 0; }
         html { scroll-behavior: smooth; }
         body {
@@ -21,68 +21,32 @@
             position: relative;
             background-size: 400% 400%;
             animation: gradientBG 15s ease infinite;
-            transition: background 0.5s ease, color 0.5s ease;
         }
         @keyframes gradientBG {
-            0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; }
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
         }
-        main { flex-grow: 1; }
-        a { text-decoration: none; color: inherit; transition: color 0.3s ease; }
 
-        /* ====== HEADER ====== */
+        /* ====== HEADER STYLES ====== */
         header {
             background: rgba(255, 255, 255, 0.8);
-            backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
-            color: #333; display: flex; align-items: center; justify-content: space-between;
-            padding: 0.7rem 1.5rem; position: fixed; width: 100%; top: 0; left: 0;
-            z-index: 300; box-shadow: 0 2px 15px rgba(0, 0, 0, 0.07);
-            border-bottom: 1px solid rgba(0, 0, 0, 0.05); transition: background 0.3s ease, box-shadow 0.3s ease;
+            backdrop-filter: blur(12px);
+            color: #333;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0.7rem 1.5rem;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            left: 0;
+            z-index: 300;
+            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.07);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
         }
-        .header-title-area { flex-grow: 1; text-align: center; margin: 0 1rem; }
-        .header-title { font-size: 1.4rem; font-weight: 600; color: #2c3e50; letter-spacing: 0.5px; display: inline-block; }
-        .account-wrapper { position: relative; cursor: pointer; flex-shrink: 0; }
-        .account-icon {
-            width: 42px; height: 42px; border-radius: 50%; background: linear-gradient(135deg, #89f7fe 0%, #66a6ff 100%);
-            border: none; transition: all 0.3s ease; box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
-            display: flex; align-items: center; justify-content: center; font-size: 1.5rem; color: #fff;
-        }
-        .account-icon:hover { transform: scale(1.1); box-shadow: 0 5px 15px rgba(102, 166, 255, 0.4); }
-        .account-dropdown {
-            position: absolute; top: 58px; right: 0; background: rgba(255, 255, 255, 0.98);
-            border-radius: 10px; overflow: hidden; display: none; z-index: 400;
-            box-shadow: 0 10px 35px rgba(0,0,0,0.12); min-width: 240px;
-            animation: fadeInDropdown 0.25s ease-out; backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
-            border: 1px solid rgba(0,0,0,0.07); transform-origin: top right;
-        }
-        @keyframes fadeInDropdown {
-            from { opacity: 0; transform: translateY(-10px) scale(0.98); } to { opacity: 1; transform: translateY(0) scale(1); }
-        }
-        .account-dropdown a, .account-dropdown div {
-            color: #444; padding: 0.9rem 1.3rem; display: flex; align-items: center; gap: 12px;
-            border-bottom: 1px solid rgba(0,0,0,0.05); transition: background-color 0.2s ease, color 0.2s ease, padding-left 0.2s ease;
-            font-weight: 500; font-size: 0.95rem;
-        }
-        #user-role-display {
-            font-size: 0.85em; color: #5a67d8; font-weight: bold; background-color: rgba(90, 103, 216, 0.05);
-            border-bottom: 1px solid rgba(90, 103, 216, 0.1); order: -1;
-        }
-        #user-role-display i { color: #5a67d8; }
-        #admin-panel-link {
-            color: #d53f8c; font-weight: 600;
-        }
-        #admin-panel-link i { color: #d53f8c; }
-        #admin-panel-link:hover { background-color: rgba(213, 63, 140, 0.06); color: #b83280; }
-        #admin-panel-link:hover i { color: #b83280; }
-        .account-dropdown a:last-child, .account-dropdown div:last-child { border-bottom: none; }
-        .account-dropdown a:hover, .account-dropdown div:not(#user-role-display):not(#admin-panel-link):hover {
-            background: rgba(102, 166, 255, 0.1); padding-left: 1.6rem; color: #3b82f6;
-        }
-        .account-dropdown i {
-            width: 18px; color: #60a5fa; text-align: center; font-size: 1rem; transition: all 0.3s;
-        }
-        .account-dropdown a:hover i, .account-dropdown div:not(#user-role-display):not(#admin-panel-link):hover i { color: #3b82f6; }
 
-        /* ====== MAIN CONTENT AREA ====== */
+        /* ====== MAIN CONTENT ====== */
         .content {
             padding: 2rem 1.5rem;
             width: 100%;
@@ -91,13 +55,8 @@
             position: relative;
             z-index: 1;
         }
-        .content h2 {
-            color: #1a202c; margin-bottom: 1.5rem; font-size: 2.3rem; border-bottom: 3px solid;
-            border-image-slice: 1; border-image-source: linear-gradient(to right, #89f7fe, #66a6ff);
-            padding-bottom: 0.6rem; display: inline-block; font-weight: 700; position: relative;
-        }
 
-        /* ====== ADMIN SPECIFIC STYLES ====== */
+        /* ====== ADMIN SECTION STYLES ====== */
         .admin-section {
             background-color: #fff;
             padding: 2rem;
@@ -106,62 +65,8 @@
             margin-bottom: 2rem;
             border: 1px solid rgba(0, 0, 0, 0.05);
         }
-        .admin-section h3 {
-            font-size: 1.5rem;
-            color: #2d3748;
-            margin-bottom: 1.5rem;
-            border-bottom: 2px solid #e2e8f0;
-            padding-bottom: 0.5rem;
-        }
 
-        /* Welcome Message */
-        .welcome-message {
-            background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
-            padding: 1.5rem;
-            border-radius: 10px;
-            margin-bottom: 2rem;
-            border-left: 4px solid #3b82f6;
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-        }
-        .welcome-message i {
-            font-size: 2rem;
-            color: #3b82f6;
-        }
-        .welcome-text h4 {
-            font-size: 1.3rem;
-            color: #1e40af;
-            margin-bottom: 0.5rem;
-        }
-        .welcome-text p {
-            color: #4b5563;
-            font-size: 0.95rem;
-        }
-
-        /* Search Bar */
-        .search-container {
-            margin-bottom: 1.5rem;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            max-width: 400px;
-        }
-        .search-container input[type="text"] {
-            flex-grow: 1;
-            padding: 0.7rem 1rem;
-            border: 1px solid #cbd5e1;
-            border-radius: 8px;
-            font-size: 1rem;
-            transition: border-color 0.3s ease, box-shadow 0.3s ease;
-        }
-        .search-container input[type="text"]:focus {
-            outline: none;
-            border-color: #66a6ff;
-            box-shadow: 0 0 0 3px rgba(102, 166, 255, 0.2);
-        }
-
-        /* User Table */
+        /* ====== TABLE STYLES ====== */
         .table-container {
             overflow-x: auto;
             -webkit-overflow-scrolling: touch;
@@ -175,7 +80,6 @@
             padding: 0.9rem 1rem;
             text-align: left;
             border-bottom: 1px solid #e2e8f0;
-            vertical-align: middle;
         }
         .user-table th {
             background-color: #f8fafc;
@@ -185,13 +89,8 @@
             text-transform: uppercase;
             letter-spacing: 0.5px;
         }
-        .user-table td {
-            color: #2d3748;
-            font-size: 0.95rem;
-        }
-        .user-table tbody tr:hover {
-            background-color: #f7fafc;
-        }
+
+        /* ====== ROLE BADGES ====== */
         .role-badge {
             display: inline-block;
             padding: 0.25em 0.6em;
@@ -205,429 +104,163 @@
         .role-badge.student { background-color: #bee3f8; color: #2b6cb0; }
         .role-badge.professor { background-color: #e9d8fd; color: #6b46c1; }
 
-        .action-button {
-            background-color: #ebf4ff;
-            color: #3b82f6;
-            border: none;
+        /* ====== BUTTON STYLES ====== */
+        .btn {
             padding: 0.5rem 0.9rem;
             border-radius: 6px;
             cursor: pointer;
             font-size: 0.85rem;
             font-weight: 500;
-            transition: background-color 0.2s ease, color 0.2s ease;
+            transition: all 0.2s ease;
             display: inline-flex;
             align-items: center;
             gap: 0.3rem;
-        }
-        .action-button i { font-size: 0.9em; }
-        .action-button:hover {
-            background-color: #dbeafe;
-            color: #2563eb;
-        }
-
-        /* Download Button */
-        .download-btn {
-            background-color: #f0fdf4;
-            color: #16a34a;
             border: none;
-            padding: 0.5rem 0.9rem;
-            border-radius: 6px;
-            cursor: pointer;
-            font-size: 0.85rem;
-            font-weight: 500;
-            transition: background-color 0.2s ease, color 0.2s ease;
-            display: inline-flex;
-            align-items: center;
-            gap: 0.3rem;
-            margin-left: 0.5rem;
         }
-        .download-btn i { font-size: 0.9em; }
-        .download-btn:hover {
-            background-color: #dcfce7;
-            color: #15803d;
+        .btn-primary {
+            background-color: #3b82f6;
+            color: white;
+        }
+        .btn-primary:hover {
+            background-color: #2563eb;
+        }
+        .btn-secondary {
+            background-color: #e2e8f0;
+            color: #4a5568;
+        }
+        .btn-secondary:hover {
+            background-color: #cbd5e1;
+        }
+        .btn-danger {
+            background-color: #ef4444;
+            color: white;
+        }
+        .btn-danger:hover {
+            background-color: #dc2626;
         }
 
-        /* Modal Styles */
+        /* ====== MODAL STYLES ====== */
         .modal {
             display: none;
             position: fixed;
             z-index: 1000;
-            left: 0; top: 0;
-            width: 100%; height: 100%;
-            overflow: auto;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
             background-color: rgba(0,0,0,0.5);
             backdrop-filter: blur(5px);
-            -webkit-backdrop-filter: blur(5px);
-            animation: fadeInModalBg 0.3s ease-out;
         }
-        @keyframes fadeInModalBg { from { background-color: rgba(0,0,0,0); backdrop-filter: blur(0px); -webkit-backdrop-filter: blur(0px); } }
-
         .modal-content {
             background-color: #fff;
             margin: 10% auto;
             padding: 2rem;
-            border: 1px solid #ddd;
-            width: 90%;
-            max-width: 500px;
             border-radius: 10px;
             box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+            width: 90%;
+            max-width: 500px;
             position: relative;
-            animation: slideInModal 0.3s ease-out;
+            animation: modalFadeIn 0.3s ease-out;
         }
-        @keyframes slideInModal { from { transform: translateY(-30px); opacity: 0; } }
-
-        .modal-close-btn {
-            color: #aaa;
+        @keyframes modalFadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .modal-close {
             position: absolute;
-            top: 10px; right: 15px;
-            font-size: 1.8rem;
-            font-weight: bold;
+            top: 15px;
+            right: 15px;
+            font-size: 1.5rem;
             cursor: pointer;
-            transition: color 0.2s ease;
+            color: #6b7280;
         }
-        .modal-close-btn:hover, .modal-close-btn:focus { color: #333; }
+        .modal-close:hover {
+            color: #333;
+        }
 
-        .modal h4 {
-            margin-bottom: 1.5rem;
-            font-size: 1.4rem;
-            color: #2d3748;
-            border-bottom: 1px solid #e2e8f0;
-            padding-bottom: 0.5rem;
-        }
-        .modal label {
-            display: block;
-            margin-bottom: 0.5rem;
-            font-weight: 600;
-            color: #4a5568;
-            font-size: 0.95rem;
-        }
-        .modal input[type="text"], .modal input[type="email"], .modal select, .modal input[type="text"].role-input {
-            width: 100%;
-            padding: 0.7rem 0.9rem;
-            margin-bottom: 1rem;
-            border: 1px solid #cbd5e1;
-            border-radius: 6px;
-            font-size: 1rem;
-            background-color: #f8fafc;
-        }
-        .modal input[type="text"]:disabled, .modal input[type="email"]:disabled {
-            background-color: #e2e8f0;
-            cursor: not-allowed;
-        }
-        .modal select {
-            cursor: pointer;
-        }
-        .role-input-container {
-            display: flex;
-            gap: 0.5rem;
-        }
-        .role-input-container select {
-            flex: 1;
-        }
-        .role-input-container input.role-input {
-            flex: 2;
+        /* ====== DOWNLOAD MODAL STYLES ====== */
+        .download-modal {
             display: none;
-        }
-        .toggle-role-input {
-            background: none;
-            border: none;
-            color: #3b82f6;
-            cursor: pointer;
-            font-size: 0.9rem;
-            margin-bottom: 1rem;
-            display: inline-block;
-        }
-        .toggle-role-input:hover {
-            text-decoration: underline;
-        }
-        .modal-actions {
-            display: flex;
-            justify-content: flex-end;
-            gap: 0.8rem;
-            margin-top: 1.5rem;
-        }
-        .modal-button {
-            padding: 0.7rem 1.3rem;
-            border: none;
-            border-radius: 6px;
-            cursor: pointer;
-            font-size: 0.95rem;
-            font-weight: 500;
-            transition: background-color 0.2s ease, box-shadow 0.2s ease;
-        }
-        .modal-button.save {
-            background-color: #48bb78;
-            color: white;
-        }
-        .modal-button.save:hover { background-color: #38a169; box-shadow: 0 2px 5px rgba(72, 187, 120, 0.3); }
-        .modal-button.cancel {
-            background-color: #e2e8f0;
-            color: #4a5568;
-        }
-        .modal-button.cancel:hover { background-color: #cbd5e1; }
-
-        /* File Download Section */
-        .download-section {
-            margin-top: 2rem;
-            padding-top: 1.5rem;
-            border-top: 1px solid #e2e8f0;
-        }
-        .download-section h4 {
-            font-size: 1.2rem;
-            margin-bottom: 1rem;
-            color: #2d3748;
+            position: fixed;
+            z-index: 1001;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+            backdrop-filter: blur(5px);
         }
         .download-options {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 0.8rem;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-top: 1.5rem;
         }
         .download-option {
-            flex: 1;
-            min-width: 200px;
+            padding: 0.5rem;
+            border-radius: 6px;
             background-color: #f8fafc;
-            border-radius: 8px;
-            padding: 1rem;
-            border: 1px solid #e2e8f0;
-            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            cursor: pointer;
+            transition: all 0.2s ease;
         }
         .download-option:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            background-color: #e2e8f0;
         }
-        .download-option h5 {
-            font-size: 1rem;
-            margin-bottom: 0.5rem;
-            color: #1e40af;
-        }
-        .download-option p {
-            font-size: 0.85rem;
-            color: #4b5563;
-            margin-bottom: 1rem;
-        }
-        .download-option-btn {
-            display: inline-block;
-            padding: 0.5rem 1rem;
-            background-color: #3b82f6;
-            color: white;
-            border-radius: 6px;
-            font-size: 0.9rem;
-            transition: background-color 0.2s ease;
-        }
-        .download-option-btn:hover {
-            background-color: #2563eb;
+        .download-option input {
+            margin-right: 0.5rem;
         }
 
-        /* Loading/Message Styles */
-        #user-list-message {
-            text-align: center;
-            padding: 2rem;
-            color: #718096;
-            font-style: italic;
-        }
-        .spinner {
-            border: 4px solid rgba(0, 0, 0, 0.1);
-            width: 36px;
-            height: 36px;
-            border-radius: 50%;
-            border-left-color: #66a6ff;
-            animation: spin 1s ease infinite;
-            margin: 1rem auto;
-        }
-        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-
-        /* ====== FOOTER ====== */
-        footer {
-            background-color: rgba(255, 255, 255, 0.6); backdrop-filter: blur(5px); -webkit-backdrop-filter: blur(5px);
-            padding: 1.5rem 2rem; text-align: center; font-size: 0.9rem; color: #4a5568;
-            margin-top: 3rem; border-top: 1px solid rgba(0, 0, 0, 0.05); z-index: 10; position: relative;
-        }
-        footer a { color: #3b82f6; font-weight: 500; }
-        footer a:hover { text-decoration: underline; }
-
-        /* ====== FLOATING LOGO ====== */
-        .floating-logo {
-            position: fixed; bottom: 20px; left: 20px; z-index: 500; background-color: rgba(255, 255, 255, 0.8);
-            backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); padding: 10px; border-radius: 50%;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1); transition: transform 0.3s ease, box-shadow 0.3s ease;
-            display: flex; align-items: center; justify-content: center;
-        }
-        .floating-logo img { display: block; max-height: 45px; width: auto; border-radius: 50%; }
-        .floating-logo:hover { transform: scale(1.1); box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15); }
-
-        /* ====== UTILITIES & THEME TOGGLE ====== */
-        .theme-toggle {
-            position: fixed; bottom: 20px; right: 20px; width: 45px; height: 45px; border-radius: 50%;
-            background: linear-gradient(135deg, #6366f1 0%, #a78bfa 100%); color: white;
-            display: flex; align-items: center; justify-content: center; font-size: 1.1rem; cursor: pointer;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15); z-index: 500; transition: all 0.3s ease; border: none;
-        }
-        .theme-toggle:hover { transform: scale(1.1) rotate(10deg); box-shadow: 0 8px 20px rgba(99, 102, 241, 0.3); }
-
-        /* Particles */
-        .particle {
-            position: fixed; background: rgba(102, 166, 255, 0.15); border-radius: 50%;
-            pointer-events: none; z-index: 0; animation: particleFloat 25s linear infinite;
-        }
-        @keyframes particleFloat {
-            0% { transform: translateY(105vh) scale(0.5) rotate(0deg); opacity: 0; } 50% { opacity: 0.8; } 100% { transform: translateY(-100px) scale(1.2) rotate(720deg); opacity: 0; }
-        }
-
-        /* Loading Screen */
-        .loading {
-            position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: linear-gradient(135deg, #e0eafc 0%, #cfdef3 100%);
-            display: flex; align-items: center; justify-content: center; z-index: 9999; transition: opacity 0.5s ease, visibility 0.5s ease;
-        }
-        .loading-circle {
-            width: 50px; height: 50px; border: 5px solid rgba(0, 0, 0, 0.2); border-radius: 50%;
-            border-top-color: #66a6ff; animation: spin 1s ease-in-out infinite;
-        }
-
-        /* ====== RESPONSIVENESS ====== */
-        @media (max-width: 768px) {
-            body { padding-top: 60px; } header { padding: 0.6rem 1rem; }
-            .header-title { font-size: 1.2rem; }
-            .account-icon { width: 38px; height: 38px; font-size: 1.4rem; }
-            .account-dropdown { top: 52px; min-width: 220px; }
-            .content { padding: 1rem; } .content h2 { font-size: 1.9rem; }
-            .admin-section { padding: 1.5rem; } .admin-section h3 { font-size: 1.3rem; }
-            .welcome-message { flex-direction: column; text-align: center; }
-            .welcome-message i { margin-bottom: 0.5rem; }
-            .search-container { max-width: 100%; }
-            .user-table th, .user-table td { padding: 0.7rem 0.8rem; font-size: 0.9rem; }
-            .action-button, .download-btn { padding: 0.4rem 0.7rem; font-size: 0.8rem; }
-            .modal-content { margin: 15% auto; width: 95%; padding: 1.5rem; }
-            .modal h4 { font-size: 1.2rem; }
-            .download-options { flex-direction: column; }
-            .download-option { min-width: 100%; }
-            footer { padding: 1rem 1.5rem; font-size: 0.85rem; margin-top: 2rem; }
-            .floating-logo { bottom: 15px; left: 15px; padding: 8px; } .floating-logo img { max-height: 35px; }
-            .theme-toggle { bottom: 15px; right: 15px; width: 40px; height: 40px; font-size: 1rem; }
-        }
-        @media (max-width: 480px) {
-            .header-title { font-size: 1.1rem; } .content h2 { font-size: 1.7rem; }
-            .admin-section { padding: 1rem; } .admin-section h3 { font-size: 1.2rem; }
-            .user-table th, .user-table td { padding: 0.6rem 0.5rem; font-size: 0.85rem; }
-            .floating-logo img { max-height: 30px; }
-            .modal-actions { flex-direction: column; gap: 0.5rem; }
-            .modal-button { width: 100%; }
-        }
-
-        /* ====== DARK THEME STYLES ====== */
+        /* ====== DARK MODE STYLES ====== */
         body.dark {
-            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%); color: #e2e8f0; animation-name: gradientBGDark;
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            color: #e2e8f0;
         }
-        @keyframes gradientBGDark {
-            0% { background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%); } 50% { background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%); } 100% { background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%); }
+        body.dark .admin-section {
+            background-color: #1e293b;
+            border-color: #334155;
         }
-        body.dark header {
-            background: rgba(15, 23, 42, 0.8); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
-            color: #e2e8f0; box-shadow: 0 2px 15px rgba(0, 0, 0, 0.2); border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        body.dark .user-table th {
+            background-color: #334155;
+            color: #94a3b8;
         }
-        body.dark .header-title { color: #f1f5f9; }
-        body.dark .account-icon { background: linear-gradient(135deg, #475569 0%, #334155 100%); box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2); }
-        body.dark .account-icon:hover { box-shadow: 0 5px 15px rgba(71, 85, 105, 0.4); }
-        body.dark .account-dropdown { background: rgba(30, 41, 59, 0.98); color: #e2e8f0; border: 1px solid rgba(255, 255, 255, 0.1); box-shadow: 0 10px 35px rgba(0,0,0,0.2); }
-        body.dark .account-dropdown a, body.dark .account-dropdown div { color: #e2e8f0; border-bottom: 1px solid rgba(255, 255, 255, 0.08); }
-        body.dark #user-role-display { color: #a78bfa; background-color: rgba(167, 139, 250, 0.08); border-bottom: 1px solid rgba(167, 139, 250, 0.1); }
-        body.dark #user-role-display i { color: #a78bfa; }
-        body.dark #admin-panel-link { color: #f472b6; } body.dark #admin-panel-link i { color: #f472b6; }
-        body.dark #admin-panel-link:hover { background-color: rgba(244, 114, 182, 0.08); color: #ec4899; } body.dark #admin-panel-link:hover i { color: #ec4899; }
-        body.dark .account-dropdown a:hover, body.dark .account-dropdown div:not(#user-role-display):not(#admin-panel-link):hover { color: #93c5fd; background: rgba(255, 255, 255, 0.04); }
-        body.dark .account-dropdown i { color: #93c5fd; } body.dark .account-dropdown a:hover i, body.dark .account-dropdown div:not(#user-role-display):not(#admin-panel-link):hover i { color: #93c5fd; }
-        body.dark .content { color: #cbd5e1; }
-        body.dark .content h2 { color: #f1f5f9; border-image-source: linear-gradient(to right, #a78bfa, #60a5fa); }
-        body.dark .admin-section { background-color: #1e293b; border: 1px solid rgba(255, 255, 255, 0.1); box-shadow: 0 7px 25px rgba(0, 0, 0, 0.2); }
-        body.dark .admin-section h3 { color: #f1f5f9; border-bottom-color: #334155; }
-        body.dark .welcome-message { background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 100%); border-left-color: #60a5fa; }
-        body.dark .welcome-message i { color: #60a5fa; }
-        body.dark .welcome-text h4 { color: #93c5fd; }
-        body.dark .welcome-text p { color: #94a3b8; }
-        body.dark .search-container input[type="text"] { background-color: #334155; border-color: #475569; color: #e2e8f0; }
-        body.dark .search-container input[type="text"]:focus { border-color: #60a5fa; box-shadow: 0 0 0 3px rgba(96, 165, 250, 0.2); }
-        body.dark .user-table th { background-color: #334155; color: #94a3b8; }
-        body.dark .user-table td { color: #cbd5e1; border-bottom-color: #334155; }
-        body.dark .user-table tbody tr:hover { background-color: #273448; }
-        body.dark .role-badge.admin { background-color: #4a044e; color: #fbcfe8; }
-        body.dark .role-badge.user { background-color: #064e3b; color: #a7f3d0; }
-        body.dark .role-badge.student { background-color: #1e3a8a; color: #bfdbfe; }
-        body.dark .role-badge.professor { background-color: #4c1d95; color: #ddd6fe; }
-        body.dark .action-button { background-color: #374151; color: #93c5fd; }
-        body.dark .action-button:hover { background-color: #4b5563; color: #bfdbfe; }
-        body.dark .download-btn { background-color: #052e16; color: #86efac; }
-        body.dark .download-btn:hover { background-color: #14532d; color: #bbf7d0; }
-        body.dark .modal-content { background-color: #1e293b; border-color: #334155; box-shadow: 0 10px 30px rgba(0,0,0,0.3); }
-        body.dark .modal-close-btn { color: #6b7280; } body.dark .modal-close-btn:hover { color: #cbd5e1; }
-        body.dark .modal h4 { color: #f1f5f9; border-bottom-color: #334155; }
-        body.dark .modal label { color: #94a3b8; }
-        body.dark .modal input[type="text"], body.dark .modal input[type="email"], body.dark .modal select, body.dark .modal input[type="text"].role-input { background-color: #334155; border-color: #475569; color: #e2e8f0; }
-        body.dark .modal input[type="text"]:disabled, body.dark .modal input[type="email"]:disabled { background-color: #4b5563; }
-        body.dark .modal-button.save { background-color: #22c55e; } body.dark .modal-button.save:hover { background-color: #16a34a; box-shadow: 0 2px 5px rgba(34, 197, 94, 0.3); }
-        body.dark .modal-button.cancel { background-color: #4b5563; color: #cbd5e1; } body.dark .modal-button.cancel:hover { background-color: #6b7280; }
-        body.dark #user-list-message { color: #64748b; }
-        body.dark .download-section { border-top-color: #334155; }
-        body.dark .download-section h4 { color: #f1f5f9; }
-        body.dark .download-option { background-color: #1e293b; border-color: #334155; }
-        body.dark .download-option h5 { color: #93c5fd; }
-        body.dark .download-option p { color: #94a3b8; }
-        body.dark .download-option-btn { background-color: #3b82f6; }
-        body.dark .download-option-btn:hover { background-color: #2563eb; }
-        body.dark footer { background-color: rgba(15, 23, 42, 0.7); backdrop-filter: blur(5px); -webkit-backdrop-filter: blur(5px); color: #94a3b8; border-top: 1px solid rgba(255, 255, 255, 0.1); }
-        body.dark footer a { color: #93c5fd; }
-        body.dark .floating-logo { background-color: rgba(30, 41, 59, 0.8); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2); }
-        body.dark .floating-logo:hover { box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25); }
-        body.dark .theme-toggle { background: linear-gradient(135deg, #475569 0%, #334155 100%); box-shadow: 0 5px 15px rgba(0,0,0,0.3); }
-        body.dark .theme-toggle:hover { box-shadow: 0 8px 20px rgba(0,0,0,0.4); }
-        body.dark .particle { background: rgba(167, 139, 250, 0.08); }
-        body.dark .loading { background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%); }
-        body.dark .loading-circle { border: 5px solid rgba(255, 255, 255, 0.2); border-top-color: #a78bfa; }
-        body.dark .spinner { border: 4px solid rgba(255, 255, 255, 0.1); border-left-color: #a78bfa; }
+        body.dark .user-table td {
+            color: #cbd5e1;
+            border-bottom-color: #334155;
+        }
+        body.dark .modal-content {
+            background-color: #1e293b;
+            color: #e2e8f0;
+        }
 
+        /* ====== RESPONSIVE STYLES ====== */
+        @media (max-width: 768px) {
+            .content {
+                padding: 1rem;
+            }
+            .admin-section {
+                padding: 1.5rem;
+            }
+            .download-options {
+                grid-template-columns: 1fr;
+            }
+        }
     </style>
 </head>
-<body class=""> <div class="loading" id="loading">
-        <div class="loading-circle"></div>
-    </div>
-
+<body>
     <header>
         <div class="header-title-area">
-            <span class="header-title" id="header-title">Admin Dashboard</span>
+            <span class="header-title">Admin Dashboard</span>
         </div>
-        <div class="account-wrapper" id="account-btn">
-            <div class="account-icon" id="account-img"><i class="fas fa-user"></i></div>
-            <div class="account-dropdown" id="account-dropdown">
-                <div id="not-logged-in" style="display: none;"> <a href="login.html"><i class="fas fa-sign-in-alt"></i> Log In</a>
-                </div>
-                <div id="logged-in" style="display: none;">
-                    <div id="user-role-display" style="display: none;"><i class="fas fa-shield-halved"></i> <span id="role-text">Admin</span></div>
-                    <div id="welcome-user" style="padding: 0.9rem 1.3rem; border-bottom: 1px solid rgba(0,0,0,0.05);">
-                        <i class="fas fa-user-circle"></i> Welcome, <span id="user-name-display">Admin</span>
-                    </div>
-                    <a href="generaladmin.html" id="admin-panel-link" style="display: none;"><i class="fas fa-user-shield"></i> Admin Panel</a>
-                    <a href="profile.html" id="profile-link"><i class="fas fa-user-circle"></i> My Profile</a>
-                    <a href="home.html" id="home-link"><i class="fas fa-home"></i> Home Page</a> <a href="#" id="logout-btn"><i class="fas fa-sign-out-alt"></i> Logout</a>
-                </div>
-            </div>
+        <div class="account-actions">
+            <button id="logout-btn" class="btn btn-danger">
+                <i class="fas fa-sign-out-alt"></i> Logout
+            </button>
         </div>
     </header>
 
-    <main class="content" id="content">
-        <h2>Admin Dashboard</h2>
-
-        <div class="welcome-message">
-            <i class="fas fa-user-shield"></i>
-            <div class="welcome-text">
-                <h4>Administrator Control Panel</h4>
-                <p>Manage user roles, view student records, and download reports from this dashboard.</p>
-            </div>
-        </div>
-
-        <section class="admin-section" id="user-management">
-            <h3>User Management</h3>
-            <div class="search-container">
-                 <input type="text" id="user-search" placeholder="Search by name, email or ID...">
-                 <i class="fas fa-search" style="color: #94a3b8;"></i>
-            </div>
+    <main class="content">
+        <section class="admin-section">
+            <h2>User Management</h2>
             <div class="table-container">
                 <table class="user-table">
                     <thead>
@@ -640,536 +273,418 @@
                         </tr>
                     </thead>
                     <tbody id="user-list">
-                        </tbody>
+                        <!-- Users will be loaded here -->
+                    </tbody>
                 </table>
             </div>
-             <div id="user-list-message">
-                 <div class="spinner"></div>
-                 Loading users...
-             </div>
-        </section>
-
-        <section class="admin-section download-section">
-            <h3>File Downloads</h3>
-            <div class="download-options">
-                <div class="download-option">
-                    <h5>Student Records</h5>
-                    <p>Download complete student records in CSV format</p>
-                    <button class="download-option-btn" id="download-students-csv">
-                        <i class="fas fa-file-csv"></i> Download CSV
-                    </button>
-                </div>
-                <div class="download-option">
-                    <h5>User Roles Report</h5>
-                    <p>Export current user roles and permissions</p>
-                    <button class="download-option-btn" id="download-roles-pdf">
-                        <i class="fas fa-file-pdf"></i> Download PDF
-                    </button>
-                </div>
-                <div class="download-option">
-                    <h5>Activity Logs</h5>
-                    <p>Download system activity logs for analysis</p>
-                    <button class="download-option-btn" id="download-logs-txt">
-                        <i class="fas fa-file-alt"></i> Download TXT
-                    </button>
-                </div>
+            <div class="table-actions">
+                <button id="download-csv" class="btn btn-primary">
+                    <i class="fas fa-download"></i> Export to CSV
+                </button>
             </div>
         </section>
+    </main>
 
-        </main> <footer>
-        &copy; <span id="footer-year"></span> Haramaya Jama'aa Group. Admin Panel. | <a href="#top">Back to Top</a>
-    </footer>
-
-    <div class="floating-logo">
-        <img src="haramaya.png" alt="Haramaya Logo">
-    </div>
-
-    <div class="theme-toggle" id="theme-toggle">
-        <i class="fas fa-moon"></i>
-    </div>
-
+    <!-- Edit Role Modal -->
     <div id="edit-role-modal" class="modal">
-         <div class="modal-content">
-             <span class="modal-close-btn" id="modal-close-btn">&times;</span>
-             <h4>Edit User Role</h4>
-             <input type="hidden" id="edit-user-id"> <div>
-                 <label for="edit-user-name">Name:</label>
-                 <input type="text" id="edit-user-name" disabled>
-             </div>
-             <div>
-                 <label for="edit-user-email">Email:</label>
-                 <input type="email" id="edit-user-email" disabled>
-             </div>
-             <div>
-                 <label for="edit-user-id-display">Student ID:</label>
-                 <input type="text" id="edit-user-id-display" disabled>
-             </div>
-             <div>
-                 <label for="edit-user-role">Role:</label>
-                 <div class="role-input-container">
-                     <select id="edit-user-role">
-                         <option value="user">User</option>
-                         <option value="admin">Admin</option>
-                         <option value="student">Student</option>
-                         <option value="professor">Professor</option>
-                         <option value="custom">Custom...</option>
-                     </select>
-                     <input type="text" class="role-input" id="edit-user-role-custom" placeholder="Enter custom role">
-                 </div>
-                 <button type="button" class="toggle-role-input" id="toggle-role-input">
-                     <i class="fas fa-edit"></i> Enter custom role
-                 </button>
-             </div>
-             <div class="modal-actions">
-                 <button class="modal-button cancel" id="modal-cancel-btn">Cancel</button>
-                 <button class="modal-button save" id="modal-save-btn">Save Changes</button>
-             </div>
-             <div id="modal-message" style="margin-top: 1rem; text-align: center; color: red;"></div>
-         </div>
-     </div>
+        <div class="modal-content">
+            <span class="modal-close" id="close-edit-modal">&times;</span>
+            <h3>Edit User Role</h3>
+            <form id="role-form">
+                <input type="hidden" id="edit-user-id">
+                <div class="form-group">
+                    <label for="edit-user-name">Name</label>
+                    <input type="text" id="edit-user-name" class="form-control" disabled>
+                </div>
+                <div class="form-group">
+                    <label for="edit-user-email">Email</label>
+                    <input type="email" id="edit-user-email" class="form-control" disabled>
+                </div>
+                <div class="form-group">
+                    <label for="edit-user-role">Role</label>
+                    <div class="role-selector">
+                        <select id="edit-user-role" class="form-control">
+                            <option value="user">User</option>
+                            <option value="admin">Admin</option>
+                            <option value="student">Student</option>
+                            <option value="professor">Professor</option>
+                            <option value="custom">Custom Role</option>
+                        </select>
+                        <input type="text" id="custom-role-input" class="form-control" 
+                               placeholder="Enter custom role" style="display: none;">
+                    </div>
+                    <button type="button" id="toggle-custom-role" class="btn btn-secondary">
+                        <i class="fas fa-edit"></i> Custom Role
+                    </button>
+                </div>
+                <div class="form-actions">
+                    <button type="button" id="cancel-edit" class="btn btn-secondary">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Save Changes</button>
+                </div>
+            </form>
+        </div>
+    </div>
 
+    <!-- Download Options Modal -->
+    <div id="download-modal" class="download-modal">
+        <div class="modal-content">
+            <span class="modal-close" id="close-download-modal">&times;</span>
+            <h3>Select Fields to Export</h3>
+            <div class="download-options">
+                <label class="download-option">
+                    <input type="checkbox" name="export-field" value="name" checked> Name
+                </label>
+                <label class="download-option">
+                    <input type="checkbox" name="export-field" value="email" checked> Email
+                </label>
+                <label class="download-option">
+                    <input type="checkbox" name="export-field" value="studentId" checked> Student ID
+                </label>
+                <label class="download-option">
+                    <input type="checkbox" name="export-field" value="role" checked> Role
+                </label>
+                <label class="download-option">
+                    <input type="checkbox" name="export-field" value="createdAt"> Created At
+                </label>
+            </div>
+            <div class="form-actions">
+                <button id="cancel-download" class="btn btn-secondary">Cancel</button>
+                <button id="confirm-download" class="btn btn-primary">Download CSV</button>
+            </div>
+        </div>
+    </div>
 
     <script type="module">
-        // Firebase modules.
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-app.js";
-        import { getAnalytics, isSupported } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-analytics.js";
-        import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-auth.js";
-        import { getFirestore, doc, getDoc, collection, getDocs, updateDoc, query, orderBy } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-firestore.js";
+        // Firebase imports
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+        import { getAuth, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+        import { 
+            getFirestore, collection, getDocs, doc, updateDoc, query, orderBy 
+        } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
-        // === YOUR PROVIDED FIREBASE CONFIG ===
+        // Firebase configuration
         const firebaseConfig = {
-          apiKey: "AIzaSyBQyNVWh1BtCkXlBfuS7jHAa36FTklZayo",
-          authDomain: "pharma-quiz-b5a07.firebaseapp.com",
-          databaseURL: "https://pharma-quiz-b5a07-default-rtdb.firebaseio.com",
-          projectId: "pharma-quiz-b5a07",
-          storageBucket: "pharma-quiz-b5a07.appspot.com",
-          messagingSenderId: "161067776789",
-          appId: "1:161067776789:web:88b8a61145dc5f5c31471c",
-          measurementId: "G-3QRQE9HQFB"
+            apiKey: "AIzaSyBQyNVWh1BtCkXlBfuS7jHAa36FTklZayo",
+            authDomain: "pharma-quiz-b5a07.firebaseapp.com",
+            projectId: "pharma-quiz-b5a07",
+            storageBucket: "pharma-quiz-b5a07.appspot.com",
+            messagingSenderId: "161067776789",
+            appId: "1:161067776789:web:88b8a61145dc5f5c31471c",
+            measurementId: "G-3QRQE9HQFB"
         };
-        // =====================================
 
+        // Initialize Firebase
         const app = initializeApp(firebaseConfig);
-        // Initialize Analytics conditionally
-        let analytics;
-        isSupported().then(supported => {
-            if (supported && firebaseConfig.measurementId) {
-                try {
-                    analytics = getAnalytics(app);
-                    console.log("Firebase Analytics initialized.");
-                } catch (error) {
-                    console.warn("Could not initialize Firebase Analytics:", error);
-                }
-            } else {
-                 console.log("Firebase Analytics not supported or measurementId missing.");
-            }
-        });
-        const auth = getAuth();
+        const auth = getAuth(app);
         const db = getFirestore(app);
 
-        // --- Global Variables ---
-        let currentUserRole = null;
-        let allUsersData = []; // Store fetched users for filtering
-        let currentUserName = "Admin"; // Store current user's name
-
-        // --- DOM Elements ---
-        const loadingScreen = document.getElementById('loading');
-        const themeToggle = document.getElementById('theme-toggle');
-        const accountBtn = document.getElementById("account-btn");
-        const accountDropdown = document.getElementById("account-dropdown");
-        const notLoggedInDiv = document.getElementById("not-logged-in");
-        const loggedInDiv = document.getElementById("logged-in");
-        const logoutBtn = document.getElementById("logout-btn");
-        const profileLink = document.getElementById("profile-link");
-        const homeLink = document.getElementById("home-link");
-        const userRoleDisplay = document.getElementById("user-role-display");
-        const userNameDisplay = document.getElementById("user-name-display");
-        const adminPanelLink = document.getElementById("admin-panel-link");
-        const footerYear = document.getElementById("footer-year");
-        const userListTableBody = document.getElementById('user-list');
-        const userListMessage = document.getElementById('user-list-message');
-        const userSearchInput = document.getElementById('user-search');
+        // DOM Elements
+        const userList = document.getElementById('user-list');
+        const logoutBtn = document.getElementById('logout-btn');
+        const downloadCsvBtn = document.getElementById('download-csv');
+        
         // Modal elements
         const editRoleModal = document.getElementById('edit-role-modal');
-        const modalCloseBtn = document.getElementById('modal-close-btn');
-        const modalCancelBtn = document.getElementById('modal-cancel-btn');
-        const modalSaveBtn = document.getElementById('modal-save-btn');
-        const editUserIdInput = document.getElementById('edit-user-id');
-        const editUserNameInput = document.getElementById('edit-user-name');
-        const editUserEmailInput = document.getElementById('edit-user-email');
-        const editUserIdDisplay = document.getElementById('edit-user-id-display');
-        const editUserRoleSelect = document.getElementById('edit-user-role');
-        const editUserRoleCustom = document.getElementById('edit-user-role-custom');
-        const toggleRoleInputBtn = document.getElementById('toggle-role-input');
-        const modalMessage = document.getElementById('modal-message');
-        // Download buttons
-        const downloadStudentsCsv = document.getElementById('download-students-csv');
-        const downloadRolesPdf = document.getElementById('download-roles-pdf');
-        const downloadLogsTxt = document.getElementById('download-logs-txt');
+        const closeEditModal = document.getElementById('close-edit-modal');
+        const cancelEdit = document.getElementById('cancel-edit');
+        const roleForm = document.getElementById('role-form');
+        const editUserId = document.getElementById('edit-user-id');
+        const editUserName = document.getElementById('edit-user-name');
+        const editUserEmail = document.getElementById('edit-user-email');
+        const editUserRole = document.getElementById('edit-user-role');
+        const customRoleInput = document.getElementById('custom-role-input');
+        const toggleCustomRole = document.getElementById('toggle-custom-role');
+        
+        // Download modal elements
+        const downloadModal = document.getElementById('download-modal');
+        const closeDownloadModal = document.getElementById('close-download-modal');
+        const cancelDownload = document.getElementById('cancel-download');
+        const confirmDownload = document.getElementById('confirm-download');
 
-        // --- Initial Setup ---
-        if (footerYear) footerYear.textContent = new Date().getFullYear();
+        // Global variables
+        let allUsers = [];
+        let availableRoles = ['user', 'admin', 'student', 'professor'];
 
-        // Theme Persistence & Initialization
-        const savedTheme = localStorage.getItem('theme');
-        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-        const applyTheme = (theme) => {
-             if (theme === 'dark') { document.body.classList.add('dark'); themeToggle.innerHTML = '<i class="fas fa-sun"></i>'; localStorage.setItem('theme', 'dark'); }
-             else { document.body.classList.remove('dark'); themeToggle.innerHTML = '<i class="fas fa-moon"></i>'; localStorage.setItem('theme', 'light'); }
-             createParticles(); // Recreate particles on theme change
-        };
-        applyTheme(savedTheme ? savedTheme : (prefersDark ? 'dark' : 'light'));
-
-        // Hide loading screen
-        setTimeout(() => { if (loadingScreen) { loadingScreen.style.opacity = '0'; loadingScreen.style.visibility = 'hidden'; loadingScreen.style.pointerEvents = 'none'; } }, 800);
-
-        // Create Particles Function
-        function createParticles() {
-            const colorsLight = ['rgba(102, 166, 255, 0.1)', 'rgba(137, 247, 254, 0.1)', 'rgba(99, 102, 241, 0.1)']; 
-            const colorsDark = ['rgba(167, 139, 250, 0.06)', 'rgba(96, 165, 250, 0.06)', 'rgba(56, 189, 248, 0.06)']; 
-            const isDark = document.body.classList.contains('dark'); 
-            const colors = isDark ? colorsDark : colorsLight; 
-            document.querySelectorAll('.particle').forEach(p => p.remove()); 
-            const particleContainer = document.body; 
-            for (let i = 0; i < 12; i++) { 
-                const particle = document.createElement('div'); 
-                particle.classList.add('particle'); 
-                const size = Math.random() * 6 + 3; 
-                const startX = Math.random() * 100; 
-                const duration = Math.random() * 25 + 20; 
-                const delay = Math.random() * 15; 
-                particle.style.width = `${size}px`; 
-                particle.style.height = `${size}px`; 
-                particle.style.left = `${startX}vw`; 
-                particle.style.background = colors[Math.floor(Math.random() * colors.length)]; 
-                particle.style.animation = `particleFloat ${duration}s linear ${delay}s infinite`; 
-                particle.style.bottom = `-${size}px`; 
-                particleContainer.appendChild(particle); 
-            }
-        }
-        createParticles(); // Initial particle creation
-
-        // Theme toggle functionality
-        themeToggle.addEventListener('click', () => { const isDark = document.body.classList.contains('dark'); applyTheme(isDark ? 'light' : 'dark'); });
-
-        // Account Dropdown Logic
-        accountBtn.addEventListener("click", (e) => { e.stopPropagation(); const isDisplayed = accountDropdown.style.display === "block"; accountDropdown.style.display = isDisplayed ? "none" : "block"; });
-        document.addEventListener("click", (e) => { if (accountDropdown && accountBtn && !accountBtn.contains(e.target) && !accountDropdown.contains(e.target)) { accountDropdown.style.display = "none"; } });
-
-        // Logout Logic
-        async function handleLogout() { try { await signOut(auth); console.log("Logout successful"); sessionStorage.removeItem('adminNotified'); } catch (error) { console.error("Logout failed:", error); alert("Logout failed. Please try again."); } }
-        if(logoutBtn) logoutBtn.addEventListener("click", handleLogout);
-
-        // Toggle between role select and custom input
-        toggleRoleInputBtn.addEventListener('click', () => {
-            const isCustomVisible = editUserRoleCustom.style.display === 'block';
-            if (isCustomVisible) {
-                editUserRoleSelect.style.display = 'block';
-                editUserRoleCustom.style.display = 'none';
-                toggleRoleInputBtn.innerHTML = '<i class="fas fa-edit"></i> Enter custom role';
-            } else {
-                editUserRoleSelect.style.display = 'none';
-                editUserRoleCustom.style.display = 'block';
-                editUserRoleSelect.value = 'custom';
-                editUserRoleCustom.focus();
-                toggleRoleInputBtn.innerHTML = '<i class="fas fa-list"></i> Select from list';
-            }
-        });
-
-        // Handle role select change
-        editUserRoleSelect.addEventListener('change', (e) => {
-            if (e.target.value === 'custom') {
-                editUserRoleSelect.style.display = 'none';
-                editUserRoleCustom.style.display = 'block';
-                editUserRoleCustom.focus();
-                toggleRoleInputBtn.innerHTML = '<i class="fas fa-list"></i> Select from list';
-            }
-        });
-
-        // --- Admin Page Specific Logic ---
-
-        // Function to check admin status and initialize page
-        const checkAdminStatusAndInit = async (userId) => {
-            try {
-                const userDocRef = doc(db, "users", userId);
-                const userDocSnap = await getDoc(userDocRef);
-
-                if (userDocSnap.exists() && userDocSnap.data().role === 'admin') {
-                    console.log("Admin access granted.");
-                    currentUserRole = 'admin';
-                    currentUserName = userDocSnap.data().name || 'Admin';
-                    
-                    // Update UI with user's name
-                    if(userNameDisplay) userNameDisplay.textContent = currentUserName;
-                    
-                    // Update account dropdown for admin view
-                    if(userRoleDisplay) userRoleDisplay.style.display = "flex";
-                    if(adminPanelLink) adminPanelLink.style.display = "flex";
-                    if(profileLink) profileLink.href = "profile.html";
-
-                    // Initialize admin features
-                    await fetchAndDisplayUsers();
-                    setupEventListeners();
-
-                } else {
-                    console.warn("Access Denied. User is not an admin or document not found.");
-                    alert("Access Denied. You do not have permission to view this page.");
-                    window.location.href = 'home.html';
-                }
-            } catch (error) {
-                console.error("Error checking admin status:", error);
-                alert("An error occurred while verifying your permissions.");
-                window.location.href = 'home.html';
-            }
+        // Initialize the application
+        const init = () => {
+            checkAuthState();
+            setupEventListeners();
+            loadUsers();
         };
 
-        // Fetch and display users
-        const fetchAndDisplayUsers = async () => {
-            if (!userListTableBody || !userListMessage) return;
-            userListTableBody.innerHTML = '';
-            userListMessage.innerHTML = '<div class="spinner"></div>Loading users...';
-            userListMessage.style.display = 'block';
-            allUsersData = [];
-
-            try {
-                const usersRef = collection(db, "users");
-                const q = query(usersRef, orderBy("email"));
-                const querySnapshot = await getDocs(q);
-
-                if (querySnapshot.empty) {
-                    userListMessage.textContent = 'No users found.';
-                } else {
-                    querySnapshot.forEach((docSnap) => {
-                        const userData = { id: docSnap.id, ...docSnap.data() };
-                        allUsersData.push(userData);
-                        renderUserRow(userData);
-                    });
-                    userListMessage.style.display = 'none';
-                }
-            } catch (error) {
-                console.error("Error fetching users:", error);
-                userListMessage.textContent = 'Error loading users. Please try again.';
-                userListMessage.style.color = 'red';
-            }
-        };
-
-        // Render a single user row in the table
-        const renderUserRow = (userData) => {
-             if (!userListTableBody) return;
-            const tr = document.createElement('tr');
-            tr.setAttribute('data-user-id', userData.id);
-
-            const name = userData.name || userData.displayName || 'N/A';
-            const email = userData.email || 'N/A';
-            const studentId = userData.studentId || 'N/A';
-            const role = userData.role || 'user';
-
-            tr.innerHTML = `
-                <td>${name}</td>
-                <td>${email}</td>
-                <td>${studentId}</td>
-                <td><span class="role-badge ${role}">${role}</span></td>
-                <td>
-                    <button class="action-button edit-role-btn" data-id="${userData.id}" data-name="${name}" data-email="${email}" data-studentid="${studentId}" data-role="${role}">
-                        <i class="fas fa-edit"></i> Edit Role
-                    </button>
-                    ${studentId !== 'N/A' ? `<button class="download-btn download-student-btn" data-id="${studentId}">
-                        <i class="fas fa-download"></i> Files
-                    </button>` : ''}
-                </td>
-            `;
-            userListTableBody.appendChild(tr);
-
-            // Add event listeners to buttons
-            const editButton = tr.querySelector('.edit-role-btn');
-            if (editButton) {
-                editButton.addEventListener('click', handleEditRoleClick);
-            }
-            
-            const downloadButton = tr.querySelector('.download-student-btn');
-            if (downloadButton) {
-                downloadButton.addEventListener('click', handleDownloadStudentFiles);
-            }
-        };
-
-        // Handle downloading student files
-        const handleDownloadStudentFiles = (event) => {
-            const studentId = event.currentTarget.dataset.id;
-            alert(`In a real implementation, this would download files for student ID: ${studentId}`);
-            // In a real app, you would:
-            // 1. Query storage for files associated with this student ID
-            // 2. Generate download links or initiate downloads
-            // 3. Potentially zip multiple files together
-        };
-
-        // Handle clicking the "Edit Role" button
-        const handleEditRoleClick = (event) => {
-            const button = event.currentTarget;
-            const userId = button.dataset.id;
-            const userName = button.dataset.name;
-            const userEmail = button.dataset.email;
-            const studentId = button.dataset.studentid;
-            const currentRole = button.dataset.role;
-
-            // Populate modal
-            editUserIdInput.value = userId;
-            editUserNameInput.value = userName;
-            editUserEmailInput.value = userEmail;
-            editUserIdDisplay.value = studentId;
-            
-            // Reset role input UI
-            editUserRoleSelect.style.display = 'block';
-            editUserRoleCustom.style.display = 'none';
-            toggleRoleInputBtn.innerHTML = '<i class="fas fa-edit"></i> Enter custom role';
-            
-            // Set role value
-            if (['user', 'admin', 'student', 'professor'].includes(currentRole)) {
-                editUserRoleSelect.value = currentRole;
-                editUserRoleCustom.value = '';
-            } else {
-                editUserRoleSelect.value = 'custom';
-                editUserRoleCustom.value = currentRole;
-                editUserRoleSelect.style.display = 'none';
-                editUserRoleCustom.style.display = 'block';
-                toggleRoleInputBtn.innerHTML = '<i class="fas fa-list"></i> Select from list';
-            }
-            
-            modalMessage.textContent = '';
-            editRoleModal.style.display = 'block';
-        };
-
-        // Close Modal Logic
-        const closeModal = () => {
-            if (editRoleModal) editRoleModal.style.display = 'none';
-        };
-        if(modalCloseBtn) modalCloseBtn.addEventListener('click', closeModal);
-        if(modalCancelBtn) modalCancelBtn.addEventListener('click', closeModal);
-        window.addEventListener('click', (event) => {
-            if (event.target == editRoleModal) {
-                closeModal();
-            }
-        });
-
-        // Handle saving role changes
-        const handleSaveRoleClick = async () => {
-            const userId = editUserIdInput.value;
-            let newRole = editUserRoleSelect.value;
-            
-            if (newRole === 'custom') {
-                newRole = editUserRoleCustom.value.trim();
-                if (!newRole) {
-                    modalMessage.textContent = 'Please enter a custom role';
-                    modalMessage.style.color = 'red';
-                    return;
-                }
-            }
-
-            if (!userId || !newRole) {
-                modalMessage.textContent = 'Error: User ID or role missing.';
-                modalMessage.style.color = 'red';
-                return;
-            }
-
-            modalSaveBtn.disabled = true;
-            modalSaveBtn.textContent = 'Saving...';
-            modalMessage.textContent = '';
-
-            try {
-                const userDocRef = doc(db, "users", userId);
-                await updateDoc(userDocRef, {
-                    role: newRole
-                });
-
-                console.log(`User ${userId} role updated to ${newRole}`);
-                modalMessage.textContent = 'Role updated successfully!';
-                modalMessage.style.color = 'green';
-
-                setTimeout(() => {
-                    closeModal();
-                    fetchAndDisplayUsers();
-                }, 1500);
-
-            } catch (error) {
-                console.error("Error updating user role:", error);
-                modalMessage.textContent = `Error updating role: ${error.message}`;
-                modalMessage.style.color = 'red';
-            } finally {
-                 modalSaveBtn.disabled = false;
-                 modalSaveBtn.textContent = 'Save Changes';
-            }
-        };
-        if(modalSaveBtn) modalSaveBtn.addEventListener('click', handleSaveRoleClick);
-
-        // Filter/Search Users
-        const handleUserSearch = () => {
-            const searchTerm = userSearchInput.value.toLowerCase().trim();
-             if (!userListTableBody) return;
-
-            userListTableBody.innerHTML = '';
-            let foundUsers = false;
-
-            allUsersData.forEach(user => {
-                const name = (user.name || user.displayName || '').toLowerCase();
-                const email = (user.email || '').toLowerCase();
-                const studentId = (user.studentId || '').toLowerCase();
-
-                if (name.includes(searchTerm) || email.includes(searchTerm) || studentId.includes(searchTerm)) {
-                    renderUserRow(user);
-                    foundUsers = true;
+        // Check authentication state
+        const checkAuthState = () => {
+            onAuthStateChanged(auth, (user) => {
+                if (!user) {
+                    window.location.href = 'login.html';
                 }
             });
-
-             if (!foundUsers && allUsersData.length > 0) {
-                 userListMessage.textContent = 'No users match your search.';
-                 userListMessage.style.display = 'block';
-            } else if (allUsersData.length === 0 && !userListMessage.textContent.includes('Loading')) {
-                 userListMessage.textContent = 'No users found.';
-                 userListMessage.style.display = 'block';
-            }
-             else {
-                 userListMessage.style.display = 'none';
-            }
-        };
-        if(userSearchInput) userSearchInput.addEventListener('input', handleUserSearch);
-
-        // Handle file downloads
-        const handleFileDownload = (type) => {
-            alert(`In a real implementation, this would generate and download a ${type} file with user data.`);
-            // In a real app, you would:
-            // 1. Generate the appropriate file format (CSV, PDF, TXT)
-            // 2. Either create a download link or send to server for processing
-            // 3. Include all relevant user data in the file
         };
 
         // Setup event listeners
         const setupEventListeners = () => {
-            if (downloadStudentsCsv) downloadStudentsCsv.addEventListener('click', () => handleFileDownload('CSV'));
-            if (downloadRolesPdf) downloadRolesPdf.addEventListener('click', () => handleFileDownload('PDF'));
-            if (downloadLogsTxt) downloadLogsTxt.addEventListener('click', () => handleFileDownload('TXT'));
+            logoutBtn.addEventListener('click', handleLogout);
+            downloadCsvBtn.addEventListener('click', showDownloadModal);
+            
+            // Edit role modal
+            closeEditModal.addEventListener('click', () => editRoleModal.style.display = 'none');
+            cancelEdit.addEventListener('click', () => editRoleModal.style.display = 'none');
+            roleForm.addEventListener('submit', handleRoleUpdate);
+            
+            // Custom role toggle
+            toggleCustomRole.addEventListener('click', toggleCustomRoleInput);
+            editUserRole.addEventListener('change', handleRoleSelectChange);
+            
+            // Download modal
+            closeDownloadModal.addEventListener('click', () => downloadModal.style.display = 'none');
+            cancelDownload.addEventListener('click', () => downloadModal.style.display = 'none');
+            confirmDownload.addEventListener('click', handleDownloadCsv);
         };
 
-        // --- Authentication Listener ---
-        onAuthStateChanged(auth, (user) => {
-            if(loggedInDiv) loggedInDiv.style.display = "none";
-            if(notLoggedInDiv) notLoggedInDiv.style.display = "block";
-            if(userRoleDisplay) userRoleDisplay.style.display = "none";
-            if(adminPanelLink) adminPanelLink.style.display = "none";
-            if(profileLink) profileLink.href = "profile.html";
-
-            if (user) {
-                console.log("User logged in:", user.uid);
-                if(loggedInDiv) loggedInDiv.style.display = "block";
-                if(notLoggedInDiv) notLoggedInDiv.style.display = "none";
-                checkAdminStatusAndInit(user.uid);
-            } else {
-                console.log("User signed out.");
-                alert("You must be logged in as an admin to view this page.");
-                window.location.href = 'login.html';
+        // Load users from Firestore
+        const loadUsers = async () => {
+            try {
+                const usersRef = collection(db, "users");
+                const q = query(usersRef, orderBy("email"));
+                const querySnapshot = await getDocs(q);
+                
+                allUsers = [];
+                userList.innerHTML = '';
+                
+                querySnapshot.forEach((doc) => {
+                    const userData = doc.data();
+                    allUsers.push({ id: doc.id, ...userData });
+                    renderUserRow(doc.id, userData);
+                });
+            } catch (error) {
+                console.error("Error loading users:", error);
             }
-            if(accountDropdown) accountDropdown.style.display = "none";
-        });
+        };
 
+        // Render a user row in the table
+        const renderUserRow = (userId, user) => {
+            const row = document.createElement('tr');
+            
+            // Add custom role to available roles if it doesn't exist
+            if (user.role && !availableRoles.includes(user.role)) {
+                availableRoles.push(user.role);
+                updateRoleSelectOptions();
+            }
+            
+            row.innerHTML = `
+                <td>${user.name || 'N/A'}</td>
+                <td>${user.email || 'N/A'}</td>
+                <td>${user.studentId || 'N/A'}</td>
+                <td><span class="role-badge ${user.role || 'user'}">${user.role || 'user'}</span></td>
+                <td>
+                    <button class="btn btn-primary edit-btn" data-id="${userId}">
+                        <i class="fas fa-edit"></i> Edit
+                    </button>
+                </td>
+            `;
+            
+            // Add edit button event listener
+            row.querySelector('.edit-btn').addEventListener('click', () => {
+                showEditModal(userId, user);
+            });
+            
+            userList.appendChild(row);
+        };
+
+        // Show edit role modal
+        const showEditModal = (userId, user) => {
+            editUserId.value = userId;
+            editUserName.value = user.name || 'N/A';
+            editUserEmail.value = user.email || 'N/A';
+            
+            // Set role value
+            if (availableRoles.includes(user.role)) {
+                editUserRole.value = user.role;
+                customRoleInput.style.display = 'none';
+                customRoleInput.value = '';
+            } else {
+                editUserRole.value = 'custom';
+                customRoleInput.style.display = 'block';
+                customRoleInput.value = user.role || '';
+            }
+            
+            editRoleModal.style.display = 'block';
+        };
+
+        // Toggle custom role input
+        const toggleCustomRoleInput = () => {
+            if (customRoleInput.style.display === 'none') {
+                customRoleInput.style.display = 'block';
+                editUserRole.value = 'custom';
+                customRoleInput.focus();
+            } else {
+                customRoleInput.style.display = 'none';
+                customRoleInput.value = '';
+            }
+        };
+
+        // Handle role select change
+        const handleRoleSelectChange = (e) => {
+            if (e.target.value === 'custom') {
+                customRoleInput.style.display = 'block';
+                customRoleInput.focus();
+            } else {
+                customRoleInput.style.display = 'none';
+                customRoleInput.value = '';
+            }
+        };
+
+        // Update role select options
+        const updateRoleSelectOptions = () => {
+            // Get current custom roles (excluding standard roles)
+            const customRoles = availableRoles.filter(
+                role => !['user', 'admin', 'student', 'professor'].includes(role)
+            );
+            
+            // Remove existing custom options
+            const options = editUserRole.querySelectorAll('option');
+            options.forEach(opt => {
+                if (opt.value.startsWith('custom-')) {
+                    opt.remove();
+                }
+            });
+            
+            // Add custom options
+            customRoles.forEach(role => {
+                const option = document.createElement('option');
+                option.value = role;
+                option.textContent = role;
+                option.classList.add('custom-role');
+                editUserRole.appendChild(option);
+            });
+        };
+
+        // Handle role update
+        const handleRoleUpdate = async (e) => {
+            e.preventDefault();
+            
+            const userId = editUserId.value;
+            let newRole = editUserRole.value;
+            
+            if (newRole === 'custom') {
+                newRole = customRoleInput.value.trim();
+                if (!newRole) {
+                    alert('Please enter a custom role');
+                    return;
+                }
+                
+                // Add new custom role to available roles if it doesn't exist
+                if (!availableRoles.includes(newRole)) {
+                    availableRoles.push(newRole);
+                    updateRoleSelectOptions();
+                }
+            }
+            
+            try {
+                const userRef = doc(db, "users", userId);
+                await updateDoc(userRef, { role: newRole });
+                
+                // Close modal and refresh user list
+                editRoleModal.style.display = 'none';
+                loadUsers();
+            } catch (error) {
+                console.error("Error updating role:", error);
+                alert("Failed to update role. Please try again.");
+            }
+        };
+
+        // Show download modal
+        const showDownloadModal = () => {
+            downloadModal.style.display = 'block';
+        };
+
+        // Handle CSV download
+        const handleDownloadCsv = () => {
+            const selectedFields = Array.from(
+                document.querySelectorAll('input[name="export-field"]:checked')
+            ).map(input => input.value);
+            
+            if (selectedFields.length === 0) {
+                alert('Please select at least one field to export');
+                return;
+            }
+            
+            downloadModal.style.display = 'none';
+            generateCsv(selectedFields);
+        };
+
+        // Generate CSV file
+        const generateCsv = (fields) => {
+            // Create CSV headers
+            const headers = fields.map(field => {
+                // Format header names
+                switch(field) {
+                    case 'studentId': return 'Student ID';
+                    case 'createdAt': return 'Created At';
+                    default: return field.charAt(0).toUpperCase() + field.slice(1);
+                }
+            });
+            
+            // Create CSV rows
+            const rows = allUsers.map(user => {
+                return fields.map(field => {
+                    let value = '';
+                    
+                    switch(field) {
+                        case 'name':
+                            value = user.name || '';
+                            break;
+                        case 'email':
+                            value = user.email || '';
+                            break;
+                        case 'studentId':
+                            value = user.studentId || '';
+                            break;
+                        case 'role':
+                            value = user.role || '';
+                            break;
+                        case 'createdAt':
+                            value = user.createdAt ? new Date(user.createdAt).toLocaleString() : '';
+                            break;
+                    }
+                    
+                    // Escape CSV special characters
+                    if (value.includes(',') || value.includes('"') || value.includes('\n')) {
+                        value = `"${value.replace(/"/g, '""')}"`;
+                    }
+                    
+                    return value;
+                });
+            });
+            
+            // Combine headers and rows
+            const csvContent = [headers, ...rows]
+                .map(row => row.join(','))
+                .join('\n');
+            
+            // Create download link
+            const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+            const url = URL.createObjectURL(blob);
+            const link = document.createElement('a');
+            link.href = url;
+            link.setAttribute('download', `users_export_${new Date().toISOString().slice(0,10)}.csv`);
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        };
+
+        // Handle logout
+        const handleLogout = async () => {
+            try {
+                await signOut(auth);
+                window.location.href = 'login.html';
+            } catch (error) {
+                console.error("Logout error:", error);
+            }
+        };
+
+        // Initialize the app
+        init();
     </script>
-
 </body>
 </html>
