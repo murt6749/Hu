@@ -62,9 +62,13 @@
             border-bottom: 1px solid rgba(0,0,0,0.05); transition: background-color 0.2s ease, color 0.2s ease, padding-left 0.2s ease;
             font-weight: 500; font-size: 0.95rem;
         }
+         #user-name-display { /* Style for displaying user name */
+            font-size: 0.95em; color: #2c3e50; font-weight: bold; background-color: rgba(44, 62, 80, 0.05);
+            border-bottom: 1px solid rgba(44, 62, 80, 0.1);
+        }
         #user-role-display { /* Styles as before */
             font-size: 0.85em; color: #5a67d8; font-weight: bold; background-color: rgba(90, 103, 216, 0.05);
-            border-bottom: 1px solid rgba(90, 103, 216, 0.1); order: -1;
+            border-bottom: 1px solid rgba(90, 103, 216, 0.1);
         }
         #user-role-display i { color: #5a67d8; }
         #admin-panel-link { /* Styles as before */
@@ -74,13 +78,14 @@
         #admin-panel-link:hover { background-color: rgba(213, 63, 140, 0.06); color: #b83280; }
         #admin-panel-link:hover i { color: #b83280; }
         .account-dropdown a:last-child, .account-dropdown div:last-child { border-bottom: none; }
-        .account-dropdown a:hover, .account-dropdown div:not(#user-role-display):not(#admin-panel-link):hover { /* Styles as before */
+         .account-dropdown a:hover, .account-dropdown div:not(#user-name-display):not(#user-role-display):not(#admin-panel-link):hover { /* Adjusted hover styles */
             background: rgba(102, 166, 255, 0.1); padding-left: 1.6rem; color: #3b82f6;
         }
         .account-dropdown i { /* Styles as before */
             width: 18px; color: #60a5fa; text-align: center; font-size: 1rem; transition: all 0.3s;
         }
-        .account-dropdown a:hover i, .account-dropdown div:not(#user-role-display):not(#admin-panel-link):hover i { color: #3b82f6; }
+        .account-dropdown a:hover i, .account-dropdown div:not(#user-name-display):not(#user-role-display):not(#admin-panel-link):hover i { color: #3b82f6; }
+
 
         /* ====== MAIN CONTENT AREA ====== */
         .content { /* Styles mostly as before */
@@ -114,13 +119,21 @@
             padding-bottom: 0.5rem;
         }
 
-        /* Search Bar */
-        .search-container {
+        /* Search and Actions Bar */
+        .admin-actions-bar {
             margin-bottom: 1.5rem;
+            display: flex;
+            flex-wrap: wrap; /* Allow wrapping on small screens */
+            align-items: center;
+            gap: 1rem; /* Space between elements */
+            justify-content: space-between; /* Distribute space */
+        }
+        .search-container {
+            flex-grow: 1; /* Allow search to take available space */
+            max-width: 400px; /* Keep max width */
             display: flex;
             align-items: center;
             gap: 0.5rem;
-            max-width: 400px;
         }
         .search-container input[type="text"] {
             flex-grow: 1;
@@ -136,6 +149,27 @@
             box-shadow: 0 0 0 3px rgba(102, 166, 255, 0.2);
         }
 
+        .download-button {
+             background-color: #bee3f8; /* Light blue */
+             color: #2b6cb0; /* Dark blue */
+             border: none;
+             padding: 0.7rem 1.2rem;
+             border-radius: 8px;
+             cursor: pointer;
+             font-size: 0.95rem;
+             font-weight: 500;
+             transition: background-color 0.2s ease, box-shadow 0.2s ease;
+             display: inline-flex;
+             align-items: center;
+             gap: 0.5rem;
+        }
+        .download-button:hover {
+            background-color: #90cdf4;
+            box-shadow: 0 2px 5px rgba(43, 108, 176, 0.2);
+        }
+         .download-button i { font-size: 1em; }
+
+
         /* User Table */
         .table-container {
             overflow-x: auto; /* Enable horizontal scrolling on small screens */
@@ -144,7 +178,7 @@
         .user-table {
             width: 100%;
             border-collapse: collapse;
-            min-width: 600px; /* Minimum width before scrolling */
+            min-width: 700px; /* Increased min-width for Student ID */
         }
         .user-table th, .user-table td {
             padding: 0.9rem 1rem;
@@ -177,6 +211,7 @@
         }
         .role-badge.admin { background-color: #fed7d7; color: #c53030; } /* Red for admin */
         .role-badge.user { background-color: #c6f6d5; color: #2f855a; } /* Green for user */
+        /* Add more role badges if needed, e.g., .role-badge.teacher */
 
         .action-button {
             background-color: #ebf4ff;
@@ -261,13 +296,24 @@
             font-size: 1rem;
             background-color: #f8fafc;
         }
-         .modal input[type="text"]:disabled, .modal input[type="email"]:disabled {
-             background-color: #e2e8f0;
-             cursor: not-allowed;
-         }
+          .modal input[type="text"]:disabled, .modal input[type="email"]:disabled {
+              background-color: #e2e8f0;
+              cursor: not-allowed;
+          }
         .modal select {
             cursor: pointer;
+            margin-bottom: 0.5rem; /* Reduced margin to make space for new role input */
         }
+        .new-role-input-container {
+            margin-top: 0.5rem;
+             margin-bottom: 1rem;
+        }
+         .new-role-input-container label {
+             margin-bottom: 0.3rem;
+              font-weight: 500;
+               font-size: 0.9em;
+                color: #666;
+         }
         .modal-actions {
             display: flex;
             justify-content: flex-end;
@@ -302,13 +348,13 @@
             font-style: italic;
         }
          .spinner {
-            border: 4px solid rgba(0, 0, 0, 0.1);
-            width: 36px;
-            height: 36px;
-            border-radius: 50%;
-            border-left-color: #66a6ff; /* Use theme color */
-            animation: spin 1s ease infinite;
-            margin: 1rem auto;
+             border: 4px solid rgba(0, 0, 0, 0.1);
+             width: 36px;
+             height: 36px;
+             border-radius: 50%;
+             border-left-color: #66a6ff; /* Use theme color */
+             animation: spin 1s ease infinite;
+             margin: 1rem auto;
          }
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
 
@@ -366,9 +412,15 @@
             .header-title { font-size: 1.2rem; }
             .account-icon { width: 38px; height: 38px; font-size: 1.4rem; }
             .account-dropdown { top: 52px; min-width: 220px; }
+             #user-name-display, #user-role-display { padding: 0.7rem 1rem; gap: 8px; } /* Adjust padding */
             .content { padding: 1rem; } .content h2 { font-size: 1.9rem; }
             .admin-section { padding: 1.5rem; } .admin-section h3 { font-size: 1.3rem; }
-            .search-container { max-width: 100%; }
+            .admin-actions-bar { gap: 0.8rem; } /* Adjusted gap */
+            .search-container { max-width: 100%; flex-direction: column; align-items: flex-start; gap: 0.3rem;} /* Stack search elements */
+             .search-container input[type="text"] { width: 100%; }
+             .search-container i { margin-left: 0.5rem; } /* Align icon */
+            .download-button { width: 100%; justify-content: center; } /* Full width button */
+
             .user-table th, .user-table td { padding: 0.7rem 0.8rem; font-size: 0.9rem; }
             .action-button { padding: 0.4rem 0.7rem; font-size: 0.8rem; }
             .modal-content { margin: 15% auto; width: 95%; padding: 1.5rem; }
@@ -379,12 +431,25 @@
         }
         @media (max-width: 480px) {
              .header-title { font-size: 1.1rem; } .content h2 { font-size: 1.7rem; }
-             .admin-section { padding: 1rem; } .admin-section h3 { font-size: 1.2rem; }
-             .user-table th, .user-table td { padding: 0.6rem 0.5rem; font-size: 0.85rem; }
-             .floating-logo img { max-height: 30px; }
-             .modal-actions { flex-direction: column; gap: 0.5rem; }
-             .modal-button { width: 100%; }
+            .admin-section { padding: 1rem; } .admin-section h3 { font-size: 1.2rem; }
+            .admin-actions-bar { flex-direction: column; align-items: stretch; gap: 0.8rem;} /* Stack all actions */
+             .search-container { flex-direction: column; align-items: stretch; }
+            .user-table th, .user-table td { padding: 0.6rem 0.5rem; font-size: 0.85rem; }
+             .user-table th:nth-child(3), .user-table td:nth-child(3) { /* Target Student ID column for smaller screens */
+                 display: none; /* Hide Student ID on very small screens, or reduce padding */
+             }
+            .floating-logo img { max-height: 30px; }
+            .modal-actions { flex-direction: column; gap: 0.5rem; }
+            .modal-button { width: 100%; }
         }
+
+         /* Show Student ID column again on larger screens */
+         @media (min-width: 481px) {
+             .user-table th:nth-child(3), .user-table td:nth-child(3) {
+                 display: table-cell;
+             }
+         }
+
 
         /* ====== DARK THEME STYLES (Copied + Admin Adjustments) ====== */
         body.dark { /* Styles as before */
@@ -402,23 +467,30 @@
         body.dark .account-icon:hover { box-shadow: 0 5px 15px rgba(71, 85, 105, 0.4); }
         body.dark .account-dropdown { background: rgba(30, 41, 59, 0.98); color: #e2e8f0; border: 1px solid rgba(255, 255, 255, 0.1); box-shadow: 0 10px 35px rgba(0,0,0,0.2); }
         body.dark .account-dropdown a, body.dark .account-dropdown div { color: #e2e8f0; border-bottom: 1px solid rgba(255, 255, 255, 0.08); }
+        body.dark #user-name-display { color: #f1f5f9; background-color: rgba(241, 245, 249, 0.05); border-bottom-color: rgba(241, 245, 249, 0.1);} /* Dark theme name display */
         body.dark #user-role-display { color: #a78bfa; background-color: rgba(167, 139, 250, 0.08); border-bottom: 1px solid rgba(167, 139, 250, 0.1); }
         body.dark #user-role-display i { color: #a78bfa; }
         body.dark #admin-panel-link { color: #f472b6; } body.dark #admin-panel-link i { color: #f472b6; }
         body.dark #admin-panel-link:hover { background-color: rgba(244, 114, 182, 0.08); color: #ec4899; } body.dark #admin-panel-link:hover i { color: #ec4899; }
-        body.dark .account-dropdown a:hover, body.dark .account-dropdown div:not(#user-role-display):not(#admin-panel-link):hover { color: #93c5fd; background: rgba(255, 255, 255, 0.04); }
-        body.dark .account-dropdown i { color: #93c5fd; } body.dark .account-dropdown a:hover i, body.dark .account-dropdown div:not(#user-role-display):not(#admin-panel-link):hover i { color: #93c5fd; }
+        body.dark .account-dropdown a:hover, body.dark .account-dropdown div:not(#user-name-display):not(#user-role-display):not(#admin-panel-link):hover { color: #93c5fd; background: rgba(255, 255, 255, 0.04); } /* Adjusted hover */
+        body.dark .account-dropdown i { color: #93c5fd; } body.dark .account-dropdown a:hover i, body.dark .account-dropdown div:not(#user-name-display):not(#user-role-display):not(#admin-panel-link):hover i { color: #93c5fd; } /* Adjusted hover */
         body.dark .content { color: #cbd5e1; }
         body.dark .content h2 { color: #f1f5f9; border-image-source: linear-gradient(to right, #a78bfa, #60a5fa); }
         body.dark .admin-section { background-color: #1e293b; border: 1px solid rgba(255, 255, 255, 0.1); box-shadow: 0 7px 25px rgba(0, 0, 0, 0.2); }
         body.dark .admin-section h3 { color: #f1f5f9; border-bottom-color: #334155; }
         body.dark .search-container input[type="text"] { background-color: #334155; border-color: #475569; color: #e2e8f0; }
         body.dark .search-container input[type="text"]:focus { border-color: #60a5fa; box-shadow: 0 0 0 3px rgba(96, 165, 250, 0.2); }
+        body.dark .search-container i { color: #64748b; } /* Dark theme search icon */
+        body.dark .download-button { background-color: #334155; color: #93c5fd; } /* Dark theme download button */
+         body.dark .download-button:hover { background-color: #475569; box-shadow: 0 2px 5px rgba(147, 197, 253, 0.2); } /* Dark theme download hover */
+         body.dark .download-button i { color: #93c5fd; } /* Dark theme download icon */
+
         body.dark .user-table th { background-color: #334155; color: #94a3b8; }
         body.dark .user-table td { color: #cbd5e1; border-bottom-color: #334155; }
         body.dark .user-table tbody tr:hover { background-color: #273448; }
         body.dark .role-badge.admin { background-color: #4a044e; color: #fbcfe8; } /* Darker admin badge */
         body.dark .role-badge.user { background-color: #064e3b; color: #a7f3d0; } /* Darker user badge */
+         /* Add dark theme styles for other role badges */
         body.dark .action-button { background-color: #374151; color: #93c5fd; }
         body.dark .action-button:hover { background-color: #4b5563; color: #bfdbfe; }
         body.dark .modal-content { background-color: #1e293b; border-color: #334155; box-shadow: 0 10px 30px rgba(0,0,0,0.3); }
@@ -427,6 +499,8 @@
         body.dark .modal label { color: #94a3b8; }
         body.dark .modal input[type="text"], body.dark .modal input[type="email"], body.dark .modal select { background-color: #334155; border-color: #475569; color: #e2e8f0; }
         body.dark .modal input[type="text"]:disabled, body.dark .modal input[type="email"]:disabled { background-color: #4b5563; }
+        body.dark .new-role-input-container label { color: #64748b; } /* Dark theme new role label */
+
         body.dark .modal-button.save { background-color: #22c55e; } body.dark .modal-button.save:hover { background-color: #16a34a; box-shadow: 0 2px 5px rgba(34, 197, 94, 0.3); }
         body.dark .modal-button.cancel { background-color: #4b5563; color: #cbd5e1; } body.dark .modal-button.cancel:hover { background-color: #6b7280; }
         body.dark #user-list-message { color: #64748b; }
@@ -443,7 +517,8 @@
 
     </style>
 </head>
-<body class=""> <div class="loading" id="loading">
+<body class="">
+    <div class="loading" id="loading">
         <div class="loading-circle"></div>
     </div>
 
@@ -454,13 +529,15 @@
         <div class="account-wrapper" id="account-btn">
             <div class="account-icon" id="account-img"><i class="fas fa-user"></i></div>
             <div class="account-dropdown" id="account-dropdown">
-                <div id="not-logged-in" style="display: none;"> <a href="login.html"><i class="fas fa-sign-in-alt"></i> Log In</a>
+                <div id="not-logged-in" style="display: none;">
+                     <a href="login.html"><i class="fas fa-sign-in-alt"></i> Log In</a>
                 </div>
                 <div id="logged-in" style="display: none;">
-                    <div id="user-role-display" style="display: none;"><i class="fas fa-shield-halved"></i> <span id="role-text">Admin</span></div>
+                    <div id="user-name-display" style="display: none;"><i class="fas fa-user"></i> <span id="name-text">User Name</span></div> <div id="user-role-display" style="display: none;"><i class="fas fa-shield-halved"></i> <span id="role-text">Admin</span></div>
                     <a href="generaladmin.html" id="admin-panel-link" style="display: none;"><i class="fas fa-user-shield"></i> Admin Panel</a>
                     <a href="profile.html" id="profile-link"><i class="fas fa-user-circle"></i> My Profile</a>
-                    <a href="home.html" id="home-link"><i class="fas fa-home"></i> Home Page</a> <a href="#" id="logout-btn"><i class="fas fa-sign-out-alt"></i> Logout</a>
+                    <a href="home.html" id="home-link"><i class="fas fa-home"></i> Home Page</a>
+                    <a href="#" id="logout-btn"><i class="fas fa-sign-out-alt"></i> Logout</a>
                 </div>
             </div>
         </div>
@@ -471,17 +548,19 @@
 
         <section class="admin-section" id="user-management">
             <h3>User Management</h3>
-            <div class="search-container">
-                 <input type="text" id="user-search" placeholder="Search by name or email...">
-                 <i class="fas fa-search" style="color: #94a3b8;"></i>
-            </div>
+            <div class="admin-actions-bar"> <div class="search-container">
+                   <input type="text" id="user-search" placeholder="Search by name, email, or student ID...">
+                   <i class="fas fa-search" style="color: #94a3b8;"></i>
+                </div>
+                <button class="download-button" id="download-users-btn"><i class="fas fa-download"></i> Download List</button> </div>
+
             <div class="table-container">
                 <table class="user-table">
                     <thead>
                         <tr>
                             <th>Name</th>
                             <th>Email</th>
-                            <th>Role</th>
+                             <th>Student ID</th> <th>Role</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
@@ -495,7 +574,9 @@
              </div>
         </section>
 
-        </main> <footer>
+    </main>
+
+    <footer>
         &copy; <span id="footer-year"></span> Haramaya Jama'aa Group. Admin Panel. | <a href="#top">Back to Top</a>
     </footer>
 
@@ -510,8 +591,8 @@
     <div id="edit-role-modal" class="modal">
          <div class="modal-content">
              <span class="modal-close-btn" id="modal-close-btn">&times;</span>
-             <h4>Edit User Role</h4>
-             <input type="hidden" id="edit-user-id"> <div>
+             <h4>Edit User Details</h4> <input type="hidden" id="edit-user-id">
+             <div>
                  <label for="edit-user-name">Name:</label>
                  <input type="text" id="edit-user-name" disabled>
              </div>
@@ -519,13 +600,16 @@
                  <label for="edit-user-email">Email:</label>
                  <input type="email" id="edit-user-email" disabled>
              </div>
+              <div>
+                  <label for="edit-user-student-id">Student ID:</label> <input type="text" id="edit-user-student-id" disabled>
+              </div>
              <div>
-                 <label for="edit-user-role">Role:</label>
-                 <select id="edit-user-role">
-                     <option value="user">User</option>
-                     <option value="admin">Admin</option>
-                 </select>
+                 <label for="edit-user-role-select">Select Role:</label> <select id="edit-user-role-select">
+                     </select>
              </div>
+              <div class="new-role-input-container">
+                  <label for="edit-user-role-new">Or Enter New Role:</label> <input type="text" id="edit-user-role-new" placeholder="e.g., 'Teacher', 'Manager'">
+              </div>
              <div class="modal-actions">
                  <button class="modal-button cancel" id="modal-cancel-btn">Cancel</button>
                  <button class="modal-button save" id="modal-save-btn">Save Changes</button>
@@ -540,7 +624,7 @@
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-app.js";
         import { getAnalytics, isSupported } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-analytics.js";
         import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-auth.js";
-        import { getFirestore, doc, getDoc, collection, getDocs, updateDoc, query, orderBy } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-firestore.js";
+        import { getFirestore, doc, getDoc, collection, getDocs, updateDoc, query, orderBy, setDoc } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-firestore.js";
 
         // === YOUR PROVIDED FIREBASE CONFIG ===
         const firebaseConfig = {
@@ -567,15 +651,17 @@
                     console.warn("Could not initialize Firebase Analytics:", error);
                 }
             } else {
-                 console.log("Firebase Analytics not supported or measurementId missing.");
+                console.log("Firebase Analytics not supported or measurementId missing.");
             }
         });
         const auth = getAuth();
         const db = getFirestore(app);
 
         // --- Global Variables ---
+        let currentUser = null; // Store the currently logged-in user object
         let currentUserRole = null;
         let allUsersData = []; // Store fetched users for filtering
+        let availableRoles = ['user', 'admin']; // Default roles, will be updated from Firestore
 
         // --- DOM Elements ---
         const loadingScreen = document.getElementById('loading');
@@ -587,12 +673,16 @@
         const logoutBtn = document.getElementById("logout-btn");
         const profileLink = document.getElementById("profile-link"); // Link to user's own profile/dashboard
         const homeLink = document.getElementById("home-link"); // Link back to home
+        const userNameDisplay = document.getElementById("user-name-display"); // Added for user name
+        const nameTextSpan = document.getElementById("name-text"); // Added for user name
         const userRoleDisplay = document.getElementById("user-role-display");
+        const roleTextSpan = document.getElementById("role-text"); // Use this span
         const adminPanelLink = document.getElementById("admin-panel-link");
         const footerYear = document.getElementById("footer-year");
         const userListTableBody = document.getElementById('user-list');
         const userListMessage = document.getElementById('user-list-message');
         const userSearchInput = document.getElementById('user-search');
+        const downloadUsersBtn = document.getElementById('download-users-btn'); // Download button
         // Modal elements
         const editRoleModal = document.getElementById('edit-role-modal');
         const modalCloseBtn = document.getElementById('modal-close-btn');
@@ -601,7 +691,9 @@
         const editUserIdInput = document.getElementById('edit-user-id');
         const editUserNameInput = document.getElementById('edit-user-name');
         const editUserEmailInput = document.getElementById('edit-user-email');
-        const editUserRoleSelect = document.getElementById('edit-user-role');
+        const editUserStudentIdInput = document.getElementById('edit-user-student-id'); // Added Student ID modal input
+        const editUserRoleSelect = document.getElementById('edit-user-role-select'); // Dropdown for existing roles
+        const editUserRoleNewInput = document.getElementById('edit-user-role-new'); // Input for new role
         const modalMessage = document.getElementById('modal-message');
 
 
@@ -614,261 +706,404 @@
         const applyTheme = (theme) => { /* Function copied from previous version */
              if (theme === 'dark') { document.body.classList.add('dark'); themeToggle.innerHTML = '<i class="fas fa-sun"></i>'; localStorage.setItem('theme', 'dark'); }
              else { document.body.classList.remove('dark'); themeToggle.innerHTML = '<i class="fas fa-moon"></i>'; localStorage.setItem('theme', 'light'); }
-             createParticles(); // Recreate particles on theme change
         };
-        applyTheme(savedTheme ? savedTheme : (prefersDark ? 'dark' : 'light'));
-
-        // Hide loading screen
-        setTimeout(() => { if (loadingScreen) { loadingScreen.style.opacity = '0'; loadingScreen.style.visibility = 'hidden'; loadingScreen.style.pointerEvents = 'none'; } }, 800);
-
-        // Create Particles Function (Copied from previous version)
-        function createParticles() { /* Function copied from previous version */
-            const colorsLight = ['rgba(102, 166, 255, 0.1)', 'rgba(137, 247, 254, 0.1)', 'rgba(99, 102, 241, 0.1)']; const colorsDark = ['rgba(167, 139, 250, 0.06)', 'rgba(96, 165, 250, 0.06)', 'rgba(56, 189, 248, 0.06)']; const isDark = document.body.classList.contains('dark'); const colors = isDark ? colorsDark : colorsLight; document.querySelectorAll('.particle').forEach(p => p.remove()); const particleContainer = document.body; for (let i = 0; i < 12; i++) { const particle = document.createElement('div'); particle.classList.add('particle'); const size = Math.random() * 6 + 3; const startX = Math.random() * 100; const duration = Math.random() * 25 + 20; const delay = Math.random() * 15; particle.style.width = `${size}px`; particle.style.height = `${size}px`; particle.style.left = `${startX}vw`; particle.style.background = colors[Math.floor(Math.random() * colors.length)]; particle.style.animation = `particleFloat ${duration}s linear ${delay}s infinite`; particle.style.bottom = `-${size}px`; particleContainer.appendChild(particle); }
-        }
-        createParticles(); // Initial particle creation
-
-        // Theme toggle functionality (Copied from previous version)
-        themeToggle.addEventListener('click', () => { const isDark = document.body.classList.contains('dark'); applyTheme(isDark ? 'light' : 'dark'); });
-
-        // Account Dropdown Logic (Copied from previous version)
-        accountBtn.addEventListener("click", (e) => { e.stopPropagation(); const isDisplayed = accountDropdown.style.display === "block"; accountDropdown.style.display = isDisplayed ? "none" : "block"; });
-        document.addEventListener("click", (e) => { if (accountDropdown && accountBtn && !accountBtn.contains(e.target) && !accountDropdown.contains(e.target)) { accountDropdown.style.display = "none"; } });
-
-        // Logout Logic (Copied from previous version)
-        async function handleLogout() { try { await signOut(auth); console.log("Logout successful"); sessionStorage.removeItem('adminNotified'); } catch (error) { console.error("Logout failed:", error); alert("Logout failed. Please try again."); } }
-        if(logoutBtn) logoutBtn.addEventListener("click", handleLogout);
+        // Apply initial theme
+        if (savedTheme) { applyTheme(savedTheme); } else { applyTheme(prefersDark ? 'dark' : 'light'); }
+        // Theme Toggle Event Listener
+        themeToggle.addEventListener('click', () => {
+            const currentTheme = localStorage.getItem('theme') || (prefersDark ? 'dark' : 'light');
+            applyTheme(currentTheme === 'dark' ? 'light' : 'dark');
+        });
 
 
-        // --- Admin Page Specific Logic ---
+        // --- Firebase Authentication State Listener ---
+        onAuthStateChanged(auth, async (user) => {
+            currentUser = user; // Store the user object globally
+            if (user) {
+                // User is logged in
+                notLoggedInDiv.style.display = 'none';
+                loggedInDiv.style.display = 'block';
+                userRoleDisplay.style.display = 'flex'; // Show role display
+                userNameDisplay.style.display = 'flex'; // Show name display
 
-        // Function to check admin status and initialize page
-        const checkAdminStatusAndInit = async (userId) => {
-            try {
-                const userDocRef = doc(db, "users", userId);
+                // Fetch user's profile data to get name and role
+                const userDocRef = doc(db, 'users', user.uid);
                 const userDocSnap = await getDoc(userDocRef);
 
-                if (userDocSnap.exists() && userDocSnap.data().role === 'admin') {
-                    console.log("Admin access granted.");
-                    currentUserRole = 'admin';
-                    // Update account dropdown for admin view
-                    if(userRoleDisplay) userRoleDisplay.style.display = "flex";
-                    if(adminPanelLink) adminPanelLink.style.display = "flex"; // Show General Admin link
-                    if(profileLink) profileLink.href = "profile.html"; // Admin still has a profile
+                if (userDocSnap.exists()) {
+                    const userData = userDocSnap.data();
+                    currentUserRole = userData.role || 'user'; // Default to 'user' if role is missing
+                     const userName = userData.name || user.email; // Use name if available, otherwise email
 
-                    // Initialize admin features
-                    await fetchAndDisplayUsers();
-                    setupEventListeners();
+                    // Display user name and role in header
+                    nameTextSpan.textContent = userName;
+                    roleTextSpan.textContent = currentUserRole.charAt(0).toUpperCase() + currentUserRole.slice(1); // Capitalize first letter
+
+                    // Check if user is admin
+                    if (currentUserRole === 'admin') {
+                        console.log("User is an admin.");
+                        // Admin-specific actions: fetch users, show admin links etc.
+                        adminPanelLink.style.display = 'flex'; // Show admin panel link
+                        fetchAndDisplayUsers();
+                         fetchAvailableRoles(); // Fetch roles for the modal
+                    } else {
+                        console.log("User is not an admin. Redirecting...");
+                        // User is not admin, redirect them
+                        alert("Access Denied. You must be an admin to view this page.");
+                        window.location.href = 'home.html'; // Redirect to home or another appropriate page
+                    }
 
                 } else {
-                    console.warn("Access Denied. User is not an admin or document not found.");
-                    alert("Access Denied. You do not have permission to view this page.");
-                    window.location.href = 'home.html'; // Redirect non-admins
+                     console.warn("User data not found in Firestore.");
+                     // User document doesn't exist, might be a new sign-up without profile data
+                     // Treat as non-admin for safety, or redirect
+                     alert("User profile not found. Access Denied.");
+                      window.location.href = 'home.html'; // Redirect
                 }
-            } catch (error) {
-                console.error("Error checking admin status:", error);
-                alert("An error occurred while verifying your permissions.");
-                window.location.href = 'home.html'; // Redirect on error
-            }
-        };
 
-        // Fetch and display users
-        const fetchAndDisplayUsers = async () => {
-            if (!userListTableBody || !userListMessage) return;
-            userListTableBody.innerHTML = ''; // Clear existing list
-            userListMessage.innerHTML = '<div class="spinner"></div>Loading users...'; // Show loading
-            userListMessage.style.display = 'block';
-            allUsersData = []; // Reset stored data
+                 loadingScreen.style.opacity = '0';
+                 loadingScreen.style.visibility = 'hidden';
+
+            } else {
+                // User is logged out
+                currentUserRole = null; // Clear role
+                notLoggedInDiv.style.display = 'block';
+                loggedInDiv.style.display = 'none';
+                userRoleDisplay.style.display = 'none'; // Hide role display
+                 userNameDisplay.style.display = 'none'; // Hide name display
+                adminPanelLink.style.display = 'none'; // Hide admin panel link
+
+                // Clear user list table
+                userListTableBody.innerHTML = '';
+                userListMessage.innerHTML = 'Please log in to view user data.';
+
+                 loadingScreen.style.opacity = '0';
+                 loadingScreen.style.visibility = 'hidden';
+
+                 // Redirect if not logged in (this page requires login and admin role)
+                 alert("Please log in to access the admin dashboard.");
+                 window.location.href = 'login.html';
+            }
+        });
+
+
+        // --- Logout Functionality ---
+        if (logoutBtn) {
+            logoutBtn.addEventListener('click', async (e) => {
+                e.preventDefault();
+                try {
+                    await signOut(auth);
+                    console.log('User logged out');
+                    // onAuthStateChanged listener will handle UI updates and redirection
+                } catch (error) {
+                    console.error('Error logging out:', error);
+                    alert('Failed to log out. Please try again.');
+                }
+            });
+        }
+
+        // --- Account Dropdown Toggle ---
+        if (accountBtn) {
+            accountBtn.addEventListener('click', () => {
+                accountDropdown.style.display = accountDropdown.style.display === 'block' ? 'none' : 'block';
+            });
+             // Close dropdown when clicking outside
+             window.addEventListener('click', (event) => {
+                if (!accountBtn.contains(event.target) && !accountDropdown.contains(event.target)) {
+                    accountDropdown.style.display = 'none';
+                }
+            });
+        }
+
+         // --- Fetch Available Roles from Firestore ---
+         async function fetchAvailableRoles() {
+             const rolesDocRef = doc(db, 'config', 'roles'); // Assuming roles are stored in a config document
+             try {
+                 const docSnap = await getDoc(rolesDocRef);
+                 if (docSnap.exists()) {
+                     availableRoles = docSnap.data().roles || ['user', 'admin']; // Default if doc exists but roles are missing
+                     console.log("Available roles fetched:", availableRoles);
+                 } else {
+                     console.log("No 'config/roles' document found. Using default roles.");
+                     availableRoles = ['user', 'admin']; // Use defaults if document doesn't exist
+                     // Optionally create the document with default roles if it doesn't exist
+                     await setDoc(rolesDocRef, { roles: availableRoles }, { merge: true });
+                 }
+                  populateRoleSelect(); // Populate the select dropdown
+             } catch (error) {
+                 console.error("Error fetching available roles:", error);
+                 availableRoles = ['user', 'admin']; // Fallback to defaults on error
+                  populateRoleSelect(); // Still try to populate with defaults
+                  modalMessage.textContent = 'Error loading available roles.';
+             }
+         }
+
+         // --- Populate Role Select Dropdown in Modal ---
+         function populateRoleSelect() {
+             editUserRoleSelect.innerHTML = ''; // Clear existing options
+             availableRoles.forEach(role => {
+                 const option = document.createElement('option');
+                 option.value = role;
+                 option.textContent = role.charAt(0).toUpperCase() + role.slice(1);
+                 editUserRoleSelect.appendChild(option);
+             });
+         }
+
+        // --- Fetch and Display Users from Firestore ---
+        async function fetchAndDisplayUsers() {
+            userListMessage.innerHTML = '<div class="spinner"></div> Loading users...'; // Show loading state
+            userListTableBody.innerHTML = ''; // Clear previous list
+            allUsersData = []; // Clear previous data
 
             try {
-                const usersRef = collection(db, "users");
-                const q = query(usersRef, orderBy("email")); // Order by email
+                const usersCollectionRef = collection(db, 'users');
+                const q = query(usersCollectionRef, orderBy('name')); // Order by name (optional)
                 const querySnapshot = await getDocs(q);
 
                 if (querySnapshot.empty) {
                     userListMessage.textContent = 'No users found.';
-                } else {
-                    querySnapshot.forEach((docSnap) => {
-                        const userData = { id: docSnap.id, ...docSnap.data() };
-                        allUsersData.push(userData); // Store for filtering
-                        renderUserRow(userData);
-                    });
-                    userListMessage.style.display = 'none'; // Hide loading message
+                    return;
                 }
+
+                querySnapshot.forEach((doc) => {
+                    const userData = doc.data();
+                    allUsersData.push({
+                        id: doc.id,
+                        name: userData.name || 'N/A',
+                        email: userData.email || 'N/A',
+                        studentId: userData.studentId || 'N/A', // Fetch Student ID
+                        role: userData.role || 'user' // Default role
+                    });
+                });
+
+                userListMessage.textContent = ''; // Hide message
+                displayUsers(allUsersData); // Display all fetched users initially
+
             } catch (error) {
-                console.error("Error fetching users:", error);
-                userListMessage.textContent = 'Error loading users. Please try again.';
-                userListMessage.style.color = 'red';
+                console.error('Error fetching users:', error);
+                userListMessage.textContent = 'Error loading users.';
             }
-        };
+        }
 
-        // Render a single user row in the table
-        const renderUserRow = (userData) => {
-             if (!userListTableBody) return;
-            const tr = document.createElement('tr');
-            tr.setAttribute('data-user-id', userData.id); // Add data attribute for potential future use
+        // --- Display Users in Table ---
+        function displayUsers(usersToDisplay) {
+             userListTableBody.innerHTML = ''; // Clear previous rows
 
-            const name = userData.displayName || 'N/A';
-            const email = userData.email || 'N/A';
-            const role = userData.role || 'user'; // Default to 'user' if role is missing
+             if (usersToDisplay.length === 0) {
+                 userListTableBody.innerHTML = '<tr><td colspan="5" style="text-align: center;">No users found matching search.</td></tr>';
+                 return;
+             }
 
-            tr.innerHTML = `
-                <td>${name}</td>
-                <td>${email}</td>
-                <td><span class="role-badge ${role}">${role}</span></td>
-                <td>
-                    <button class="action-button edit-role-btn" data-id="${userData.id}" data-name="${name}" data-email="${email}" data-role="${role}">
-                        <i class="fas fa-edit"></i> Edit Role
-                    </button>
-                </td>
-            `;
-            userListTableBody.appendChild(tr);
+            usersToDisplay.forEach(user => {
+                const row = userListTableBody.insertRow();
+                row.insertCell(0).textContent = user.name;
+                row.insertCell(1).textContent = user.email;
+                 row.insertCell(2).textContent = user.studentId; // Display Student ID
+                const roleCell = row.insertCell(3);
+                roleCell.innerHTML = `<span class="role-badge ${user.role}">${user.role}</span>`;
 
-            // Add event listener directly to the button
-            const editButton = tr.querySelector('.edit-role-btn');
-            if (editButton) {
-                editButton.addEventListener('click', handleEditRoleClick);
+                const actionsCell = row.insertCell(4);
+                const editButton = document.createElement('button');
+                editButton.classList.add('action-button');
+                editButton.innerHTML = '<i class="fas fa-edit"></i> Edit Role';
+                editButton.dataset.userId = user.id; // Store user ID in data attribute
+                editButton.addEventListener('click', openEditRoleModal); // Add event listener
+                actionsCell.appendChild(editButton);
+            });
+        }
+
+        // --- Search Functionality ---
+        if (userSearchInput) {
+            userSearchInput.addEventListener('input', (e) => {
+                const searchTerm = e.target.value.toLowerCase();
+                const filteredUsers = allUsersData.filter(user => {
+                    return user.name.toLowerCase().includes(searchTerm) ||
+                           user.email.toLowerCase().includes(searchTerm) ||
+                           user.studentId.toLowerCase().includes(searchTerm); // Include Student ID in search
+                });
+                displayUsers(filteredUsers); // Display filtered results
+            });
+        }
+
+         // --- Download User Data as CSV ---
+         if (downloadUsersBtn) {
+             downloadUsersBtn.addEventListener('click', () => {
+                 // Download the currently displayed users (respects search filter)
+                 const usersToDownload = Array.from(userListTableBody.rows).map(row => {
+                      const cells = row.cells;
+                      // Ensure cells exist before accessing textContent
+                      if (cells.length > 3) { // Check if enough cells exist (min 4 for name, email, role, actions)
+                            return {
+                                name: cells[0]?.textContent || '',
+                                email: cells[1]?.textContent || '',
+                                studentId: cells[2]?.textContent || '', // Get Student ID from cell
+                                role: cells[3]?.querySelector('.role-badge')?.textContent || cells[3]?.textContent || '' // Get role text
+                            };
+                      }
+                       return null; // Skip rows that don't look like user data
+                 }).filter(user => user !== null); // Remove null entries
+
+                 if (usersToDownload.length === 0 || (usersToDownload.length === 1 && usersToDownload[0].name === 'No users found matching search.')) {
+                      modalMessage.textContent = 'No data to download.';
+                      // Maybe show a temporary message or use a dedicated download message area
+                      console.warn("No user data available to download.");
+                      alert("No user data found to download."); // Simple alert for now
+                      return;
+                 }
+
+
+                 // Create CSV content
+                 let csvContent = "Name,Email,Student ID,Role\n"; // CSV Header
+                 usersToDownload.forEach(user => {
+                     // Escape commas and quotes in fields if necessary (basic escaping)
+                     const escapeCsv = (text) => {
+                         if (text.includes(',') || text.includes('"') || text.includes('\n')) {
+                             return `"${text.replace(/"/g, '""')}"`; // Enclose in quotes, escape existing quotes
+                         }
+                         return text;
+                     };
+                     csvContent += `${escapeCsv(user.name)},${escapeCsv(user.email)},${escapeCsv(user.studentId)},${escapeCsv(user.role)}\n`; // Include Student ID
+                 });
+
+                 // Create a Blob and trigger download
+                 const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+                 const link = document.createElement('a');
+                 link.href = URL.createObjectURL(blob);
+                 link.download = 'users_data.csv';
+                 link.style.display = 'none';
+                 document.body.appendChild(link);
+                 link.click();
+                 document.body.removeChild(link);
+                 URL.revokeObjectURL(link.href); // Clean up the object URL
+             });
+         }
+
+
+        // --- Modal Functions ---
+        function openEditRoleModal(event) {
+            const userId = event.target.dataset.userId;
+            const user = allUsersData.find(u => u.id === userId);
+
+            if (user) {
+                editUserIdInput.value = user.id;
+                editUserNameInput.value = user.name;
+                editUserEmailInput.value = user.email;
+                 editUserStudentIdInput.value = user.studentId; // Populate Student ID
+                modalMessage.textContent = ''; // Clear previous messages
+
+                // Populate the role dropdown and set the current role
+                 populateRoleSelect(); // Ensure dropdown is up-to-date
+                 editUserRoleSelect.value = user.role; // Select the current role
+
+                 // Clear the new role input
+                 editUserRoleNewInput.value = '';
+
+                editRoleModal.style.display = 'block';
+            } else {
+                console.error("User not found for editing:", userId);
+                 alert("Error: User data not found for editing.");
             }
-        };
+        }
 
-        // Handle clicking the "Edit Role" button
-        const handleEditRoleClick = (event) => {
-            const button = event.currentTarget;
-            const userId = button.dataset.id;
-            const userName = button.dataset.name;
-            const userEmail = button.dataset.email;
-            const currentRole = button.dataset.role;
+        function closeEditRoleModal() {
+            editRoleModal.style.display = 'none';
+            modalMessage.textContent = ''; // Clear messages on close
+        }
 
-            // Populate modal
-            editUserIdInput.value = userId;
-            editUserNameInput.value = userName;
-            editUserEmailInput.value = userEmail;
-            editUserRoleSelect.value = currentRole;
-            modalMessage.textContent = ''; // Clear previous messages
-
-            // Show modal
-            editRoleModal.style.display = 'block';
-        };
-
-        // Close Modal Logic
-        const closeModal = () => {
-            if (editRoleModal) editRoleModal.style.display = 'none';
-        };
-        if(modalCloseBtn) modalCloseBtn.addEventListener('click', closeModal);
-        if(modalCancelBtn) modalCancelBtn.addEventListener('click', closeModal);
-        // Close if clicking outside the modal content
-        window.addEventListener('click', (event) => {
-            if (event.target == editRoleModal) {
-                closeModal();
-            }
-        });
-
-        // Handle saving role changes
-        const handleSaveRoleClick = async () => {
+        // --- Save Role Changes ---
+        async function saveUserRole() {
             const userId = editUserIdInput.value;
-            const newRole = editUserRoleSelect.value;
+             // Get the selected role from the dropdown OR the text from the new role input
+             let newRole = editUserRoleSelect.value;
+             if (editUserRoleNewInput.value.trim() !== '') {
+                 newRole = editUserRoleNewInput.value.trim().toLowerCase(); // Use the new role if entered, lowercase it
+             }
+
             if (!userId || !newRole) {
-                modalMessage.textContent = 'Error: User ID or role missing.';
+                modalMessage.textContent = 'User ID or Role is missing.';
                 return;
             }
 
-            modalSaveBtn.disabled = true; // Prevent double clicks
-            modalSaveBtn.textContent = 'Saving...';
-            modalMessage.textContent = '';
+            modalSaveBtn.disabled = true; // Disable button while saving
+            modalMessage.textContent = 'Saving...';
 
             try {
-                const userDocRef = doc(db, "users", userId);
+                const userDocRef = doc(db, 'users', userId);
                 await updateDoc(userDocRef, {
                     role: newRole
+                    // Note: You could also update name, email, studentId here if you wanted to make them editable
                 });
 
-                console.log(`User ${userId} role updated to ${newRole}`);
+                 // If a new role was entered, add it to the list of available roles
+                 if (editUserRoleNewInput.value.trim() !== '' && !availableRoles.includes(newRole)) {
+                     availableRoles.push(newRole);
+                     // Update the available roles in Firestore
+                     const rolesDocRef = doc(db, 'config', 'roles');
+                     await setDoc(rolesDocRef, { roles: availableRoles }, { merge: true });
+                     console.log(`Added new role to available roles: ${newRole}`);
+                 }
+
                 modalMessage.textContent = 'Role updated successfully!';
                 modalMessage.style.color = 'green';
+                console.log(`User ${userId} role updated to ${newRole}`);
 
-                // Refresh user list after a short delay to show message
+                // Refresh the user list after saving
+                await fetchAndDisplayUsers();
+
+                // Close modal after a short delay
                 setTimeout(() => {
-                    closeModal();
-                    fetchAndDisplayUsers(); // Refresh the list
+                    closeEditRoleModal();
+                    modalMessage.textContent = ''; // Clear success message
+                     modalMessage.style.color = 'red'; // Reset color
                 }, 1500);
 
             } catch (error) {
-                console.error("Error updating user role:", error);
+                console.error('Error updating user role:', error);
                 modalMessage.textContent = `Error updating role: ${error.message}`;
-                modalMessage.style.color = 'red';
+                 modalMessage.style.color = 'red';
             } finally {
-                 modalSaveBtn.disabled = false;
-                 modalSaveBtn.textContent = 'Save Changes';
+                modalSaveBtn.disabled = false; // Re-enable button
             }
-        };
-        if(modalSaveBtn) modalSaveBtn.addEventListener('click', handleSaveRoleClick);
+        }
 
+        // --- Modal Event Listeners ---
+        if (modalCloseBtn) modalCloseBtn.addEventListener('click', closeEditRoleModal);
+        if (modalCancelBtn) modalCancelBtn.addEventListener('click', closeEditRoleModal);
+        if (modalSaveBtn) modalSaveBtn.addEventListener('click', saveUserRole);
 
-        // Filter/Search Users
-        const handleUserSearch = () => {
-            const searchTerm = userSearchInput.value.toLowerCase().trim();
-             if (!userListTableBody) return;
-
-            userListTableBody.innerHTML = ''; // Clear table
-            let foundUsers = false;
-
-            allUsersData.forEach(user => {
-                const name = (user.displayName || '').toLowerCase();
-                const email = (user.email || '').toLowerCase();
-
-                if (name.includes(searchTerm) || email.includes(searchTerm)) {
-                    renderUserRow(user);
-                    foundUsers = true;
-                }
-            });
-
-             // Show message if no users match search
-            if (!foundUsers && allUsersData.length > 0) {
-                 userListMessage.textContent = 'No users match your search.';
-                 userListMessage.style.display = 'block';
-            } else if (allUsersData.length === 0 && !userListMessage.textContent.includes('Loading')) {
-                 userListMessage.textContent = 'No users found.'; // Keep message if list was empty initially
-                 userListMessage.style.display = 'block';
+        // Close the modal if the user clicks outside of it
+        window.addEventListener('click', (event) => {
+            if (event.target === editRoleModal) {
+                closeEditRoleModal();
             }
-             else {
-                 userListMessage.style.display = 'none'; // Hide message if users are found or list is loading/empty
-            }
-        };
-        if(userSearchInput) userSearchInput.addEventListener('input', handleUserSearch);
-
-
-        // Setup other event listeners (like search)
-        const setupEventListeners = () => {
-            // Search listener is already set up during element selection check
-            console.log("Admin event listeners ready.");
-        };
-
-
-        // --- Authentication Listener ---
-        onAuthStateChanged(auth, (user) => {
-            // Reset common UI elements first
-            if(loggedInDiv) loggedInDiv.style.display = "none";
-            if(notLoggedInDiv) notLoggedInDiv.style.display = "block"; // Assume logged out initially
-            if(userRoleDisplay) userRoleDisplay.style.display = "none";
-            if(adminPanelLink) adminPanelLink.style.display = "none";
-            if(profileLink) profileLink.href = "profile.html"; // Default link
-
-
-            if (user) {
-                // User is signed in. Check if they are admin.
-                console.log("User logged in:", user.uid);
-                if(loggedInDiv) loggedInDiv.style.display = "block";
-                if(notLoggedInDiv) notLoggedInDiv.style.display = "none";
-                checkAdminStatusAndInit(user.uid); // Verify admin role and load page data
-            } else {
-                // User is signed out. Redirect to login or home.
-                console.log("User signed out.");
-                alert("You must be logged in as an admin to view this page.");
-                window.location.href = 'login.html'; // Redirect to login if not logged in
-            }
-            if(accountDropdown) accountDropdown.style.display = "none"; // Close dropdown
         });
 
-    </script>
 
+        // --- Particles (Copied from home.html) ---
+        function createParticle() { /* Function copied from previous version */
+             const particle = document.createElement('div');
+             particle.classList.add('particle');
+             document.body.appendChild(particle);
+
+             const size = Math.random() * 15 + 5; // Size between 5px and 20px
+             particle.style.width = `${size}px`;
+             particle.style.height = `${size}px`;
+
+             const startX = Math.random() * window.innerWidth;
+             particle.style.left = `${startX}px`;
+             particle.style.top = `${window.innerHeight}px`; // Start below the viewport
+
+             const duration = Math.random() * 15 + 10; // Duration between 10s and 25s
+             particle.style.animationDuration = `${duration}s`;
+             particle.style.animationDelay = `-${Math.random() * duration}s`; // Start at random point in animation cycle
+        }
+
+        // Create a few particles on load
+        // for (let i = 0; i < 30; i++) { // Number of particles
+        //     createParticle();
+        // }
+        // Note: Removed particle creation loop for cleaner admin page, uncomment if desired.
+
+    </script>
 </body>
 </html>
