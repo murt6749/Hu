@@ -6,23 +6,26 @@
   <title>Haramaya Jama'aa Home</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
-    /* ====== PRESERVED CORE STRUCTURE ====== */
+    /* ====== CORE STRUCTURE & RESETS ====== */
     * {
       box-sizing: border-box;
       margin: 0;
       padding: 0;
     }
 
+    html {
+      scroll-behavior: smooth;
+    }
+
     body {
       font-family: 'Poppins', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       background: linear-gradient(135deg, #f5f7fa 0%, #e4e8f0 100%);
       color: #333;
-      display: flex;
       min-height: 100vh;
       overflow-x: hidden;
-      transition: all 0.5s cubic-bezier(0.65, 0.05, 0.36, 1);
-      /* Adjust body padding to account for static sidebar width if kept */
-      padding-left: 280px; /* Width of the sidebar */
+      transition: background 0.5s ease, color 0.5s ease;
+      /* No left padding needed anymore */
+      padding-top: 70px; /* Add padding for fixed header */
     }
 
     a {
@@ -36,484 +39,469 @@
       color: #fff;
       display: flex;
       align-items: center;
-      justify-content: space-between; /* Keeps title centered between logo area (now empty) and account */
-      padding: 0.75rem 2rem;
+      justify-content: space-between;
+      padding: 0.75rem 1.5rem; /* Adjusted padding */
       position: fixed;
-      width: 100%; /* Full width */
+      width: 100%;
       top: 0;
-      left: 0; /* Align header to the very left */
+      left: 0;
       z-index: 300;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+      box-shadow: 0 5px 25px rgba(0,0,0,0.15);
       backdrop-filter: blur(10px);
       -webkit-backdrop-filter: blur(10px);
       border-bottom: 1px solid rgba(255,255,255,0.2);
+      transition: background 0.3s ease;
     }
 
-    /* Removed Hamburger Styles */
+    #header-logo {
+        max-height: 40px; /* Control logo size */
+        width: auto;
+        display: block; /* Prevents extra space below image */
+        transition: transform 0.3s ease;
+    }
+     #header-logo:hover {
+         transform: scale(1.05);
+     }
+
 
     .header-title {
-      font-size: 1.5rem;
-      font-weight: 700;
+      font-size: 1.4rem; /* Slightly smaller */
+      font-weight: 600; /* Slightly lighter */
       text-align: center;
-      flex: 1; /* Allows title to take center space */
-      text-shadow: 0 2px 10px rgba(0,0,0,0.2);
-      letter-spacing: 1px;
-      background: linear-gradient(to right, #fff 0%, #ffcc00 100%);
+      flex-grow: 1; /* Take up space */
+      margin: 0 1rem; /* Space around title */
+      text-shadow: 0 1px 5px rgba(0,0,0,0.15);
+      letter-spacing: 0.5px;
+      background: linear-gradient(to right, #fff 0%, #ffda77 100%);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
-      /* Adjust margin if needed to center properly without hamburger */
-      margin-left: 50px; /* Add some space on the left if needed */
     }
 
-    /* ====== ENHANCED ACCOUNT DROPDOWN ====== */
+    /* ====== ACCOUNT DROPDOWN (Styles mostly preserved) ====== */
     .account-wrapper {
       position: relative;
       cursor: pointer;
-      transition: all 0.3s;
     }
 
     .account-icon {
-      width: 50px;
-      height: 50px;
+      width: 45px; /* Slightly smaller */
+      height: 45px;
       border-radius: 50%;
       background: linear-gradient(135deg, #ff9a9e 0%, #fad0c4 100%);
-      /* Removed background-image placeholder */
-      background-size: cover;
-      background-position: center;
-      border: 3px solid rgba(255,255,255,0.5);
-      transition: all 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
-      box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-      /* Styles for the icon inside */
+      border: 2px solid rgba(255,255,255,0.6); /* Thinner border */
+      transition: all 0.3s ease;
+      box-shadow: 0 3px 10px rgba(0,0,0,0.1);
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 1.8rem; /* Adjust icon size */
-      color: rgba(255, 255, 255, 0.8); /* Icon color */
+      font-size: 1.6rem; /* Adjusted icon size */
+      color: rgba(255, 255, 255, 0.8);
     }
 
     .account-icon:hover {
-      transform: scale(1.1) rotate(5deg);
-      box-shadow: 0 0 0 5px rgba(255, 204, 0, 0.5);
+      transform: scale(1.1);
+      box-shadow: 0 0 0 4px rgba(255, 204, 0, 0.4);
       filter: brightness(1.1);
     }
     .account-icon:hover i {
-        color: white; /* Icon color on hover */
+        color: white;
     }
 
     .account-dropdown {
       position: absolute;
-      top: 65px;
+      top: 60px; /* Adjusted position */
       right: 0;
-      background: rgba(255,255,255,0.95);
-      border-radius: 15px;
+      background: rgba(255,255,255,0.98); /* Slightly less transparent */
+      border-radius: 12px; /* Softer radius */
       overflow: hidden;
       display: none;
       z-index: 400;
-      box-shadow: 0 15px 35px rgba(0,0,0,0.2);
-      min-width: 220px;
-      animation: fadeIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-      backdrop-filter: blur(10px);
-      -webkit-backdrop-filter: blur(10px);
-      border: 1px solid rgba(255,255,255,0.3);
+      box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+      min-width: 230px;
+      animation: fadeInDropdown 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      border: 1px solid rgba(0,0,0,0.05);
       transform-origin: top right;
     }
 
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(-20px) scale(0.9); }
+    @keyframes fadeInDropdown { /* Renamed animation */
+      from { opacity: 0; transform: translateY(-15px) scale(0.95); }
       to { opacity: 1; transform: translateY(0) scale(1); }
     }
 
     .account-dropdown a,
-    .account-dropdown div { /* Apply to both links and the role display div */
-      color: #333;
-      padding: 1rem;
+    .account-dropdown div {
+      color: #444; /* Darker text */
+      padding: 0.9rem 1.2rem; /* Adjusted padding */
       display: flex;
       align-items: center;
-      gap: 15px;
+      gap: 12px; /* Slightly less gap */
       border-bottom: 1px solid rgba(0,0,0,0.05);
-      transition: all 0.3s ease-out;
+      transition: background-color 0.2s ease, color 0.2s ease, padding-left 0.2s ease;
       font-weight: 500;
+      font-size: 0.95rem; /* Slightly smaller font */
     }
 
-    /* Style for the role display */
     #user-role-display {
-      font-size: 0.9em;
-      color: #6a11cb; /* Highlight admin role */
+      font-size: 0.85em;
+      color: #6a11cb;
       font-weight: bold;
-      background-color: rgba(106, 17, 203, 0.05); /* Subtle background */
+      background-color: rgba(106, 17, 203, 0.04);
       border-bottom: 1px solid rgba(106, 17, 203, 0.1);
     }
-    #user-role-display i { /* Icon for the role display */
-        color: #6a11cb;
-    }
-
+    #user-role-display i { color: #6a11cb; }
 
     .account-dropdown a:last-child,
-    .account-dropdown div:last-child {
-      border-bottom: none;
-    }
+    .account-dropdown div:last-child { border-bottom: none; }
 
     .account-dropdown a:hover,
-    .account-dropdown div:not(#user-role-display):hover { /* Exclude role display from hover effect */
-      background: linear-gradient(to right, rgba(106, 17, 203, 0.1) 0%, rgba(37, 117, 252, 0.1) 100%);
+    .account-dropdown div:not(#user-role-display):hover {
+      background: linear-gradient(90deg, rgba(106, 17, 203, 0.08) 0%, rgba(37, 117, 252, 0.08) 100%);
       padding-left: 1.5rem;
       color: #6a11cb;
-      transform: translateX(5px);
     }
 
     .account-dropdown i {
-      width: 20px;
-      color: #6a11cb;
+      width: 18px; /* Slightly smaller icon width */
+      color: #8a3ffc; /* Adjusted icon color */
       text-align: center;
-      font-size: 1.1rem;
+      font-size: 1rem;
       transition: all 0.3s;
     }
-
-
-    /* ====== REPURPOSED SIDEBAR (FOR LOGO ONLY) ====== */
-    .sidebar {
-      background: linear-gradient(135deg, rgba(42, 39, 79, 0.95) 0%, rgba(37, 117, 252, 0.95) 100%);
-      color: #fff;
-      position: fixed;
-      top: 0; /* Align with top */
-      left: 0;
-      height: 100%; /* Full height */
-      width: 280px; /* Keep original width */
-      /* Removed transform - sidebar is always visible */
-      transition: none; /* No transition needed */
-      overflow-y: auto; /* Allow scrolling if content overflows (e.g., tall logo) */
-      z-index: 250;
-      box-shadow: 5px 0 30px rgba(0,0,0,0.2);
-      backdrop-filter: blur(10px);
-      -webkit-backdrop-filter: blur(10px);
-      border-right: 1px solid rgba(255,255,255,0.1);
-      padding-top: 80px; /* Add padding to push content below fixed header */
+    .account-dropdown a:hover i,
+    .account-dropdown div:not(#user-role-display):hover i {
+        color: #6a11cb; /* Icon color on hover */
     }
 
-    /* Removed .sidebar.open styles */
+    /* ====== SIDEBAR REMOVED ====== */
+    /* All .sidebar, .sidebar-header, .sidebar ul/li styles are removed */
 
-    /* Sidebar Header with Logo */
-    .sidebar-header {
-      padding: 2rem 1rem;
-      text-align: center;
-      border-bottom: 1px solid rgba(255,255,255,0.2);
-      position: relative;
-      overflow: hidden;
-    }
-
-    .sidebar-header::before {
-      content: '';
-      position: absolute;
-      top: 0; left: 0; right: 0; bottom: 0;
-      background: linear-gradient(45deg, rgba(106, 17, 203, 0.3) 0%, rgba(37, 117, 252, 0.3) 100%);
-      z-index: -1;
-    }
-
-    .sidebar-header img {
-      max-width: 80%;
-      height: auto;
-      border-radius: 10px;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-      transition: all 0.5s;
-    }
-
-    .sidebar-header:hover img {
-      transform: scale(1.05) rotate(2deg);
-      box-shadow: 0 15px 40px rgba(0,0,0,0.4);
-    }
-
-    /* Removed sidebar ul, li, dropdown styles */
-
-
-    /* ====== ENHANCED MAIN CONTENT ====== */
+    /* ====== MAIN CONTENT AREA ====== */
     .content {
-      /* margin-top adjusted to account for fixed header */
-      margin-top: 70px; /* Height of header */
-      /* margin-left removed - body padding handles this */
-      margin-left: 0;
-      padding: 3rem;
-      width: 100%; /* Takes remaining width */
-      transition: none; /* No transition needed */
+      /* No margin-left needed */
+      padding: 2.5rem; /* Adjusted padding */
+      width: 100%;
       position: relative;
       z-index: 1;
     }
 
-    /* Removed .content.full and media query adjusting margin-left */
-
-    .content::before {
+    .content::before { /* Subtle background pattern */
       content: '';
       position: absolute;
       top: 0; left: 0; right: 0; bottom: 0;
-      background: url('https://www.transparenttextures.com/patterns/arabesque.png');
-      opacity: 0.03;
+      background-image: radial-gradient(rgba(0, 0, 0, 0.02) 1px, transparent 1px);
+      background-size: 15px 15px;
+      opacity: 0.5;
       z-index: -1;
       pointer-events: none;
     }
 
     .content h2 {
       color: #2c3e50;
-      margin-bottom: 2rem;
-      font-size: 2.5rem;
+      margin-bottom: 1.5rem;
+      font-size: 2.2rem; /* Adjusted size */
       border-bottom: 3px solid #ffcc00;
       padding-bottom: 0.5rem;
       display: inline-block;
-      font-weight: 800;
-      text-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      font-weight: 700; /* Slightly bolder */
       position: relative;
     }
 
-    .content h2::after {
+    .content h2::after { /* Subtle gradient underline accent */
       content: '';
       position: absolute;
-      bottom: -5px;
+      bottom: -3px; /* Align with border */
       left: 0;
-      width: 50%;
+      width: 60%;
       height: 3px;
-      background: linear-gradient(to right, #6a11cb, #2575fc);
+      background: linear-gradient(to right, #8e44ad, #3498db);
       border-radius: 3px;
     }
 
     .content p {
-      line-height: 1.8;
+      line-height: 1.7; /* Adjusted line height */
       margin-bottom: 2rem;
-      font-size: 1.1rem;
+      font-size: 1.05rem; /* Adjusted size */
       color: #555;
-      max-width: 800px;
+      max-width: 750px;
     }
 
-    /* ====== ENHANCED DASHBOARD WIDGETS ====== */
+    /* ====== DASHBOARD WIDGETS ====== */
     .dashboard-widgets {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-      gap: 2rem;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); /* Slightly smaller min width */
+      gap: 1.8rem; /* Adjusted gap */
       margin-bottom: 3rem;
     }
 
     .widget {
-      background: rgba(255,255,255,0.9);
-      border-radius: 15px;
-      padding: 2rem;
-      box-shadow: 0 15px 30px rgba(0,0,0,0.1);
-      transition: all 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
-      border-left: 5px solid #6a11cb;
+      background: #ffffff; /* Solid white background */
+      border-radius: 12px;
+      padding: 1.8rem; /* Adjusted padding */
+      box-shadow: 0 8px 25px rgba(0,0,0,0.08); /* Softer shadow */
+      transition: all 0.4s ease-in-out; /* Smoother transition */
+      border-left: 4px solid #8e44ad; /* Accent color */
       position: relative;
       overflow: hidden;
-      backdrop-filter: blur(5px);
-      -webkit-backdrop-filter: blur(5px);
-      border: 1px solid rgba(255,255,255,0.3);
     }
 
-    .widget::before {
-      content: '';
-      position: absolute;
-      top: 0; left: 0; right: 0; bottom: 0;
-      background: linear-gradient(135deg, rgba(106, 17, 203, 0.05) 0%, rgba(37, 117, 252, 0.05) 100%);
-      z-index: -1;
-    }
+    /* Removed widget::before pseudo-element */
 
     .widget:hover {
-      transform: translateY(-10px) scale(1.02);
-      box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+      transform: translateY(-8px) scale(1.01); /* Adjusted hover effect */
+      box-shadow: 0 12px 35px rgba(0,0,0,0.1);
     }
 
     .widget-header {
       display: flex;
-      align-items: center;
+      align-items: flex-start; /* Align items top */
       justify-content: space-between;
-      margin-bottom: 1.5rem;
+      margin-bottom: 1rem;
     }
 
     .widget-title {
-      font-size: 1.2rem;
-      font-weight: 700;
-      color: #2c3e50;
-      position: relative;
+      font-size: 1.1rem; /* Adjusted size */
+      font-weight: 600;
+      color: #34495e; /* Adjusted color */
+      margin-bottom: 0.5rem; /* Space below title */
     }
 
     .widget-icon {
-      width: 50px;
-      height: 50px;
-      border-radius: 15px;
-      background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+      width: 45px; /* Adjusted size */
+      height: 45px;
+      border-radius: 12px; /* Match widget radius */
+      background: linear-gradient(135deg, #8e44ad 0%, #3498db 100%); /* Updated gradient */
       color: white;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 1.5rem;
-      box-shadow: 0 5px 15px rgba(106, 17, 203, 0.3);
-      transition: all 0.3s;
+      font-size: 1.4rem;
+      flex-shrink: 0; /* Prevent icon from shrinking */
+      margin-left: 1rem; /* Space between title/text and icon */
+      box-shadow: 0 4px 12px rgba(142, 68, 173, 0.3);
+      transition: all 0.3s ease;
     }
 
     .widget:hover .widget-icon {
-      transform: rotate(15deg) scale(1.1);
+      transform: scale(1.1) rotate(10deg);
+      box-shadow: 0 6px 15px rgba(142, 68, 173, 0.4);
     }
 
     .widget-value {
-      font-size: 2.5rem;
-      font-weight: 800;
+      font-size: 2.2rem; /* Adjusted size */
+      font-weight: 700;
       color: #2c3e50;
-      margin: 1rem 0;
-      background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      text-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      margin: 0.5rem 0 0.8rem 0; /* Adjusted margin */
+      line-height: 1.2;
+      /* Using solid color instead of gradient text for better readability */
     }
 
     .widget-description {
-      font-size: 1rem;
+      font-size: 0.9rem; /* Adjusted size */
       color: #7f8c8d;
-      line-height: 1.6;
+      line-height: 1.5;
     }
 
     /* Floating particles decoration */
     .particle {
-      position: absolute;
-      background: rgba(106, 17, 203, 0.1);
+      position: fixed; /* Fixed position so they don't scroll */
+      background: rgba(142, 68, 173, 0.08); /* Use accent color */
       border-radius: 50%;
       pointer-events: none;
-      z-index: -1; /* Ensure particles are behind content */
+      z-index: 0; /* Behind content but above body background */
+      animation: particleFloat 20s linear infinite; /* Updated animation name */
+    }
+
+    @keyframes particleFloat { /* Simple floating up animation */
+        0% { transform: translateY(100vh) scale(0.5); opacity: 0; }
+        50% { opacity: 1; }
+        100% { transform: translateY(-100px) scale(1); opacity: 0; }
     }
 
 
-    /* ====== PRESERVED RESPONSIVENESS (Simplified) ====== */
-    @media (max-width: 992px) { /* Adjust breakpoint if sidebar width changes */
-        body {
-             padding-left: 0; /* Remove sidebar padding on smaller screens */
-        }
-        .sidebar {
-            transform: translateX(-100%); /* Hide sidebar off-screen */
-            /* Optionally add a button to toggle sidebar visibility on mobile if needed */
-        }
-        .content {
-            /* Content takes full width */
-        }
-         .header-title {
-             margin-left: 0; /* Center title properly when sidebar is hidden */
-         }
-    }
-
+    /* ====== RESPONSIVENESS ====== */
     @media (max-width: 768px) {
-      .content {
-        padding: 2rem;
+      body {
+          padding-top: 60px; /* Adjust for smaller header */
       }
+      header {
+          padding: 0.6rem 1rem; /* Smaller padding */
+      }
+       #header-logo {
+           max-height: 35px; /* Smaller logo */
+       }
+      .header-title {
+        display: none; /* Hide title text on small screens */
+      }
+      .account-icon {
+        width: 40px;
+        height: 40px;
+        font-size: 1.5rem;
+      }
+      .account-dropdown {
+          top: 55px; /* Adjust dropdown position */
+          min-width: 210px;
+      }
+      .content {
+        padding: 1.5rem;
+      }
+       .content h2 {
+           font-size: 1.8rem;
+       }
+        .content p {
+            font-size: 1rem;
+        }
       .dashboard-widgets {
-        grid-template-columns: 1fr;
+        grid-template-columns: 1fr; /* Stack widgets */
+        gap: 1.5rem;
       }
       .widget {
         padding: 1.5rem;
       }
+       .widget-value {
+           font-size: 2rem;
+       }
     }
+
+    @media (max-width: 480px) {
+        .content h2 {
+           font-size: 1.6rem;
+        }
+        .widget {
+           padding: 1.2rem;
+        }
+        .widget-icon {
+           width: 40px;
+           height: 40px;
+           font-size: 1.3rem;
+        }
+        .widget-value {
+           font-size: 1.8rem;
+        }
+         .widget-description {
+           font-size: 0.85rem;
+       }
+    }
+
 
     /* ====== DARK THEME STYLES ====== */
     body.dark {
-      background: linear-gradient(135deg, #121212 0%, #1a1a1a 100%);
-      color: #eee;
+      background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%); /* Dark blue/purple */
+      color: #e0e0e0;
     }
     body.dark header {
-      background: linear-gradient(135deg, #000 0%, #222 100%);
+      background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%); /* Darker header */
       border-bottom: 1px solid rgba(255,255,255,0.1);
     }
-    body.dark .sidebar { /* Dark theme for sidebar */
-      background: linear-gradient(135deg, rgba(30, 30, 40, 0.95) 0%, rgba(50, 50, 70, 0.95) 100%);
-      border-right: 1px solid rgba(255,255,255,0.1);
+    body.dark .header-title {
+         background: linear-gradient(to right, #e0e0e0 0%, #a78bfa 100%); /* Light title for dark mode */
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
     }
-    body.dark .sidebar-header {
-        border-bottom: 1px solid rgba(255,255,255,0.1);
-    }
-    body.dark .sidebar-header::before {
-       background: linear-gradient(45deg, rgba(106, 17, 203, 0.1) 0%, rgba(37, 117, 252, 0.1) 100%);
-    }
-    body.dark .content { color: #ddd; }
-    body.dark .content h2 { color: #fff; }
-    body.dark .content p { color: #bbb; }
-    body.dark .widget {
-      background: rgba(30, 30, 40, 0.8);
-      color: #eee;
-      border-left: 5px solid #9b59b6; /* Dark theme accent */
-      border: 1px solid rgba(255,255,255,0.1);
-    }
-    body.dark .widget::before {
-         background: linear-gradient(135deg, rgba(155, 89, 182, 0.05) 0%, rgba(88, 122, 214, 0.05) 100%);
-    }
-    body.dark .widget-title { color: #fff; }
-    body.dark .widget-value {
-         background: linear-gradient(135deg, #9b59b6 0%, #587ad6 100%);
-         -webkit-background-clip: text;
-         -webkit-text-fill-color: transparent;
-    }
-    body.dark .widget-description { color: #aaa; }
     body.dark .account-icon {
-        background: linear-gradient(135deg, #444 0%, #666 100%);
-        border: 3px solid rgba(255,255,255,0.3);
-        color: rgba(255, 255, 255, 0.7);
+        background: linear-gradient(135deg, #4a5568 0%, #2d3748 100%);
+        border: 2px solid rgba(255,255,255,0.3);
+        color: rgba(255, 255, 255, 0.8);
     }
-     body.dark .account-icon:hover i {
-         color: white;
-     }
     body.dark .account-dropdown {
-      background: rgba(30, 30, 40, 0.95);
-      color: #eee;
+      background: rgba(30, 41, 59, 0.98); /* Dark slate background */
+      color: #e0e0e0;
       border: 1px solid rgba(255,255,255,0.1);
     }
     body.dark .account-dropdown a,
     body.dark .account-dropdown div {
-      color: #eee;
-      border-bottom: 1px solid rgba(255,255,255,0.05);
+      color: #e0e0e0;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
     }
      body.dark #user-role-display {
-        color: #bb86fc; /* Dark theme admin color */
-        background-color: rgba(187, 134, 252, 0.08);
-        border-bottom: 1px solid rgba(187, 134, 252, 0.1);
+        color: #c4b5fd; /* Lighter purple */
+        background-color: rgba(196, 181, 253, 0.08);
+        border-bottom: 1px solid rgba(196, 181, 253, 0.1);
     }
-    body.dark #user-role-display i {
-        color: #bb86fc;
-    }
+    body.dark #user-role-display i { color: #c4b5fd; }
+
     body.dark .account-dropdown a:hover,
     body.dark .account-dropdown div:not(#user-role-display):hover {
-      color: #ffcc00;
-       background: rgba(255, 255, 255, 0.05);
+      color: #facc15; /* Yellow accent */
+      background: rgba(255, 255, 255, 0.05);
     }
-    body.dark .account-dropdown i { color: #ffcc00; }
+    body.dark .account-dropdown i { color: #c4b5fd; }
+    body.dark .account-dropdown a:hover i,
+    body.dark .account-dropdown div:not(#user-role-display):hover i {
+         color: #facc15;
+    }
+
+    body.dark .content { color: #cbd5e1; } /* Lighter gray */
+    body.dark .content::before { /* Dark pattern */
+        background-image: radial-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+    }
+    body.dark .content h2 {
+        color: #f1f5f9; /* Off-white */
+        border-bottom-color: #facc15; /* Yellow accent */
+    }
+     body.dark .content h2::after {
+          background: linear-gradient(to right, #c084fc, #60a5fa); /* Purple/Blue gradient */
+     }
+    body.dark .content p { color: #94a3b8; } /* Medium gray */
+
+    body.dark .widget {
+      background: #1e293b; /* Dark slate */
+      color: #e0e0e0;
+      border-left: 4px solid #c084fc; /* Purple accent */
+      box-shadow: 0 8px 25px rgba(0,0,0,0.2); /* Darker shadow */
+    }
+    body.dark .widget-title { color: #f1f5f9; }
+    body.dark .widget-value { color: #f8fafc; } /* Brighter white */
+    body.dark .widget-description { color: #94a3b8; }
+    body.dark .widget-icon {
+         background: linear-gradient(135deg, #c084fc 0%, #60a5fa 100%);
+         box-shadow: 0 4px 12px rgba(192, 132, 252, 0.2);
+    }
+     body.dark .widget:hover {
+         box-shadow: 0 12px 35px rgba(0,0,0,0.25);
+     }
+     body.dark .widget:hover .widget-icon {
+          box-shadow: 0 6px 15px rgba(192, 132, 252, 0.3);
+     }
      body.dark .particle {
-        background: rgba(187, 134, 252, 0.05); /* Dark theme particles */
+        background: rgba(196, 181, 253, 0.06); /* Dark theme particle color */
      }
 
 
-    /* Floating animation for widgets */
-    @keyframes float {
-      0% { transform: translateY(0px); }
-      50% { transform: translateY(-10px); }
-      100% { transform: translateY(0px); }
-    }
-    .widget:nth-child(1) { animation: float 6s ease-in-out infinite; }
-    .widget:nth-child(2) { animation: float 6s ease-in-out infinite 1s; }
-    .widget:nth-child(3) { animation: float 6s ease-in-out infinite 2s; }
-
-    /* Theme toggle button */
+    /* ====== UTILITIES ====== */
+    /* Theme toggle button (Styles preserved) */
     .theme-toggle {
       position: fixed;
-      bottom: 30px;
-      right: 30px;
-      width: 50px;
-      height: 50px;
+      bottom: 25px; /* Adjusted position */
+      right: 25px;
+      width: 45px; /* Slightly smaller */
+      height: 45px;
       border-radius: 50%;
       background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
       color: white;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 1.2rem;
+      font-size: 1.1rem; /* Adjusted size */
       cursor: pointer;
-      box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+      box-shadow: 0 5px 15px rgba(0,0,0,0.15);
       z-index: 500;
-      transition: all 0.3s;
+      transition: all 0.3s ease;
     }
     .theme-toggle:hover {
-      transform: scale(1.1) rotate(30deg);
-      box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+      transform: scale(1.1) rotate(15deg);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.2);
     }
+     body.dark .theme-toggle { /* Adjust colors for dark mode button */
+         background: linear-gradient(135deg, #4a5568 0%, #2d3748 100%);
+         box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+     }
+     body.dark .theme-toggle:hover {
+          box-shadow: 0 8px 20px rgba(0,0,0,0.4);
+     }
 
-    /* Loading animation */
+    /* Loading animation (Styles preserved) */
     .loading {
       position: fixed;
       top: 0; left: 0; right: 0; bottom: 0;
@@ -522,8 +510,11 @@
       align-items: center;
       justify-content: center;
       z-index: 9999;
-      transition: opacity 0.5s, visibility 0.5s;
+      transition: opacity 0.5s ease, visibility 0.5s ease;
     }
+     body.dark .loading { /* Dark loading screen */
+         background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+     }
     .loading-circle {
       width: 50px;
       height: 50px;
@@ -536,15 +527,14 @@
 
   </style>
 </head>
-<body>
-  <div class="loading" id="loading">
+<body class=""> <div class="loading" id="loading">
     <div class="loading-circle"></div>
   </div>
 
   <header>
-    <div style="width: 50px;"></div> <div class="header-title" id="header-title">Haramaya Jama'aa Home</div>
-    <div class="account-wrapper" id="account-btn">
-       <div class="account-icon" id="account-img">
+    <img src="haramaya.png" alt="Haramaya Logo" id="header-logo">
+    <div class="header-title" id="header-title">Haramaya Jama'aa</div> <div class="account-wrapper" id="account-btn">
+      <div class="account-icon" id="account-img">
           <i class="fas fa-user"></i>
       </div>
       <div class="account-dropdown" id="account-dropdown">
@@ -566,49 +556,50 @@
     </div>
   </header>
 
-  <nav class="sidebar" id="sidebar">
-    <div class="sidebar-header">
-       <img src="haramaya.png" alt="Haramaya Logo">
-    </div>
-    </nav>
-
-  <div class="content" id="content">
-    <h2>Welcome to Haramaya Jama'aa Group</h2>
-    <p>This is the home page for Haramaya University Jama'aa students. Use the account menu to access your profile and other sections. Enjoy the experience!</p>
+  <main class="content" id="content"> <h2>Welcome to Haramaya Jama'aa Group</h2>
+    <p>Access your courses, track progress, and connect with others using the account menu. Enjoy the enhanced experience!</p>
 
     <div class="dashboard-widgets">
       <div class="widget">
         <div class="widget-header">
-          <h3 class="widget-title">Active Courses</h3>
-          <div class="widget-icon"><i class="fas fa-book-open"></i></div>
+           <div> <h3 class="widget-title">Active Courses</h3>
+               <p class="widget-description">Courses you're currently enrolled in</p>
+           </div>
+           <div class="widget-icon"><i class="fas fa-book-open"></i></div>
         </div>
         <div class="widget-value" id="active-courses">0</div>
-        <p class="widget-description">Courses you're currently enrolled in</p>
       </div>
 
       <div class="widget">
         <div class="widget-header">
-          <h3 class="widget-title">Completed Lessons</h3>
+           <div>
+                <h3 class="widget-title">Completed Lessons</h3>
+                <p class="widget-description">Lessons you've finished</p>
+           </div>
           <div class="widget-icon"><i class="fas fa-check-circle"></i></div>
         </div>
         <div class="widget-value" id="completed-lessons">0</div>
-        <p class="widget-description">Lessons you've completed</p>
       </div>
 
       <div class="widget">
         <div class="widget-header">
-          <h3 class="widget-title">Study Streak</h3>
-          <div class="widget-icon"><i class="fas fa-fire"></i></div>
+            <div>
+                <h3 class="widget-title">Study Streak</h3>
+                <p class="widget-description">Consecutive days active</p>
+            </div>
+           <div class="widget-icon"><i class="fas fa-fire"></i></div>
         </div>
         <div class="widget-value" id="streak-days">0</div>
-        <p class="widget-description">Consecutive days of learning</p>
       </div>
     </div>
-  </div>
+  </main>
 
   <div class="theme-toggle" id="theme-toggle">
     <i class="fas fa-moon"></i>
   </div>
+
+  <div id="particles-js"></div>
+
 
   <script type="module">
     // Firebase modules.
@@ -619,16 +610,15 @@
 
     // Firebase config – replace with your Firebase project configuration.
     const firebaseConfig = {
-        apiKey: "YOUR_API_KEY", // Replace with your actual API key
-        authDomain: "YOUR_AUTH_DOMAIN",
-        databaseURL: "YOUR_DATABASE_URL", // Optional for RTDB
-        projectId: "YOUR_PROJECT_ID",
-        storageBucket: "YOUR_STORAGE_BUCKET",
-        messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
-        appId: "YOUR_APP_ID",
-        measurementId: "YOUR_MEASUREMENT_ID" // Optional
+          apiKey: "AIzaSyBQyNVWh1BtCkXlBfuS7jHAa36FTklZayo",  
+       authDomain: "pharma-quiz-b5a07.firebaseapp.com",  
+      databaseURL: "https://pharma-quiz-b5a07-default-rtdb.firebaseio.com",  
+      projectId: "pharma-quiz-b5a07",  
+      storageBucket: "pharma-quiz-b5a07.firebasestorage.app",  
+      messagingSenderId: "161067776789",  
+      appId: "1:161067776789:web:88b8a61145dc5f5c31471c",  
+      measurementId: "G-3QRQE9HQFB"  
     };
-
 
     const app = initializeApp(firebaseConfig);
     const analytics = getAnalytics(app);
@@ -646,54 +636,64 @@
     const notLoggedInDiv = document.getElementById("not-logged-in");
     const loggedInDiv = document.getElementById("logged-in");
     const logoutBtn = document.getElementById("logout-btn");
-    // const settingsLogoutBtn = document.getElementById("settings-logout-btn"); // Removed from HTML
     const profileLink = document.getElementById("profile-link");
     const userRoleDisplay = document.getElementById("user-role-display");
     const activeCoursesEl = document.getElementById("active-courses");
     const completedLessonsEl = document.getElementById("completed-lessons");
     const streakDaysEl = document.getElementById("streak-days");
 
-
     // --- Initial Setup ---
+
+    // Check for saved theme preference
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme === 'dark') {
+        document.body.classList.add('dark');
+        themeToggle.innerHTML = '<i class="fas fa-sun"></i>';
+    } else {
+        document.body.classList.remove('dark');
+        themeToggle.innerHTML = '<i class="fas fa-moon"></i>';
+    }
+
 
     // Hide loading screen
     setTimeout(() => {
       loadingScreen.style.opacity = '0';
       loadingScreen.style.visibility = 'hidden';
-    }, 1500);
+      loadingScreen.style.pointerEvents = 'none'; // Prevent interaction after hiding
+    }, 1000); // Faster fade out
 
-    // Create floating particles
+
+    // Create floating particles (Modified for fixed positioning)
     function createParticles() {
-      const colorsLight = ['rgba(106, 17, 203, 0.1)', 'rgba(37, 117, 252, 0.1)', 'rgba(255, 204, 0, 0.1)'];
-      const colorsDark = ['rgba(187, 134, 252, 0.05)', 'rgba(88, 122, 214, 0.08)', 'rgba(255, 204, 0, 0.05)'];
+      const colorsLight = ['rgba(142, 68, 173, 0.06)', 'rgba(52, 152, 219, 0.06)', 'rgba(241, 196, 15, 0.06)'];
+      const colorsDark = ['rgba(196, 181, 253, 0.05)', 'rgba(96, 165, 250, 0.05)', 'rgba(250, 204, 21, 0.05)'];
       const isDark = document.body.classList.contains('dark');
       const colors = isDark ? colorsDark : colorsLight;
 
       // Clear existing particles if any
       document.querySelectorAll('.particle').forEach(p => p.remove());
+      const particleContainer = document.body; // Append directly to body
 
-      for (let i = 0; i < 20; i++) {
+      for (let i = 0; i < 15; i++) { // Reduced number of particles
         const particle = document.createElement('div');
         particle.classList.add('particle');
 
-        const size = Math.random() * 20 + 5;
-        const posX = Math.random() * 100;
-        const posY = Math.random() * 100;
-        const color = colors[Math.floor(Math.random() * colors.length)];
-        const duration = Math.random() * 20 + 10;
-        const delay = Math.random() * 5;
+        const size = Math.random() * 8 + 4; // Smaller particles
+        const startX = Math.random() * 100; // Start anywhere horizontally
+        const duration = Math.random() * 20 + 15; // Slower animation
+        const delay = Math.random() * 10;
 
         particle.style.width = `${size}px`;
         particle.style.height = `${size}px`;
-        particle.style.left = `${posX}%`;
-        particle.style.top = `${posY}%`;
-        particle.style.background = color;
-        particle.style.animation = `float ${duration}s ease-in-out ${delay}s infinite`;
+        particle.style.left = `${startX}vw`; // Use vw for horizontal positioning
+        particle.style.background = colors[Math.floor(Math.random() * colors.length)];
+        particle.style.animation = `particleFloat ${duration}s linear ${delay}s infinite`;
+        // Set initial position at the bottom
+        particle.style.bottom = `-${size}px`; // Start just below the viewport
 
-        document.body.appendChild(particle);
+        particleContainer.appendChild(particle);
       }
     }
-
 
     // Theme toggle functionality
     themeToggle.addEventListener('click', () => {
@@ -702,10 +702,10 @@
 
       if (isDark) {
         themeToggle.innerHTML = '<i class="fas fa-sun"></i>';
-        themeToggle.style.background = 'linear-gradient(135deg, #ff9a9e 0%, #fad0c4 100%)';
+         localStorage.setItem('theme', 'dark'); // Save preference
       } else {
         themeToggle.innerHTML = '<i class="fas fa-moon"></i>';
-        themeToggle.style.background = 'linear-gradient(135deg, #6a11cb 0%, #2575fc 100%)';
+         localStorage.setItem('theme', 'light'); // Save preference
       }
       // Recreate particles with appropriate theme colors
       createParticles();
@@ -714,19 +714,23 @@
     // Initialize particles on load
     createParticles();
 
-
-    /* SIDEBAR TOGGLE REMOVED */
-
     /* ACCOUNT DROPDOWN */
     accountBtn.addEventListener("click", (e) => {
-      e.stopPropagation(); // Prevent click from immediately closing dropdown
-      accountDropdown.style.display = (accountDropdown.style.display === "block") ? "none" : "block";
+      e.stopPropagation();
+      const isDisplayed = accountDropdown.style.display === "block";
+      accountDropdown.style.display = isDisplayed ? "none" : "block";
+       // Optional: Add class for animation trigger if needed
+      // if (!isDisplayed) {
+      //    accountDropdown.classList.add('open');
+      // } else {
+      //    accountDropdown.classList.remove('open');
+      // }
     });
 
-    // Close dropdown if clicking outside
     document.addEventListener("click", (e) => {
       if (!accountBtn.contains(e.target) && !accountDropdown.contains(e.target)) {
         accountDropdown.style.display = "none";
+        // accountDropdown.classList.remove('open');
       }
     });
 
@@ -735,33 +739,25 @@
       if (user) {
         loggedInDiv.style.display = "block";
         notLoggedInDiv.style.display = "none";
-        loadUserData(user.uid); // Load data and handle role logic
+        loadUserData(user.uid);
       } else {
         loggedInDiv.style.display = "none";
         notLoggedInDiv.style.display = "block";
-        currentUserRole = null; // Reset role on logout
-        // Reset UI elements that depend on user data/role
+        currentUserRole = null;
         profileLink.href = "profile.html";
         userRoleDisplay.style.display = "none";
         activeCoursesEl.textContent = '0';
         completedLessonsEl.textContent = '0';
         streakDaysEl.textContent = '0';
       }
-      // Close dropdown after auth state changes
-       accountDropdown.style.display = "none";
+       accountDropdown.style.display = "none"; // Close dropdown on auth change
     });
 
     /* LOGOUT FUNCTION */
     async function handleLogout() {
-      // Optional: confirmation prompt
-      // if (!confirm("Are you sure you want to logout?")) {
-      //   return;
-      // }
       try {
           await signOut(auth);
-          // Redirect happens via onAuthStateChanged listener
           console.log("Logout successful");
-          // Clear session storage flag on logout
           sessionStorage.removeItem('adminNotified');
       } catch (error) {
           console.error("Logout failed:", error);
@@ -770,11 +766,6 @@
     }
 
     logoutBtn.addEventListener("click", handleLogout);
-    // settingsLogoutBtn removed
-
-
-    /* SIDEBAR DROPDOWN TOGGLERS REMOVED */
-
 
     /* Load User Data from Firestore */
     async function loadUserData(userId) {
@@ -786,83 +777,81 @@
           const userData = userDocSnap.data();
 
           // --- ROLE HANDLING ---
-          currentUserRole = userData.role || 'user'; // Default to 'user' if role is not set
+          currentUserRole = userData.role || 'user';
 
           if (currentUserRole === 'admin') {
-            profileLink.href = "admin.html"; // Change link for admins
-            userRoleDisplay.style.display = "flex"; // Show role display
+            profileLink.href = "admin.html";
+            userRoleDisplay.style.display = "flex";
 
-            // One-time admin notification per session
             if (!sessionStorage.getItem('adminNotified')) {
-              alert("Welcome, Admin! You have administrative privileges.");
+              // Use a more subtle notification method if desired
+              // Example: show a temporary banner instead of alert
+              // showAdminNotification("Welcome, Admin! Privileges active.");
+               alert("Welcome, Admin! You have administrative privileges."); // Keeping alert for now
               sessionStorage.setItem('adminNotified', 'true');
             }
           } else {
-            profileLink.href = "profile.html"; // Standard profile link
-            userRoleDisplay.style.display = "none"; // Hide role display
+            profileLink.href = "profile.html";
+            userRoleDisplay.style.display = "none";
           }
 
           // --- DASHBOARD STATS ---
+          activeCoursesEl.textContent = (userData.enrolledCourses && Array.isArray(userData.enrolledCourses)) ? userData.enrolledCourses.length : '0';
+
+          let completedLessons = 0;
           if (userData.enrolledCourses && Array.isArray(userData.enrolledCourses)) {
-             activeCoursesEl.textContent = userData.enrolledCourses.length;
-
-            let completedLessons = 0;
-            userData.enrolledCourses.forEach(course => {
-              // Ensure course and completedLessons are valid before adding
-              if (course && typeof course.completedLessons === 'number') {
-                completedLessons += course.completedLessons;
-              }
-            });
-            completedLessonsEl.textContent = completedLessons;
-          } else {
-             activeCoursesEl.textContent = '0';
-             completedLessonsEl.textContent = '0';
+              userData.enrolledCourses.forEach(course => {
+                if (course && typeof course.completedLessons === 'number') {
+                  completedLessons += course.completedLessons;
+                }
+              });
           }
+           completedLessonsEl.textContent = completedLessons;
 
-          // --- STUDY STREAK (Basic Example) ---
+
+          // --- STUDY STREAK (Logic remains the same) ---
           let currentStreak = 0;
-          if (userData.lastLogin && userData.lastLogin.toDate) { // Check if lastLogin is a Firebase Timestamp
-            const lastLogin = userData.lastLogin.toDate();
-            const today = new Date();
-            const yesterday = new Date(today);
-            yesterday.setDate(today.getDate() - 1);
+           if (userData.lastLogin && userData.lastLogin.toDate) {
+               const lastLogin = userData.lastLogin.toDate();
+               const today = new Date();
+               const yesterday = new Date(today);
+               yesterday.setDate(today.getDate() - 1);
 
-             // Normalize dates to compare day, month, year only
-            const lastLoginDate = new Date(lastLogin.getFullYear(), lastLogin.getMonth(), lastLogin.getDate());
-            const todayDate = new Date(today.getFullYear(), today.getMonth(), today.getDate());
-            const yesterdayDate = new Date(yesterday.getFullYear(), yesterday.getMonth(), yesterday.getDate());
+               const lastLoginDate = new Date(lastLogin.getFullYear(), lastLogin.getMonth(), lastLogin.getDate());
+               const todayDate = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+              // const yesterdayDate = new Date(yesterday.getFullYear(), yesterday.getMonth(), yesterday.getDate()); // Not directly needed for diff calculation
 
-            const diffTime = todayDate - lastLoginDate;
-            const diffDays = diffTime / (1000 * 60 * 60 * 24);
+               const diffTime = todayDate - lastLoginDate;
+               const diffDays = diffTime / (1000 * 60 * 60 * 24);
 
-            if (diffDays === 0) { // Logged in again today
-                currentStreak = userData.streakDays || 0; // Continue streak from saved value
-            } else if (diffDays === 1) { // Logged in yesterday
-                currentStreak = (userData.streakDays || 0) + 1; // Increment streak
-            } else { // Gap in login days
-                currentStreak = 1; // Reset streak to 1 for today's login
-            }
+               const savedStreak = userData.streakDays || 0;
 
-            // Note: You'd typically update the streak and lastLogin in Firestore here
-            // For now, just displaying the calculated potential streak
-             streakDaysEl.textContent = currentStreak;
-
-          } else {
-              // If no lastLogin or streak, start streak at 1 for this login
-              streakDaysEl.textContent = 1;
-          }
+                if (diffDays === 0) { // Logged in again today (or multiple times today)
+                     currentStreak = savedStreak > 0 ? savedStreak : 1; // Keep saved streak or start at 1 if it was 0
+                 } else if (diffDays === 1) { // Logged in yesterday
+                    currentStreak = savedStreak + 1; // Increment streak
+                 } else { // Gap in login days
+                    currentStreak = 1; // Reset streak to 1 for today's login
+                 }
+                // Placeholder: Ideally update Firestore with new streak and lastLogin=todayDate here
+           } else {
+               currentStreak = 1; // First login or no timestamp
+           }
+           streakDaysEl.textContent = currentStreak;
 
 
         } else {
           console.log("No such user document!");
-          // Handle case where user exists in Auth but not Firestore
           currentUserRole = 'user';
           profileLink.href = "profile.html";
           userRoleDisplay.style.display = "none";
+          // Reset stats explicitly if user doc doesn't exist
+          activeCoursesEl.textContent = 'N/A';
+          completedLessonsEl.textContent = 'N/A';
+          streakDaysEl.textContent = 'N/A';
         }
       } catch (error) {
         console.error("Error loading user data:", error);
-        // Set defaults in case of error
         currentUserRole = 'user';
         profileLink.href = "profile.html";
         userRoleDisplay.style.display = "none";
