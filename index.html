@@ -19,510 +19,593 @@
 
     body {
       font-family: 'Poppins', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background: linear-gradient(135deg, #f5f7fa 0%, #e4e8f0 100%);
+      background: linear-gradient(135deg, #e0eafc 0%, #cfdef3 100%); /* Lighter, cooler gradient */
       color: #333;
       min-height: 100vh;
       overflow-x: hidden;
+      padding-top: 70px; /* Space for fixed header */
+      display: flex;
+      flex-direction: column; /* To push footer down */
+      position: relative; /* For particle positioning */
+      background-size: 400% 400%; /* For gradient animation */
+      animation: gradientBG 15s ease infinite; /* Gradient animation */
       transition: background 0.5s ease, color 0.5s ease;
-      /* No left padding needed anymore */
-      padding-top: 70px; /* Add padding for fixed header */
+    }
+
+    @keyframes gradientBG {
+        0% { background-position: 0% 50%; }
+        50% { background-position: 100% 50%; }
+        100% { background-position: 0% 50%; }
+    }
+
+
+    main {
+        flex-grow: 1; /* Allows main content to push footer down */
     }
 
     a {
       text-decoration: none;
       color: inherit;
+      transition: color 0.3s ease;
     }
 
     /* ====== ENHANCED HEADER ====== */
     header {
-      background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
-      color: #fff;
+      background: rgba(255, 255, 255, 0.8); /* Semi-transparent white */
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      color: #333; /* Darker text on light header */
       display: flex;
       align-items: center;
-      justify-content: space-between;
-      padding: 0.75rem 1.5rem; /* Adjusted padding */
+      justify-content: space-between; /* Space between title area and account */
+      padding: 0.7rem 1.5rem;
       position: fixed;
       width: 100%;
       top: 0;
       left: 0;
       z-index: 300;
-      box-shadow: 0 5px 25px rgba(0,0,0,0.15);
-      backdrop-filter: blur(10px);
-      -webkit-backdrop-filter: blur(10px);
-      border-bottom: 1px solid rgba(255,255,255,0.2);
-      transition: background 0.3s ease;
+      box-shadow: 0 2px 15px rgba(0, 0, 0, 0.07);
+      border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+      transition: background 0.3s ease, box-shadow 0.3s ease;
     }
 
-    #header-logo {
-        max-height: 40px; /* Control logo size */
-        width: auto;
-        display: block; /* Prevents extra space below image */
-        transition: transform 0.3s ease;
-    }
-     #header-logo:hover {
-         transform: scale(1.05);
-     }
+    /* Removed #header-logo styles */
 
+    .header-title-area { /* Wrapper for potential future elements like subtitle */
+        flex-grow: 1;
+        text-align: center; /* Center title within its area */
+        margin: 0 1rem; /* Give space around title area */
+    }
 
     .header-title {
-      font-size: 1.4rem; /* Slightly smaller */
-      font-weight: 600; /* Slightly lighter */
-      text-align: center;
-      flex-grow: 1; /* Take up space */
-      margin: 0 1rem; /* Space around title */
-      text-shadow: 0 1px 5px rgba(0,0,0,0.15);
+      font-size: 1.4rem;
+      font-weight: 600;
+      color: #2c3e50; /* Strong title color */
       letter-spacing: 0.5px;
-      background: linear-gradient(to right, #fff 0%, #ffda77 100%);
+      display: inline-block; /* Keep centering */
+       /* Gradient text - optional, can use solid color above */
+      /* background: linear-gradient(to right, #6a11cb 0%, #2575fc 100%);
       -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
+      -webkit-text-fill-color: transparent; */
     }
 
-    /* ====== ACCOUNT DROPDOWN (Styles mostly preserved) ====== */
+    /* ====== ACCOUNT DROPDOWN (Styles mostly preserved, minor tweaks) ====== */
     .account-wrapper {
       position: relative;
       cursor: pointer;
+      flex-shrink: 0; /* Prevent shrinking */
     }
 
     .account-icon {
-      width: 45px; /* Slightly smaller */
-      height: 45px;
+      width: 42px; /* Adjusted size */
+      height: 42px;
       border-radius: 50%;
-      background: linear-gradient(135deg, #ff9a9e 0%, #fad0c4 100%);
-      border: 2px solid rgba(255,255,255,0.6); /* Thinner border */
+      background: linear-gradient(135deg, #89f7fe 0%, #66a6ff 100%); /* Blue gradient */
+      border: none;
       transition: all 0.3s ease;
-      box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+      box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 1.6rem; /* Adjusted icon size */
-      color: rgba(255, 255, 255, 0.8);
+      font-size: 1.5rem; /* Adjusted icon size */
+      color: #fff;
     }
 
     .account-icon:hover {
       transform: scale(1.1);
-      box-shadow: 0 0 0 4px rgba(255, 204, 0, 0.4);
-      filter: brightness(1.1);
-    }
-    .account-icon:hover i {
-        color: white;
+      box-shadow: 0 5px 15px rgba(102, 166, 255, 0.4); /* Brighter shadow on hover */
     }
 
     .account-dropdown {
       position: absolute;
-      top: 60px; /* Adjusted position */
+      top: 58px; /* Adjusted position */
       right: 0;
-      background: rgba(255,255,255,0.98); /* Slightly less transparent */
-      border-radius: 12px; /* Softer radius */
+      background: rgba(255, 255, 255, 0.98);
+      border-radius: 10px;
       overflow: hidden;
       display: none;
       z-index: 400;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.15);
-      min-width: 230px;
-      animation: fadeInDropdown 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-      backdrop-filter: blur(8px);
-      -webkit-backdrop-filter: blur(8px);
-      border: 1px solid rgba(0,0,0,0.05);
+      box-shadow: 0 10px 35px rgba(0,0,0,0.12);
+      min-width: 240px; /* Slightly wider */
+      animation: fadeInDropdown 0.25s ease-out;
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border: 1px solid rgba(0,0,0,0.07);
       transform-origin: top right;
     }
 
-    @keyframes fadeInDropdown { /* Renamed animation */
-      from { opacity: 0; transform: translateY(-15px) scale(0.95); }
+    @keyframes fadeInDropdown {
+      from { opacity: 0; transform: translateY(-10px) scale(0.98); }
       to { opacity: 1; transform: translateY(0) scale(1); }
     }
 
     .account-dropdown a,
     .account-dropdown div {
-      color: #444; /* Darker text */
-      padding: 0.9rem 1.2rem; /* Adjusted padding */
+      color: #444;
+      padding: 0.9rem 1.3rem;
       display: flex;
       align-items: center;
-      gap: 12px; /* Slightly less gap */
+      gap: 12px;
       border-bottom: 1px solid rgba(0,0,0,0.05);
       transition: background-color 0.2s ease, color 0.2s ease, padding-left 0.2s ease;
       font-weight: 500;
-      font-size: 0.95rem; /* Slightly smaller font */
+      font-size: 0.95rem;
     }
 
+    /* Role Display */
     #user-role-display {
       font-size: 0.85em;
-      color: #6a11cb;
+      color: #5a67d8; /* Indigo color */
       font-weight: bold;
-      background-color: rgba(106, 17, 203, 0.04);
-      border-bottom: 1px solid rgba(106, 17, 203, 0.1);
+      background-color: rgba(90, 103, 216, 0.05);
+      border-bottom: 1px solid rgba(90, 103, 216, 0.1);
+      order: -1; /* Place role at the top */
     }
-    #user-role-display i { color: #6a11cb; }
+    #user-role-display i { color: #5a67d8; }
+
+    /* Admin Panel Link Styling */
+    #admin-panel-link {
+        /* Default styles match other links */
+        /* Specific admin styles */
+        color: #d53f8c; /* Pinkish color for admin */
+        font-weight: 600;
+    }
+     #admin-panel-link i {
+        color: #d53f8c;
+     }
+     #admin-panel-link:hover {
+         background-color: rgba(213, 63, 140, 0.06);
+         color: #b83280;
+     }
+     #admin-panel-link:hover i {
+         color: #b83280;
+     }
+
 
     .account-dropdown a:last-child,
     .account-dropdown div:last-child { border-bottom: none; }
 
     .account-dropdown a:hover,
-    .account-dropdown div:not(#user-role-display):hover {
-      background: linear-gradient(90deg, rgba(106, 17, 203, 0.08) 0%, rgba(37, 117, 252, 0.08) 100%);
-      padding-left: 1.5rem;
-      color: #6a11cb;
+    .account-dropdown div:not(#user-role-display):not(#admin-panel-link):hover { /* Exclude role and admin */
+      background: rgba(102, 166, 255, 0.1); /* Light blue hover */
+      padding-left: 1.6rem;
+      color: #3b82f6; /* Blue link color */
     }
 
     .account-dropdown i {
-      width: 18px; /* Slightly smaller icon width */
-      color: #8a3ffc; /* Adjusted icon color */
+      width: 18px;
+      color: #60a5fa; /* Default icon color - light blue */
       text-align: center;
       font-size: 1rem;
       transition: all 0.3s;
     }
     .account-dropdown a:hover i,
-    .account-dropdown div:not(#user-role-display):hover i {
-        color: #6a11cb; /* Icon color on hover */
+    .account-dropdown div:not(#user-role-display):not(#admin-panel-link):hover i {
+        color: #3b82f6;
     }
 
-    /* ====== SIDEBAR REMOVED ====== */
-    /* All .sidebar, .sidebar-header, .sidebar ul/li styles are removed */
 
     /* ====== MAIN CONTENT AREA ====== */
     .content {
-      /* No margin-left needed */
-      padding: 2.5rem; /* Adjusted padding */
+      padding: 2.5rem;
       width: 100%;
+      max-width: 1200px; /* Max width for content */
+      margin: 0 auto; /* Center content */
       position: relative;
       z-index: 1;
     }
 
-    .content::before { /* Subtle background pattern */
-      content: '';
-      position: absolute;
-      top: 0; left: 0; right: 0; bottom: 0;
-      background-image: radial-gradient(rgba(0, 0, 0, 0.02) 1px, transparent 1px);
-      background-size: 15px 15px;
-      opacity: 0.5;
-      z-index: -1;
-      pointer-events: none;
-    }
+    /* Removed content::before background pattern */
 
     .content h2 {
-      color: #2c3e50;
+      color: #1a202c; /* Darker heading */
       margin-bottom: 1.5rem;
-      font-size: 2.2rem; /* Adjusted size */
-      border-bottom: 3px solid #ffcc00;
-      padding-bottom: 0.5rem;
+      font-size: 2.3rem;
+      border-bottom: 3px solid;
+       border-image-slice: 1;
+       border-image-source: linear-gradient(to right, #89f7fe, #66a6ff); /* Gradient border */
+      padding-bottom: 0.6rem;
       display: inline-block;
-      font-weight: 700; /* Slightly bolder */
+      font-weight: 700;
       position: relative;
     }
 
-    .content h2::after { /* Subtle gradient underline accent */
-      content: '';
-      position: absolute;
-      bottom: -3px; /* Align with border */
-      left: 0;
-      width: 60%;
-      height: 3px;
-      background: linear-gradient(to right, #8e44ad, #3498db);
-      border-radius: 3px;
-    }
+    /* Removed h2::after */
 
     .content p {
-      line-height: 1.7; /* Adjusted line height */
-      margin-bottom: 2rem;
-      font-size: 1.05rem; /* Adjusted size */
-      color: #555;
+      line-height: 1.7;
+      margin-bottom: 2.5rem; /* More space after paragraph */
+      font-size: 1.1rem;
+      color: #4a5568; /* Slate gray text */
       max-width: 750px;
     }
 
     /* ====== DASHBOARD WIDGETS ====== */
     .dashboard-widgets {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); /* Slightly smaller min width */
-      gap: 1.8rem; /* Adjusted gap */
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 2rem; /* Increased gap */
       margin-bottom: 3rem;
     }
 
     .widget {
-      background: #ffffff; /* Solid white background */
+      background: #ffffff;
       border-radius: 12px;
-      padding: 1.8rem; /* Adjusted padding */
-      box-shadow: 0 8px 25px rgba(0,0,0,0.08); /* Softer shadow */
-      transition: all 0.4s ease-in-out; /* Smoother transition */
-      border-left: 4px solid #8e44ad; /* Accent color */
+      padding: 1.8rem;
+      box-shadow: 0 7px 25px rgba(0, 0, 0, 0.06);
+      transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1); /* Smooth transition */
+      border: 1px solid rgba(0, 0, 0, 0.05);
       position: relative;
       overflow: hidden;
+      opacity: 0; /* Start hidden for animation */
+      transform: translateY(20px); /* Start slightly lower */
     }
 
-    /* Removed widget::before pseudo-element */
+    /* Animation class added by JS */
+    .widget.animate-in {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
 
     .widget:hover {
-      transform: translateY(-8px) scale(1.01); /* Adjusted hover effect */
-      box-shadow: 0 12px 35px rgba(0,0,0,0.1);
+      transform: translateY(-5px); /* Subtle lift */
+      box-shadow: 0 12px 35px rgba(0, 0, 0, 0.08);
     }
 
     .widget-header {
       display: flex;
-      align-items: flex-start; /* Align items top */
+      align-items: flex-start;
       justify-content: space-between;
       margin-bottom: 1rem;
     }
 
     .widget-title {
-      font-size: 1.1rem; /* Adjusted size */
+      font-size: 1.15rem; /* Slightly larger title */
       font-weight: 600;
-      color: #34495e; /* Adjusted color */
-      margin-bottom: 0.5rem; /* Space below title */
+      color: #2d3748; /* Darker title color */
+      margin-bottom: 0.5rem;
     }
 
-    .widget-icon {
-      width: 45px; /* Adjusted size */
-      height: 45px;
-      border-radius: 12px; /* Match widget radius */
-      background: linear-gradient(135deg, #8e44ad 0%, #3498db 100%); /* Updated gradient */
-      color: white;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.4rem;
-      flex-shrink: 0; /* Prevent icon from shrinking */
-      margin-left: 1rem; /* Space between title/text and icon */
-      box-shadow: 0 4px 12px rgba(142, 68, 173, 0.3);
-      transition: all 0.3s ease;
-    }
+     .widget-icon {
+        width: 48px; /* Slightly larger icon */
+        height: 48px;
+        border-radius: 10px;
+        background: linear-gradient(135deg, #89f7fe 0%, #66a6ff 100%); /* Match account icon */
+        color: white;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.6rem;
+        flex-shrink: 0;
+        margin-left: 1rem;
+        box-shadow: 0 5px 15px rgba(102, 166, 255, 0.3);
+        transition: all 0.3s ease;
+      }
 
-    .widget:hover .widget-icon {
-      transform: scale(1.1) rotate(10deg);
-      box-shadow: 0 6px 15px rgba(142, 68, 173, 0.4);
-    }
+      .widget:hover .widget-icon {
+        transform: scale(1.1) rotate(8deg);
+        box-shadow: 0 7px 20px rgba(102, 166, 255, 0.4);
+      }
+
 
     .widget-value {
-      font-size: 2.2rem; /* Adjusted size */
+      font-size: 2.4rem; /* Larger value */
       font-weight: 700;
-      color: #2c3e50;
-      margin: 0.5rem 0 0.8rem 0; /* Adjusted margin */
+      color: #1a202c;
+      margin: 0.5rem 0 0.8rem 0;
       line-height: 1.2;
-      /* Using solid color instead of gradient text for better readability */
     }
 
     .widget-description {
-      font-size: 0.9rem; /* Adjusted size */
-      color: #7f8c8d;
+      font-size: 0.9rem;
+      color: #718096; /* Lighter description */
       line-height: 1.5;
     }
 
     /* Floating particles decoration */
     .particle {
-      position: fixed; /* Fixed position so they don't scroll */
-      background: rgba(142, 68, 173, 0.08); /* Use accent color */
+      position: fixed;
+      background: rgba(102, 166, 255, 0.15); /* Use theme color */
       border-radius: 50%;
       pointer-events: none;
-      z-index: 0; /* Behind content but above body background */
-      animation: particleFloat 20s linear infinite; /* Updated animation name */
+      z-index: 0;
+      animation: particleFloat 25s linear infinite; /* Slower animation */
     }
 
-    @keyframes particleFloat { /* Simple floating up animation */
-        0% { transform: translateY(100vh) scale(0.5); opacity: 0; }
-        50% { opacity: 1; }
-        100% { transform: translateY(-100px) scale(1); opacity: 0; }
+    @keyframes particleFloat {
+        0% { transform: translateY(105vh) scale(0.5) rotate(0deg); opacity: 0; }
+        50% { opacity: 0.8; }
+        100% { transform: translateY(-100px) scale(1.2) rotate(720deg); opacity: 0; }
     }
 
-
-    /* ====== RESPONSIVENESS ====== */
-    @media (max-width: 768px) {
-      body {
-          padding-top: 60px; /* Adjust for smaller header */
-      }
-      header {
-          padding: 0.6rem 1rem; /* Smaller padding */
-      }
-       #header-logo {
-           max-height: 35px; /* Smaller logo */
-       }
-      .header-title {
-        display: none; /* Hide title text on small screens */
-      }
-      .account-icon {
-        width: 40px;
-        height: 40px;
-        font-size: 1.5rem;
-      }
-      .account-dropdown {
-          top: 55px; /* Adjust dropdown position */
-          min-width: 210px;
-      }
-      .content {
-        padding: 1.5rem;
-      }
-       .content h2 {
-           font-size: 1.8rem;
-       }
-        .content p {
-            font-size: 1rem;
-        }
-      .dashboard-widgets {
-        grid-template-columns: 1fr; /* Stack widgets */
-        gap: 1.5rem;
-      }
-      .widget {
-        padding: 1.5rem;
-      }
-       .widget-value {
-           font-size: 2rem;
-       }
-    }
-
-    @media (max-width: 480px) {
-        .content h2 {
-           font-size: 1.6rem;
-        }
-        .widget {
-           padding: 1.2rem;
-        }
-        .widget-icon {
-           width: 40px;
-           height: 40px;
-           font-size: 1.3rem;
-        }
-        .widget-value {
-           font-size: 1.8rem;
-        }
-         .widget-description {
-           font-size: 0.85rem;
-       }
-    }
-
-
-    /* ====== DARK THEME STYLES ====== */
-    body.dark {
-      background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%); /* Dark blue/purple */
-      color: #e0e0e0;
-    }
-    body.dark header {
-      background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%); /* Darker header */
-      border-bottom: 1px solid rgba(255,255,255,0.1);
-    }
-    body.dark .header-title {
-         background: linear-gradient(to right, #e0e0e0 0%, #a78bfa 100%); /* Light title for dark mode */
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-    }
-    body.dark .account-icon {
-        background: linear-gradient(135deg, #4a5568 0%, #2d3748 100%);
-        border: 2px solid rgba(255,255,255,0.3);
-        color: rgba(255, 255, 255, 0.8);
-    }
-    body.dark .account-dropdown {
-      background: rgba(30, 41, 59, 0.98); /* Dark slate background */
-      color: #e0e0e0;
-      border: 1px solid rgba(255,255,255,0.1);
-    }
-    body.dark .account-dropdown a,
-    body.dark .account-dropdown div {
-      color: #e0e0e0;
-      border-bottom: 1px solid rgba(255,255,255,0.08);
-    }
-     body.dark #user-role-display {
-        color: #c4b5fd; /* Lighter purple */
-        background-color: rgba(196, 181, 253, 0.08);
-        border-bottom: 1px solid rgba(196, 181, 253, 0.1);
-    }
-    body.dark #user-role-display i { color: #c4b5fd; }
-
-    body.dark .account-dropdown a:hover,
-    body.dark .account-dropdown div:not(#user-role-display):hover {
-      color: #facc15; /* Yellow accent */
-      background: rgba(255, 255, 255, 0.05);
-    }
-    body.dark .account-dropdown i { color: #c4b5fd; }
-    body.dark .account-dropdown a:hover i,
-    body.dark .account-dropdown div:not(#user-role-display):hover i {
-         color: #facc15;
-    }
-
-    body.dark .content { color: #cbd5e1; } /* Lighter gray */
-    body.dark .content::before { /* Dark pattern */
-        background-image: radial-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px);
-    }
-    body.dark .content h2 {
-        color: #f1f5f9; /* Off-white */
-        border-bottom-color: #facc15; /* Yellow accent */
-    }
-     body.dark .content h2::after {
-          background: linear-gradient(to right, #c084fc, #60a5fa); /* Purple/Blue gradient */
+    /* ====== FOOTER ====== */
+     footer {
+        background-color: rgba(255, 255, 255, 0.6); /* Semi-transparent footer */
+        backdrop-filter: blur(5px);
+        -webkit-backdrop-filter: blur(5px);
+        padding: 1.5rem 2rem;
+        text-align: center;
+        font-size: 0.9rem;
+        color: #4a5568;
+        margin-top: 3rem; /* Space above footer */
+        border-top: 1px solid rgba(0, 0, 0, 0.05);
+        z-index: 10; /* Ensure footer is above particles */
+        position: relative; /* Needed for z-index */
      }
-    body.dark .content p { color: #94a3b8; } /* Medium gray */
-
-    body.dark .widget {
-      background: #1e293b; /* Dark slate */
-      color: #e0e0e0;
-      border-left: 4px solid #c084fc; /* Purple accent */
-      box-shadow: 0 8px 25px rgba(0,0,0,0.2); /* Darker shadow */
-    }
-    body.dark .widget-title { color: #f1f5f9; }
-    body.dark .widget-value { color: #f8fafc; } /* Brighter white */
-    body.dark .widget-description { color: #94a3b8; }
-    body.dark .widget-icon {
-         background: linear-gradient(135deg, #c084fc 0%, #60a5fa 100%);
-         box-shadow: 0 4px 12px rgba(192, 132, 252, 0.2);
-    }
-     body.dark .widget:hover {
-         box-shadow: 0 12px 35px rgba(0,0,0,0.25);
+     footer a {
+         color: #3b82f6;
+         font-weight: 500;
      }
-     body.dark .widget:hover .widget-icon {
-          box-shadow: 0 6px 15px rgba(192, 132, 252, 0.3);
-     }
-     body.dark .particle {
-        background: rgba(196, 181, 253, 0.06); /* Dark theme particle color */
-     }
+      footer a:hover {
+         text-decoration: underline;
+      }
 
+    /* ====== FLOATING LOGO ====== */
+     .floating-logo {
+         position: fixed;
+         bottom: 20px;
+         left: 20px;
+         z-index: 500;
+         background-color: rgba(255, 255, 255, 0.8);
+         backdrop-filter: blur(10px);
+         -webkit-backdrop-filter: blur(10px);
+         padding: 10px;
+         border-radius: 50%; /* Circular logo */
+         box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+         transition: transform 0.3s ease, box-shadow 0.3s ease;
+         display: flex; /* Center image */
+         align-items: center;
+         justify-content: center;
+     }
+      .floating-logo img {
+          display: block;
+          max-height: 45px; /* Adjust logo size */
+          width: auto;
+          border-radius: 50%; /* Ensure image fits circle if not already */
+      }
+      .floating-logo:hover {
+          transform: scale(1.1);
+          box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+      }
 
-    /* ====== UTILITIES ====== */
-    /* Theme toggle button (Styles preserved) */
+    /* ====== UTILITIES & THEME TOGGLE ====== */
     .theme-toggle {
       position: fixed;
-      bottom: 25px; /* Adjusted position */
-      right: 25px;
-      width: 45px; /* Slightly smaller */
+      bottom: 20px; /* Align with floating logo */
+      right: 20px;
+      width: 45px;
       height: 45px;
       border-radius: 50%;
-      background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+      background: linear-gradient(135deg, #6366f1 0%, #a78bfa 100%); /* Indigo/Violet */
       color: white;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 1.1rem; /* Adjusted size */
+      font-size: 1.1rem;
       cursor: pointer;
-      box-shadow: 0 5px 15px rgba(0,0,0,0.15);
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
       z-index: 500;
       transition: all 0.3s ease;
+      border: none;
     }
     .theme-toggle:hover {
-      transform: scale(1.1) rotate(15deg);
-      box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+      transform: scale(1.1) rotate(10deg);
+      box-shadow: 0 8px 20px rgba(99, 102, 241, 0.3);
     }
-     body.dark .theme-toggle { /* Adjust colors for dark mode button */
-         background: linear-gradient(135deg, #4a5568 0%, #2d3748 100%);
+
+    /* ====== RESPONSIVENESS ====== */
+    @media (max-width: 768px) {
+      body { padding-top: 60px; }
+      header { padding: 0.6rem 1rem; }
+      .header-title-area { margin: 0 0.5rem; }
+      .header-title { font-size: 1.2rem; } /* Keep title, make smaller */
+
+      .account-icon { width: 38px; height: 38px; font-size: 1.4rem; }
+      .account-dropdown { top: 52px; min-width: 220px; }
+
+      .content { padding: 1.5rem; }
+      .content h2 { font-size: 1.9rem; }
+      .content p { font-size: 1rem; margin-bottom: 2rem; }
+
+      .dashboard-widgets { gap: 1.5rem; }
+      .widget { padding: 1.5rem; }
+      .widget-value { font-size: 2rem; }
+
+       footer { padding: 1rem 1.5rem; font-size: 0.85rem; margin-top: 2rem; }
+       .floating-logo { bottom: 15px; left: 15px; padding: 8px; }
+       .floating-logo img { max-height: 35px; }
+       .theme-toggle { bottom: 15px; right: 15px; width: 40px; height: 40px; font-size: 1rem; }
+    }
+
+    @media (max-width: 480px) {
+      .header-title { font-size: 1.1rem; }
+      .content h2 { font-size: 1.7rem; }
+      .widget { padding: 1.2rem; }
+      .widget-icon { width: 40px; height: 40px; font-size: 1.3rem; }
+      .widget-value { font-size: 1.8rem; }
+      .widget-description { font-size: 0.85rem; }
+      .floating-logo img { max-height: 30px; }
+    }
+
+    /* ====== DARK THEME STYLES ====== */
+    body.dark {
+      background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%); /* Dark Slate */
+      color: #e2e8f0; /* Lighter text */
+      animation-name: gradientBGDark; /* Different animation for dark */
+    }
+
+     @keyframes gradientBGDark { /* Subtle dark gradient shift */
+        0% { background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%); }
+        50% { background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%); }
+        100% { background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%); }
+    }
+
+    body.dark header {
+      background: rgba(15, 23, 42, 0.8); /* Darker semi-transparent */
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      color: #e2e8f0;
+      box-shadow: 0 2px 15px rgba(0, 0, 0, 0.2);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    body.dark .header-title {
+         color: #f1f5f9; /* Brighter title */
+        /* Optional gradient text for dark mode */
+        /* background: linear-gradient(to right, #e0e0e0 0%, #a78bfa 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent; */
+    }
+    body.dark .account-icon {
+        background: linear-gradient(135deg, #475569 0%, #334155 100%); /* Darker slate gradient */
+        box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+    }
+     body.dark .account-icon:hover {
+          box-shadow: 0 5px 15px rgba(71, 85, 105, 0.4);
+     }
+    body.dark .account-dropdown {
+      background: rgba(30, 41, 59, 0.98); /* Dark slate dropdown */
+      color: #e2e8f0;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+       box-shadow: 0 10px 35px rgba(0,0,0,0.2);
+    }
+    body.dark .account-dropdown a,
+    body.dark .account-dropdown div {
+      color: #e2e8f0;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    }
+     body.dark #user-role-display {
+        color: #a78bfa; /* Violet */
+        background-color: rgba(167, 139, 250, 0.08);
+        border-bottom: 1px solid rgba(167, 139, 250, 0.1);
+    }
+    body.dark #user-role-display i { color: #a78bfa; }
+
+     body.dark #admin-panel-link {
+        color: #f472b6; /* Pink */
+        font-weight: 600;
+     }
+      body.dark #admin-panel-link i { color: #f472b6; }
+      body.dark #admin-panel-link:hover {
+         background-color: rgba(244, 114, 182, 0.08);
+         color: #ec4899;
+      }
+       body.dark #admin-panel-link:hover i { color: #ec4899; }
+
+    body.dark .account-dropdown a:hover,
+    body.dark .account-dropdown div:not(#user-role-display):not(#admin-panel-link):hover {
+      color: #93c5fd; /* Light blue */
+      background: rgba(255, 255, 255, 0.04);
+    }
+    body.dark .account-dropdown i { color: #93c5fd; } /* Default icon color */
+    body.dark .account-dropdown a:hover i,
+    body.dark .account-dropdown div:not(#user-role-display):not(#admin-panel-link):hover i {
+         color: #93c5fd;
+    }
+
+    body.dark .content { color: #cbd5e1; }
+    body.dark .content h2 {
+        color: #f1f5f9;
+        border-image-source: linear-gradient(to right, #a78bfa, #60a5fa); /* Purple/Blue gradient */
+    }
+    body.dark .content p { color: #94a3b8; }
+
+    body.dark .widget {
+      background: #1e293b;
+      color: #e2e8f0;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      box-shadow: 0 7px 25px rgba(0, 0, 0, 0.2);
+    }
+     body.dark .widget:hover {
+          box-shadow: 0 12px 35px rgba(0, 0, 0, 0.25);
+     }
+    body.dark .widget-title { color: #f1f5f9; }
+    body.dark .widget-value { color: #f8fafc; }
+    body.dark .widget-description { color: #94a3b8; }
+    body.dark .widget-icon {
+         background: linear-gradient(135deg, #a78bfa 0%, #60a5fa 100%); /* Purple/Blue */
+         box-shadow: 0 5px 15px rgba(167, 139, 250, 0.2);
+    }
+      body.dark .widget:hover .widget-icon {
+         box-shadow: 0 7px 20px rgba(167, 139, 250, 0.3);
+      }
+     body.dark .particle {
+        background: rgba(167, 139, 250, 0.08); /* Dark theme particle */
+     }
+
+    body.dark footer {
+        background-color: rgba(15, 23, 42, 0.7); /* Darker footer */
+        backdrop-filter: blur(5px);
+        -webkit-backdrop-filter: blur(5px);
+        color: #94a3b8;
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+    }
+     body.dark footer a { color: #93c5fd; }
+
+     body.dark .floating-logo {
+         background-color: rgba(30, 41, 59, 0.8); /* Dark logo bg */
+         backdrop-filter: blur(10px);
+         -webkit-backdrop-filter: blur(10px);
+         box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+     }
+      body.dark .floating-logo:hover {
+         box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
+      }
+
+     body.dark .theme-toggle {
+         background: linear-gradient(135deg, #475569 0%, #334155 100%);
          box-shadow: 0 5px 15px rgba(0,0,0,0.3);
      }
      body.dark .theme-toggle:hover {
           box-shadow: 0 8px 20px rgba(0,0,0,0.4);
      }
 
-    /* Loading animation (Styles preserved) */
+    /* Loading animation (Styles preserved - dark handled) */
     .loading {
       position: fixed;
       top: 0; left: 0; right: 0; bottom: 0;
-      background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+      background: linear-gradient(135deg, #e0eafc 0%, #cfdef3 100%); /* Match light theme */
       display: flex;
       align-items: center;
       justify-content: center;
       z-index: 9999;
       transition: opacity 0.5s ease, visibility 0.5s ease;
     }
-     body.dark .loading { /* Dark loading screen */
-         background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+     body.dark .loading {
+         background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%); /* Match dark theme */
      }
     .loading-circle {
       width: 50px;
       height: 50px;
-      border: 5px solid rgba(255,255,255,0.3);
+      border: 5px solid rgba(0, 0, 0, 0.2); /* Adjusted border */
       border-radius: 50%;
-      border-top-color: white;
+      border-top-color: #66a6ff; /* Use theme color */
       animation: spin 1s ease-in-out infinite;
     }
+     body.dark .loading-circle {
+         border: 5px solid rgba(255, 255, 255, 0.2);
+         border-top-color: #a78bfa; /* Dark theme accent */
+     }
     @keyframes spin { to { transform: rotate(360deg); } }
 
   </style>
@@ -532,8 +615,10 @@
   </div>
 
   <header>
-    <img src="haramaya.png" alt="Haramaya Logo" id="header-logo">
-    <div class="header-title" id="header-title">Haramaya Jama'aa</div> <div class="account-wrapper" id="account-btn">
+    <div class="header-title-area">
+        <span class="header-title" id="header-title">Haramaya Jama'aa</span>
+    </div>
+    <div class="account-wrapper" id="account-btn">
       <div class="account-icon" id="account-img">
           <i class="fas fa-user"></i>
       </div>
@@ -546,6 +631,9 @@
           <div id="user-role-display" style="display: none;">
              <i class="fas fa-shield-halved"></i> <span id="role-text">Admin</span>
           </div>
+          <a href="generaladmin.html" id="admin-panel-link" style="display: none;">
+               <i class="fas fa-user-shield"></i> Admin Panel
+           </a>
           <a href="profile.html" id="profile-link"><i class="fas fa-user-circle"></i> My Profile</a>
           <a href="dashboard.html"><i class="fas fa-book-open"></i> Enrollment</a>
           <a href="progress.html"><i class="fas fa-chart-line"></i> Progression</a>
@@ -556,50 +644,54 @@
     </div>
   </header>
 
-  <main class="content" id="content"> <h2>Welcome to Haramaya Jama'aa Group</h2>
-    <p>Access your courses, track progress, and connect with others using the account menu. Enjoy the enhanced experience!</p>
+  <main class="content" id="content">
+    <h2>Welcome to Haramaya Jama'aa Group</h2>
+    <p>Explore your courses, monitor your progress, and engage with the community. Use the account menu for navigation.</p>
 
     <div class="dashboard-widgets">
       <div class="widget">
-        <div class="widget-header">
-           <div> <h3 class="widget-title">Active Courses</h3>
-               <p class="widget-description">Courses you're currently enrolled in</p>
+         <div class="widget-header">
+           <div>
+               <h3 class="widget-title">Active Courses</h3>
+               <p class="widget-description">Currently enrolled</p>
            </div>
            <div class="widget-icon"><i class="fas fa-book-open"></i></div>
-        </div>
-        <div class="widget-value" id="active-courses">0</div>
-      </div>
+         </div>
+         <div class="widget-value" id="active-courses">0</div>
+       </div>
 
-      <div class="widget">
-        <div class="widget-header">
+       <div class="widget">
+         <div class="widget-header">
            <div>
                 <h3 class="widget-title">Completed Lessons</h3>
-                <p class="widget-description">Lessons you've finished</p>
+                <p class="widget-description">Lessons finished</p>
            </div>
-          <div class="widget-icon"><i class="fas fa-check-circle"></i></div>
-        </div>
-        <div class="widget-value" id="completed-lessons">0</div>
-      </div>
+           <div class="widget-icon"><i class="fas fa-check-circle"></i></div>
+         </div>
+         <div class="widget-value" id="completed-lessons">0</div>
+       </div>
 
-      <div class="widget">
-        <div class="widget-header">
-            <div>
-                <h3 class="widget-title">Study Streak</h3>
-                <p class="widget-description">Consecutive days active</p>
-            </div>
-           <div class="widget-icon"><i class="fas fa-fire"></i></div>
-        </div>
-        <div class="widget-value" id="streak-days">0</div>
-      </div>
-    </div>
-  </main>
+       <div class="widget">
+         <div class="widget-header">
+             <div>
+                 <h3 class="widget-title">Study Streak</h3>
+                 <p class="widget-description">Consecutive days</p>
+             </div>
+            <div class="widget-icon"><i class="fas fa-fire"></i></div>
+         </div>
+         <div class="widget-value" id="streak-days">0</div>
+       </div>
+     </div> </main> <footer>
+      &copy; <span id="footer-year"></span> Haramaya Jama'aa Group. All Rights Reserved. | <a href="#top">Back to Top</a>
+  </footer>
+
+  <div class="floating-logo">
+       <img src="haramaya.png" alt="Haramaya Logo">
+  </div>
 
   <div class="theme-toggle" id="theme-toggle">
     <i class="fas fa-moon"></i>
   </div>
-
-  <div id="particles-js"></div>
-
 
   <script type="module">
     // Firebase modules.
@@ -608,25 +700,35 @@
     import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-auth.js";
     import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-firestore.js";
 
-    // Firebase config – replace with your Firebase project configuration.
+    // === YOUR PROVIDED FIREBASE CONFIG ===
     const firebaseConfig = {
-          apiKey: "AIzaSyBQyNVWh1BtCkXlBfuS7jHAa36FTklZayo",  
-       authDomain: "pharma-quiz-b5a07.firebaseapp.com",  
-      databaseURL: "https://pharma-quiz-b5a07-default-rtdb.firebaseio.com",  
-      projectId: "pharma-quiz-b5a07",  
-      storageBucket: "pharma-quiz-b5a07.firebasestorage.app",  
-      messagingSenderId: "161067776789",  
-      appId: "1:161067776789:web:88b8a61145dc5f5c31471c",  
-      measurementId: "G-3QRQE9HQFB"  
+      apiKey: "AIzaSyBQyNVWh1BtCkXlBfuS7jHAa36FTklZayo",
+      authDomain: "pharma-quiz-b5a07.firebaseapp.com",
+      databaseURL: "https://pharma-quiz-b5a07-default-rtdb.firebaseio.com",
+      projectId: "pharma-quiz-b5a07",
+      storageBucket: "pharma-quiz-b5a07.appspot.com", // Corrected domain for storage
+      messagingSenderId: "161067776789",
+      appId: "1:161067776789:web:88b8a61145dc5f5c31471c",
+      measurementId: "G-3QRQE9HQFB"
     };
+    // =====================================
 
     const app = initializeApp(firebaseConfig);
-    const analytics = getAnalytics(app);
+    // Enable analytics only if measurementId is present
+    let analytics;
+    if (firebaseConfig.measurementId) {
+        try {
+             analytics = getAnalytics(app);
+             console.log("Firebase Analytics initialized.");
+        } catch (error) {
+            console.warn("Could not initialize Firebase Analytics:", error);
+        }
+    }
     const auth = getAuth();
     const db = getFirestore(app);
 
     // --- Global Variables ---
-    let currentUserRole = null; // To store the user's role
+    let currentUserRole = null;
 
     // --- DOM Elements ---
     const loadingScreen = document.getElementById('loading');
@@ -638,119 +740,152 @@
     const logoutBtn = document.getElementById("logout-btn");
     const profileLink = document.getElementById("profile-link");
     const userRoleDisplay = document.getElementById("user-role-display");
+    const adminPanelLink = document.getElementById("admin-panel-link"); // Added Admin Panel Link
     const activeCoursesEl = document.getElementById("active-courses");
     const completedLessonsEl = document.getElementById("completed-lessons");
     const streakDaysEl = document.getElementById("streak-days");
+    const footerYear = document.getElementById("footer-year");
+    const widgets = document.querySelectorAll('.widget'); // For animation
 
     // --- Initial Setup ---
 
-    // Check for saved theme preference
+    // Footer Year
+    if (footerYear) {
+        footerYear.textContent = new Date().getFullYear();
+    }
+
+    // Theme Persistence
     const savedTheme = localStorage.getItem('theme');
-    if (savedTheme === 'dark') {
-        document.body.classList.add('dark');
-        themeToggle.innerHTML = '<i class="fas fa-sun"></i>';
+    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+
+    // Function to apply theme
+    const applyTheme = (theme) => {
+        if (theme === 'dark') {
+            document.body.classList.add('dark');
+            themeToggle.innerHTML = '<i class="fas fa-sun"></i>';
+            localStorage.setItem('theme', 'dark');
+        } else {
+            document.body.classList.remove('dark');
+            themeToggle.innerHTML = '<i class="fas fa-moon"></i>';
+            localStorage.setItem('theme', 'light');
+        }
+        // Recreate particles after theme change
+        createParticles();
+    };
+
+    // Set initial theme based on saved preference or system preference
+    if (savedTheme) {
+        applyTheme(savedTheme);
     } else {
-        document.body.classList.remove('dark');
-        themeToggle.innerHTML = '<i class="fas fa-moon"></i>';
+        applyTheme(prefersDark ? 'dark' : 'light');
     }
 
 
     // Hide loading screen
     setTimeout(() => {
-      loadingScreen.style.opacity = '0';
-      loadingScreen.style.visibility = 'hidden';
-      loadingScreen.style.pointerEvents = 'none'; // Prevent interaction after hiding
-    }, 1000); // Faster fade out
-
-
-    // Create floating particles (Modified for fixed positioning)
-    function createParticles() {
-      const colorsLight = ['rgba(142, 68, 173, 0.06)', 'rgba(52, 152, 219, 0.06)', 'rgba(241, 196, 15, 0.06)'];
-      const colorsDark = ['rgba(196, 181, 253, 0.05)', 'rgba(96, 165, 250, 0.05)', 'rgba(250, 204, 21, 0.05)'];
-      const isDark = document.body.classList.contains('dark');
-      const colors = isDark ? colorsDark : colorsLight;
-
-      // Clear existing particles if any
-      document.querySelectorAll('.particle').forEach(p => p.remove());
-      const particleContainer = document.body; // Append directly to body
-
-      for (let i = 0; i < 15; i++) { // Reduced number of particles
-        const particle = document.createElement('div');
-        particle.classList.add('particle');
-
-        const size = Math.random() * 8 + 4; // Smaller particles
-        const startX = Math.random() * 100; // Start anywhere horizontally
-        const duration = Math.random() * 20 + 15; // Slower animation
-        const delay = Math.random() * 10;
-
-        particle.style.width = `${size}px`;
-        particle.style.height = `${size}px`;
-        particle.style.left = `${startX}vw`; // Use vw for horizontal positioning
-        particle.style.background = colors[Math.floor(Math.random() * colors.length)];
-        particle.style.animation = `particleFloat ${duration}s linear ${delay}s infinite`;
-        // Set initial position at the bottom
-        particle.style.bottom = `-${size}px`; // Start just below the viewport
-
-        particleContainer.appendChild(particle);
+      if (loadingScreen) {
+        loadingScreen.style.opacity = '0';
+        loadingScreen.style.visibility = 'hidden';
+        loadingScreen.style.pointerEvents = 'none';
       }
+    }, 800); // Slightly faster
+
+
+    // Create floating particles
+    function createParticles() {
+        const colorsLight = ['rgba(102, 166, 255, 0.1)', 'rgba(137, 247, 254, 0.1)', 'rgba(99, 102, 241, 0.1)'];
+        const colorsDark = ['rgba(167, 139, 250, 0.06)', 'rgba(96, 165, 250, 0.06)', 'rgba(56, 189, 248, 0.06)'];
+        const isDark = document.body.classList.contains('dark');
+        const colors = isDark ? colorsDark : colorsLight;
+
+        document.querySelectorAll('.particle').forEach(p => p.remove());
+        const particleContainer = document.body;
+
+        for (let i = 0; i < 12; i++) { // Fewer particles
+            const particle = document.createElement('div');
+            particle.classList.add('particle');
+
+            const size = Math.random() * 6 + 3; // Smaller particles
+            const startX = Math.random() * 100;
+            const duration = Math.random() * 25 + 20; // Slower
+            const delay = Math.random() * 15;
+
+            particle.style.width = `${size}px`;
+            particle.style.height = `${size}px`;
+            particle.style.left = `${startX}vw`;
+            particle.style.background = colors[Math.floor(Math.random() * colors.length)];
+            particle.style.animation = `particleFloat ${duration}s linear ${delay}s infinite`;
+            particle.style.bottom = `-${size}px`;
+
+            particleContainer.appendChild(particle);
+        }
     }
 
     // Theme toggle functionality
     themeToggle.addEventListener('click', () => {
-      document.body.classList.toggle('dark');
-      const isDark = document.body.classList.contains('dark');
-
-      if (isDark) {
-        themeToggle.innerHTML = '<i class="fas fa-sun"></i>';
-         localStorage.setItem('theme', 'dark'); // Save preference
-      } else {
-        themeToggle.innerHTML = '<i class="fas fa-moon"></i>';
-         localStorage.setItem('theme', 'light'); // Save preference
-      }
-      // Recreate particles with appropriate theme colors
-      createParticles();
+        const isDark = document.body.classList.contains('dark');
+        applyTheme(isDark ? 'light' : 'dark');
     });
 
     // Initialize particles on load
     createParticles();
+
+
+    // Intersection Observer for Widget Animations
+    const observerOptions = {
+        root: null, // relative to document viewport
+        rootMargin: '0px',
+        threshold: 0.1 // Trigger when 10% of the widget is visible
+    };
+
+    const widgetObserver = new IntersectionObserver((entries, observer) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('animate-in');
+                observer.unobserve(entry.target); // Stop observing once animated
+            }
+        });
+    }, observerOptions);
+
+    widgets.forEach(widget => {
+        widgetObserver.observe(widget);
+    });
+
 
     /* ACCOUNT DROPDOWN */
     accountBtn.addEventListener("click", (e) => {
       e.stopPropagation();
       const isDisplayed = accountDropdown.style.display === "block";
       accountDropdown.style.display = isDisplayed ? "none" : "block";
-       // Optional: Add class for animation trigger if needed
-      // if (!isDisplayed) {
-      //    accountDropdown.classList.add('open');
-      // } else {
-      //    accountDropdown.classList.remove('open');
-      // }
     });
 
     document.addEventListener("click", (e) => {
-      if (!accountBtn.contains(e.target) && !accountDropdown.contains(e.target)) {
+      if (accountDropdown && accountBtn && !accountBtn.contains(e.target) && !accountDropdown.contains(e.target)) {
         accountDropdown.style.display = "none";
-        // accountDropdown.classList.remove('open');
       }
     });
 
     /* AUTHENTICATION */
     onAuthStateChanged(auth, (user) => {
+        // Reset UI elements common to both login/logout first
+        if(profileLink) profileLink.href = "profile.html";
+        if(userRoleDisplay) userRoleDisplay.style.display = "none";
+        if(adminPanelLink) adminPanelLink.style.display = "none"; // Hide admin link by default
+
       if (user) {
-        loggedInDiv.style.display = "block";
-        notLoggedInDiv.style.display = "none";
+        if(loggedInDiv) loggedInDiv.style.display = "block";
+        if(notLoggedInDiv) notLoggedInDiv.style.display = "none";
         loadUserData(user.uid);
       } else {
-        loggedInDiv.style.display = "none";
-        notLoggedInDiv.style.display = "block";
+        if(loggedInDiv) loggedInDiv.style.display = "none";
+        if(notLoggedInDiv) notLoggedInDiv.style.display = "block";
         currentUserRole = null;
-        profileLink.href = "profile.html";
-        userRoleDisplay.style.display = "none";
-        activeCoursesEl.textContent = '0';
-        completedLessonsEl.textContent = '0';
-        streakDaysEl.textContent = '0';
+        // Reset stats if logged out
+        if(activeCoursesEl) activeCoursesEl.textContent = '0';
+        if(completedLessonsEl) completedLessonsEl.textContent = '0';
+        if(streakDaysEl) streakDaysEl.textContent = '0';
       }
-       accountDropdown.style.display = "none"; // Close dropdown on auth change
+       if(accountDropdown) accountDropdown.style.display = "none"; // Close dropdown on auth change
     });
 
     /* LOGOUT FUNCTION */
@@ -764,8 +899,7 @@
           alert("Logout failed. Please try again.");
       }
     }
-
-    logoutBtn.addEventListener("click", handleLogout);
+    if(logoutBtn) logoutBtn.addEventListener("click", handleLogout);
 
     /* Load User Data from Firestore */
     async function loadUserData(userId) {
@@ -780,33 +914,36 @@
           currentUserRole = userData.role || 'user';
 
           if (currentUserRole === 'admin') {
-            profileLink.href = "admin.html";
-            userRoleDisplay.style.display = "flex";
+            // Admin specific UI changes
+            if(profileLink) profileLink.href = "admin.html"; // Main admin profile/dashboard
+            if(userRoleDisplay) userRoleDisplay.style.display = "flex";
+            if(adminPanelLink) adminPanelLink.style.display = "flex"; // Show the general admin panel link
 
+            // Admin Notification (keeping alert for simplicity)
             if (!sessionStorage.getItem('adminNotified')) {
-              // Use a more subtle notification method if desired
-              // Example: show a temporary banner instead of alert
-              // showAdminNotification("Welcome, Admin! Privileges active.");
-               alert("Welcome, Admin! You have administrative privileges."); // Keeping alert for now
-              sessionStorage.setItem('adminNotified', 'true');
+               alert("Welcome, Admin! You have administrative privileges.");
+               sessionStorage.setItem('adminNotified', 'true');
             }
           } else {
-            profileLink.href = "profile.html";
-            userRoleDisplay.style.display = "none";
+            // Reset to default for non-admins (already handled mostly by default)
+            if(profileLink) profileLink.href = "profile.html";
+            if(userRoleDisplay) userRoleDisplay.style.display = "none";
+            if(adminPanelLink) adminPanelLink.style.display = "none";
           }
 
           // --- DASHBOARD STATS ---
-          activeCoursesEl.textContent = (userData.enrolledCourses && Array.isArray(userData.enrolledCourses)) ? userData.enrolledCourses.length : '0';
+          const courses = userData.enrolledCourses;
+          if(activeCoursesEl) activeCoursesEl.textContent = (courses && Array.isArray(courses)) ? courses.length : '0';
 
           let completedLessons = 0;
-          if (userData.enrolledCourses && Array.isArray(userData.enrolledCourses)) {
-              userData.enrolledCourses.forEach(course => {
+          if (courses && Array.isArray(courses)) {
+              courses.forEach(course => {
                 if (course && typeof course.completedLessons === 'number') {
                   completedLessons += course.completedLessons;
                 }
               });
           }
-           completedLessonsEl.textContent = completedLessons;
+           if(completedLessonsEl) completedLessonsEl.textContent = completedLessons;
 
 
           // --- STUDY STREAK (Logic remains the same) ---
@@ -814,53 +951,47 @@
            if (userData.lastLogin && userData.lastLogin.toDate) {
                const lastLogin = userData.lastLogin.toDate();
                const today = new Date();
-               const yesterday = new Date(today);
-               yesterday.setDate(today.getDate() - 1);
 
                const lastLoginDate = new Date(lastLogin.getFullYear(), lastLogin.getMonth(), lastLogin.getDate());
                const todayDate = new Date(today.getFullYear(), today.getMonth(), today.getDate());
-              // const yesterdayDate = new Date(yesterday.getFullYear(), yesterday.getMonth(), yesterday.getDate()); // Not directly needed for diff calculation
 
                const diffTime = todayDate - lastLoginDate;
                const diffDays = diffTime / (1000 * 60 * 60 * 24);
 
                const savedStreak = userData.streakDays || 0;
 
-                if (diffDays === 0) { // Logged in again today (or multiple times today)
-                     currentStreak = savedStreak > 0 ? savedStreak : 1; // Keep saved streak or start at 1 if it was 0
-                 } else if (diffDays === 1) { // Logged in yesterday
-                    currentStreak = savedStreak + 1; // Increment streak
-                 } else { // Gap in login days
-                    currentStreak = 1; // Reset streak to 1 for today's login
+                if (diffDays === 0) {
+                     currentStreak = savedStreak > 0 ? savedStreak : 1;
+                 } else if (diffDays === 1) {
+                    currentStreak = savedStreak + 1;
+                 } else {
+                    currentStreak = 1;
                  }
-                // Placeholder: Ideally update Firestore with new streak and lastLogin=todayDate here
            } else {
-               currentStreak = 1; // First login or no timestamp
+               currentStreak = 1;
            }
-           streakDaysEl.textContent = currentStreak;
-
+           if(streakDaysEl) streakDaysEl.textContent = currentStreak;
+            // Placeholder: Update Firestore streak/lastLogin here
 
         } else {
-          console.log("No such user document!");
-          currentUserRole = 'user';
-          profileLink.href = "profile.html";
-          userRoleDisplay.style.display = "none";
-          // Reset stats explicitly if user doc doesn't exist
-          activeCoursesEl.textContent = 'N/A';
-          completedLessonsEl.textContent = 'N/A';
-          streakDaysEl.textContent = 'N/A';
+          console.warn("User document not found in Firestore for UID:", userId);
+          currentUserRole = 'user'; // Assign default role
+          // Reset stats if user doc doesn't exist
+          if(activeCoursesEl) activeCoursesEl.textContent = '0';
+          if(completedLessonsEl) completedLessonsEl.textContent = '0';
+          if(streakDaysEl) streakDaysEl.textContent = '0';
         }
       } catch (error) {
         console.error("Error loading user data:", error);
-        currentUserRole = 'user';
-        profileLink.href = "profile.html";
-        userRoleDisplay.style.display = "none";
-        activeCoursesEl.textContent = 'Error';
-        completedLessonsEl.textContent = 'Error';
-        streakDaysEl.textContent = 'Error';
+        currentUserRole = 'user'; // Default role on error
+        // Display error state in UI
+        if(activeCoursesEl) activeCoursesEl.textContent = 'Err';
+        if(completedLessonsEl) completedLessonsEl.textContent = 'Err';
+        if(streakDaysEl) streakDaysEl.textContent = 'Err';
       }
     }
 
   </script>
+
 </body>
 </html>
