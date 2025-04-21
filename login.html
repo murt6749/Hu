@@ -557,7 +557,8 @@
             getFirestore,
             doc,
             setDoc,
-            getDoc
+            getDoc,
+            updateDoc
         } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
         // Firebase Config
@@ -594,6 +595,16 @@
         const notification = document.getElementById('notification');
         const loginBtnText = document.getElementById('login-btn-text');
         const signupBtnText = document.getElementById('signup-btn-text');
+
+        // Get the last visited page from localStorage or default to 'index.html'
+        function getLastVisitedPage() {
+            return localStorage.getItem('lastVisitedPage') || 'index.html';
+        }
+
+        // Store the current page before navigating away
+        function storeCurrentPage() {
+            localStorage.setItem('lastVisitedPage', window.location.pathname.split('/').pop());
+        }
 
         // Show Notification
         function showNotification(message, type = 'success') {
@@ -718,11 +729,20 @@
                 // Sign in with Firebase
                 await signInWithEmailAndPassword(auth, email, password);
                 
+                // Update last login time in Firestore
+                const user = auth.currentUser;
+                if (user) {
+                    const userRef = doc(db, "users", user.uid);
+                    await updateDoc(userRef, {
+                        lastLogin: new Date().toISOString()
+                    });
+                }
+                
                 showNotification('Login successful! Redirecting...');
                 
-                // Redirect to dashboard
+                // Redirect to last visited page or dashboard
                 setTimeout(() => {
-                    window.location.href = 'index.html';
+                    window.location.href = getLastVisitedPage();
                 }, 1500);
             } catch (error) {
                 console.error('Login error:', error);
@@ -822,15 +842,16 @@
                     name: name,
                     email: email,
                     createdAt: new Date().toISOString(),
+                    lastLogin: new Date().toISOString(),
                     role: "student",
                     enrolledCourses: []
                 });
                 
                 showNotification('Account created successfully! Redirecting...');
                 
-                // Redirect to dashboard
+                // Redirect to last visited page or dashboard
                 setTimeout(() => {
-                    window.location.href = 'index.html';
+                    window.location.href = getLastVisitedPage();
                 }, 1500);
             } catch (error) {
                 console.error('Signup error:', error);
@@ -880,17 +901,23 @@
                         name: user.displayName || "Google User",
                         email: user.email,
                         createdAt: new Date().toISOString(),
+                        lastLogin: new Date().toISOString(),
                         role: "student",
                         enrolledCourses: [],
                         isGoogleUser: true
+                    });
+                } else {
+                    // Update last login time
+                    await updateDoc(doc(db, "users", user.uid), {
+                        lastLogin: new Date().toISOString()
                     });
                 }
                 
                 showNotification('Login successful! Redirecting...');
                 
-                // Redirect to dashboard
+                // Redirect to last visited page or dashboard
                 setTimeout(() => {
-                    window.location.href = 'dashboard.html';
+                    window.location.href = getLastVisitedPage();
                 }, 1500);
             } catch (error) {
                 console.error('Google auth error:', error);
@@ -939,7 +966,7 @@
         // Auto-redirect if already logged in
         onAuthStateChanged(auth, (user) => {
             if (user) {
-                window.location.href = 'dashboard.html';
+                window.location.href = getLastVisitedPage();
             }
         });
 
@@ -956,6 +983,9 @@
             setTimeout(() => {
                 logo.style.animation = 'float 6s infinite ease-in-out';
             }, 500);
+            
+            // Store current page when navigating away
+            window.addEventListener('beforeunload', storeCurrentPage);
         });
     </script>
 </body>
