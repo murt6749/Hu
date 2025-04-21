@@ -14,18 +14,22 @@
       --light-color: #e8dfca;
       --white: #ffffff;
       --dark: #0f2b1e;
-      --shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+      --gold: #FFD700;
+      --silver: #C0C0C0;
+      --bronze: #CD7F32;
+      --shadow: 0 4px 30px rgba(0, 0, 0, 0.2);
       --success-color: #28a745;
       --info-color: #17a2b8;
       --warning-color: #ffc107;
       --danger-color: #dc3545;
-      --border-radius: 16px;
-      --box-padding: 20px;
-      --course-card-bg: linear-gradient(135deg, #f5f7fa 0%, #e4e8eb 100%);
-      --course-card-hover: linear-gradient(135deg, #e4e8eb 0%, #d5dde1 100%);
-      --glass-bg: rgba(255, 255, 255, 0.15);
-      --glass-border: 1px solid rgba(255, 255, 255, 0.18);
-      --transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      --border-radius: 18px;
+      --box-padding: 24px;
+      --course-card-bg: linear-gradient(135deg, #f9f9f9 0%, #f0f0f0 100%);
+      --course-card-hover: linear-gradient(135deg, #f0f0f0 0%, #e0e0e0 100%);
+      --glass-bg: rgba(255, 255, 255, 0.25);
+      --glass-border: 1px solid rgba(255, 255, 255, 0.3);
+      --transition: all 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
+      --text-gradient: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
     }
     * {
       margin: 0;
@@ -34,10 +38,11 @@
       font-family: 'Poppins', sans-serif;
     }
     body {
-      background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+      background: linear-gradient(135deg, #f5f7fa 0%, #e4e8eb 100%);
       min-height: 100vh;
-      font-size: 14px;
+      font-size: 15px;
       color: #333;
+      line-height: 1.6;
     }
     .container {
       width: 100%;
@@ -46,7 +51,7 @@
       position: relative;
       overflow-x: hidden;
     }
-    /* Header Styles */
+    /* Header Styles - Premium Design */
     .header {
       background: linear-gradient(135deg, var(--primary-color), var(--dark));
       color: white;
@@ -58,21 +63,44 @@
       justify-content: space-between;
       align-items: center;
       box-shadow: var(--shadow);
-      backdrop-filter: blur(10px);
-      -webkit-backdrop-filter: blur(10px);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
       border-bottom: var(--glass-border);
     }
     .header h1 {
-      font-size: 1.4rem;
+      font-size: 1.5rem;
       font-weight: 600;
       letter-spacing: 0.5px;
+      background: var(--text-gradient);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     }
     .header-actions {
       display: flex;
       gap: 15px;
       align-items: center;
     }
-    /* Account Dropdown - Super Crazy Design */
+    /* Role Badge - Premium Design */
+    .role-badge {
+      padding: 6px 12px;
+      border-radius: 20px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      background: linear-gradient(135deg, var(--gold), #FFC000);
+      color: #000;
+      box-shadow: 0 2px 8px rgba(255, 215, 0, 0.3);
+      margin-right: 10px;
+      animation: pulse 2s infinite;
+    }
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+      100% { transform: scale(1); }
+    }
+    /* Account Dropdown - Premium Design */
     .account-dropdown {
       position: relative;
       display: flex;
@@ -81,21 +109,22 @@
       transition: var(--transition);
     }
     .account-avatar {
-      width: 40px;
-      height: 40px;
+      width: 44px;
+      height: 44px;
       border-radius: 50%;
       background: var(--glass-bg);
-      backdrop-filter: blur(5px);
-      -webkit-backdrop-filter: blur(5px);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
       border: var(--glass-border);
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 1.2rem;
+      font-size: 1.3rem;
       color: white;
       transition: var(--transition);
       position: relative;
       overflow: hidden;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
     }
     .account-avatar::before {
       content: '';
@@ -106,23 +135,23 @@
       height: 200%;
       background: linear-gradient(
         to bottom right,
-        rgba(255, 255, 255, 0.3),
+        rgba(255, 255, 255, 0.4),
         rgba(255, 255, 255, 0)
       );
       transform: rotate(30deg);
       transition: var(--transition);
     }
     .account-avatar:hover::before {
-      transform: rotate(30deg) translate(20%, 20%);
+      transform: rotate(30deg) translate(30%, 30%);
     }
     .account-dropdown:hover .account-avatar {
       transform: scale(1.1);
-      box-shadow: 0 0 15px rgba(255, 255, 255, 0.3);
+      box-shadow: 0 0 20px rgba(255, 255, 255, 0.4);
     }
     .user-name {
       margin-right: 12px;
-      font-size: 0.95rem;
-      max-width: 120px;
+      font-size: 1rem;
+      max-width: 150px;
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
@@ -132,10 +161,10 @@
     .dropdown-content {
       display: none;
       position: absolute;
-      top: 55px;
+      top: 60px;
       right: 0;
-      background-color: var(--white);
-      min-width: 200px;
+      background: rgba(255, 255, 255, 0.95);
+      min-width: 220px;
       box-shadow: var(--shadow);
       z-index: 100;
       border-radius: var(--border-radius);
@@ -145,8 +174,8 @@
       opacity: 0;
       transition: var(--transition);
       border: var(--glass-border);
-      backdrop-filter: blur(10px);
-      -webkit-backdrop-filter: blur(10px);
+      backdrop-filter: blur(15px);
+      -webkit-backdrop-filter: blur(15px);
     }
     .account-dropdown.active .dropdown-content {
       display: block;
@@ -155,11 +184,11 @@
     }
     .dropdown-item {
       color: var(--dark);
-      padding: 14px 20px;
+      padding: 16px 20px;
       text-decoration: none;
       display: flex;
       align-items: center;
-      gap: 10px;
+      gap: 12px;
       font-size: 0.95rem;
       transition: var(--transition);
       border-bottom: 1px solid rgba(0, 0, 0, 0.05);
@@ -173,20 +202,21 @@
       color: var(--primary-color);
     }
     .dropdown-item i {
-      width: 20px;
+      width: 22px;
       text-align: center;
+      font-size: 1.1rem;
     }
     /* Main Content Area */
     .main-content {
       padding: var(--box-padding);
-      padding-bottom: 80px;
-      animation: fadeIn 0.5s ease-out;
+      padding-bottom: 90px;
+      animation: fadeIn 0.6s ease-out;
     }
     @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(10px); }
+      from { opacity: 0; transform: translateY(15px); }
       to { opacity: 1; transform: translateY(0); }
     }
-    /* Bottom Navigation - Futuristic Design */
+    /* Bottom Navigation - Premium Design */
     .bottom-nav {
       position: fixed;
       bottom: 20px;
@@ -195,14 +225,14 @@
       background-color: var(--white);
       display: flex;
       justify-content: space-around;
-      padding: 12px;
+      padding: 14px;
       border-radius: 50px;
       box-shadow: var(--shadow);
       z-index: 100;
       width: calc(100% - 40px);
-      max-width: 400px;
-      backdrop-filter: blur(10px);
-      -webkit-backdrop-filter: blur(10px);
+      max-width: 450px;
+      backdrop-filter: blur(15px);
+      -webkit-backdrop-filter: blur(15px);
       border: var(--glass-border);
     }
     .nav-item {
@@ -211,38 +241,38 @@
       align-items: center;
       text-decoration: none;
       color: var(--secondary-color);
-      font-size: 0.8rem;
+      font-size: 0.85rem;
       transition: var(--transition);
       position: relative;
-      padding: 8px 12px;
+      padding: 8px 16px;
       border-radius: 50px;
     }
     .nav-item i {
-      font-size: 1.3rem;
-      margin-bottom: 4px;
+      font-size: 1.4rem;
+      margin-bottom: 6px;
       transition: var(--transition);
     }
     .nav-item.active {
       color: var(--white);
       background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
-      transform: translateY(-5px);
-      box-shadow: 0 5px 15px rgba(26, 77, 46, 0.3);
+      transform: translateY(-8px);
+      box-shadow: 0 8px 20px rgba(26, 77, 46, 0.4);
     }
     .nav-item.active i {
       transform: scale(1.2);
     }
     .nav-item:hover:not(.active) {
       color: var(--primary-color);
-      transform: translateY(-3px);
+      transform: translateY(-5px);
     }
     .nav-item::after {
       content: '';
       position: absolute;
-      bottom: -10px;
+      bottom: -12px;
       left: 50%;
       transform: translateX(-50%);
-      width: 5px;
-      height: 5px;
+      width: 6px;
+      height: 6px;
       background: var(--primary-color);
       border-radius: 50%;
       opacity: 0;
@@ -250,43 +280,55 @@
     }
     .nav-item.active::after {
       opacity: 1;
-      bottom: -5px;
+      bottom: -8px;
     }
-    /* Card Styles */
+    /* Card Styles - Premium Design */
     .card {
       background-color: var(--white);
       border-radius: var(--border-radius);
       padding: var(--box-padding);
-      margin-bottom: 20px;
+      margin-bottom: 25px;
       box-shadow: var(--shadow);
       transition: var(--transition);
       border: var(--glass-border);
-      backdrop-filter: blur(5px);
-      -webkit-backdrop-filter: blur(5px);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
     }
     .card:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+      transform: translateY(-8px);
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
     }
     .card-title {
       color: var(--primary-color);
-      margin-bottom: 15px;
-      font-size: 1.2rem;
+      margin-bottom: 18px;
+      font-size: 1.3rem;
       font-weight: 600;
       display: flex;
       align-items: center;
-      gap: 10px;
+      gap: 12px;
+      position: relative;
+      padding-bottom: 8px;
+    }
+    .card-title::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 50px;
+      height: 3px;
+      background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+      border-radius: 3px;
     }
     .card-title i {
-      font-size: 1.1em;
+      font-size: 1.2em;
     }
-    /* Enhanced Course Card - 3D Effect */
+    /* Enhanced Course Card - Premium Design */
     .course-card {
       background: var(--course-card-bg);
       border: none;
       border-radius: var(--border-radius);
-      margin-bottom: 15px;
-      padding: 20px;
+      margin-bottom: 18px;
+      padding: 22px;
       display: flex;
       justify-content: space-between;
       align-items: center;
@@ -302,18 +344,18 @@
       position: absolute;
       top: 0;
       left: 0;
-      width: 5px;
+      width: 6px;
       height: 100%;
       background: linear-gradient(to bottom, var(--primary-color), var(--secondary-color));
       transition: var(--transition);
     }
     .course-card:hover {
-      transform: translateY(-5px) rotateX(5deg);
-      box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+      transform: translateY(-8px) rotateX(5deg);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.25);
       background: var(--course-card-hover);
     }
     .course-card:hover::before {
-      width: 8px;
+      width: 10px;
     }
     .course-info {
       display: flex;
@@ -321,26 +363,26 @@
       flex-grow: 1;
     }
     .course-title {
-      font-size: 1.05rem;
+      font-size: 1.1rem;
       font-weight: 600;
       color: #333;
-      margin-bottom: 8px;
+      margin-bottom: 10px;
     }
     .course-meta {
       display: flex;
-      gap: 10px;
+      gap: 12px;
       flex-wrap: wrap;
     }
     .course-language, .course-type {
       display: inline-block;
-      padding: 5px 10px;
+      padding: 6px 12px;
       border-radius: 20px;
       color: var(--white);
-      font-size: 0.75rem;
+      font-size: 0.8rem;
       font-weight: 500;
       text-transform: uppercase;
       letter-spacing: 0.5px;
-      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
     }
     .course-language {
       background: linear-gradient(135deg, #17a2b8, #138496);
@@ -353,15 +395,15 @@
       border: none;
       color: var(--white);
       border-radius: 50%;
-      width: 40px;
-      height: 40px;
+      width: 44px;
+      height: 44px;
       display: flex;
       justify-content: center;
       align-items: center;
       cursor: pointer;
       transition: var(--transition);
       flex-shrink: 0;
-      box-shadow: 0 4px 10px rgba(26, 77, 46, 0.3);
+      box-shadow: 0 5px 15px rgba(26, 77, 46, 0.4);
       position: relative;
       overflow: hidden;
     }
@@ -374,40 +416,40 @@
       height: 100%;
       background: linear-gradient(
         to bottom right,
-        rgba(255, 255, 255, 0.3),
+        rgba(255, 255, 255, 0.4),
         rgba(255, 255, 255, 0)
       );
       transform: translate(-100%, -100%) rotate(30deg);
       transition: var(--transition);
     }
     .enroll-btn:hover {
-      transform: scale(1.1);
-      box-shadow: 0 6px 15px rgba(26, 77, 46, 0.4);
+      transform: scale(1.15);
+      box-shadow: 0 8px 20px rgba(26, 77, 46, 0.5);
     }
     .enroll-btn:hover::after {
       transform: translate(100%, 100%) rotate(30deg);
     }
     .enroll-btn i {
-      font-size: 1.1rem;
+      font-size: 1.2rem;
       position: relative;
       z-index: 1;
     }
-    /* Enrolled Course Card */
+    /* Enrolled Course Card - Premium Design */
     .enrolled-course {
       background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%);
-      border-left: 5px solid var(--success-color);
+      border-left: 6px solid var(--success-color);
     }
     .enrolled-course:hover {
       background: linear-gradient(135deg, #dcedc8 0%, #c5e1a5 100%);
     }
-    /* Filter Container */
+    /* Filter Container - Premium Design */
     .filter-container {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-      gap: 15px;
-      margin-bottom: 20px;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 18px;
+      margin-bottom: 22px;
     }
-    /* Modal Styles - Glass Morphism */
+    /* Modal Styles - Premium Glass Morphism */
     .modal {
       display: none;
       position: fixed;
@@ -415,34 +457,34 @@
       left: 0;
       right: 0;
       bottom: 0;
-      background-color: rgba(0, 0, 0, 0.7);
+      background-color: rgba(0, 0, 0, 0.8);
       z-index: 1000;
       align-items: center;
       justify-content: center;
-      padding: 15px;
-      backdrop-filter: blur(5px);
-      -webkit-backdrop-filter: blur(5px);
-      animation: fadeIn 0.3s ease-out;
+      padding: 20px;
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      animation: fadeIn 0.4s ease-out;
     }
     .modal.active {
       display: flex;
     }
     .modal-content {
-      background: rgba(255, 255, 255, 0.95);
+      background: rgba(255, 255, 255, 0.98);
       border-radius: var(--border-radius);
       width: 100%;
-      max-width: 500px;
+      max-width: 520px;
       max-height: 90vh;
       overflow-y: auto;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+      box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
       border: var(--glass-border);
       transform: translateY(0);
-      animation: modalSlideIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      animation: modalSlideIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     }
     @keyframes modalSlideIn {
       from {
         opacity: 0;
-        transform: translateY(50px);
+        transform: translateY(60px);
       }
       to {
         opacity: 1;
@@ -450,7 +492,7 @@
       }
     }
     .modal-header {
-      padding: 20px;
+      padding: 22px;
       border-bottom: 1px solid rgba(0, 0, 0, 0.1);
       display: flex;
       justify-content: space-between;
@@ -460,13 +502,13 @@
       border-radius: var(--border-radius) var(--border-radius) 0 0;
     }
     .modal-title {
-      font-size: 1.3rem;
+      font-size: 1.4rem;
       font-weight: 600;
     }
     .modal-close {
       background: none;
       border: none;
-      font-size: 1.5rem;
+      font-size: 1.6rem;
       cursor: pointer;
       color: white;
       transition: var(--transition);
@@ -475,43 +517,43 @@
       transform: rotate(90deg);
     }
     .modal-body {
-      padding: 20px;
+      padding: 22px;
     }
     .modal-footer {
-      padding: 15px 20px;
+      padding: 18px 22px;
       border-top: 1px solid rgba(0, 0, 0, 0.1);
       display: flex;
       justify-content: flex-end;
-      gap: 10px;
+      gap: 12px;
     }
-    /* Form Elements */
+    /* Form Elements - Premium Design */
     .form-group {
-      margin-bottom: 20px;
+      margin-bottom: 22px;
     }
     .form-group label {
       display: block;
-      margin-bottom: 8px;
+      margin-bottom: 10px;
       font-weight: 500;
       color: var(--secondary-color);
     }
     .form-control {
       width: 100%;
-      padding: 14px;
+      padding: 16px;
       border: 1px solid #ddd;
-      border-radius: 10px;
+      border-radius: 12px;
       font-size: 1rem;
       transition: var(--transition);
-      background: rgba(255, 255, 255, 0.8);
+      background: rgba(255, 255, 255, 0.9);
     }
     .form-control:focus {
       border-color: var(--primary-color);
-      box-shadow: 0 0 0 3px rgba(26, 77, 46, 0.2);
+      box-shadow: 0 0 0 4px rgba(26, 77, 46, 0.25);
       outline: none;
     }
     .btn {
-      padding: 14px;
+      padding: 16px;
       border: none;
-      border-radius: 10px;
+      border-radius: 12px;
       font-size: 1rem;
       font-weight: 500;
       cursor: pointer;
@@ -519,17 +561,17 @@
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      gap: 8px;
+      gap: 10px;
     }
     .btn-primary {
       background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
       color: var(--white);
-      box-shadow: 0 4px 10px rgba(26, 77, 46, 0.3);
+      box-shadow: 0 5px 15px rgba(26, 77, 46, 0.4);
     }
     .btn-primary:hover {
       background: linear-gradient(135deg, var(--secondary-color), var(--primary-color));
-      transform: translateY(-2px);
-      box-shadow: 0 6px 15px rgba(26, 77, 46, 0.4);
+      transform: translateY(-3px);
+      box-shadow: 0 8px 20px rgba(26, 77, 46, 0.5);
     }
     .btn-outline {
       background-color: transparent;
@@ -538,40 +580,41 @@
     }
     .btn-outline:hover {
       background-color: rgba(26, 77, 46, 0.1);
-      transform: translateY(-2px);
+      transform: translateY(-3px);
     }
     .btn-sm {
-      padding: 10px 15px;
-      font-size: 0.9rem;
+      padding: 12px 18px;
+      font-size: 0.95rem;
     }
     .d-none {
       display: none;
     }
-    /* Empty State */
+    /* Empty State - Premium Design */
     .empty-state {
       text-align: center;
-      padding: 30px 20px;
+      padding: 40px 20px;
       color: #666;
     }
     .empty-state i {
-      font-size: 2.5rem;
-      margin-bottom: 15px;
+      font-size: 3rem;
+      margin-bottom: 20px;
       color: var(--light-color);
       opacity: 0.7;
     }
     .empty-state p {
-      font-size: 1rem;
-      margin-top: 10px;
+      font-size: 1.1rem;
+      margin-top: 15px;
     }
-    /* Badges */
+    /* Badges - Premium Design */
     .badge {
       display: inline-block;
-      padding: 5px 10px;
+      padding: 6px 12px;
       border-radius: 20px;
-      font-size: 0.75rem;
+      font-size: 0.8rem;
       font-weight: 500;
       text-transform: uppercase;
       letter-spacing: 0.5px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     }
     .badge-primary {
       background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
@@ -585,7 +628,11 @@
       background: linear-gradient(135deg, #28a745, #218838);
       color: white;
     }
-    /* Floating Particles Background */
+    .badge-warning {
+      background: linear-gradient(135deg, var(--warning-color), #e0a800);
+      color: #000;
+    }
+    /* Floating Particles Background - Premium Design */
     .particles {
       position: fixed;
       top: 0;
@@ -597,9 +644,9 @@
     }
     .particle {
       position: absolute;
-      background: rgba(26, 77, 46, 0.1);
+      background: rgba(26, 77, 46, 0.15);
       border-radius: 50%;
-      animation: float 15s infinite linear;
+      animation: float 20s infinite linear;
     }
     @keyframes float {
       0% {
@@ -611,23 +658,26 @@
         opacity: 0;
       }
     }
-    /* Notification System */
+    /* Notification System - Premium Design */
     .notification {
       position: fixed;
-      top: 20px;
-      right: 20px;
+      top: 25px;
+      right: 25px;
       background: var(--white);
       color: var(--dark);
-      padding: 15px 20px;
+      padding: 18px 24px;
       border-radius: var(--border-radius);
       box-shadow: var(--shadow);
       display: flex;
       align-items: center;
-      gap: 15px;
+      gap: 18px;
       z-index: 1000;
       transform: translateX(150%);
       transition: var(--transition);
-      max-width: 350px;
+      max-width: 380px;
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border: var(--glass-border);
     }
     .notification.show {
       transform: translateX(0);
@@ -645,46 +695,73 @@
       color: black;
     }
     .notification i {
-      font-size: 1.5rem;
+      font-size: 1.8rem;
     }
-    /* Admin Panel Button - Floating */
+    /* Admin Panel Button - Premium Floating Design */
     .admin-panel-btn {
       position: fixed;
-      bottom: 100px;
-      right: 20px;
+      bottom: 110px;
+      right: 25px;
       background: linear-gradient(135deg, var(--warning-color), #e0a800);
       color: #000;
-      width: 60px;
-      height: 60px;
+      width: 65px;
+      height: 65px;
       border-radius: 50%;
       display: flex;
       justify-content: center;
       align-items: center;
-      box-shadow: 0 6px 15px rgba(255, 193, 7, 0.3);
+      box-shadow: 0 8px 20px rgba(255, 193, 7, 0.4);
       z-index: 99;
       cursor: pointer;
       transition: var(--transition);
       border: none;
-      font-size: 1.3rem;
+      font-size: 1.5rem;
+      animation: floatUpDown 3s infinite ease-in-out;
+    }
+    @keyframes floatUpDown {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
     }
     .admin-panel-btn:hover {
       transform: scale(1.1) rotate(15deg);
-      box-shadow: 0 10px 20px rgba(255, 193, 7, 0.4);
+      box-shadow: 0 12px 25px rgba(255, 193, 7, 0.5);
+      animation: none;
     }
-    /* Responsive Adjustments */
-    @media (min-width: 768px) {
+    /* Responsive Adjustments - Premium Design */
+    @media (min-width: 992px) {
       .container {
-        max-width: 768px;
+        max-width: 900px;
         margin: 0 auto;
       }
       .course-card {
-        padding: 25px;
+        padding: 28px;
       }
       .header h1 {
-        font-size: 1.6rem;
+        font-size: 1.8rem;
+      }
+    }
+    @media (max-width: 768px) {
+      :root {
+        --box-padding: 20px;
+      }
+      .header h1 {
+        font-size: 1.3rem;
+      }
+      .user-name {
+        max-width: 100px;
+      }
+      .filter-container {
+        grid-template-columns: 1fr 1fr;
+      }
+      .bottom-nav {
+        bottom: 15px;
+        padding: 12px;
       }
     }
     @media (max-width: 480px) {
+      :root {
+        --box-padding: 16px;
+      }
       .header h1 {
         font-size: 1.2rem;
       }
@@ -693,6 +770,12 @@
       }
       .filter-container {
         grid-template-columns: 1fr;
+      }
+      .bottom-nav {
+        width: calc(100% - 30px);
+      }
+      .nav-item {
+        padding: 6px 12px;
       }
     }
   </style>
@@ -706,6 +789,7 @@
     <header class="header">
       <h1 id="page-title">My Courses</h1>
       <div class="header-actions">
+        <div id="role-badge" class="role-badge d-none">Role</div>
         <div class="account-dropdown" id="account-dropdown-toggle">
           <span class="user-name" id="user-name-display">User</span>
           <div class="account-avatar">
@@ -744,7 +828,7 @@
       </a>
     </nav>
 
-    <!-- Admin Panel Floating Button (for Amir only) -->
+    <!-- Admin Panel Floating Button (for admins/moderators) -->
     <button class="admin-panel-btn d-none" id="admin-panel-btn">
       <i class="fas fa-shield-alt"></i>
     </button>
@@ -831,6 +915,7 @@
     const logoutBtn = document.getElementById('logout-btn');
     const accountDropdownToggle = document.getElementById('account-dropdown-toggle');
     const adminPanelBtn = document.getElementById('admin-panel-btn');
+    const roleBadge = document.getElementById('role-badge');
     const notification = document.getElementById('notification');
     const notificationMessage = document.getElementById('notification-message');
     const particlesContainer = document.getElementById('particles');
@@ -843,13 +928,13 @@
 
     // Create floating particles
     function createParticles() {
-      const particleCount = Math.floor(window.innerWidth / 10);
+      const particleCount = Math.floor(window.innerWidth / 8);
       for (let i = 0; i < particleCount; i++) {
         const particle = document.createElement('div');
         particle.classList.add('particle');
         
-        // Random size between 5px and 15px
-        const size = Math.random() * 10 + 5;
+        // Random size between 5px and 20px
+        const size = Math.random() * 15 + 5;
         particle.style.width = `${size}px`;
         particle.style.height = `${size}px`;
         
@@ -858,8 +943,8 @@
         particle.style.top = `${Math.random() * 100}%`;
         
         // Random animation duration and delay
-        const duration = Math.random() * 20 + 10;
-        const delay = Math.random() * 5;
+        const duration = Math.random() * 25 + 15;
+        const delay = Math.random() * 10;
         particle.style.animation = `float ${duration}s ${delay}s infinite linear`;
         
         // Random opacity
@@ -870,7 +955,7 @@
     }
 
     // Show notification
-    function showNotification(message, type = 'success', duration = 3000) {
+    function showNotification(message, type = 'success', duration = 3500) {
       notification.className = `notification ${type}`;
       notificationMessage.textContent = message;
       notification.classList.add('show');
@@ -937,10 +1022,16 @@
           await loadUserData(user.uid);
           userNameDisplay.textContent = userData.name || user.displayName || "User";
           
-          // Check if user is Amir (only Amir can access admin panel)
-          if (userData.name === "Amir" && userData.role === 'admin') {
-            adminPanelBtn.classList.remove('d-none');
-            showNotification("Admin privileges activated", "warning");
+          // Show role badge if user has a role
+          if (userData.role) {
+            roleBadge.textContent = userData.role;
+            roleBadge.classList.remove('d-none');
+            
+            // Special styling for admin roles
+            if (['admin', 'moderator', 'ustaz', 'amir'].includes(userData.role.toLowerCase())) {
+              adminPanelBtn.classList.remove('d-none');
+              showNotification(`${userData.role} privileges activated`, "warning");
+            }
           }
           
           switchTab('courses');
@@ -949,31 +1040,42 @@
         }
       });
       
-      // Load courses from Firestore
+      // Load courses from Firestore and merge with static courses
       loadCoursesFromFirestore();
     }
 
     async function loadCoursesFromFirestore() {
       try {
         const coursesSnapshot = await getDocs(collection(db, "courses"));
-        allCourses = [];
+        const firestoreCourses = [];
         coursesSnapshot.forEach(doc => {
           const course = doc.data();
           course.id = doc.id;
-          allCourses.push(course);
+          firestoreCourses.push(course);
         });
         
-        // If no courses in Firestore, use default courses
-        if (allCourses.length === 0) {
-          allCourses = getDefaultCourses();
-        }
+        // Merge Firestore courses with static courses
+        allCourses = [...firestoreCourses, ...getStaticCourses()];
+        
+        // Remove duplicates by course ID
+        const uniqueCourses = [];
+        const courseIds = new Set();
+        
+        allCourses.forEach(course => {
+          if (!courseIds.has(course.id)) {
+            courseIds.add(course.id);
+            uniqueCourses.push(course);
+          }
+        });
+        
+        allCourses = uniqueCourses;
       } catch (error) {
         console.error("Error loading courses:", error);
-        allCourses = getDefaultCourses();
+        allCourses = getStaticCourses();
       }
     }
 
-    function getDefaultCourses() {
+    function getStaticCourses() {
       return [
         {
           id: "q1",
@@ -1044,6 +1146,146 @@
           type: "qirat",
           language: "Oromifa",
           description: "Quranic exegesis and interpretation"
+        },
+        {
+          id: "h1",
+          title: "Hifz for Fresh Students (Female)",
+          type: "hifz",
+          language: "Amharic",
+          description: "Beginner Quran memorization for female students"
+        },
+        {
+          id: "h2",
+          title: "Hifz for Fresh Students (Female)",
+          type: "hifz",
+          language: "Amharic",
+          description: "Beginner Quran memorization for female students"
+        },
+        {
+          id: "h3",
+          title: "Hifz for Fresh Students (Female)",
+          type: "hifz",
+          language: "Amharic",
+          description: "Beginner Quran memorization for female students"
+        },
+        {
+          id: "h4",
+          title: "Hifz for Fresh Students (Male)",
+          type: "hifz",
+          language: "Amharic",
+          description: "Beginner Quran memorization for male students"
+        },
+        {
+          id: "h5",
+          title: "Hifz for Fresh Students (Male)",
+          type: "hifz",
+          language: "Amharic",
+          description: "Beginner Quran memorization for male students"
+        },
+        {
+          id: "h6",
+          title: "Hifz for Senior Students (Female)",
+          type: "hifz",
+          language: "Amharic",
+          description: "Advanced Quran memorization for female students"
+        },
+        {
+          id: "h7",
+          title: "Hifz for Senior Students (Female)",
+          type: "hifz",
+          language: "Amharic",
+          description: "Advanced Quran memorization for female students"
+        },
+        {
+          id: "h8",
+          title: "Hifz for Senior Students (Female)",
+          type: "hifz",
+          language: "Amharic",
+          description: "Advanced Quran memorization for female students"
+        },
+        {
+          id: "h9",
+          title: "Hifz for Senior Students (Male)",
+          type: "hifz",
+          language: "Amharic",
+          description: "Advanced Quran memorization for male students"
+        },
+        {
+          id: "h10",
+          title: "Hifz for Senior Students (Male)",
+          type: "hifz",
+          language: "Amharic",
+          description: "Advanced Quran memorization for male students"
+        },
+        {
+          id: "n1",
+          title: "Nezer for Fresh Students (Female - Amharic)",
+          type: "nezer",
+          language: "Amharic",
+          description: "Basic Islamic studies for female students"
+        },
+        {
+          id: "n2",
+          title: "Nezer for Fresh Students (Female - Oromifa)",
+          type: "nezer",
+          language: "Oromifa",
+          description: "Basic Islamic studies for female students"
+        },
+        {
+          id: "n3",
+          title: "Nezer for Fresh Students (Male - Amharic)",
+          type: "nezer",
+          language: "Amharic",
+          description: "Basic Islamic studies for male students"
+        },
+        {
+          id: "n4",
+          title: "Nezer for Fresh Students (Male - Oromifa)",
+          type: "nezer",
+          language: "Oromifa",
+          description: "Basic Islamic studies for male students"
+        },
+        {
+          id: "n5",
+          title: "Nezer for Fresh Students (Male)",
+          type: "nezer",
+          language: "Amharic",
+          description: "Basic Islamic studies for male students"
+        },
+        {
+          id: "n6",
+          title: "Nezer for Senior Students (Female)",
+          type: "nezer",
+          language: "Amharic",
+          description: "Advanced Islamic studies for female students"
+        },
+        {
+          id: "n7",
+          title: "Nezer for Senior Students (Female)",
+          type: "nezer",
+          language: "Amharic",
+          description: "Advanced Islamic studies for female students"
+        },
+        {
+          id: "n8",
+          title: "Nezer for Senior Students (Male)",
+          type: "nezer",
+          language: "Amharic",
+          description: "Advanced Islamic studies for male students"
+        },
+        {
+          id: "n9",
+          title: "Nezer for Senior Students (Male)",
+          type: "nezer",
+          language: "Amharic",
+          description: "Advanced Islamic studies for male students"
+        },
+        {
+          id: "n10",
+          title: "Nezer for Senior Students (Male)",
+          type: "nezer",
+          language: "Amharic",
+          description: "Advanced Islamic studies for male students"
         }
       ];
     }
@@ -1131,6 +1373,7 @@
               `<div class="empty-state">
                 <i class="fas fa-book-open"></i>
                 <p>You are not enrolled in any courses yet</p>
+                <p>Browse available courses above to get started</p>
               </div>` : ''
             }
           </div>
@@ -1311,31 +1554,31 @@
       let html = `
         <div class="card">
           <h2 class="card-title"><i class="fas fa-user-circle"></i> My Profile</h2>
-          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 20px;">
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 18px; margin-bottom: 25px;">
             <div>
-              <div style="font-weight: 500; color: var(--secondary-color); margin-bottom: 5px;">Name</div>
+              <div style="font-weight: 500; color: var(--secondary-color); margin-bottom: 8px;">Name</div>
               <div style="font-size: 1.1rem;">${userData.name || 'Not set'}</div>
             </div>
             <div>
-              <div style="font-weight: 500; color: var(--secondary-color); margin-bottom: 5px;">Email</div>
+              <div style="font-weight: 500; color: var(--secondary-color); margin-bottom: 8px;">Email</div>
               <div style="font-size: 1.1rem;">${currentUser.email || 'Not set'}</div>
             </div>
             <div>
-              <div style="font-weight: 500; color: var(--secondary-color); margin-bottom: 5px;">Department</div>
+              <div style="font-weight: 500; color: var(--secondary-color); margin-bottom: 8px;">Department</div>
               <div style="font-size: 1.1rem;">${userData.department || 'Not set'}</div>
             </div>
             <div>
-              <div style="font-weight: 500; color: var(--secondary-color); margin-bottom: 5px;">Student ID</div>
+              <div style="font-weight: 500; color: var(--secondary-color); margin-bottom: 8px;">Student ID</div>
               <div style="font-size: 1.1rem;">${userData.studentId || 'Not set'}</div>
             </div>
           </div>
           ${userData.role ? `
-            <div style="margin-top: 10px;">
-              <div style="font-weight: 500; color: var(--secondary-color); margin-bottom: 5px;">Role</div>
-              <span class="badge badge-primary">${userData.role}</span>
+            <div style="margin-top: 15px;">
+              <div style="font-weight: 500; color: var(--secondary-color); margin-bottom: 8px;">Role</div>
+              <span class="badge badge-warning">${userData.role}</span>
             </div>
           ` : ''}
-          <div style="margin-top: 20px;">
+          <div style="margin-top: 25px;">
             <button class="btn btn-primary" onclick="window.location.href='profile.html'">
               <i class="fas fa-user-edit"></i> Edit Profile
             </button>
