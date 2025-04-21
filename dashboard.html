@@ -8,579 +8,475 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
   <style>
     :root {
-      --primary-color: #2c3e50;
-      --secondary-color: #3498db;
-      --accent-color: #e74c3c;
-      --light-color: #ecf0f1;
-      --dark-color: #2c3e50;
+      --primary-color: #1a4d2e;
+      --secondary-color: #4f6f52;
+      --accent-color: #f5efe6;
+      --light-color: #e8dfca;
       --white: #ffffff;
-      --success-color: #27ae60;
-      --info-color: #2980b9;
-      --warning-color: #f39c12;
-      --danger-color: #e74c3c;
+      --dark: #0f2b1e;
+      --shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+      --success-color: #28a745;
+      --info-color: #17a2b8;
+      --warning-color: #ffc107;
+      --danger-color: #dc3545;
       --border-radius: 16px;
       --box-padding: 20px;
-      --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-      --shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-      --shadow-hover: 0 8px 30px rgba(0, 0, 0, 0.15);
-      --glass-bg: rgba(255, 255, 255, 0.85);
-      --glass-border: 1px solid rgba(255, 255, 255, 0.2);
-      --glass-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+      --course-card-bg: linear-gradient(135deg, #f5f7fa 0%, #e4e8eb 100%);
+      --course-card-hover: linear-gradient(135deg, #e4e8eb 0%, #d5dde1 100%);
+      --glass-bg: rgba(255, 255, 255, 0.15);
+      --glass-border: 1px solid rgba(255, 255, 255, 0.18);
+      --transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     }
-
     * {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
       font-family: 'Poppins', sans-serif;
     }
-
     body {
-      background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+      background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
       min-height: 100vh;
       font-size: 14px;
-      background-attachment: fixed;
+      color: #333;
     }
-
     .container {
       width: 100%;
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 0 15px;
+      max-width: 100%;
+      padding: 0;
+      position: relative;
+      overflow-x: hidden;
     }
-
     /* Header Styles */
     .header {
-      background: var(--glass-bg);
-      backdrop-filter: blur(10px);
-      -webkit-backdrop-filter: blur(10px);
-      color: var(--dark-color);
-      padding: 15px 0;
+      background: linear-gradient(135deg, var(--primary-color), var(--dark));
+      color: white;
+      padding: var(--box-padding);
       position: sticky;
       top: 0;
       z-index: 1000;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      box-shadow: var(--glass-shadow);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
       border-bottom: var(--glass-border);
     }
-
     .header h1 {
-      font-size: 1.5rem;
+      font-size: 1.4rem;
       font-weight: 600;
-      margin-left: 20px;
-      background: linear-gradient(to right, var(--primary-color), var(--secondary-color));
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
+      letter-spacing: 0.5px;
     }
-
     .header-actions {
       display: flex;
       gap: 15px;
       align-items: center;
-      margin-right: 20px;
     }
-
-    /* User Dropdown */
-    .user-dropdown {
+    /* Account Dropdown - Super Crazy Design */
+    .account-dropdown {
       position: relative;
       display: flex;
       align-items: center;
       cursor: pointer;
+      transition: var(--transition);
     }
-
-    .user-avatar {
+    .account-avatar {
       width: 40px;
       height: 40px;
       border-radius: 50%;
-      background-color: var(--secondary-color);
-      color: white;
+      background: var(--glass-bg);
+      backdrop-filter: blur(5px);
+      -webkit-backdrop-filter: blur(5px);
+      border: var(--glass-border);
       display: flex;
       align-items: center;
       justify-content: center;
-      font-weight: 600;
+      font-size: 1.2rem;
+      color: white;
       transition: var(--transition);
+      position: relative;
+      overflow: hidden;
     }
-
-    .user-avatar:hover {
-      transform: scale(1.05);
-      box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.3);
-    }
-
-    .user-name {
-      margin-right: 10px;
-      font-weight: 500;
-      color: var(--dark-color);
-    }
-
-    .dropdown-menu {
+    .account-avatar::before {
+      content: '';
       position: absolute;
-      top: 100%;
-      right: 0;
-      background: var(--glass-bg);
-      backdrop-filter: blur(15px);
-      -webkit-backdrop-filter: blur(15px);
-      border-radius: var(--border-radius);
-      box-shadow: var(--shadow-hover);
-      border: var(--glass-border);
-      width: 220px;
-      padding: 10px 0;
-      opacity: 0;
-      visibility: hidden;
-      transform: translateY(10px);
-      transition: var(--transition);
-      z-index: 1000;
-    }
-
-    .user-dropdown:hover .dropdown-menu {
-      opacity: 1;
-      visibility: visible;
-      transform: translateY(0);
-    }
-
-    .dropdown-item {
-      padding: 12px 20px;
-      display: flex;
-      align-items: center;
-      color: var(--dark-color);
-      text-decoration: none;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: linear-gradient(
+        to bottom right,
+        rgba(255, 255, 255, 0.3),
+        rgba(255, 255, 255, 0)
+      );
+      transform: rotate(30deg);
       transition: var(--transition);
     }
-
-    .dropdown-item i {
-      margin-right: 10px;
-      width: 20px;
-      text-align: center;
-      color: var(--secondary-color);
+    .account-avatar:hover::before {
+      transform: rotate(30deg) translate(20%, 20%);
     }
-
-    .dropdown-item:hover {
-      background-color: rgba(52, 152, 219, 0.1);
-      color: var(--secondary-color);
+    .account-dropdown:hover .account-avatar {
+      transform: scale(1.1);
+      box-shadow: 0 0 15px rgba(255, 255, 255, 0.3);
     }
-
-    .dropdown-divider {
-      height: 1px;
-      background-color: rgba(0, 0, 0, 0.1);
-      margin: 5px 0;
-    }
-
-    /* Main Content */
-    .main-content {
-      padding: 30px 0;
-      display: grid;
-      grid-template-columns: 250px 1fr;
-      gap: 25px;
-    }
-
-    /* Sidebar */
-    .sidebar {
-      background: var(--glass-bg);
-      backdrop-filter: blur(10px);
-      -webkit-backdrop-filter: blur(10px);
-      border-radius: var(--border-radius);
-      padding: 20px;
-      box-shadow: var(--shadow);
-      border: var(--glass-border);
-      height: fit-content;
-      position: sticky;
-      top: 80px;
-    }
-
-    .sidebar-title {
-      font-size: 1.1rem;
-      font-weight: 600;
-      color: var(--dark-color);
-      margin-bottom: 15px;
-      padding-bottom: 10px;
-      border-bottom: 1px solid rgba(0, 0, 0, 0.1);
-    }
-
-    .sidebar-menu {
-      list-style: none;
-    }
-
-    .sidebar-item {
-      margin-bottom: 5px;
-    }
-
-    .sidebar-link {
-      display: flex;
-      align-items: center;
-      padding: 12px 15px;
-      border-radius: 8px;
-      color: var(--dark-color);
-      text-decoration: none;
-      transition: var(--transition);
-    }
-
-    .sidebar-link i {
-      margin-right: 10px;
-      width: 20px;
-      text-align: center;
-    }
-
-    .sidebar-link:hover, .sidebar-link.active {
-      background-color: rgba(52, 152, 219, 0.1);
-      color: var(--secondary-color);
-    }
-
-    .sidebar-link.active {
+    .user-name {
+      margin-right: 12px;
+      font-size: 0.95rem;
+      max-width: 120px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
       font-weight: 500;
+      text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
     }
-
-    /* Content Area */
-    .content-area {
-      background: var(--glass-bg);
+    .dropdown-content {
+      display: none;
+      position: absolute;
+      top: 55px;
+      right: 0;
+      background-color: var(--white);
+      min-width: 200px;
+      box-shadow: var(--shadow);
+      z-index: 100;
+      border-radius: var(--border-radius);
+      overflow: hidden;
+      transform-origin: top right;
+      transform: scale(0.9);
+      opacity: 0;
+      transition: var(--transition);
+      border: var(--glass-border);
       backdrop-filter: blur(10px);
       -webkit-backdrop-filter: blur(10px);
-      border-radius: var(--border-radius);
-      padding: 25px;
+    }
+    .account-dropdown.active .dropdown-content {
+      display: block;
+      transform: scale(1);
+      opacity: 1;
+    }
+    .dropdown-item {
+      color: var(--dark);
+      padding: 14px 20px;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 0.95rem;
+      transition: var(--transition);
+      border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+    }
+    .dropdown-item:last-child {
+      border-bottom: none;
+    }
+    .dropdown-item:hover {
+      background-color: rgba(26, 77, 46, 0.1);
+      padding-left: 25px;
+      color: var(--primary-color);
+    }
+    .dropdown-item i {
+      width: 20px;
+      text-align: center;
+    }
+    /* Main Content Area */
+    .main-content {
+      padding: var(--box-padding);
+      padding-bottom: 80px;
+      animation: fadeIn 0.5s ease-out;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    /* Bottom Navigation - Futuristic Design */
+    .bottom-nav {
+      position: fixed;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      background-color: var(--white);
+      display: flex;
+      justify-content: space-around;
+      padding: 12px;
+      border-radius: 50px;
       box-shadow: var(--shadow);
+      z-index: 100;
+      width: calc(100% - 40px);
+      max-width: 400px;
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
       border: var(--glass-border);
     }
-
-    .content-header {
+    .nav-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-decoration: none;
+      color: var(--secondary-color);
+      font-size: 0.8rem;
+      transition: var(--transition);
+      position: relative;
+      padding: 8px 12px;
+      border-radius: 50px;
+    }
+    .nav-item i {
+      font-size: 1.3rem;
+      margin-bottom: 4px;
+      transition: var(--transition);
+    }
+    .nav-item.active {
+      color: var(--white);
+      background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+      transform: translateY(-5px);
+      box-shadow: 0 5px 15px rgba(26, 77, 46, 0.3);
+    }
+    .nav-item.active i {
+      transform: scale(1.2);
+    }
+    .nav-item:hover:not(.active) {
+      color: var(--primary-color);
+      transform: translateY(-3px);
+    }
+    .nav-item::after {
+      content: '';
+      position: absolute;
+      bottom: -10px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 5px;
+      height: 5px;
+      background: var(--primary-color);
+      border-radius: 50%;
+      opacity: 0;
+      transition: var(--transition);
+    }
+    .nav-item.active::after {
+      opacity: 1;
+      bottom: -5px;
+    }
+    /* Card Styles */
+    .card {
+      background-color: var(--white);
+      border-radius: var(--border-radius);
+      padding: var(--box-padding);
+      margin-bottom: 20px;
+      box-shadow: var(--shadow);
+      transition: var(--transition);
+      border: var(--glass-border);
+      backdrop-filter: blur(5px);
+      -webkit-backdrop-filter: blur(5px);
+    }
+    .card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+    }
+    .card-title {
+      color: var(--primary-color);
+      margin-bottom: 15px;
+      font-size: 1.2rem;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .card-title i {
+      font-size: 1.1em;
+    }
+    /* Enhanced Course Card - 3D Effect */
+    .course-card {
+      background: var(--course-card-bg);
+      border: none;
+      border-radius: var(--border-radius);
+      margin-bottom: 15px;
+      padding: 20px;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 25px;
-    }
-
-    .content-title {
-      font-size: 1.5rem;
-      font-weight: 600;
-      color: var(--dark-color);
-    }
-
-    .content-actions {
-      display: flex;
-      gap: 10px;
-    }
-
-    /* Buttons */
-    .btn {
-      padding: 10px 20px;
-      border-radius: 8px;
-      font-weight: 500;
-      cursor: pointer;
-      transition: var(--transition);
-      border: none;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .btn i {
-      margin-right: 8px;
-    }
-
-    .btn-primary {
-      background-color: var(--secondary-color);
-      color: white;
-    }
-
-    .btn-primary:hover {
-      background-color: #2980b9;
-      box-shadow: 0 4px 12px rgba(52, 152, 219, 0.3);
-    }
-
-    .btn-outline {
-      background-color: transparent;
-      border: 1px solid var(--secondary-color);
-      color: var(--secondary-color);
-    }
-
-    .btn-outline:hover {
-      background-color: rgba(52, 152, 219, 0.1);
-    }
-
-    .btn-danger {
-      background-color: var(--danger-color);
-      color: white;
-    }
-
-    .btn-danger:hover {
-      background-color: #c0392b;
-      box-shadow: 0 4px 12px rgba(231, 76, 60, 0.3);
-    }
-
-    /* Course Cards */
-    .courses-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-      gap: 20px;
-    }
-
-    .course-card {
-      background: white;
-      border-radius: var(--border-radius);
-      overflow: hidden;
       box-shadow: var(--shadow);
       transition: var(--transition);
       position: relative;
+      overflow: hidden;
+      perspective: 1000px;
+      transform-style: preserve-3d;
     }
-
-    .course-card:hover {
-      transform: translateY(-5px);
-      box-shadow: var(--shadow-hover);
-    }
-
-    .course-card.enrolled {
-      border-left: 4px solid var(--success-color);
-    }
-
-    .course-card-header {
-      height: 120px;
-      background: linear-gradient(135deg, var(--secondary-color), var(--primary-color));
-      position: relative;
-      display: flex;
-      align-items: flex-end;
-    }
-
-    .course-card-header .course-type {
+    .course-card::before {
+      content: '';
       position: absolute;
-      top: 15px;
-      right: 15px;
-      background-color: rgba(255, 255, 255, 0.9);
-      color: var(--dark-color);
-      padding: 4px 10px;
-      border-radius: 20px;
-      font-size: 0.7rem;
-      font-weight: 600;
-      text-transform: uppercase;
+      top: 0;
+      left: 0;
+      width: 5px;
+      height: 100%;
+      background: linear-gradient(to bottom, var(--primary-color), var(--secondary-color));
+      transition: var(--transition);
     }
-
-    .course-card-body {
-      padding: 20px;
+    .course-card:hover {
+      transform: translateY(-5px) rotateX(5deg);
+      box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+      background: var(--course-card-hover);
     }
-
+    .course-card:hover::before {
+      width: 8px;
+    }
+    .course-info {
+      display: flex;
+      flex-direction: column;
+      flex-grow: 1;
+    }
     .course-title {
-      font-size: 1.1rem;
+      font-size: 1.05rem;
       font-weight: 600;
-      color: var(--dark-color);
-      margin-bottom: 10px;
+      color: #333;
+      margin-bottom: 8px;
     }
-
     .course-meta {
       display: flex;
       gap: 10px;
-      margin-bottom: 15px;
       flex-wrap: wrap;
     }
-
-    .course-meta-item {
-      display: flex;
-      align-items: center;
-      font-size: 0.8rem;
-      color: #666;
+    .course-language, .course-type {
+      display: inline-block;
+      padding: 5px 10px;
+      border-radius: 20px;
+      color: var(--white);
+      font-size: 0.75rem;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     }
-
-    .course-meta-item i {
-      margin-right: 5px;
-      color: var(--secondary-color);
+    .course-language {
+      background: linear-gradient(135deg, #17a2b8, #138496);
     }
-
-    .course-description {
-      font-size: 0.9rem;
-      color: #666;
-      margin-bottom: 20px;
-      line-height: 1.5;
+    .course-type {
+      background: linear-gradient(135deg, var(--secondary-color), var(--primary-color));
     }
-
-    .course-actions {
-      display: flex;
-      justify-content: space-between;
-    }
-
     .enroll-btn {
-      background-color: var(--secondary-color);
-      color: white;
+      background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
       border: none;
-      padding: 8px 15px;
-      border-radius: 6px;
-      font-size: 0.9rem;
+      color: var(--white);
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
       cursor: pointer;
       transition: var(--transition);
-      display: flex;
-      align-items: center;
+      flex-shrink: 0;
+      box-shadow: 0 4px 10px rgba(26, 77, 46, 0.3);
+      position: relative;
+      overflow: hidden;
     }
-
-    .enroll-btn i {
-      margin-right: 5px;
-    }
-
-    .enroll-btn:hover {
-      background-color: #2980b9;
-      transform: translateY(-2px);
-    }
-
-    .enroll-btn.enrolled {
-      background-color: var(--success-color);
-    }
-
-    .enroll-btn.enrolled:hover {
-      background-color: #219653;
-    }
-
-    .badge {
-      display: inline-block;
-      padding: 4px 10px;
-      border-radius: 20px;
-      font-size: 0.7rem;
-      font-weight: 600;
-      text-transform: uppercase;
-    }
-
-    .badge-primary {
-      background-color: var(--secondary-color);
-      color: white;
-    }
-
-    .badge-success {
-      background-color: var(--success-color);
-      color: white;
-    }
-
-    /* Filters */
-    .filters {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-      gap: 15px;
-      margin-bottom: 25px;
-      background: rgba(255, 255, 255, 0.7);
-      padding: 15px;
-      border-radius: var(--border-radius);
-      backdrop-filter: blur(5px);
-    }
-
-    .filter-group {
-      margin-bottom: 0;
-    }
-
-    .filter-group label {
-      display: block;
-      margin-bottom: 8px;
-      font-weight: 500;
-      font-size: 0.9rem;
-      color: var(--dark-color);
-    }
-
-    .filter-control {
+    .enroll-btn::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
       width: 100%;
-      padding: 10px 15px;
-      border: 1px solid #ddd;
-      border-radius: 8px;
-      font-size: 0.9rem;
-      background-color: white;
+      height: 100%;
+      background: linear-gradient(
+        to bottom right,
+        rgba(255, 255, 255, 0.3),
+        rgba(255, 255, 255, 0)
+      );
+      transform: translate(-100%, -100%) rotate(30deg);
       transition: var(--transition);
     }
-
-    .filter-control:focus {
-      border-color: var(--secondary-color);
-      box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
-      outline: none;
+    .enroll-btn:hover {
+      transform: scale(1.1);
+      box-shadow: 0 6px 15px rgba(26, 77, 46, 0.4);
     }
-
-    /* Empty State */
-    .empty-state {
-      text-align: center;
-      padding: 40px 20px;
-      color: #666;
+    .enroll-btn:hover::after {
+      transform: translate(100%, 100%) rotate(30deg);
     }
-
-    .empty-state i {
-      font-size: 3rem;
-      margin-bottom: 15px;
-      color: #ddd;
+    .enroll-btn i {
+      font-size: 1.1rem;
+      position: relative;
+      z-index: 1;
     }
-
-    .empty-state h3 {
-      font-size: 1.2rem;
-      margin-bottom: 10px;
-      color: var(--dark-color);
+    /* Enrolled Course Card */
+    .enrolled-course {
+      background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%);
+      border-left: 5px solid var(--success-color);
     }
-
-    .empty-state p {
-      font-size: 0.9rem;
+    .enrolled-course:hover {
+      background: linear-gradient(135deg, #dcedc8 0%, #c5e1a5 100%);
+    }
+    /* Filter Container */
+    .filter-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 15px;
       margin-bottom: 20px;
     }
-
-    /* Modal */
+    /* Modal Styles - Glass Morphism */
     .modal {
+      display: none;
       position: fixed;
       top: 0;
       left: 0;
       right: 0;
       bottom: 0;
-      background-color: rgba(0, 0, 0, 0.5);
-      backdrop-filter: blur(5px);
-      display: flex;
+      background-color: rgba(0, 0, 0, 0.7);
+      z-index: 1000;
       align-items: center;
       justify-content: center;
-      z-index: 2000;
-      opacity: 0;
-      visibility: hidden;
-      transition: var(--transition);
+      padding: 15px;
+      backdrop-filter: blur(5px);
+      -webkit-backdrop-filter: blur(5px);
+      animation: fadeIn 0.3s ease-out;
     }
-
     .modal.active {
-      opacity: 1;
-      visibility: visible;
+      display: flex;
     }
-
     .modal-content {
-      background: var(--glass-bg);
-      backdrop-filter: blur(15px);
-      -webkit-backdrop-filter: blur(15px);
+      background: rgba(255, 255, 255, 0.95);
       border-radius: var(--border-radius);
       width: 100%;
       max-width: 500px;
       max-height: 90vh;
       overflow-y: auto;
-      box-shadow: var(--shadow-hover);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
       border: var(--glass-border);
-      transform: translateY(20px);
-      transition: var(--transition);
-    }
-
-    .modal.active .modal-content {
       transform: translateY(0);
+      animation: modalSlideIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     }
-
+    @keyframes modalSlideIn {
+      from {
+        opacity: 0;
+        transform: translateY(50px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
     .modal-header {
       padding: 20px;
       border-bottom: 1px solid rgba(0, 0, 0, 0.1);
       display: flex;
       justify-content: space-between;
       align-items: center;
+      background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+      color: white;
+      border-radius: var(--border-radius) var(--border-radius) 0 0;
     }
-
     .modal-title {
       font-size: 1.3rem;
       font-weight: 600;
-      color: var(--dark-color);
     }
-
     .modal-close {
       background: none;
       border: none;
       font-size: 1.5rem;
       cursor: pointer;
-      color: #666;
+      color: white;
       transition: var(--transition);
     }
-
     .modal-close:hover {
-      color: var(--danger-color);
       transform: rotate(90deg);
     }
-
     .modal-body {
       padding: 20px;
     }
-
     .modal-footer {
       padding: 15px 20px;
       border-top: 1px solid rgba(0, 0, 0, 0.1);
@@ -588,219 +484,299 @@
       justify-content: flex-end;
       gap: 10px;
     }
-
     /* Form Elements */
     .form-group {
       margin-bottom: 20px;
     }
-
     .form-group label {
       display: block;
       margin-bottom: 8px;
       font-weight: 500;
-      color: var(--dark-color);
+      color: var(--secondary-color);
     }
-
     .form-control {
       width: 100%;
-      padding: 12px 15px;
+      padding: 14px;
       border: 1px solid #ddd;
-      border-radius: 8px;
-      font-size: 0.9rem;
+      border-radius: 10px;
+      font-size: 1rem;
       transition: var(--transition);
-      background-color: white;
+      background: rgba(255, 255, 255, 0.8);
     }
-
     .form-control:focus {
-      border-color: var(--secondary-color);
-      box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
+      border-color: var(--primary-color);
+      box-shadow: 0 0 0 3px rgba(26, 77, 46, 0.2);
       outline: none;
     }
-
-    /* Admin Badge */
-    .admin-badge {
-      position: fixed;
-      bottom: 30px;
-      right: 30px;
-      background: linear-gradient(135deg, var(--warning-color), #e67e22);
+    .btn {
+      padding: 14px;
+      border: none;
+      border-radius: 10px;
+      font-size: 1rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: var(--transition);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+    .btn-primary {
+      background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+      color: var(--white);
+      box-shadow: 0 4px 10px rgba(26, 77, 46, 0.3);
+    }
+    .btn-primary:hover {
+      background: linear-gradient(135deg, var(--secondary-color), var(--primary-color));
+      transform: translateY(-2px);
+      box-shadow: 0 6px 15px rgba(26, 77, 46, 0.4);
+    }
+    .btn-outline {
+      background-color: transparent;
+      border: 1px solid var(--primary-color);
+      color: var(--primary-color);
+    }
+    .btn-outline:hover {
+      background-color: rgba(26, 77, 46, 0.1);
+      transform: translateY(-2px);
+    }
+    .btn-sm {
+      padding: 10px 15px;
+      font-size: 0.9rem;
+    }
+    .d-none {
+      display: none;
+    }
+    /* Empty State */
+    .empty-state {
+      text-align: center;
+      padding: 30px 20px;
+      color: #666;
+    }
+    .empty-state i {
+      font-size: 2.5rem;
+      margin-bottom: 15px;
+      color: var(--light-color);
+      opacity: 0.7;
+    }
+    .empty-state p {
+      font-size: 1rem;
+      margin-top: 10px;
+    }
+    /* Badges */
+    .badge {
+      display: inline-block;
+      padding: 5px 10px;
+      border-radius: 20px;
+      font-size: 0.75rem;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .badge-primary {
+      background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
       color: white;
+    }
+    .badge-secondary {
+      background: linear-gradient(135deg, #6c757d, #5a6268);
+      color: white;
+    }
+    .badge-success {
+      background: linear-gradient(135deg, #28a745, #218838);
+      color: white;
+    }
+    /* Floating Particles Background */
+    .particles {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+      pointer-events: none;
+    }
+    .particle {
+      position: absolute;
+      background: rgba(26, 77, 46, 0.1);
+      border-radius: 50%;
+      animation: float 15s infinite linear;
+    }
+    @keyframes float {
+      0% {
+        transform: translateY(0) rotate(0deg);
+        opacity: 1;
+      }
+      100% {
+        transform: translateY(-1000px) rotate(720deg);
+        opacity: 0;
+      }
+    }
+    /* Notification System */
+    .notification {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background: var(--white);
+      color: var(--dark);
+      padding: 15px 20px;
+      border-radius: var(--border-radius);
+      box-shadow: var(--shadow);
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      z-index: 1000;
+      transform: translateX(150%);
+      transition: var(--transition);
+      max-width: 350px;
+    }
+    .notification.show {
+      transform: translateX(0);
+    }
+    .notification.success {
+      background: var(--success-color);
+      color: white;
+    }
+    .notification.error {
+      background: var(--danger-color);
+      color: white;
+    }
+    .notification.warning {
+      background: var(--warning-color);
+      color: black;
+    }
+    .notification i {
+      font-size: 1.5rem;
+    }
+    /* Admin Panel Button - Floating */
+    .admin-panel-btn {
+      position: fixed;
+      bottom: 100px;
+      right: 20px;
+      background: linear-gradient(135deg, var(--warning-color), #e0a800);
+      color: #000;
       width: 60px;
       height: 60px;
       border-radius: 50%;
       display: flex;
-      align-items: center;
       justify-content: center;
-      box-shadow: 0 6px 20px rgba(243, 156, 18, 0.3);
+      align-items: center;
+      box-shadow: 0 6px 15px rgba(255, 193, 7, 0.3);
+      z-index: 99;
       cursor: pointer;
-      z-index: 100;
       transition: var(--transition);
-      animation: pulse 2s infinite;
+      border: none;
+      font-size: 1.3rem;
     }
-
-    .admin-badge:hover {
-      transform: scale(1.1) rotate(10deg);
-      box-shadow: 0 8px 25px rgba(243, 156, 18, 0.4);
+    .admin-panel-btn:hover {
+      transform: scale(1.1) rotate(15deg);
+      box-shadow: 0 10px 20px rgba(255, 193, 7, 0.4);
     }
-
-    .admin-badge i {
-      font-size: 1.5rem;
-    }
-
-    @keyframes pulse {
-      0% { transform: scale(1); }
-      50% { transform: scale(1.05); }
-      100% { transform: scale(1); }
-    }
-
-    /* Responsive */
-    @media (max-width: 992px) {
-      .main-content {
-        grid-template-columns: 1fr;
+    /* Responsive Adjustments */
+    @media (min-width: 768px) {
+      .container {
+        max-width: 768px;
+        margin: 0 auto;
       }
-      
-      .sidebar {
-        position: static;
-        margin-bottom: 20px;
+      .course-card {
+        padding: 25px;
+      }
+      .header h1 {
+        font-size: 1.6rem;
       }
     }
-
-    @media (max-width: 768px) {
+    @media (max-width: 480px) {
       .header h1 {
         font-size: 1.2rem;
       }
-      
       .user-name {
-        display: none;
+        max-width: 80px;
       }
-      
-      .courses-grid {
-        grid-template-columns: 1fr;
-      }
-      
-      .filters {
+      .filter-container {
         grid-template-columns: 1fr;
       }
     }
   </style>
 </head>
 <body>
-  <!-- Header -->
-  <header class="header">
-    <h1>HU Jama'aa Courses</h1>
-    <div class="header-actions">
-      <div class="user-dropdown">
-        <span class="user-name" id="user-name">User</span>
-        <div class="user-avatar" id="user-avatar">
-          <i class="fas fa-user"></i>
-        </div>
-        <div class="dropdown-menu">
-          <a href="profile.html" class="dropdown-item">
-            <i class="fas fa-user"></i> My Profile
-          </a>
-          <a href="schedule.html" class="dropdown-item">
-            <i class="fas fa-calendar-alt"></i> My Schedule
-          </a>
-          <div class="dropdown-divider"></div>
-          <a href="#" class="dropdown-item" id="logout-btn">
-            <i class="fas fa-sign-out-alt"></i> Logout
-          </a>
+  <!-- Floating Particles Background -->
+  <div class="particles" id="particles"></div>
+
+  <div class="container">
+    <!-- Header -->
+    <header class="header">
+      <h1 id="page-title">My Courses</h1>
+      <div class="header-actions">
+        <div class="account-dropdown" id="account-dropdown-toggle">
+          <span class="user-name" id="user-name-display">User</span>
+          <div class="account-avatar">
+            <i class="fas fa-user"></i>
+          </div>
+          <div class="dropdown-content" id="account-dropdown">
+            <a href="profile.html" class="dropdown-item">
+              <i class="fas fa-user-cog"></i> Profile Settings
+            </a>
+            <a href="#" class="dropdown-item" id="logout-btn">
+              <i class="fas fa-sign-out-alt"></i> Logout
+            </a>
+          </div>
         </div>
       </div>
-    </div>
-  </header>
+    </header>
 
-  <!-- Main Content -->
-  <div class="container">
-    <div class="main-content">
-      <!-- Sidebar -->
-      <aside class="sidebar">
-        <h3 class="sidebar-title">Navigation</h3>
-        <ul class="sidebar-menu">
-          <li class="sidebar-item">
-            <a href="#" class="sidebar-link active" data-page="courses">
-              <i class="fas fa-book"></i> All Courses
-            </a>
-          </li>
-          <li class="sidebar-item">
-            <a href="#" class="sidebar-link" data-page="my-courses">
-              <i class="fas fa-bookmark"></i> My Courses
-            </a>
-          </li>
-          <li class="sidebar-item">
-            <a href="profile.html" class="sidebar-link">
-              <i class="fas fa-user"></i> Profile
-            </a>
-          </li>
-        </ul>
-        
-        <h3 class="sidebar-title" style="margin-top: 30px;">Filters</h3>
-        <div class="filter-group">
-          <label for="course-type">Course Type</label>
-          <select id="course-type" class="filter-control">
-            <option value="all">All Types</option>
-            <option value="qirat">Qirat</option>
-            <option value="hifz">Hifz</option>
-            <option value="nezer">Nezer</option>
-          </select>
-        </div>
-        <div class="filter-group">
-          <label for="course-language">Language</label>
-          <select id="course-language" class="filter-control">
-            <option value="all">All Languages</option>
-            <option value="Amharic">Amharic</option>
-            <option value="Oromifa">Oromifa</option>
-          </select>
-        </div>
-      </aside>
+    <!-- Main Content -->
+    <main class="main-content" id="main-content">
+      <!-- Dynamic content loaded here -->
+    </main>
 
-      <!-- Content Area -->
-      <main class="content-area">
-        <div class="content-header">
-          <h2 class="content-title" id="content-title">All Courses</h2>
-          <div class="content-actions">
-            <button class="btn btn-outline" id="refresh-courses">
-              <i class="fas fa-sync-alt"></i> Refresh
-            </button>
-          </div>
-        </div>
+    <!-- Bottom Navigation -->
+    <nav class="bottom-nav">
+      <a href="#" class="nav-item active" data-page="courses">
+        <i class="fas fa-book-open"></i>
+        <span>Courses</span>
+      </a>
+      <a href="progress.html" class="nav-item" data-page="progress">
+        <i class="fas fa-chart-line"></i>
+        <span>Progress</span>
+      </a>
+      <a href="profile.html" class="nav-item" data-page="profile">
+        <i class="fas fa-user"></i>
+        <span>Profile</span>
+      </a>
+    </nav>
 
-        <div id="courses-container">
-          <!-- Courses will be loaded here dynamically -->
-          <div class="empty-state">
-            <i class="fas fa-spinner fa-spin"></i>
-            <h3>Loading Courses</h3>
-            <p>Please wait while we load the available courses</p>
-          </div>
-        </div>
-      </main>
-    </div>
+    <!-- Admin Panel Floating Button (for Amir only) -->
+    <button class="admin-panel-btn d-none" id="admin-panel-btn">
+      <i class="fas fa-shield-alt"></i>
+    </button>
   </div>
 
-  <!-- Admin Access Button (Only visible for Amir) -->
-  <div class="admin-badge d-none" id="admin-badge">
-    <i class="fas fa-cog"></i>
-  </div>
-
-  <!-- Enrollment Confirmation Modal -->
-  <div class="modal" id="enrollment-modal">
+  <!-- Confirmation Modal (for enrollment) -->
+  <div class="modal" id="confirmation-modal">
     <div class="modal-content">
       <div class="modal-header">
-        <h3 class="modal-title" id="modal-title">Confirm Enrollment</h3>
-        <button class="modal-close" id="close-modal">&times;</button>
+        <h3 class="modal-title" id="confirmation-title">Confirm Enrollment</h3>
+        <button class="modal-close" id="close-confirmation-modal">&times;</button>
       </div>
       <div class="modal-body">
-        <p id="modal-message">Are you sure you want to enroll in this course?</p>
+        <h4 id="confirmation-message">Are you sure you want to enroll?</h4>
+        <!-- This extra input appears only when enrolling the fourth course -->
         <div class="form-group d-none" id="verification-group">
-          <label for="verification-input">Verification</label>
-          <input type="text" id="verification-input" class="form-control" placeholder="Enter 'I confirm' to proceed">
-          <small class="text-muted">Please confirm you want to enroll in an additional course</small>
+          <label for="verification-input">Verification:</label>
+          <input type="text" id="verification-input" class="form-control" placeholder="Enter verification text" />
+          <small class="text-muted">Please enter "I confirm" to enroll in additional courses</small>
         </div>
       </div>
       <div class="modal-footer">
-        <button class="btn btn-outline" id="cancel-enrollment">Cancel</button>
-        <button class="btn btn-primary" id="confirm-enrollment">Confirm</button>
+        <button class="btn btn-outline" id="cancel-confirm">Cancel</button>
+        <button class="btn btn-primary" id="confirm-action">Confirm</button>
       </div>
     </div>
+  </div>
+
+  <!-- Notification System -->
+  <div class="notification d-none" id="notification">
+    <i class="fas fa-check-circle"></i>
+    <div id="notification-message">Notification message here</div>
   </div>
 
   <!-- Firebase SDK and Application Code -->
@@ -820,6 +796,7 @@
       setDoc,
       updateDoc,
       arrayUnion,
+      arrayRemove,
       query,
       where,
       serverTimestamp
@@ -840,568 +817,559 @@
     const db = getFirestore(app);
 
     // DOM Elements
-    const userNameElement = document.getElementById('user-name');
-    const userAvatar = document.getElementById('user-avatar');
-    const logoutBtn = document.getElementById('logout-btn');
-    const sidebarLinks = document.querySelectorAll('.sidebar-link');
-    const contentTitle = document.getElementById('content-title');
-    const coursesContainer = document.getElementById('courses-container');
-    const courseTypeFilter = document.getElementById('course-type');
-    const courseLanguageFilter = document.getElementById('course-language');
-    const refreshBtn = document.getElementById('refresh-courses');
-    const enrollmentModal = document.getElementById('enrollment-modal');
-    const closeModalBtn = document.getElementById('close-modal');
-    const cancelEnrollmentBtn = document.getElementById('cancel-enrollment');
-    const confirmEnrollmentBtn = document.getElementById('confirm-enrollment');
-    const modalTitle = document.getElementById('modal-title');
-    const modalMessage = document.getElementById('modal-message');
+    const mainContent = document.getElementById('main-content');
+    const pageTitle = document.getElementById('page-title');
+    const bottomNavItems = document.querySelectorAll('.bottom-nav .nav-item');
+    const confirmationModal = document.getElementById('confirmation-modal');
+    const confirmationTitle = document.getElementById('confirmation-title');
+    const confirmationMessage = document.getElementById('confirmation-message');
+    const cancelConfirmBtn = document.getElementById('cancel-confirm');
+    const confirmActionBtn = document.getElementById('confirm-action');
     const verificationGroup = document.getElementById('verification-group');
     const verificationInput = document.getElementById('verification-input');
-    const adminBadge = document.getElementById('admin-badge');
+    const userNameDisplay = document.getElementById('user-name-display');
+    const logoutBtn = document.getElementById('logout-btn');
+    const accountDropdownToggle = document.getElementById('account-dropdown-toggle');
+    const adminPanelBtn = document.getElementById('admin-panel-btn');
+    const notification = document.getElementById('notification');
+    const notificationMessage = document.getElementById('notification-message');
+    const particlesContainer = document.getElementById('particles');
 
-    // App State
     let currentUser = null;
     let userData = null;
     let enrolledCourses = [];
     let allCourses = [];
-    let currentPage = 'courses';
-    let pendingEnrollment = null;
+    let pendingAction = null; // { type: 'enroll', courseId: string, requireVerification: boolean }
 
-    // Initialize the application
-    function initApp() {
-      // Set up event listeners
-      logoutBtn.addEventListener('click', handleLogout);
-      
-      sidebarLinks.forEach(link => {
-        link.addEventListener('click', (e) => {
-          if (link.getAttribute('href')) return; // Allow direct links to pass through
-          
-          e.preventDefault();
-          const page = link.getAttribute('data-page');
-          if (page) {
-            switchPage(page);
-          }
-        });
-      });
-      
-      courseTypeFilter.addEventListener('change', filterCourses);
-      courseLanguageFilter.addEventListener('change', filterCourses);
-      refreshBtn.addEventListener('click', loadCourses);
-      
-      // Modal event listeners
-      closeModalBtn.addEventListener('click', closeModal);
-      cancelEnrollmentBtn.addEventListener('click', closeModal);
-      confirmEnrollmentBtn.addEventListener('click', confirmEnrollment);
-      
-      // Admin badge click handler
-      adminBadge.addEventListener('click', () => {
-        window.location.href = 'courseadmin.html';
-      });
-      
-      // Check auth state
-      onAuthStateChanged(auth, async (user) => {
-        if (user) {
-          currentUser = user;
-          await loadUserData(user.uid);
-          updateUI();
-          loadCourses();
-        } else {
-          window.location.href = 'login.html';
-        }
-      });
-    }
-
-    // Load user data from Firestore
-    async function loadUserData(userId) {
-      try {
-        const userDoc = await getDoc(doc(db, "users", userId));
+    // Create floating particles
+    function createParticles() {
+      const particleCount = Math.floor(window.innerWidth / 10);
+      for (let i = 0; i < particleCount; i++) {
+        const particle = document.createElement('div');
+        particle.classList.add('particle');
         
-        if (userDoc.exists()) {
-          userData = userDoc.data();
-          enrolledCourses = userData.enrolledCourses || [];
-          
-          // Show admin badge if user is Amir
-          if (userData.role === 'Amir') {
-            adminBadge.classList.remove('d-none');
-          }
-        } else {
-          // Create new user document if it doesn't exist
-          userData = {
-            name: currentUser.displayName || "User",
-            email: currentUser.email,
-            enrolledCourses: [],
-            createdAt: serverTimestamp()
-          };
-          await setDoc(doc(db, "users", userId), userData);
-          enrolledCourses = [];
-        }
-      } catch (error) {
-        console.error("Error loading user data:", error);
-        showError("Failed to load user data. Please try again.");
-      }
-    }
-
-    // Update UI elements with user data
-    function updateUI() {
-      // Set user name and avatar
-      const displayName = userData.name || currentUser.displayName || "User";
-      userNameElement.textContent = displayName;
-      
-      // Set avatar initials
-      const initials = displayName.split(' ').map(n => n[0]).join('').toUpperCase();
-      userAvatar.textContent = initials.length > 0 ? initials : "U";
-      userAvatar.innerHTML = initials.length > 0 ? initials : '<i class="fas fa-user"></i>';
-    }
-
-    // Switch between pages
-    function switchPage(page) {
-      currentPage = page;
-      
-      // Update active link in sidebar
-      sidebarLinks.forEach(link => {
-        link.classList.remove('active');
-        if (link.getAttribute('data-page') === page) {
-          link.classList.add('active');
-        }
-      });
-      
-      // Update content title
-      contentTitle.textContent = page === 'courses' ? 'All Courses' : 'My Courses';
-      
-      // Filter and display courses
-      filterCourses();
-    }
-
-    // Load courses from Firestore
-    async function loadCourses() {
-      try {
-        // Show loading state
-        coursesContainer.innerHTML = `
-          <div class="empty-state">
-            <i class="fas fa-spinner fa-spin"></i>
-            <h3>Loading Courses</h3>
-            <p>Please wait while we load the available courses</p>
-          </div>
-        `;
+        // Random size between 5px and 15px
+        const size = Math.random() * 10 + 5;
+        particle.style.width = `${size}px`;
+        particle.style.height = `${size}px`;
         
-        // In a real app, you would fetch from Firestore
-        // For now, we'll use the static data
-        allCourses = [
-          {
-            id: "q1",
-            title: "Sifetu Solah (Amharic)",
-            type: "qirat",
-            language: "Amharic",
-            description: "Learn the fundamentals of prayer in Amharic"
-          },
-          {
-            id: "q2",
-            title: "Usulu Selasah (Amharic)",
-            type: "qirat",
-            language: "Amharic",
-            description: "Three fundamental principles of Islam in Amharic"
-          },
-          {
-            id: "q3",
-            title: "Tejwid Hidayetul Mustefid (Amharic)",
-            type: "qirat",
-            language: "Amharic",
-            description: "Advanced Tajweed rules for proper Quran recitation"
-          },
-          {
-            id: "q4",
-            title: "Kula Setun Urely Eqin (Amharic)",
-            type: "qirat",
-            language: "Amharic",
-            description: "Comprehensive Islamic studies in Amharic"
-          },
-          {
-            id: "q5",
-            title: "Sifetu Solah (Oromifa)",
-            type: "qirat",
-            language: "Oromifa",
-            description: "Learn the fundamentals of prayer in Oromifa"
-          },
-          {
-            id: "q6",
-            title: "Usulu Selasah (Oromifa)",
-            type: "qirat",
-            language: "Oromifa",
-            description: "Three fundamental principles of Islam in Oromifa"
-          },
-          {
-            id: "q7",
-            title: "Tejwid Hidayetul Mustefid (Oromifa)",
-            type: "qirat",
-            language: "Oromifa",
-            description: "Advanced Tajweed rules for proper Quran recitation"
-          },
-          {
-            id: "q8",
-            title: "Umdetul Ahkam (Oromifa)",
-            type: "qirat",
-            language: "Oromifa",
-            description: "Essential Islamic rulings in Oromifa"
-          },
-          {
-            id: "q9",
-            title: "Riyadus Ualihin (Oromifa)",
-            type: "qirat",
-            language: "Oromifa",
-            description: "Gardens of the righteous - Islamic spirituality"
-          },
-          {
-            id: "q10",
-            title: "Tefsir (Oromifa)",
-            type: "qirat",
-            language: "Oromifa",
-            description: "Quranic exegesis and interpretation"
-          },
-          {
-            id: "h1",
-            title: "Hifz for Fresh Students (Female)",
-            type: "hifz",
-            language: "Amharic",
-            description: "Beginner Quran memorization for female students"
-          },
-          {
-            id: "h2",
-            title: "Hifz for Fresh Students (Male)",
-            type: "hifz",
-            language: "Amharic",
-            description: "Beginner Quran memorization for male students"
-          },
-          {
-            id: "h3",
-            title: "Hifz for Senior Students (Female)",
-            type: "hifz",
-            language: "Amharic",
-            description: "Advanced Quran memorization for female students"
-          },
-          {
-            id: "h4",
-            title: "Hifz for Senior Students (Male)",
-            type: "hifz",
-            language: "Amharic",
-            description: "Advanced Quran memorization for male students"
-          },
-          {
-            id: "n1",
-            title: "Nezer for Fresh Students (Female - Amharic)",
-            type: "nezer",
-            language: "Amharic",
-            description: "Basic Islamic studies for female students"
-          },
-          {
-            id: "n2",
-            title: "Nezer for Fresh Students (Male - Amharic)",
-            type: "nezer",
-            language: "Amharic",
-            description: "Basic Islamic studies for male students"
-          },
-          {
-            id: "n3",
-            title: "Nezer for Senior Students (Female - Amharic)",
-            type: "nezer",
-            language: "Amharic",
-            description: "Advanced Islamic studies for female students"
-          },
-          {
-            id: "n4",
-            title: "Nezer for Senior Students (Male - Amharic)",
-            type: "nezer",
-            language: "Amharic",
-            description: "Advanced Islamic studies for male students"
-          }
-        ];
+        // Random position
+        particle.style.left = `${Math.random() * 100}%`;
+        particle.style.top = `${Math.random() * 100}%`;
         
-        // Filter and display courses
-        filterCourses();
-      } catch (error) {
-        console.error("Error loading courses:", error);
-        showError("Failed to load courses. Please try again.");
-      }
-    }
-
-    // Filter courses based on selected filters and current page
-    function filterCourses() {
-      const typeFilter = courseTypeFilter.value;
-      const languageFilter = courseLanguageFilter.value;
-      
-      let filteredCourses = [...allCourses];
-      
-      // Apply type filter
-      if (typeFilter !== 'all') {
-        filteredCourses = filteredCourses.filter(course => course.type === typeFilter);
-      }
-      
-      // Apply language filter
-      if (languageFilter !== 'all') {
-        filteredCourses = filteredCourses.filter(course => course.language === languageFilter);
-      }
-      
-      // Filter based on current page
-      if (currentPage === 'my-courses') {
-        const enrolledCourseIds = enrolledCourses.map(c => c.id);
-        filteredCourses = filteredCourses.filter(course => enrolledCourseIds.includes(course.id));
+        // Random animation duration and delay
+        const duration = Math.random() * 20 + 10;
+        const delay = Math.random() * 5;
+        particle.style.animation = `float ${duration}s ${delay}s infinite linear`;
         
-        if (filteredCourses.length === 0) {
-          coursesContainer.innerHTML = `
-            <div class="empty-state">
-              <i class="fas fa-book-open"></i>
-              <h3>No Enrolled Courses</h3>
-              <p>You haven't enrolled in any courses yet. Browse our courses to get started.</p>
-              <button class="btn btn-primary" onclick="switchPage('courses')">
-                <i class="fas fa-book"></i> Browse Courses
-              </button>
-            </div>
-          `;
-          return;
-        }
-      } else {
-        // For all courses page, show enrolled status
-        const enrolledCourseIds = enrolledCourses.map(c => c.id);
-        filteredCourses = filteredCourses.map(course => {
-          return {
-            ...course,
-            enrolled: enrolledCourseIds.includes(course.id)
-          };
-        });
+        // Random opacity
+        particle.style.opacity = Math.random() * 0.3 + 0.1;
         
-        if (filteredCourses.length === 0) {
-          coursesContainer.innerHTML = `
-            <div class="empty-state">
-              <i class="fas fa-search"></i>
-              <h3>No Courses Found</h3>
-              <p>No courses match your current filters. Try adjusting your filters.</p>
-            </div>
-          `;
-          return;
-        }
-      }
-      
-      displayCourses(filteredCourses);
-    }
-
-    // Display courses in the UI
-    function displayCourses(courses) {
-      if (currentPage === 'my-courses') {
-        // Display enrolled courses
-        coursesContainer.innerHTML = `
-          <div class="courses-grid">
-            ${courses.map(course => `
-              <div class="course-card enrolled">
-                <div class="course-card-header">
-                  <span class="course-type">${course.type}</span>
-                </div>
-                <div class="course-card-body">
-                  <h3 class="course-title">${course.title}</h3>
-                  <div class="course-meta">
-                    <span class="course-meta-item">
-                      <i class="fas fa-language"></i> ${course.language}
-                    </span>
-                  </div>
-                  <p class="course-description">${course.description}</p>
-                  <div class="course-actions">
-                    <button class="enroll-btn enrolled" disabled>
-                      <i class="fas fa-check"></i> Enrolled
-                    </button>
-                  </div>
-                </div>
-              </div>
-            `).join('')}
-          </div>
-        `;
-      } else {
-        // Display all courses with enrollment options
-        coursesContainer.innerHTML = `
-          <div class="courses-grid">
-            ${courses.map(course => `
-              <div class="course-card ${course.enrolled ? 'enrolled' : ''}">
-                <div class="course-card-header">
-                  <span class="course-type">${course.type}</span>
-                </div>
-                <div class="course-card-body">
-                  <h3 class="course-title">${course.title}</h3>
-                  <div class="course-meta">
-                    <span class="course-meta-item">
-                      <i class="fas fa-language"></i> ${course.language}
-                    </span>
-                  </div>
-                  <p class="course-description">${course.description}</p>
-                  <div class="course-actions">
-                    ${course.enrolled ? `
-                      <button class="enroll-btn enrolled" disabled>
-                        <i class="fas fa-check"></i> Enrolled
-                      </button>
-                    ` : `
-                      <button class="enroll-btn" onclick="showEnrollmentModal('${course.id}')">
-                        <i class="fas fa-plus"></i> Enroll
-                      </button>
-                    `}
-                  </div>
-                </div>
-              </div>
-            `).join('')}
-          </div>
-        `;
-      }
-    }
-
-    // Show enrollment confirmation modal
-    function showEnrollmentModal(courseId) {
-      const course = allCourses.find(c => c.id === courseId);
-      if (!course) return;
-      
-      pendingEnrollment = course;
-      
-      // Check if this would be the 4th course (requires verification)
-      const requiresVerification = enrolledCourses.length >= 3;
-      
-      if (requiresVerification) {
-        modalTitle.textContent = "Additional Course Enrollment";
-        modalMessage.textContent = `You're about to enroll in "${course.title}". This will be your ${enrolledCourses.length + 1} course. Please confirm:`;
-        verificationGroup.classList.remove('d-none');
-      } else {
-        modalTitle.textContent = "Confirm Enrollment";
-        modalMessage.textContent = `Are you sure you want to enroll in "${course.title}"?`;
-        verificationGroup.classList.add('d-none');
-      }
-      
-      verificationInput.value = "";
-      enrollmentModal.classList.add('active');
-    }
-
-    // Close modal
-    function closeModal() {
-      enrollmentModal.classList.remove('active');
-      pendingEnrollment = null;
-    }
-
-    // Confirm enrollment
-    async function confirmEnrollment() {
-      if (!pendingEnrollment || !currentUser) return;
-      
-      // Check verification if required
-      if (enrolledCourses.length >= 3) {
-        if (verificationInput.value.trim().toLowerCase() !== "i confirm") {
-          alert("Please enter 'I confirm' to enroll in additional courses.");
-          return;
-        }
-      }
-      
-      try {
-        // Show loading state
-        confirmEnrollmentBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processing...';
-        confirmEnrollmentBtn.disabled = true;
-        
-        // Create enrollment record
-        const enrollmentRecord = {
-          id: pendingEnrollment.id,
-          title: pendingEnrollment.title,
-          type: pendingEnrollment.type,
-          language: pendingEnrollment.language,
-          enrollmentDate: new Date().toISOString(),
-          progress: 0
-        };
-        
-        // Update user document in Firestore
-        await updateDoc(doc(db, "users", currentUser.uid), {
-          enrolledCourses: arrayUnion(enrollmentRecord)
-        });
-        
-        // Update local state
-        enrolledCourses.push(enrollmentRecord);
-        userData.enrolledCourses = enrolledCourses;
-        
-        // Show success notification
-        showNotification(`Successfully enrolled in "${pendingEnrollment.title}"`, 'success');
-        
-        // Refresh courses display
-        filterCourses();
-        closeModal();
-      } catch (error) {
-        console.error("Error enrolling in course:", error);
-        showError("Failed to enroll in course. Please try again.");
-      } finally {
-        confirmEnrollmentBtn.innerHTML = 'Confirm';
-        confirmEnrollmentBtn.disabled = false;
-      }
-    }
-
-    // Handle logout
-    async function handleLogout(e) {
-      e.preventDefault();
-      try {
-        await signOut(auth);
-        window.location.href = 'login.html';
-      } catch (error) {
-        console.error("Error signing out:", error);
-        showError("Failed to logout. Please try again.");
+        particlesContainer.appendChild(particle);
       }
     }
 
     // Show notification
-    function showNotification(message, type = 'info') {
-      const notification = document.createElement('div');
-      notification.className = 'notification';
-      notification.style.position = 'fixed';
-      notification.style.top = '20px';
-      notification.style.right = '20px';
-      notification.style.padding = '15px 20px';
-      notification.style.borderRadius = '8px';
-      notification.style.backgroundColor = type === 'success' ? 'var(--success-color)' : 'var(--info-color)';
-      notification.style.color = 'white';
-      notification.style.boxShadow = 'var(--shadow-hover)';
-      notification.style.zIndex = '2000';
-      notification.style.display = 'flex';
-      notification.style.alignItems = 'center';
-      notification.style.gap = '10px';
-      notification.style.animation = 'slideIn 0.3s ease-out';
-      
-      notification.innerHTML = `
-        <i class="fas fa-${type === 'success' ? 'check-circle' : 'info-circle'}"></i>
-        <span>${message}</span>
-      `;
-      
-      document.body.appendChild(notification);
+    function showNotification(message, type = 'success', duration = 3000) {
+      notification.className = `notification ${type}`;
+      notificationMessage.textContent = message;
+      notification.classList.add('show');
       
       setTimeout(() => {
-        notification.style.animation = 'fadeOut 0.3s ease-out';
-        setTimeout(() => {
-          notification.remove();
-        }, 300);
-      }, 3000);
+        notification.classList.remove('show');
+      }, duration);
     }
 
-    // Show error message
-    function showError(message) {
-      const errorElement = document.createElement('div');
-      errorElement.className = 'error-message';
-      errorElement.style.padding = '15px';
-      errorElement.style.backgroundColor = 'var(--danger-color)';
-      errorElement.style.color = 'white';
-      errorElement.style.borderRadius = '8px';
-      errorElement.style.marginBottom = '20px';
-      errorElement.style.display = 'flex';
-      errorElement.style.alignItems = 'center';
-      errorElement.style.gap = '10px';
+    // Initialize app and set up navigation and authentication
+    function initApp() {
+      createParticles();
       
-      errorElement.innerHTML = `
-        <i class="fas fa-exclamation-circle"></i>
-        <span>${message}</span>
+      // Account dropdown toggle
+      accountDropdownToggle.addEventListener('click', () => {
+        accountDropdownToggle.classList.toggle('active');
+      });
+      
+      // Close dropdown when clicking outside
+      document.addEventListener('click', (e) => {
+        if (!accountDropdownToggle.contains(e.target)) {
+          accountDropdownToggle.classList.remove('active');
+        }
+      });
+
+      bottomNavItems.forEach(item => {
+        item.addEventListener('click', (e) => {
+          if (item.getAttribute('href') === '#') {
+            e.preventDefault();
+          }
+          const page = item.getAttribute('data-page');
+          bottomNavItems.forEach(nav => nav.classList.remove('active'));
+          item.classList.add('active');
+          switchTab(page);
+        });
+      });
+      
+      cancelConfirmBtn.addEventListener('click', () => {
+        confirmationModal.classList.remove('active');
+        pendingAction = null;
+      });
+      
+      confirmActionBtn.addEventListener('click', executePendingAction);
+      
+      logoutBtn.addEventListener('click', async (e) => {
+        e.preventDefault();
+        try {
+          await signOut(auth);
+          window.location.href = 'login.html';
+        } catch (error) {
+          console.error("Error signing out:", error);
+          showNotification("Failed to logout. Please try again.", "error");
+        }
+      });
+      
+      // Admin panel button click handler
+      adminPanelBtn?.addEventListener('click', () => {
+        window.location.href = 'courseadmin.html';
+      });
+      
+      onAuthStateChanged(auth, async (user) => {
+        if (user) {
+          currentUser = user;
+          await loadUserData(user.uid);
+          userNameDisplay.textContent = userData.name || user.displayName || "User";
+          
+          // Check if user is Amir (only Amir can access admin panel)
+          if (userData.name === "Amir" && userData.role === 'admin') {
+            adminPanelBtn.classList.remove('d-none');
+            showNotification("Admin privileges activated", "warning");
+          }
+          
+          switchTab('courses');
+        } else {
+          window.location.href = 'login.html';
+        }
+      });
+      
+      // Load courses from Firestore
+      loadCoursesFromFirestore();
+    }
+
+    async function loadCoursesFromFirestore() {
+      try {
+        const coursesSnapshot = await getDocs(collection(db, "courses"));
+        allCourses = [];
+        coursesSnapshot.forEach(doc => {
+          const course = doc.data();
+          course.id = doc.id;
+          allCourses.push(course);
+        });
+        
+        // If no courses in Firestore, use default courses
+        if (allCourses.length === 0) {
+          allCourses = getDefaultCourses();
+        }
+      } catch (error) {
+        console.error("Error loading courses:", error);
+        allCourses = getDefaultCourses();
+      }
+    }
+
+    function getDefaultCourses() {
+      return [
+        {
+          id: "q1",
+          title: "Sifetu Solah (Amharic)",
+          type: "qirat",
+          language: "Amharic",
+          description: "Learn the fundamentals of prayer in Amharic"
+        },
+        {
+          id: "q2",
+          title: "Usulu Selasah (Amharic)",
+          type: "qirat",
+          language: "Amharic",
+          description: "Three fundamental principles of Islam in Amharic"
+        },
+        {
+          id: "q3",
+          title: "Tejwid Hidayetul Mustefid (Amharic)",
+          type: "qirat",
+          language: "Amharic",
+          description: "Advanced Tajweed rules for proper Quran recitation"
+        },
+        {
+          id: "q4",
+          title: "Kula Setun Urely Eqin (Amharic)",
+          type: "qirat",
+          language: "Amharic",
+          description: "Comprehensive Islamic studies in Amharic"
+        },
+        {
+          id: "q5",
+          title: "Sifetu Solah (Oromifa)",
+          type: "qirat",
+          language: "Oromifa",
+          description: "Learn the fundamentals of prayer in Oromifa"
+        },
+        {
+          id: "q6",
+          title: "Usulu Selasah (Oromifa)",
+          type: "qirat",
+          language: "Oromifa",
+          description: "Three fundamental principles of Islam in Oromifa"
+        },
+        {
+          id: "q7",
+          title: "Tejwid Hidayetul Mustefid (Oromifa)",
+          type: "qirat",
+          language: "Oromifa",
+          description: "Advanced Tajweed rules for proper Quran recitation"
+        },
+        {
+          id: "q8",
+          title: "Umdetul Ahkam (Oromifa)",
+          type: "qirat",
+          language: "Oromifa",
+          description: "Essential Islamic rulings in Oromifa"
+        },
+        {
+          id: "q9",
+          title: "Riyadus Ualihin (Oromifa)",
+          type: "qirat",
+          language: "Oromifa",
+          description: "Gardens of the righteous - Islamic spirituality"
+        },
+        {
+          id: "q10",
+          title: "Tefsir (Oromifa)",
+          type: "qirat",
+          language: "Oromifa",
+          description: "Quranic exegesis and interpretation"
+        }
+      ];
+    }
+
+    async function loadUserData(userId) {
+      try {
+        const userDoc = await getDoc(doc(db, "users", userId));
+        if (userDoc.exists()) {
+          userData = userDoc.data();
+          if (!userData.enrolledCourses) {
+            await updateDoc(doc(db, "users", userId), { enrolledCourses: [] });
+            userData.enrolledCourses = [];
+          }
+          enrolledCourses = userData.enrolledCourses;
+        } else {
+          const newUserData = {
+            name: currentUser.displayName || "User",
+            email: currentUser.email,
+            enrolledCourses: [],
+            studentId: "",
+            department: "",
+            year: "",
+            phone: "",
+            createdAt: serverTimestamp()
+          };
+          await setDoc(doc(db, "users", userId), newUserData);
+          userData = newUserData;
+          enrolledCourses = [];
+        }
+      } catch (error) {
+        console.error("Error loading user data:", error);
+        showNotification("Error loading user data", "error");
+      }
+    }
+
+    function switchTab(tabName) {
+      pageTitle.textContent = getPageTitle(tabName);
+      if (tabName === 'courses') {
+        loadCoursesPage();
+      } else if (tabName === 'profile') {
+        loadProfilePage();
+      } else {
+        loadCoursesPage();
+      }
+    }
+
+    function getPageTitle(tabName) {
+      switch(tabName) {
+        case 'courses': return 'My Courses';
+        case 'profile': return 'My Profile';
+        default: return "HU Jama'aa";
+      }
+    }
+
+    // COURSES PAGE
+    function loadCoursesPage() {
+      let html = `
+        <div class="card">
+          <h2 class="card-title"><i class="fas fa-search"></i> Available Courses</h2>
+          <div class="filter-container">
+            <div class="form-group">
+              <label for="type-filter">Type</label>
+              <select id="type-filter" class="form-control">
+                <option value="all">All Types</option>
+                <option value="qirat">Qirat</option>
+                <option value="hifz">Hifz</option>
+                <option value="nezer">Nezer</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="language-filter">Language</label>
+              <select id="language-filter" class="form-control">
+                <option value="all">All Languages</option>
+                <option value="Amharic">Amharic</option>
+                <option value="Oromifa">Oromifa</option>
+              </select>
+            </div>
+          </div>
+          <div id="courses-display"></div>
+        </div>
+        <div class="card">
+          <h2 class="card-title"><i class="fas fa-bookmark"></i> My Enrolled Courses</h2>
+          <div id="enrolled-courses">
+            ${enrolledCourses.length === 0 ? 
+              `<div class="empty-state">
+                <i class="fas fa-book-open"></i>
+                <p>You are not enrolled in any courses yet</p>
+              </div>` : ''
+            }
+          </div>
+        </div>
       `;
-      
-      coursesContainer.innerHTML = '';
-      coursesContainer.appendChild(errorElement);
+      mainContent.innerHTML = html;
+      document.getElementById('type-filter').addEventListener('change', filterAndDisplayCourses);
+      document.getElementById('language-filter').addEventListener('change', filterAndDisplayCourses);
+      filterAndDisplayCourses();
+      displayEnrolledCourses();
     }
 
-    // Initialize the app when DOM is loaded
+    function filterAndDisplayCourses() {
+      const typeFilter = document.getElementById('type-filter').value || 'all';
+      const languageFilter = document.getElementById('language-filter').value || 'all';
+      
+      // Filter out enrolled courses from available courses
+      let filteredCourses = allCourses.filter(course => 
+        !enrolledCourses.some(ec => ec.id === course.id)
+      );
+      
+      if (typeFilter !== 'all') {
+        filteredCourses = filteredCourses.filter(course => course.type === typeFilter);
+      }
+      if (languageFilter !== 'all') {
+        filteredCourses = filteredCourses.filter(course => course.language === languageFilter);
+      }
+      
+      displayCoursesAsCards(filteredCourses);
+    }
+
+    function displayCoursesAsCards(courses) {
+      const coursesDisplay = document.getElementById('courses-display');
+      if (!coursesDisplay) return;
+      
+      if (courses.length === 0) {
+        coursesDisplay.innerHTML = `
+          <div class="empty-state">
+            <i class="fas fa-search"></i>
+            <p>No courses available matching your filters</p>
+            <p>You may have already enrolled in all available courses.</p>
+          </div>
+        `;
+        return;
+      }
+      
+      coursesDisplay.innerHTML = '';
+      
+      courses.forEach(course => {
+        const card = document.createElement('div');
+        card.className = 'course-card';
+        card.innerHTML = `
+          <div class="course-info">
+            <div class="course-title">${course.title}</div>
+            <div class="course-meta">
+              <span class="course-type">${course.type}</span>
+              <span class="course-language">${course.language}</span>
+            </div>
+            <small style="color: #666; margin-top: 5px;">${course.description}</small>
+          </div>
+          <button class="enroll-btn" onclick="showEnrollConfirmation('${course.id}')">
+            <i class="fas fa-plus"></i>
+          </button>
+        `;
+        coursesDisplay.appendChild(card);
+      });
+    }
+
+    function displayEnrolledCourses() {
+      const enrolledContainer = document.getElementById('enrolled-courses');
+      if (!enrolledContainer) return;
+      if (enrolledCourses.length === 0) return;
+      
+      enrolledContainer.innerHTML = '';
+      enrolledCourses.forEach(course => {
+        // Find the full course in allCourses (if needed)
+        const fullCourse = allCourses.find(c => c.id === course.id) || course;
+        const item = document.createElement('div');
+        item.className = 'course-card enrolled-course';
+        item.innerHTML = `
+          <div class="course-info">
+            <div class="course-title">${fullCourse.title}</div>
+            <div class="course-meta">
+              <span class="course-type">${fullCourse.type}</span>
+              <span class="course-language">${fullCourse.language}</span>
+            </div>
+            <small style="color: #666; margin-top: 5px;">Enrolled on ${new Date(course.enrollmentDate).toLocaleDateString()}</small>
+          </div>
+          <span class="badge badge-success">Enrolled</span>
+        `;
+        enrolledContainer.appendChild(item);
+      });
+    }
+
+    // Verification and Enrollment Handling
+    function showEnrollConfirmation(courseId) {
+      const course = allCourses.find(c => c.id === courseId);
+      if (!course) return;
+      
+      pendingAction = {
+        type: 'enroll',
+        courseId: courseId,
+        requireVerification: enrolledCourses.length >= 3 // for 4th and subsequent enrollments
+      };
+      
+      if (pendingAction.requireVerification) {
+        confirmationTitle.textContent = 'Verify Enrollment';
+        confirmationMessage.textContent = `You are enrolling your 4th (or later) course: "${course.title}". Please enter verification:`;
+        verificationGroup.classList.remove('d-none');
+      } else {
+        confirmationTitle.textContent = 'Confirm Enrollment';
+        confirmationMessage.textContent = `Are you sure you want to enroll in "${course.title}"?`;
+        verificationGroup.classList.add('d-none');
+      }
+      
+      // Clear any previous input
+      verificationInput.value = "";
+      confirmationModal.classList.add('active');
+    }
+
+    async function executePendingAction() {
+      if (!pendingAction) return;
+      
+      if (pendingAction.type === 'enroll') {
+        let overflowData = "";
+        if (pendingAction.requireVerification) {
+          overflowData = verificationInput.value.trim();
+          if (overflowData.toLowerCase() !== "i confirm") {
+            showNotification("Please enter exactly 'I confirm' to proceed", "error");
+            return;
+          }
+        }
+        
+        await enrollInCourse(pendingAction.courseId, overflowData);
+      }
+      
+      confirmationModal.classList.remove('active');
+      pendingAction = null;
+    }
+
+    async function enrollInCourse(courseId, overflowData = "") {
+      if (!currentUser) return;
+      
+      const course = allCourses.find(c => c.id === courseId);
+      if (!course) return;
+      
+      try {
+        const enrollmentRecord = {
+          id: course.id,
+          title: course.title,
+          language: course.language,
+          type: course.type,
+          progress: 0,
+          enrollmentDate: new Date().toISOString()
+        };
+        
+        if (overflowData) {
+          enrollmentRecord.overflow = overflowData;
+        }
+        
+        await updateDoc(doc(db, "users", currentUser.uid), {
+          enrolledCourses: arrayUnion(enrollmentRecord)
+        });
+        
+        enrolledCourses.push(enrollmentRecord);
+        displayEnrolledCourses();
+        filterAndDisplayCourses(); // Refresh available courses
+        
+        showNotification(`Successfully enrolled in "${course.title}"`, "success");
+      } catch (error) {
+        console.error("Error enrolling in course:", error);
+        showNotification("Failed to enroll in course. Please try again.", "error");
+      }
+    }
+
+    // PROFILE PAGE
+    function loadProfilePage() {
+      let html = `
+        <div class="card">
+          <h2 class="card-title"><i class="fas fa-user-circle"></i> My Profile</h2>
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 20px;">
+            <div>
+              <div style="font-weight: 500; color: var(--secondary-color); margin-bottom: 5px;">Name</div>
+              <div style="font-size: 1.1rem;">${userData.name || 'Not set'}</div>
+            </div>
+            <div>
+              <div style="font-weight: 500; color: var(--secondary-color); margin-bottom: 5px;">Email</div>
+              <div style="font-size: 1.1rem;">${currentUser.email || 'Not set'}</div>
+            </div>
+            <div>
+              <div style="font-weight: 500; color: var(--secondary-color); margin-bottom: 5px;">Department</div>
+              <div style="font-size: 1.1rem;">${userData.department || 'Not set'}</div>
+            </div>
+            <div>
+              <div style="font-weight: 500; color: var(--secondary-color); margin-bottom: 5px;">Student ID</div>
+              <div style="font-size: 1.1rem;">${userData.studentId || 'Not set'}</div>
+            </div>
+          </div>
+          ${userData.role ? `
+            <div style="margin-top: 10px;">
+              <div style="font-weight: 500; color: var(--secondary-color); margin-bottom: 5px;">Role</div>
+              <span class="badge badge-primary">${userData.role}</span>
+            </div>
+          ` : ''}
+          <div style="margin-top: 20px;">
+            <button class="btn btn-primary" onclick="window.location.href='profile.html'">
+              <i class="fas fa-user-edit"></i> Edit Profile
+            </button>
+          </div>
+        </div>
+        <div class="card">
+          <h2 class="card-title"><i class="fas fa-bookmark"></i> My Enrolled Courses (${enrolledCourses.length})</h2>
+          <div id="profile-courses">
+            ${enrolledCourses.length > 0 ? 
+              enrolledCourses.map(course => `
+                <div class="course-card enrolled-course">
+                  <div class="course-info">
+                    <div class="course-title">${course.title}</div>
+                    <div class="course-meta">
+                      <span class="course-type">${course.type}</span>
+                      <span class="course-language">${course.language}</span>
+                    </div>
+                    <small style="color: #666; margin-top: 5px;">Enrolled on ${new Date(course.enrollmentDate).toLocaleDateString()}</small>
+                  </div>
+                </div>
+              `).join('') : 
+              `<div class="empty-state">
+                <i class="fas fa-book-open"></i>
+                <p>You are not enrolled in any courses yet</p>
+              </div>`
+            }
+          </div>
+        </div>
+      `;
+      mainContent.innerHTML = html;
+    }
+
     document.addEventListener('DOMContentLoaded', initApp);
-    
-    // Make functions available globally for inline event handlers
-    window.showEnrollmentModal = showEnrollmentModal;
-    window.switchPage = switchPage;
+    window.showEnrollConfirmation = showEnrollConfirmation;
   </script>
 </body>
 </html>
