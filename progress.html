@@ -45,7 +45,7 @@
       padding: 0;
     }
 
-    /* Loading Animation - No changes needed */
+    /* Loading Animation */
     .loading-container {
       position: fixed; top: 0; left: 0; width: 100%; height: 100%;
       background-color: rgba(255, 255, 255, 0.95); display: flex;
@@ -67,123 +67,229 @@
       z-index: 100; display: flex; justify-content: space-between;
       align-items: center; box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     }
-    .header h1 { font-size: 1.1rem; font-weight: 600; } /* Slightly smaller title */
+    .header h1 { font-size: 1.1rem; font-weight: 600; }
     .header-actions { display: flex; gap: 10px; align-items: center; }
 
-    /* User Avatar & Dropdown - Adjusted styles */
+    /* User Avatar & Dropdown - Improved Design */
+    .user-avatar-container {
+      display: flex; align-items: center; gap: 8px; cursor: pointer;
+      position: relative; padding: 4px 8px; border-radius: 20px;
+      transition: background-color 0.2s ease;
+    }
+    .user-avatar-container:hover {
+      background-color: rgba(255, 255, 255, 0.1);
+    }
+    .user-name {
+      margin-right: 4px; font-size: 0.9rem; max-width: 120px;
+      white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+      color: var(--accent-color);
+    }
     .user-avatar {
       width: 36px; height: 36px; border-radius: 50%;
       background-color: var(--accent-color); color: var(--primary-color);
       display: flex; align-items: center; justify-content: center;
-      font-weight: bold; text-transform: uppercase; cursor: pointer;
+      font-weight: bold; text-transform: uppercase;
       transition: transform var(--transition-speed) ease;
     }
     .user-avatar:hover { transform: scale(1.1); }
+    .dropdown-arrow {
+      color: var(--accent-color); font-size: 0.8rem;
+      transition: transform var(--transition-speed) ease;
+    }
+    .account-dropdown.active .dropdown-arrow {
+      transform: rotate(180deg);
+    }
 
-    .account-dropdown { position: relative; display: inline-block; }
+    /* Account Dropdown - Enhanced */
+    .account-dropdown { position: relative; }
     .dropdown-content {
-      display: none; position: absolute; right: 0; top: 110%; /* Position below avatar */
-      background-color: var(--white); min-width: 180px; /* Wider dropdown */
+      display: none; position: absolute; right: 0; top: 110%;
+      background-color: var(--white); min-width: 220px;
       box-shadow: var(--shadow); z-index: 1;
       border-radius: var(--border-radius); overflow: hidden;
       animation: fadeInDropdown 0.2s ease-out;
+      border: 1px solid rgba(0, 0, 0, 0.05);
     }
-    @keyframes fadeInDropdown { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes fadeInDropdown { 
+      from { opacity: 0; transform: translateY(-10px); } 
+      to { opacity: 1; transform: translateY(0); } 
+    }
     .dropdown-content a {
-      color: var(--secondary-color); padding: 12px 16px; text-decoration: none;
-      display: flex; align-items: center; gap: 10px; /* Add gap for icon */
-      font-size: 0.9rem; transition: background-color var(--transition-speed) ease;
+      color: var(--text-dark); padding: 12px 16px; text-decoration: none;
+      display: flex; align-items: center; gap: 12px;
+      font-size: 0.9rem; transition: all var(--transition-speed) ease;
     }
-    .dropdown-content a i { width: 16px; text-align: center; } /* Align icons */
-    .dropdown-content a:hover { background-color: var(--accent-color); color: var(--primary-color); }
-    .account-dropdown:hover .dropdown-content { display: block; }
+    .dropdown-content a i { 
+      width: 18px; text-align: center; color: var(--secondary-color);
+    }
+    .dropdown-content a:hover { 
+      background-color: var(--accent-color); 
+      color: var(--primary-color);
+      padding-left: 20px;
+    }
+    .dropdown-content a:hover i {
+      color: var(--primary-color);
+    }
+    .account-dropdown.active .dropdown-content { 
+      display: block; 
+    }
 
-    .user-name {
-        margin-right: 8px; font-size: 0.9rem; max-width: 100px;
-        white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
-        color: var(--accent-color); /* Lighter name color */
+    /* Role Badges */
+    .role-badge {
+      display: inline-flex; align-items: center; color: white;
+      padding: 3px 8px; border-radius: 12px; font-size: 0.7rem;
+      margin-left: 5px; font-weight: 500;
+    }
+    .admin-badge { 
+      background-color: var(--info-color);
+      position: absolute;
+      top: -8px;
+      right: -8px;
+      font-size: 0.6rem;
+      padding: 2px 6px;
+    }
+    .ustaz-badge { 
+      background-color: #6f42c1; /* Purple */
+    }
+    .verified-badge { background-color: var(--success-color); }
+    .role-badge i { font-size: 0.65rem; margin-right: 4px; }
+
+    /* User Info in Dropdown */
+    .dropdown-user-info {
+      padding: 12px 16px; background-color: var(--light-color);
+      border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+    }
+    .dropdown-user-name {
+      font-weight: 600; color: var(--primary-color);
+      display: flex; align-items: center; gap: 6px;
+    }
+    .dropdown-user-email {
+      font-size: 0.8rem; color: var(--text-light);
+      margin-top: 2px; white-space: nowrap;
+      overflow: hidden; text-overflow: ellipsis;
     }
 
     /* Main Content Area */
-    .main-content { padding: var(--box-padding); padding-bottom: 80px; /* More space for bottom nav */ }
+    .main-content { padding: var(--box-padding); padding-bottom: 80px; }
 
-    /* Bottom Navigation - Adjusted styles */
+    /* Bottom Navigation */
     .bottom-nav {
       position: fixed; bottom: 0; left: 0; right: 0;
       background-color: var(--white); display: flex; justify-content: space-around;
-      padding: 8px 0 10px 0; /* Adjust padding */
-      box-shadow: 0 -3px 10px rgba(0, 0, 0, 0.05); /* Subtle top shadow */
-      z-index: 100; border-top: 1px solid #eee; /* Add a faint top border */
+      padding: 8px 0 10px 0;
+      box-shadow: 0 -3px 10px rgba(0, 0, 0, 0.05);
+      z-index: 100; border-top: 1px solid #eee;
     }
     .nav-item {
       display: flex; flex-direction: column; align-items: center;
-      text-decoration: none; color: var(--secondary-color); font-size: 0.75rem; /* Smaller text */
+      text-decoration: none; color: var(--secondary-color); font-size: 0.75rem;
       transition: color var(--transition-speed) ease; padding: 5px 0;
+      position: relative;
     }
     .nav-item i { font-size: 1.1rem; margin-bottom: 3px; }
     .nav-item.active { color: var(--primary-color); font-weight: 500; }
     .nav-item:hover:not(.active) { color: var(--primary-color); }
+    .nav-notification {
+      position: absolute; top: -2px; right: 8px;
+      background-color: var(--danger-color); color: white;
+      border-radius: 50%; width: 16px; height: 16px;
+      font-size: 0.6rem; display: flex;
+      align-items: center; justify-content: center;
+    }
 
-    /* Card Styles - Consistent styling */
+    /* Card Styles */
     .card {
       background-color: var(--white); border-radius: var(--border-radius);
-      padding: var(--box-padding); margin-bottom: 20px; /* More margin */
-      box-shadow: var(--shadow); border: 1px solid #eee; /* Subtle border */
+      padding: var(--box-padding); margin-bottom: 20px;
+      box-shadow: var(--shadow); border: 1px solid #eee;
     }
     .card-title {
-      color: var(--primary-color); margin-bottom: 15px; /* More space */
-      font-size: 1.1rem; font-weight: 600; border-bottom: 1px solid #f0f0f0; /* Separator line */
-      padding-bottom: 10px;
+      color: var(--primary-color); margin-bottom: 15px;
+      font-size: 1.1rem; font-weight: 600; border-bottom: 1px solid #f0f0f0;
+      padding-bottom: 10px; display: flex; align-items: center; gap: 8px;
     }
+    .card-title i { font-size: 0.9em; }
 
-    /* Progress Card Styles - Updated */
+    /* Progress Card Styles - Enhanced */
     .progress-card {
         background-color: var(--white); border-radius: var(--border-radius);
         padding: var(--box-padding); margin-bottom: 15px; box-shadow: var(--shadow);
-        position: relative; border: 1px solid #eee; overflow: hidden; /* For potential future effects */
+        position: relative; border: 1px solid #eee; overflow: hidden;
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+    .progress-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
     }
     .progress-header {
-      display: flex; justify-content: space-between; align-items: baseline; /* Align baseline */
+      display: flex; justify-content: space-between; align-items: baseline;
       margin-bottom: 12px;
     }
-    .progress-title { font-weight: 600; color: var(--primary-color); font-size: 1rem; }
-    .progress-value { font-weight: 700; color: var(--text-dark); font-size: 1rem; }
-
-    .progress-bar-container {
-      width: 100%; height: 12px; /* Slightly thicker bar */
-      background-color: #e9ecef; /* Light grey background */
-      border-radius: 6px; overflow: hidden; margin-bottom: 10px;
+    .progress-title { 
+      font-weight: 600; color: var(--primary-color); font-size: 1rem;
+      display: flex; align-items: center; gap: 6px;
     }
-    /* --- REMOVED background gradient --- */
-    /* The actual background color is now set via inline style in JS */
+    .progress-value { 
+      font-weight: 700; color: var(--text-dark); font-size: 1rem;
+      min-width: 45px; text-align: right;
+    }
+
+    /* Multicolor Progress Bar */
+    .progress-bar-container {
+      width: 100%; height: 12px;
+      background-color: #e9ecef;
+      border-radius: 6px; overflow: hidden; margin-bottom: 10px;
+      position: relative;
+    }
     .progress-bar {
       height: 100%;
       border-radius: 6px;
-      transition: width var(--transition-speed) ease, background-color var(--transition-speed) ease; /* Animate color change too */
-      /* Default starting color (optional) */
-      background-color: var(--danger-color);
+      transition: width var(--transition-speed) ease;
+      position: relative;
+      overflow: hidden;
+    }
+    .progress-bar-fill {
+      position: absolute;
+      top: 0;
+      left: 0;
+      height: 100%;
+      width: 100%;
     }
 
     .progress-details {
-      display: flex; justify-content: space-between; font-size: 0.75rem; /* Smaller text */
+      display: flex; justify-content: space-between; font-size: 0.75rem;
       color: var(--text-light); flex-wrap: wrap; gap: 5px;
     }
 
-    .progress-actions { display: flex; justify-content: flex-end; margin-top: 15px; }
+    .progress-actions { 
+      display: flex; justify-content: flex-end; margin-top: 15px;
+      gap: 10px;
+    }
     .action-btn {
       background: none; border: none; color: var(--primary-color); font-size: 0.85rem;
-      cursor: pointer; margin-left: 10px; transition: color var(--transition-speed) ease;
+      cursor: pointer; transition: all var(--transition-speed) ease;
       display: inline-flex; align-items: center; gap: 5px;
+      padding: 6px 10px; border-radius: 4px;
     }
     .action-btn i { font-size: 0.8rem; }
-    .action-btn:hover { color: var(--secondary-color); }
+    .action-btn:hover { 
+      color: var(--white); 
+      background-color: var(--primary-color);
+    }
+    .action-btn.delete-btn:hover {
+      background-color: var(--danger-color);
+      color: white;
+    }
 
     /* Stats Grid */
     .stats-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; margin-bottom: 20px; }
     .stat-card {
       background-color: var(--white); border-radius: var(--border-radius);
       padding: var(--box-padding); text-align: center; box-shadow: var(--shadow);
-      border: 1px solid #eee;
+      border: 1px solid #eee; transition: transform 0.2s ease;
+    }
+    .stat-card:hover {
+      transform: translateY(-3px);
     }
     .stat-value {
       font-size: 1.6rem; font-weight: 700; color: var(--primary-color);
@@ -198,20 +304,30 @@
         border-radius: var(--border-radius); border: 1px dashed var(--secondary-color);
     }
 
-    /* Verification & Admin Badges */
-    .verified-badge, .admin-badge {
-      display: inline-flex; align-items: center; color: white;
-      padding: 3px 8px; border-radius: 12px; font-size: 0.7rem;
-      margin-left: 5px; font-weight: 500;
+    /* Privilege Notification */
+    .privilege-notification {
+      background-color: rgba(23, 162, 184, 0.1);
+      border-left: 4px solid var(--info-color);
+      padding: 12px; border-radius: 0 var(--border-radius) var(--border-radius) 0;
+      margin-bottom: 20px; display: flex; align-items: flex-start; gap: 10px;
     }
-    .verified-badge { background-color: var(--success-color); }
-    .admin-badge { background-color: var(--info-color); }
-    .verified-badge i, .admin-badge i { font-size: 0.65rem; margin-right: 4px; }
+    .privilege-notification i {
+      color: var(--info-color); font-size: 1.2rem;
+    }
+    .privilege-notification-content {
+      flex: 1;
+    }
+    .privilege-notification h4 {
+      color: var(--info-color); margin-bottom: 5px; font-size: 0.95rem;
+    }
+    .privilege-notification p {
+      font-size: 0.85rem; color: var(--text-light); margin-bottom: 0;
+    }
 
-    /* Modal Styles - Adjusted animations */
+    /* Modal Styles */
     .modal {
       display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0;
-      background-color: rgba(0, 0, 0, 0.6); /* Darker overlay */
+      background-color: rgba(0, 0, 0, 0.6);
       z-index: 1000; align-items: center; justify-content: center; padding: 15px;
     }
     .modal.active { display: flex; animation: modalFadeInBg 0.3s ease; }
@@ -239,15 +355,16 @@
     .modal-footer {
       padding: 15px var(--box-padding); border-top: 1px solid #eee;
       display: flex; justify-content: flex-end; gap: 10px;
-      background-color: #f9fafb; /* Light footer background */
-      border-bottom-left-radius: var(--border-radius); /* Match content radius */
+      background-color: #f9fafb;
+      border-bottom-left-radius: var(--border-radius);
       border-bottom-right-radius: var(--border-radius);
     }
 
     /* Admin Controls */
     .admin-controls { margin-top: 15px; padding-top: 15px; border-top: 1px solid #eee; }
     .admin-only { display: none; }
-    body.is-admin .admin-only { display: block; } /* Control via body class */
+    body.is-admin .admin-only, 
+    body.is-ustaz .admin-only { display: block; }
 
     /* Form Elements */
     .form-group { margin-bottom: 15px; }
@@ -297,9 +414,29 @@
     }
     .course-meta-item i { font-size: 0.8rem; }
 
+    /* Toast Notification */
+    .toast {
+      position: fixed; bottom: 80px; left: 50%; transform: translateX(-50%);
+      background-color: var(--primary-color); color: white;
+      padding: 12px 24px; border-radius: var(--border-radius);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+      z-index: 1000; display: flex; align-items: center; gap: 10px;
+      animation: slideUp 0.3s ease-out;
+      max-width: 90%;
+    }
+    @keyframes slideUp {
+      from { opacity: 0; transform: translateX(-50%) translateY(20px); }
+      to { opacity: 1; transform: translateX(-50%) translateY(0); }
+    }
+    .toast i { font-size: 1.2rem; }
+    .toast.success { background-color: var(--success-color); }
+    .toast.error { background-color: var(--danger-color); }
+    .toast.warning { background-color: var(--warning-color); color: var(--text-dark); }
+    .toast.info { background-color: var(--info-color); }
+
     /* Responsive */
     @media (min-width: 768px) {
-      .container { max-width: 720px; margin: 0 auto; } /* Adjusted max-width */
+      .container { max-width: 720px; margin: 0 auto; }
       .stats-grid { grid-template-columns: repeat(4, 1fr); }
       .header h1 { font-size: 1.2rem; }
       .main-content { padding: 25px; padding-bottom: 80px; }
@@ -308,34 +445,47 @@
     }
   </style>
 </head>
-<body > <div class="loading-container" id="loading-container">
+<body>
+  <div class="loading-container" id="loading-container">
     <div class="loading-spinner"></div>
     <div class="loading-text">Loading your progress...</div>
   </div>
 
   <div class="container">
     <header class="header">
-      <h1 id="page-title">Progress Tracking</h1>
+      <h1 id="page-title"><i class="fas fa-chart-line"></i> Progress Tracking</h1>
       <div class="header-actions">
-        <div class="account-dropdown">
-          <div style="display: flex; align-items: center; cursor: pointer;">
+        <div class="account-dropdown" id="account-dropdown-container">
+          <div class="user-avatar-container" id="user-avatar-container">
             <span class="user-name" id="user-name-display">User</span>
             <div class="user-avatar" id="user-avatar">U</div>
+            <i class="fas fa-chevron-down dropdown-arrow"></i>
           </div>
           <div class="dropdown-content" id="account-dropdown">
-             <a href="schedule.html"><i class="fas fa-calendar-alt fa-fw"></i> Schedule</a>
-            <a href="profile.html" class="profile-link"><i class="fas fa-user fa-fw"></i> Profile</a>
-            <div class="admin-only">
-              <a href="progressadmin.html"><i class="fas fa-tachometer-alt fa-fw"></i> Admin Panel</a>
+            <div class="dropdown-user-info">
+              <div class="dropdown-user-name" id="dropdown-user-name">
+                User Name
+                <span class="role-badge verified-badge" id="verified-badge">
+                  <i class="fas fa-check"></i> Verified
+                </span>
+              </div>
+              <div class="dropdown-user-email" id="dropdown-user-email">user@example.com</div>
             </div>
-            <a href="#" id="logout-btn"><i class="fas fa-sign-out-alt fa-fw"></i> Logout</a>
+            <a href="schedule.html"><i class="fas fa-calendar-alt"></i> Schedule</a>
+            <a href="profile.html" class="profile-link"><i class="fas fa-user"></i> Profile</a>
+            <div class="admin-only">
+              <a href="progressadmin.html"><i class="fas fa-tachometer-alt"></i> Admin Panel</a>
+              <a href="#" id="manage-users-link"><i class="fas fa-users-cog"></i> Manage Users</a>
+            </div>
+            <a href="#" id="logout-btn"><i class="fas fa-sign-out-alt"></i> Logout</a>
           </div>
         </div>
       </div>
     </header>
 
     <main class="main-content" id="main-content">
-      <p>Loading content...</p> </main>
+      <p>Loading content...</p>
+    </main>
 
     <nav class="bottom-nav">
       <a href="dashboard.html" class="nav-item" data-page="courses">
@@ -349,6 +499,7 @@
       <a href="dashboard.html" class="nav-item" data-page="classmates">
         <i class="fas fa-users"></i>
         <span>Classmates</span>
+        <span class="nav-notification" id="classmates-notification">3</span>
       </a>
       <a href="profile.html" class="nav-item profile-nav-item" data-page="profile">
         <i class="fas fa-user"></i>
@@ -357,6 +508,7 @@
     </nav>
   </div>
 
+  <!-- Progress Update Modal -->
   <div class="modal" id="progress-modal" role="dialog" aria-modal="true" aria-labelledby="progress-modal-title">
     <div class="modal-content">
       <div class="modal-header">
@@ -391,6 +543,7 @@
     </div>
   </div>
 
+  <!-- Admin Confirmation Modal -->
   <div class="modal" id="admin-confirmation-modal" role="dialog" aria-modal="true" aria-labelledby="admin-confirm-title">
     <div class="modal-content">
       <div class="modal-header">
@@ -409,30 +562,47 @@
     </div>
   </div>
 
+  <!-- Role Privilege Notification -->
+  <div class="modal" id="role-privilege-modal" role="dialog" aria-modal="true" aria-labelledby="role-privilege-title">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 class="modal-title" id="role-privilege-title">Special Privileges</h3>
+        <button class="modal-close" id="close-role-modal" aria-label="Close modal">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="privilege-notification">
+          <i class="fas fa-user-shield" id="role-privilege-icon"></i>
+          <div class="privilege-notification-content">
+            <h4 id="role-privilege-heading">Administrator Access</h4>
+            <p id="role-privilege-message">You have special privileges to manage courses and user progress.</p>
+          </div>
+        </div>
+        <div style="text-align: center; margin-top: 20px;">
+          <button class="btn btn-primary" id="understand-privileges">I Understand</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
   <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
   <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
 
   <script>
-    // --- IMPORTANT SECURITY WARNING ---
-    // Hardcoding API keys like this is insecure for production apps!
-    // Anyone can view your source code and find these keys.
-    // Consider using Firebase Hosting environment variables or a backend
-    // function to handle sensitive operations or configuration.
+    // Firebase Configuration
     const firebaseConfig = {
-        apiKey: "AIzaSyBQyNVWh1BtCkXlBfuS7jHAa36FTklZayo",
-        authDomain: "pharma-quiz-b5a07.firebaseapp.com",
-        projectId: "pharma-quiz-b5a07",
-        storageBucket: "pharma-quiz-b5a07.appspot.com",
-        messagingSenderId: "161067776789",
-        appId: "1:161067776789:web:88b8a61145dc5f5c31471c",
-        measurementId: "G-3QRQE9HQFB"
+      apiKey: "AIzaSyBQyNVWh1BtCkXlBfuS7jHAa36FTklZayo",
+      authDomain: "pharma-quiz-b5a07.firebaseapp.com",
+      projectId: "pharma-quiz-b5a07",
+      storageBucket: "pharma-quiz-b5a07.appspot.com",
+      messagingSenderId: "161067776789",
+      appId: "1:161067776789:web:88b8a61145dc5f5c31471c",
+      measurementId: "G-3QRQE9HQFB"
     };
 
     // Initialize Firebase
-    // Check if Firebase is already initialized to prevent errors on hot reloads/multiple scripts
     if (!firebase.apps.length) {
-        firebase.initializeApp(firebaseConfig);
+      firebase.initializeApp(firebaseConfig);
     }
     const auth = firebase.auth();
     const db = firebase.firestore();
@@ -440,7 +610,12 @@
     // DOM Elements
     const mainContent = document.getElementById('main-content');
     const userNameDisplay = document.getElementById('user-name-display');
+    const dropdownUserName = document.getElementById('dropdown-user-name');
+    const dropdownUserEmail = document.getElementById('dropdown-user-email');
     const userAvatar = document.getElementById('user-avatar');
+    const userAvatarContainer = document.getElementById('user-avatar-container');
+    const accountDropdownContainer = document.getElementById('account-dropdown-container');
+    const accountDropdownContent = document.getElementById('account-dropdown');
     const logoutBtn = document.getElementById('logout-btn');
     const progressModal = document.getElementById('progress-modal');
     const closeProgressModal = document.getElementById('close-progress-modal');
@@ -456,20 +631,25 @@
     const closeAdminModal = document.getElementById('close-admin-modal');
     const goToAdminBtn = document.getElementById('go-to-admin');
     const stayHereBtn = document.getElementById('stay-here');
-    const profileLink = document.querySelector('.profile-link');
-    const profileNavItem = document.querySelector('.profile-nav-item');
+    const rolePrivilegeModal = document.getElementById('role-privilege-modal');
+    const closeRoleModal = document.getElementById('close-role-modal');
+    const understandPrivilegesBtn = document.getElementById('understand-privileges');
+    const rolePrivilegeIcon = document.getElementById('role-privilege-icon');
+    const rolePrivilegeHeading = document.getElementById('role-privilege-heading');
+    const rolePrivilegeMessage = document.getElementById('role-privilege-message');
+    const verifiedBadge = document.getElementById('verified-badge');
+    const manageUsersLink = document.getElementById('manage-users-link');
     const loadingContainer = document.getElementById('loading-container');
-    const accountDropdownContent = document.getElementById('account-dropdown'); // Get dropdown content
 
     let currentUser = null;
     let userData = null;
     let enrolledCourses = [];
     let allCourses = [];
     let isAdmin = false;
-    let isVerifiedAdmin = false;
+    let isUstaz = false;
+    let isVerified = false;
     let currentEditingCourse = null;
     let currentEditingUserId = null;
-    // Removed adminPromptShown, using sessionStorage instead
 
     // Initialize application
     function initApp() {
@@ -478,6 +658,23 @@
     }
 
     function setupEventListeners() {
+      // Account dropdown toggle
+      userAvatarContainer.addEventListener('click', (e) => {
+        e.stopPropagation();
+        accountDropdownContainer.classList.toggle('active');
+      });
+
+      // Close dropdown when clicking outside
+      document.addEventListener('click', () => {
+        accountDropdownContainer.classList.remove('active');
+      });
+
+      // Prevent dropdown from closing when clicking inside it
+      accountDropdownContent.addEventListener('click', (e) => {
+        e.stopPropagation();
+      });
+
+      // Other event listeners
       logoutBtn.addEventListener('click', handleLogout);
       closeProgressModal.addEventListener('click', () => progressModal.classList.remove('active'));
       cancelProgressUpdate.addEventListener('click', () => progressModal.classList.remove('active'));
@@ -485,29 +682,37 @@
       closeAdminModal.addEventListener('click', () => adminConfirmationModal.classList.remove('active'));
       goToAdminBtn.addEventListener('click', () => window.location.href = 'progressadmin.html');
       stayHereBtn.addEventListener('click', () => adminConfirmationModal.classList.remove('active'));
-
-      // Close dropdown if clicking outside
-      document.addEventListener('click', function(event) {
-          const dropdown = document.querySelector('.account-dropdown');
-          if (dropdown && !dropdown.contains(event.target)) {
-             const content = dropdown.querySelector('.dropdown-content');
-             if (content) content.style.display = 'none';
-          }
-      });
-       // Prevent clicks inside dropdown from closing it immediately
-      if (accountDropdownContent) {
-          accountDropdownContent.addEventListener('click', function(event) {
-              event.stopPropagation();
-          });
-      }
+      closeRoleModal.addEventListener('click', () => rolePrivilegeModal.classList.remove('active'));
+      understandPrivilegesBtn.addEventListener('click', () => rolePrivilegeModal.classList.remove('active'));
     }
 
     function showLoading() {
-        loadingContainer.style.display = 'flex';
+      loadingContainer.style.display = 'flex';
     }
 
     function hideLoading() {
-        loadingContainer.style.display = 'none';
+      loadingContainer.style.display = 'none';
+    }
+
+    function showToast(message, type = 'success', duration = 3000) {
+      const toast = document.createElement('div');
+      toast.className = `toast ${type}`;
+      
+      let icon = '';
+      switch(type) {
+        case 'success': icon = '<i class="fas fa-check-circle"></i>'; break;
+        case 'error': icon = '<i class="fas fa-exclamation-circle"></i>'; break;
+        case 'warning': icon = '<i class="fas fa-exclamation-triangle"></i>'; break;
+        case 'info': icon = '<i class="fas fa-info-circle"></i>'; break;
+      }
+      
+      toast.innerHTML = `${icon} ${message}`;
+      document.body.appendChild(toast);
+      
+      setTimeout(() => {
+        toast.style.opacity = '0';
+        setTimeout(() => toast.remove(), 300);
+      }, duration);
     }
 
     function checkAuthState() {
@@ -517,13 +722,13 @@
           currentUser = user;
           await loadUserData(user.uid);
           updateUserInterface();
-          await loadAllCourses(); // Load all courses before loading progress page
-          checkAdminStatus(); // Check admin status after user data loaded
-          loadProgressPage(); // Load page content
+          await loadAllCourses();
+          checkAdminStatus();
+          checkRolePrivileges();
+          loadProgressPage();
         } else {
           window.location.href = 'login.html';
         }
-        // Hide loading slightly delayed to allow UI painting
         setTimeout(hideLoading, 200);
       });
     }
@@ -534,156 +739,176 @@
 
         if (userDoc.exists) {
           userData = userDoc.data();
-          // Ensure enrolledCourses is always an array, handle potential Firestore Timestamp objects
           enrolledCourses = (userData.enrolledCourses || []).map(course => ({
-              ...course,
-              enrollmentDate: course.enrollmentDate?.toDate ? course.enrollmentDate.toDate().toISOString() : course.enrollmentDate,
-              lastUpdated: course.lastUpdated?.toDate ? course.lastUpdated.toDate().toISOString() : course.lastUpdated,
-              verifiedAt: course.verifiedAt?.toDate ? course.verifiedAt.toDate().toISOString() : course.verifiedAt
+            ...course,
+            enrollmentDate: course.enrollmentDate?.toDate ? course.enrollmentDate.toDate().toISOString() : course.enrollmentDate,
+            lastUpdated: course.lastUpdated?.toDate ? course.lastUpdated.toDate().toISOString() : course.lastUpdated,
+            verifiedAt: course.verifiedAt?.toDate ? course.verifiedAt.toDate().toISOString() : course.verifiedAt
           }));
+          
           isAdmin = userData.role === 'admin';
-          isVerifiedAdmin = userData.adminVerified === true;
+          isUstaz = userData.role === 'ustaz';
+          isVerified = userData.adminVerified === true;
 
-          // Add admin class to body if admin
-          if (isAdmin && isVerifiedAdmin) {
-            document.body.classList.add('is-admin');
-          } else {
-            document.body.classList.remove('is-admin'); // Ensure it's removed if not admin
-          }
+          // Update body classes for role-based styling
+          document.body.classList.toggle('is-admin', isAdmin && isVerified);
+          document.body.classList.toggle('is-ustaz', isUstaz && isVerified);
         } else {
-          // If user doc doesn't exist, create one (maybe redirect to profile setup?)
           console.warn("User document not found for ID:", userId, ". Creating a new one.");
           await createNewUser(userId);
         }
       } catch (error) {
         console.error("Error loading user data:", error);
-        // Show error message to user?
-        mainContent.innerHTML = "<p class='error-message'>Could not load your data. Please try again later.</p>";
+        mainContent.innerHTML = `<p class="error-message">Could not load your data. Please try again later.</p>`;
       }
     }
 
-    async function loadAllCourses() {
-        try {
-            const snapshot = await db.collection("courses").get();
-            allCourses = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-        } catch (error) {
-            console.error("Error loading all courses:", error);
-            // Maybe display a non-blocking error
-        }
-    }
-
-
     async function createNewUser(userId) {
       const newUserData = {
-        name: currentUser.displayName || `User_${userId.substring(0, 5)}`, // Default name
+        name: currentUser.displayName || `User_${userId.substring(0, 5)}`,
         email: currentUser.email,
         enrolledCourses: [],
-        studentId: "", department: "", year: "", phone: "", // Empty profile fields
-        role: "student", // Default role
+        studentId: "", department: "", year: "", phone: "",
+        role: "student",
         adminVerified: false,
         createdAt: firebase.firestore.FieldValue.serverTimestamp()
       };
 
       try {
-            await db.collection("users").doc(userId).set(newUserData);
-            userData = newUserData; // Update local userData
-            enrolledCourses = []; // Reset local courses
-            isAdmin = false;
-            isVerifiedAdmin = false;
-            document.body.classList.remove('is-admin');
-            console.log("New user profile created in Firestore.");
+        await db.collection("users").doc(userId).set(newUserData);
+        userData = newUserData;
+        enrolledCourses = [];
+        isAdmin = false;
+        isUstaz = false;
+        isVerified = false;
+        document.body.classList.remove('is-admin', 'is-ustaz');
       } catch (error) {
-            console.error("Error creating new user profile:", error);
-            mainContent.innerHTML = "<p class='error-message'>Failed to set up your profile. Please contact support.</p>";
+        console.error("Error creating new user profile:", error);
+        mainContent.innerHTML = `<p class="error-message">Failed to set up your profile. Please contact support.</p>`;
+      }
+    }
+
+    async function loadAllCourses() {
+      try {
+        const snapshot = await db.collection("courses").get();
+        allCourses = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+      } catch (error) {
+        console.error("Error loading all courses:", error);
+        showToast("Failed to load course data", "error");
       }
     }
 
     function updateUserInterface() {
-      if (!userData) return; // Don't run if userData failed to load
+      if (!userData) return;
 
       const name = userData.name || currentUser.displayName || "User";
+      const email = currentUser.email || "No email";
+      
+      // Update user display elements
       userNameDisplay.textContent = name;
+      dropdownUserName.textContent = name;
+      dropdownUserEmail.textContent = email;
       userAvatar.textContent = name.charAt(0).toUpperCase();
-      userAvatar.title = name; // Add tooltip with full name
+      userAvatar.title = name;
 
-      // Clear existing badges before adding new ones
-      const existingBadges = accountDropdownContent.querySelectorAll('.admin-badge');
-      existingBadges.forEach(badge => badge.remove());
+      // Update verified badge
+      verifiedBadge.style.display = isVerified ? 'inline-flex' : 'none';
 
-      if (isAdmin && isVerifiedAdmin) {
-        // Add admin badge inside the dropdown for better layout
-        const badge = document.createElement('span');
-        badge.className = 'admin-badge';
-        badge.innerHTML = '<i class="fas fa-user-shield"></i> Admin';
-        // Insert after the Profile link (or as the first item if profile is hidden)
-        const profileLinkElement = accountDropdownContent.querySelector('.profile-link');
-        if (profileLinkElement) {
-            profileLinkElement.after(badge); // Place badge after Profile link
-        } else {
-             accountDropdownContent.insertBefore(badge, accountDropdownContent.firstChild); // Place at top if no profile link
+      // Add admin badge to avatar if user is admin
+      const existingAdminBadge = userAvatar.querySelector('.admin-badge');
+      if (isAdmin && isVerified) {
+        if (!existingAdminBadge) {
+          const adminBadge = document.createElement('span');
+          adminBadge.className = 'admin-badge';
+          adminBadge.innerHTML = '<i class="fas fa-user-shield"></i>';
+          userAvatar.appendChild(adminBadge);
         }
-
-        // Optionally hide profile links/nav for admins if desired
-        // profileLink.style.display = 'none';
-        // profileNavItem.style.display = 'none';
-      } else {
-        // Ensure profile links are visible for non-admins
-        profileLink.style.display = 'flex'; // Use flex to match other items
-        profileNavItem.style.display = 'flex'; // Use flex to match other items
+      } else if (existingAdminBadge) {
+        existingAdminBadge.remove();
       }
+
+      // Add ustaz badge to avatar if user is ustaz
+      const existingUstazBadge = userAvatar.querySelector('.ustaz-badge');
+      if (isUstaz && isVerified) {
+        if (!existingUstazBadge) {
+          const ustazBadge = document.createElement('span');
+          ustazBadge.className = 'ustaz-badge admin-badge';
+          ustazBadge.innerHTML = '<i class="fas fa-user-graduate"></i>';
+          userAvatar.appendChild(ustazBadge);
+        }
+      } else if (existingUstazBadge) {
+        existingUstazBadge.remove();
+      }
+
+      // Show/hide admin links
+      manageUsersLink.style.display = isAdmin ? 'flex' : 'none';
     }
 
     function checkAdminStatus() {
-      // Use sessionStorage to show the prompt only once per session
-      if (isAdmin && isVerifiedAdmin && !sessionStorage.getItem('adminPromptShownThisSession')) {
+      if (isAdmin && isVerified && !sessionStorage.getItem('adminPromptShownThisSession')) {
         setTimeout(() => {
           adminConfirmationModal.classList.add('active');
           sessionStorage.setItem('adminPromptShownThisSession', 'true');
-        }, 1500); // Show after 1.5 seconds
+        }, 1500);
       }
     }
 
-    // --- NEW Function: Get Progress Bar Color ---
-    function getProgressColor(percentage) {
-        percentage = Math.max(0, Math.min(100, percentage)); // Clamp between 0 and 100
-
-        // Simple thresholds: Red -> Yellow -> Green
-        // if (percentage < 34) return 'var(--danger-color)'; // Red
-        // if (percentage < 67) return 'var(--warning-color)'; // Yellow
-        // return 'var(--success-color)'; // Green
-
-        // Smooth Gradient Logic: Red (0%) -> Yellow (50%) -> Green (100%)
-        let r, g, b;
-        if (percentage < 50) {
-            // Interpolate between Red (220, 53, 69) and Yellow (255, 193, 7)
-            const ratio = percentage / 50;
-            r = Math.round(220 + (255 - 220) * ratio);
-            g = Math.round(53 + (193 - 53) * ratio);
-            b = Math.round(69 + (7 - 69) * ratio);
-        } else {
-            // Interpolate between Yellow (255, 193, 7) and Green (40, 167, 69)
-            const ratio = (percentage - 50) / 50;
-            r = Math.round(255 + (40 - 255) * ratio);
-            g = Math.round(193 + (167 - 193) * ratio);
-            b = Math.round(7 + (69 - 7) * ratio);
-        }
-        return `rgb(${r}, ${g}, ${b})`;
+    function checkRolePrivileges() {
+      if ((isAdmin || isUstaz) && isVerified && !sessionStorage.getItem('rolePrivilegeShownThisSession')) {
+        setTimeout(() => {
+          if (isAdmin) {
+            rolePrivilegeIcon.className = 'fas fa-user-shield';
+            rolePrivilegeHeading.textContent = 'Administrator Privileges';
+            rolePrivilegeMessage.textContent = 'You have full administrative privileges to manage courses, user progress, and system settings.';
+          } else if (isUstaz) {
+            rolePrivilegeIcon.className = 'fas fa-user-graduate';
+            rolePrivilegeHeading.textContent = 'Ustaz Privileges';
+            rolePrivilegeMessage.textContent = 'You have privileges to manage course progress and verify student completions.';
+          }
+          
+          rolePrivilegeModal.classList.add('active');
+          sessionStorage.setItem('rolePrivilegeShownThisSession', 'true');
+        }, 2000);
+      }
     }
 
+    function getProgressColor(percentage) {
+      percentage = Math.max(0, Math.min(100, percentage));
+      
+      // Multicolor gradient based on percentage
+      if (percentage <= 25) {
+        return 'linear-gradient(90deg, #dc3545, #fd7e14)'; // Red to Orange
+      } else if (percentage <= 50) {
+        return 'linear-gradient(90deg, #fd7e14, #ffc107)'; // Orange to Yellow
+      } else if (percentage <= 75) {
+        return 'linear-gradient(90deg, #ffc107, #28a745)'; // Yellow to Green
+      } else {
+        return 'linear-gradient(90deg, #28a745, #17a2b8)'; // Green to Teal
+      }
+    }
 
     function loadProgressPage() {
-      if (!userData) { // Guard clause if user data isn't loaded
-          mainContent.innerHTML = "<p>Could not load user data.</p>";
-          return;
+      if (!userData) {
+        mainContent.innerHTML = "<p>Could not load user data.</p>";
+        return;
       }
 
-      // Use default 0 if stats calculations result in NaN
       const avgProgress = calculateAverageProgress() || 0;
       const completedCount = getCompletedCoursesCount() || 0;
       const totalCount = enrolledCourses.length || 0;
       const verifiedCount = getVerifiedCoursesCount() || 0;
 
       let html = `
+        ${(isAdmin || isUstaz) && isVerified ? `
+        <div class="privilege-notification">
+          <i class="fas fa-${isAdmin ? 'user-shield' : 'user-graduate'}"></i>
+          <div class="privilege-notification-content">
+            <h4>${isAdmin ? 'Administrator' : 'Ustaz'} Privileges</h4>
+            <p>You have special privileges to ${isAdmin ? 'manage all courses and user progress' : 'update and verify student progress'}.</p>
+          </div>
+        </div>
+        ` : ''}
+
         <div class="stats-grid">
           <div class="stat-card">
             <div class="stat-value">${avgProgress}%</div>
@@ -704,15 +929,16 @@
         </div>
 
         <div class="card">
-          <h2 class="card-title">${isVerifiedAdmin ? 'Your Student' : 'My'} Course Progress</h2>
-          ${!isAdmin ? '<p class="read-only-message">Your progress is updated by instructors. Contact them if adjustments are needed.</p>' : ''}
+          <h2 class="card-title"><i class="fas fa-book-open"></i> ${isAdmin || isUstaz ? 'Student' : 'My'} Course Progress</h2>
+          ${!isAdmin && !isUstaz ? '<p class="read-only-message">Your progress is updated by instructors. Contact them if adjustments are needed.</p>' : ''}
           <div id="courses-progress">
-             <p>Loading course progress...</p> </div>
+            <p>Loading course progress...</p>
+          </div>
         </div>
       `;
 
-      mainContent.innerHTML = html; // Render the basic layout first
-      displayCoursesProgress(); // Then populate the course progress section
+      mainContent.innerHTML = html;
+      displayCoursesProgress();
     }
 
     function calculateAverageProgress() {
@@ -727,57 +953,55 @@
     }
 
     function getVerifiedCoursesCount() {
-        if (!enrolledCourses) return 0;
+      if (!enrolledCourses) return 0;
       return enrolledCourses.filter(course => course.verified === true).length;
     }
 
     function displayCoursesProgress() {
       const coursesProgressContainer = document.getElementById('courses-progress');
-      if (!coursesProgressContainer) return; // Exit if container not found
+      if (!coursesProgressContainer) return;
 
       if (!enrolledCourses || enrolledCourses.length === 0) {
         coursesProgressContainer.innerHTML = '<p style="text-align: center; color: var(--text-light); padding: 20px 0;">You are not enrolled in any courses yet.</p>';
         return;
       }
 
-      coursesProgressContainer.innerHTML = ''; // Clear placeholder
+      coursesProgressContainer.innerHTML = '';
 
-      // Sort courses perhaps? e.g., by title or enrollment date
+      // Sort courses by title
       const sortedCourses = [...enrolledCourses].sort((a, b) => {
-          const courseA = allCourses.find(c => c.id === a.id);
-          const courseB = allCourses.find(c => c.id === b.id);
-          return (courseA?.title || '').localeCompare(courseB?.title || '');
+        const courseA = allCourses.find(c => c.id === a.id);
+        const courseB = allCourses.find(c => c.id === b.id);
+        return (courseA?.title || '').localeCompare(courseB?.title || '');
       });
-
 
       sortedCourses.forEach(course => {
         const fullCourse = allCourses.find(c => c.id === course.id);
-        // Use 'Unknown Course' if details not found in allCourses
         const courseTitle = fullCourse?.title || course.title || 'Unknown Course';
         const progress = Number(course.progress) || 0;
-        const progressBarColor = getProgressColor(progress); // Get dynamic color
+        const progressBarColor = getProgressColor(progress);
 
         const card = document.createElement('div');
         card.className = 'progress-card';
 
         card.innerHTML = `
           <div class="progress-header">
-            <div class="progress-title">${courseTitle}</div>
+            <div class="progress-title">
+              ${courseTitle}
+              ${course.verified ? `<span class="verified-badge" title="Verified ${course.verifiedBy ? 'by ' + course.verifiedBy : ''} on ${formatDate(course.verifiedAt)}"><i class="fas fa-check"></i> Verified</span>` : ''}
+            </div>
             <div class="progress-value">${progress}%</div>
           </div>
           <div class="progress-bar-container">
-            <div class="progress-bar" style="width: ${progress}%; background-color: ${progressBarColor};"></div>
+            <div class="progress-bar" style="width: ${progress}%;">
+              <div class="progress-bar-fill" style="background: ${progressBarColor};"></div>
+            </div>
           </div>
           <div class="progress-details">
             <span>Enrolled: ${formatDate(course.enrollmentDate)}</span>
-            <span>
-              ${course.verified ?
-                `<span class="verified-badge" title="Verified ${course.verifiedBy ? 'by ' + course.verifiedBy : ''} on ${formatDate(course.verifiedAt)}"><i class="fas fa-check"></i> Verified</span>` :
-                '<span style="color: var(--warning-color);">Not Verified</span>'
-              }
-            </span>
+            <span>Last Updated: ${formatDate(course.lastUpdated)}</span>
           </div>
-          ${isAdmin && isVerifiedAdmin ? `
+          ${(isAdmin || isUstaz) && isVerified ? `
             <div class="progress-actions">
               <button class="action-btn" onclick="openProgressModal('${course.id}', '${currentUser.uid}')">
                 <i class="fas fa-edit"></i> Update
@@ -803,180 +1027,163 @@
       });
     }
 
-    // Helper function to escape HTML to prevent XSS from notes/course details
     function escapeHTML(str) {
-        if (!str) return '';
-        const div = document.createElement('div');
-        div.textContent = str;
-        return div.innerHTML;
+      if (!str) return '';
+      const div = document.createElement('div');
+      div.textContent = str;
+      return div.innerHTML;
     }
 
-
     function formatDate(dateInput) {
-        if (!dateInput) return 'N/A';
-        try {
-            const date = new Date(dateInput);
-            // Check if date is valid before formatting
-            if (isNaN(date.getTime())) return 'Invalid Date';
-            const options = { year: 'numeric', month: 'short', day: 'numeric' };
-            return date.toLocaleDateString(undefined, options);
-        } catch (e) {
-            console.error("Error formatting date:", dateInput, e);
-            return 'Error'; // Or return the original string
-        }
+      if (!dateInput) return 'N/A';
+      try {
+        const date = new Date(dateInput);
+        if (isNaN(date.getTime())) return 'Invalid Date';
+        const options = { year: 'numeric', month: 'short', day: 'numeric' };
+        return date.toLocaleDateString(undefined, options);
+      } catch (e) {
+        console.error("Error formatting date:", dateInput, e);
+        return 'Error';
+      }
     }
 
     function formatDateTime(dateInput) {
-        if (!dateInput) return 'N/A';
-        try {
-            const date = new Date(dateInput);
-             if (isNaN(date.getTime())) return 'Invalid Date';
-            const options = { year: 'numeric', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' };
-            return date.toLocaleDateString(undefined, options);
-        } catch (e) {
-             console.error("Error formatting datetime:", dateInput, e);
-            return 'Error';
-        }
+      if (!dateInput) return 'N/A';
+      try {
+        const date = new Date(dateInput);
+        if (isNaN(date.getTime())) return 'Invalid Date';
+        const options = { year: 'numeric', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' };
+        return date.toLocaleDateString(undefined, options);
+      } catch (e) {
+        console.error("Error formatting datetime:", dateInput, e);
+        return 'Error';
+      }
     }
 
     function openProgressModal(courseId, userId) {
-        // Find course in the CURRENT user's data (even if admin is viewing)
-        const course = enrolledCourses.find(c => c.id === courseId);
-        if (!course) {
-            console.error("Could not find course data for ID:", courseId);
-            alert("Error: Could not load course details for editing.");
-            return;
-        }
-
-        currentEditingCourse = courseId;
-        // IMPORTANT: Use the userId passed to the function, which should be the student's ID
-        currentEditingUserId = userId;
-
-        progressCourseId.value = courseId;
-        progressUserId.value = userId; // Store the target user ID
-        progressValue.value = course.progress || 0;
-        progressNotes.value = course.notes || '';
-        progressVerified.value = course.verified ? 'true' : 'false';
-
-        // Update modal title to show course name if available
-        const fullCourse = allCourses.find(c => c.id === courseId);
-        const modalTitleElement = document.getElementById('progress-modal-title');
-        if (modalTitleElement) {
-            modalTitleElement.textContent = `Update Progress: ${fullCourse?.title || courseId}`;
-        }
-
-
-        progressModal.classList.add('active');
-    }
-
-    async function updateCourseProgress() {
-      // Ensure we have the target user ID and course ID
-      if (!currentEditingUserId || !currentEditingCourse) {
-          console.error("Missing user or course ID for update.");
-          alert("An error occurred. Cannot determine which progress to update.");
-          return;
-      }
-       // Only verified admins should be able to update progress
-      if (!isAdmin || !isVerifiedAdmin) {
-          alert("You do not have permission to update progress.");
-          return;
-      }
-
-
-      const progress = parseInt(progressValue.value, 10); // Use radix 10
-      if (isNaN(progress) || progress < 0 || progress > 100) {
-        alert("Please enter a valid progress percentage (0-100).");
+      const course = enrolledCourses.find(c => c.id === courseId);
+      if (!course) {
+        console.error("Could not find course data for ID:", courseId);
+        showToast("Error: Could not load course details for editing.", "error");
         return;
       }
 
-      saveProgressBtn.disabled = true; // Prevent double clicks
+      currentEditingCourse = courseId;
+      currentEditingUserId = userId;
+
+      progressCourseId.value = courseId;
+      progressUserId.value = userId;
+      progressValue.value = course.progress || 0;
+      progressNotes.value = course.notes || '';
+      progressVerified.value = course.verified ? 'true' : 'false';
+
+      const fullCourse = allCourses.find(c => c.id === courseId);
+      const modalTitleElement = document.getElementById('progress-modal-title');
+      if (modalTitleElement) {
+        modalTitleElement.textContent = `Update Progress: ${fullCourse?.title || courseId}`;
+      }
+
+      progressModal.classList.add('active');
+    }
+
+    async function updateCourseProgress() {
+      if (!currentEditingUserId || !currentEditingCourse) {
+        console.error("Missing user or course ID for update.");
+        showToast("An error occurred. Cannot determine which progress to update.", "error");
+        return;
+      }
+      
+      // Only verified admins/ustaz should be able to update progress
+      if (!isVerified || (!isAdmin && !isUstaz)) {
+        showToast("You do not have permission to update progress.", "error");
+        return;
+      }
+
+      const progress = parseInt(progressValue.value, 10);
+      if (isNaN(progress) || progress < 0 || progress > 100) {
+        showToast("Please enter a valid progress percentage (0-100).", "error");
+        return;
+      }
+
+      saveProgressBtn.disabled = true;
       saveProgressBtn.textContent = 'Saving...';
 
       try {
-            // Fetch the target user's document to get their current enrolledCourses array
-            const userDocRef = db.collection("users").doc(currentEditingUserId);
-            const userDoc = await userDocRef.get();
-            if (!userDoc.exists) {
-                throw new Error("Target user document not found.");
-            }
+        const userDocRef = db.collection("users").doc(currentEditingUserId);
+        const userDoc = await userDocRef.get();
+        if (!userDoc.exists) {
+          throw new Error("Target user document not found.");
+        }
 
-            const targetUserData = userDoc.data();
-            const targetEnrolledCourses = targetUserData.enrolledCourses || [];
+        const targetUserData = userDoc.data();
+        const targetEnrolledCourses = targetUserData.enrolledCourses || [];
 
-            const courseIndex = targetEnrolledCourses.findIndex(c => c.id === currentEditingCourse);
-            if (courseIndex === -1) {
-                 throw new Error("Course not found in target user's enrolled list.");
-            }
+        const courseIndex = targetEnrolledCourses.findIndex(c => c.id === currentEditingCourse);
+        if (courseIndex === -1) {
+          throw new Error("Course not found in target user's enrolled list.");
+        }
 
-            const originalCourseData = targetEnrolledCourses[courseIndex];
+        const originalCourseData = targetEnrolledCourses[courseIndex];
 
-            // Create the updated course object
-            const updatedCourse = {
-                ...originalCourseData, // Keep original fields like enrollmentDate
-                id: currentEditingCourse, // Ensure ID is present
-                progress: progress,
-                notes: progressNotes.value.trim(), // Trim notes
-                lastUpdated: firebase.firestore.FieldValue.serverTimestamp(),
-                // Admin-specific fields
-                verified: progressVerified.value === 'true',
-                verifiedBy: progressVerified.value === 'true' ? (userData?.name || "Admin") : null, // Store current admin's name
-                verifiedAt: progressVerified.value === 'true' ? firebase.firestore.FieldValue.serverTimestamp() : null
-            };
+        // Create the updated course object
+        const updatedCourse = {
+          ...originalCourseData,
+          id: currentEditingCourse,
+          progress: progress,
+          notes: progressNotes.value.trim(),
+          lastUpdated: firebase.firestore.FieldValue.serverTimestamp(),
+          // Only admins/ustaz can verify
+          verified: (isAdmin || isUstaz) ? progressVerified.value === 'true' : originalCourseData.verified,
+          verifiedBy: (isAdmin || isUstaz) && progressVerified.value === 'true' ? (userData?.name || "Admin") : null,
+          verifiedAt: (isAdmin || isUstaz) && progressVerified.value === 'true' ? firebase.firestore.FieldValue.serverTimestamp() : null
+        };
 
-            // Create a new array with the updated course replacing the old one
-            const newEnrolledCoursesArray = targetEnrolledCourses.map((course, index) =>
-                index === courseIndex ? updatedCourse : course
-            );
+        // Update the array
+        const newEnrolledCoursesArray = targetEnrolledCourses.map((course, index) =>
+          index === courseIndex ? updatedCourse : course
+        );
 
-            // Update the entire enrolledCourses array in Firestore for the target user
-            await userDocRef.update({
-                enrolledCourses: newEnrolledCoursesArray
-            });
+        // Update Firestore
+        await userDocRef.update({
+          enrolledCourses: newEnrolledCoursesArray
+        });
 
-            // Update local state *only if* the currently logged-in user is the one being edited
-            if (currentUser.uid === currentEditingUserId) {
-                 // We need to refresh the local enrolledCourses array as the timestamp fields are now server values
-                 await loadUserData(currentUser.uid); // Reload data to get correct timestamps
-                 loadProgressPage(); // Re-render the page with updated local data
-            } else {
-                // If admin edited another user, maybe just show a success message or refresh admin view if needed
-                console.log(`Progress updated successfully for user ${currentEditingUserId}`);
-                 // If on an admin page viewing this user, refresh that view.
-                 // Since this is the user's own progress page, we don't need to reload their view here.
-            }
+        // Update local state if needed
+        if (currentUser.uid === currentEditingUserId) {
+          await loadUserData(currentUser.uid);
+          loadProgressPage();
+        }
 
-
-            progressModal.classList.remove('active');
-            // Maybe show a success toast/message here
+        progressModal.classList.remove('active');
+        showToast("Progress updated successfully!");
 
       } catch (error) {
         console.error("Error updating progress:", error);
-        alert(`Failed to update progress: ${error.message}. Please try again.`);
+        showToast(`Failed to update progress: ${error.message}`, "error");
       } finally {
-          saveProgressBtn.disabled = false; // Re-enable button
-          saveProgressBtn.textContent = 'Save Changes';
+        saveProgressBtn.disabled = false;
+        saveProgressBtn.textContent = 'Save Changes';
       }
     }
-
 
     async function handleLogout(e) {
       e.preventDefault();
       try {
         await auth.signOut();
-        sessionStorage.removeItem('adminPromptShownThisSession'); // Clear session storage on logout
+        sessionStorage.removeItem('adminPromptShownThisSession');
+        sessionStorage.removeItem('rolePrivilegeShownThisSession');
         window.location.href = 'login.html';
       } catch (error) {
         console.error("Error signing out:", error);
-         alert("Error signing out. Please try again.");
+        showToast("Error signing out. Please try again.", "error");
       }
     }
 
-    // Make functions available globally if called directly from HTML (like onclick)
+    // Make functions available globally
     window.openProgressModal = openProgressModal;
 
     // Initialize the app
     document.addEventListener('DOMContentLoaded', initApp);
-
   </script>
 </body>
 </html>
