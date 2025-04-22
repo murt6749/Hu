@@ -8,19 +8,19 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
   <style>
     :root {
-      --primary-color: #1a4d2e; /* Dark Green */
-      --secondary-color: #4f6f52; /* Medium Green */
-      --accent-color: #f5efe6; /* Light Beige */
-      --light-color: #e8dfca; /* Lighter Beige */
+      --primary-color: #1a4d2e;
+      --secondary-color: #4f6f52;
+      --accent-color: #f5efe6;
+      --light-color: #e8dfca;
       --white: #ffffff;
       --text-dark: #333333;
       --text-light: #555555;
-      --shadow: 0 5px 15px rgba(0, 0, 0, 0.08); /* Softer shadow */
+      --shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
       --success-color: #28a745;
       --info-color: #17a2b8;
       --warning-color: #ffc107;
       --danger-color: #dc3545;
-      --border-radius: 10px; /* Slightly smaller radius */
+      --border-radius: 10px;
       --box-padding: 16px;
       --transition-speed: 0.3s;
     }
@@ -33,7 +33,7 @@
     }
 
     body {
-      background-color: #f9fafb; /* Slightly off-white background */
+      background-color: #f9fafb;
       min-height: 100vh;
       font-size: 14px;
       color: var(--text-dark);
@@ -45,7 +45,6 @@
       padding: 0;
     }
 
-    /* Loading Animation */
     .loading-container {
       position: fixed; top: 0; left: 0; width: 100%; height: 100%;
       background-color: rgba(255, 255, 255, 0.95); display: flex;
@@ -60,7 +59,6 @@
     .loading-text { color: var(--primary-color); font-weight: 500; }
     @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
 
-    /* Header Styles */
     .header {
       background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
       color: white; padding: var(--box-padding); position: sticky; top: 0;
@@ -70,7 +68,6 @@
     .header h1 { font-size: 1.1rem; font-weight: 600; }
     .header-actions { display: flex; gap: 10px; align-items: center; }
 
-    /* User Avatar & Dropdown - Improved Design */
     .user-avatar-container {
       display: flex; align-items: center; gap: 8px; cursor: pointer;
       position: relative; padding: 4px 8px; border-radius: 20px;
@@ -90,6 +87,7 @@
       display: flex; align-items: center; justify-content: center;
       font-weight: bold; text-transform: uppercase;
       transition: transform var(--transition-speed) ease;
+      position: relative;
     }
     .user-avatar:hover { transform: scale(1.1); }
     .dropdown-arrow {
@@ -100,7 +98,6 @@
       transform: rotate(180deg);
     }
 
-    /* Account Dropdown - Enhanced */
     .account-dropdown { position: relative; }
     .dropdown-content {
       display: none; position: absolute; right: 0; top: 110%;
@@ -134,7 +131,6 @@
       display: block; 
     }
 
-    /* Role Badges */
     .role-badge {
       display: inline-flex; align-items: center; color: white;
       padding: 3px 8px; border-radius: 12px; font-size: 0.7rem;
@@ -149,12 +145,11 @@
       padding: 2px 6px;
     }
     .ustaz-badge { 
-      background-color: #6f42c1; /* Purple */
+      background-color: #6f42c1;
     }
     .verified-badge { background-color: var(--success-color); }
     .role-badge i { font-size: 0.65rem; margin-right: 4px; }
 
-    /* User Info in Dropdown */
     .dropdown-user-info {
       padding: 12px 16px; background-color: var(--light-color);
       border-bottom: 1px solid rgba(0, 0, 0, 0.05);
@@ -169,10 +164,8 @@
       overflow: hidden; text-overflow: ellipsis;
     }
 
-    /* Main Content Area */
     .main-content { padding: var(--box-padding); padding-bottom: 80px; }
 
-    /* Bottom Navigation */
     .bottom-nav {
       position: fixed; bottom: 0; left: 0; right: 0;
       background-color: var(--white); display: flex; justify-content: space-around;
@@ -197,7 +190,6 @@
       align-items: center; justify-content: center;
     }
 
-    /* Card Styles */
     .card {
       background-color: var(--white); border-radius: var(--border-radius);
       padding: var(--box-padding); margin-bottom: 20px;
@@ -210,7 +202,6 @@
     }
     .card-title i { font-size: 0.9em; }
 
-    /* Progress Card Styles - Enhanced */
     .progress-card {
         background-color: var(--white); border-radius: var(--border-radius);
         padding: var(--box-padding); margin-bottom: 15px; box-shadow: var(--shadow);
@@ -234,7 +225,6 @@
       min-width: 45px; text-align: right;
     }
 
-    /* Multicolor Progress Bar */
     .progress-bar-container {
       width: 100%; height: 12px;
       background-color: #e9ecef;
@@ -281,7 +271,6 @@
       color: white;
     }
 
-    /* Stats Grid */
     .stats-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; margin-bottom: 20px; }
     .stat-card {
       background-color: var(--white); border-radius: var(--border-radius);
@@ -297,14 +286,12 @@
     }
     .stat-label { font-size: 0.8rem; color: var(--text-light); }
 
-    /* Read-only Message */
     .read-only-message {
         font-size: 0.8rem; color: var(--secondary-color); margin: 10px 0 15px 0;
         text-align: center; background-color: var(--accent-color); padding: 8px;
         border-radius: var(--border-radius); border: 1px dashed var(--secondary-color);
     }
 
-    /* Privilege Notification */
     .privilege-notification {
       background-color: rgba(23, 162, 184, 0.1);
       border-left: 4px solid var(--info-color);
@@ -324,7 +311,6 @@
       font-size: 0.85rem; color: var(--text-light); margin-bottom: 0;
     }
 
-    /* Modal Styles */
     .modal {
       display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0;
       background-color: rgba(0, 0, 0, 0.6);
@@ -360,13 +346,13 @@
       border-bottom-right-radius: var(--border-radius);
     }
 
-    /* Admin Controls */
     .admin-controls { margin-top: 15px; padding-top: 15px; border-top: 1px solid #eee; }
-    .admin-only { display: none; }
+    .admin-only, .ustaz-only { display: none; }
     body.is-admin .admin-only, 
-    body.is-ustaz .admin-only { display: block; }
+    body.is-ustaz .ustaz-only,
+    body.is-admin .admin-ustaz-shared,
+    body.is-ustaz .admin-ustaz-shared { display: block; }
 
-    /* Form Elements */
     .form-group { margin-bottom: 15px; }
     .form-group label {
       display: block; margin-bottom: 6px; font-weight: 500; font-size: 0.9rem;
@@ -383,7 +369,6 @@
     }
     textarea.form-control { min-height: 80px; }
 
-    /* Buttons */
     .btn {
       padding: 10px 20px; border: none; border-radius: var(--border-radius);
       font-size: 0.95rem; font-weight: 500; cursor: pointer;
@@ -398,7 +383,6 @@
     }
     .btn-outline:hover { background-color: var(--accent-color); color: var(--primary-color); border-color: var(--primary-color); }
 
-    /* Course Details Section */
     .course-details-section {
       margin-top: 15px; padding: 12px; background-color: var(--accent-color);
       border-radius: var(--border-radius); border: 1px solid var(--light-color);
@@ -414,7 +398,6 @@
     }
     .course-meta-item i { font-size: 0.8rem; }
 
-    /* Toast Notification */
     .toast {
       position: fixed; bottom: 80px; left: 50%; transform: translateX(-50%);
       background-color: var(--primary-color); color: white;
@@ -434,7 +417,6 @@
     .toast.warning { background-color: var(--warning-color); color: var(--text-dark); }
     .toast.info { background-color: var(--info-color); }
 
-    /* Responsive */
     @media (min-width: 768px) {
       .container { max-width: 720px; margin: 0 auto; }
       .stats-grid { grid-template-columns: repeat(4, 1fr); }
@@ -473,10 +455,16 @@
             </div>
             <a href="schedule.html"><i class="fas fa-calendar-alt"></i> Schedule</a>
             <a href="profile.html" class="profile-link"><i class="fas fa-user"></i> Profile</a>
-            <div class="admin-only">
+            
+            <div class="admin-ustaz-shared">
               <a href="progressadmin.html"><i class="fas fa-tachometer-alt"></i> Admin Panel</a>
+              <a href="#" id="manage-progress-link"><i class="fas fa-tasks"></i> Manage Progress</a>
+            </div>
+            
+            <div class="admin-only">
               <a href="#" id="manage-users-link"><i class="fas fa-users-cog"></i> Manage Users</a>
             </div>
+            
             <a href="#" id="logout-btn"><i class="fas fa-sign-out-alt"></i> Logout</a>
           </div>
         </div>
@@ -508,7 +496,6 @@
     </nav>
   </div>
 
-  <!-- Progress Update Modal -->
   <div class="modal" id="progress-modal" role="dialog" aria-modal="true" aria-labelledby="progress-modal-title">
     <div class="modal-content">
       <div class="modal-header">
@@ -543,7 +530,6 @@
     </div>
   </div>
 
-  <!-- Admin Confirmation Modal -->
   <div class="modal" id="admin-confirmation-modal" role="dialog" aria-modal="true" aria-labelledby="admin-confirm-title">
     <div class="modal-content">
       <div class="modal-header">
@@ -562,7 +548,6 @@
     </div>
   </div>
 
-  <!-- Role Privilege Notification -->
   <div class="modal" id="role-privilege-modal" role="dialog" aria-modal="true" aria-labelledby="role-privilege-title">
     <div class="modal-content">
       <div class="modal-header">
@@ -589,7 +574,6 @@
   <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
 
   <script>
-    // Firebase Configuration
     const firebaseConfig = {
       apiKey: "AIzaSyBQyNVWh1BtCkXlBfuS7jHAa36FTklZayo",
       authDomain: "pharma-quiz-b5a07.firebaseapp.com",
@@ -600,7 +584,6 @@
       measurementId: "G-3QRQE9HQFB"
     };
 
-    // Initialize Firebase
     if (!firebase.apps.length) {
       firebase.initializeApp(firebaseConfig);
     }
@@ -639,6 +622,7 @@
     const rolePrivilegeMessage = document.getElementById('role-privilege-message');
     const verifiedBadge = document.getElementById('verified-badge');
     const manageUsersLink = document.getElementById('manage-users-link');
+    const manageProgressLink = document.getElementById('manage-progress-link');
     const loadingContainer = document.getElementById('loading-container');
 
     let currentUser = null;
@@ -651,7 +635,6 @@
     let currentEditingCourse = null;
     let currentEditingUserId = null;
 
-    // Initialize application
     function initApp() {
       setupEventListeners();
       checkAuthState();
@@ -684,6 +667,10 @@
       stayHereBtn.addEventListener('click', () => adminConfirmationModal.classList.remove('active'));
       closeRoleModal.addEventListener('click', () => rolePrivilegeModal.classList.remove('active'));
       understandPrivilegesBtn.addEventListener('click', () => rolePrivilegeModal.classList.remove('active'));
+      manageProgressLink.addEventListener('click', (e) => {
+        e.preventDefault();
+        window.location.href = 'progressadmin.html';
+      });
     }
 
     function showLoading() {
@@ -814,33 +801,25 @@
       // Update verified badge
       verifiedBadge.style.display = isVerified ? 'inline-flex' : 'none';
 
-      // Add admin badge to avatar if user is admin
-      const existingAdminBadge = userAvatar.querySelector('.admin-badge');
-      if (isAdmin && isVerified) {
-        if (!existingAdminBadge) {
-          const adminBadge = document.createElement('span');
-          adminBadge.className = 'admin-badge';
-          adminBadge.innerHTML = '<i class="fas fa-user-shield"></i>';
-          userAvatar.appendChild(adminBadge);
+      // Update body classes based on role
+      document.body.classList.toggle('is-admin', isAdmin && isVerified);
+      document.body.classList.toggle('is-ustaz', isUstaz && isVerified);
+
+      // Add role badge to avatar
+      const existingRoleBadge = userAvatar.querySelector('.role-badge');
+      if ((isAdmin || isUstaz) && isVerified) {
+        if (!existingRoleBadge) {
+          const roleBadge = document.createElement('span');
+          roleBadge.className = 'role-badge admin-badge';
+          roleBadge.innerHTML = `<i class="fas ${isAdmin ? 'fa-user-shield' : 'fa-user-graduate'}"></i>`;
+          roleBadge.title = isAdmin ? 'Administrator' : 'Ustaz';
+          userAvatar.appendChild(roleBadge);
         }
-      } else if (existingAdminBadge) {
-        existingAdminBadge.remove();
+      } else if (existingRoleBadge) {
+        existingRoleBadge.remove();
       }
 
-      // Add ustaz badge to avatar if user is ustaz
-      const existingUstazBadge = userAvatar.querySelector('.ustaz-badge');
-      if (isUstaz && isVerified) {
-        if (!existingUstazBadge) {
-          const ustazBadge = document.createElement('span');
-          ustazBadge.className = 'ustaz-badge admin-badge';
-          ustazBadge.innerHTML = '<i class="fas fa-user-graduate"></i>';
-          userAvatar.appendChild(ustazBadge);
-        }
-      } else if (existingUstazBadge) {
-        existingUstazBadge.remove();
-      }
-
-      // Show/hide admin links
+      // Show/hide admin/ustaz specific elements
       manageUsersLink.style.display = isAdmin ? 'flex' : 'none';
     }
 
