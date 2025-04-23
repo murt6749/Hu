@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -92,6 +91,17 @@
       display: flex;
       gap: 10px;
       align-items: center;
+    }
+    .user-avatar {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background-color: var(--accent-color);
+      color: var(--primary-color);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
     }
     
     /* Main Content Area */
@@ -219,6 +229,10 @@
       background-color: var(--danger-color);
       color: white;
     }
+    .btn-info {
+      background-color: var(--info-color);
+      color: white;
+    }
     
     /* Bulk Actions */
     .bulk-actions {
@@ -322,6 +336,20 @@
       justify-content: flex-end;
       gap: 10px;
     }
+    .form-group {
+      margin-bottom: 15px;
+    }
+    .form-control {
+      width: 100%;
+      padding: 8px 12px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      font-size: 14px;
+    }
+    textarea.form-control {
+      min-height: 100px;
+      resize: vertical;
+    }
     
     /* Filter Dropdown */
     .filter-dropdown {
@@ -342,7 +370,7 @@
       display: none;
       position: absolute;
       background-color: white;
-      min-width: 200px;
+      min-width: 250px;
       box-shadow: var(--shadow);
       border-radius: var(--border-radius);
       z-index: 1;
@@ -361,6 +389,89 @@
       color: var(--primary-color);
     }
     
+    /* Checkbox styles */
+    .checkbox-container {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+    .checkbox-container input[type="checkbox"] {
+      cursor: pointer;
+    }
+    
+    /* Status indicators */
+    .status-indicator {
+      display: inline-block;
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      margin-right: 5px;
+    }
+    .status-active {
+      background-color: var(--success-color);
+    }
+    .status-inactive {
+      background-color: var(--danger-color);
+    }
+    
+    /* Pagination */
+    .pagination {
+      display: flex;
+      justify-content: center;
+      padding: 15px;
+      gap: 5px;
+    }
+    .pagination button {
+      padding: 5px 10px;
+      border: 1px solid #ddd;
+      background-color: white;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    .pagination button.active {
+      background-color: var(--primary-color);
+      color: white;
+      border-color: var(--primary-color);
+    }
+    .pagination button:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+    
+    /* Stats Cards */
+    .stats-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 15px;
+      margin-bottom: 15px;
+    }
+    .stat-card {
+      background-color: var(--white);
+      border-radius: var(--border-radius);
+      padding: 15px;
+      box-shadow: var(--shadow);
+    }
+    .stat-card h3 {
+      font-size: 0.9rem;
+      color: #666;
+      margin-bottom: 10px;
+    }
+    .stat-card .stat-value {
+      font-size: 1.5rem;
+      font-weight: 600;
+      color: var(--primary-color);
+    }
+    .stat-card .stat-change {
+      font-size: 0.8rem;
+      margin-top: 5px;
+    }
+    .stat-card .stat-change.positive {
+      color: var(--success-color);
+    }
+    .stat-card .stat-change.negative {
+      color: var(--danger-color);
+    }
+    
     /* Responsive */
     @media (max-width: 768px) {
       th, td {
@@ -372,6 +483,9 @@
       }
       .progress-controls {
         grid-template-columns: 1fr;
+      }
+      .stats-container {
+        grid-template-columns: 1fr 1fr;
       }
     }
     @media (max-width: 480px) {
@@ -387,6 +501,9 @@
       }
       .progress-buttons .btn {
         width: 100%;
+      }
+      .stats-container {
+        grid-template-columns: 1fr;
       }
     }
   </style>
@@ -410,6 +527,30 @@
 
     <!-- Main Content -->
     <main class="main-content">
+      <!-- Stats Overview -->
+      <div class="stats-container">
+        <div class="stat-card">
+          <h3>Total Students</h3>
+          <div class="stat-value" id="total-students">0</div>
+          <div class="stat-change positive" id="student-change">+0 (0%)</div>
+        </div>
+        <div class="stat-card">
+          <h3>Active Courses</h3>
+          <div class="stat-value" id="total-courses">0</div>
+          <div class="stat-change positive" id="course-change">+0 (0%)</div>
+        </div>
+        <div class="stat-card">
+          <h3>Verified Students</h3>
+          <div class="stat-value" id="verified-students">0</div>
+          <div class="stat-value" style="font-size: 1rem;" id="verified-percentage">0%</div>
+        </div>
+        <div class="stat-card">
+          <h3>Avg. Progress</h3>
+          <div class="stat-value" id="avg-progress">0%</div>
+          <div class="stat-change positive" id="progress-change">+0%</div>
+        </div>
+      </div>
+      
       <!-- Bulk Actions -->
       <div class="bulk-actions">
         <div class="bulk-controls">
@@ -428,6 +569,9 @@
           </button>
           <button id="bulk-notes" class="btn btn-primary">
             <i class="fas fa-comment"></i> Add Note
+          </button>
+          <button id="export-data" class="btn btn-info">
+            <i class="fas fa-file-export"></i> Export
           </button>
         </div>
         <div>
@@ -480,19 +624,20 @@
             <div class="filter-content" id="filter-content">
               <div class="filter-group">
                 <h4>Course Type</h4>
-                <select id="course-filter" class="form-control">
-                  <option value="">All Courses</option>
-                  <option value="qirat">Qirat</option>
-                  <option value="hifz">Hifz</option>
-                  <option value="nezer">Nezer</option>
+                <select id="course-type-filter" class="form-control">
+                  <option value="">All Course Types</option>
+                </select>
+              </div>
+              <div class="filter-group">
+                <h4>Course Title</h4>
+                <select id="course-title-filter" class="form-control">
+                  <option value="">All Course Titles</option>
                 </select>
               </div>
               <div class="filter-group">
                 <h4>Language</h4>
                 <select id="language-filter" class="form-control">
                   <option value="">All Languages</option>
-                  <option value="Amharic">Amharic</option>
-                  <option value="Oromifa">Oromifa</option>
                 </select>
               </div>
               <div class="filter-group">
@@ -503,8 +648,30 @@
                   <option value="unverified">Unverified Only</option>
                 </select>
               </div>
+              <div class="filter-group">
+                <h4>Progress Range</h4>
+                <div style="display: flex; gap: 5px; align-items: center;">
+                  <input type="number" id="progress-min" class="form-control" placeholder="Min" min="0" max="100" style="flex: 1;">
+                  <span>to</span>
+                  <input type="number" id="progress-max" class="form-control" placeholder="Max" min="0" max="100" style="flex: 1;">
+                </div>
+              </div>
+              <div class="filter-group">
+                <h4>Sort By</h4>
+                <select id="sort-by" class="form-control">
+                  <option value="name-asc">Name (A-Z)</option>
+                  <option value="name-desc">Name (Z-A)</option>
+                  <option value="progress-asc">Progress (Low-High)</option>
+                  <option value="progress-desc">Progress (High-Low)</option>
+                  <option value="recent">Most Recent</option>
+                  <option value="oldest">Oldest</option>
+                </select>
+              </div>
               <button id="apply-filters" class="btn btn-primary" style="width: 100%;">
                 Apply Filters
+              </button>
+              <button id="reset-filters" class="btn btn-outline" style="width: 100%; margin-top: 5px;">
+                Reset Filters
               </button>
             </div>
           </div>
@@ -517,6 +684,7 @@
               <th>Course</th>
               <th>Progress</th>
               <th>Status</th>
+              <th>Last Updated</th>
               <th>Actions</th>
             </tr>
           </thead>
@@ -524,6 +692,11 @@
             <!-- Users will be loaded here -->
           </tbody>
         </table>
+        <div class="pagination" id="pagination">
+          <button id="prev-page" disabled>&laquo; Prev</button>
+          <span id="page-info">Page 1 of 1</span>
+          <button id="next-page" disabled>Next &raquo;</button>
+        </div>
       </div>
     </main>
   </div>
@@ -542,6 +715,10 @@
         </div>
         <div class="form-group">
           <label>Affected Users: <span id="affected-users-count">0</span></label>
+        </div>
+        <div class="form-group">
+          <label for="bulk-update-notes">Update Notes (Optional)</label>
+          <textarea id="bulk-update-notes" class="form-control" placeholder="Add any notes about this bulk update..."></textarea>
         </div>
       </div>
       <div class="modal-footer">
@@ -566,10 +743,60 @@
         <div class="form-group">
           <label>Affected Users: <span id="affected-users-note-count">0</span></label>
         </div>
+        <div class="form-group">
+          <label for="note-visibility">Note Visibility</label>
+          <select id="note-visibility" class="form-control">
+            <option value="private">Private (Admin Only)</option>
+            <option value="visible">Visible to Student</option>
+          </select>
+        </div>
       </div>
       <div class="modal-footer">
         <button class="btn btn-outline" id="cancel-note">Cancel</button>
         <button class="btn btn-primary" id="confirm-note">Add Note</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Export Modal -->
+  <div class="modal" id="export-modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 class="modal-title">Export Data</h3>
+        <button class="modal-close" id="close-export-modal">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <label>Export Options</label>
+          <div style="display: flex; flex-direction: column; gap: 8px;">
+            <label><input type="checkbox" id="export-selected" checked> Selected Users Only</label>
+            <label><input type="checkbox" id="export-all" checked> Include All Users</label>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="export-format">Format</label>
+          <select id="export-format" class="form-control">
+            <option value="csv">CSV (Excel)</option>
+            <option value="json">JSON</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Fields to Include</label>
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
+            <label><input type="checkbox" name="export-fields" value="name" checked> Name</label>
+            <label><input type="checkbox" name="export-fields" value="email" checked> Email</label>
+            <label><input type="checkbox" name="export-fields" value="studentId" checked> Student ID</label>
+            <label><input type="checkbox" name="export-fields" value="course" checked> Course</label>
+            <label><input type="checkbox" name="export-fields" value="progress" checked> Progress</label>
+            <label><input type="checkbox" name="export-fields" value="verified" checked> Verification</label>
+            <label><input type="checkbox" name="export-fields" value="lastUpdated" checked> Last Updated</label>
+            <label><input type="checkbox" name="export-fields" value="notes" checked> Notes</label>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-outline" id="cancel-export">Cancel</button>
+        <button class="btn btn-primary" id="confirm-export">Export Data</button>
       </div>
     </div>
   </div>
@@ -622,6 +849,7 @@
     const bulkVerifyBtn = document.getElementById('bulk-verify');
     const bulkUnverifyBtn = document.getElementById('bulk-unverify');
     const bulkNotesBtn = document.getElementById('bulk-notes');
+    const exportDataBtn = document.getElementById('export-data');
     const increaseProgressBtn = document.getElementById('increase-progress');
     const decreaseProgressBtn = document.getElementById('decrease-progress');
     const completeProgressBtn = document.getElementById('complete-progress');
@@ -630,28 +858,63 @@
     const applyTo = document.getElementById('apply-to');
     const filterBtn = document.getElementById('filter-btn');
     const filterContent = document.getElementById('filter-content');
-    const courseFilter = document.getElementById('course-filter');
+    const courseTypeFilter = document.getElementById('course-type-filter');
+    const courseTitleFilter = document.getElementById('course-title-filter');
     const languageFilter = document.getElementById('language-filter');
     const verificationFilter = document.getElementById('verification-filter');
+    const progressMin = document.getElementById('progress-min');
+    const progressMax = document.getElementById('progress-max');
+    const sortBy = document.getElementById('sort-by');
     const applyFiltersBtn = document.getElementById('apply-filters');
+    const resetFiltersBtn = document.getElementById('reset-filters');
     const bulkUpdateModal = document.getElementById('bulk-update-modal');
     const closeBulkModal = document.getElementById('close-bulk-modal');
     const cancelBulkUpdate = document.getElementById('cancel-bulk-update');
     const confirmBulkUpdate = document.getElementById('confirm-bulk-update');
     const bulkProgressValue = document.getElementById('bulk-progress-value');
+    const bulkUpdateNotes = document.getElementById('bulk-update-notes');
     const affectedUsersCount = document.getElementById('affected-users-count');
     const noteModal = document.getElementById('note-modal');
     const closeNoteModal = document.getElementById('close-note-modal');
     const cancelNote = document.getElementById('cancel-note');
     const confirmNote = document.getElementById('confirm-note');
     const adminNote = document.getElementById('admin-note');
+    const noteVisibility = document.getElementById('note-visibility');
     const affectedUsersNoteCount = document.getElementById('affected-users-note-count');
+    const exportModal = document.getElementById('export-modal');
+    const closeExportModal = document.getElementById('close-export-modal');
+    const cancelExport = document.getElementById('cancel-export');
+    const confirmExport = document.getElementById('confirm-export');
+    const exportSelected = document.getElementById('export-selected');
+    const exportAll = document.getElementById('export-all');
+    const exportFormat = document.getElementById('export-format');
+    const prevPageBtn = document.getElementById('prev-page');
+    const nextPageBtn = document.getElementById('next-page');
+    const pageInfo = document.getElementById('page-info');
+    const totalStudents = document.getElementById('total-students');
+    const totalCourses = document.getElementById('total-courses');
+    const verifiedStudents = document.getElementById('verified-students');
+    const verifiedPercentage = document.getElementById('verified-percentage');
+    const avgProgress = document.getElementById('avg-progress');
+    const studentChange = document.getElementById('student-change');
+    const courseChange = document.getElementById('course-change');
+    const progressChange = document.getElementById('progress-change');
 
     // Data variables
     let allUsers = [];
     let filteredUsers = [];
     let selectedUserIds = new Set();
     let currentAdmin = null;
+    let currentPage = 1;
+    const usersPerPage = 10;
+    let allCourseTypes = new Set();
+    let allCourseTitles = new Set();
+    let allLanguages = new Set();
+    let previousStats = {
+      totalStudents: 0,
+      totalCourses: 0,
+      avgProgress: 0
+    };
 
     // Initialize the app
     function initApp() {
@@ -715,6 +978,7 @@
       bulkVerifyBtn.addEventListener('click', () => bulkVerifyCourses(true));
       bulkUnverifyBtn.addEventListener('click', () => bulkVerifyCourses(false));
       bulkNotesBtn.addEventListener('click', openNoteModal);
+      exportDataBtn.addEventListener('click', openExportModal);
       increaseProgressBtn.addEventListener('click', () => adjustProgress('increase'));
       decreaseProgressBtn.addEventListener('click', () => adjustProgress('decrease'));
       completeProgressBtn.addEventListener('click', () => adjustProgress('complete'));
@@ -725,9 +989,15 @@
       closeNoteModal.addEventListener('click', () => noteModal.classList.remove('active'));
       cancelNote.addEventListener('click', () => noteModal.classList.remove('active'));
       confirmNote.addEventListener('click', addAdminNote);
+      closeExportModal.addEventListener('click', () => exportModal.classList.remove('active'));
+      cancelExport.addEventListener('click', () => exportModal.classList.remove('active'));
+      confirmExport.addEventListener('click', exportData);
       userSearch.addEventListener('input', applySearchFilter);
       filterBtn.addEventListener('click', toggleFilterDropdown);
       applyFiltersBtn.addEventListener('click', applyFilters);
+      resetFiltersBtn.addEventListener('click', resetFilters);
+      prevPageBtn.addEventListener('click', goToPreviousPage);
+      nextPageBtn.addEventListener('click', goToNextPage);
       
       // Close filter dropdown when clicking outside
       document.addEventListener('click', (e) => {
@@ -747,12 +1017,23 @@
       try {
         const usersSnapshot = await getDocs(collection(db, "users"));
         allUsers = [];
+        allCourseTypes.clear();
+        allCourseTitles.clear();
+        allLanguages.clear();
         
         usersSnapshot.forEach(doc => {
           const user = doc.data();
           if (doc.id !== currentAdmin.uid) { // Exclude admin from the list
             // Ensure enrolledCourses exists and is an array
             const enrolledCourses = Array.isArray(user.enrolledCourses) ? user.enrolledCourses : [];
+            
+            // Collect all unique course types, titles and languages
+            enrolledCourses.forEach(course => {
+              if (course.type) allCourseTypes.add(course.type);
+              if (course.title) allCourseTitles.add(course.title);
+              if (course.language) allLanguages.add(course.language);
+            });
+            
             allUsers.push({
               id: doc.id,
               ...user,
@@ -761,29 +1042,133 @@
           }
         });
         
-        filteredUsers = [...allUsers];
-        displayUsers();
+        // Update filter dropdowns with unique values
+        updateFilterDropdowns();
+        
+        // Save previous stats for comparison
+        previousStats.totalStudents = allUsers.length;
+        previousStats.totalCourses = Array.from(allCourseTitles).length;
+        
+        // Calculate average progress
+        let totalProgress = 0;
+        let progressCount = 0;
+        allUsers.forEach(user => {
+          user.enrolledCourses.forEach(course => {
+            if (typeof course.progress === 'number') {
+              totalProgress += course.progress;
+              progressCount++;
+            }
+          });
+        });
+        previousStats.avgProgress = progressCount > 0 ? Math.round(totalProgress / progressCount) : 0;
+        
+        // Apply default filters and display
+        resetFilters();
+        
+        // Update stats cards
+        updateStatsCards();
       } catch (error) {
         console.error("Error loading users:", error);
       }
     }
 
-    // Display users in the table
+    // Update filter dropdowns with unique values
+    function updateFilterDropdowns() {
+      // Course Type filter
+      courseTypeFilter.innerHTML = '<option value="">All Course Types</option>';
+      Array.from(allCourseTypes).sort().forEach(type => {
+        courseTypeFilter.innerHTML += `<option value="${type}">${type}</option>`;
+      });
+      
+      // Course Title filter
+      courseTitleFilter.innerHTML = '<option value="">All Course Titles</option>';
+      Array.from(allCourseTitles).sort().forEach(title => {
+        courseTitleFilter.innerHTML += `<option value="${title}">${title}</option>`;
+      });
+      
+      // Language filter
+      languageFilter.innerHTML = '<option value="">All Languages</option>';
+      Array.from(allLanguages).sort().forEach(lang => {
+        languageFilter.innerHTML += `<option value="${lang}">${lang}</option>`;
+      });
+    }
+
+    // Update stats cards
+    function updateStatsCards() {
+      const totalStudentsCount = allUsers.length;
+      const totalCoursesCount = Array.from(allCourseTitles).size;
+      
+      // Calculate verified students count
+      let verifiedCount = 0;
+      allUsers.forEach(user => {
+        if (user.enrolledCourses.some(course => course.verified)) {
+          verifiedCount++;
+        }
+      });
+      
+      // Calculate average progress
+      let totalProgress = 0;
+      let progressCount = 0;
+      allUsers.forEach(user => {
+        user.enrolledCourses.forEach(course => {
+          if (typeof course.progress === 'number') {
+            totalProgress += course.progress;
+            progressCount++;
+          }
+        });
+      });
+      const avgProgressValue = progressCount > 0 ? Math.round(totalProgress / progressCount) : 0;
+      
+      // Update DOM elements
+      totalStudents.textContent = totalStudentsCount;
+      totalCourses.textContent = totalCoursesCount;
+      verifiedStudents.textContent = verifiedCount;
+      verifiedPercentage.textContent = `${Math.round((verifiedCount / totalStudentsCount) * 100)}%`;
+      avgProgress.textContent = `${avgProgressValue}%`;
+      
+      // Calculate changes
+      const studentDiff = totalStudentsCount - previousStats.totalStudents;
+      const courseDiff = totalCoursesCount - previousStats.totalCourses;
+      const progressDiff = avgProgressValue - previousStats.avgProgress;
+      
+      // Update change indicators
+      studentChange.textContent = `${studentDiff >= 0 ? '+' : ''}${studentDiff} (${Math.round((studentDiff / previousStats.totalStudents) * 100)}%)`;
+      studentChange.className = `stat-change ${studentDiff >= 0 ? 'positive' : 'negative'}`;
+      
+      courseChange.textContent = `${courseDiff >= 0 ? '+' : ''}${courseDiff} (${Math.round((courseDiff / previousStats.totalCourses) * 100)}%)`;
+      courseChange.className = `stat-change ${courseDiff >= 0 ? 'positive' : 'negative'}`;
+      
+      progressChange.textContent = `${progressDiff >= 0 ? '+' : ''}${progressDiff}%`;
+      progressChange.className = `stat-change ${progressDiff >= 0 ? 'positive' : 'negative'}`;
+    }
+
+    // Display users in the table with pagination
     function displayUsers() {
       usersTableBody.innerHTML = '';
       
       if (filteredUsers.length === 0) {
         usersTableBody.innerHTML = `
           <tr>
-            <td colspan="6" style="text-align: center; padding: 20px;">
+            <td colspan="7" style="text-align: center; padding: 20px;">
               No users found matching your search/filters
             </td>
           </tr>
         `;
+        updatePaginationControls();
         return;
       }
       
-      filteredUsers.forEach(user => {
+      // Apply sorting
+      applySorting();
+      
+      // Calculate pagination
+      const totalPages = Math.ceil(filteredUsers.length / usersPerPage);
+      currentPage = Math.min(currentPage, totalPages);
+      const startIndex = (currentPage - 1) * usersPerPage;
+      const endIndex = Math.min(startIndex + usersPerPage, filteredUsers.length);
+      const usersToDisplay = filteredUsers.slice(startIndex, endIndex);
+      
+      usersToDisplay.forEach(user => {
         // Create a row for each course the user is enrolled in
         if (user.enrolledCourses.length === 0) {
           const row = document.createElement('tr');
@@ -793,109 +1178,184 @@
               <div style="font-weight: 500;">${user.name || 'No Name'}</div>
               <div style="font-size: 0.8rem; color: #666;">${user.email || ''}</div>
             </td>
-            <td colspan="4">No enrolled courses</td>
+            <td colspan="5">No enrolled courses</td>
           `;
           usersTableBody.appendChild(row);
         } else {
           user.enrolledCourses.forEach(course => {
-            const isSelected = selectedUserIds.has(user.id);
-            const row = document.createElement('tr');
-            row.innerHTML = `
-              <td>
-                <input type="checkbox" class="user-checkbox" data-user-id="${user.id}" ${isSelected ? 'checked' : ''}>
-              </td>
-              <td>
-                <div style="font-weight: 500;">${user.name || 'No Name'}</div>
-                <div style="font-size: 0.8rem; color: #666;">${user.email || ''}</div>
-              </td>
-              <td>
-                <div style="font-weight: 500;">${course.title || 'No Title'}</div>
-                <div style="font-size: 0.8rem; color: #666;">
-                  ${course.type || ''} • ${course.language || ''}
-                </div>
-              </td>
-              <td>
-                <div class="progress-container">
-                  <div class="progress-bar" style="width: ${course.progress || 0}%"></div>
-                </div>
-                <span style="margin-left: 5px;">${course.progress || 0}%</span>
-              </td>
-              <td>
-                <span class="badge ${course.verified ? 'verified' : 'unverified'}">
-                  ${course.verified ? 'Verified' : 'Unverified'}
-                </span>
-              </td>
-              <td>
-                <button class="btn btn-primary btn-sm save-progress" 
-                        data-user-id="${user.id}" 
-                        data-course-id="${course.id}">
-                  <i class="fas fa-save"></i>
-                </button>
-                ${course.verified ? 
-                  `<button class="btn btn-warning btn-sm verify-btn" 
+            // Only display courses that match current filters
+            if (courseMatchesFilters(course)) {
+              const isSelected = selectedUserIds.has(user.id);
+              const lastUpdated = course.lastUpdated ? new Date(course.lastUpdated).toLocaleString() : 'Never';
+              
+              const row = document.createElement('tr');
+              row.innerHTML = `
+                <td>
+                  <input type="checkbox" class="user-checkbox" data-user-id="${user.id}" ${isSelected ? 'checked' : ''}>
+                </td>
+                <td>
+                  <div style="font-weight: 500;">${user.name || 'No Name'}</div>
+                  <div style="font-size: 0.8rem; color: #666;">${user.email || ''}</div>
+                </td>
+                <td>
+                  <div style="font-weight: 500;">${course.title || 'No Title'}</div>
+                  <div style="font-size: 0.8rem; color: #666;">
+                    ${course.type || ''} • ${course.language || ''}
+                  </div>
+                </td>
+                <td>
+                  <div class="progress-container">
+                    <div class="progress-bar" style="width: ${course.progress || 0}%"></div>
+                  </div>
+                  <span style="margin-left: 5px;">${course.progress || 0}%</span>
+                </td>
+                <td>
+                  <span class="badge ${course.verified ? 'verified' : 'unverified'}">
+                    ${course.verified ? 'Verified' : 'Unverified'}
+                  </span>
+                </td>
+                <td>
+                  ${lastUpdated}
+                </td>
+                <td>
+                  <button class="btn btn-primary btn-sm save-progress" 
                           data-user-id="${user.id}" 
-                          data-course-id="${course.id}"
-                          data-verify="false">
-                    <i class="fas fa-times"></i>
-                  </button>` :
-                  `<button class="btn btn-success btn-sm verify-btn" 
-                          data-user-id="${user.id}" 
-                          data-course-id="${course.id}"
-                          data-verify="true">
-                    <i class="fas fa-check"></i>
-                  </button>`
+                          data-course-id="${course.id}">
+                    <i class="fas fa-save"></i>
+                  </button>
+                  ${course.verified ? 
+                    `<button class="btn btn-warning btn-sm verify-btn" 
+                            data-user-id="${user.id}" 
+                            data-course-id="${course.id}"
+                            data-verify="false">
+                      <i class="fas fa-times"></i>
+                    </button>` :
+                    `<button class="btn btn-success btn-sm verify-btn" 
+                            data-user-id="${user.id}" 
+                            data-course-id="${course.id}"
+                            data-verify="true">
+                      <i class="fas fa-check"></i>
+                    </button>`
+                  }
+                  <input type="number" class="progress-input" 
+                         value="${course.progress || 0}" 
+                         min="0" max="100"
+                         data-user-id="${user.id}"
+                         data-course-id="${course.id}"
+                         style="width: 50px; padding: 2px; text-align: center;">
+                  <button class="btn btn-info btn-sm view-notes" 
+                          data-user-id="${user.id}"
+                          data-course-id="${course.id}">
+                    <i class="fas fa-eye"></i>
+                  </button>
+                </td>
+              `;
+              usersTableBody.appendChild(row);
+              
+              // Add event listeners for this row
+              const checkbox = row.querySelector('.user-checkbox');
+              checkbox.addEventListener('change', (e) => {
+                if (e.target.checked) {
+                  selectedUserIds.add(user.id);
+                } else {
+                  selectedUserIds.delete(user.id);
                 }
-                <input type="number" class="progress-input" 
-                       value="${course.progress || 0}" 
-                       min="0" max="100"
-                       data-user-id="${user.id}"
-                       data-course-id="${course.id}"
-                       style="width: 50px; padding: 2px; text-align: center;">
-              </td>
-            `;
-            usersTableBody.appendChild(row);
-            
-            // Add event listeners for this row
-            const checkbox = row.querySelector('.user-checkbox');
-            checkbox.addEventListener('change', (e) => {
-              if (e.target.checked) {
-                selectedUserIds.add(user.id);
-              } else {
-                selectedUserIds.delete(user.id);
-              }
-              updateSelectedCount();
-              updateSelectAllCheckbox();
-            });
-            
-            // Save progress button
-            row.querySelector('.save-progress').addEventListener('click', async (e) => {
-              const userId = e.target.dataset.userId;
-              const courseId = e.target.dataset.courseId;
-              const progressInput = row.querySelector('.progress-input');
-              const progressValue = parseInt(progressInput.value);
+                updateSelectedCount();
+                updateSelectAllCheckbox();
+              });
               
-              if (isNaN(progressValue)) {
-                alert('Please enter a valid progress percentage');
-                return;
-              }
+              // Save progress button
+              row.querySelector('.save-progress').addEventListener('click', async (e) => {
+                const userId = e.target.dataset.userId;
+                const courseId = e.target.dataset.courseId;
+                const progressInput = row.querySelector('.progress-input');
+                const progressValue = parseInt(progressInput.value);
+                
+                if (isNaN(progressValue)) {
+                  alert('Please enter a valid progress percentage');
+                  return;
+                }
+                
+                await updateUserProgress(userId, courseId, progressValue);
+              });
               
-              await updateUserProgress(userId, courseId, progressValue);
-            });
-            
-            // Verify button
-            row.querySelector('.verify-btn').addEventListener('click', async (e) => {
-              const userId = e.target.dataset.userId;
-              const courseId = e.target.dataset.courseId;
-              const verify = e.target.dataset.verify === 'true';
+              // Verify button
+              row.querySelector('.verify-btn').addEventListener('click', async (e) => {
+                const userId = e.target.dataset.userId;
+                const courseId = e.target.dataset.courseId;
+                const verify = e.target.dataset.verify === 'true';
+                
+                await verifyUserCourse(userId, courseId, verify);
+              });
               
-              await verifyUserCourse(userId, courseId, verify);
-            });
+              // View notes button
+              row.querySelector('.view-notes').addEventListener('click', (e) => {
+                const userId = e.target.dataset.userId;
+                const courseId = e.target.dataset.courseId;
+                viewUserNotes(userId, courseId);
+              });
+            }
           });
         }
       });
       
       updateSelectedCount();
       updateSelectAllCheckbox();
+      updatePaginationControls();
+    }
+
+    // Apply sorting to filteredUsers
+    function applySorting() {
+      const sortValue = sortBy.value;
+      
+      filteredUsers.sort((a, b) => {
+        // For name sorting, we'll sort by the first course that matches filters
+        const aCourse = a.enrolledCourses.find(c => courseMatchesFilters(c)) || {};
+        const bCourse = b.enrolledCourses.find(c => courseMatchesFilters(c)) || {};
+        
+        switch (sortValue) {
+          case 'name-asc':
+            return (a.name || '').localeCompare(b.name || '');
+          case 'name-desc':
+            return (b.name || '').localeCompare(a.name || '');
+          case 'progress-asc':
+            return (aCourse.progress || 0) - (bCourse.progress || 0);
+          case 'progress-desc':
+            return (bCourse.progress || 0) - (aCourse.progress || 0);
+          case 'recent':
+            return new Date(bCourse.lastUpdated || 0) - new Date(aCourse.lastUpdated || 0);
+          case 'oldest':
+            return new Date(aCourse.lastUpdated || 0) - new Date(bCourse.lastUpdated || 0);
+          default:
+            return 0;
+        }
+      });
+    }
+
+    // Update pagination controls
+    function updatePaginationControls() {
+      const totalPages = Math.ceil(filteredUsers.length / usersPerPage);
+      
+      prevPageBtn.disabled = currentPage <= 1;
+      nextPageBtn.disabled = currentPage >= totalPages;
+      pageInfo.textContent = `Page ${currentPage} of ${totalPages}`;
+    }
+
+    // Go to previous page
+    function goToPreviousPage() {
+      if (currentPage > 1) {
+        currentPage--;
+        displayUsers();
+      }
+    }
+
+    // Go to next page
+    function goToNextPage() {
+      const totalPages = Math.ceil(filteredUsers.length / usersPerPage);
+      if (currentPage < totalPages) {
+        currentPage++;
+        displayUsers();
+      }
     }
 
     // Apply search filter
@@ -914,6 +1374,9 @@
         });
       }
       
+      // Reset to first page
+      currentPage = 1;
+      
       // Reset selection
       selectedUserIds.clear();
       updateSelectedCount();
@@ -924,20 +1387,29 @@
 
     // Apply filters
     function applyFilters() {
-      const courseType = courseFilter.value;
+      const courseType = courseTypeFilter.value;
+      const courseTitle = courseTitleFilter.value;
       const language = languageFilter.value;
       const verification = verificationFilter.value;
+      const minProgress = parseInt(progressMin.value);
+      const maxProgress = parseInt(progressMax.value);
       
       filteredUsers = allUsers.filter(user => {
         // If user has no courses, only include if no filters are set
         if (user.enrolledCourses.length === 0) {
-          return !courseType && !language && verification === 'all';
+          return !courseType && !courseTitle && !language && verification === 'all' && 
+                 isNaN(minProgress) && isNaN(maxProgress);
         }
         
         // Check if any course matches the filters
         return user.enrolledCourses.some(course => {
           // Course type filter
           if (courseType && course.type !== courseType) {
+            return false;
+          }
+          
+          // Course title filter
+          if (courseTitle && course.title !== courseTitle) {
             return false;
           }
           
@@ -954,9 +1426,20 @@
             return false;
           }
           
+          // Progress range filter
+          if (!isNaN(minProgress) && (course.progress || 0) < minProgress) {
+            return false;
+          }
+          if (!isNaN(maxProgress) && (course.progress || 0) > maxProgress) {
+            return false;
+          }
+          
           return true;
         });
       });
+      
+      // Reset to first page
+      currentPage = 1;
       
       // Close filter dropdown
       filterContent.classList.remove('show');
@@ -965,6 +1448,24 @@
       selectedUserIds.clear();
       updateSelectedCount();
       updateSelectAllCheckbox();
+      
+      displayUsers();
+    }
+
+    // Reset all filters
+    function resetFilters() {
+      courseTypeFilter.value = '';
+      courseTitleFilter.value = '';
+      languageFilter.value = '';
+      verificationFilter.value = 'all';
+      progressMin.value = '';
+      progressMax.value = '';
+      sortBy.value = 'name-asc';
+      userSearch.value = '';
+      
+      filteredUsers = [...allUsers];
+      currentPage = 1;
+      selectedUserIds.clear();
       
       displayUsers();
     }
@@ -1012,6 +1513,7 @@
       }
       
       bulkProgressValue.value = '';
+      bulkUpdateNotes.value = '';
       bulkUpdateModal.classList.add('active');
     }
 
@@ -1026,9 +1528,28 @@
       noteModal.classList.add('active');
     }
 
+    // Open export modal
+    function openExportModal() {
+      exportModal.classList.add('active');
+    }
+
+    // View user notes
+    function viewUserNotes(userId, courseId) {
+      const user = allUsers.find(u => u.id === userId);
+      if (!user) return;
+      
+      const course = user.enrolledCourses.find(c => c.id === courseId);
+      if (!course) return;
+      
+      const notes = course.notes || 'No notes available for this course.';
+      
+      alert(`Notes for ${user.name}'s ${course.title} course:\n\n${notes}`);
+    }
+
     // Perform bulk update
     async function performBulkUpdate() {
       const progressValue = parseInt(bulkProgressValue.value);
+      const notes = bulkUpdateNotes.value.trim();
       
       if (isNaN(progressValue) || progressValue < 0 || progressValue > 100) {
         alert('Please enter a valid progress percentage (0-100)');
@@ -1037,6 +1558,8 @@
       
       const userIds = Array.from(selectedUserIds);
       const promises = [];
+      const adminName = document.getElementById('admin-name').textContent;
+      const timestamp = new Date().toISOString();
       
       for (const userId of userIds) {
         const user = allUsers.find(u => u.id === userId);
@@ -1048,9 +1571,14 @@
             const updatedCourse = {
               ...course,
               progress: progressValue,
-              lastUpdated: new Date().toISOString(),
+              lastUpdated: timestamp,
               updatedBy: currentAdmin.uid
             };
+            
+            // Add notes if provided
+            if (notes) {
+              updatedCourse.notes = `[${new Date().toLocaleString()}] ${adminName}: ${notes}`;
+            }
             
             // Create update promise
             promises.push(
@@ -1080,6 +1608,7 @@
     // Add admin note
     async function addAdminNote() {
       const noteContent = adminNote.value.trim();
+      const visibility = noteVisibility.value;
       
       if (!noteContent) {
         alert('Please enter a note');
@@ -1098,9 +1627,10 @@
         for (const course of user.enrolledCourses) {
           // Only update if the course matches current filters
           if (courseMatchesFilters(course)) {
+            const notePrefix = visibility === 'visible' ? '[Student Visible]' : '[Admin Only]';
             const updatedCourse = {
               ...course,
-              notes: `[${new Date().toLocaleString()}] ${adminName}: ${noteContent}`,
+              notes: `[${new Date().toLocaleString()}] ${notePrefix} ${adminName}: ${noteContent}`,
               lastUpdated: timestamp,
               updatedBy: currentAdmin.uid
             };
@@ -1128,6 +1658,147 @@
         console.error("Error adding note:", error);
         alert("An error occurred while adding note. Some changes may not have been saved.");
       }
+    }
+
+    // Export data
+    async function exportData() {
+      const format = exportFormat.value;
+      const exportSelectedOnly = exportSelected.checked;
+      const includeAllUsers = exportAll.checked;
+      
+      // Get selected fields
+      const selectedFields = [];
+      document.querySelectorAll('input[name="export-fields"]:checked').forEach(field => {
+        selectedFields.push(field.value);
+      });
+      
+      if (selectedFields.length === 0) {
+        alert('Please select at least one field to export');
+        return;
+      }
+      
+      // Determine which users to export
+      let usersToExport = [];
+      if (exportSelectedOnly && selectedUserIds.size > 0) {
+        usersToExport = allUsers.filter(user => selectedUserIds.has(user.id));
+      } else if (includeAllUsers) {
+        usersToExport = [...allUsers];
+      } else {
+        usersToExport = [...filteredUsers];
+      }
+      
+      // Prepare data
+      const exportData = [];
+      
+      usersToExport.forEach(user => {
+        // For each course that matches filters
+        user.enrolledCourses.forEach(course => {
+          if (courseMatchesFilters(course)) {
+            const row = {};
+            
+            selectedFields.forEach(field => {
+              switch (field) {
+                case 'name':
+                  row['Name'] = user.name || '';
+                  break;
+                case 'email':
+                  row['Email'] = user.email || '';
+                  break;
+                case 'studentId':
+                  row['Student ID'] = user.studentId || '';
+                  break;
+                case 'course':
+                  row['Course Title'] = course.title || '';
+                  row['Course Type'] = course.type || '';
+                  row['Language'] = course.language || '';
+                  break;
+                case 'progress':
+                  row['Progress'] = course.progress || 0;
+                  break;
+                case 'verified':
+                  row['Verified'] = course.verified ? 'Yes' : 'No';
+                  if (course.verified) {
+                    row['Verified By'] = course.verifiedBy || '';
+                    row['Verified At'] = course.verifiedAt || '';
+                  }
+                  break;
+                case 'lastUpdated':
+                  row['Last Updated'] = course.lastUpdated || '';
+                  row['Updated By'] = course.updatedBy || '';
+                  break;
+                case 'notes':
+                  row['Notes'] = course.notes || '';
+                  break;
+              }
+            });
+            
+            exportData.push(row);
+          }
+        });
+      });
+      
+      // Generate export file
+      if (format === 'csv') {
+        exportToCSV(exportData);
+      } else {
+        exportToJSON(exportData);
+      }
+      
+      exportModal.classList.remove('active');
+    }
+
+    // Export to CSV
+    function exportToCSV(data) {
+      if (data.length === 0) {
+        alert('No data to export');
+        return;
+      }
+      
+      // Get headers from first object
+      const headers = Object.keys(data[0]);
+      
+      // Create CSV content
+      let csvContent = headers.join(',') + '\n';
+      
+      data.forEach(row => {
+        const values = headers.map(header => {
+          const value = row[header];
+          // Escape quotes and wrap in quotes if contains comma
+          return typeof value === 'string' && value.includes(',') ? 
+            `"${value.replace(/"/g, '""')}"` : value;
+        });
+        csvContent += values.join(',') + '\n';
+      });
+      
+      // Create download link
+      const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.setAttribute('href', url);
+      link.setAttribute('download', `students_export_${new Date().toISOString().slice(0, 10)}.csv`);
+      link.style.visibility = 'hidden';
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    }
+
+    // Export to JSON
+    function exportToJSON(data) {
+      if (data.length === 0) {
+        alert('No data to export');
+        return;
+      }
+      
+      const jsonContent = JSON.stringify(data, null, 2);
+      const blob = new Blob([jsonContent], { type: 'application/json;charset=utf-8;' });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.setAttribute('href', url);
+      link.setAttribute('download', `students_export_${new Date().toISOString().slice(0, 10)}.json`);
+      link.style.visibility = 'hidden';
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
     }
 
     // Bulk verify/unverify courses
@@ -1269,6 +1940,8 @@
       if (!confirmAction) return;
       
       const promises = [];
+      const adminName = document.getElementById('admin-name').textContent;
+      const timestamp = new Date().toISOString();
       
       for (const userId of userIds) {
         const user = allUsers.find(u => u.id === userId);
@@ -1297,7 +1970,7 @@
             const updatedCourse = {
               ...course,
               progress: newProgress,
-              lastUpdated: new Date().toISOString(),
+              lastUpdated: timestamp,
               updatedBy: currentAdmin.uid
             };
             
@@ -1378,12 +2051,20 @@
 
     // Check if course matches current filters
     function courseMatchesFilters(course) {
-      const courseType = courseFilter.value;
+      const courseType = courseTypeFilter.value;
+      const courseTitle = courseTitleFilter.value;
       const language = languageFilter.value;
       const verification = verificationFilter.value;
+      const minProgress = parseInt(progressMin.value);
+      const maxProgress = parseInt(progressMax.value);
       
       // Course type filter
       if (courseType && course.type !== courseType) {
+        return false;
+      }
+      
+      // Course title filter
+      if (courseTitle && course.title !== courseTitle) {
         return false;
       }
       
@@ -1397,6 +2078,14 @@
         return false;
       }
       if (verification === 'unverified' && course.verified) {
+        return false;
+      }
+      
+      // Progress range filter
+      if (!isNaN(minProgress) && (course.progress || 0) < minProgress) {
+        return false;
+      }
+      if (!isNaN(maxProgress) && (course.progress || 0) > maxProgress) {
         return false;
       }
       
