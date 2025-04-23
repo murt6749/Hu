@@ -8,21 +8,20 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
   <style>
     :root {
-      --primary-color: #1a4d2e; /* Dark Green */
-      --secondary-color: #4f6f52; /* Medium Green */
-      --accent-color: #f5efe6; /* Light Beige */
-      --light-color: #e8dfca; /* Lighter Beige */
+      --primary-color: #1a4d2e;
+      --secondary-color: #4f6f52;
+      --accent-color: #f5efe6;
+      --light-color: #e8dfca;
       --white: #ffffff;
       --text-dark: #333333;
       --text-light: #555555;
-      --shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+      --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
       --success-color: #28a745;
       --info-color: #17a2b8;
       --warning-color: #ffc107;
       --danger-color: #dc3545;
-      --border-radius: 10px;
+      --border-radius: 8px;
       --box-padding: 16px;
-      --transition-speed: 0.3s;
     }
 
     * {
@@ -33,10 +32,9 @@
     }
 
     body {
-      background-color: #f9fafb;
+      background-color: #f8f9fa;
       min-height: 100vh;
       font-size: 14px;
-      color: var(--text-dark);
     }
 
     .container {
@@ -47,714 +45,751 @@
 
     /* Loading Animation */
     .loading-container {
-      position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-      background-color: rgba(255, 255, 255, 0.95); display: flex;
-      flex-direction: column; justify-content: center; align-items: center;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(255, 255, 255, 0.9);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
       z-index: 9999;
     }
     .loading-spinner {
-      width: 50px; height: 50px; border: 5px solid var(--light-color);
-      border-top: 5px solid var(--primary-color); border-radius: 50%;
-      animation: spin 1s linear infinite; margin-bottom: 20px;
+      width: 50px;
+      height: 50px;
+      border: 5px solid var(--light-color);
+      border-top: 5px solid var(--primary-color);
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+      margin-bottom: 20px;
     }
-    .loading-text { color: var(--primary-color); font-weight: 500; }
-    @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+    .loading-text {
+      color: var(--primary-color);
+      font-weight: 500;
+    }
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
 
     /* Header Styles */
     .header {
       background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
-      color: white; padding: var(--box-padding); position: sticky; top: 0;
-      z-index: 100; display: flex; justify-content: space-between;
-      align-items: center; box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      color: white;
+      padding: 12px var(--box-padding);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: var(--shadow);
     }
-    .header h1 { font-size: 1.1rem; font-weight: 600; }
-    .header-actions { display: flex; gap: 10px; align-items: center; }
-
-    /* User Avatar & Dropdown */
-    .user-avatar-container {
-      display: flex; align-items: center; gap: 8px; cursor: pointer;
-      position: relative; padding: 4px 8px; border-radius: 20px;
-      transition: background-color 0.2s ease;
+    .header h1 {
+      font-size: 1.2rem;
+      font-weight: 600;
     }
-    .user-avatar-container:hover {
-      background-color: rgba(255, 255, 255, 0.1);
-    }
-    .user-name {
-      margin-right: 4px; font-size: 0.9rem; max-width: 120px;
-      white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
-      color: var(--accent-color);
-    }
-    .user-avatar {
-      width: 36px; height: 36px; border-radius: 50%;
-      background-color: var(--accent-color); color: var(--primary-color);
-      display: flex; align-items: center; justify-content: center;
-      font-weight: bold; text-transform: uppercase;
-      transition: transform var(--transition-speed) ease;
-    }
-    .user-avatar:hover { transform: scale(1.1); }
-    .dropdown-arrow {
-      color: var(--accent-color); font-size: 0.8rem;
-      transition: transform var(--transition-speed) ease;
-    }
-    .account-dropdown.active .dropdown-arrow {
-      transform: rotate(180deg);
-    }
-
-    /* Account Dropdown */
-    .account-dropdown { position: relative; }
-    .dropdown-content {
-      display: none; position: absolute; right: 0; top: 110%;
-      background-color: var(--white); min-width: 220px;
-      box-shadow: var(--shadow); z-index: 1;
-      border-radius: var(--border-radius); overflow: hidden;
-      animation: fadeInDropdown 0.2s ease-out;
-      border: 1px solid rgba(0, 0, 0, 0.05);
-    }
-    @keyframes fadeInDropdown { 
-      from { opacity: 0; transform: translateY(-10px); } 
-      to { opacity: 1; transform: translateY(0); } 
-    }
-    .dropdown-content a {
-      color: var(--text-dark); padding: 12px 16px; text-decoration: none;
-      display: flex; align-items: center; gap: 12px;
-      font-size: 0.9rem; transition: all var(--transition-speed) ease;
-    }
-    .dropdown-content a i { 
-      width: 18px; text-align: center; color: var(--secondary-color);
-    }
-    .dropdown-content a:hover { 
-      background-color: var(--accent-color); 
-      color: var(--primary-color);
-      padding-left: 20px;
-    }
-    .dropdown-content a:hover i {
-      color: var(--primary-color);
-    }
-    .account-dropdown.active .dropdown-content { 
-      display: block; 
-    }
-
-    /* Role Badges */
-    .role-badge {
-      display: inline-flex; align-items: center; color: white;
-      padding: 3px 8px; border-radius: 12px; font-size: 0.7rem;
-      margin-left: 5px; font-weight: 500;
-    }
-    .admin-badge { 
-      background-color: var(--info-color);
-      position: absolute;
-      top: -8px;
-      right: -8px;
-      font-size: 0.6rem;
-      padding: 2px 6px;
-    }
-    .verified-badge { background-color: var(--success-color); }
-    .role-badge i { font-size: 0.65rem; margin-right: 4px; }
-
-    /* User Info in Dropdown */
-    .dropdown-user-info {
-      padding: 12px 16px; background-color: var(--light-color);
-      border-bottom: 1px solid rgba(0, 0, 0, 0.05);
-    }
-    .dropdown-user-name {
-      font-weight: 600; color: var(--primary-color);
-      display: flex; align-items: center; gap: 6px;
-    }
-    .dropdown-user-email {
-      font-size: 0.8rem; color: var(--text-light);
-      margin-top: 2px; white-space: nowrap;
-      overflow: hidden; text-overflow: ellipsis;
+    .header-actions {
+      display: flex;
+      gap: 10px;
+      align-items: center;
     }
 
     /* Main Content Area */
-    .main-content { padding: var(--box-padding); padding-bottom: 80px; }
+    .main-content {
+      padding: var(--box-padding);
+      padding-bottom: 20px;
+    }
 
-    /* Admin Dashboard Specific Styles */
-    .admin-header {
-      display: flex; justify-content: space-between;
-      align-items: center; margin-bottom: 20px;
-      flex-wrap: wrap; gap: 15px;
+    /* Control Panel */
+    .control-panel {
+      background-color: var(--white);
+      border-radius: var(--border-radius);
+      box-shadow: var(--shadow);
+      padding: var(--box-padding);
+      margin-bottom: 15px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 15px;
     }
-    .admin-title {
-      font-size: 1.4rem; color: var(--primary-color);
-      display: flex; align-items: center; gap: 10px;
+    @media (max-width: 768px) {
+      .control-panel {
+        grid-template-columns: 1fr;
+      }
     }
-    .admin-controls {
-      display: flex; gap: 10px; flex-wrap: wrap;
-    }
+
+    /* Search and Filter */
     .search-filter-container {
-      display: flex; gap: 10px; margin-bottom: 20px;
+      display: flex;
+      gap: 10px;
       flex-wrap: wrap;
     }
     .search-box {
-      flex: 1; min-width: 250px;
+      flex: 1;
+      min-width: 250px;
       position: relative;
     }
     .search-input {
-      width: 100%; padding: 10px 15px 10px 40px;
-      border: 1px solid #ddd; border-radius: var(--border-radius);
-      font-size: 0.9rem; transition: all var(--transition-speed) ease;
-    }
-    .search-input:focus {
-      outline: none; border-color: var(--primary-color);
-      box-shadow: 0 0 0 3px rgba(26, 77, 46, 0.15);
+      width: 100%;
+      padding: 8px 15px 8px 35px;
+      border: 1px solid #ddd;
+      border-radius: var(--border-radius);
+      font-size: 0.9rem;
     }
     .search-icon {
-      position: absolute; left: 15px; top: 50%;
-      transform: translateY(-50%); color: var(--text-light);
+      position: absolute;
+      left: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #777;
+    }
+    .filter-dropdown {
+      position: relative;
+    }
+    .filter-btn {
+      background-color: var(--white);
+      border: 1px solid #ddd;
+      padding: 8px 15px;
+      border-radius: var(--border-radius);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.9rem;
+    }
+    .filter-content {
+      display: none;
+      position: absolute;
+      background-color: var(--white);
+      min-width: 250px;
+      box-shadow: var(--shadow);
+      border-radius: var(--border-radius);
+      z-index: 10;
+      right: 0;
+      padding: 15px;
+      margin-top: 5px;
+    }
+    .filter-content.show {
+      display: block;
+    }
+    .filter-group {
+      margin-bottom: 15px;
+    }
+    .filter-group h4 {
+      font-size: 0.9rem;
+      margin-bottom: 8px;
+      color: var(--primary-color);
     }
     .filter-select {
-      padding: 10px 15px; border: 1px solid #ddd;
-      border-radius: var(--border-radius); font-size: 0.9rem;
-      background-color: white; min-width: 180px;
+      width: 100%;
+      padding: 8px;
+      border: 1px solid #ddd;
+      border-radius: var(--border-radius);
+      font-size: 0.9rem;
     }
-    .filter-select:focus {
-      outline: none; border-color: var(--primary-color);
-    }
-    .stats-grid { 
-      display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-      gap: 15px; margin-bottom: 20px;
-    }
-    .stat-card {
-      background-color: var(--white); border-radius: var(--border-radius);
-      padding: var(--box-padding); text-align: center; box-shadow: var(--shadow);
-      border: 1px solid #eee; transition: transform 0.2s ease;
-    }
-    .stat-card:hover {
-      transform: translateY(-3px);
-    }
-    .stat-value {
-      font-size: 1.6rem; font-weight: 700; color: var(--primary-color);
-      margin-bottom: 5px; line-height: 1.2;
-    }
-    .stat-label { font-size: 0.8rem; color: var(--text-light); }
-
-    /* User Progress Table */
-    .progress-table-container {
-      overflow-x: auto; margin-bottom: 20px;
-      border-radius: var(--border-radius); box-shadow: var(--shadow);
-      background-color: white; border: 1px solid #eee;
-    }
-    .progress-table {
-      width: 100%; border-collapse: collapse;
-      font-size: 0.85rem; min-width: 800px;
-    }
-    .progress-table th {
-      background-color: var(--primary-color); color: white;
-      padding: 12px 15px; text-align: left;
-      position: sticky; top: 0;
-    }
-    .progress-table td {
-      padding: 12px 15px; border-bottom: 1px solid #eee;
-      vertical-align: middle;
-    }
-    .progress-table tr:last-child td {
-      border-bottom: none;
-    }
-    .progress-table tr:hover {
-      background-color: rgba(245, 239, 230, 0.5);
-    }
-    .user-info-cell {
-      display: flex; align-items: center; gap: 10px;
-    }
-    .user-avatar-small {
-      width: 30px; height: 30px; border-radius: 50%;
-      background-color: var(--light-color); color: var(--primary-color);
-      display: flex; align-items: center; justify-content: center;
-      font-weight: bold; text-transform: uppercase; font-size: 0.8rem;
-    }
-    .user-name-email {
-      display: flex; flex-direction: column;
-    }
-    .user-name-table {
-      font-weight: 500; color: var(--text-dark);
-    }
-    .user-email-table {
-      font-size: 0.75rem; color: var(--text-light);
-    }
-    .progress-cell {
-      min-width: 120px;
-    }
-    .progress-bar-table {
-      width: 100%; height: 8px; background-color: #e9ecef;
-      border-radius: 4px; overflow: hidden; margin-top: 5px;
-    }
-    .progress-fill-table {
-      height: 100%; border-radius: 4px;
-    }
-    .progress-value-table {
-      display: flex; justify-content: space-between;
-      font-size: 0.8rem; margin-top: 3px;
-    }
-    .action-cell {
-      white-space: nowrap;
-    }
-    .action-btn {
-      background: none; border: none; color: var(--primary-color);
-      cursor: pointer; transition: all var(--transition-speed) ease;
-      display: inline-flex; align-items: center; gap: 5px;
-      padding: 5px 8px; border-radius: 4px; font-size: 0.8rem;
-    }
-    .action-btn i { font-size: 0.8rem; }
-    .action-btn:hover { 
-      color: var(--white); 
+    .apply-filters {
+      width: 100%;
+      padding: 8px;
       background-color: var(--primary-color);
+      color: white;
+      border: none;
+      border-radius: var(--border-radius);
+      cursor: pointer;
+      font-weight: 500;
     }
-    .action-btn.delete-btn:hover {
+
+    /* Bulk Actions */
+    .bulk-actions {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    .bulk-btn {
+      padding: 8px 15px;
+      border: none;
+      border-radius: var(--border-radius);
+      font-size: 0.9rem;
+      font-weight: 500;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+    .bulk-btn.primary {
+      background-color: var(--primary-color);
+      color: white;
+    }
+    .bulk-btn.success {
+      background-color: var(--success-color);
+      color: white;
+    }
+    .bulk-btn.warning {
+      background-color: var(--warning-color);
+      color: black;
+    }
+    .bulk-btn.danger {
       background-color: var(--danger-color);
       color: white;
     }
-    .verified-cell {
-      text-align: center;
-    }
-    .verified-icon {
-      color: var(--success-color); font-size: 1rem;
-    }
-    .not-verified-icon {
-      color: var(--warning-color); font-size: 1rem;
+    .selected-count {
+      display: flex;
+      align-items: center;
+      margin-left: auto;
+      font-size: 0.9rem;
+      color: var(--text-light);
     }
 
-    /* Pagination */
-    .pagination {
-      display: flex; justify-content: center; align-items: center;
-      gap: 10px; margin-top: 20px;
+    /* Progress Controls */
+    .progress-controls {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
     }
-    .pagination-btn {
-      padding: 8px 12px; border: 1px solid #ddd;
-      background-color: white; border-radius: 4px;
-      cursor: pointer; transition: all var(--transition-speed) ease;
+    @media (max-width: 480px) {
+      .progress-controls {
+        grid-template-columns: 1fr;
+      }
     }
-    .pagination-btn:hover {
-      background-color: var(--primary-color); color: white;
-      border-color: var(--primary-color);
+    .progress-adjustment {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
     }
-    .pagination-btn.active {
-      background-color: var(--primary-color); color: white;
-      border-color: var(--primary-color);
+    .progress-label {
+      font-size: 0.9rem;
+      color: var(--text-dark);
     }
-    .pagination-btn:disabled {
-      opacity: 0.5; cursor: not-allowed;
+    .progress-input {
+      padding: 8px;
+      border: 1px solid #ddd;
+      border-radius: var(--border-radius);
+      font-size: 0.9rem;
     }
-    .pagination-info {
-      font-size: 0.85rem; color: var(--text-light);
+    .progress-buttons {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    .progress-btn {
+      padding: 8px 15px;
+      border: none;
+      border-radius: var(--border-radius);
+      font-size: 0.9rem;
+      font-weight: 500;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      flex: 1;
+      min-width: 120px;
+      justify-content: center;
+    }
+    .progress-btn.primary {
+      background-color: var(--primary-color);
+      color: white;
+    }
+    .progress-btn.success {
+      background-color: var(--success-color);
+      color: white;
+    }
+    .progress-btn.danger {
+      background-color: var(--danger-color);
+      color: white;
+    }
+
+    /* Users Table */
+    .table-container {
+      background-color: var(--white);
+      border-radius: var(--border-radius);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+    .table-header {
+      display: grid;
+      grid-template-columns: 40px 1fr;
+      padding: 12px 15px;
+      background-color: #f5f5f5;
+      font-weight: 600;
+      color: var(--primary-color);
+      border-bottom: 1px solid #eee;
+    }
+    .table-body {
+      max-height: 60vh;
+      overflow-y: auto;
+    }
+    .user-row {
+      display: grid;
+      grid-template-columns: 40px 1fr;
+      padding: 15px;
+      border-bottom: 1px solid #eee;
+      transition: background-color 0.2s;
+    }
+    .user-row:hover {
+      background-color: #f9f9f9;
+    }
+    .user-row.selected {
+      background-color: rgba(26, 77, 46, 0.05);
+    }
+    .user-checkbox {
+      align-self: center;
+    }
+    .user-details {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .user-info {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 15px;
+      align-items: center;
+    }
+    .user-avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background-color: var(--accent-color);
+      color: var(--primary-color);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+    }
+    .user-text {
+      flex: 1;
+      min-width: 200px;
+    }
+    .user-name {
+      font-weight: 600;
+      margin-bottom: 3px;
+    }
+    .user-email {
+      font-size: 0.8rem;
+      color: var(--text-light);
+    }
+    .user-id {
+      font-size: 0.75rem;
+      color: #777;
+      background-color: #f0f0f0;
+      padding: 2px 5px;
+      border-radius: 3px;
+      display: inline-block;
+    }
+    .user-courses {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    .course-row {
+      border-bottom: 1px solid #f0f0f0;
+    }
+    .course-row:last-child {
+      border-bottom: none;
+    }
+    .course-cell {
+      padding: 10px 5px;
+      vertical-align: top;
+    }
+    .course-title {
+      font-weight: 500;
+      margin-bottom: 3px;
+    }
+    .course-meta {
+      font-size: 0.8rem;
+      color: var(--text-light);
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    .course-meta-item {
+      display: flex;
+      align-items: center;
+      gap: 3px;
+    }
+    .progress-container {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .progress-bar-container {
+      width: 100px;
+      height: 8px;
+      background-color: #e0e0e0;
+      border-radius: 4px;
+      overflow: hidden;
+    }
+    .progress-bar {
+      height: 100%;
+      background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+      border-radius: 4px;
+      transition: width 0.3s ease;
+    }
+    .progress-value {
+      min-width: 30px;
+      text-align: right;
+      font-size: 0.9rem;
+    }
+    .progress-input-small {
+      width: 60px;
+      padding: 5px;
+      border: 1px solid #ddd;
+      border-radius: 3px;
+      text-align: center;
+    }
+    .badge {
+      display: inline-block;
+      padding: 3px 8px;
+      border-radius: 10px;
+      font-size: 0.75rem;
+      font-weight: 500;
+    }
+    .verified {
+      background-color: var(--success-color);
+      color: white;
+    }
+    .unverified {
+      background-color: var(--warning-color);
+      color: black;
+    }
+    .course-actions {
+      display: flex;
+      gap: 5px;
+      flex-wrap: wrap;
+    }
+    .action-btn {
+      padding: 5px 10px;
+      border: none;
+      border-radius: 3px;
+      font-size: 0.8rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 3px;
+    }
+    .action-btn.primary {
+      background-color: var(--primary-color);
+      color: white;
+    }
+    .action-btn.success {
+      background-color: var(--success-color);
+      color: white;
+    }
+    .action-btn.warning {
+      background-color: var(--warning-color);
+      color: black;
+    }
+
+    /* No Results */
+    .no-results {
+      padding: 30px;
+      text-align: center;
+      color: var(--text-light);
     }
 
     /* Modal Styles */
     .modal {
-      display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0;
-      background-color: rgba(0, 0, 0, 0.6);
-      z-index: 1000; align-items: center; justify-content: center; padding: 15px;
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: rgba(0, 0, 0, 0.5);
+      z-index: 1000;
+      align-items: center;
+      justify-content: center;
+      padding: 15px;
     }
-    .modal.active { display: flex; animation: modalFadeInBg 0.3s ease; }
-    @keyframes modalFadeInBg { from { background-color: rgba(0, 0, 0, 0); } to { background-color: rgba(0, 0, 0, 0.6); } }
-
+    .modal.active {
+      display: flex;
+    }
     .modal-content {
-      background-color: var(--white); border-radius: var(--border-radius);
-      width: 100%; max-width: 600px; max-height: 90vh; overflow-y: auto;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
-      animation: modalSlideIn 0.3s ease-out;
+      background-color: var(--white);
+      border-radius: var(--border-radius);
+      width: 100%;
+      max-width: 500px;
+      max-height: 90vh;
+      overflow-y: auto;
+      animation: modalFadeIn 0.3s ease;
     }
-    @keyframes modalSlideIn { from { opacity: 0; transform: translateY(30px) scale(0.98); } to { opacity: 1; transform: translateY(0) scale(1); } }
-
+    @keyframes modalFadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
     .modal-header {
-      padding: 15px var(--box-padding); border-bottom: 1px solid #eee;
-      display: flex; justify-content: space-between; align-items: center;
+      padding: 15px;
+      border-bottom: 1px solid #eee;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
     }
-    .modal-title { font-size: 1.1rem; color: var(--primary-color); font-weight: 600; }
+    .modal-title {
+      font-size: 1.2rem;
+      color: var(--primary-color);
+      font-weight: 600;
+    }
     .modal-close {
-      background: none; border: none; font-size: 1.6rem; cursor: pointer;
-      color: var(--text-light); transition: color var(--transition-speed) ease;
+      background: none;
+      border: none;
+      font-size: 1.5rem;
+      cursor: pointer;
+      color: #777;
     }
-    .modal-close:hover { color: var(--danger-color); }
-    .modal-body { padding: var(--box-padding); }
-    .modal-footer {
-      padding: 15px var(--box-padding); border-top: 1px solid #eee;
-      display: flex; justify-content: flex-end; gap: 10px;
-      background-color: #f9fafb;
-      border-bottom-left-radius: var(--border-radius);
-      border-bottom-right-radius: var(--border-radius);
+    .modal-body {
+      padding: 15px;
     }
-
-    /* Form Elements */
-    .form-group { margin-bottom: 15px; }
-    .form-group label {
-      display: block; margin-bottom: 6px; font-weight: 500; font-size: 0.9rem;
+    .form-group {
+      margin-bottom: 15px;
+    }
+    .form-label {
+      display: block;
+      margin-bottom: 5px;
+      font-size: 0.9rem;
       color: var(--text-dark);
+      font-weight: 500;
     }
     .form-control {
-      width: 100%; padding: 10px 12px; border: 1px solid #ccc;
-      border-radius: var(--border-radius); font-size: 1rem; color: var(--text-dark);
-      transition: border-color var(--transition-speed) ease, box-shadow var(--transition-speed) ease;
+      width: 100%;
+      padding: 8px 12px;
+      border: 1px solid #ddd;
+      border-radius: var(--border-radius);
+      font-size: 0.9rem;
     }
     .form-control:focus {
-      border-color: var(--primary-color); outline: none;
-      box-shadow: 0 0 0 3px rgba(26, 77, 46, 0.15);
+      outline: none;
+      border-color: var(--primary-color);
+      box-shadow: 0 0 0 2px rgba(26, 77, 46, 0.2);
     }
-    textarea.form-control { min-height: 80px; }
+    textarea.form-control {
+      min-height: 100px;
+    }
+    .modal-footer {
+      padding: 15px;
+      border-top: 1px solid #eee;
+      display: flex;
+      justify-content: flex-end;
+      gap: 10px;
+    }
+    .modal-btn {
+      padding: 8px 15px;
+      border: none;
+      border-radius: var(--border-radius);
+      font-size: 0.9rem;
+      font-weight: 500;
+      cursor: pointer;
+    }
+    .modal-btn.outline {
+      background-color: transparent;
+      border: 1px solid #ddd;
+    }
+    .modal-btn.primary {
+      background-color: var(--primary-color);
+      color: white;
+    }
 
-    /* Buttons */
-    .btn {
-      padding: 10px 20px; border: none; border-radius: var(--border-radius);
-      font-size: 0.95rem; font-weight: 500; cursor: pointer;
-      transition: all var(--transition-speed) ease;
-      text-align: center; text-decoration: none; display: inline-block;
-    }
-    .btn-primary { background-color: var(--primary-color); color: var(--white); }
-    .btn-primary:hover { background-color: var(--secondary-color); transform: translateY(-2px); box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); }
-    .btn-outline {
-      background-color: transparent; border: 1px solid var(--secondary-color);
-      color: var(--secondary-color);
-    }
-    .btn-outline:hover { background-color: var(--accent-color); color: var(--primary-color); border-color: var(--primary-color); }
-    .btn-danger {
-      background-color: var(--danger-color); color: white;
-    }
-    .btn-danger:hover {
-      background-color: #c82333; transform: translateY(-2px); box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    }
-
-    /* Toast Notification */
-    .toast {
-      position: fixed; bottom: 80px; left: 50%; transform: translateX(-50%);
-      background-color: var(--primary-color); color: white;
-      padding: 12px 24px; border-radius: var(--border-radius);
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-      z-index: 1000; display: flex; align-items: center; gap: 10px;
-      animation: slideUp 0.3s ease-out;
-      max-width: 90%;
-    }
-    @keyframes slideUp {
-      from { opacity: 0; transform: translateX(-50%) translateY(20px); }
-      to { opacity: 1; transform: translateX(-50%) translateY(0); }
-    }
-    .toast i { font-size: 1.2rem; }
-    .toast.success { background-color: var(--success-color); }
-    .toast.error { background-color: var(--danger-color); }
-    .toast.warning { background-color: var(--warning-color); color: var(--text-dark); }
-    .toast.info { background-color: var(--info-color); }
-
-    /* Bottom Navigation */
-    .bottom-nav {
-      position: fixed; bottom: 0; left: 0; right: 0;
-      background-color: var(--white); display: flex; justify-content: space-around;
-      padding: 8px 0 10px 0;
-      box-shadow: 0 -3px 10px rgba(0, 0, 0, 0.05);
-      z-index: 100; border-top: 1px solid #eee;
-    }
-    .nav-item {
-      display: flex; flex-direction: column; align-items: center;
-      text-decoration: none; color: var(--secondary-color); font-size: 0.75rem;
-      transition: color var(--transition-speed) ease; padding: 5px 0;
-      position: relative;
-    }
-    .nav-item i { font-size: 1.1rem; margin-bottom: 3px; }
-    .nav-item.active { color: var(--primary-color); font-weight: 500; }
-    .nav-item:hover:not(.active) { color: var(--primary-color); }
-
-    /* Responsive */
-    @media (min-width: 768px) {
-      .container { max-width: 1200px; margin: 0 auto; }
-      .header h1 { font-size: 1.2rem; }
-      .main-content { padding: 25px; padding-bottom: 80px; }
+    /* Responsive Adjustments */
+    @media (max-width: 768px) {
+      .user-info {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+      }
+      .course-meta {
+        flex-direction: column;
+        gap: 3px;
+      }
     }
   </style>
 </head>
 <body>
+  <!-- Loading Animation -->
   <div class="loading-container" id="loading-container">
     <div class="loading-spinner"></div>
-    <div class="loading-text">Loading admin dashboard...</div>
+    <div class="loading-text">Loading Admin Dashboard...</div>
   </div>
 
-  <div class="container">
+  <div class="container" id="main-container" style="display: none;">
+    <!-- Header -->
     <header class="header">
-      <h1 id="page-title"><i class="fas fa-tachometer-alt"></i> Progress Admin</h1>
+      <h1><i class="fas fa-tachometer-alt"></i> Progress Admin</h1>
       <div class="header-actions">
-        <div class="account-dropdown" id="account-dropdown-container">
-          <div class="user-avatar-container" id="user-avatar-container">
-            <span class="user-name" id="user-name-display">Admin</span>
-            <div class="user-avatar" id="user-avatar">A</div>
-            <i class="fas fa-chevron-down dropdown-arrow"></i>
-          </div>
-          <div class="dropdown-content" id="account-dropdown">
-            <div class="dropdown-user-info">
-              <div class="dropdown-user-name" id="dropdown-user-name">
-                Admin User
-                <span class="role-badge verified-badge" id="verified-badge">
-                  <i class="fas fa-check"></i> Verified
-                </span>
-              </div>
-              <div class="dropdown-user-email" id="dropdown-user-email">admin@example.com</div>
-            </div>
-            <a href="schedule.html"><i class="fas fa-calendar-alt"></i> Schedule</a>
-            <a href="profile.html"><i class="fas fa-user"></i> Profile</a>
-            <a href="progress.html"><i class="fas fa-chart-line"></i> My Progress</a>
-            <a href="#" id="logout-btn"><i class="fas fa-sign-out-alt"></i> Logout</a>
-          </div>
-        </div>
+        <span id="admin-name">Admin</span>
+        <div class="user-avatar" id="admin-avatar">A</div>
       </div>
     </header>
 
-    <main class="main-content" id="main-content">
-      <div class="admin-header">
-        <h2 class="admin-title"><i class="fas fa-users-cog"></i> User Progress Management</h2>
-        <div class="admin-controls">
-          <button class="btn btn-primary" id="refresh-data">
-            <i class="fas fa-sync-alt"></i> Refresh
+    <!-- Main Content -->
+    <main class="main-content">
+      <!-- Control Panel -->
+      <div class="control-panel">
+        <!-- Search and Filter -->
+        <div class="search-filter-container">
+          <div class="search-box">
+            <i class="fas fa-search search-icon"></i>
+            <input type="text" id="user-search" class="search-input" placeholder="Search users...">
+          </div>
+          <div class="filter-dropdown">
+            <button class="filter-btn" id="filter-btn">
+              <i class="fas fa-filter"></i> Filters
+            </button>
+            <div class="filter-content" id="filter-content">
+              <div class="filter-group">
+                <h4>Course Type</h4>
+                <select id="course-filter" class="filter-select">
+                  <option value="">All Courses</option>
+                  <option value="Qirat">Qirat</option>
+                  <option value="Hifz">Hifz</option>
+                  <option value="Nezer">Nezer</option>
+                </select>
+              </div>
+              <div class="filter-group">
+                <h4>Language</h4>
+                <select id="language-filter" class="filter-select">
+                  <option value="">All Languages</option>
+                  <option value="Amharic">Amharic</option>
+                  <option value="Oromifa">Oromifa</option>
+                </select>
+              </div>
+              <div class="filter-group">
+                <h4>Verification Status</h4>
+                <select id="verification-filter" class="filter-select">
+                  <option value="">All Statuses</option>
+                  <option value="verified">Verified Only</option>
+                  <option value="unverified">Unverified Only</option>
+                </select>
+              </div>
+              <button id="apply-filters" class="apply-filters">
+                Apply Filters
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Bulk Actions -->
+        <div class="bulk-actions">
+          <button id="bulk-update" class="bulk-btn primary">
+            <i class="fas fa-edit"></i> Update Progress
           </button>
-          <button class="btn btn-outline" id="export-data">
-            <i class="fas fa-file-export"></i> Export
+          <button id="bulk-verify" class="bulk-btn success">
+            <i class="fas fa-check"></i> Verify
           </button>
-        </div>
-      </div>
-
-      <div class="search-filter-container">
-        <div class="search-box">
-          <i class="fas fa-search search-icon"></i>
-          <input type="text" class="search-input" id="user-search" placeholder="Search users by name or email...">
-        </div>
-        <select class="filter-select" id="role-filter">
-          <option value="">All Roles</option>
-          <option value="admin">Admins</option>
-          <option value="ustaz">Ustaz</option>
-          <option value="student">Students</option>
-        </select>
-        <select class="filter-select" id="progress-filter">
-          <option value="">All Progress</option>
-          <option value="0-25">0-25%</option>
-          <option value="26-50">26-50%</option>
-          <option value="51-75">51-75%</option>
-          <option value="76-99">76-99%</option>
-          <option value="100">100%</option>
-        </select>
-        <select class="filter-select" id="verification-filter">
-          <option value="">All Verification</option>
-          <option value="verified">Verified Only</option>
-          <option value="not-verified">Not Verified</option>
-        </select>
-        <select class="filter-select" id="course-filter">
-          <option value="">All Courses</option>
-          <!-- Will be populated dynamically -->
-        </select>
-      </div>
-
-      <div class="stats-grid">
-        <div class="stat-card">
-          <div class="stat-value" id="total-users">0</div>
-          <div class="stat-label">Total Users</div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-value" id="active-users">0</div>
-          <div class="stat-label">Active Users</div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-value" id="avg-progress">0%</div>
-          <div class="stat-label">Avg Progress</div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-value" id="completed-courses">0</div>
-          <div class="stat-label">Completed</div>
-        </div>
-      </div>
-
-      <div class="progress-table-container">
-        <table class="progress-table" id="progress-table">
-          <thead>
-            <tr>
-              <th>User</th>
-              <th>Role</th>
-              <th>Courses</th>
-              <th>Progress</th>
-              <th>Verified</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody id="progress-table-body">
-            <!-- Will be populated dynamically -->
-            <tr>
-              <td colspan="6" style="text-align: center; padding: 30px;">
-                Loading user progress data...
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-
-      <div class="pagination" id="pagination">
-        <button class="pagination-btn" id="prev-page" disabled>
-          <i class="fas fa-chevron-left"></i>
-        </button>
-        <span class="pagination-info" id="page-info">Page 1 of 1</span>
-        <button class="pagination-btn" id="next-page" disabled>
-          <i class="fas fa-chevron-right"></i>
-        </button>
-      </div>
-    </main>
-
-    <nav class="bottom-nav">
-      <a href="dashboard.html" class="nav-item" data-page="dashboard">
-        <i class="fas fa-home"></i>
-        <span>Dashboard</span>
-      </a>
-      <a href="progressadmin.html" class="nav-item active" data-page="progress-admin">
-        <i class="fas fa-tachometer-alt"></i>
-        <span>Admin</span>
-      </a>
-      <a href="progress.html" class="nav-item" data-page="progress">
-        <i class="fas fa-chart-line"></i>
-        <span>Progress</span>
-      </a>
-      <a href="profile.html" class="nav-item" data-page="profile">
-        <i class="fas fa-user"></i>
-        <span>Profile</span>
-      </a>
-    </nav>
-  </div>
-
-  <!-- Progress Update Modal -->
-  <div class="modal" id="progress-modal" role="dialog" aria-modal="true" aria-labelledby="progress-modal-title">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h3 class="modal-title" id="progress-modal-title">Update Progress</h3>
-        <button class="modal-close" id="close-progress-modal" aria-label="Close modal">&times;</button>
-      </div>
-      <div class="modal-body">
-        <form id="progress-form">
-          <input type="hidden" id="progress-user-id">
-          <input type="hidden" id="progress-course-id">
-          <div class="form-group">
-            <label for="progress-user-name">User</label>
-            <input type="text" id="progress-user-name" class="form-control" readonly>
+          <button id="bulk-unverify" class="bulk-btn warning">
+            <i class="fas fa-times"></i> Unverify
+          </button>
+          <button id="bulk-notes" class="bulk-btn primary">
+            <i class="fas fa-comment"></i> Add Note
+          </button>
+          <div class="selected-count" id="selected-count">
+            0 selected
           </div>
-          <div class="form-group">
-            <label for="progress-course-name">Course</label>
-            <input type="text" id="progress-course-name" class="form-control" readonly>
+        </div>
+
+        <!-- Progress Controls -->
+        <div class="progress-controls">
+          <div class="progress-adjustment">
+            <label class="progress-label">Adjustment Value (%)</label>
+            <input type="number" id="progress-increment" class="progress-input" min="1" max="100" value="5">
           </div>
-          <div class="form-group">
-            <label for="progress-value">Progress Percentage (0-100)</label>
-            <input type="number" id="progress-value" class="form-control" min="0" max="100" required>
-          </div>
-          <div class="form-group">
-            <label for="progress-notes">Instructor Notes (Optional)</label>
-            <textarea id="progress-notes" class="form-control" rows="3"></textarea>
-          </div>
-          <div class="form-group">
-            <label for="progress-verified">Verification Status</label>
-            <select id="progress-verified" class="form-control">
-              <option value="false">Not Verified</option>
-              <option value="true">Verified</option>
+          <div class="progress-adjustment">
+            <label class="progress-label">Apply To</label>
+            <select id="apply-to" class="progress-input">
+              <option value="selected">Selected Users</option>
+              <option value="filtered">Filtered Users</option>
+              <option value="all">All Users</option>
             </select>
           </div>
-        </form>
+        </div>
+        <div class="progress-buttons">
+          <button id="increase-progress" class="progress-btn primary">
+            <i class="fas fa-arrow-up"></i> Increase
+          </button>
+          <button id="decrease-progress" class="progress-btn primary">
+            <i class="fas fa-arrow-down"></i> Decrease
+          </button>
+          <button id="complete-progress" class="progress-btn success">
+            <i class="fas fa-check-circle"></i> 100%
+          </button>
+          <button id="reset-progress" class="progress-btn danger">
+            <i class="fas fa-undo"></i> 0%
+          </button>
+        </div>
       </div>
-      <div class="modal-footer">
-        <button class="btn btn-outline" id="cancel-progress-update">Cancel</button>
-        <button class="btn btn-primary" id="save-progress">Save Changes</button>
+
+      <!-- Users Table -->
+      <div class="table-container">
+        <div class="table-header">
+          <div><input type="checkbox" id="select-all"></div>
+          <div>Users</div>
+        </div>
+        <div class="table-body" id="users-table-body">
+          <!-- Users will be loaded here -->
+        </div>
       </div>
-    </div>
+    </main>
   </div>
 
-  <!-- User Details Modal -->
-  <div class="modal" id="user-modal" role="dialog" aria-modal="true" aria-labelledby="user-modal-title">
+  <!-- Bulk Update Modal -->
+  <div class="modal" id="bulk-update-modal">
     <div class="modal-content">
       <div class="modal-header">
-        <h3 class="modal-title" id="user-modal-title">User Details</h3>
-        <button class="modal-close" id="close-user-modal" aria-label="Close modal">&times;</button>
+        <h3 class="modal-title">Bulk Progress Update</h3>
+        <button class="modal-close" id="close-bulk-modal">&times;</button>
       </div>
       <div class="modal-body">
         <div class="form-group">
-          <label>Name</label>
-          <input type="text" id="user-detail-name" class="form-control" readonly>
+          <label class="form-label">Progress Percentage</label>
+          <input type="number" id="bulk-progress-value" class="form-control" min="0" max="100" required>
         </div>
         <div class="form-group">
-          <label>Email</label>
-          <input type="text" id="user-detail-email" class="form-control" readonly>
-        </div>
-        <div class="form-group">
-          <label>Role</label>
-          <input type="text" id="user-detail-role" class="form-control" readonly>
-        </div>
-        <div class="form-group">
-          <label>Status</label>
-          <input type="text" id="user-detail-status" class="form-control" readonly>
-        </div>
-        <div class="form-group">
-          <label>Joined Date</label>
-          <input type="text" id="user-detail-joined" class="form-control" readonly>
-        </div>
-        
-        <h4 style="margin-top: 20px; margin-bottom: 10px; color: var(--primary-color);">Enrolled Courses</h4>
-        <div id="user-courses-list">
-          <!-- Will be populated dynamically -->
+          <label class="form-label">Affected Users</label>
+          <div id="affected-users-count">0</div>
         </div>
       </div>
       <div class="modal-footer">
-        <button class="btn btn-outline" id="close-user-details">Close</button>
+        <button class="modal-btn outline" id="cancel-bulk-update">Cancel</button>
+        <button class="modal-btn primary" id="confirm-bulk-update">Update All</button>
       </div>
     </div>
   </div>
 
-  <!-- Export Modal -->
-  <div class="modal" id="export-modal" role="dialog" aria-modal="true" aria-labelledby="export-modal-title">
+  <!-- Add Note Modal -->
+  <div class="modal" id="note-modal">
     <div class="modal-content">
       <div class="modal-header">
-        <h3 class="modal-title" id="export-modal-title">Export Progress Data</h3>
-        <button class="modal-close" id="close-export-modal" aria-label="Close modal">&times;</button>
+        <h3 class="modal-title">Add Admin Note</h3>
+        <button class="modal-close" id="close-note-modal">&times;</button>
       </div>
       <div class="modal-body">
         <div class="form-group">
-          <label for="export-format">Format</label>
-          <select id="export-format" class="form-control">
-            <option value="csv">CSV (Excel)</option>
-            <option value="json">JSON</option>
-          </select>
+          <label class="form-label">Note Content</label>
+          <textarea id="admin-note" class="form-control" placeholder="Enter your note here..."></textarea>
         </div>
         <div class="form-group">
-          <label for="export-content">Content</label>
-          <select id="export-content" class="form-control">
-            <option value="current-view">Current View (Filtered Results)</option>
-            <option value="all-data">All Data</option>
-          </select>
-        </div>
-        <div class="form-group">
-          <label for="export-fields">Fields to Include</label>
-          <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px;">
-            <label style="display: flex; align-items: center; gap: 5px;">
-              <input type="checkbox" name="export-fields" value="user" checked> User Info
-            </label>
-            <label style="display: flex; align-items: center; gap: 5px;">
-              <input type="checkbox" name="export-fields" value="role" checked> Role
-            </label>
-            <label style="display: flex; align-items: center; gap: 5px;">
-              <input type="checkbox" name="export-fields" value="courses" checked> Courses
-            </label>
-            <label style="display: flex; align-items: center; gap: 5px;">
-              <input type="checkbox" name="export-fields" value="progress" checked> Progress
-            </label>
-            <label style="display: flex; align-items: center; gap: 5px;">
-              <input type="checkbox" name="export-fields" value="verified" checked> Verification
-            </label>
-            <label style="display: flex; align-items: center; gap: 5px;">
-              <input type="checkbox" name="export-fields" value="dates" checked> Dates
-            </label>
-          </div>
+          <label class="form-label">Affected Users</label>
+          <div id="affected-users-note-count">0</div>
         </div>
       </div>
       <div class="modal-footer">
-        <button class="btn btn-outline" id="cancel-export">Cancel</button>
-        <button class="btn btn-primary" id="confirm-export">
-          <i class="fas fa-download"></i> Export
-        </button>
+        <button class="modal-btn outline" id="cancel-note">Cancel</button>
+        <button class="modal-btn primary" id="confirm-note">Add Note</button>
       </div>
     </div>
   </div>
 
+  <!-- Firebase SDK -->
   <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
   <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
   <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
 
   <script>
-    // Firebase Configuration
     const firebaseConfig = {
       apiKey: "AIzaSyBQyNVWh1BtCkXlBfuS7jHAa36FTklZayo",
       authDomain: "pharma-quiz-b5a07.firebaseapp.com",
@@ -773,732 +808,824 @@
     const db = firebase.firestore();
 
     // DOM Elements
-    const mainContent = document.getElementById('main-content');
-    const userNameDisplay = document.getElementById('user-name-display');
-    const dropdownUserName = document.getElementById('dropdown-user-name');
-    const dropdownUserEmail = document.getElementById('dropdown-user-email');
-    const userAvatar = document.getElementById('user-avatar');
-    const userAvatarContainer = document.getElementById('user-avatar-container');
-    const accountDropdownContainer = document.getElementById('account-dropdown-container');
-    const accountDropdownContent = document.getElementById('account-dropdown');
-    const logoutBtn = document.getElementById('logout-btn');
     const loadingContainer = document.getElementById('loading-container');
-    const progressTableBody = document.getElementById('progress-table-body');
+    const mainContainer = document.getElementById('main-container');
+    const adminName = document.getElementById('admin-name');
+    const adminAvatar = document.getElementById('admin-avatar');
+    const usersTableBody = document.getElementById('users-table-body');
+    const selectAllCheckbox = document.getElementById('select-all');
+    const selectedCount = document.getElementById('selected-count');
     const userSearch = document.getElementById('user-search');
-    const roleFilter = document.getElementById('role-filter');
-    const progressFilter = document.getElementById('progress-filter');
-    const verificationFilter = document.getElementById('verification-filter');
+    const filterBtn = document.getElementById('filter-btn');
+    const filterContent = document.getElementById('filter-content');
     const courseFilter = document.getElementById('course-filter');
-    const refreshBtn = document.getElementById('refresh-data');
-    const exportBtn = document.getElementById('export-data');
-    const totalUsersEl = document.getElementById('total-users');
-    const activeUsersEl = document.getElementById('active-users');
-    const avgProgressEl = document.getElementById('avg-progress');
-    const completedCoursesEl = document.getElementById('completed-courses');
-    const prevPageBtn = document.getElementById('prev-page');
-    const nextPageBtn = document.getElementById('next-page');
-    const pageInfoEl = document.getElementById('page-info');
-    const progressModalEl = document.getElementById('progress-modal');
-    const closeProgressModal = document.getElementById('close-progress-modal');
-    const cancelProgressUpdate = document.getElementById('cancel-progress-update');
-    const saveProgressBtn = document.getElementById('save-progress');
-    const progressForm = document.getElementById('progress-form');
-    const progressUserIdEl = document.getElementById('progress-user-id');
-    const progressCourseIdEl = document.getElementById('progress-course-id');
-    const progressUserNameEl = document.getElementById('progress-user-name');
-    const progressCourseNameEl = document.getElementById('progress-course-name');
-    const progressValueEl = document.getElementById('progress-value');
-    const progressNotesEl = document.getElementById('progress-notes');
-    const progressVerifiedEl = document.getElementById('progress-verified');
-    const userModalEl = document.getElementById('user-modal');
-    const closeUserModal = document.getElementById('close-user-modal');
-    const closeUserDetails = document.getElementById('close-user-details');
-    const userDetailName = document.getElementById('user-detail-name');
-    const userDetailEmail = document.getElementById('user-detail-email');
-    const userDetailRole = document.getElementById('user-detail-role');
-    const userDetailStatus = document.getElementById('user-detail-status');
-    const userDetailJoined = document.getElementById('user-detail-joined');
-    const userCoursesList = document.getElementById('user-courses-list');
-    const exportModalEl = document.getElementById('export-modal');
-    const closeExportModal = document.getElementById('close-export-modal');
-    const cancelExport = document.getElementById('cancel-export');
-    const confirmExport = document.getElementById('confirm-export');
+    const languageFilter = document.getElementById('language-filter');
+    const verificationFilter = document.getElementById('verification-filter');
+    const applyFiltersBtn = document.getElementById('apply-filters');
+    const bulkUpdateBtn = document.getElementById('bulk-update');
+    const bulkVerifyBtn = document.getElementById('bulk-verify');
+    const bulkUnverifyBtn = document.getElementById('bulk-unverify');
+    const bulkNotesBtn = document.getElementById('bulk-notes');
+    const progressIncrement = document.getElementById('progress-increment');
+    const applyTo = document.getElementById('apply-to');
+    const increaseProgressBtn = document.getElementById('increase-progress');
+    const decreaseProgressBtn = document.getElementById('decrease-progress');
+    const completeProgressBtn = document.getElementById('complete-progress');
+    const resetProgressBtn = document.getElementById('reset-progress');
+    const bulkUpdateModal = document.getElementById('bulk-update-modal');
+    const closeBulkModal = document.getElementById('close-bulk-modal');
+    const cancelBulkUpdate = document.getElementById('cancel-bulk-update');
+    const confirmBulkUpdate = document.getElementById('confirm-bulk-update');
+    const bulkProgressValue = document.getElementById('bulk-progress-value');
+    const affectedUsersCount = document.getElementById('affected-users-count');
+    const noteModal = document.getElementById('note-modal');
+    const closeNoteModal = document.getElementById('close-note-modal');
+    const cancelNote = document.getElementById('cancel-note');
+    const confirmNote = document.getElementById('confirm-note');
+    const adminNote = document.getElementById('admin-note');
+    const affectedUsersNoteCount = document.getElementById('affected-users-note-count');
 
-    // App State
-    let currentUser = null;
-    let userData = null;
+    // Data variables
     let allUsers = [];
-    let allCourses = [];
     let filteredUsers = [];
-    let currentPage = 1;
-    const usersPerPage = 10;
-    let isAdmin = false;
-    let isVerified = false;
+    let selectedUserIds = new Set();
+    let currentAdmin = null;
 
-    // Initialize application
+    // Initialize the app
     function initApp() {
       setupEventListeners();
       checkAuthState();
     }
 
     function setupEventListeners() {
-      // Account dropdown toggle
-      userAvatarContainer.addEventListener('click', (e) => {
-        e.stopPropagation();
-        accountDropdownContainer.classList.toggle('active');
-      });
+      // Search input
+      userSearch.addEventListener('input', applySearchFilter);
 
-      // Close dropdown when clicking outside
-      document.addEventListener('click', () => {
-        accountDropdownContainer.classList.remove('active');
-      });
+      // Filter dropdown
+      filterBtn.addEventListener('click', toggleFilterDropdown);
+      applyFiltersBtn.addEventListener('click', applyFilters);
 
-      // Prevent dropdown from closing when clicking inside it
-      accountDropdownContent.addEventListener('click', (e) => {
-        e.stopPropagation();
-      });
+      // Select all checkbox
+      selectAllCheckbox.addEventListener('change', toggleSelectAll);
 
-      // Search and filter events
-      userSearch.addEventListener('input', filterUsers);
-      roleFilter.addEventListener('change', filterUsers);
-      progressFilter.addEventListener('change', filterUsers);
-      verificationFilter.addEventListener('change', filterUsers);
-      courseFilter.addEventListener('change', filterUsers);
+      // Bulk actions
+      bulkUpdateBtn.addEventListener('click', openBulkUpdateModal);
+      bulkVerifyBtn.addEventListener('click', () => bulkVerifyCourses(true));
+      bulkUnverifyBtn.addEventListener('click', () => bulkVerifyCourses(false));
+      bulkNotesBtn.addEventListener('click', openNoteModal);
 
-      // Pagination
-      prevPageBtn.addEventListener('click', () => {
-        if (currentPage > 1) {
-          currentPage--;
-          renderUserTable();
+      // Progress controls
+      increaseProgressBtn.addEventListener('click', () => adjustProgress('increase'));
+      decreaseProgressBtn.addEventListener('click', () => adjustProgress('decrease'));
+      completeProgressBtn.addEventListener('click', () => adjustProgress('complete'));
+      resetProgressBtn.addEventListener('click', () => adjustProgress('reset'));
+
+      // Modal controls
+      closeBulkModal.addEventListener('click', () => bulkUpdateModal.classList.remove('active'));
+      cancelBulkUpdate.addEventListener('click', () => bulkUpdateModal.classList.remove('active'));
+      confirmBulkUpdate.addEventListener('click', performBulkUpdate);
+      closeNoteModal.addEventListener('click', () => noteModal.classList.remove('active'));
+      cancelNote.addEventListener('click', () => noteModal.classList.remove('active'));
+      confirmNote.addEventListener('click', addAdminNote);
+
+      // Close filter dropdown when clicking outside
+      document.addEventListener('click', (e) => {
+        if (!filterBtn.contains(e.target) && !filterContent.contains(e.target)) {
+          filterContent.classList.remove('show');
         }
       });
-
-      nextPageBtn.addEventListener('click', () => {
-        const totalPages = Math.ceil(filteredUsers.length / usersPerPage);
-        if (currentPage < totalPages) {
-          currentPage++;
-          renderUserTable();
-        }
-      });
-
-      // Refresh and export
-      refreshBtn.addEventListener('click', loadAllData);
-      exportBtn.addEventListener('click', () => exportModalEl.classList.add('active'));
-
-      // Modal events
-      closeProgressModal.addEventListener('click', () => progressModalEl.classList.remove('active'));
-      cancelProgressUpdate.addEventListener('click', () => progressModalEl.classList.remove('active'));
-      saveProgressBtn.addEventListener('click', updateCourseProgress);
-      closeUserModal.addEventListener('click', () => userModalEl.classList.remove('active'));
-      closeUserDetails.addEventListener('click', () => userModalEl.classList.remove('active'));
-      closeExportModal.addEventListener('click', () => exportModalEl.classList.remove('active'));
-      cancelExport.addEventListener('click', () => exportModalEl.classList.remove('active'));
-      confirmExport.addEventListener('click', exportData);
-
-      // Logout
-      logoutBtn.addEventListener('click', handleLogout);
-    }
-
-    function showLoading() {
-      loadingContainer.style.display = 'flex';
-    }
-
-    function hideLoading() {
-      loadingContainer.style.display = 'none';
-    }
-
-    function showToast(message, type = 'success', duration = 3000) {
-      const toast = document.createElement('div');
-      toast.className = `toast ${type}`;
-      
-      let icon = '';
-      switch(type) {
-        case 'success': icon = '<i class="fas fa-check-circle"></i>'; break;
-        case 'error': icon = '<i class="fas fa-exclamation-circle"></i>'; break;
-        case 'warning': icon = '<i class="fas fa-exclamation-triangle"></i>'; break;
-        case 'info': icon = '<i class="fas fa-info-circle"></i>'; break;
-      }
-      
-      toast.innerHTML = `${icon} ${message}`;
-      document.body.appendChild(toast);
-      
-      setTimeout(() => {
-        toast.style.opacity = '0';
-        setTimeout(() => toast.remove(), 300);
-      }, duration);
     }
 
     function checkAuthState() {
       auth.onAuthStateChanged(async (user) => {
-        showLoading();
         if (user) {
-          currentUser = user;
-          await loadUserData(user.uid);
-          if (isAdmin && isVerified) {
-            await loadAllData();
-          } else {
-            // Redirect non-admin users
-            window.location.href = 'progress.html';
-          }
-        } else {
-          window.location.href = 'login.html';
-        }
-        setTimeout(hideLoading, 200);
-      });
-    }
-
-    async function loadUserData(userId) {
-      try {
-        const userDoc = await db.collection("users").doc(userId).get();
-
-        if (userDoc.exists) {
-          userData = userDoc.data();
-          isAdmin = userData.role === 'admin';
-          isVerified = userData.adminVerified === true;
-
-          // Update UI
-          const name = userData.name || currentUser.displayName || "User";
-          const email = currentUser.email || "No email";
-          
-          userNameDisplay.textContent = name;
-          dropdownUserName.textContent = name;
-          dropdownUserEmail.textContent = email;
-          userAvatar.textContent = name.charAt(0).toUpperCase();
-          userAvatar.title = name;
-
-          // Add admin badge if verified admin
-          const existingAdminBadge = userAvatar.querySelector('.admin-badge');
-          if (isAdmin && isVerified) {
-            if (!existingAdminBadge) {
-              const adminBadge = document.createElement('span');
-              adminBadge.className = 'admin-badge';
-              adminBadge.innerHTML = '<i class="fas fa-user-shield"></i>';
-              userAvatar.appendChild(adminBadge);
+          currentAdmin = user;
+          try {
+            const userDoc = await db.collection("users").doc(user.uid).get();
+            
+            if (userDoc.exists()) {
+              const userData = userDoc.data();
+              
+              // Check if user has admin role
+              if (userData.role !== 'admin') {
+                // Not an admin, redirect to progress page
+                setTimeout(() => {
+                  window.location.href = 'progress.html';
+                }, 1500);
+                return;
+              }
+              
+              // User is admin, show the dashboard
+              adminName.textContent = userData.name || "Admin";
+              adminAvatar.textContent = (userData.name || "A").charAt(0).toUpperCase();
+              
+              // Hide loading and show main content
+              loadingContainer.style.display = 'none';
+              mainContainer.style.display = 'block';
+              
+              // Load all users
+              loadAllUsers();
+            } else {
+              // User document doesn't exist, redirect to progress page
+              setTimeout(() => {
+                window.location.href = 'progress.html';
+              }, 1500);
             }
-          } else if (existingAdminBadge) {
-            existingAdminBadge.remove();
+          } catch (error) {
+            console.error("Error checking admin status:", error);
+            setTimeout(() => {
+              window.location.href = 'progress.html';
+            }, 1500);
           }
         } else {
-          console.warn("User document not found for ID:", userId);
-          window.location.href = 'profile.html?setup=required';
+          // No user signed in, redirect to login
+          setTimeout(() => {
+            window.location.href = 'login.html';
+          }, 1500);
         }
-      } catch (error) {
-        console.error("Error loading user data:", error);
-        showToast("Error loading your user data", "error");
-      }
-    }
-
-    async function loadAllData() {
-      showLoading();
-      try {
-        await Promise.all([loadAllUsers(), loadAllCourses()]);
-        filterUsers();
-        updateStats();
-      } catch (error) {
-        console.error("Error loading data:", error);
-        showToast("Error loading data", "error");
-      } finally {
-        hideLoading();
-      }
+      });
     }
 
     async function loadAllUsers() {
       try {
-        const snapshot = await db.collection("users").get();
-        allUsers = snapshot.docs.map(doc => ({
-          id: doc.id,
-          ...doc.data(),
-          // Convert Firestore Timestamps to ISO strings
-          createdAt: doc.data().createdAt?.toDate ? doc.data().createdAt.toDate().toISOString() : doc.data().createdAt,
-          lastLogin: doc.data().lastLogin?.toDate ? doc.data().lastLogin.toDate().toISOString() : doc.data().lastLogin
-        }));
+        const usersSnapshot = await db.collection("users").get();
+        allUsers = [];
+        
+        usersSnapshot.forEach(doc => {
+          const user = doc.data();
+          if (doc.id !== currentAdmin.uid) { // Exclude admin from the list
+            // Ensure enrolledCourses exists and is an array
+            const enrolledCourses = Array.isArray(user.enrolledCourses) ? user.enrolledCourses : [];
+            allUsers.push({
+              id: doc.id,
+              ...user,
+              enrolledCourses: enrolledCourses
+            });
+          }
+        });
+        
+        filteredUsers = [...allUsers];
+        displayUsers();
       } catch (error) {
         console.error("Error loading users:", error);
-        throw error;
+        showAlert("Error loading users. Please try again.", "error");
       }
     }
 
-    async function loadAllCourses() {
-      try {
-        const snapshot = await db.collection("courses").get();
-        allCourses = snapshot.docs.map(doc => ({
-          id: doc.id,
-          ...doc.data()
-        }));
-        
-        // Update course filter dropdown
-        updateCourseFilter();
-      } catch (error) {
-        console.error("Error loading courses:", error);
-        throw error;
-      }
-    }
-
-    function updateCourseFilter() {
-      courseFilter.innerHTML = '<option value="">All Courses</option>';
-      allCourses.forEach(course => {
-        const option = document.createElement('option');
-        option.value = course.id;
-        option.textContent = course.title;
-        courseFilter.appendChild(option);
-      });
-    }
-
-    function filterUsers() {
-      const searchTerm = userSearch.value.toLowerCase();
-      const roleFilterValue = roleFilter.value;
-      const progressFilterValue = progressFilter.value;
-      const verificationFilterValue = verificationFilter.value;
-      const courseFilterValue = courseFilter.value;
-
-      filteredUsers = allUsers.filter(user => {
-        // Search filter
-        const nameMatch = user.name?.toLowerCase().includes(searchTerm) || false;
-        const emailMatch = user.email?.toLowerCase().includes(searchTerm) || false;
-        if (searchTerm && !nameMatch && !emailMatch) return false;
-
-        // Role filter
-        if (roleFilterValue && user.role !== roleFilterValue) return false;
-
-        // Verification filter (applies to courses)
-        let verificationMatch = true;
-        if (verificationFilterValue === 'verified') {
-          verificationMatch = user.enrolledCourses?.some(c => c.verified) || false;
-        } else if (verificationFilterValue === 'not-verified') {
-          verificationMatch = user.enrolledCourses?.some(c => !c.verified) || false;
-        }
-
-        // Course filter
-        let courseMatch = true;
-        if (courseFilterValue) {
-          courseMatch = user.enrolledCourses?.some(c => c.id === courseFilterValue) || false;
-        }
-
-        // Progress filter (applies to courses)
-        let progressMatch = true;
-        if (progressFilterValue) {
-          const [min, max] = progressFilterValue.split('-').map(Number);
-          progressMatch = user.enrolledCourses?.some(c => {
-            const progress = Number(c.progress) || 0;
-            if (progressFilterValue === '100') {
-              return progress === 100;
-            } else {
-              return progress >= min && progress <= (max || min);
-            }
-          }) || false;
-        }
-
-        return verificationMatch && courseMatch && progressMatch;
-      });
-
-      currentPage = 1;
-      renderUserTable();
-      updateStats();
-    }
-
-    function renderUserTable() {
+    function displayUsers() {
+      usersTableBody.innerHTML = '';
+      
       if (filteredUsers.length === 0) {
-        progressTableBody.innerHTML = `
-          <tr>
-            <td colspan="6" style="text-align: center; padding: 30px;">
-              No users found matching your criteria
-            </td>
-          </tr>
+        usersTableBody.innerHTML = `
+          <div class="no-results">
+            <i class="fas fa-user-slash" style="font-size: 2rem; margin-bottom: 10px;"></i>
+            <p>No users found matching your search/filters</p>
+          </div>
         `;
         return;
       }
-
-      // Calculate pagination
-      const totalPages = Math.ceil(filteredUsers.length / usersPerPage);
-      const startIdx = (currentPage - 1) * usersPerPage;
-      const endIdx = Math.min(startIdx + usersPerPage, filteredUsers.length);
-      const usersToDisplay = filteredUsers.slice(startIdx, endIdx);
-
-      // Clear existing rows
-      progressTableBody.innerHTML = '';
-
-      // Add rows for each user
-      usersToDisplay.forEach(user => {
-        const row = document.createElement('tr');
-        
-        // Get the first enrolled course for summary display
-        const firstCourse = user.enrolledCourses?.[0] || {};
-        const courseData = allCourses.find(c => c.id === firstCourse.id) || {};
-        
-        row.innerHTML = `
-          <td>
-            <div class="user-info-cell">
-              <div class="user-avatar-small">${user.name?.charAt(0).toUpperCase() || 'U'}</div>
-              <div class="user-name-email">
-                <span class="user-name-table">${user.name || 'Unknown User'}</span>
-                <span class="user-email-table">${user.email || 'No email'}</span>
-              </div>
-            </div>
-          </td>
-          <td>
-            ${user.role ? user.role.charAt(0).toUpperCase() + user.role.slice(1) : 'Unknown'}
-            ${user.adminVerified ? '<span class="verified-badge" style="margin-left: 5px;"><i class="fas fa-check"></i></span>' : ''}
-          </td>
-          <td>
-            ${user.enrolledCourses?.length || 0} course(s)
-          </td>
-          <td class="progress-cell">
-            <div class="progress-value-table">
-              <span>Avg: ${calculateUserAvgProgress(user)}%</span>
-              <span>Max: ${getUserMaxProgress(user)}%</span>
-            </div>
-            <div class="progress-bar-table">
-              <div class="progress-fill-table" style="width: ${calculateUserAvgProgress(user)}%; background: ${getProgressColor(calculateUserAvgProgress(user))};"></div>
-            </div>
-          </td>
-          <td class="verified-cell">
-            ${user.enrolledCourses?.some(c => c.verified) ? '<i class="fas fa-check-circle verified-icon" title="Has verified courses"></i>' : '<i class="fas fa-times-circle not-verified-icon" title="No verified courses"></i>'}
-          </td>
-          <td class="action-cell">
-            <button class="action-btn" onclick="viewUserDetails('${user.id}')" title="View Details">
-              <i class="fas fa-eye"></i>
-            </button>
-            ${isAdmin && isVerified ? `
-            <button class="action-btn" onclick="editUserProgress('${user.id}')" title="Edit Progress">
-              <i class="fas fa-edit"></i>
-            </button>
-            ` : ''}
-          </td>
-        `;
-        
-        progressTableBody.appendChild(row);
-      });
-
-      // Update pagination controls
-      updatePaginationControls(totalPages);
-    }
-
-    function calculateUserAvgProgress(user) {
-      if (!user.enrolledCourses || user.enrolledCourses.length === 0) return 0;
-      const total = user.enrolledCourses.reduce((sum, course) => sum + (Number(course.progress) || 0), 0);
-      return Math.round(total / user.enrolledCourses.length);
-    }
-
-    function getUserMaxProgress(user) {
-      if (!user.enrolledCourses || user.enrolledCourses.length === 0) return 0;
-      const max = Math.max(...user.enrolledCourses.map(course => Number(course.progress) || 0));
-      return Math.round(max);
-    }
-
-    function getProgressColor(percentage) {
-      percentage = Math.max(0, Math.min(100, percentage));
-      
-      if (percentage <= 25) {
-        return 'linear-gradient(90deg, #dc3545, #fd7e14)';
-      } else if (percentage <= 50) {
-        return 'linear-gradient(90deg, #fd7e14, #ffc107)';
-      } else if (percentage <= 75) {
-        return 'linear-gradient(90deg, #ffc107, #28a745)';
-      } else {
-        return 'linear-gradient(90deg, #28a745, #17a2b8)';
-      }
-    }
-
-    function updatePaginationControls(totalPages) {
-      prevPageBtn.disabled = currentPage <= 1;
-      nextPageBtn.disabled = currentPage >= totalPages;
-      pageInfoEl.textContent = `Page ${currentPage} of ${totalPages}`;
-    }
-
-    function updateStats() {
-      totalUsersEl.textContent = filteredUsers.length;
-      
-      // Calculate active users (logged in within last 30 days)
-      const activeUsers = filteredUsers.filter(user => {
-        if (!user.lastLogin) return false;
-        const lastLogin = new Date(user.lastLogin);
-        const thirtyDaysAgo = new Date();
-        thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
-        return lastLogin >= thirtyDaysAgo;
-      }).length;
-      activeUsersEl.textContent = activeUsers;
-      
-      // Calculate average progress across all filtered users
-      let totalProgress = 0;
-      let userCount = 0;
-      let completedCourses = 0;
       
       filteredUsers.forEach(user => {
-        if (user.enrolledCourses && user.enrolledCourses.length > 0) {
-          const userAvg = calculateUserAvgProgress(user);
-          totalProgress += userAvg;
-          userCount++;
-          
-          // Count completed courses (progress = 100%)
-          completedCourses += user.enrolledCourses.filter(c => (Number(c.progress) || 0) >= 100).length;
-        }
+        const isSelected = selectedUserIds.has(user.id);
+        const row = document.createElement('div');
+        row.className = `user-row ${isSelected ? 'selected' : ''}`;
+        
+        row.innerHTML = `
+          <div class="user-checkbox">
+            <input type="checkbox" class="user-checkbox-input" data-user-id="${user.id}" ${isSelected ? 'checked' : ''}>
+          </div>
+          <div class="user-details">
+            <div class="user-info">
+              <div class="user-avatar">${(user.name || 'U').charAt(0).toUpperCase()}</div>
+              <div class="user-text">
+                <div class="user-name">${user.name || 'No Name'}</div>
+                <div class="user-email">${user.email || ''}</div>
+              </div>
+              <div class="user-id">ID: ${user.id.substring(0, 8)}</div>
+            </div>
+            
+            ${user.enrolledCourses.length > 0 ? `
+              <table class="user-courses">
+                ${user.enrolledCourses.map(course => `
+                  <tr class="course-row">
+                    <td class="course-cell" style="width: 30%;">
+                      <div class="course-title">${course.title || 'No Title'}</div>
+                      <div class="course-meta">
+                        <span class="course-meta-item">
+                          <i class="fas fa-tag"></i> ${course.type || 'No Type'}
+                        </span>
+                        <span class="course-meta-item">
+                          <i class="fas fa-language"></i> ${course.language || 'No Language'}
+                        </span>
+                        <span class="course-meta-item">
+                          <i class="fas fa-calendar"></i> ${formatDate(course.enrollmentDate) || 'No Date'}
+                        </span>
+                      </div>
+                    </td>
+                    <td class="course-cell" style="width: 25%;">
+                      <div class="progress-container">
+                        <div class="progress-bar-container">
+                          <div class="progress-bar" style="width: ${course.progress || 0}%"></div>
+                        </div>
+                        <div class="progress-value">${course.progress || 0}%</div>
+                      </div>
+                    </td>
+                    <td class="course-cell" style="width: 20%;">
+                      <span class="badge ${course.verified ? 'verified' : 'unverified'}">
+                        ${course.verified ? 'Verified' : 'Unverified'}
+                      </span>
+                    </td>
+                    <td class="course-cell" style="width: 25%;">
+                      <div class="course-actions">
+                        <input type="number" class="progress-input-small" 
+                               value="${course.progress || 0}" 
+                               min="0" max="100"
+                               data-user-id="${user.id}"
+                               data-course-id="${course.id}">
+                        <button class="action-btn primary save-progress" 
+                                data-user-id="${user.id}" 
+                                data-course-id="${course.id}">
+                          <i class="fas fa-save"></i>
+                        </button>
+                        ${course.verified ? 
+                          `<button class="action-btn warning verify-btn" 
+                                  data-user-id="${user.id}" 
+                                  data-course-id="${course.id}"
+                                  data-verify="false">
+                            <i class="fas fa-times"></i>
+                          </button>` :
+                          `<button class="action-btn success verify-btn" 
+                                  data-user-id="${user.id}" 
+                                  data-course-id="${course.id}"
+                                  data-verify="true">
+                            <i class="fas fa-check"></i>
+                          </button>`
+                        }
+                      </div>
+                    </td>
+                  </tr>
+                `).join('')}
+              </table>
+            ` : `
+              <div style="color: var(--text-light); padding: 10px 0;">
+                <i class="fas fa-exclamation-circle"></i> No enrolled courses
+              </div>
+            `}
+          </div>
+        `;
+        
+        usersTableBody.appendChild(row);
+        
+        // Add event listeners for this row
+        const checkbox = row.querySelector('.user-checkbox-input');
+        checkbox.addEventListener('change', (e) => {
+          const userId = e.target.dataset.userId;
+          if (e.target.checked) {
+            selectedUserIds.add(userId);
+          } else {
+            selectedUserIds.delete(userId);
+          }
+          updateSelectedCount();
+          updateSelectAllCheckbox();
+        });
+        
+        // Add event listeners for all action buttons in this row
+        row.querySelectorAll('.save-progress').forEach(btn => {
+          btn.addEventListener('click', async (e) => {
+            const userId = e.target.dataset.userId;
+            const courseId = e.target.dataset.courseId;
+            const progressInput = e.target.closest('.course-actions').querySelector('.progress-input-small');
+            const progressValue = parseInt(progressInput.value);
+            
+            if (isNaN(progressValue)) {
+              showAlert('Please enter a valid progress percentage', "error");
+              return;
+            }
+            
+            await updateUserProgress(userId, courseId, progressValue);
+          });
+        });
+        
+        row.querySelectorAll('.verify-btn').forEach(btn => {
+          btn.addEventListener('click', async (e) => {
+            const userId = e.target.dataset.userId;
+            const courseId = e.target.dataset.courseId;
+            const verify = e.target.dataset.verify === 'true';
+            
+            await verifyUserCourse(userId, courseId, verify);
+          });
+        });
       });
       
-      const avgProgress = userCount > 0 ? Math.round(totalProgress / userCount) : 0;
-      avgProgressEl.textContent = `${avgProgress}%`;
-      completedCoursesEl.textContent = completedCourses;
+      updateSelectedCount();
+      updateSelectAllCheckbox();
     }
 
-    function viewUserDetails(userId) {
-      const user = allUsers.find(u => u.id === userId);
-      if (!user) {
-        showToast("User not found", "error");
-        return;
-      }
+    function toggleFilterDropdown() {
+      filterContent.classList.toggle('show');
+    }
 
-      // Populate user details
-      userDetailName.value = user.name || 'Unknown';
-      userDetailEmail.value = user.email || 'No email';
-      userDetailRole.value = user.role ? user.role.charAt(0).toUpperCase() + user.role.slice(1) : 'Unknown';
-      userDetailStatus.value = user.adminVerified ? 'Verified' : 'Not Verified';
-      userDetailJoined.value = user.createdAt ? formatDate(user.createdAt) : 'Unknown';
-
-      // Populate courses list
-      userCoursesList.innerHTML = '';
-      if (user.enrolledCourses && user.enrolledCourses.length > 0) {
-        user.enrolledCourses.forEach(course => {
-          const courseData = allCourses.find(c => c.id === course.id) || {};
-          const progress = Number(course.progress) || 0;
-          
-          const courseEl = document.createElement('div');
-          courseEl.className = 'course-details-section';
-          courseEl.style.marginBottom = '10px';
-          courseEl.innerHTML = `
-            <strong>${courseData.title || course.id}</strong>
-            <div style="display: flex; align-items: center; gap: 10px; margin: 5px 0;">
-              <div style="flex: 1; height: 8px; background-color: #e9ecef; border-radius: 4px; overflow: hidden;">
-                <div style="height: 100%; width: ${progress}%; background: ${getProgressColor(progress)};"></div>
-              </div>
-              <span style="font-size: 0.85rem;">${progress}%</span>
-            </div>
-            <div style="display: flex; justify-content: space-between; font-size: 0.8rem; color: var(--text-light); margin-bottom: 5px;">
-              <span>${course.verified ? '<i class="fas fa-check-circle" style="color: var(--success-color);"></i> Verified' : '<i class="fas fa-times-circle" style="color: var(--warning-color);"></i> Not Verified'}</span>
-              <span>Last updated: ${course.lastUpdated ? formatDate(course.lastUpdated) : 'Never'}</span>
-            </div>
-            ${course.notes ? `<p style="font-size: 0.85rem; margin: 5px 0;">${escapeHTML(course.notes)}</p>` : ''}
-            ${isAdmin && isVerified ? `
-            <div style="text-align: right; margin-top: 5px;">
-              <button class="action-btn" onclick="editUserProgress('${user.id}', '${course.id}')" title="Edit Progress">
-                <i class="fas fa-edit"></i> Edit
-              </button>
-            </div>
-            ` : ''}
-          `;
-          userCoursesList.appendChild(courseEl);
+    function applySearchFilter() {
+      const searchTerm = userSearch.value.toLowerCase();
+      
+      if (!searchTerm) {
+        filteredUsers = [...allUsers];
+      } else {
+        filteredUsers = allUsers.filter(user => {
+          return (
+            (user.name && user.name.toLowerCase().includes(searchTerm)) ||
+            (user.email && user.email.toLowerCase().includes(searchTerm)) ||
+            (user.studentId && user.studentId.toLowerCase().includes(searchTerm))
+          );
         });
-      } else {
-        userCoursesList.innerHTML = '<p style="text-align: center; color: var(--text-light);">No enrolled courses</p>';
       }
-
-      userModalEl.classList.add('active');
+      
+      // Reset selection
+      selectedUserIds.clear();
+      updateSelectedCount();
+      updateSelectAllCheckbox();
+      
+      displayUsers();
     }
 
-    function editUserProgress(userId, courseId = null) {
-      const user = allUsers.find(u => u.id === userId);
-      if (!user) {
-        showToast("User not found", "error");
-        return;
-      }
-
-      // If no courseId provided, use the first enrolled course
-      let course;
-      if (courseId) {
-        course = user.enrolledCourses?.find(c => c.id === courseId);
-      } else {
-        course = user.enrolledCourses?.[0];
-      }
-
-      if (!course) {
-        showToast("User has no enrolled courses", "error");
-        return;
-      }
-
-      const courseData = allCourses.find(c => c.id === course.id) || {};
-
-      // Populate modal
-      progressUserIdEl.value = user.id;
-      progressCourseIdEl.value = course.id;
-      progressUserNameEl.value = user.name || 'Unknown User';
-      progressCourseNameEl.value = courseData.title || course.id;
-      progressValueEl.value = course.progress || 0;
-      progressNotesEl.value = course.notes || '';
-      progressVerifiedEl.value = course.verified ? 'true' : 'false';
-
-      progressModalEl.classList.add('active');
-    }
-
-    async function updateCourseProgress() {
-      const userId = progressUserIdEl.value;
-      const courseId = progressCourseIdEl.value;
-      const progress = parseInt(progressValueEl.value, 10);
-      const notes = progressNotesEl.value.trim();
-      const verified = progressVerifiedEl.value === 'true';
-
-      if (isNaN(progress) || progress < 0 || progress > 100) {
-        showToast("Please enter a valid progress percentage (0-100)", "error");
-        return;
-      }
-
-      saveProgressBtn.disabled = true;
-      saveProgressBtn.textContent = 'Saving...';
-
-      try {
-        const userDocRef = db.collection("users").doc(userId);
-        const userDoc = await userDocRef.get();
-        if (!userDoc.exists) {
-          throw new Error("User document not found");
+    function applyFilters() {
+      const courseType = courseFilter.value;
+      const language = languageFilter.value;
+      const verification = verificationFilter.value;
+      
+      filteredUsers = allUsers.filter(user => {
+        // If user has no courses, only include if no filters are set
+        if (user.enrolledCourses.length === 0) {
+          return !courseType && !language && !verification;
         }
-
-        const userData = userDoc.data();
-        const enrolledCourses = userData.enrolledCourses || [];
         
-        // Find and update the specific course
-        const updatedCourses = enrolledCourses.map(course => {
-          if (course.id === courseId) {
-            return {
-              ...course,
-              progress: progress,
-              notes: notes,
-              lastUpdated: firebase.firestore.FieldValue.serverTimestamp(),
-              verified: verified,
-              verifiedBy: verified ? (userData.name || "Admin") : null,
-              verifiedAt: verified ? firebase.firestore.FieldValue.serverTimestamp() : null
-            };
+        // Check if any course matches the filters
+        return user.enrolledCourses.some(course => {
+          // Course type filter
+          if (courseType && course.type !== courseType) {
+            return false;
           }
-          return course;
+          
+          // Language filter
+          if (language && course.language !== language) {
+            return false;
+          }
+          
+          // Verification filter
+          if (verification === 'verified' && !course.verified) {
+            return false;
+          }
+          if (verification === 'unverified' && course.verified) {
+            return false;
+          }
+          
+          return true;
         });
+      });
+      
+      // Close filter dropdown
+      filterContent.classList.remove('show');
+      
+      // Reset selection
+      selectedUserIds.clear();
+      updateSelectedCount();
+      updateSelectAllCheckbox();
+      
+      displayUsers();
+    }
 
-        // Update the user document
-        await userDocRef.update({
-          enrolledCourses: updatedCourses
-        });
+    function toggleSelectAll() {
+      const isChecked = selectAllCheckbox.checked;
+      
+      if (isChecked) {
+        filteredUsers.forEach(user => selectedUserIds.add(user.id));
+      } else {
+        filteredUsers.forEach(user => selectedUserIds.delete(user.id));
+      }
+      
+      // Update all checkboxes in the table
+      document.querySelectorAll('.user-checkbox-input').forEach(checkbox => {
+        checkbox.checked = isChecked;
+      });
+      
+      updateSelectedCount();
+    }
 
-        // Refresh data
-        await loadAllUsers();
-        filterUsers();
+    function updateSelectAllCheckbox() {
+      const allSelected = filteredUsers.length > 0 && 
+                         filteredUsers.every(user => selectedUserIds.has(user.id));
+      selectAllCheckbox.checked = allSelected;
+    }
+
+    function updateSelectedCount() {
+      selectedCount.textContent = `${selectedUserIds.size} selected`;
+      affectedUsersCount.textContent = selectedUserIds.size;
+      affectedUsersNoteCount.textContent = selectedUserIds.size;
+    }
+
+    function openBulkUpdateModal() {
+      if (selectedUserIds.size === 0) {
+        showAlert('Please select at least one user', "error");
+        return;
+      }
+      
+      bulkProgressValue.value = '';
+      bulkUpdateModal.classList.add('active');
+    }
+
+    function openNoteModal() {
+      if (selectedUserIds.size === 0) {
+        showAlert('Please select at least one user', "error");
+        return;
+      }
+      
+      adminNote.value = '';
+      noteModal.classList.add('active');
+    }
+
+    async function performBulkUpdate() {
+      const progressValue = parseInt(bulkProgressValue.value);
+      
+      if (isNaN(progressValue) || progressValue < 0 || progressValue > 100) {
+        showAlert('Please enter a valid progress percentage (0-100)', "error");
+        return;
+      }
+      
+      const userIds = Array.from(selectedUserIds);
+      const promises = [];
+      
+      for (const userId of userIds) {
+        const user = allUsers.find(u => u.id === userId);
+        if (!user) continue;
         
-        progressModalEl.classList.remove('active');
-        showToast("Progress updated successfully!");
+        for (const course of user.enrolledCourses) {
+          // Only update if the course matches current filters
+          if (courseMatchesFilters(course)) {
+            const updatedCourse = {
+              ...course,
+              progress: progressValue,
+              lastUpdated: new Date().toISOString(),
+              updatedBy: currentAdmin.uid
+            };
+            
+            // Create update promise
+            promises.push(
+              updateDoc(doc(db, "users", userId), {
+                enrolledCourses: arrayRemove(course)
+              }).then(() => {
+                return updateDoc(doc(db, "users", userId), {
+                  enrolledCourses: arrayUnion(updatedCourse)
+                });
+              })
+            );
+          }
+        }
+      }
+      
+      try {
+        await Promise.all(promises);
+        showAlert(`Successfully updated ${userIds.length} users`, "success");
+        bulkUpdateModal.classList.remove('active');
+        loadAllUsers(); // Refresh data
+      } catch (error) {
+        console.error("Error during bulk update:", error);
+        showAlert("An error occurred during bulk update. Some changes may not have been saved.", "error");
+      }
+    }
+
+    async function addAdminNote() {
+      const noteContent = adminNote.value.trim();
+      
+      if (!noteContent) {
+        showAlert('Please enter a note', "error");
+        return;
+      }
+      
+      const userIds = Array.from(selectedUserIds);
+      const promises = [];
+      const adminName = document.getElementById('admin-name').textContent;
+      const timestamp = new Date().toISOString();
+      
+      for (const userId of userIds) {
+        const user = allUsers.find(u => u.id === userId);
+        if (!user) continue;
+        
+        for (const course of user.enrolledCourses) {
+          // Only update if the course matches current filters
+          if (courseMatchesFilters(course)) {
+            const updatedCourse = {
+              ...course,
+              notes: `[${new Date().toLocaleString()}] ${adminName}: ${noteContent}`,
+              lastUpdated: timestamp,
+              updatedBy: currentAdmin.uid
+            };
+            
+            // Create update promise
+            promises.push(
+              updateDoc(doc(db, "users", userId), {
+                enrolledCourses: arrayRemove(course)
+              }).then(() => {
+                return updateDoc(doc(db, "users", userId), {
+                  enrolledCourses: arrayUnion(updatedCourse)
+                });
+              })
+            );
+          }
+        }
+      }
+      
+      try {
+        await Promise.all(promises);
+        showAlert(`Note added to ${userIds.length} users`, "success");
+        noteModal.classList.remove('active');
+        loadAllUsers(); // Refresh data
+      } catch (error) {
+        console.error("Error adding note:", error);
+        showAlert("An error occurred while adding note. Some changes may not have been saved.", "error");
+      }
+    }
+
+    async function bulkVerifyCourses(verify) {
+      if (selectedUserIds.size === 0) {
+        showAlert('Please select at least one user', "error");
+        return;
+      }
+      
+      const confirmAction = confirm(`Are you sure you want to ${verify ? 'verify' : 'unverify'} courses for ${selectedUserIds.size} users?`);
+      if (!confirmAction) return;
+      
+      const userIds = Array.from(selectedUserIds);
+      const promises = [];
+      const adminName = document.getElementById('admin-name').textContent;
+      
+      for (const userId of userIds) {
+        const user = allUsers.find(u => u.id === userId);
+        if (!user) continue;
+        
+        for (const course of user.enrolledCourses) {
+          // Only update if the course matches current filters
+          if (courseMatchesFilters(course)) {
+            const updatedCourse = {
+              ...course,
+              verified: verify,
+              lastUpdated: new Date().toISOString(),
+              updatedBy: currentAdmin.uid
+            };
+            
+            if (verify) {
+              updatedCourse.verifiedBy = adminName;
+              updatedCourse.verifiedAt = new Date().toISOString();
+            } else {
+              updatedCourse.verifiedBy = null;
+              updatedCourse.verifiedAt = null;
+            }
+            
+            // Create update promise
+            promises.push(
+              updateDoc(doc(db, "users", userId), {
+                enrolledCourses: arrayRemove(course)
+              }).then(() => {
+                return updateDoc(doc(db, "users", userId), {
+                  enrolledCourses: arrayUnion(updatedCourse)
+                });
+              })
+            );
+          }
+        }
+      }
+      
+      try {
+        await Promise.all(promises);
+        showAlert(`Successfully ${verify ? 'verified' : 'unverified'} courses for ${userIds.length} users`, "success");
+        loadAllUsers(); // Refresh data
+      } catch (error) {
+        console.error("Error during bulk verification:", error);
+        showAlert("An error occurred during bulk verification. Some changes may not have been saved.", "error");
+      }
+    }
+
+    async function verifyUserCourse(userId, courseId, verify) {
+      const user = allUsers.find(u => u.id === userId);
+      if (!user) return;
+      
+      const course = user.enrolledCourses.find(c => c.id === courseId);
+      if (!course) return;
+      
+      try {
+        const updatedCourse = {
+          ...course,
+          verified: verify,
+          lastUpdated: new Date().toISOString(),
+          updatedBy: currentAdmin.uid
+        };
+        
+        if (verify) {
+          updatedCourse.verifiedBy = adminName.textContent;
+          updatedCourse.verifiedAt = new Date().toISOString();
+        } else {
+          updatedCourse.verifiedBy = null;
+          updatedCourse.verifiedAt = null;
+        }
+        
+        await updateDoc(doc(db, "users", userId), {
+          enrolledCourses: arrayRemove(course)
+        });
+        
+        await updateDoc(doc(db, "users", userId), {
+          enrolledCourses: arrayUnion(updatedCourse)
+        });
+        
+        // Update local data
+        const userIndex = allUsers.findIndex(u => u.id === userId);
+        if (userIndex !== -1) {
+          const courseIndex = allUsers[userIndex].enrolledCourses.findIndex(c => c.id === courseId);
+          if (courseIndex !== -1) {
+            allUsers[userIndex].enrolledCourses[courseIndex] = updatedCourse;
+          }
+        }
+        
+        // Refresh display
+        displayUsers();
+        
+        showAlert(`Course ${verify ? 'verified' : 'unverified'} successfully`, "success");
+      } catch (error) {
+        console.error("Error verifying course:", error);
+        showAlert("Failed to update verification status. Please try again.", "error");
+      }
+    }
+
+    async function adjustProgress(action) {
+      const increment = parseInt(progressIncrement.value);
+      const applyToValue = applyTo.value;
+      
+      if (action !== 'complete' && action !== 'reset' && (isNaN(increment) || increment <= 0 || increment > 100)) {
+        showAlert('Please enter a valid progress increment (1-100)', "error");
+        return;
+      }
+      
+      let userIds = [];
+      
+      if (applyToValue === 'selected') {
+        if (selectedUserIds.size === 0) {
+          showAlert('Please select at least one user', "error");
+          return;
+        }
+        userIds = Array.from(selectedUserIds);
+      } else if (applyToValue === 'filtered') {
+        userIds = filteredUsers.map(user => user.id);
+      } else { // 'all'
+        userIds = allUsers.map(user => user.id);
+      }
+      
+      const confirmAction = confirm(`This will ${getActionText(action)} for ${userIds.length} users. Continue?`);
+      if (!confirmAction) return;
+      
+      const promises = [];
+      
+      for (const userId of userIds) {
+        const user = allUsers.find(u => u.id === userId);
+        if (!user) continue;
+        
+        for (const course of user.enrolledCourses) {
+          // Only update if the course matches current filters
+          if (courseMatchesFilters(course)) {
+            let newProgress;
+            
+            switch (action) {
+              case 'increase':
+                newProgress = Math.min(100, (course.progress || 0) + increment);
+                break;
+              case 'decrease':
+                newProgress = Math.max(0, (course.progress || 0) - increment);
+                break;
+              case 'complete':
+                newProgress = 100;
+                break;
+              case 'reset':
+                newProgress = 0;
+                break;
+            }
+            
+            const updatedCourse = {
+              ...course,
+              progress: newProgress,
+              lastUpdated: new Date().toISOString(),
+              updatedBy: currentAdmin.uid
+            };
+            
+            // Create update promise
+            promises.push(
+              updateDoc(doc(db, "users", userId), {
+                enrolledCourses: arrayRemove(course)
+              }).then(() => {
+                return updateDoc(doc(db, "users", userId), {
+                  enrolledCourses: arrayUnion(updatedCourse)
+                });
+              })
+            );
+          }
+        }
+      }
+      
+      try {
+        await Promise.all(promises);
+        showAlert(`Progress updated for ${userIds.length} users`, "success");
+        loadAllUsers(); // Refresh data
+      } catch (error) {
+        console.error("Error adjusting progress:", error);
+        showAlert("An error occurred while adjusting progress. Some changes may not have been saved.", "error");
+      }
+    }
+
+    async function updateUserProgress(userId, courseId, progressValue) {
+      const user = allUsers.find(u => u.id === userId);
+      if (!user) return;
+      
+      const course = user.enrolledCourses.find(c => c.id === courseId);
+      if (!course) return;
+      
+      try {
+        const updatedCourse = {
+          ...course,
+          progress: progressValue,
+          lastUpdated: new Date().toISOString(),
+          updatedBy: currentAdmin.uid
+        };
+        
+        await updateDoc(doc(db, "users", userId), {
+          enrolledCourses: arrayRemove(course)
+        });
+        
+        await updateDoc(doc(db, "users", userId), {
+          enrolledCourses: arrayUnion(updatedCourse)
+        });
+        
+        // Update local data
+        const userIndex = allUsers.findIndex(u => u.id === userId);
+        if (userIndex !== -1) {
+          const courseIndex = allUsers[userIndex].enrolledCourses.findIndex(c => c.id === courseId);
+          if (courseIndex !== -1) {
+            allUsers[userIndex].enrolledCourses[courseIndex] = updatedCourse;
+          }
+        }
+        
+        showAlert('Progress updated successfully', "success");
       } catch (error) {
         console.error("Error updating progress:", error);
-        showToast(`Failed to update progress: ${error.message}`, "error");
-      } finally {
-        saveProgressBtn.disabled = false;
-        saveProgressBtn.textContent = 'Save Changes';
+        showAlert("Failed to update progress. Please try again.", "error");
       }
+    }
+
+    function getActionText(action) {
+      switch (action) {
+        case 'increase': return `increase progress by ${progressIncrement.value}%`;
+        case 'decrease': return `decrease progress by ${progressIncrement.value}%`;
+        case 'complete': return 'set progress to 100%';
+        case 'reset': return 'set progress to 0%';
+        default: return 'update progress';
+      }
+    }
+
+    function courseMatchesFilters(course) {
+      const courseType = courseFilter.value;
+      const language = languageFilter.value;
+      const verification = verificationFilter.value;
+      
+      // Course type filter
+      if (courseType && course.type !== courseType) {
+        return false;
+      }
+      
+      // Language filter
+      if (language && course.language !== language) {
+        return false;
+      }
+      
+      // Verification filter
+      if (verification === 'verified' && !course.verified) {
+        return false;
+      }
+      if (verification === 'unverified' && course.verified) {
+        return false;
+      }
+      
+      return true;
     }
 
     function formatDate(dateString) {
       if (!dateString) return 'N/A';
       try {
         const date = new Date(dateString);
-        if (isNaN(date.getTime())) return 'Invalid Date';
-        const options = { year: 'numeric', month: 'short', day: 'numeric' };
-        return date.toLocaleDateString(undefined, options);
+        return date.toLocaleDateString();
       } catch (e) {
-        console.error("Error formatting date:", dateString, e);
-        return 'Error';
+        return 'N/A';
       }
     }
 
-    function escapeHTML(str) {
-      if (!str) return '';
-      const div = document.createElement('div');
-      div.textContent = str;
-      return div.innerHTML;
+    function showAlert(message, type) {
+      // You can implement a more sophisticated alert system here
+      alert(`${type === 'error' ? 'Error: ' : ''}${message}`);
     }
-
-    function exportData() {
-      const format = document.getElementById('export-format').value;
-      const content = document.getElementById('export-content').value;
-      const fields = Array.from(document.querySelectorAll('input[name="export-fields"]:checked')).map(el => el.value);
-
-      // Determine which data to export
-      const dataToExport = content === 'all-data' ? allUsers : filteredUsers;
-      
-      // Prepare the data based on selected fields
-      const preparedData = dataToExport.map(user => {
-        const userData = {};
-        
-        if (fields.includes('user')) {
-          userData['Name'] = user.name || 'Unknown';
-          userData['Email'] = user.email || 'No email';
-        }
-        
-        if (fields.includes('role')) {
-          userData['Role'] = user.role ? user.role.charAt(0).toUpperCase() + user.role.slice(1) : 'Unknown';
-          userData['Verified'] = user.adminVerified ? 'Yes' : 'No';
-        }
-        
-        if (fields.includes('courses')) {
-          userData['Courses Enrolled'] = user.enrolledCourses?.length || 0;
-        }
-        
-        if (fields.includes('progress')) {
-          userData['Average Progress'] = `${calculateUserAvgProgress(user)}%`;
-          userData['Highest Progress'] = `${getUserMaxProgress(user)}%`;
-        }
-        
-        if (fields.includes('verified')) {
-          userData['Has Verified Courses'] = user.enrolledCourses?.some(c => c.verified) ? 'Yes' : 'No';
-        }
-        
-        if (fields.includes('dates')) {
-          userData['Joined'] = user.createdAt ? formatDate(user.createdAt) : 'Unknown';
-          userData['Last Login'] = user.lastLogin ? formatDate(user.lastLogin) : 'Never';
-        }
-        
-        return userData;
-      });
-
-      // Create the export file
-      if (format === 'csv') {
-        exportToCSV(preparedData);
-      } else {
-        exportToJSON(preparedData);
-      }
-
-      exportModalEl.classList.remove('active');
-    }
-
-    function exportToCSV(data) {
-      const csv = Papa.unparse(data);
-      const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
-      const url = URL.createObjectURL(blob);
-      const link = document.createElement('a');
-      link.href = url;
-      link.setAttribute('download', `progress_data_${new Date().toISOString().slice(0, 10)}.csv`);
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-    }
-
-    function exportToJSON(data) {
-      const json = JSON.stringify(data, null, 2);
-      const blob = new Blob([json], { type: 'application/json' });
-      const url = URL.createObjectURL(blob);
-      const link = document.createElement('a');
-      link.href = url;
-      link.setAttribute('download', `progress_data_${new Date().toISOString().slice(0, 10)}.json`);
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-    }
-
-    async function handleLogout(e) {
-      e.preventDefault();
-      try {
-        await auth.signOut();
-        window.location.href = 'login.html';
-      } catch (error) {
-        console.error("Error signing out:", error);
-        showToast("Error signing out. Please try again.", "error");
-      }
-    }
-
-    // Make functions available globally
-    window.viewUserDetails = viewUserDetails;
-    window.editUserProgress = editUserProgress;
 
     // Initialize the app
     document.addEventListener('DOMContentLoaded', initApp);
