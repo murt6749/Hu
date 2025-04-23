@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Haramaya University Jama'aa - Login</title>
+    <title>Haramaya University Jama'aa - Authentication</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
@@ -27,6 +27,7 @@
             --gradient: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
             --gradient-dark: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary) 100%);
             --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            --bounce: cubic-bezier(0.68, -0.55, 0.27, 1.55);
         }
 
         * {
@@ -46,6 +47,7 @@
             padding: 16px;
             color: var(--dark);
             line-height: 1.6;
+            overflow-x: hidden;
         }
 
         /* Floating Animation */
@@ -60,27 +62,71 @@
             50% { opacity: 0.6; }
         }
 
+        /* Bounce Animation */
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-5px); }
+        }
+
+        /* Ripple Effect */
+        @keyframes ripple {
+            to {
+                transform: scale(4);
+                opacity: 0;
+            }
+        }
+
         /* Main Container */
         .auth-container {
             width: 100%;
-            max-width: 420px;
+            max-width: 440px;
             background-color: var(--white);
-            border-radius: 20px;
+            border-radius: 24px;
             overflow: hidden;
             box-shadow: var(--shadow-lg);
-            animation: fadeIn 0.6s ease-out;
+            animation: fadeIn 0.6s var(--bounce);
             position: relative;
+            transform-style: preserve-3d;
+            perspective: 1000px;
+            z-index: 1;
+        }
+
+        .auth-container::before {
+            content: "";
+            position: absolute;
+            top: -5px;
+            left: -5px;
+            right: -5px;
+            bottom: -5px;
+            background: linear-gradient(45deg, 
+                var(--primary) 0%, 
+                var(--primary-light) 25%, 
+                var(--primary-dark) 50%, 
+                var(--primary-light) 75%, 
+                var(--primary) 100%);
+            background-size: 400%;
+            z-index: -1;
+            border-radius: 28px;
+            animation: gradientBG 15s ease infinite;
+            opacity: 0.7;
+            filter: blur(8px);
+        }
+
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
         }
 
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
+            from { opacity: 0; transform: translateY(20px) rotateX(10deg); }
+            to { opacity: 1; transform: translateY(0) rotateX(0); }
         }
 
         /* Header Section */
         .header-section {
             background: var(--gradient);
-            padding: 24px 20px;
+            padding: 28px 20px;
             text-align: center;
             position: relative;
             overflow: hidden;
@@ -98,8 +144,8 @@
         }
 
         .logo-container {
-            width: 80px;
-            height: 80px;
+            width: 90px;
+            height: 90px;
             margin: 0 auto 16px;
             background-color: var(--white);
             border-radius: 50%;
@@ -109,35 +155,50 @@
             box-shadow: var(--shadow-sm);
             position: relative;
             z-index: 1;
-            animation: float 6s infinite ease-in-out;
+            transition: var(--transition);
+            border: 3px solid rgba(255,255,255,0.3);
+        }
+
+        .logo-container:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 24px rgba(0,0,0,0.2);
         }
 
         .logo-container img {
             width: 70%;
             height: 70%;
             object-fit: contain;
+            transition: var(--transition);
+        }
+
+        .logo-container:hover img {
+            transform: rotate(5deg);
         }
 
         .header-section h1 {
-            font-size: 1.8rem;
+            font-size: 1.9rem;
             margin-bottom: 8px;
             color: var(--white);
             position: relative;
             z-index: 1;
             text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            font-weight: 600;
         }
 
         .header-section p {
-            font-size: 1rem;
+            font-size: 1.05rem;
             color: rgba(255,255,255,0.9);
             position: relative;
             z-index: 1;
+            max-width: 80%;
+            margin: 0 auto;
         }
 
         /* Auth Section */
         .auth-section {
-            padding: 24px;
+            padding: 28px;
             background: var(--off-white);
+            position: relative;
         }
 
         /* Tabs */
@@ -145,9 +206,32 @@
             display: flex;
             background: var(--white);
             border-radius: 12px;
-            padding: 4px;
-            margin-bottom: 24px;
+            padding: 6px;
+            margin-bottom: 28px;
             box-shadow: var(--shadow-sm);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .tab-container::before {
+            content: "";
+            position: absolute;
+            top: 6px;
+            bottom: 6px;
+            left: 0;
+            width: 50%;
+            background: rgba(26, 77, 46, 0.1);
+            border-radius: 8px;
+            transition: var(--transition);
+            z-index: 0;
+        }
+
+        .tab-container.login-active::before {
+            transform: translateX(0);
+        }
+
+        .tab-container.signup-active::before {
+            transform: translateX(100%);
         }
 
         .tab {
@@ -160,29 +244,17 @@
             transition: var(--transition);
             border-radius: 8px;
             position: relative;
+            z-index: 1;
         }
 
         .tab.active {
             color: var(--primary);
-            background: rgba(26, 77, 46, 0.1);
-        }
-
-        .tab.active::after {
-            content: '';
-            position: absolute;
-            bottom: -8px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 24px;
-            height: 3px;
-            background-color: var(--primary);
-            border-radius: 3px;
         }
 
         /* Forms */
         .auth-form {
             display: none;
-            animation: slideUp 0.4s ease-out;
+            animation: slideUp 0.4s var(--bounce);
         }
 
         @keyframes slideUp {
@@ -209,26 +281,34 @@
 
         .input-field {
             width: 100%;
-            padding: 14px 16px;
-            padding-right: 42px;
+            padding: 15px 18px;
+            padding-right: 48px;
             border: 2px solid var(--light-gray);
-            border-radius: 10px;
+            border-radius: 12px;
             font-size: 1rem;
             transition: var(--transition);
             background: var(--white);
+            box-shadow: var(--shadow-sm);
         }
 
         .input-field:focus {
             border-color: var(--primary);
             outline: none;
-            box-shadow: 0 0 0 3px rgba(26, 77, 46, 0.1);
+            box-shadow: 0 0 0 4px rgba(26, 77, 46, 0.1);
+            transform: translateY(-2px);
         }
 
         .input-icon {
             position: absolute;
-            right: 16px;
-            top: 42px;
+            right: 18px;
+            top: 45px;
             color: var(--gray);
+            transition: var(--transition);
+        }
+
+        .input-field:focus + .input-icon {
+            color: var(--primary);
+            animation: bounce 0.6s;
         }
 
         /* Forgot Password */
@@ -243,17 +323,19 @@
             text-decoration: none;
             font-weight: 500;
             transition: var(--transition);
+            display: inline-block;
         }
 
         .forgot-password a:hover {
             text-decoration: underline;
+            transform: translateX(-2px);
         }
 
         /* Buttons */
         .btn {
-            padding: 14px;
+            padding: 15px;
             border: none;
-            border-radius: 10px;
+            border-radius: 12px;
             font-size: 1rem;
             font-weight: 600;
             cursor: pointer;
@@ -264,21 +346,43 @@
             align-items: center;
             justify-content: center;
             gap: 10px;
+            position: relative;
+            overflow: hidden;
         }
 
         .btn:active {
             transform: scale(0.98);
         }
 
+        .btn::after {
+            content: "";
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.4) 0%, transparent 70%) no-repeat 50% 50%;
+            transform: scale(10, 10);
+            opacity: 0;
+            transition: transform .5s, opacity 1s;
+        }
+
+        .btn:active::after {
+            transform: scale(0, 0);
+            opacity: 0.5;
+            transition: 0s;
+        }
+
         .btn-primary {
             background-color: var(--primary);
             color: var(--white);
-            box-shadow: 0 4px 12px rgba(26, 77, 46, 0.2);
+            box-shadow: 0 4px 16px rgba(26, 77, 46, 0.3);
         }
 
         .btn-primary:hover {
             background-color: var(--primary-light);
-            box-shadow: 0 6px 16px rgba(26, 77, 46, 0.3);
+            box-shadow: 0 6px 20px rgba(26, 77, 46, 0.4);
+            transform: translateY(-2px);
         }
 
         .btn-google {
@@ -293,6 +397,7 @@
             border-color: var(--google-red);
             color: var(--google-red);
             box-shadow: var(--shadow-md);
+            transform: translateY(-2px);
         }
 
         .btn-google i {
@@ -303,9 +408,10 @@
         .divider {
             display: flex;
             align-items: center;
-            margin: 20px 0;
+            margin: 24px 0;
             color: var(--gray);
             font-size: 0.9rem;
+            position: relative;
         }
 
         .divider::before, .divider::after {
@@ -325,7 +431,7 @@
         /* Footer Links */
         .auth-footer {
             text-align: center;
-            margin-top: 16px;
+            margin-top: 20px;
             font-size: 0.95rem;
             color: var(--gray);
         }
@@ -335,10 +441,29 @@
             text-decoration: none;
             font-weight: 500;
             transition: var(--transition);
+            position: relative;
+            display: inline-block;
         }
 
         .auth-footer a:hover {
             text-decoration: underline;
+            transform: translateY(-2px);
+        }
+
+        .auth-footer a::after {
+            content: "";
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: var(--primary);
+            transform: scaleX(0);
+            transition: var(--transition);
+        }
+
+        .auth-footer a:hover::after {
+            transform: scaleX(1);
         }
 
         /* Error Messages */
@@ -347,12 +472,19 @@
             font-size: 0.85rem;
             margin-top: 6px;
             display: none;
+            animation: shake 0.5s;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            20%, 60% { transform: translateX(-5px); }
+            40%, 80% { transform: translateX(5px); }
         }
 
         /* Loading Spinner */
         .spinner {
-            width: 18px;
-            height: 18px;
+            width: 20px;
+            height: 20px;
             border: 3px solid rgba(255,255,255,0.3);
             border-radius: 50%;
             border-top-color: var(--white);
@@ -364,24 +496,51 @@
         }
 
         /* Notification */
-        .notification {
+        .notification-container {
             position: fixed;
             top: 20px;
-            left: 50%;
-            transform: translateX(-50%) translateY(-100px);
-            padding: 12px 24px;
-            border-radius: 8px;
+            right: 20px;
+            width: 100%;
+            max-width: 350px;
+            z-index: 1000;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .notification {
+            padding: 16px 20px;
+            border-radius: 12px;
             color: white;
             font-weight: 500;
             box-shadow: var(--shadow-lg);
-            z-index: 1000;
-            max-width: 90%;
-            text-align: center;
-            transition: transform 0.4s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            transform: translateX(150%);
+            transition: transform 0.4s var(--bounce);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .notification::after {
+            content: "";
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: rgba(255,255,255,0.5);
+            animation: progressBar 4s linear forwards;
+        }
+
+        @keyframes progressBar {
+            0% { width: 100%; }
+            100% { width: 0%; }
         }
 
         .notification.show {
-            transform: translateX(-50%) translateY(0);
+            transform: translateX(0);
         }
 
         .notification.success {
@@ -392,31 +551,79 @@
             background-color: var(--error);
         }
 
+        .notification.warning {
+            background-color: #f39c12;
+        }
+
+        .notification i {
+            margin-right: 10px;
+            font-size: 1.2rem;
+        }
+
+        .notification-close {
+            background: none;
+            border: none;
+            color: white;
+            cursor: pointer;
+            font-size: 1rem;
+            margin-left: 10px;
+            opacity: 0.8;
+            transition: var(--transition);
+        }
+
+        .notification-close:hover {
+            opacity: 1;
+            transform: rotate(90deg);
+        }
+
+        /* Particles Background */
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+        }
+
+        .particle {
+            position: absolute;
+            background: rgba(255,255,255,0.3);
+            border-radius: 50%;
+            animation: float 15s infinite linear;
+        }
+
+        @keyframes floatParticle {
+            0% { transform: translateY(0) rotate(0deg); }
+            100% { transform: translateY(-100vh) rotate(360deg); }
+        }
+
         /* Responsive Adjustments */
         @media (max-width: 480px) {
             .auth-container {
-                border-radius: 16px;
+                border-radius: 20px;
             }
             
             .header-section {
-                padding: 20px 16px;
+                padding: 24px 16px;
             }
             
             .logo-container {
-                width: 70px;
-                height: 70px;
+                width: 80px;
+                height: 80px;
             }
             
             .header-section h1 {
-                font-size: 1.5rem;
+                font-size: 1.6rem;
             }
             
             .header-section p {
-                font-size: 0.9rem;
+                font-size: 0.95rem;
             }
             
             .auth-section {
-                padding: 20px 16px;
+                padding: 24px 16px;
             }
             
             .tab {
@@ -425,20 +632,25 @@
             }
             
             .input-field {
-                padding: 12px 14px;
-                padding-right: 38px;
+                padding: 14px 16px;
+                padding-right: 42px;
             }
             
             .btn {
-                padding: 13px;
+                padding: 14px;
                 font-size: 0.95rem;
+            }
+
+            .notification-container {
+                right: 10px;
+                max-width: calc(100% - 20px);
             }
         }
 
         /* Very small devices */
         @media (max-width: 360px) {
             .header-section h1 {
-                font-size: 1.4rem;
+                font-size: 1.5rem;
             }
             
             .tab {
@@ -448,6 +660,10 @@
     </style>
 </head>
 <body>
+    <!-- Particles Background -->
+    <div class="particles" id="particles"></div>
+    
+    <!-- Auth Container -->
     <div class="auth-container">
         <!-- Header Section -->
         <div class="header-section">
@@ -461,7 +677,7 @@
         <!-- Auth Section -->
         <div class="auth-section">
             <!-- Tabs -->
-            <div class="tab-container">
+            <div class="tab-container login-active" id="tab-container">
                 <div class="tab active" onclick="switchAuthTab('login')">Login</div>
                 <div class="tab" onclick="switchAuthTab('signup')">Sign Up</div>
             </div>
@@ -470,7 +686,7 @@
             <form id="login-form" class="auth-form active">
                 <div class="form-group">
                     <label for="login-email">Email</label>
-                    <input type="email" id="login-email" class="input-field" placeholder="Enter Your Email " required>
+                    <input type="email" id="login-email" class="input-field" placeholder="Enter your university email" required>
                     <i class="fas fa-envelope input-icon"></i>
                     <div class="error-message" id="login-email-error"></div>
                 </div>
@@ -503,8 +719,8 @@
                     <div class="error-message" id="signup-name-error"></div>
                 </div>
                 <div class="form-group">
-                    <label for="signup-email"> Email</label>
-                    <input type="email" id="signup-email" class="input-field" placeholder="Enter Honest email" required>
+                    <label for="signup-email">Email</label>
+                    <input type="email" id="signup-email" class="input-field" placeholder="Enter your university email" required>
                     <i class="fas fa-envelope input-icon"></i>
                     <div class="error-message" id="signup-email-error"></div>
                 </div>
@@ -537,8 +753,8 @@
         </div>
     </div>
 
-    <!-- Notification -->
-    <div class="notification" id="notification"></div>
+    <!-- Notification Container -->
+    <div class="notification-container" id="notification-container"></div>
 
     <!-- Firebase Integration -->
     <script type="module">
@@ -592,27 +808,89 @@
         const googleSignupBtn = document.getElementById('google-signup-btn');
         const authTitle = document.getElementById('auth-title');
         const authSubtitle = document.getElementById('auth-subtitle');
-        const notification = document.getElementById('notification');
+        const notificationContainer = document.getElementById('notification-container');
         const loginBtnText = document.getElementById('login-btn-text');
         const signupBtnText = document.getElementById('signup-btn-text');
+        const tabContainer = document.getElementById('tab-container');
 
-        // Get the last visited page from localStorage or default to 'index.html'
-        function getLastVisitedPage() {
-            return localStorage.getItem('lastVisitedPage') || 'index.html';
-        }
-
-        // Store the current page before navigating away
-        function storeCurrentPage() {
-            localStorage.setItem('lastVisitedPage', window.location.pathname.split('/').pop());
+        // Create particles background
+        function createParticles() {
+            const particlesContainer = document.getElementById('particles');
+            const particleCount = window.innerWidth < 768 ? 30 : 50;
+            
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.classList.add('particle');
+                
+                // Random size between 2px and 6px
+                const size = Math.random() * 4 + 2;
+                particle.style.width = `${size}px`;
+                particle.style.height = `${size}px`;
+                
+                // Random position
+                particle.style.left = `${Math.random() * 100}%`;
+                particle.style.top = `${Math.random() * 100}%`;
+                
+                // Random animation duration and delay
+                const duration = Math.random() * 20 + 10;
+                const delay = Math.random() * 5;
+                particle.style.animation = `floatParticle ${duration}s ${delay}s infinite linear`;
+                
+                // Random opacity
+                particle.style.opacity = Math.random() * 0.5 + 0.1;
+                
+                particlesContainer.appendChild(particle);
+            }
         }
 
         // Show Notification
         function showNotification(message, type = 'success') {
-            notification.textContent = message;
-            notification.className = `notification ${type} show`;
+            const notification = document.createElement('div');
+            notification.className = `notification ${type}`;
             
+            let icon = '';
+            switch(type) {
+                case 'success':
+                    icon = '<i class="fas fa-check-circle"></i>';
+                    break;
+                case 'error':
+                    icon = '<i class="fas fa-exclamation-circle"></i>';
+                    break;
+                case 'warning':
+                    icon = '<i class="fas fa-exclamation-triangle"></i>';
+                    break;
+                default:
+                    icon = '<i class="fas fa-info-circle"></i>';
+            }
+            
+            notification.innerHTML = `
+                ${icon}
+                <span>${message}</span>
+                <button class="notification-close"><i class="fas fa-times"></i></button>
+            `;
+            
+            notificationContainer.appendChild(notification);
+            
+            // Force reflow to enable animation
+            void notification.offsetWidth;
+            
+            notification.classList.add('show');
+            
+            // Close button functionality
+            const closeBtn = notification.querySelector('.notification-close');
+            closeBtn.addEventListener('click', () => {
+                notification.classList.remove('show');
+                setTimeout(() => {
+                    notification.remove();
+                }, 300);
+            });
+            
+            // Auto-remove after 4 seconds
             setTimeout(() => {
                 notification.classList.remove('show');
+                setTimeout(() => {
+                    notification.remove();
+                }, 300);
             }, 4000);
         }
 
@@ -652,11 +930,15 @@
                 }
             });
             
-            // Update header text
+            // Update tab container class
             if (tab === 'login') {
+                tabContainer.classList.remove('signup-active');
+                tabContainer.classList.add('login-active');
                 authTitle.textContent = 'Welcome Back';
                 authSubtitle.textContent = 'Login to access your academic resources';
             } else {
+                tabContainer.classList.remove('login-active');
+                tabContainer.classList.add('signup-active');
                 authTitle.textContent = 'Create Account';
                 authSubtitle.textContent = 'Join our academic community today';
             }
@@ -678,7 +960,7 @@
         // Validate University Email (example validation)
         function validateUniversityEmail(email) {
             // This is a simple example - adjust according to actual requirements
-            return email.endsWith('@gmail.com') || validateEmail(email);
+            return email.endsWith('@haramaya.edu.et') || email.endsWith('@gmail.com') || validateEmail(email);
         }
 
         // Login Form Submission
@@ -738,11 +1020,11 @@
                     });
                 }
                 
-                showNotification('Login successful! Redirecting...');
+                showNotification('Login successful! Redirecting to dashboard...');
                 
-                // Redirect to last visited page or dashboard
+                // Redirect to index.html
                 setTimeout(() => {
-                    window.location.href = getLastVisitedPage();
+                    window.location.href = 'index.html';
                 }, 1500);
             } catch (error) {
                 console.error('Login error:', error);
@@ -763,6 +1045,10 @@
                         errorMessage = 'Incorrect password.';
                         document.getElementById('login-password-error').textContent = errorMessage;
                         document.getElementById('login-password-error').style.display = 'block';
+                        break;
+                    case 'auth/too-many-requests':
+                        errorMessage = 'Too many attempts. Account temporarily locked.';
+                        showNotification(errorMessage, 'error');
                         break;
                     default:
                         showNotification(errorMessage, 'error');
@@ -789,6 +1075,10 @@
             // Validate name
             if (!name) {
                 document.getElementById('signup-name-error').textContent = 'Full name is required';
+                document.getElementById('signup-name-error').style.display = 'block';
+                isValid = false;
+            } else if (name.length < 3) {
+                document.getElementById('signup-name-error').textContent = 'Name must be at least 3 characters';
                 document.getElementById('signup-name-error').style.display = 'block';
                 isValid = false;
             }
@@ -844,14 +1134,15 @@
                     createdAt: new Date().toISOString(),
                     lastLogin: new Date().toISOString(),
                     role: "student",
-                    enrolledCourses: []
+                    enrolledCourses: [],
+                    profileComplete: false
                 });
                 
-                showNotification('Account created successfully! Redirecting...');
+                showNotification('Account created successfully! Setting up your profile...');
                 
-                // Redirect to last visited page or dashboard
+                // Redirect to profile.html to complete profile
                 setTimeout(() => {
-                    window.location.href = getLastVisitedPage();
+                    window.location.href = 'profile.html';
                 }, 1500);
             } catch (error) {
                 console.error('Signup error:', error);
@@ -873,6 +1164,11 @@
                         document.getElementById('signup-password-error').textContent = errorMessage;
                         document.getElementById('signup-password-error').style.display = 'block';
                         break;
+                    case 'auth/invalid-email':
+                        errorMessage = 'Please enter a valid email address.';
+                        document.getElementById('signup-email-error').textContent = errorMessage;
+                        document.getElementById('signup-email-error').style.display = 'block';
+                        break;
                     default:
                         showNotification(errorMessage, 'error');
                 }
@@ -882,7 +1178,8 @@
         // Google Authentication
         async function handleGoogleAuth() {
             try {
-                const loginBtn = event.target.id.includes('login') ? 
+                const isLogin = event.target.id.includes('login');
+                const loginBtn = isLogin ? 
                     document.getElementById('google-login-btn') : 
                     document.getElementById('google-signup-btn');
                 
@@ -904,21 +1201,29 @@
                         lastLogin: new Date().toISOString(),
                         role: "student",
                         enrolledCourses: [],
-                        isGoogleUser: true
+                        isGoogleUser: true,
+                        profileComplete: false
                     });
+                    
+                    showNotification('Account created! Please complete your profile.');
+                    
+                    // Redirect to profile setup
+                    setTimeout(() => {
+                        window.location.href = 'profile.html';
+                    }, 1500);
                 } else {
                     // Update last login time
                     await updateDoc(doc(db, "users", user.uid), {
                         lastLogin: new Date().toISOString()
                     });
+                    
+                    showNotification('Login successful! Redirecting to dashboard...');
+                    
+                    // Redirect to index.html
+                    setTimeout(() => {
+                        window.location.href = 'index.html';
+                    }, 1500);
                 }
-                
-                showNotification('Login successful! Redirecting...');
-                
-                // Redirect to last visited page or dashboard
-                setTimeout(() => {
-                    window.location.href = getLastVisitedPage();
-                }, 1500);
             } catch (error) {
                 console.error('Google auth error:', error);
                 
@@ -928,7 +1233,11 @@
                 document.getElementById('google-login-btn').disabled = false;
                 document.getElementById('google-signup-btn').disabled = false;
                 
-                showNotification('Google authentication failed. Please try again.', 'error');
+                if (error.code === 'auth/popup-closed-by-user') {
+                    showNotification('Google sign-in was canceled', 'warning');
+                } else {
+                    showNotification('Google authentication failed. Please try again.', 'error');
+                }
             }
         }
 
@@ -947,26 +1256,82 @@
                     showNotification('Failed to send reset email.', 'error');
                 }
             } else {
-                // Show prompt if email field is empty
-                const userEmail = prompt('Please enter your email to reset password:');
-                if (userEmail && validateEmail(userEmail)) {
+                // Show custom modal for email input
+                const modal = document.createElement('div');
+                modal.style.position = 'fixed';
+                modal.style.top = '0';
+                modal.style.left = '0';
+                modal.style.width = '100%';
+                modal.style.height = '100%';
+                modal.style.backgroundColor = 'rgba(0,0,0,0.5)';
+                modal.style.display = 'flex';
+                modal.style.justifyContent = 'center';
+                modal.style.alignItems = 'center';
+                modal.style.zIndex = '2000';
+                
+                modal.innerHTML = `
+                    <div style="background: white; padding: 24px; border-radius: 12px; width: 90%; max-width: 400px; animation: fadeIn 0.3s;">
+                        <h3 style="margin-bottom: 16px; color: var(--primary);">Reset Password</h3>
+                        <p style="margin-bottom: 16px;">Enter your email to receive a password reset link:</p>
+                        <input type="email" id="reset-email" placeholder="Your email address" 
+                            style="width: 100%; padding: 12px; border: 2px solid var(--light-gray); border-radius: 8px; margin-bottom: 16px;">
+                        <div style="display: flex; justify-content: flex-end; gap: 10px;">
+                            <button id="cancel-reset" style="padding: 10px 16px; background: var(--light-gray); border: none; border-radius: 8px; cursor: pointer;">Cancel</button>
+                            <button id="submit-reset" style="padding: 10px 16px; background: var(--primary); color: white; border: none; border-radius: 8px; cursor: pointer;">Submit</button>
+                        </div>
+                    </div>
+                `;
+                
+                document.body.appendChild(modal);
+                
+                // Focus on input
+                const resetEmail = document.getElementById('reset-email');
+                resetEmail.focus();
+                
+                // Cancel button
+                document.getElementById('cancel-reset').addEventListener('click', () => {
+                    modal.remove();
+                });
+                
+                // Submit button
+                document.getElementById('submit-reset').addEventListener('click', async () => {
+                    const email = resetEmail.value.trim();
+                    
+                    if (!email || !validateEmail(email)) {
+                        showNotification('Please enter a valid email', 'error');
+                        return;
+                    }
+                    
                     try {
-                        await sendPasswordResetEmail(auth, userEmail);
+                        await sendPasswordResetEmail(auth, email);
                         showNotification('Password reset email sent. Check your inbox.');
+                        modal.remove();
                     } catch (error) {
                         console.error('Password reset error:', error);
                         showNotification('Failed to send reset email.', 'error');
                     }
-                } else if (userEmail) {
-                    showNotification('Please enter a valid email.', 'error');
-                }
+                });
+                
+                // Close modal when clicking outside
+                modal.addEventListener('click', (e) => {
+                    if (e.target === modal) {
+                        modal.remove();
+                    }
+                });
             }
         });
 
         // Auto-redirect if already logged in
         onAuthStateChanged(auth, (user) => {
             if (user) {
-                window.location.href = getLastVisitedPage();
+                // Check if user has completed profile
+                getDoc(doc(db, "users", user.uid)).then((doc) => {
+                    if (doc.exists() && doc.data().profileComplete) {
+                        window.location.href = 'index.html';
+                    } else {
+                        window.location.href = 'profile.html';
+                    }
+                });
             }
         });
 
@@ -977,15 +1342,43 @@
         // Make switchAuthTab globally available
         window.switchAuthTab = switchAuthTab;
 
-        // Add animation to logo on load
+        // Initialize on load
         document.addEventListener('DOMContentLoaded', () => {
+            // Create particles background
+            createParticles();
+            
+            // Add animation to logo
             const logo = document.querySelector('.logo-container');
             setTimeout(() => {
                 logo.style.animation = 'float 6s infinite ease-in-out';
             }, 500);
             
-            // Store current page when navigating away
-            window.addEventListener('beforeunload', storeCurrentPage);
+            // Add ripple effect to buttons
+            document.querySelectorAll('.btn').forEach(button => {
+                button.addEventListener('click', function(e) {
+                    const rect = this.getBoundingClientRect();
+                    const x = e.clientX - rect.left;
+                    const y = e.clientY - rect.top;
+                    
+                    const ripple = document.createElement('span');
+                    ripple.style.position = 'absolute';
+                    ripple.style.width = '10px';
+                    ripple.style.height = '10px';
+                    ripple.style.background = 'rgba(255,255,255,0.4)';
+                    ripple.style.borderRadius = '50%';
+                    ripple.style.pointerEvents = 'none';
+                    ripple.style.transform = 'scale(0)';
+                    ripple.style.animation = 'ripple 0.6s linear';
+                    ripple.style.left = `${x}px`;
+                    ripple.style.top = `${y}px`;
+                    
+                    this.appendChild(ripple);
+                    
+                    setTimeout(() => {
+                        ripple.remove();
+                    }, 600);
+                });
+            });
         });
     </script>
 </body>
