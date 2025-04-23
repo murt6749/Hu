@@ -1,0 +1,2494 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>HU Jama'aa - Enrollment Management</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+  <style>
+    :root {
+      --primary-color: #1a4d2e;
+      --secondary-color: #4f6f52;
+      --accent-color: #f5efe6;
+      --light-color: #e8dfca;
+      --white: #ffffff;
+      --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      --success-color: #28a745;
+      --info-color: #17a2b8;
+      --warning-color: #ffc107;
+      --danger-color: #dc3545;
+      --border-radius: 8px;
+      --box-padding: 16px;
+    }
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Poppins', sans-serif;
+    }
+    body {
+      background-color: #f8f9fa;
+      min-height: 100vh;
+      font-size: 14px;
+    }
+    .container {
+      width: 100%;
+      max-width: 100%;
+      padding: 0;
+    }
+    
+    /* Loading Animation */
+    .loading-container {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(255, 255, 255, 0.9);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      z-index: 9999;
+    }
+    .loading-spinner {
+      width: 50px;
+      height: 50px;
+      border: 5px solid var(--light-color);
+      border-top: 5px solid var(--primary-color);
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+      margin-bottom: 20px;
+    }
+    .loading-text {
+      color: var(--primary-color);
+      font-weight: 500;
+    }
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+    
+    /* Header Styles */
+    .header {
+      background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+      color: white;
+      padding: 12px var(--box-padding);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: var(--shadow);
+    }
+    .header h1 {
+      font-size: 1.2rem;
+      font-weight: 600;
+    }
+    .header-actions {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+    }
+    .user-avatar {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background-color: var(--accent-color);
+      color: var(--primary-color);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+    }
+    
+    /* Main Content Area */
+    .main-content {
+      padding: var(--box-padding);
+      padding-bottom: 20px;
+    }
+    
+    /* Table Styles */
+    .table-container {
+      background-color: var(--white);
+      border-radius: var(--border-radius);
+      box-shadow: var(--shadow);
+      overflow-x: auto;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    th, td {
+      padding: 12px 15px;
+      text-align: left;
+      border-bottom: 1px solid #eee;
+    }
+    th {
+      background-color: #f5f5f5;
+      font-weight: 600;
+      color: var(--primary-color);
+      position: sticky;
+      top: 0;
+    }
+    tr:hover {
+      background-color: #f9f9f9;
+    }
+    
+    /* Search Box */
+    .search-container {
+      padding: 12px 15px;
+      border-bottom: 1px solid #eee;
+      display: flex;
+      align-items: center;
+      background-color: #f5f5f5;
+      border-top-left-radius: var(--border-radius);
+      border-top-right-radius: var(--border-radius);
+    }
+    .search-container i {
+      color: #777;
+      margin-right: 8px;
+    }
+    .search-input {
+      border: none;
+      background: transparent;
+      width: 100%;
+      padding: 5px;
+      outline: none;
+    }
+    
+    /* Progress Bar */
+    .progress-container {
+      width: 100px;
+      height: 8px;
+      background-color: #e0e0e0;
+      border-radius: 4px;
+      overflow: hidden;
+      display: inline-block;
+      vertical-align: middle;
+    }
+    .progress-bar {
+      height: 100%;
+      background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+      border-radius: 4px;
+      transition: width 0.3s ease;
+    }
+    
+    /* Verification Badge */
+    .badge {
+      display: inline-block;
+      padding: 3px 8px;
+      border-radius: 10px;
+      font-size: 0.75rem;
+      font-weight: 500;
+    }
+    .verified {
+      background-color: var(--success-color);
+      color: white;
+    }
+    .unverified {
+      background-color: var(--warning-color);
+      color: black;
+    }
+    
+    /* Action Buttons */
+    .btn {
+      padding: 6px 10px;
+      border: none;
+      border-radius: 4px;
+      font-size: 0.8rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .btn-sm {
+      padding: 4px 8px;
+      font-size: 0.75rem;
+    }
+    .btn-primary {
+      background-color: var(--primary-color);
+      color: var(--white);
+    }
+    .btn-primary:hover {
+      background-color: var(--secondary-color);
+    }
+    .btn-success {
+      background-color: var(--success-color);
+      color: white;
+    }
+    .btn-warning {
+      background-color: var(--warning-color);
+      color: black;
+    }
+    .btn-danger {
+      background-color: var(--danger-color);
+      color: white;
+    }
+    .btn-info {
+      background-color: var(--info-color);
+      color: white;
+    }
+    
+    /* Bulk Actions */
+    .bulk-actions {
+      background-color: var(--white);
+      border-radius: var(--border-radius);
+      padding: 12px 15px;
+      box-shadow: var(--shadow);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 15px;
+    }
+    .bulk-controls {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+    
+    /* Enrollment Management */
+    .enrollment-management {
+      background-color: var(--white);
+      border-radius: var(--border-radius);
+      padding: var(--box-padding);
+      box-shadow: var(--shadow);
+      margin-bottom: 15px;
+    }
+    .enrollment-controls {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-top: 10px;
+    }
+    .enrollment-buttons {
+      display: flex;
+      gap: 8px;
+      margin-top: 10px;
+      flex-wrap: wrap;
+    }
+    
+    /* Modal Styles */
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: rgba(0, 0, 0, 0.5);
+      z-index: 1000;
+      align-items: center;
+      justify-content: center;
+      padding: 15px;
+    }
+    .modal.active {
+      display: flex;
+    }
+    .modal-content {
+      background-color: var(--white);
+      border-radius: var(--border-radius);
+      width: 100%;
+      max-width: 600px;
+      max-height: 90vh;
+      overflow-y: auto;
+      animation: modalFadeIn 0.3s ease;
+    }
+    @keyframes modalFadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    .modal-header {
+      padding: 15px;
+      border-bottom: 1px solid #eee;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .modal-title {
+      font-size: 1.2rem;
+      color: var(--primary-color);
+      font-weight: 600;
+    }
+    .modal-close {
+      background: none;
+      border: none;
+      font-size: 1.5rem;
+      cursor: pointer;
+    }
+    .modal-body {
+      padding: 15px;
+    }
+    .modal-footer {
+      padding: 15px;
+      border-top: 1px solid #eee;
+      display: flex;
+      justify-content: flex-end;
+      gap: 10px;
+    }
+    .form-group {
+      margin-bottom: 15px;
+    }
+    .form-control {
+      width: 100%;
+      padding: 8px 12px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      font-size: 14px;
+    }
+    textarea.form-control {
+      min-height: 100px;
+      resize: vertical;
+    }
+    
+    /* Filter Dropdown */
+    .filter-dropdown {
+      position: relative;
+      display: inline-block;
+    }
+    .filter-btn {
+      background-color: #f5f5f5;
+      border: 1px solid #ddd;
+      padding: 6px 12px;
+      border-radius: 4px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+    .filter-content {
+      display: none;
+      position: absolute;
+      background-color: white;
+      min-width: 250px;
+      box-shadow: var(--shadow);
+      border-radius: var(--border-radius);
+      z-index: 1;
+      right: 0;
+      padding: 10px;
+    }
+    .filter-content.show {
+      display: block;
+    }
+    .filter-group {
+      margin-bottom: 10px;
+    }
+    .filter-group h4 {
+      font-size: 0.9rem;
+      margin-bottom: 5px;
+      color: var(--primary-color);
+    }
+    
+    /* Checkbox styles */
+    .checkbox-container {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+    .checkbox-container input[type="checkbox"] {
+      cursor: pointer;
+    }
+    
+    /* Status indicators */
+    .status-indicator {
+      display: inline-block;
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      margin-right: 5px;
+    }
+    .status-active {
+      background-color: var(--success-color);
+    }
+    .status-inactive {
+      background-color: var(--danger-color);
+    }
+    
+    /* Pagination */
+    .pagination {
+      display: flex;
+      justify-content: center;
+      padding: 15px;
+      gap: 5px;
+    }
+    .pagination button {
+      padding: 5px 10px;
+      border: 1px solid #ddd;
+      background-color: white;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    .pagination button.active {
+      background-color: var(--primary-color);
+      color: white;
+      border-color: var(--primary-color);
+    }
+    .pagination button:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+    
+    /* Stats Cards */
+    .stats-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 15px;
+      margin-bottom: 15px;
+    }
+    .stat-card {
+      background-color: var(--white);
+      border-radius: var(--border-radius);
+      padding: 15px;
+      box-shadow: var(--shadow);
+    }
+    .stat-card h3 {
+      font-size: 0.9rem;
+      color: #666;
+      margin-bottom: 10px;
+    }
+    .stat-card .stat-value {
+      font-size: 1.5rem;
+      font-weight: 600;
+      color: var(--primary-color);
+    }
+    .stat-card .stat-change {
+      font-size: 0.8rem;
+      margin-top: 5px;
+    }
+    .stat-card .stat-change.positive {
+      color: var(--success-color);
+    }
+    .stat-card .stat-change.negative {
+      color: var(--danger-color);
+    }
+    
+    /* Course List in Cell */
+    .course-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 5px;
+    }
+    .course-badge {
+      display: inline-flex;
+      align-items: center;
+      padding: 3px 8px;
+      background-color: #f0f0f0;
+      border-radius: 12px;
+      font-size: 0.75rem;
+      gap: 4px;
+    }
+    .course-badge .progress-indicator {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+    }
+    .course-badge .progress-0 {
+      background-color: var(--danger-color);
+    }
+    .course-badge .progress-50 {
+      background-color: var(--warning-color);
+    }
+    .course-badge .progress-100 {
+      background-color: var(--success-color);
+    }
+    
+    /* Responsive */
+    @media (max-width: 768px) {
+      th, td {
+        padding: 8px 10px;
+      }
+      .bulk-controls {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      .enrollment-controls {
+        grid-template-columns: 1fr;
+      }
+      .stats-container {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+    @media (max-width: 480px) {
+      .header h1 {
+        font-size: 1rem;
+      }
+      .btn {
+        padding: 5px 8px;
+        font-size: 0.7rem;
+      }
+      .enrollment-buttons {
+        flex-direction: column;
+      }
+      .enrollment-buttons .btn {
+        width: 100%;
+      }
+      .stats-container {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Loading Animation -->
+  <div class="loading-container" id="loading-container">
+    <div class="loading-spinner"></div>
+    <div class="loading-text">Loading Enrollment Dashboard...</div>
+  </div>
+
+  <div class="container" id="main-container" style="display: none;">
+    <!-- Header -->
+    <header class="header">
+      <h1>Enrollment Management</h1>
+      <div class="header-actions">
+        <span id="admin-name">Admin</span>
+        <div class="user-avatar" id="admin-avatar">A</div>
+      </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <!-- Stats Overview -->
+      <div class="stats-container">
+        <div class="stat-card">
+          <h3>Total Students</h3>
+          <div class="stat-value" id="total-students">0</div>
+          <div class="stat-change positive" id="student-change">+0 (0%)</div>
+        </div>
+        <div class="stat-card">
+          <h3>Active Courses</h3>
+          <div class="stat-value" id="total-courses">0</div>
+          <div class="stat-change positive" id="course-change">+0 (0%)</div>
+        </div>
+        <div class="stat-card">
+          <h3>New Enrollments</h3>
+          <div class="stat-value" id="new-enrollments">0</div>
+          <div class="stat-value" style="font-size: 1rem;" id="enrollment-rate">0/day</div>
+        </div>
+        <div class="stat-card">
+          <h3>Completion Rate</h3>
+          <div class="stat-value" id="completion-rate">0%</div>
+          <div class="stat-change positive" id="completion-change">+0%</div>
+        </div>
+      </div>
+      
+      <!-- Bulk Actions -->
+      <div class="bulk-actions">
+        <div class="bulk-controls">
+          <div class="checkbox-container">
+            <input type="checkbox" id="select-all">
+            <label for="select-all">Select All</label>
+          </div>
+          <button id="bulk-enroll" class="btn btn-primary">
+            <i class="fas fa-user-plus"></i> Enroll
+          </button>
+          <button id="bulk-unenroll" class="btn btn-danger">
+            <i class="fas fa-user-minus"></i> Unenroll
+          </button>
+          <button id="bulk-verify" class="btn btn-success">
+            <i class="fas fa-check"></i> Verify
+          </button>
+          <button id="bulk-notes" class="btn btn-primary">
+            <i class="fas fa-comment"></i> Add Note
+          </button>
+          <button id="export-data" class="btn btn-info">
+            <i class="fas fa-file-export"></i> Export
+          </button>
+        </div>
+        <div>
+          <span id="selected-count">0 selected</span>
+        </div>
+      </div>
+      
+      <!-- Enrollment Management -->
+      <div class="enrollment-management">
+        <h3>Enrollment Controls</h3>
+        <div class="enrollment-controls">
+          <div>
+            <label for="enrollment-course">Course</label>
+            <select id="enrollment-course" class="form-control">
+              <option value="">Select Course</option>
+            </select>
+          </div>
+          <div>
+            <label for="enrollment-action">Action</label>
+            <select id="enrollment-action" class="form-control">
+              <option value="selected">Selected Users</option>
+              <option value="filtered">All Filtered Users</option>
+              <option value="all">All Users</option>
+            </select>
+          </div>
+        </div>
+        <div class="enrollment-buttons">
+          <button id="add-enrollment" class="btn btn-success">
+            <i class="fas fa-plus"></i> Add Enrollment
+          </button>
+          <button id="remove-enrollment" class="btn btn-danger">
+            <i class="fas fa-minus"></i> Remove Enrollment
+          </button>
+          <button id="reset-progress" class="btn btn-warning">
+            <i class="fas fa-undo"></i> Reset Progress
+          </button>
+          <button id="complete-progress" class="btn btn-success">
+            <i class="fas fa-check-circle"></i> Complete Course
+          </button>
+        </div>
+      </div>
+      
+      <!-- Users Table -->
+      <div class="table-container">
+        <div class="search-container">
+          <i class="fas fa-search"></i>
+          <input type="text" id="user-search" class="search-input" placeholder="Search users by name, ID or email...">
+          <div class="filter-dropdown">
+            <button class="filter-btn" id="filter-btn">
+              <i class="fas fa-filter"></i> Filters
+            </button>
+            <div class="filter-content" id="filter-content">
+              <div class="filter-group">
+                <h4>Enrollment Status</h4>
+                <select id="enrollment-filter" class="form-control">
+                  <option value="all">All Students</option>
+                  <option value="enrolled">Enrolled Students</option>
+                  <option value="not-enrolled">Not Enrolled</option>
+                </select>
+              </div>
+              <div class="filter-group">
+                <h4>Course Type</h4>
+                <select id="course-type-filter" class="form-control">
+                  <option value="">All Course Types</option>
+                </select>
+              </div>
+              <div class="filter-group">
+                <h4>Course Title</h4>
+                <select id="course-title-filter" class="form-control">
+                  <option value="">All Course Titles</option>
+                </select>
+              </div>
+              <div class="filter-group">
+                <h4>Language</h4>
+                <select id="language-filter" class="form-control">
+                  <option value="">All Languages</option>
+                </select>
+              </div>
+              <div class="filter-group">
+                <h4>Verification</h4>
+                <select id="verification-filter" class="form-control">
+                  <option value="all">All Statuses</option>
+                  <option value="verified">Verified Only</option>
+                  <option value="unverified">Unverified Only</option>
+                </select>
+              </div>
+              <div class="filter-group">
+                <h4>Progress Range</h4>
+                <div style="display: flex; gap: 5px; align-items: center;">
+                  <input type="number" id="progress-min" class="form-control" placeholder="Min" min="0" max="100" style="flex: 1;">
+                  <span>to</span>
+                  <input type="number" id="progress-max" class="form-control" placeholder="Max" min="0" max="100" style="flex: 1;">
+                </div>
+              </div>
+              <div class="filter-group">
+                <h4>Sort By</h4>
+                <select id="sort-by" class="form-control">
+                  <option value="name-asc">Name (A-Z)</option>
+                  <option value="name-desc">Name (Z-A)</option>
+                  <option value="enrollments-asc">Enrollments (Low-High)</option>
+                  <option value="enrollments-desc">Enrollments (High-Low)</option>
+                  <option value="recent">Most Recent</option>
+                  <option value="oldest">Oldest</option>
+                </select>
+              </div>
+              <button id="apply-filters" class="btn btn-primary" style="width: 100%;">
+                Apply Filters
+              </button>
+              <button id="reset-filters" class="btn btn-outline" style="width: 100%; margin-top: 5px;">
+                Reset Filters
+              </button>
+            </div>
+          </div>
+        </div>
+        <table id="users-table">
+          <thead>
+            <tr>
+              <th width="40px"><input type="checkbox" id="select-all-header"></th>
+              <th>User</th>
+              <th>Enrollments</th>
+              <th>Status</th>
+              <th>Last Activity</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="users-table-body">
+            <!-- Users will be loaded here -->
+          </tbody>
+        </table>
+        <div class="pagination" id="pagination">
+          <button id="prev-page" disabled>&laquo; Prev</button>
+          <span id="page-info">Page 1 of 1</span>
+          <button id="next-page" disabled>Next &raquo;</button>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <!-- Enrollment Modal -->
+  <div class="modal" id="enrollment-modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 class="modal-title">Manage Enrollments</h3>
+        <button class="modal-close" id="close-enrollment-modal">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <label for="selected-course">Course</label>
+          <select id="selected-course" class="form-control">
+            <option value="">Select Course</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="enrollment-type">Action</label>
+          <select id="enrollment-type" class="form-control">
+            <option value="enroll">Enroll Students</option>
+            <option value="unenroll">Unenroll Students</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Affected Users: <span id="affected-users-count">0</span></label>
+        </div>
+        <div class="form-group">
+          <label for="enrollment-notes">Enrollment Notes (Optional)</label>
+          <textarea id="enrollment-notes" class="form-control" placeholder="Add any notes about this enrollment change..."></textarea>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-outline" id="cancel-enrollment">Cancel</button>
+        <button class="btn btn-primary" id="confirm-enrollment">Confirm</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Add Note Modal -->
+  <div class="modal" id="note-modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 class="modal-title">Add Admin Note</h3>
+        <button class="modal-close" id="close-note-modal">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <label for="admin-note">Note Content</label>
+          <textarea id="admin-note" class="form-control" rows="4" placeholder="Enter your note here..."></textarea>
+        </div>
+        <div class="form-group">
+          <label>Affected Users: <span id="affected-users-note-count">0</span></label>
+        </div>
+        <div class="form-group">
+          <label for="note-visibility">Note Visibility</label>
+          <select id="note-visibility" class="form-control">
+            <option value="private">Private (Admin Only)</option>
+            <option value="visible">Visible to Student</option>
+          </select>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-outline" id="cancel-note">Cancel</button>
+        <button class="btn btn-primary" id="confirm-note">Add Note</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Export Modal -->
+  <div class="modal" id="export-modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 class="modal-title">Export Enrollment Data</h3>
+        <button class="modal-close" id="close-export-modal">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <label>Export Options</label>
+          <div style="display: flex; flex-direction: column; gap: 8px;">
+            <label><input type="checkbox" id="export-selected" checked> Selected Users Only</label>
+            <label><input type="checkbox" id="export-all" checked> Include All Users</label>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="export-format">Format</label>
+          <select id="export-format" class="form-control">
+            <option value="csv">CSV (Excel)</option>
+            <option value="json">JSON</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Fields to Include</label>
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
+            <label><input type="checkbox" name="export-fields" value="name" checked> Name</label>
+            <label><input type="checkbox" name="export-fields" value="email" checked> Email</label>
+            <label><input type="checkbox" name="export-fields" value="studentId" checked> Student ID</label>
+            <label><input type="checkbox" name="export-fields" value="enrollments" checked> Enrollments</label>
+            <label><input type="checkbox" name="export-fields" value="progress" checked> Progress</label>
+            <label><input type="checkbox" name="export-fields" value="verified" checked> Verification</label>
+            <label><input type="checkbox" name="export-fields" value="lastActivity" checked> Last Activity</label>
+            <label><input type="checkbox" name="export-fields" value="notes" checked> Notes</label>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-outline" id="cancel-export">Cancel</button>
+        <button class="btn btn-primary" id="confirm-export">Export Data</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Course Details Modal -->
+  <div class="modal" id="course-details-modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 class="modal-title" id="course-details-title">Course Details</h3>
+        <button class="modal-close" id="close-course-details-modal">&times;</button>
+      </div>
+      <div class="modal-body" id="course-details-body">
+        <!-- Course details will be loaded here -->
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-outline" id="close-course-details">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Firebase SDK and Application Code -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+    import {
+      getAuth,
+      onAuthStateChanged
+    } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+    import {
+      getFirestore,
+      collection,
+      doc,
+      getDoc,
+      getDocs,
+      updateDoc,
+      arrayRemove,
+      arrayUnion,
+      query,
+      where,
+      setDoc
+    } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyBQyNVWh1BtCkXlBfuS7jHAa36FTklZayo",
+      authDomain: "pharma-quiz-b5a07.firebaseapp.com",
+      projectId: "pharma-quiz-b5a07",
+      storageBucket: "pharma-quiz-b5a07.appspot.com",
+      messagingSenderId: "161067776789",
+      appId: "1:161067776789:web:88b8a61145dc5f5c31471c",
+      measurementId: "G-3QRQE9HQFB"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
+
+    // DOM Elements
+    const loadingContainer = document.getElementById('loading-container');
+    const mainContainer = document.getElementById('main-container');
+    const adminName = document.getElementById('admin-name');
+    const adminAvatar = document.getElementById('admin-avatar');
+    const usersTableBody = document.getElementById('users-table-body');
+    const selectAllCheckbox = document.getElementById('select-all');
+    const selectAllHeader = document.getElementById('select-all-header');
+    const selectedCount = document.getElementById('selected-count');
+    const userSearch = document.getElementById('user-search');
+    const bulkEnrollBtn = document.getElementById('bulk-enroll');
+    const bulkUnenrollBtn = document.getElementById('bulk-unenroll');
+    const bulkVerifyBtn = document.getElementById('bulk-verify');
+    const bulkNotesBtn = document.getElementById('bulk-notes');
+    const exportDataBtn = document.getElementById('export-data');
+    const addEnrollmentBtn = document.getElementById('add-enrollment');
+    const removeEnrollmentBtn = document.getElementById('remove-enrollment');
+    const resetProgressBtn = document.getElementById('reset-progress');
+    const completeProgressBtn = document.getElementById('complete-progress');
+    const enrollmentCourse = document.getElementById('enrollment-course');
+    const enrollmentAction = document.getElementById('enrollment-action');
+    const filterBtn = document.getElementById('filter-btn');
+    const filterContent = document.getElementById('filter-content');
+    const enrollmentFilter = document.getElementById('enrollment-filter');
+    const courseTypeFilter = document.getElementById('course-type-filter');
+    const courseTitleFilter = document.getElementById('course-title-filter');
+    const languageFilter = document.getElementById('language-filter');
+    const verificationFilter = document.getElementById('verification-filter');
+    const progressMin = document.getElementById('progress-min');
+    const progressMax = document.getElementById('progress-max');
+    const sortBy = document.getElementById('sort-by');
+    const applyFiltersBtn = document.getElementById('apply-filters');
+    const resetFiltersBtn = document.getElementById('reset-filters');
+    const enrollmentModal = document.getElementById('enrollment-modal');
+    const closeEnrollmentModal = document.getElementById('close-enrollment-modal');
+    const cancelEnrollment = document.getElementById('cancel-enrollment');
+    const confirmEnrollment = document.getElementById('confirm-enrollment');
+    const selectedCourse = document.getElementById('selected-course');
+    const enrollmentType = document.getElementById('enrollment-type');
+    const enrollmentNotes = document.getElementById('enrollment-notes');
+    const affectedUsersCount = document.getElementById('affected-users-count');
+    const noteModal = document.getElementById('note-modal');
+    const closeNoteModal = document.getElementById('close-note-modal');
+    const cancelNote = document.getElementById('cancel-note');
+    const confirmNote = document.getElementById('confirm-note');
+    const adminNote = document.getElementById('admin-note');
+    const noteVisibility = document.getElementById('note-visibility');
+    const affectedUsersNoteCount = document.getElementById('affected-users-note-count');
+    const exportModal = document.getElementById('export-modal');
+    const closeExportModal = document.getElementById('close-export-modal');
+    const cancelExport = document.getElementById('cancel-export');
+    const confirmExport = document.getElementById('confirm-export');
+    const exportSelected = document.getElementById('export-selected');
+    const exportAll = document.getElementById('export-all');
+    const exportFormat = document.getElementById('export-format');
+    const prevPageBtn = document.getElementById('prev-page');
+    const nextPageBtn = document.getElementById('next-page');
+    const pageInfo = document.getElementById('page-info');
+    const totalStudents = document.getElementById('total-students');
+    const totalCourses = document.getElementById('total-courses');
+    const newEnrollments = document.getElementById('new-enrollments');
+    const enrollmentRate = document.getElementById('enrollment-rate');
+    const completionRate = document.getElementById('completion-rate');
+    const completionChange = document.getElementById('completion-change');
+    const courseDetailsModal = document.getElementById('course-details-modal');
+    const closeCourseDetailsModal = document.getElementById('close-course-details-modal');
+    const closeCourseDetails = document.getElementById('close-course-details');
+    const courseDetailsTitle = document.getElementById('course-details-title');
+    const courseDetailsBody = document.getElementById('course-details-body');
+
+    // Data variables
+    let allUsers = [];
+    let filteredUsers = [];
+    let selectedUserIds = new Set();
+    let currentAdmin = null;
+    let currentPage = 1;
+    const usersPerPage = 10;
+    let allCourseTypes = new Set();
+    let allCourseTitles = new Set();
+    let allLanguages = new Set();
+    let allCourses = [];
+    let previousStats = {
+      totalStudents: 0,
+      totalCourses: 0,
+      completionRate: 0,
+      newEnrollments: 0
+    };
+
+    // Initialize the app
+    function initApp() {
+      // Show loading animation
+      loadingContainer.style.display = 'flex';
+      mainContainer.style.display = 'none';
+      
+      // Check admin status
+      onAuthStateChanged(auth, async (user) => {
+        if (user) {
+          currentAdmin = user;
+          try {
+            const userDoc = await getDoc(doc(db, "users", user.uid));
+            
+            if (userDoc.exists()) {
+              const userData = userDoc.data();
+              
+              // Check if user has admin role
+              if (userData.role !== 'admin') {
+                // Not an admin, redirect to progress page
+                setTimeout(() => {
+                  window.location.href = 'progress.html';
+                }, 1500);
+                return;
+              }
+              
+              // User is admin, show the dashboard
+              adminName.textContent = userData.name || "Admin";
+              adminAvatar.textContent = (userData.name || "A").charAt(0).toUpperCase();
+              
+              // Hide loading and show main content
+              loadingContainer.style.display = 'none';
+              mainContainer.style.display = 'block';
+              
+              // Load all data
+              await loadAllData();
+            } else {
+              // User document doesn't exist, redirect to progress page
+              setTimeout(() => {
+                window.location.href = 'progress.html';
+              }, 1500);
+            }
+          } catch (error) {
+            console.error("Error checking admin status:", error);
+            setTimeout(() => {
+              window.location.href = 'progress.html';
+            }, 1500);
+          }
+        } else {
+          // No user signed in, redirect to login
+          setTimeout(() => {
+            window.location.href = 'login.html';
+          }, 1500);
+        }
+      });
+
+      // Set up event listeners
+      selectAllCheckbox.addEventListener('change', toggleSelectAll);
+      selectAllHeader.addEventListener('change', toggleSelectAll);
+      bulkEnrollBtn.addEventListener('click', () => openEnrollmentModal('enroll'));
+      bulkUnenrollBtn.addEventListener('click', () => openEnrollmentModal('unenroll'));
+      bulkVerifyBtn.addEventListener('click', () => bulkVerifyCourses(true));
+      bulkNotesBtn.addEventListener('click', openNoteModal);
+      exportDataBtn.addEventListener('click', openExportModal);
+      addEnrollmentBtn.addEventListener('click', () => modifyEnrollment('add'));
+      removeEnrollmentBtn.addEventListener('click', () => modifyEnrollment('remove'));
+      resetProgressBtn.addEventListener('click', () => modifyEnrollment('reset'));
+      completeProgressBtn.addEventListener('click', () => modifyEnrollment('complete'));
+      closeEnrollmentModal.addEventListener('click', () => enrollmentModal.classList.remove('active'));
+      cancelEnrollment.addEventListener('click', () => enrollmentModal.classList.remove('active'));
+      confirmEnrollment.addEventListener('click', processEnrollment);
+      closeNoteModal.addEventListener('click', () => noteModal.classList.remove('active'));
+      cancelNote.addEventListener('click', () => noteModal.classList.remove('active'));
+      confirmNote.addEventListener('click', addAdminNote);
+      closeExportModal.addEventListener('click', () => exportModal.classList.remove('active'));
+      cancelExport.addEventListener('click', () => exportModal.classList.remove('active'));
+      confirmExport.addEventListener('click', exportData);
+      closeCourseDetailsModal.addEventListener('click', () => courseDetailsModal.classList.remove('active'));
+      closeCourseDetails.addEventListener('click', () => courseDetailsModal.classList.remove('active'));
+      userSearch.addEventListener('input', applySearchFilter);
+      filterBtn.addEventListener('click', toggleFilterDropdown);
+      applyFiltersBtn.addEventListener('click', applyFilters);
+      resetFiltersBtn.addEventListener('click', resetFilters);
+      prevPageBtn.addEventListener('click', goToPreviousPage);
+      nextPageBtn.addEventListener('click', goToNextPage);
+      
+      // Close filter dropdown when clicking outside
+      document.addEventListener('click', (e) => {
+        if (!filterBtn.contains(e.target) && !filterContent.contains(e.target)) {
+          filterContent.classList.remove('show');
+        }
+      });
+    }
+
+    // Load all data (users and courses)
+    async function loadAllData() {
+      try {
+        // Load courses first
+        const coursesSnapshot = await getDocs(collection(db, "courses"));
+        allCourses = [];
+        coursesSnapshot.forEach(doc => {
+          allCourses.push({
+            id: doc.id,
+            ...doc.data()
+          });
+        });
+        
+        // Update course dropdowns
+        updateCourseDropdowns();
+        
+        // Then load users
+        await loadAllUsers();
+      } catch (error) {
+        console.error("Error loading initial data:", error);
+      }
+    }
+
+    // Update course dropdowns with available courses
+    function updateCourseDropdowns() {
+      // Enrollment course dropdown
+      enrollmentCourse.innerHTML = '<option value="">Select Course</option>';
+      selectedCourse.innerHTML = '<option value="">Select Course</option>';
+      
+      allCourses.forEach(course => {
+        const option = `<option value="${course.id}">${course.title} (${course.type})</option>`;
+        enrollmentCourse.innerHTML += option;
+        selectedCourse.innerHTML += option;
+      });
+    }
+
+    // Load all users from Firestore
+    async function loadAllUsers() {
+      try {
+        const usersSnapshot = await getDocs(collection(db, "users"));
+        allUsers = [];
+        allCourseTypes.clear();
+        allCourseTitles.clear();
+        allLanguages.clear();
+        let newEnrollmentCount = 0;
+        let completedCourses = 0;
+        let totalEnrollments = 0;
+        
+        usersSnapshot.forEach(doc => {
+          const user = doc.data();
+          if (doc.id !== currentAdmin.uid) { // Exclude admin from the list
+            // Ensure enrolledCourses exists and is an array
+            const enrolledCourses = Array.isArray(user.enrolledCourses) ? user.enrolledCourses : [];
+            
+            // Count new enrollments (within last 7 days)
+            const recentEnrollments = enrolledCourses.filter(course => {
+              return course.enrollmentDate && 
+                     new Date(course.enrollmentDate) > new Date(Date.now() - 7 * 24 * 60 * 60 * 1000);
+            });
+            newEnrollmentCount += recentEnrollments.length;
+            
+            // Count completed courses
+            completedCourses += enrolledCourses.filter(course => course.progress === 100).length;
+            totalEnrollments += enrolledCourses.length;
+            
+            // Collect all unique course types, titles and languages
+            enrolledCourses.forEach(course => {
+              if (course.type) allCourseTypes.add(course.type);
+              if (course.title) allCourseTitles.add(course.title);
+              if (course.language) allLanguages.add(course.language);
+            });
+            
+            allUsers.push({
+              id: doc.id,
+              ...user,
+              enrolledCourses: enrolledCourses
+            });
+          }
+        });
+        
+        // Calculate enrollment rate (per day)
+        const enrollmentRateValue = Math.round(newEnrollmentCount / 7 * 10) / 10;
+        
+        // Calculate completion rate
+        const completionRateValue = totalEnrollments > 0 ? 
+          Math.round((completedCourses / totalEnrollments) * 100) : 0;
+        
+        // Update filter dropdowns with unique values
+        updateFilterDropdowns();
+        
+        // Save previous stats for comparison
+        previousStats.totalStudents = allUsers.length;
+        previousStats.totalCourses = allCourses.length;
+        previousStats.completionRate = completionRateValue;
+        previousStats.newEnrollments = newEnrollmentCount;
+        
+        // Apply default filters and display
+        resetFilters();
+        
+        // Update stats cards
+        updateStatsCards(newEnrollmentCount, enrollmentRateValue, completionRateValue);
+      } catch (error) {
+        console.error("Error loading users:", error);
+      }
+    }
+
+    // Update filter dropdowns with unique values
+    function updateFilterDropdowns() {
+      // Enrollment status filter
+      enrollmentFilter.innerHTML = `
+        <option value="all">All Students</option>
+        <option value="enrolled">Enrolled Students</option>
+        <option value="not-enrolled">Not Enrolled</option>
+      `;
+      
+      // Course Type filter
+      courseTypeFilter.innerHTML = '<option value="">All Course Types</option>';
+      Array.from(allCourseTypes).sort().forEach(type => {
+        courseTypeFilter.innerHTML += `<option value="${type}">${type}</option>`;
+      });
+      
+      // Course Title filter
+      courseTitleFilter.innerHTML = '<option value="">All Course Titles</option>';
+      Array.from(allCourseTitles).sort().forEach(title => {
+        courseTitleFilter.innerHTML += `<option value="${title}">${title}</option>`;
+      });
+      
+      // Language filter
+      languageFilter.innerHTML = '<option value="">All Languages</option>';
+      Array.from(allLanguages).sort().forEach(lang => {
+        languageFilter.innerHTML += `<option value="${lang}">${lang}</option>`;
+      });
+    }
+
+    // Update stats cards
+    function updateStatsCards(newEnrollmentsCount, enrollmentRateValue, completionRateValue) {
+      const totalStudentsCount = allUsers.length;
+      const totalCoursesCount = allCourses.length;
+      
+      // Update DOM elements
+      totalStudents.textContent = totalStudentsCount;
+      totalCourses.textContent = totalCoursesCount;
+      newEnrollments.textContent = newEnrollmentsCount;
+      enrollmentRate.textContent = `${enrollmentRateValue}/day`;
+      completionRate.textContent = `${completionRateValue}%`;
+      
+      // Calculate changes
+      const studentDiff = totalStudentsCount - previousStats.totalStudents;
+      const courseDiff = totalCoursesCount - previousStats.totalCourses;
+      const enrollmentDiff = newEnrollmentsCount - previousStats.newEnrollments;
+      const completionDiff = completionRateValue - previousStats.completionRate;
+      
+      // Update change indicators
+      studentChange.textContent = `${studentDiff >= 0 ? '+' : ''}${studentDiff} (${Math.round((studentDiff / previousStats.totalStudents) * 100)}%)`;
+      studentChange.className = `stat-change ${studentDiff >= 0 ? 'positive' : 'negative'}`;
+      
+      courseChange.textContent = `${courseDiff >= 0 ? '+' : ''}${courseDiff} (${Math.round((courseDiff / previousStats.totalCourses) * 100)}%)`;
+      courseChange.className = `stat-change ${courseDiff >= 0 ? 'positive' : 'negative'}`;
+      
+      completionChange.textContent = `${completionDiff >= 0 ? '+' : ''}${completionDiff}%`;
+      completionChange.className = `stat-change ${completionDiff >= 0 ? 'positive' : 'negative'}`;
+    }
+
+    // Display users in the table with pagination
+    function displayUsers() {
+      usersTableBody.innerHTML = '';
+      
+      if (filteredUsers.length === 0) {
+        usersTableBody.innerHTML = `
+          <tr>
+            <td colspan="6" style="text-align: center; padding: 20px;">
+              No users found matching your search/filters
+            </td>
+          </tr>
+        `;
+        updatePaginationControls();
+        return;
+      }
+      
+      // Apply sorting
+      applySorting();
+      
+      // Calculate pagination
+      const totalPages = Math.ceil(filteredUsers.length / usersPerPage);
+      currentPage = Math.min(currentPage, totalPages);
+      const startIndex = (currentPage - 1) * usersPerPage;
+      const endIndex = Math.min(startIndex + usersPerPage, filteredUsers.length);
+      const usersToDisplay = filteredUsers.slice(startIndex, endIndex);
+      
+      usersToDisplay.forEach(user => {
+        const isSelected = selectedUserIds.has(user.id);
+        const row = document.createElement('tr');
+        
+        // Get most recent activity
+        let lastActivity = 'Never';
+        if (user.enrolledCourses.length > 0) {
+          const sortedCourses = [...user.enrolledCourses].sort((a, b) => {
+            return new Date(b.lastUpdated || 0) - new Date(a.lastUpdated || 0);
+          });
+          lastActivity = sortedCourses[0].lastUpdated ? 
+            new Date(sortedCourses[0].lastUpdated).toLocaleString() : 'Never';
+        }
+        
+        // Count verified courses
+        const verifiedCount = user.enrolledCourses.filter(c => c.verified).length;
+        const totalCourses = user.enrolledCourses.length;
+        const verificationStatus = totalCourses > 0 ? 
+          `${verifiedCount}/${totalCourses} verified` : 'No enrollments';
+        
+        row.innerHTML = `
+          <td>
+            <input type="checkbox" class="user-checkbox" data-user-id="${user.id}" ${isSelected ? 'checked' : ''}>
+          </td>
+          <td>
+            <div style="font-weight: 500;">${user.name || 'No Name'}</div>
+            <div style="font-size: 0.8rem; color: #666;">${user.email || ''}</div>
+          </td>
+          <td>
+            <div class="course-list">
+              ${user.enrolledCourses.map(course => `
+                <span class="course-badge" data-course-id="${course.id}" data-user-id="${user.id}">
+                  <span class="progress-indicator progress-${getProgressLevel(course.progress || 0)}"></span>
+                  ${course.title || 'No Title'}
+                </span>
+              `).join('')}
+              ${user.enrolledCourses.length === 0 ? 'No enrollments' : ''}
+            </div>
+          </td>
+          <td>
+            ${verificationStatus}
+          </td>
+          <td>
+            ${lastActivity}
+          </td>
+          <td>
+            <button class="btn btn-primary btn-sm manage-enrollments" data-user-id="${user.id}">
+              <i class="fas fa-edit"></i> Manage
+            </button>
+            <button class="btn btn-info btn-sm view-notes" data-user-id="${user.id}">
+              <i class="fas fa-eye"></i> Notes
+            </button>
+          </td>
+        `;
+        usersTableBody.appendChild(row);
+        
+        // Add event listeners for this row
+        const checkbox = row.querySelector('.user-checkbox');
+        checkbox.addEventListener('change', (e) => {
+          if (e.target.checked) {
+            selectedUserIds.add(user.id);
+          } else {
+            selectedUserIds.delete(user.id);
+          }
+          updateSelectedCount();
+          updateSelectAllCheckbox();
+        });
+        
+        // Manage enrollments button
+        row.querySelector('.manage-enrollments').addEventListener('click', () => {
+          openUserEnrollmentModal(user);
+        });
+        
+        // View notes button
+        row.querySelector('.view-notes').addEventListener('click', () => {
+          viewUserNotes(user.id);
+        });
+        
+        // Course badge click events
+        row.querySelectorAll('.course-badge').forEach(badge => {
+          badge.addEventListener('click', (e) => {
+            e.stopPropagation();
+            const courseId = badge.dataset.courseId;
+            const userId = badge.dataset.userId;
+            viewCourseDetails(userId, courseId);
+          });
+        });
+      });
+      
+      updateSelectedCount();
+      updateSelectAllCheckbox();
+      updatePaginationControls();
+    }
+
+    // Get progress level for indicator
+    function getProgressLevel(progress) {
+      if (progress === 0) return '0';
+      if (progress === 100) return '100';
+      return '50'; // For any progress between 1-99
+    }
+
+    // Apply sorting to filteredUsers
+    function applySorting() {
+      const sortValue = sortBy.value;
+      
+      filteredUsers.sort((a, b) => {
+        switch (sortValue) {
+          case 'name-asc':
+            return (a.name || '').localeCompare(b.name || '');
+          case 'name-desc':
+            return (b.name || '').localeCompare(a.name || '');
+          case 'enrollments-asc':
+            return a.enrolledCourses.length - b.enrolledCourses.length;
+          case 'enrollments-desc':
+            return b.enrolledCourses.length - a.enrolledCourses.length;
+          case 'recent':
+            const aRecent = a.enrolledCourses.length > 0 ? 
+              new Date(a.enrolledCourses.reduce((latest, course) => 
+                new Date(course.lastUpdated) > new Date(latest.lastUpdated || 0) ? course : latest
+              ).lastUpdated || 0) : 0;
+            const bRecent = b.enrolledCourses.length > 0 ? 
+              new Date(b.enrolledCourses.reduce((latest, course) => 
+                new Date(course.lastUpdated) > new Date(latest.lastUpdated || 0) ? course : latest
+              ).lastUpdated || 0) : 0;
+            return bRecent - aRecent;
+          case 'oldest':
+            const aOldest = a.enrolledCourses.length > 0 ? 
+              new Date(a.enrolledCourses.reduce((earliest, course) => 
+                new Date(course.lastUpdated) < new Date(earliest.lastUpdated || Infinity) ? course : earliest
+              ).lastUpdated || Infinity) : Infinity;
+            const bOldest = b.enrolledCourses.length > 0 ? 
+              new Date(b.enrolledCourses.reduce((earliest, course) => 
+                new Date(course.lastUpdated) < new Date(earliest.lastUpdated || Infinity) ? course : earliest
+              ).lastUpdated || Infinity) : Infinity;
+            return aOldest - bOldest;
+          default:
+            return 0;
+        }
+      });
+    }
+
+    // Update pagination controls
+    function updatePaginationControls() {
+      const totalPages = Math.ceil(filteredUsers.length / usersPerPage);
+      
+      prevPageBtn.disabled = currentPage <= 1;
+      nextPageBtn.disabled = currentPage >= totalPages;
+      pageInfo.textContent = `Page ${currentPage} of ${totalPages}`;
+    }
+
+    // Go to previous page
+    function goToPreviousPage() {
+      if (currentPage > 1) {
+        currentPage--;
+        displayUsers();
+      }
+    }
+
+    // Go to next page
+    function goToNextPage() {
+      const totalPages = Math.ceil(filteredUsers.length / usersPerPage);
+      if (currentPage < totalPages) {
+        currentPage++;
+        displayUsers();
+      }
+    }
+
+    // Apply search filter
+    function applySearchFilter() {
+      const searchTerm = userSearch.value.toLowerCase();
+      
+      if (!searchTerm) {
+        filteredUsers = [...allUsers];
+      } else {
+        filteredUsers = allUsers.filter(user => {
+          return (
+            (user.name && user.name.toLowerCase().includes(searchTerm)) ||
+            (user.email && user.email.toLowerCase().includes(searchTerm)) ||
+            (user.studentId && user.studentId.toLowerCase().includes(searchTerm))
+          );
+        });
+      }
+      
+      // Reset to first page
+      currentPage = 1;
+      
+      // Reset selection
+      selectedUserIds.clear();
+      updateSelectedCount();
+      updateSelectAllCheckbox();
+      
+      displayUsers();
+    }
+
+    // Apply filters
+    function applyFilters() {
+      const enrollmentStatus = enrollmentFilter.value;
+      const courseType = courseTypeFilter.value;
+      const courseTitle = courseTitleFilter.value;
+      const language = languageFilter.value;
+      const verification = verificationFilter.value;
+      const minProgress = parseInt(progressMin.value);
+      const maxProgress = parseInt(progressMax.value);
+      
+      filteredUsers = allUsers.filter(user => {
+        // Enrollment status filter
+        if (enrollmentStatus === 'enrolled' && user.enrolledCourses.length === 0) {
+          return false;
+        }
+        if (enrollmentStatus === 'not-enrolled' && user.enrolledCourses.length > 0) {
+          return false;
+        }
+        
+        // If user has no courses, only include if no course filters are set
+        if (user.enrolledCourses.length === 0) {
+          return !courseType && !courseTitle && !language && verification === 'all' && 
+                 isNaN(minProgress) && isNaN(maxProgress);
+        }
+        
+        // Check if any course matches the filters
+        return user.enrolledCourses.some(course => {
+          // Course type filter
+          if (courseType && course.type !== courseType) {
+            return false;
+          }
+          
+          // Course title filter
+          if (courseTitle && course.title !== courseTitle) {
+            return false;
+          }
+          
+          // Language filter
+          if (language && course.language !== language) {
+            return false;
+          }
+          
+          // Verification filter
+          if (verification === 'verified' && !course.verified) {
+            return false;
+          }
+          if (verification === 'unverified' && course.verified) {
+            return false;
+          }
+          
+          // Progress range filter
+          if (!isNaN(minProgress) && (course.progress || 0) < minProgress) {
+            return false;
+          }
+          if (!isNaN(maxProgress) && (course.progress || 0) > maxProgress) {
+            return false;
+          }
+          
+          return true;
+        });
+      });
+      
+      // Reset to first page
+      currentPage = 1;
+      
+      // Close filter dropdown
+      filterContent.classList.remove('show');
+      
+      // Reset selection
+      selectedUserIds.clear();
+      updateSelectedCount();
+      updateSelectAllCheckbox();
+      
+      displayUsers();
+    }
+
+    // Reset all filters
+    function resetFilters() {
+      enrollmentFilter.value = 'all';
+      courseTypeFilter.value = '';
+      courseTitleFilter.value = '';
+      languageFilter.value = '';
+      verificationFilter.value = 'all';
+      progressMin.value = '';
+      progressMax.value = '';
+      sortBy.value = 'name-asc';
+      userSearch.value = '';
+      
+      filteredUsers = [...allUsers];
+      currentPage = 1;
+      selectedUserIds.clear();
+      
+      displayUsers();
+    }
+
+    // Toggle select all checkbox
+    function toggleSelectAll() {
+      const isChecked = selectAllCheckbox.checked || selectAllHeader.checked;
+      
+      if (isChecked) {
+        filteredUsers.forEach(user => selectedUserIds.add(user.id));
+      } else {
+        filteredUsers.forEach(user => selectedUserIds.delete(user.id));
+      }
+      
+      // Update all checkboxes in the table
+      document.querySelectorAll('.user-checkbox').forEach(checkbox => {
+        if (!checkbox.disabled) {
+          checkbox.checked = isChecked;
+        }
+      });
+      
+      updateSelectedCount();
+    }
+
+    // Update select all checkbox state
+    function updateSelectAllCheckbox() {
+      const allSelected = filteredUsers.length > 0 && 
+                         filteredUsers.every(user => selectedUserIds.has(user.id));
+      selectAllCheckbox.checked = allSelected;
+      selectAllHeader.checked = allSelected;
+    }
+
+    // Update the selected users count display
+    function updateSelectedCount() {
+      selectedCount.textContent = `${selectedUserIds.size} selected`;
+      affectedUsersCount.textContent = selectedUserIds.size;
+      affectedUsersNoteCount.textContent = selectedUserIds.size;
+    }
+
+    // Open enrollment modal
+    function openEnrollmentModal(action) {
+      if (action === 'enroll' && selectedUserIds.size === 0) {
+        alert('Please select at least one user to enroll');
+        return;
+      }
+      if (action === 'unenroll' && selectedUserIds.size === 0) {
+        alert('Please select at least one user to unenroll');
+        return;
+      }
+      
+      enrollmentType.value = action;
+      enrollmentModal.classList.add('active');
+    }
+
+    // Open user enrollment modal
+    function openUserEnrollmentModal(user) {
+      courseDetailsTitle.textContent = `Enrollments for ${user.name || 'User'}`;
+      
+      let detailsHTML = `
+        <h4>Current Enrollments</h4>
+        <div style="margin-bottom: 20px;">
+          ${user.enrolledCourses.length > 0 ? 
+            user.enrolledCourses.map(course => `
+              <div style="display: flex; justify-content: space-between; align-items: center; padding: 10px; border-bottom: 1px solid #eee;">
+                <div>
+                  <strong>${course.title || 'No Title'}</strong><br>
+                  <small>${course.type || ''} • ${course.language || ''}</small>
+                </div>
+                <div style="text-align: right;">
+                  <span class="badge ${course.verified ? 'verified' : 'unverified'}">
+                    ${course.verified ? 'Verified' : 'Unverified'}
+                  </span><br>
+                  <small>Progress: ${course.progress || 0}%</small>
+                </div>
+              </div>
+            `).join('') : 
+            '<p>No current enrollments</p>'
+          }
+        </div>
+        
+        <h4>Add New Enrollment</h4>
+        <div class="form-group">
+          <select id="new-enrollment-course" class="form-control">
+            <option value="">Select Course</option>
+            ${allCourses.map(course => `
+              <option value="${course.id}">${course.title} (${course.type})</option>
+            `).join('')}
+          </select>
+        </div>
+        <button id="add-new-enrollment" class="btn btn-success" style="width: 100%;">
+          <i class="fas fa-plus"></i> Enroll Student
+        </button>
+      `;
+      
+      courseDetailsBody.innerHTML = detailsHTML;
+      courseDetailsModal.classList.add('active');
+      
+      // Add event listener for the new enrollment button
+      document.getElementById('add-new-enrollment').addEventListener('click', async () => {
+        const courseId = document.getElementById('new-enrollment-course').value;
+        if (!courseId) {
+          alert('Please select a course');
+          return;
+        }
+        
+        const course = allCourses.find(c => c.id === courseId);
+        if (!course) {
+          alert('Selected course not found');
+          return;
+        }
+        
+        // Check if already enrolled
+        if (user.enrolledCourses.some(c => c.id === courseId)) {
+          alert('Student is already enrolled in this course');
+          return;
+        }
+        
+        // Create new enrollment
+        const newEnrollment = {
+          id: courseId,
+          title: course.title,
+          type: course.type,
+          language: course.language,
+          progress: 0,
+          verified: false,
+          enrollmentDate: new Date().toISOString(),
+          lastUpdated: new Date().toISOString(),
+          updatedBy: currentAdmin.uid
+        };
+        
+        try {
+          await updateDoc(doc(db, "users", user.id), {
+            enrolledCourses: arrayUnion(newEnrollment)
+          });
+          
+          alert('Student enrolled successfully');
+          courseDetailsModal.classList.remove('active');
+          loadAllUsers(); // Refresh data
+        } catch (error) {
+          console.error("Error enrolling student:", error);
+          alert("Failed to enroll student. Please try again.");
+        }
+      });
+    }
+
+    // View course details for a user
+    function viewCourseDetails(userId, courseId) {
+      const user = allUsers.find(u => u.id === userId);
+      if (!user) return;
+      
+      const course = user.enrolledCourses.find(c => c.id === courseId);
+      if (!course) return;
+      
+      const courseInfo = allCourses.find(c => c.id === courseId) || {};
+      
+      courseDetailsTitle.textContent = `${course.title || 'Course'} Details`;
+      
+      let detailsHTML = `
+        <div style="margin-bottom: 20px;">
+          <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
+            <div>
+              <strong>Student:</strong> ${user.name || 'No Name'}
+            </div>
+            <div>
+              <span class="badge ${course.verified ? 'verified' : 'unverified'}">
+                ${course.verified ? 'Verified' : 'Unverified'}
+              </span>
+            </div>
+          </div>
+          
+          <div style="margin-bottom: 15px;">
+            <strong>Progress:</strong>
+            <div class="progress-container" style="margin-top: 5px;">
+              <div class="progress-bar" style="width: ${course.progress || 0}%"></div>
+            </div>
+            <div style="text-align: center; margin-top: 5px;">
+              ${course.progress || 0}%
+            </div>
+          </div>
+          
+          <div style="margin-bottom: 15px;">
+            <strong>Course Information:</strong>
+            <div style="margin-top: 5px;">
+              <div><strong>Type:</strong> ${course.type || 'N/A'}</div>
+              <div><strong>Language:</strong> ${course.language || 'N/A'}</div>
+              <div><strong>Description:</strong> ${courseInfo.description || 'N/A'}</div>
+            </div>
+          </div>
+          
+          <div style="margin-bottom: 15px;">
+            <strong>Dates:</strong>
+            <div style="margin-top: 5px;">
+              <div><strong>Enrolled:</strong> ${course.enrollmentDate ? new Date(course.enrollmentDate).toLocaleString() : 'N/A'}</div>
+              <div><strong>Last Updated:</strong> ${course.lastUpdated ? new Date(course.lastUpdated).toLocaleString() : 'N/A'}</div>
+              ${course.verified ? `<div><strong>Verified:</strong> ${course.verifiedAt ? new Date(course.verifiedAt).toLocaleString() : 'N/A'}</div>` : ''}
+            </div>
+          </div>
+          
+          ${course.notes ? `
+            <div style="margin-bottom: 15px;">
+              <strong>Notes:</strong>
+              <div style="margin-top: 5px; padding: 10px; background-color: #f5f5f5; border-radius: 4px;">
+                ${course.notes}
+              </div>
+            </div>
+          ` : ''}
+        </div>
+        
+        <div class="form-group">
+          <label for="course-progress-input">Update Progress</label>
+          <div style="display: flex; gap: 5px;">
+            <input type="number" id="course-progress-input" class="form-control" 
+                   value="${course.progress || 0}" min="0" max="100" style="flex: 1;">
+            <button id="update-course-progress" class="btn btn-primary">
+              <i class="fas fa-save"></i>
+            </button>
+          </div>
+        </div>
+        
+        <div style="display: flex; gap: 5px; margin-top: 10px;">
+          ${course.verified ? 
+            `<button id="unverify-course" class="btn btn-warning" style="flex: 1;">
+              <i class="fas fa-times"></i> Unverify
+            </button>` : 
+            `<button id="verify-course" class="btn btn-success" style="flex: 1;">
+              <i class="fas fa-check"></i> Verify
+            </button>`
+          }
+          <button id="remove-course" class="btn btn-danger" style="flex: 1;">
+            <i class="fas fa-trash"></i> Remove
+          </button>
+        </div>
+      `;
+      
+      courseDetailsBody.innerHTML = detailsHTML;
+      courseDetailsModal.classList.add('active');
+      
+      // Add event listeners for the buttons
+      document.getElementById('update-course-progress').addEventListener('click', async () => {
+        const progressValue = parseInt(document.getElementById('course-progress-input').value);
+        
+        if (isNaN(progressValue) {
+          alert('Please enter a valid progress percentage');
+          return;
+        }
+        
+        await updateUserProgress(userId, courseId, progressValue);
+      });
+      
+      if (document.getElementById('verify-course')) {
+        document.getElementById('verify-course').addEventListener('click', async () => {
+          await verifyUserCourse(userId, courseId, true);
+        });
+      }
+      
+      if (document.getElementById('unverify-course')) {
+        document.getElementById('unverify-course').addEventListener('click', async () => {
+          await verifyUserCourse(userId, courseId, false);
+        });
+      }
+      
+      document.getElementById('remove-course').addEventListener('click', async () => {
+        const confirmRemove = confirm('Are you sure you want to remove this enrollment?');
+        if (!confirmRemove) return;
+        
+        await removeUserEnrollment(userId, courseId);
+      });
+    }
+
+    // Process enrollment changes
+    async function processEnrollment() {
+      const courseId = selectedCourse.value;
+      const action = enrollmentType.value;
+      const notes = enrollmentNotes.value.trim();
+      
+      if (!courseId) {
+        alert('Please select a course');
+        return;
+      }
+      
+      const course = allCourses.find(c => c.id === courseId);
+      if (!course) {
+        alert('Selected course not found');
+        return;
+      }
+      
+      const userIds = Array.from(selectedUserIds);
+      const promises = [];
+      const adminName = document.getElementById('admin-name').textContent;
+      const timestamp = new Date().toISOString();
+      
+      for (const userId of userIds) {
+        const user = allUsers.find(u => u.id === userId);
+        if (!user) continue;
+        
+        if (action === 'enroll') {
+          // Check if already enrolled
+          if (user.enrolledCourses.some(c => c.id === courseId)) {
+            continue;
+          }
+          
+          // Create new enrollment
+          const newEnrollment = {
+            id: courseId,
+            title: course.title,
+            type: course.type,
+            language: course.language,
+            progress: 0,
+            verified: false,
+            enrollmentDate: timestamp,
+            lastUpdated: timestamp,
+            updatedBy: currentAdmin.uid
+          };
+          
+          if (notes) {
+            newEnrollment.notes = `[${new Date().toLocaleString()}] Enrollment Note (${adminName}): ${notes}`;
+          }
+          
+          // Create update promise
+          promises.push(
+            updateDoc(doc(db, "users", userId), {
+              enrolledCourses: arrayUnion(newEnrollment)
+            })
+          );
+        } else {
+          // Unenroll - find the course to remove
+          const courseToRemove = user.enrolledCourses.find(c => c.id === courseId);
+          if (!courseToRemove) continue;
+          
+          // Create update promise
+          promises.push(
+            updateDoc(doc(db, "users", userId), {
+              enrolledCourses: arrayRemove(courseToRemove)
+            })
+          );
+        }
+      }
+      
+      try {
+        await Promise.all(promises);
+        alert(`Successfully ${action === 'enroll' ? 'enrolled' : 'unenrolled'} ${userIds.length} users`);
+        enrollmentModal.classList.remove('active');
+        loadAllUsers(); // Refresh data
+      } catch (error) {
+        console.error(`Error during ${action}:`, error);
+        alert(`An error occurred during ${action}. Some changes may not have been saved.`);
+      }
+    }
+
+    // Modify enrollment based on controls
+    async function modifyEnrollment(action) {
+      const courseId = enrollmentCourse.value;
+      const applyToValue = enrollmentAction.value;
+      
+      if (!courseId) {
+        alert('Please select a course');
+        return;
+      }
+      
+      const course = allCourses.find(c => c.id === courseId);
+      if (!course) {
+        alert('Selected course not found');
+        return;
+      }
+      
+      let userIds = [];
+      
+      if (applyToValue === 'selected') {
+        if (selectedUserIds.size === 0) {
+          alert('Please select at least one user');
+          return;
+        }
+        userIds = Array.from(selectedUserIds);
+      } else if (applyToValue === 'filtered') {
+        userIds = filteredUsers.map(user => user.id);
+      } else { // 'all'
+        userIds = allUsers.map(user => user.id);
+      }
+      
+      const confirmAction = confirm(`This will ${getEnrollmentActionText(action)} for ${userIds.length} users. Continue?`);
+      if (!confirmAction) return;
+      
+      const promises = [];
+      const adminName = document.getElementById('admin-name').textContent;
+      const timestamp = new Date().toISOString();
+      
+      for (const userId of userIds) {
+        const user = allUsers.find(u => u.id === userId);
+        if (!user) continue;
+        
+        const existingCourse = user.enrolledCourses.find(c => c.id === courseId);
+        
+        if (action === 'add') {
+          // Add enrollment if not already enrolled
+          if (!existingCourse) {
+            const newEnrollment = {
+              id: courseId,
+              title: course.title,
+              type: course.type,
+              language: course.language,
+              progress: 0,
+              verified: false,
+              enrollmentDate: timestamp,
+              lastUpdated: timestamp,
+              updatedBy: currentAdmin.uid
+            };
+            
+            promises.push(
+              updateDoc(doc(db, "users", userId), {
+                enrolledCourses: arrayUnion(newEnrollment)
+              })
+            );
+          }
+        } else if (action === 'remove' && existingCourse) {
+          // Remove enrollment
+          promises.push(
+            updateDoc(doc(db, "users", userId), {
+              enrolledCourses: arrayRemove(existingCourse)
+            })
+          );
+        } else if (existingCourse) {
+          // For reset/complete actions
+          const updatedCourse = {
+            ...existingCourse,
+            lastUpdated: timestamp,
+            updatedBy: currentAdmin.uid
+          };
+          
+          if (action === 'reset') {
+            updatedCourse.progress = 0;
+          } else if (action === 'complete') {
+            updatedCourse.progress = 100;
+          }
+          
+          promises.push(
+            updateDoc(doc(db, "users", userId), {
+              enrolledCourses: arrayRemove(existingCourse)
+            }).then(() => {
+              return updateDoc(doc(db, "users", userId), {
+                enrolledCourses: arrayUnion(updatedCourse)
+              });
+            })
+          );
+        }
+      }
+      
+      try {
+        await Promise.all(promises);
+        alert(`Successfully ${getEnrollmentActionText(action)} for ${userIds.length} users`);
+        loadAllUsers(); // Refresh data
+      } catch (error) {
+        console.error(`Error during ${action}:`, error);
+        alert(`An error occurred during ${action}. Some changes may not have been saved.`);
+      }
+    }
+
+    // Get enrollment action text for confirmation
+    function getEnrollmentActionText(action) {
+      switch (action) {
+        case 'add': return 'add enrollments';
+        case 'remove': return 'remove enrollments';
+        case 'reset': return 'reset progress to 0%';
+        case 'complete': return 'set progress to 100%';
+        default: return 'update enrollments';
+      }
+    }
+
+    // Open note modal
+    function openNoteModal() {
+      if (selectedUserIds.size === 0) {
+        alert('Please select at least one user');
+        return;
+      }
+      
+      adminNote.value = '';
+      noteModal.classList.add('active');
+    }
+
+    // Open export modal
+    function openExportModal() {
+      exportModal.classList.add('active');
+    }
+
+    // View user notes
+    function viewUserNotes(userId) {
+      const user = allUsers.find(u => u.id === userId);
+      if (!user) return;
+      
+      const notes = user.enrolledCourses
+        .filter(course => course.notes)
+        .map(course => `
+          <div style="margin-bottom: 15px; padding: 10px; border-bottom: 1px solid #eee;">
+            <div><strong>${course.title || 'Course'}</strong></div>
+            <div style="font-size: 0.9rem; color: #666; margin: 5px 0;">${course.notes}</div>
+            <div style="font-size: 0.8rem; color: #999;">
+              ${course.lastUpdated ? new Date(course.lastUpdated).toLocaleString() : 'Unknown date'}
+            </div>
+          </div>
+        `).join('');
+      
+      if (notes.length === 0) {
+        alert('No notes available for this student.');
+        return;
+      }
+      
+      courseDetailsTitle.textContent = `Notes for ${user.name || 'User'}`;
+      courseDetailsBody.innerHTML = `
+        <div style="max-height: 400px; overflow-y: auto;">
+          ${notes}
+        </div>
+      `;
+      courseDetailsModal.classList.add('active');
+    }
+
+    // Add admin note
+    async function addAdminNote() {
+      const noteContent = adminNote.value.trim();
+      const visibility = noteVisibility.value;
+      
+      if (!noteContent) {
+        alert('Please enter a note');
+        return;
+      }
+      
+      const userIds = Array.from(selectedUserIds);
+      const promises = [];
+      const adminName = document.getElementById('admin-name').textContent;
+      const timestamp = new Date().toISOString();
+      
+      for (const userId of userIds) {
+        const user = allUsers.find(u => u.id === userId);
+        if (!user) continue;
+        
+        // Add note to all enrolled courses that match filters
+        for (const course of user.enrolledCourses) {
+          // Only update if the course matches current filters
+          if (courseMatchesFilters(course)) {
+            const notePrefix = visibility === 'visible' ? '[Student Visible]' : '[Admin Only]';
+            const updatedCourse = {
+              ...course,
+              notes: `[${new Date().toLocaleString()}] ${notePrefix} ${adminName}: ${noteContent}`,
+              lastUpdated: timestamp,
+              updatedBy: currentAdmin.uid
+            };
+            
+            // Create update promise
+            promises.push(
+              updateDoc(doc(db, "users", userId), {
+                enrolledCourses: arrayRemove(course)
+              }).then(() => {
+                return updateDoc(doc(db, "users", userId), {
+                  enrolledCourses: arrayUnion(updatedCourse)
+                });
+              })
+            );
+          }
+        }
+      }
+      
+      try {
+        await Promise.all(promises);
+        alert(`Note added to ${userIds.length} users`);
+        noteModal.classList.remove('active');
+        loadAllUsers(); // Refresh data
+      } catch (error) {
+        console.error("Error adding note:", error);
+        alert("An error occurred while adding note. Some changes may not have been saved.");
+      }
+    }
+
+    // Export data
+    async function exportData() {
+      const format = exportFormat.value;
+      const exportSelectedOnly = exportSelected.checked;
+      const includeAllUsers = exportAll.checked;
+      
+      // Get selected fields
+      const selectedFields = [];
+      document.querySelectorAll('input[name="export-fields"]:checked').forEach(field => {
+        selectedFields.push(field.value);
+      });
+      
+      if (selectedFields.length === 0) {
+        alert('Please select at least one field to export');
+        return;
+      }
+      
+      // Determine which users to export
+      let usersToExport = [];
+      if (exportSelectedOnly && selectedUserIds.size > 0) {
+        usersToExport = allUsers.filter(user => selectedUserIds.has(user.id));
+      } else if (includeAllUsers) {
+        usersToExport = [...allUsers];
+      } else {
+        usersToExport = [...filteredUsers];
+      }
+      
+      // Prepare data
+      const exportData = [];
+      
+      usersToExport.forEach(user => {
+        const row = {};
+        
+        selectedFields.forEach(field => {
+          switch (field) {
+            case 'name':
+              row['Name'] = user.name || '';
+              break;
+            case 'email':
+              row['Email'] = user.email || '';
+              break;
+            case 'studentId':
+              row['Student ID'] = user.studentId || '';
+              break;
+            case 'enrollments':
+              row['Enrollments'] = user.enrolledCourses.map(c => c.title).join(', ');
+              row['Enrollment Count'] = user.enrolledCourses.length;
+              break;
+            case 'progress':
+              row['Average Progress'] = user.enrolledCourses.length > 0 ? 
+                Math.round(user.enrolledCourses.reduce((sum, c) => sum + (c.progress || 0), 0) / user.enrolledCourses.length) : 0;
+              break;
+            case 'verified':
+              const verifiedCount = user.enrolledCourses.filter(c => c.verified).length;
+              row['Verified Count'] = verifiedCount;
+              row['Verification Rate'] = user.enrolledCourses.length > 0 ? 
+                `${Math.round((verifiedCount / user.enrolledCourses.length) * 100)}%` : '0%';
+              break;
+            case 'lastActivity':
+              const lastActivity = user.enrolledCourses.length > 0 ? 
+                user.enrolledCourses.reduce((latest, c) => 
+                  new Date(c.lastUpdated || 0) > new Date(latest.lastUpdated || 0) ? c : latest
+                ).lastUpdated : null;
+              row['Last Activity'] = lastActivity ? new Date(lastActivity).toLocaleString() : 'Never';
+              break;
+            case 'notes':
+              row['Notes'] = user.enrolledCourses
+                .filter(c => c.notes)
+                .map(c => `${c.title}: ${c.notes}`)
+                .join('\n\n');
+              break;
+          }
+        });
+        
+        exportData.push(row);
+      });
+      
+      // Generate export file
+      if (format === 'csv') {
+        exportToCSV(exportData);
+      } else {
+        exportToJSON(exportData);
+      }
+      
+      exportModal.classList.remove('active');
+    }
+
+    // Export to CSV
+    function exportToCSV(data) {
+      if (data.length === 0) {
+        alert('No data to export');
+        return;
+      }
+      
+      // Get headers from first object
+      const headers = Object.keys(data[0]);
+      
+      // Create CSV content
+      let csvContent = headers.join(',') + '\n';
+      
+      data.forEach(row => {
+        const values = headers.map(header => {
+          const value = row[header];
+          // Escape quotes and wrap in quotes if contains comma
+          return typeof value === 'string' && value.includes(',') ? 
+            `"${value.replace(/"/g, '""')}"` : value;
+        });
+        csvContent += values.join(',') + '\n';
+      });
+      
+      // Create download link
+      const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.setAttribute('href', url);
+      link.setAttribute('download', `enrollments_export_${new Date().toISOString().slice(0, 10)}.csv`);
+      link.style.visibility = 'hidden';
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    }
+
+    // Export to JSON
+    function exportToJSON(data) {
+      if (data.length === 0) {
+        alert('No data to export');
+        return;
+      }
+      
+      const jsonContent = JSON.stringify(data, null, 2);
+      const blob = new Blob([jsonContent], { type: 'application/json;charset=utf-8;' });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.setAttribute('href', url);
+      link.setAttribute('download', `enrollments_export_${new Date().toISOString().slice(0, 10)}.json`);
+      link.style.visibility = 'hidden';
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    }
+
+    // Bulk verify courses
+    async function bulkVerifyCourses(verify) {
+      if (selectedUserIds.size === 0) {
+        alert('Please select at least one user');
+        return;
+      }
+      
+      const confirmAction = confirm(`Are you sure you want to ${verify ? 'verify' : 'unverify'} courses for ${selectedUserIds.size} users?`);
+      if (!confirmAction) return;
+      
+      const userIds = Array.from(selectedUserIds);
+      const promises = [];
+      const adminName = document.getElementById('admin-name').textContent;
+      
+      for (const userId of userIds) {
+        const user = allUsers.find(u => u.id === userId);
+        if (!user) continue;
+        
+        for (const course of user.enrolledCourses) {
+          // Only update if the course matches current filters
+          if (courseMatchesFilters(course)) {
+            const updatedCourse = {
+              ...course,
+              verified: verify,
+              lastUpdated: new Date().toISOString(),
+              updatedBy: currentAdmin.uid
+            };
+            
+            if (verify) {
+              updatedCourse.verifiedBy = adminName;
+              updatedCourse.verifiedAt = new Date().toISOString();
+            } else {
+              updatedCourse.verifiedBy = null;
+              updatedCourse.verifiedAt = null;
+            }
+            
+            // Create update promise
+            promises.push(
+              updateDoc(doc(db, "users", userId), {
+                enrolledCourses: arrayRemove(course)
+              }).then(() => {
+                return updateDoc(doc(db, "users", userId), {
+                  enrolledCourses: arrayUnion(updatedCourse)
+                });
+              })
+            );
+          }
+        }
+      }
+      
+      try {
+        await Promise.all(promises);
+        alert(`Successfully ${verify ? 'verified' : 'unverified'} courses for ${userIds.length} users`);
+        loadAllUsers(); // Refresh data
+      } catch (error) {
+        console.error("Error during bulk verification:", error);
+        alert("An error occurred during bulk verification. Some changes may not have been saved.");
+      }
+    }
+
+    // Verify/unverify a single course
+    async function verifyUserCourse(userId, courseId, verify) {
+      const user = allUsers.find(u => u.id === userId);
+      if (!user) return;
+      
+      const course = user.enrolledCourses.find(c => c.id === courseId);
+      if (!course) return;
+      
+      try {
+        const updatedCourse = {
+          ...course,
+          verified: verify,
+          lastUpdated: new Date().toISOString(),
+          updatedBy: currentAdmin.uid
+        };
+        
+        if (verify) {
+          updatedCourse.verifiedBy = adminName.textContent;
+          updatedCourse.verifiedAt = new Date().toISOString();
+        } else {
+          updatedCourse.verifiedBy = null;
+          updatedCourse.verifiedAt = null;
+        }
+        
+        await updateDoc(doc(db, "users", userId), {
+          enrolledCourses: arrayRemove(course)
+        });
+        
+        await updateDoc(doc(db, "users", userId), {
+          enrolledCourses: arrayUnion(updatedCourse)
+        });
+        
+        // Update local data
+        const userIndex = allUsers.findIndex(u => u.id === userId);
+        if (userIndex !== -1) {
+          const courseIndex = allUsers[userIndex].enrolledCourses.findIndex(c => c.id === courseId);
+          if (courseIndex !== -1) {
+            allUsers[userIndex].enrolledCourses[courseIndex] = updatedCourse;
+          }
+        }
+        
+        // Refresh display
+        displayUsers();
+        
+        alert(`Course ${verify ? 'verified' : 'unverified'} successfully`);
+      } catch (error) {
+        console.error("Error verifying course:", error);
+        alert("Failed to update verification status. Please try again.");
+      }
+    }
+
+    // Update individual user progress
+    async function updateUserProgress(userId, courseId, progressValue) {
+      const user = allUsers.find(u => u.id === userId);
+      if (!user) return;
+      
+      const course = user.enrolledCourses.find(c => c.id === courseId);
+      if (!course) return;
+      
+      try {
+        const updatedCourse = {
+          ...course,
+          progress: progressValue,
+          lastUpdated: new Date().toISOString(),
+          updatedBy: currentAdmin.uid
+        };
+        
+        await updateDoc(doc(db, "users", userId), {
+          enrolledCourses: arrayRemove(course)
+        });
+        
+        await updateDoc(doc(db, "users", userId), {
+          enrolledCourses: arrayUnion(updatedCourse)
+        });
+        
+        // Update local data
+        const userIndex = allUsers.findIndex(u => u.id === userId);
+        if (userIndex !== -1) {
+          const courseIndex = allUsers[userIndex].enrolledCourses.findIndex(c => c.id === courseId);
+          if (courseIndex !== -1) {
+            allUsers[userIndex].enrolledCourses[courseIndex] = updatedCourse;
+          }
+        }
+        
+        // Close details modal and refresh
+        courseDetailsModal.classList.remove('active');
+        displayUsers();
+        
+        alert('Progress updated successfully');
+      } catch (error) {
+        console.error("Error updating progress:", error);
+        alert("Failed to update progress. Please try again.");
+      }
+    }
+
+    // Remove user enrollment
+    async function removeUserEnrollment(userId, courseId) {
+      const user = allUsers.find(u => u.id === userId);
+      if (!user) return;
+      
+      const course = user.enrolledCourses.find(c => c.id === courseId);
+      if (!course) return;
+      
+      try {
+        await updateDoc(doc(db, "users", userId), {
+          enrolledCourses: arrayRemove(course)
+        });
+        
+        // Close details modal and refresh
+        courseDetailsModal.classList.remove('active');
+        loadAllUsers();
+        
+        alert('Enrollment removed successfully');
+      } catch (error) {
+        console.error("Error removing enrollment:", error);
+        alert("Failed to remove enrollment. Please try again.");
+      }
+    }
+
+    // Check if course matches current filters
+    function courseMatchesFilters(course) {
+      const courseType = courseTypeFilter.value;
+      const courseTitle = courseTitleFilter.value;
+      const language = languageFilter.value;
+      const verification = verificationFilter.value;
+      const minProgress = parseInt(progressMin.value);
+      const maxProgress = parseInt(progressMax.value);
+      
+      // Course type filter
+      if (courseType && course.type !== courseType) {
+        return false;
+      }
+      
+      // Course title filter
+      if (courseTitle && course.title !== courseTitle) {
+        return false;
+      }
+      
+      // Language filter
+      if (language && course.language !== language) {
+        return false;
+      }
+      
+      // Verification filter
+      if (verification === 'verified' && !course.verified) {
+        return false;
+      }
+      if (verification === 'unverified' && course.verified) {
+        return false;
+      }
+      
+      // Progress range filter
+      if (!isNaN(minProgress) && (course.progress || 0) < minProgress) {
+        return false;
+      }
+      if (!isNaN(maxProgress) && (course.progress || 0) > maxProgress) {
+        return false;
+      }
+      
+      return true;
+    }
+
+    document.addEventListener('DOMContentLoaded', initApp);
+  </script>
+</body>
+</html>
