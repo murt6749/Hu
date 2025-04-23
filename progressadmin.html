@@ -1,11 +1,12 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>HU Jama'aa - Progress Admin</title>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>HU Jama'aa - Admin Dashboard</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
   <style>
     :root {
       --primary-color: #1a4d2e;
@@ -13,8 +14,6 @@
       --accent-color: #f5efe6;
       --light-color: #e8dfca;
       --white: #ffffff;
-      --text-dark: #333333;
-      --text-light: #555555;
       --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
       --success-color: #28a745;
       --info-color: #17a2b8;
@@ -23,26 +22,23 @@
       --border-radius: 8px;
       --box-padding: 16px;
     }
-
     * {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
       font-family: 'Poppins', sans-serif;
     }
-
     body {
       background-color: #f8f9fa;
       min-height: 100vh;
       font-size: 14px;
     }
-
     .container {
       width: 100%;
       max-width: 100%;
       padding: 0;
     }
-
+    
     /* Loading Animation */
     .loading-container {
       position: fixed;
@@ -74,7 +70,7 @@
       0% { transform: rotate(0deg); }
       100% { transform: rotate(360deg); }
     }
-
+    
     /* Header Styles */
     .header {
       background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
@@ -97,328 +93,71 @@
       gap: 10px;
       align-items: center;
     }
-
+    
     /* Main Content Area */
     .main-content {
       padding: var(--box-padding);
       padding-bottom: 20px;
     }
-
-    /* Control Panel */
-    .control-panel {
-      background-color: var(--white);
-      border-radius: var(--border-radius);
-      box-shadow: var(--shadow);
-      padding: var(--box-padding);
-      margin-bottom: 15px;
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 15px;
-    }
-    @media (max-width: 768px) {
-      .control-panel {
-        grid-template-columns: 1fr;
-      }
-    }
-
-    /* Search and Filter */
-    .search-filter-container {
-      display: flex;
-      gap: 10px;
-      flex-wrap: wrap;
-    }
-    .search-box {
-      flex: 1;
-      min-width: 250px;
-      position: relative;
-    }
-    .search-input {
-      width: 100%;
-      padding: 8px 15px 8px 35px;
-      border: 1px solid #ddd;
-      border-radius: var(--border-radius);
-      font-size: 0.9rem;
-    }
-    .search-icon {
-      position: absolute;
-      left: 10px;
-      top: 50%;
-      transform: translateY(-50%);
-      color: #777;
-    }
-    .filter-dropdown {
-      position: relative;
-    }
-    .filter-btn {
-      background-color: var(--white);
-      border: 1px solid #ddd;
-      padding: 8px 15px;
-      border-radius: var(--border-radius);
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      font-size: 0.9rem;
-    }
-    .filter-content {
-      display: none;
-      position: absolute;
-      background-color: var(--white);
-      min-width: 250px;
-      box-shadow: var(--shadow);
-      border-radius: var(--border-radius);
-      z-index: 10;
-      right: 0;
-      padding: 15px;
-      margin-top: 5px;
-    }
-    .filter-content.show {
-      display: block;
-    }
-    .filter-group {
-      margin-bottom: 15px;
-    }
-    .filter-group h4 {
-      font-size: 0.9rem;
-      margin-bottom: 8px;
-      color: var(--primary-color);
-    }
-    .filter-select {
-      width: 100%;
-      padding: 8px;
-      border: 1px solid #ddd;
-      border-radius: var(--border-radius);
-      font-size: 0.9rem;
-    }
-    .apply-filters {
-      width: 100%;
-      padding: 8px;
-      background-color: var(--primary-color);
-      color: white;
-      border: none;
-      border-radius: var(--border-radius);
-      cursor: pointer;
-      font-weight: 500;
-    }
-
-    /* Bulk Actions */
-    .bulk-actions {
-      display: flex;
-      gap: 10px;
-      flex-wrap: wrap;
-    }
-    .bulk-btn {
-      padding: 8px 15px;
-      border: none;
-      border-radius: var(--border-radius);
-      font-size: 0.9rem;
-      font-weight: 500;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      gap: 5px;
-    }
-    .bulk-btn.primary {
-      background-color: var(--primary-color);
-      color: white;
-    }
-    .bulk-btn.success {
-      background-color: var(--success-color);
-      color: white;
-    }
-    .bulk-btn.warning {
-      background-color: var(--warning-color);
-      color: black;
-    }
-    .bulk-btn.danger {
-      background-color: var(--danger-color);
-      color: white;
-    }
-    .selected-count {
-      display: flex;
-      align-items: center;
-      margin-left: auto;
-      font-size: 0.9rem;
-      color: var(--text-light);
-    }
-
-    /* Progress Controls */
-    .progress-controls {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 10px;
-    }
-    @media (max-width: 480px) {
-      .progress-controls {
-        grid-template-columns: 1fr;
-      }
-    }
-    .progress-adjustment {
-      display: flex;
-      flex-direction: column;
-      gap: 5px;
-    }
-    .progress-label {
-      font-size: 0.9rem;
-      color: var(--text-dark);
-    }
-    .progress-input {
-      padding: 8px;
-      border: 1px solid #ddd;
-      border-radius: var(--border-radius);
-      font-size: 0.9rem;
-    }
-    .progress-buttons {
-      display: flex;
-      gap: 10px;
-      flex-wrap: wrap;
-    }
-    .progress-btn {
-      padding: 8px 15px;
-      border: none;
-      border-radius: var(--border-radius);
-      font-size: 0.9rem;
-      font-weight: 500;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      gap: 5px;
-      flex: 1;
-      min-width: 120px;
-      justify-content: center;
-    }
-    .progress-btn.primary {
-      background-color: var(--primary-color);
-      color: white;
-    }
-    .progress-btn.success {
-      background-color: var(--success-color);
-      color: white;
-    }
-    .progress-btn.danger {
-      background-color: var(--danger-color);
-      color: white;
-    }
-
-    /* Users Table */
+    
+    /* Table Styles */
     .table-container {
       background-color: var(--white);
       border-radius: var(--border-radius);
       box-shadow: var(--shadow);
-      overflow: hidden;
+      overflow-x: auto;
     }
-    .table-header {
-      display: grid;
-      grid-template-columns: 40px 1fr;
-      padding: 12px 15px;
-      background-color: #f5f5f5;
-      font-weight: 600;
-      color: var(--primary-color);
-      border-bottom: 1px solid #eee;
-    }
-    .table-body {
-      max-height: 60vh;
-      overflow-y: auto;
-    }
-    .user-row {
-      display: grid;
-      grid-template-columns: 40px 1fr;
-      padding: 15px;
-      border-bottom: 1px solid #eee;
-      transition: background-color 0.2s;
-    }
-    .user-row:hover {
-      background-color: #f9f9f9;
-    }
-    .user-row.selected {
-      background-color: rgba(26, 77, 46, 0.05);
-    }
-    .user-checkbox {
-      align-self: center;
-    }
-    .user-details {
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-    }
-    .user-info {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 15px;
-      align-items: center;
-    }
-    .user-avatar {
-      width: 40px;
-      height: 40px;
-      border-radius: 50%;
-      background-color: var(--accent-color);
-      color: var(--primary-color);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-weight: bold;
-    }
-    .user-text {
-      flex: 1;
-      min-width: 200px;
-    }
-    .user-name {
-      font-weight: 600;
-      margin-bottom: 3px;
-    }
-    .user-email {
-      font-size: 0.8rem;
-      color: var(--text-light);
-    }
-    .user-id {
-      font-size: 0.75rem;
-      color: #777;
-      background-color: #f0f0f0;
-      padding: 2px 5px;
-      border-radius: 3px;
-      display: inline-block;
-    }
-    .user-courses {
+    table {
       width: 100%;
       border-collapse: collapse;
     }
-    .course-row {
-      border-bottom: 1px solid #f0f0f0;
+    th, td {
+      padding: 12px 15px;
+      text-align: left;
+      border-bottom: 1px solid #eee;
     }
-    .course-row:last-child {
-      border-bottom: none;
+    th {
+      background-color: #f5f5f5;
+      font-weight: 600;
+      color: var(--primary-color);
+      position: sticky;
+      top: 0;
     }
-    .course-cell {
-      padding: 10px 5px;
-      vertical-align: top;
+    tr:hover {
+      background-color: #f9f9f9;
     }
-    .course-title {
-      font-weight: 500;
-      margin-bottom: 3px;
-    }
-    .course-meta {
-      font-size: 0.8rem;
-      color: var(--text-light);
-      display: flex;
-      gap: 10px;
-      flex-wrap: wrap;
-    }
-    .course-meta-item {
+    
+    /* Search Box */
+    .search-container {
+      padding: 12px 15px;
+      border-bottom: 1px solid #eee;
       display: flex;
       align-items: center;
-      gap: 3px;
+      background-color: #f5f5f5;
+      border-top-left-radius: var(--border-radius);
+      border-top-right-radius: var(--border-radius);
     }
+    .search-container i {
+      color: #777;
+      margin-right: 8px;
+    }
+    .search-input {
+      border: none;
+      background: transparent;
+      width: 100%;
+      padding: 5px;
+      outline: none;
+    }
+    
+    /* Progress Bar */
     .progress-container {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-    .progress-bar-container {
       width: 100px;
       height: 8px;
       background-color: #e0e0e0;
       border-radius: 4px;
       overflow: hidden;
+      display: inline-block;
+      vertical-align: middle;
     }
     .progress-bar {
       height: 100%;
@@ -426,18 +165,8 @@
       border-radius: 4px;
       transition: width 0.3s ease;
     }
-    .progress-value {
-      min-width: 30px;
-      text-align: right;
-      font-size: 0.9rem;
-    }
-    .progress-input-small {
-      width: 60px;
-      padding: 5px;
-      border: 1px solid #ddd;
-      border-radius: 3px;
-      text-align: center;
-    }
+    
+    /* Verification Badge */
     .badge {
       display: inline-block;
       padding: 3px 8px;
@@ -453,41 +182,82 @@
       background-color: var(--warning-color);
       color: black;
     }
-    .course-actions {
-      display: flex;
-      gap: 5px;
-      flex-wrap: wrap;
-    }
-    .action-btn {
-      padding: 5px 10px;
+    
+    /* Action Buttons */
+    .btn {
+      padding: 6px 10px;
       border: none;
-      border-radius: 3px;
+      border-radius: 4px;
       font-size: 0.8rem;
+      font-weight: 500;
       cursor: pointer;
-      display: flex;
+      transition: all 0.2s ease;
+      display: inline-flex;
       align-items: center;
-      gap: 3px;
+      gap: 4px;
     }
-    .action-btn.primary {
+    .btn-sm {
+      padding: 4px 8px;
+      font-size: 0.75rem;
+    }
+    .btn-primary {
       background-color: var(--primary-color);
-      color: white;
+      color: var(--white);
     }
-    .action-btn.success {
+    .btn-primary:hover {
+      background-color: var(--secondary-color);
+    }
+    .btn-success {
       background-color: var(--success-color);
       color: white;
     }
-    .action-btn.warning {
+    .btn-warning {
       background-color: var(--warning-color);
       color: black;
     }
-
-    /* No Results */
-    .no-results {
-      padding: 30px;
-      text-align: center;
-      color: var(--text-light);
+    .btn-danger {
+      background-color: var(--danger-color);
+      color: white;
     }
-
+    
+    /* Bulk Actions */
+    .bulk-actions {
+      background-color: var(--white);
+      border-radius: var(--border-radius);
+      padding: 12px 15px;
+      box-shadow: var(--shadow);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 15px;
+    }
+    .bulk-controls {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+    
+    /* Progress Management */
+    .progress-management {
+      background-color: var(--white);
+      border-radius: var(--border-radius);
+      padding: var(--box-padding);
+      box-shadow: var(--shadow);
+      margin-bottom: 15px;
+    }
+    .progress-controls {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-top: 10px;
+    }
+    .progress-buttons {
+      display: flex;
+      gap: 8px;
+      margin-top: 10px;
+      flex-wrap: wrap;
+    }
+    
     /* Modal Styles */
     .modal {
       display: none;
@@ -541,35 +311,9 @@
       border: none;
       font-size: 1.5rem;
       cursor: pointer;
-      color: #777;
     }
     .modal-body {
       padding: 15px;
-    }
-    .form-group {
-      margin-bottom: 15px;
-    }
-    .form-label {
-      display: block;
-      margin-bottom: 5px;
-      font-size: 0.9rem;
-      color: var(--text-dark);
-      font-weight: 500;
-    }
-    .form-control {
-      width: 100%;
-      padding: 8px 12px;
-      border: 1px solid #ddd;
-      border-radius: var(--border-radius);
-      font-size: 0.9rem;
-    }
-    .form-control:focus {
-      outline: none;
-      border-color: var(--primary-color);
-      box-shadow: 0 0 0 2px rgba(26, 77, 46, 0.2);
-    }
-    textarea.form-control {
-      min-height: 100px;
     }
     .modal-footer {
       padding: 15px;
@@ -578,33 +322,71 @@
       justify-content: flex-end;
       gap: 10px;
     }
-    .modal-btn {
-      padding: 8px 15px;
-      border: none;
-      border-radius: var(--border-radius);
-      font-size: 0.9rem;
-      font-weight: 500;
-      cursor: pointer;
+    
+    /* Filter Dropdown */
+    .filter-dropdown {
+      position: relative;
+      display: inline-block;
     }
-    .modal-btn.outline {
-      background-color: transparent;
+    .filter-btn {
+      background-color: #f5f5f5;
       border: 1px solid #ddd;
+      padding: 6px 12px;
+      border-radius: 4px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 5px;
     }
-    .modal-btn.primary {
-      background-color: var(--primary-color);
-      color: white;
+    .filter-content {
+      display: none;
+      position: absolute;
+      background-color: white;
+      min-width: 200px;
+      box-shadow: var(--shadow);
+      border-radius: var(--border-radius);
+      z-index: 1;
+      right: 0;
+      padding: 10px;
     }
-
-    /* Responsive Adjustments */
+    .filter-content.show {
+      display: block;
+    }
+    .filter-group {
+      margin-bottom: 10px;
+    }
+    .filter-group h4 {
+      font-size: 0.9rem;
+      margin-bottom: 5px;
+      color: var(--primary-color);
+    }
+    
+    /* Responsive */
     @media (max-width: 768px) {
-      .user-info {
+      th, td {
+        padding: 8px 10px;
+      }
+      .bulk-controls {
         flex-direction: column;
         align-items: flex-start;
-        gap: 8px;
       }
-      .course-meta {
+      .progress-controls {
+        grid-template-columns: 1fr;
+      }
+    }
+    @media (max-width: 480px) {
+      .header h1 {
+        font-size: 1rem;
+      }
+      .btn {
+        padding: 5px 8px;
+        font-size: 0.7rem;
+      }
+      .progress-buttons {
         flex-direction: column;
-        gap: 3px;
+      }
+      .progress-buttons .btn {
+        width: 100%;
       }
     }
   </style>
@@ -619,7 +401,7 @@
   <div class="container" id="main-container" style="display: none;">
     <!-- Header -->
     <header class="header">
-      <h1><i class="fas fa-tachometer-alt"></i> Progress Admin</h1>
+      <h1>Admin Dashboard</h1>
       <div class="header-actions">
         <span id="admin-name">Admin</span>
         <div class="user-avatar" id="admin-avatar">A</div>
@@ -628,14 +410,69 @@
 
     <!-- Main Content -->
     <main class="main-content">
-      <!-- Control Panel -->
-      <div class="control-panel">
-        <!-- Search and Filter -->
-        <div class="search-filter-container">
-          <div class="search-box">
-            <i class="fas fa-search search-icon"></i>
-            <input type="text" id="user-search" class="search-input" placeholder="Search users...">
+      <!-- Bulk Actions -->
+      <div class="bulk-actions">
+        <div class="bulk-controls">
+          <div class="checkbox-container">
+            <input type="checkbox" id="select-all">
+            <label for="select-all">Select All</label>
           </div>
+          <button id="bulk-update" class="btn btn-primary">
+            <i class="fas fa-edit"></i> Update Progress
+          </button>
+          <button id="bulk-verify" class="btn btn-success">
+            <i class="fas fa-check"></i> Verify
+          </button>
+          <button id="bulk-unverify" class="btn btn-warning">
+            <i class="fas fa-times"></i> Unverify
+          </button>
+          <button id="bulk-notes" class="btn btn-primary">
+            <i class="fas fa-comment"></i> Add Note
+          </button>
+        </div>
+        <div>
+          <span id="selected-count">0 selected</span>
+        </div>
+      </div>
+      
+      <!-- Progress Management -->
+      <div class="progress-management">
+        <h3>Progress Management</h3>
+        <div class="progress-controls">
+          <div>
+            <label for="progress-increment">Progress Adjustment (%)</label>
+            <input type="number" id="progress-increment" class="form-control" min="1" max="100" value="5">
+          </div>
+          <div>
+            <label for="apply-to">Apply To</label>
+            <select id="apply-to" class="form-control">
+              <option value="selected">Selected Users</option>
+              <option value="filtered">All Filtered Users</option>
+              <option value="all">All Users</option>
+            </select>
+          </div>
+        </div>
+        <div class="progress-buttons">
+          <button id="increase-progress" class="btn btn-primary">
+            <i class="fas fa-arrow-up"></i> Increase
+          </button>
+          <button id="decrease-progress" class="btn btn-primary">
+            <i class="fas fa-arrow-down"></i> Decrease
+          </button>
+          <button id="complete-progress" class="btn btn-success">
+            <i class="fas fa-check-circle"></i> Set to 100%
+          </button>
+          <button id="reset-progress" class="btn btn-danger">
+            <i class="fas fa-undo"></i> Set to 0%
+          </button>
+        </div>
+      </div>
+      
+      <!-- Users Table -->
+      <div class="table-container">
+        <div class="search-container">
+          <i class="fas fa-search"></i>
+          <input type="text" id="user-search" class="search-input" placeholder="Search users by name, ID or email...">
           <div class="filter-dropdown">
             <button class="filter-btn" id="filter-btn">
               <i class="fas fa-filter"></i> Filters
@@ -643,95 +480,50 @@
             <div class="filter-content" id="filter-content">
               <div class="filter-group">
                 <h4>Course Type</h4>
-                <select id="course-filter" class="filter-select">
+                <select id="course-filter" class="form-control">
                   <option value="">All Courses</option>
-                  <option value="Qirat">Qirat</option>
-                  <option value="Hifz">Hifz</option>
-                  <option value="Nezer">Nezer</option>
+                  <option value="qirat">Qirat</option>
+                  <option value="hifz">Hifz</option>
+                  <option value="nezer">Nezer</option>
                 </select>
               </div>
               <div class="filter-group">
                 <h4>Language</h4>
-                <select id="language-filter" class="filter-select">
+                <select id="language-filter" class="form-control">
                   <option value="">All Languages</option>
                   <option value="Amharic">Amharic</option>
                   <option value="Oromifa">Oromifa</option>
                 </select>
               </div>
               <div class="filter-group">
-                <h4>Verification Status</h4>
-                <select id="verification-filter" class="filter-select">
-                  <option value="">All Statuses</option>
+                <h4>Verification</h4>
+                <select id="verification-filter" class="form-control">
+                  <option value="all">All Statuses</option>
                   <option value="verified">Verified Only</option>
                   <option value="unverified">Unverified Only</option>
                 </select>
               </div>
-              <button id="apply-filters" class="apply-filters">
+              <button id="apply-filters" class="btn btn-primary" style="width: 100%;">
                 Apply Filters
               </button>
             </div>
           </div>
         </div>
-
-        <!-- Bulk Actions -->
-        <div class="bulk-actions">
-          <button id="bulk-update" class="bulk-btn primary">
-            <i class="fas fa-edit"></i> Update Progress
-          </button>
-          <button id="bulk-verify" class="bulk-btn success">
-            <i class="fas fa-check"></i> Verify
-          </button>
-          <button id="bulk-unverify" class="bulk-btn warning">
-            <i class="fas fa-times"></i> Unverify
-          </button>
-          <button id="bulk-notes" class="bulk-btn primary">
-            <i class="fas fa-comment"></i> Add Note
-          </button>
-          <div class="selected-count" id="selected-count">
-            0 selected
-          </div>
-        </div>
-
-        <!-- Progress Controls -->
-        <div class="progress-controls">
-          <div class="progress-adjustment">
-            <label class="progress-label">Adjustment Value (%)</label>
-            <input type="number" id="progress-increment" class="progress-input" min="1" max="100" value="5">
-          </div>
-          <div class="progress-adjustment">
-            <label class="progress-label">Apply To</label>
-            <select id="apply-to" class="progress-input">
-              <option value="selected">Selected Users</option>
-              <option value="filtered">Filtered Users</option>
-              <option value="all">All Users</option>
-            </select>
-          </div>
-        </div>
-        <div class="progress-buttons">
-          <button id="increase-progress" class="progress-btn primary">
-            <i class="fas fa-arrow-up"></i> Increase
-          </button>
-          <button id="decrease-progress" class="progress-btn primary">
-            <i class="fas fa-arrow-down"></i> Decrease
-          </button>
-          <button id="complete-progress" class="progress-btn success">
-            <i class="fas fa-check-circle"></i> 100%
-          </button>
-          <button id="reset-progress" class="progress-btn danger">
-            <i class="fas fa-undo"></i> 0%
-          </button>
-        </div>
-      </div>
-
-      <!-- Users Table -->
-      <div class="table-container">
-        <div class="table-header">
-          <div><input type="checkbox" id="select-all"></div>
-          <div>Users</div>
-        </div>
-        <div class="table-body" id="users-table-body">
-          <!-- Users will be loaded here -->
-        </div>
+        <table id="users-table">
+          <thead>
+            <tr>
+              <th width="40px"><input type="checkbox" id="select-all-header"></th>
+              <th>User</th>
+              <th>Course</th>
+              <th>Progress</th>
+              <th>Status</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="users-table-body">
+            <!-- Users will be loaded here -->
+          </tbody>
+        </table>
       </div>
     </main>
   </div>
@@ -745,17 +537,16 @@
       </div>
       <div class="modal-body">
         <div class="form-group">
-          <label class="form-label">Progress Percentage</label>
+          <label for="bulk-progress-value">Progress Percentage</label>
           <input type="number" id="bulk-progress-value" class="form-control" min="0" max="100" required>
         </div>
         <div class="form-group">
-          <label class="form-label">Affected Users</label>
-          <div id="affected-users-count">0</div>
+          <label>Affected Users: <span id="affected-users-count">0</span></label>
         </div>
       </div>
       <div class="modal-footer">
-        <button class="modal-btn outline" id="cancel-bulk-update">Cancel</button>
-        <button class="modal-btn primary" id="confirm-bulk-update">Update All</button>
+        <button class="btn btn-outline" id="cancel-bulk-update">Cancel</button>
+        <button class="btn btn-primary" id="confirm-bulk-update">Update All</button>
       </div>
     </div>
   </div>
@@ -769,27 +560,40 @@
       </div>
       <div class="modal-body">
         <div class="form-group">
-          <label class="form-label">Note Content</label>
-          <textarea id="admin-note" class="form-control" placeholder="Enter your note here..."></textarea>
+          <label for="admin-note">Note Content</label>
+          <textarea id="admin-note" class="form-control" rows="4" placeholder="Enter your note here..."></textarea>
         </div>
         <div class="form-group">
-          <label class="form-label">Affected Users</label>
-          <div id="affected-users-note-count">0</div>
+          <label>Affected Users: <span id="affected-users-note-count">0</span></label>
         </div>
       </div>
       <div class="modal-footer">
-        <button class="modal-btn outline" id="cancel-note">Cancel</button>
-        <button class="modal-btn primary" id="confirm-note">Add Note</button>
+        <button class="btn btn-outline" id="cancel-note">Cancel</button>
+        <button class="btn btn-primary" id="confirm-note">Add Note</button>
       </div>
     </div>
   </div>
 
-  <!-- Firebase SDK -->
-  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
+  <!-- Firebase SDK and Application Code -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+    import {
+      getAuth,
+      onAuthStateChanged
+    } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+    import {
+      getFirestore,
+      collection,
+      doc,
+      getDoc,
+      getDocs,
+      updateDoc,
+      arrayRemove,
+      arrayUnion,
+      query,
+      where
+    } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
-  <script>
     const firebaseConfig = {
       apiKey: "AIzaSyBQyNVWh1BtCkXlBfuS7jHAa36FTklZayo",
       authDomain: "pharma-quiz-b5a07.firebaseapp.com",
@@ -800,12 +604,9 @@
       measurementId: "G-3QRQE9HQFB"
     };
 
-    // Initialize Firebase
-    if (!firebase.apps.length) {
-      firebase.initializeApp(firebaseConfig);
-    }
-    const auth = firebase.auth();
-    const db = firebase.firestore();
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
 
     // DOM Elements
     const loadingContainer = document.getElementById('loading-container');
@@ -814,24 +615,25 @@
     const adminAvatar = document.getElementById('admin-avatar');
     const usersTableBody = document.getElementById('users-table-body');
     const selectAllCheckbox = document.getElementById('select-all');
+    const selectAllHeader = document.getElementById('select-all-header');
     const selectedCount = document.getElementById('selected-count');
     const userSearch = document.getElementById('user-search');
+    const bulkUpdateBtn = document.getElementById('bulk-update');
+    const bulkVerifyBtn = document.getElementById('bulk-verify');
+    const bulkUnverifyBtn = document.getElementById('bulk-unverify');
+    const bulkNotesBtn = document.getElementById('bulk-notes');
+    const increaseProgressBtn = document.getElementById('increase-progress');
+    const decreaseProgressBtn = document.getElementById('decrease-progress');
+    const completeProgressBtn = document.getElementById('complete-progress');
+    const resetProgressBtn = document.getElementById('reset-progress');
+    const progressIncrement = document.getElementById('progress-increment');
+    const applyTo = document.getElementById('apply-to');
     const filterBtn = document.getElementById('filter-btn');
     const filterContent = document.getElementById('filter-content');
     const courseFilter = document.getElementById('course-filter');
     const languageFilter = document.getElementById('language-filter');
     const verificationFilter = document.getElementById('verification-filter');
     const applyFiltersBtn = document.getElementById('apply-filters');
-    const bulkUpdateBtn = document.getElementById('bulk-update');
-    const bulkVerifyBtn = document.getElementById('bulk-verify');
-    const bulkUnverifyBtn = document.getElementById('bulk-unverify');
-    const bulkNotesBtn = document.getElementById('bulk-notes');
-    const progressIncrement = document.getElementById('progress-increment');
-    const applyTo = document.getElementById('apply-to');
-    const increaseProgressBtn = document.getElementById('increase-progress');
-    const decreaseProgressBtn = document.getElementById('decrease-progress');
-    const completeProgressBtn = document.getElementById('complete-progress');
-    const resetProgressBtn = document.getElementById('reset-progress');
     const bulkUpdateModal = document.getElementById('bulk-update-modal');
     const closeBulkModal = document.getElementById('close-bulk-modal');
     const cancelBulkUpdate = document.getElementById('cancel-bulk-update');
@@ -853,55 +655,16 @@
 
     // Initialize the app
     function initApp() {
-      setupEventListeners();
-      checkAuthState();
-    }
-
-    function setupEventListeners() {
-      // Search input
-      userSearch.addEventListener('input', applySearchFilter);
-
-      // Filter dropdown
-      filterBtn.addEventListener('click', toggleFilterDropdown);
-      applyFiltersBtn.addEventListener('click', applyFilters);
-
-      // Select all checkbox
-      selectAllCheckbox.addEventListener('change', toggleSelectAll);
-
-      // Bulk actions
-      bulkUpdateBtn.addEventListener('click', openBulkUpdateModal);
-      bulkVerifyBtn.addEventListener('click', () => bulkVerifyCourses(true));
-      bulkUnverifyBtn.addEventListener('click', () => bulkVerifyCourses(false));
-      bulkNotesBtn.addEventListener('click', openNoteModal);
-
-      // Progress controls
-      increaseProgressBtn.addEventListener('click', () => adjustProgress('increase'));
-      decreaseProgressBtn.addEventListener('click', () => adjustProgress('decrease'));
-      completeProgressBtn.addEventListener('click', () => adjustProgress('complete'));
-      resetProgressBtn.addEventListener('click', () => adjustProgress('reset'));
-
-      // Modal controls
-      closeBulkModal.addEventListener('click', () => bulkUpdateModal.classList.remove('active'));
-      cancelBulkUpdate.addEventListener('click', () => bulkUpdateModal.classList.remove('active'));
-      confirmBulkUpdate.addEventListener('click', performBulkUpdate);
-      closeNoteModal.addEventListener('click', () => noteModal.classList.remove('active'));
-      cancelNote.addEventListener('click', () => noteModal.classList.remove('active'));
-      confirmNote.addEventListener('click', addAdminNote);
-
-      // Close filter dropdown when clicking outside
-      document.addEventListener('click', (e) => {
-        if (!filterBtn.contains(e.target) && !filterContent.contains(e.target)) {
-          filterContent.classList.remove('show');
-        }
-      });
-    }
-
-    function checkAuthState() {
-      auth.onAuthStateChanged(async (user) => {
+      // Show loading animation
+      loadingContainer.style.display = 'flex';
+      mainContainer.style.display = 'none';
+      
+      // Check admin status
+      onAuthStateChanged(auth, async (user) => {
         if (user) {
           currentAdmin = user;
           try {
-            const userDoc = await db.collection("users").doc(user.uid).get();
+            const userDoc = await getDoc(doc(db, "users", user.uid));
             
             if (userDoc.exists()) {
               const userData = userDoc.data();
@@ -944,11 +707,45 @@
           }, 1500);
         }
       });
+
+      // Set up event listeners
+      selectAllCheckbox.addEventListener('change', toggleSelectAll);
+      selectAllHeader.addEventListener('change', toggleSelectAll);
+      bulkUpdateBtn.addEventListener('click', openBulkUpdateModal);
+      bulkVerifyBtn.addEventListener('click', () => bulkVerifyCourses(true));
+      bulkUnverifyBtn.addEventListener('click', () => bulkVerifyCourses(false));
+      bulkNotesBtn.addEventListener('click', openNoteModal);
+      increaseProgressBtn.addEventListener('click', () => adjustProgress('increase'));
+      decreaseProgressBtn.addEventListener('click', () => adjustProgress('decrease'));
+      completeProgressBtn.addEventListener('click', () => adjustProgress('complete'));
+      resetProgressBtn.addEventListener('click', () => adjustProgress('reset'));
+      closeBulkModal.addEventListener('click', () => bulkUpdateModal.classList.remove('active'));
+      cancelBulkUpdate.addEventListener('click', () => bulkUpdateModal.classList.remove('active'));
+      confirmBulkUpdate.addEventListener('click', performBulkUpdate);
+      closeNoteModal.addEventListener('click', () => noteModal.classList.remove('active'));
+      cancelNote.addEventListener('click', () => noteModal.classList.remove('active'));
+      confirmNote.addEventListener('click', addAdminNote);
+      userSearch.addEventListener('input', applySearchFilter);
+      filterBtn.addEventListener('click', toggleFilterDropdown);
+      applyFiltersBtn.addEventListener('click', applyFilters);
+      
+      // Close filter dropdown when clicking outside
+      document.addEventListener('click', (e) => {
+        if (!filterBtn.contains(e.target) && !filterContent.contains(e.target)) {
+          filterContent.classList.remove('show');
+        }
+      });
     }
 
+    // Toggle filter dropdown
+    function toggleFilterDropdown() {
+      filterContent.classList.toggle('show');
+    }
+
+    // Load all users from Firestore
     async function loadAllUsers() {
       try {
-        const usersSnapshot = await db.collection("users").get();
+        const usersSnapshot = await getDocs(collection(db, "users"));
         allUsers = [];
         
         usersSnapshot.forEach(doc => {
@@ -968,163 +765,140 @@
         displayUsers();
       } catch (error) {
         console.error("Error loading users:", error);
-        showAlert("Error loading users. Please try again.", "error");
       }
     }
 
+    // Display users in the table
     function displayUsers() {
       usersTableBody.innerHTML = '';
       
       if (filteredUsers.length === 0) {
         usersTableBody.innerHTML = `
-          <div class="no-results">
-            <i class="fas fa-user-slash" style="font-size: 2rem; margin-bottom: 10px;"></i>
-            <p>No users found matching your search/filters</p>
-          </div>
+          <tr>
+            <td colspan="6" style="text-align: center; padding: 20px;">
+              No users found matching your search/filters
+            </td>
+          </tr>
         `;
         return;
       }
       
       filteredUsers.forEach(user => {
-        const isSelected = selectedUserIds.has(user.id);
-        const row = document.createElement('div');
-        row.className = `user-row ${isSelected ? 'selected' : ''}`;
-        
-        row.innerHTML = `
-          <div class="user-checkbox">
-            <input type="checkbox" class="user-checkbox-input" data-user-id="${user.id}" ${isSelected ? 'checked' : ''}>
-          </div>
-          <div class="user-details">
-            <div class="user-info">
-              <div class="user-avatar">${(user.name || 'U').charAt(0).toUpperCase()}</div>
-              <div class="user-text">
-                <div class="user-name">${user.name || 'No Name'}</div>
-                <div class="user-email">${user.email || ''}</div>
-              </div>
-              <div class="user-id">ID: ${user.id.substring(0, 8)}</div>
-            </div>
+        // Create a row for each course the user is enrolled in
+        if (user.enrolledCourses.length === 0) {
+          const row = document.createElement('tr');
+          row.innerHTML = `
+            <td><input type="checkbox" class="user-checkbox" data-user-id="${user.id}" disabled></td>
+            <td>
+              <div style="font-weight: 500;">${user.name || 'No Name'}</div>
+              <div style="font-size: 0.8rem; color: #666;">${user.email || ''}</div>
+            </td>
+            <td colspan="4">No enrolled courses</td>
+          `;
+          usersTableBody.appendChild(row);
+        } else {
+          user.enrolledCourses.forEach(course => {
+            const isSelected = selectedUserIds.has(user.id);
+            const row = document.createElement('tr');
+            row.innerHTML = `
+              <td>
+                <input type="checkbox" class="user-checkbox" data-user-id="${user.id}" ${isSelected ? 'checked' : ''}>
+              </td>
+              <td>
+                <div style="font-weight: 500;">${user.name || 'No Name'}</div>
+                <div style="font-size: 0.8rem; color: #666;">${user.email || ''}</div>
+              </td>
+              <td>
+                <div style="font-weight: 500;">${course.title || 'No Title'}</div>
+                <div style="font-size: 0.8rem; color: #666;">
+                  ${course.type || ''} • ${course.language || ''}
+                </div>
+              </td>
+              <td>
+                <div class="progress-container">
+                  <div class="progress-bar" style="width: ${course.progress || 0}%"></div>
+                </div>
+                <span style="margin-left: 5px;">${course.progress || 0}%</span>
+              </td>
+              <td>
+                <span class="badge ${course.verified ? 'verified' : 'unverified'}">
+                  ${course.verified ? 'Verified' : 'Unverified'}
+                </span>
+              </td>
+              <td>
+                <button class="btn btn-primary btn-sm save-progress" 
+                        data-user-id="${user.id}" 
+                        data-course-id="${course.id}">
+                  <i class="fas fa-save"></i>
+                </button>
+                ${course.verified ? 
+                  `<button class="btn btn-warning btn-sm verify-btn" 
+                          data-user-id="${user.id}" 
+                          data-course-id="${course.id}"
+                          data-verify="false">
+                    <i class="fas fa-times"></i>
+                  </button>` :
+                  `<button class="btn btn-success btn-sm verify-btn" 
+                          data-user-id="${user.id}" 
+                          data-course-id="${course.id}"
+                          data-verify="true">
+                    <i class="fas fa-check"></i>
+                  </button>`
+                }
+                <input type="number" class="progress-input" 
+                       value="${course.progress || 0}" 
+                       min="0" max="100"
+                       data-user-id="${user.id}"
+                       data-course-id="${course.id}"
+                       style="width: 50px; padding: 2px; text-align: center;">
+              </td>
+            `;
+            usersTableBody.appendChild(row);
             
-            ${user.enrolledCourses.length > 0 ? `
-              <table class="user-courses">
-                ${user.enrolledCourses.map(course => `
-                  <tr class="course-row">
-                    <td class="course-cell" style="width: 30%;">
-                      <div class="course-title">${course.title || 'No Title'}</div>
-                      <div class="course-meta">
-                        <span class="course-meta-item">
-                          <i class="fas fa-tag"></i> ${course.type || 'No Type'}
-                        </span>
-                        <span class="course-meta-item">
-                          <i class="fas fa-language"></i> ${course.language || 'No Language'}
-                        </span>
-                        <span class="course-meta-item">
-                          <i class="fas fa-calendar"></i> ${formatDate(course.enrollmentDate) || 'No Date'}
-                        </span>
-                      </div>
-                    </td>
-                    <td class="course-cell" style="width: 25%;">
-                      <div class="progress-container">
-                        <div class="progress-bar-container">
-                          <div class="progress-bar" style="width: ${course.progress || 0}%"></div>
-                        </div>
-                        <div class="progress-value">${course.progress || 0}%</div>
-                      </div>
-                    </td>
-                    <td class="course-cell" style="width: 20%;">
-                      <span class="badge ${course.verified ? 'verified' : 'unverified'}">
-                        ${course.verified ? 'Verified' : 'Unverified'}
-                      </span>
-                    </td>
-                    <td class="course-cell" style="width: 25%;">
-                      <div class="course-actions">
-                        <input type="number" class="progress-input-small" 
-                               value="${course.progress || 0}" 
-                               min="0" max="100"
-                               data-user-id="${user.id}"
-                               data-course-id="${course.id}">
-                        <button class="action-btn primary save-progress" 
-                                data-user-id="${user.id}" 
-                                data-course-id="${course.id}">
-                          <i class="fas fa-save"></i>
-                        </button>
-                        ${course.verified ? 
-                          `<button class="action-btn warning verify-btn" 
-                                  data-user-id="${user.id}" 
-                                  data-course-id="${course.id}"
-                                  data-verify="false">
-                            <i class="fas fa-times"></i>
-                          </button>` :
-                          `<button class="action-btn success verify-btn" 
-                                  data-user-id="${user.id}" 
-                                  data-course-id="${course.id}"
-                                  data-verify="true">
-                            <i class="fas fa-check"></i>
-                          </button>`
-                        }
-                      </div>
-                    </td>
-                  </tr>
-                `).join('')}
-              </table>
-            ` : `
-              <div style="color: var(--text-light); padding: 10px 0;">
-                <i class="fas fa-exclamation-circle"></i> No enrolled courses
-              </div>
-            `}
-          </div>
-        `;
-        
-        usersTableBody.appendChild(row);
-        
-        // Add event listeners for this row
-        const checkbox = row.querySelector('.user-checkbox-input');
-        checkbox.addEventListener('change', (e) => {
-          const userId = e.target.dataset.userId;
-          if (e.target.checked) {
-            selectedUserIds.add(userId);
-          } else {
-            selectedUserIds.delete(userId);
-          }
-          updateSelectedCount();
-          updateSelectAllCheckbox();
-        });
-        
-        // Add event listeners for all action buttons in this row
-        row.querySelectorAll('.save-progress').forEach(btn => {
-          btn.addEventListener('click', async (e) => {
-            const userId = e.target.dataset.userId;
-            const courseId = e.target.dataset.courseId;
-            const progressInput = e.target.closest('.course-actions').querySelector('.progress-input-small');
-            const progressValue = parseInt(progressInput.value);
+            // Add event listeners for this row
+            const checkbox = row.querySelector('.user-checkbox');
+            checkbox.addEventListener('change', (e) => {
+              if (e.target.checked) {
+                selectedUserIds.add(user.id);
+              } else {
+                selectedUserIds.delete(user.id);
+              }
+              updateSelectedCount();
+              updateSelectAllCheckbox();
+            });
             
-            if (isNaN(progressValue)) {
-              showAlert('Please enter a valid progress percentage', "error");
-              return;
-            }
+            // Save progress button
+            row.querySelector('.save-progress').addEventListener('click', async (e) => {
+              const userId = e.target.dataset.userId;
+              const courseId = e.target.dataset.courseId;
+              const progressInput = row.querySelector('.progress-input');
+              const progressValue = parseInt(progressInput.value);
+              
+              if (isNaN(progressValue)) {
+                alert('Please enter a valid progress percentage');
+                return;
+              }
+              
+              await updateUserProgress(userId, courseId, progressValue);
+            });
             
-            await updateUserProgress(userId, courseId, progressValue);
+            // Verify button
+            row.querySelector('.verify-btn').addEventListener('click', async (e) => {
+              const userId = e.target.dataset.userId;
+              const courseId = e.target.dataset.courseId;
+              const verify = e.target.dataset.verify === 'true';
+              
+              await verifyUserCourse(userId, courseId, verify);
+            });
           });
-        });
-        
-        row.querySelectorAll('.verify-btn').forEach(btn => {
-          btn.addEventListener('click', async (e) => {
-            const userId = e.target.dataset.userId;
-            const courseId = e.target.dataset.courseId;
-            const verify = e.target.dataset.verify === 'true';
-            
-            await verifyUserCourse(userId, courseId, verify);
-          });
-        });
+        }
       });
       
       updateSelectedCount();
       updateSelectAllCheckbox();
     }
 
-    function toggleFilterDropdown() {
-      filterContent.classList.toggle('show');
-    }
-
+    // Apply search filter
     function applySearchFilter() {
       const searchTerm = userSearch.value.toLowerCase();
       
@@ -1148,6 +922,7 @@
       displayUsers();
     }
 
+    // Apply filters
     function applyFilters() {
       const courseType = courseFilter.value;
       const language = languageFilter.value;
@@ -1156,7 +931,7 @@
       filteredUsers = allUsers.filter(user => {
         // If user has no courses, only include if no filters are set
         if (user.enrolledCourses.length === 0) {
-          return !courseType && !language && !verification;
+          return !courseType && !language && verification === 'all';
         }
         
         // Check if any course matches the filters
@@ -1194,8 +969,9 @@
       displayUsers();
     }
 
+    // Toggle select all checkbox
     function toggleSelectAll() {
-      const isChecked = selectAllCheckbox.checked;
+      const isChecked = selectAllCheckbox.checked || selectAllHeader.checked;
       
       if (isChecked) {
         filteredUsers.forEach(user => selectedUserIds.add(user.id));
@@ -1204,28 +980,34 @@
       }
       
       // Update all checkboxes in the table
-      document.querySelectorAll('.user-checkbox-input').forEach(checkbox => {
-        checkbox.checked = isChecked;
+      document.querySelectorAll('.user-checkbox').forEach(checkbox => {
+        if (!checkbox.disabled) {
+          checkbox.checked = isChecked;
+        }
       });
       
       updateSelectedCount();
     }
 
+    // Update select all checkbox state
     function updateSelectAllCheckbox() {
       const allSelected = filteredUsers.length > 0 && 
                          filteredUsers.every(user => selectedUserIds.has(user.id));
       selectAllCheckbox.checked = allSelected;
+      selectAllHeader.checked = allSelected;
     }
 
+    // Update the selected users count display
     function updateSelectedCount() {
       selectedCount.textContent = `${selectedUserIds.size} selected`;
       affectedUsersCount.textContent = selectedUserIds.size;
       affectedUsersNoteCount.textContent = selectedUserIds.size;
     }
 
+    // Open bulk update modal
     function openBulkUpdateModal() {
       if (selectedUserIds.size === 0) {
-        showAlert('Please select at least one user', "error");
+        alert('Please select at least one user');
         return;
       }
       
@@ -1233,9 +1015,10 @@
       bulkUpdateModal.classList.add('active');
     }
 
+    // Open note modal
     function openNoteModal() {
       if (selectedUserIds.size === 0) {
-        showAlert('Please select at least one user', "error");
+        alert('Please select at least one user');
         return;
       }
       
@@ -1243,11 +1026,12 @@
       noteModal.classList.add('active');
     }
 
+    // Perform bulk update
     async function performBulkUpdate() {
       const progressValue = parseInt(bulkProgressValue.value);
       
       if (isNaN(progressValue) || progressValue < 0 || progressValue > 100) {
-        showAlert('Please enter a valid progress percentage (0-100)', "error");
+        alert('Please enter a valid progress percentage (0-100)');
         return;
       }
       
@@ -1284,20 +1068,21 @@
       
       try {
         await Promise.all(promises);
-        showAlert(`Successfully updated ${userIds.length} users`, "success");
+        alert(`Successfully updated ${userIds.length} users`);
         bulkUpdateModal.classList.remove('active');
         loadAllUsers(); // Refresh data
       } catch (error) {
         console.error("Error during bulk update:", error);
-        showAlert("An error occurred during bulk update. Some changes may not have been saved.", "error");
+        alert("An error occurred during bulk update. Some changes may not have been saved.");
       }
     }
 
+    // Add admin note
     async function addAdminNote() {
       const noteContent = adminNote.value.trim();
       
       if (!noteContent) {
-        showAlert('Please enter a note', "error");
+        alert('Please enter a note');
         return;
       }
       
@@ -1336,18 +1121,19 @@
       
       try {
         await Promise.all(promises);
-        showAlert(`Note added to ${userIds.length} users`, "success");
+        alert(`Note added to ${userIds.length} users`);
         noteModal.classList.remove('active');
         loadAllUsers(); // Refresh data
       } catch (error) {
         console.error("Error adding note:", error);
-        showAlert("An error occurred while adding note. Some changes may not have been saved.", "error");
+        alert("An error occurred while adding note. Some changes may not have been saved.");
       }
     }
 
+    // Bulk verify/unverify courses
     async function bulkVerifyCourses(verify) {
       if (selectedUserIds.size === 0) {
-        showAlert('Please select at least one user', "error");
+        alert('Please select at least one user');
         return;
       }
       
@@ -1396,14 +1182,15 @@
       
       try {
         await Promise.all(promises);
-        showAlert(`Successfully ${verify ? 'verified' : 'unverified'} courses for ${userIds.length} users`, "success");
+        alert(`Successfully ${verify ? 'verified' : 'unverified'} courses for ${userIds.length} users`);
         loadAllUsers(); // Refresh data
       } catch (error) {
         console.error("Error during bulk verification:", error);
-        showAlert("An error occurred during bulk verification. Some changes may not have been saved.", "error");
+        alert("An error occurred during bulk verification. Some changes may not have been saved.");
       }
     }
 
+    // Verify/unverify a single course
     async function verifyUserCourse(userId, courseId, verify) {
       const user = allUsers.find(u => u.id === userId);
       if (!user) return;
@@ -1447,19 +1234,20 @@
         // Refresh display
         displayUsers();
         
-        showAlert(`Course ${verify ? 'verified' : 'unverified'} successfully`, "success");
+        alert(`Course ${verify ? 'verified' : 'unverified'} successfully`);
       } catch (error) {
         console.error("Error verifying course:", error);
-        showAlert("Failed to update verification status. Please try again.", "error");
+        alert("Failed to update verification status. Please try again.");
       }
     }
 
+    // Adjust progress automatically
     async function adjustProgress(action) {
       const increment = parseInt(progressIncrement.value);
       const applyToValue = applyTo.value;
       
       if (action !== 'complete' && action !== 'reset' && (isNaN(increment) || increment <= 0 || increment > 100)) {
-        showAlert('Please enter a valid progress increment (1-100)', "error");
+        alert('Please enter a valid progress increment (1-100)');
         return;
       }
       
@@ -1467,7 +1255,7 @@
       
       if (applyToValue === 'selected') {
         if (selectedUserIds.size === 0) {
-          showAlert('Please select at least one user', "error");
+          alert('Please select at least one user');
           return;
         }
         userIds = Array.from(selectedUserIds);
@@ -1529,14 +1317,26 @@
       
       try {
         await Promise.all(promises);
-        showAlert(`Progress updated for ${userIds.length} users`, "success");
+        alert(`Progress updated for ${userIds.length} users`);
         loadAllUsers(); // Refresh data
       } catch (error) {
         console.error("Error adjusting progress:", error);
-        showAlert("An error occurred while adjusting progress. Some changes may not have been saved.", "error");
+        alert("An error occurred while adjusting progress. Some changes may not have been saved.");
       }
     }
 
+    // Get action text for confirmation
+    function getActionText(action) {
+      switch (action) {
+        case 'increase': return `increase progress by ${progressIncrement.value}%`;
+        case 'decrease': return `decrease progress by ${progressIncrement.value}%`;
+        case 'complete': return 'set progress to 100%';
+        case 'reset': return 'set progress to 0%';
+        default: return 'update progress';
+      }
+    }
+
+    // Update individual user progress
     async function updateUserProgress(userId, courseId, progressValue) {
       const user = allUsers.find(u => u.id === userId);
       if (!user) return;
@@ -1569,23 +1369,14 @@
           }
         }
         
-        showAlert('Progress updated successfully', "success");
+        alert('Progress updated successfully');
       } catch (error) {
         console.error("Error updating progress:", error);
-        showAlert("Failed to update progress. Please try again.", "error");
+        alert("Failed to update progress. Please try again.");
       }
     }
 
-    function getActionText(action) {
-      switch (action) {
-        case 'increase': return `increase progress by ${progressIncrement.value}%`;
-        case 'decrease': return `decrease progress by ${progressIncrement.value}%`;
-        case 'complete': return 'set progress to 100%';
-        case 'reset': return 'set progress to 0%';
-        default: return 'update progress';
-      }
-    }
-
+    // Check if course matches current filters
     function courseMatchesFilters(course) {
       const courseType = courseFilter.value;
       const language = languageFilter.value;
@@ -1612,22 +1403,6 @@
       return true;
     }
 
-    function formatDate(dateString) {
-      if (!dateString) return 'N/A';
-      try {
-        const date = new Date(dateString);
-        return date.toLocaleDateString();
-      } catch (e) {
-        return 'N/A';
-      }
-    }
-
-    function showAlert(message, type) {
-      // You can implement a more sophisticated alert system here
-      alert(`${type === 'error' ? 'Error: ' : ''}${message}`);
-    }
-
-    // Initialize the app
     document.addEventListener('DOMContentLoaded', initApp);
   </script>
 </body>
