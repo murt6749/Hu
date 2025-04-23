@@ -36,6 +36,7 @@
             min-height: 100vh;
             font-size: 14px;
             color: #333;
+            padding-bottom: 70px; /* Space for bottom navigation */
         }
 
         .container {
@@ -656,6 +657,50 @@
             background-color: var(--success-color);
         }
 
+        /* Bottom Navigation */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background-color: var(--white);
+            display: flex;
+            justify-content: space-around;
+            padding: 10px 0;
+            box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
+            z-index: 100;
+        }
+
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-decoration: none;
+            color: var(--secondary-color);
+            font-size: 0.8rem;
+            transition: var(--transition);
+        }
+
+        .nav-item.active {
+            color: var(--primary-color);
+        }
+
+        .nav-item i {
+            font-size: 1.2rem;
+            margin-bottom: 4px;
+        }
+
+        .nav-item:hover {
+            color: var(--primary-color);
+            transform: translateY(-2px);
+        }
+
+        /* Classmate Courses Modal */
+        .classmate-courses {
+            max-height: 60vh;
+            overflow-y: auto;
+        }
+
         /* Responsive Adjustments */
         @media (min-width: 768px) {
             .container {
@@ -848,6 +893,26 @@
         </main>
     </div>
 
+    <!-- Bottom Navigation -->
+    <nav class="bottom-nav">
+        <a href="home-index.html" class="nav-item">
+            <i class="fas fa-home"></i>
+            <span>Home</span>
+        </a>
+        <a href="courses-dashboard.htm" class="nav-item">
+            <i class="fas fa-book"></i>
+            <span>Courses</span>
+        </a>
+        <a href="progress-progress.htmk" class="nav-item">
+            <i class="fas fa-chart-line"></i>
+            <span>Progress</span>
+        </a>
+        <a href="profile-profile.html" class="nav-item active">
+            <i class="fas fa-user"></i>
+            <span>Profile</span>
+        </a>
+    </nav>
+
     <!-- Edit Profile Modal -->
     <div class="modal" id="edit-profile-modal">
         <div class="modal-content">
@@ -926,6 +991,39 @@
                         <i class="fas fa-key"></i> Update Password
                     </button>
                 </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Classmate Courses Modal -->
+    <div class="modal" id="classmate-courses-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title" id="classmate-modal-title">Classmate's Courses</h3>
+                <button class="modal-close" id="close-classmate-modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="classmate-info mb-3">
+                    <div class="d-flex align-center gap-2">
+                        <div class="classmate-avatar" id="modal-classmate-avatar">
+                            JD
+                        </div>
+                        <div>
+                            <h4 id="modal-classmate-name">John Doe</h4>
+                            <div id="modal-classmate-details">
+                                <span class="badge badge-primary" id="modal-classmate-year">3rd Year</span>
+                                <span class="badge badge-info" id="modal-classmate-department">Computer Science</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="classmate-courses" id="classmate-courses-list">
+                    <!-- Classmate's courses will be loaded here -->
+                    <p class="text-center">Loading courses...</p>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-primary" id="close-classmate-courses">Close</button>
             </div>
         </div>
     </div>
@@ -1298,6 +1396,16 @@
         const setupTab2 = document.getElementById('setup-tab2');
         const setupTab3 = document.getElementById('setup-tab3');
         
+        // Classmate modal elements
+        const classmateCoursesModal = document.getElementById('classmate-courses-modal');
+        const closeClassmateModal = document.getElementById('close-classmate-modal');
+        const closeClassmateCourses = document.getElementById('close-classmate-courses');
+        const modalClassmateName = document.getElementById('modal-classmate-name');
+        const modalClassmateAvatar = document.getElementById('modal-classmate-avatar');
+        const modalClassmateYear = document.getElementById('modal-classmate-year');
+        const modalClassmateDepartment = document.getElementById('modal-classmate-department');
+        const classmateCoursesList = document.getElementById('classmate-courses-list');
+        
         // Tabs
         const tabs = document.querySelectorAll('.tab');
         const tabContents = document.querySelectorAll('.tab-content');
@@ -1312,6 +1420,7 @@
         let isFirstTimeSetup = false;
         let unenrollInterval = null;
         let disconnectInterval = null;
+        let currentClassmateId = null;
 
         // Initialize the application
         function initApp() {
@@ -1343,6 +1452,10 @@
             browseCoursesBtn.addEventListener('click', () => window.location.href = 'courses.html');
             classmatesFilter.addEventListener('change', filterClassmates);
             editAvatarBtn.addEventListener('click', uploadAvatar);
+            
+            // Classmate modal events
+            closeClassmateModal.addEventListener('click', () => classmateCoursesModal.classList.remove('active'));
+            closeClassmateCourses.addEventListener('click', () => classmateCoursesModal.classList.remove('active'));
             
             // Setup modal events
             setupNext1.addEventListener('click', () => {
@@ -1815,16 +1928,84 @@
             });
         }
 
+        // View classmate profile with their courses
+        async function viewClassmateProfile(classmateId) {
+            currentClassmateId = classmateId;
+            
+            try {
+                // Get classmate data
+                const classmateDoc = await getDoc(doc(db, "users", classmateId));
+                if (!classmateDoc.exists()) {
+                    alert("Classmate data not found");
+                    return;
+                }
+                
+                const classmateData = classmateDoc.data();
+                
+                // Update modal with classmate info
+                modalClassmateName.textContent = classmateData.name;
+                modalClassmateYear.textContent = classmateData.year || "Not specified";
+                modalClassmateDepartment.textContent = classmateData.department || "Not specified";
+                
+                // Set avatar
+                if (classmateData.avatarUrl) {
+                    modalClassmateAvatar.innerHTML = `<img src="${classmateData.avatarUrl}" alt="${classmateData.name}">`;
+                } else {
+                    const initials = classmateData.name.split(' ').map(n => n[0]).join('').toUpperCase();
+                    modalClassmateAvatar.textContent = initials;
+                }
+                
+                // Show loading state
+                classmateCoursesList.innerHTML = '<p class="text-center">Loading courses...</p>';
+                
+                // Show modal
+                classmateCoursesModal.classList.add('active');
+                
+                // Load classmate's enrolled courses
+                const enrolledCourses = classmateData.enrolledCourses || [];
+                
+                if (enrolledCourses.length === 0) {
+                    classmateCoursesList.innerHTML = '<p class="text-center">This classmate is not enrolled in any courses yet.</p>';
+                    return;
+                }
+                
+                // Display courses
+                classmateCoursesList.innerHTML = '';
+                enrolledCourses.forEach(course => {
+                    const courseItem = document.createElement('div');
+                    courseItem.className = 'course-item';
+                    
+                    courseItem.innerHTML = `
+                        <div class="d-flex justify-between align-center">
+                            <strong>${course.title}</strong>
+                        </div>
+                        <div class="course-detail mt-1">
+                            <strong>Instructor:</strong> ${course.instructor}
+                        </div>
+                        <div class="course-detail">
+                            <strong>Schedule:</strong> ${course.schedule}
+                        </div>
+                        <div class="progress-container mt-2">
+                            <div class="progress-label">
+                                <span>Progress: ${course.progress}%</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: ${course.progress}%"></div>
+                            </div>
+                        </div>
+                    `;
+                    classmateCoursesList.appendChild(courseItem);
+                });
+            } catch (error) {
+                console.error("Error loading classmate profile:", error);
+                alert("Failed to load classmate profile. Please try again.");
+            }
+        }
+
         // Filter classmates
         function filterClassmates() {
             const filterValue = classmatesFilter.value;
             displayClassmates(filterValue);
-        }
-
-        // View classmate profile
-        function viewClassmateProfile(classmateId) {
-            // In a real app, this would open the classmate's profile
-            alert(`Viewing profile of classmate with ID: ${classmateId}`);
         }
 
         // Request to unenroll from a course
