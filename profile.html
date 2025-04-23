@@ -36,83 +36,12 @@
             min-height: 100vh;
             font-size: 14px;
             color: #333;
-            overflow-x: hidden;
         }
 
-        /* Loading Animation */
-        .loading-container {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            z-index: 9999;
-            transition: opacity 0.5s ease, visibility 0.5s ease;
-        }
-
-        .loading-container.hidden {
-            opacity: 0;
-            visibility: hidden;
-        }
-
-        .loading-logo {
-            width: 120px;
-            height: 120px;
-            margin-bottom: 20px;
-            animation: pulse 2s infinite;
-        }
-
-        .loading-spinner {
-            width: 50px;
-            height: 50px;
-            border: 5px solid rgba(255, 255, 255, 0.3);
-            border-radius: 50%;
-            border-top-color: var(--white);
-            animation: spin 1s ease-in-out infinite;
-            margin-bottom: 20px;
-        }
-
-        .loading-text {
-            color: var(--white);
-            font-size: 1.2rem;
-            margin-top: 20px;
-            text-align: center;
-            animation: fadeInOut 2s infinite;
-        }
-
-        @keyframes pulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.1); }
-            100% { transform: scale(1); }
-        }
-
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
-
-        @keyframes fadeInOut {
-            0%, 100% { opacity: 0.6; }
-            50% { opacity: 1; }
-        }
-
-        /* Main App Styles */
         .container {
             width: 100%;
             max-width: 100%;
             padding: 0;
-            opacity: 0;
-            transform: translateY(20px);
-            transition: opacity 0.5s ease, transform 0.5s ease;
-        }
-
-        .container.loaded {
-            opacity: 1;
-            transform: translateY(0);
         }
 
         /* Header Styles */
@@ -127,14 +56,6 @@
             justify-content: space-between;
             align-items: center;
             box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-            transform: translateY(-100%);
-            opacity: 0;
-            transition: transform 0.5s ease, opacity 0.5s ease;
-        }
-
-        .header.visible {
-            transform: translateY(0);
-            opacity: 1;
         }
 
         .header h1 {
@@ -174,13 +95,6 @@
             margin-bottom: 15px;
             box-shadow: var(--shadow);
             transition: var(--transition);
-            transform: translateY(20px);
-            opacity: 0;
-        }
-
-        .card.visible {
-            transform: translateY(0);
-            opacity: 1;
         }
 
         .card:hover {
@@ -469,38 +383,6 @@
             margin-top: 10px;
         }
 
-        /* Assignments Section */
-        .assignments-list {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-        }
-
-        .assignment-item {
-            border: 1px solid #eee;
-            border-radius: var(--border-radius);
-            padding: 12px;
-            transition: var(--transition);
-            position: relative;
-        }
-
-        .assignment-item:hover {
-            border-color: var(--primary-color);
-            transform: translateY(-2px);
-        }
-
-        .assignment-due {
-            position: absolute;
-            top: 12px;
-            right: 12px;
-            font-size: 0.8rem;
-            color: var(--secondary-color);
-        }
-
-        .assignment-progress {
-            margin-top: 10px;
-        }
-
         /* Classmates List */
         .classmates-list {
             display: grid;
@@ -725,16 +607,6 @@
             color: white;
         }
 
-        .status-overdue {
-            background-color: var(--danger-color);
-            color: white;
-        }
-
-        .status-completed {
-            background-color: var(--info-color);
-            color: white;
-        }
-
         /* First Time Setup */
         .setup-modal .modal-content {
             max-width: 600px;
@@ -839,16 +711,9 @@
     </style>
 </head>
 <body>
-    <!-- Loading Animation -->
-    <div class="loading-container" id="loading-screen">
-        <div class="loading-spinner"></div>
-        <div class="loading-text">Checking login status...</div>
-    </div>
-
-    <!-- Main App Container -->
-    <div class="container" id="app-container">
+    <div class="container">
         <!-- Header -->
-        <header class="header" id="app-header">
+        <header class="header">
             <h1>My Profile</h1>
             <div class="header-actions">
                 <button class="btn-icon" id="notifications-btn">
@@ -863,7 +728,7 @@
         <!-- Main Content -->
         <main class="main-content">
             <!-- Profile Section -->
-            <div class="card" id="profile-card">
+            <div class="card">
                 <div class="profile-section">
                     <div class="profile-avatar" id="profile-avatar">
                         <div id="avatar-initials">JD</div>
@@ -910,10 +775,9 @@
             </div>
 
             <!-- Tabs Section -->
-            <div class="card" id="tabs-card">
+            <div class="card">
                 <div class="tabs">
                     <div class="tab active" data-tab="courses">My Courses</div>
-                    <div class="tab" data-tab="assignments">Assignments</div>
                     <div class="tab" data-tab="classmates">Classmates</div>
                     <div class="tab" data-tab="security">Security</div>
                 </div>
@@ -928,24 +792,6 @@
                             <button class="btn btn-primary mt-2" id="browse-courses-btn">
                                 <i class="fas fa-search"></i> Browse Courses
                             </button>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Assignments Tab -->
-                <div class="tab-content" id="assignments-tab">
-                    <div class="form-group">
-                        <select id="assignments-filter" class="form-control">
-                            <option value="all">All Assignments</option>
-                            <option value="pending">Pending</option>
-                            <option value="completed">Completed</option>
-                            <option value="overdue">Overdue</option>
-                        </select>
-                    </div>
-                    <div class="assignments-list" id="assignments-list">
-                        <!-- Assignments will be loaded here -->
-                        <div class="text-center" id="no-assignments-message">
-                            <p>No assignments found for your courses.</p>
                         </div>
                     </div>
                 </div>
@@ -1084,42 +930,152 @@
         </div>
     </div>
 
-    <!-- Assignment Details Modal -->
-    <div class="modal" id="assignment-modal">
+    <!-- Unenroll Confirmation Modal -->
+    <div class="modal confirmation-modal" id="unenroll-modal">
         <div class="modal-content">
             <div class="modal-header">
-                <h3 class="modal-title" id="assignment-modal-title">Assignment Details</h3>
-                <button class="modal-close" id="close-assignment-modal">&times;</button>
+                <h3 class="modal-title">Request Unenrollment</h3>
+                <button class="modal-close" id="close-unenroll-modal">&times;</button>
             </div>
             <div class="modal-body">
-                <div class="form-group">
-                    <label>Course</label>
-                    <p id="assignment-course-name"></p>
+                <div class="confirmation-icon">
+                    <i class="fas fa-exclamation-triangle"></i>
                 </div>
-                <div class="form-group">
-                    <label>Due Date</label>
-                    <p id="assignment-due-date"></p>
+                <h4 id="unenroll-message">Are you sure you want to request unenrollment from this course?</h4>
+                <p>Your request will be pending for 2 days before processing.</p>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-outline" id="cancel-unenroll">Cancel</button>
+                <button class="btn btn-primary" id="confirm-unenroll">Request Unenrollment</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Unenroll Request Pending Modal -->
+    <div class="modal confirmation-modal" id="unenroll-pending-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">Unenrollment Pending</h3>
+                <button class="modal-close" id="close-pending-modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="confirmation-icon">
+                    <i class="fas fa-hourglass-half"></i>
                 </div>
-                <div class="form-group">
-                    <label>Status</label>
-                    <p id="assignment-status"></p>
-                </div>
-                <div class="form-group">
-                    <label>Description</label>
-                    <p id="assignment-description"></p>
-                </div>
-                <div class="form-group">
-                    <label for="assignment-submission">Your Submission</label>
-                    <textarea id="assignment-submission" class="form-control" rows="5" placeholder="Enter your assignment submission here..."></textarea>
-                </div>
-                <div class="form-group">
-                    <label for="assignment-file">Upload File</label>
-                    <input type="file" id="assignment-file" class="form-control">
+                <h4 id="pending-message">Your unenrollment request is pending</h4>
+                <p>You can cancel this request within the next 2 days.</p>
+                <div class="progress-container mt-3">
+                    <div class="progress-label">
+                        <span>Time remaining: <span id="time-remaining">48 hours</span></span>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="pending-progress" style="width: 100%"></div>
+                    </div>
                 </div>
             </div>
             <div class="modal-footer">
-                <button class="btn btn-outline" id="cancel-assignment">Cancel</button>
-                <button class="btn btn-primary" id="submit-assignment">Submit Assignment</button>
+                <button class="btn btn-warning" id="cancel-request-btn">
+                    <i class="fas fa-times"></i> Cancel Request
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Request Submitted Modal -->
+    <div class="modal confirmation-modal" id="request-submitted-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">Request Submitted</h3>
+                <button class="modal-close" id="close-request-modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="confirmation-icon">
+                    <i class="fas fa-check-circle" style="color: var(--success-color);"></i>
+                </div>
+                <h4>Your unenrollment request has been submitted</h4>
+                <p>You will be automatically unenrolled after 2 days.</p>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-primary" id="close-request-btn">OK</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Request Cancelled Modal -->
+    <div class="modal confirmation-modal" id="request-cancelled-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">Request Cancelled</h3>
+                <button class="modal-close" id="close-cancelled-modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="confirmation-icon">
+                    <i class="fas fa-check-circle" style="color: var(--success-color);"></i>
+                </div>
+                <h4>Your unenrollment request has been cancelled</h4>
+                <p>You will remain enrolled in the course.</p>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-primary" id="close-cancelled-btn">OK</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Disconnect Google Confirmation Modal -->
+    <div class="modal confirmation-modal" id="disconnect-google-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">Disconnect Google Account</h3>
+                <button class="modal-close" id="close-disconnect-modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="confirmation-icon">
+                    <i class="fas fa-exclamation-triangle" style="color: var(--danger-zone);"></i>
+                </div>
+                <h4>Are you sure you want to disconnect your Google account?</h4>
+                <p>This action will be processed after 3 days. You'll need to set up a password to log in.</p>
+                <div class="form-group mt-3">
+                    <label for="disconnect-password">Set New Password</label>
+                    <input type="password" id="disconnect-password" class="form-control" required minlength="6">
+                </div>
+                <div class="form-group">
+                    <label for="disconnect-confirm">Confirm Password</label>
+                    <input type="password" id="disconnect-confirm" class="form-control" required minlength="6">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-outline" id="cancel-disconnect">Cancel</button>
+                <button class="btn btn-danger" id="confirm-disconnect">Disconnect Account</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Disconnect Scheduled Modal -->
+    <div class="modal confirmation-modal" id="disconnect-scheduled-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">Disconnection Scheduled</h3>
+                <button class="modal-close" id="close-scheduled-modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="confirmation-icon">
+                    <i class="fas fa-clock" style="color: var(--warning-color);"></i>
+                </div>
+                <h4>Google account disconnection scheduled</h4>
+                <p>Your Google account will be disconnected in 3 days. You'll be notified before this happens.</p>
+                <div class="progress-container mt-3">
+                    <div class="progress-label">
+                        <span>Time remaining: <span id="disconnect-time-remaining">72 hours</span></span>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="disconnect-progress" style="width: 100%"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-warning" id="cancel-disconnect-schedule">
+                    <i class="fas fa-times"></i> Cancel Disconnection
+                </button>
             </div>
         </div>
     </div>
@@ -1211,8 +1167,11 @@
             onAuthStateChanged,
             signOut,
             updatePassword,
+            updateEmail,
             EmailAuthProvider,
-            reauthenticateWithCredential
+            reauthenticateWithCredential,
+            linkWithCredential,
+            fetchSignInMethodsForEmail
         } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
         import { 
             getFirestore,
@@ -1221,6 +1180,8 @@
             getDoc,
             setDoc,
             updateDoc,
+            arrayUnion,
+            arrayRemove,
             query,
             where,
             getDocs,
@@ -1253,53 +1214,196 @@
         const storage = getStorage(app);
 
         // DOM Elements
-        const loadingScreen = document.getElementById('loading-screen');
-        const appContainer = document.getElementById('app-container');
-        const appHeader = document.getElementById('app-header');
-        const profileCard = document.getElementById('profile-card');
-        const tabsCard = document.getElementById('tabs-card');
+        const profileAvatar = document.getElementById('profile-avatar');
+        const avatarInitials = document.getElementById('avatar-initials');
+        const editAvatarBtn = document.getElementById('edit-avatar-btn');
+        const profileName = document.getElementById('profile-name');
+        const profileId = document.getElementById('profile-id');
+        const profileEmail = document.getElementById('profile-email');
+        const profileDepartment = document.getElementById('profile-department');
+        const profileYear = document.getElementById('profile-year');
+        const profilePhone = document.getElementById('profile-phone');
+        const profileGender = document.getElementById('profile-gender');
+        const googleBadge = document.getElementById('google-badge');
+        const enrolledCoursesList = document.getElementById('enrolled-courses');
+        const noCoursesMessage = document.getElementById('no-courses-message');
+        const browseCoursesBtn = document.getElementById('browse-courses-btn');
+        const enrolledCount = document.getElementById('enrolled-count');
+        const classmatesList = document.getElementById('classmates-list');
+        const classmatesFilter = document.getElementById('classmates-filter');
+        const editProfileBtn = document.getElementById('edit-profile-btn');
+        const editProfileModal = document.getElementById('edit-profile-modal');
+        const closeEditModal = document.getElementById('close-edit-modal');
+        const profileForm = document.getElementById('profile-form');
+        const editName = document.getElementById('edit-name');
+        const editStudentId = document.getElementById('edit-student-id');
+        const editDepartment = document.getElementById('edit-department');
+        const editYear = document.getElementById('edit-year');
+        const editPhone = document.getElementById('edit-phone');
+        const editGender = document.getElementById('edit-gender');
+        const changePasswordBtn = document.getElementById('change-password-btn');
+        const changePasswordModal = document.getElementById('change-password-modal');
+        const closePasswordModal = document.getElementById('close-password-modal');
+        const passwordForm = document.getElementById('password-form');
+        const currentPassword = document.getElementById('current-password');
+        const newPassword = document.getElementById('new-password');
+        const confirmPassword = document.getElementById('confirm-password');
+        const logoutBtn = document.getElementById('logout-btn');
+        const logoutBtn2 = document.getElementById('logout-btn-2');
+        const unenrollModal = document.getElementById('unenroll-modal');
+        const closeUnenrollModal = document.getElementById('close-unenroll-modal');
+        const cancelUnenroll = document.getElementById('cancel-unenroll');
+        const confirmUnenroll = document.getElementById('confirm-unenroll');
+        const unenrollMessage = document.getElementById('unenroll-message');
+        const unenrollPendingModal = document.getElementById('unenroll-pending-modal');
+        const closePendingModal = document.getElementById('close-pending-modal');
+        const cancelRequestBtn = document.getElementById('cancel-request-btn');
+        const timeRemaining = document.getElementById('time-remaining');
+        const pendingProgress = document.getElementById('pending-progress');
+        const requestSubmittedModal = document.getElementById('request-submitted-modal');
+        const closeRequestModal = document.getElementById('close-request-modal');
+        const closeRequestBtn = document.getElementById('close-request-btn');
+        const requestCancelledModal = document.getElementById('request-cancelled-modal');
+        const closeCancelledModal = document.getElementById('close-cancelled-modal');
+        const closeCancelledBtn = document.getElementById('close-cancelled-btn');
+        const disconnectGoogleBtn = document.getElementById('disconnect-google-btn');
+        const disconnectGoogleModal = document.getElementById('disconnect-google-modal');
+        const closeDisconnectModal = document.getElementById('close-disconnect-modal');
+        const cancelDisconnect = document.getElementById('cancel-disconnect');
+        const confirmDisconnect = document.getElementById('confirm-disconnect');
+        const disconnectPassword = document.getElementById('disconnect-password');
+        const disconnectConfirm = document.getElementById('disconnect-confirm');
+        const disconnectScheduledModal = document.getElementById('disconnect-scheduled-modal');
+        const closeScheduledModal = document.getElementById('close-scheduled-modal');
+        const disconnectTimeRemaining = document.getElementById('disconnect-time-remaining');
+        const disconnectProgress = document.getElementById('disconnect-progress');
+        const cancelDisconnectSchedule = document.getElementById('cancel-disconnect-schedule');
+        const deleteAccountBtn = document.getElementById('delete-account-btn');
+        const setupModal = document.getElementById('setup-modal');
+        const setupNext1 = document.getElementById('setup-next1');
+        const setupBack2 = document.getElementById('setup-back2');
+        const setupNext2 = document.getElementById('setup-next2');
+        const setupComplete = document.getElementById('setup-complete');
+        const setupForm = document.getElementById('setup-form');
+        const setupName = document.getElementById('setup-name');
+        const setupStudentId = document.getElementById('setup-student-id');
+        const setupDepartment = document.getElementById('setup-department');
+        const setupYear = document.getElementById('setup-year');
+        const setupPhone = document.getElementById('setup-phone');
+        const setupGender = document.getElementById('setup-gender');
+        const step1 = document.getElementById('step1');
+        const step2 = document.getElementById('step2');
+        const step3 = document.getElementById('step3');
+        const setupTab1 = document.getElementById('setup-tab1');
+        const setupTab2 = document.getElementById('setup-tab2');
+        const setupTab3 = document.getElementById('setup-tab3');
         
+        // Tabs
+        const tabs = document.querySelectorAll('.tab');
+        const tabContents = document.querySelectorAll('.tab-content');
+
+        // Current user data
+        let currentUser = null;
+        let userData = null;
+        let enrolledCourses = [];
+        let pendingUnenrollCourseId = null;
+        let pendingUnenrollRequestId = null;
+        let classmates = [];
+        let isFirstTimeSetup = false;
+        let unenrollInterval = null;
+        let disconnectInterval = null;
+
         // Initialize the application
         function initApp() {
-            // Check auth state with animation
+            // Set up event listeners
+            editProfileBtn.addEventListener('click', () => editProfileModal.classList.add('active'));
+            closeEditModal.addEventListener('click', () => editProfileModal.classList.remove('active'));
+            profileForm.addEventListener('submit', saveProfile);
+            changePasswordBtn.addEventListener('click', () => changePasswordModal.classList.add('active'));
+            closePasswordModal.addEventListener('click', () => changePasswordModal.classList.remove('active'));
+            passwordForm.addEventListener('submit', changePassword);
+            logoutBtn.addEventListener('click', handleLogout);
+            logoutBtn2.addEventListener('click', handleLogout);
+            cancelUnenroll.addEventListener('click', () => unenrollModal.classList.remove('active'));
+            confirmUnenroll.addEventListener('click', submitUnenrollRequest);
+            closeUnenrollModal.addEventListener('click', () => unenrollModal.classList.remove('active'));
+            closeRequestBtn.addEventListener('click', () => requestSubmittedModal.classList.remove('active'));
+            closeRequestModal.addEventListener('click', () => requestSubmittedModal.classList.remove('active'));
+            cancelRequestBtn.addEventListener('click', cancelUnenrollRequest);
+            closePendingModal.addEventListener('click', () => unenrollPendingModal.classList.remove('active'));
+            closeCancelledBtn.addEventListener('click', () => requestCancelledModal.classList.remove('active'));
+            closeCancelledModal.addEventListener('click', () => requestCancelledModal.classList.remove('active'));
+            disconnectGoogleBtn.addEventListener('click', () => disconnectGoogleModal.classList.add('active'));
+            closeDisconnectModal.addEventListener('click', () => disconnectGoogleModal.classList.remove('active'));
+            cancelDisconnect.addEventListener('click', () => disconnectGoogleModal.classList.remove('active'));
+            confirmDisconnect.addEventListener('click', scheduleGoogleDisconnect);
+            closeScheduledModal.addEventListener('click', () => disconnectScheduledModal.classList.remove('active'));
+            cancelDisconnectSchedule.addEventListener('click', cancelGoogleDisconnect);
+            deleteAccountBtn.addEventListener('click', confirmDeleteAccount);
+            browseCoursesBtn.addEventListener('click', () => window.location.href = 'courses.html');
+            classmatesFilter.addEventListener('change', filterClassmates);
+            editAvatarBtn.addEventListener('click', uploadAvatar);
+            
+            // Setup modal events
+            setupNext1.addEventListener('click', () => {
+                setupTab1.classList.remove('active');
+                setupTab2.classList.add('active');
+                step1.classList.remove('active');
+                step1.classList.add('completed');
+                step2.classList.add('active');
+            });
+            
+            setupBack2.addEventListener('click', () => {
+                setupTab2.classList.remove('active');
+                setupTab1.classList.add('active');
+                step1.classList.add('active');
+                step2.classList.remove('active');
+                step1.classList.remove('completed');
+            });
+            
+            setupNext2.addEventListener('click', (e) => {
+                e.preventDefault();
+                if (setupForm.checkValidity()) {
+                    setupTab2.classList.remove('active');
+                    setupTab3.classList.add('active');
+                    step2.classList.remove('active');
+                    step2.classList.add('completed');
+                    step3.classList.add('active');
+                } else {
+                    setupForm.reportValidity();
+                }
+            });
+            
+            setupComplete.addEventListener('click', completeSetup);
+            
+            // Tab switching
+            tabs.forEach(tab => {
+                tab.addEventListener('click', () => {
+                    const tabId = tab.getAttribute('data-tab');
+                    switchTab(tabId);
+                });
+            });
+
+            // Check auth state
             onAuthStateChanged(auth, async (user) => {
                 if (user) {
-                    // Simulate loading for demo purposes (remove in production)
-                    setTimeout(async () => {
-                        await loadUserData(user.uid);
-                        
-                        // Hide loading screen
-                        loadingScreen.classList.add('hidden');
-                        
-                        // Show main app with animations
-                        appContainer.classList.add('loaded');
-                        appHeader.classList.add('visible');
-                        
-                        // Animate cards one by one
-                        setTimeout(() => {
-                            profileCard.classList.add('visible');
-                        }, 200);
-                        
-                        setTimeout(() => {
-                            tabsCard.classList.add('visible');
-                        }, 400);
-                        
-                        // Check if user needs to complete profile setup
-                        if (!userData.studentId || !userData.department || !userData.year || !userData.phone || !userData.gender) {
-                            isFirstTimeSetup = true;
-                            setupModal.classList.add('active');
-                        } else {
-                            updateProfileUI();
-                            displayEnrolledCourses();
-                            loadAssignments();
-                            loadClassmates();
-                        }
-                        
-                        // Check if user is connected via Google
-                        if (user.providerData.some(provider => provider.providerId === 'google.com')) {
-                            googleBadge.classList.remove('d-none');
-                        }
-                    }, 1500);
+                    currentUser = user;
+                    await loadUserData(user.uid);
+                    
+                    // Check if user needs to complete profile setup
+                    if (!userData.studentId || !userData.department || !userData.year || !userData.phone || !userData.gender) {
+                        isFirstTimeSetup = true;
+                        setupModal.classList.add('active');
+                    } else {
+                        updateProfileUI();
+                        displayEnrolledCourses();
+                        loadClassmates();
+                    }
+                    
+                    // Check if user is connected via Google
+                    if (user.providerData.some(provider => provider.providerId === 'google.com')) {
+                        googleBadge.classList.remove('d-none');
+                    }
                 } else {
                     // Redirect to login page if not authenticated
                     window.location.href = 'login.html';
@@ -1307,181 +1411,756 @@
             });
         }
 
-        // Load assignments for the user
-        async function loadAssignments() {
+        // Switch between tabs
+        function switchTab(tabId) {
+            tabs.forEach(tab => {
+                if (tab.getAttribute('data-tab') === tabId) {
+                    tab.classList.add('active');
+                } else {
+                    tab.classList.remove('active');
+                }
+            });
+            
+            tabContents.forEach(content => {
+                if (content.id === `${tabId}-tab`) {
+                    content.classList.add('active');
+                } else {
+                    content.classList.remove('active');
+                }
+            });
+        }
+
+        // Load user data from Firestore
+        async function loadUserData(userId) {
             try {
-                // In a real app, you would fetch assignments based on enrolled courses
-                const mockAssignments = [
-                    {
-                        id: 'asg1',
-                        courseId: 'cs101',
-                        courseName: 'Introduction to Computer Science',
-                        title: 'Programming Assignment 1',
-                        description: 'Write a program that calculates the factorial of a number.',
-                        dueDate: new Date(Date.now() + 3 * 24 * 60 * 60 * 1000), // 3 days from now
-                        status: 'pending',
-                        progress: 0
-                    },
-                    {
-                        id: 'asg2',
-                        courseId: 'cs101',
-                        courseName: 'Introduction to Computer Science',
-                        title: 'Midterm Project',
-                        description: 'Create a simple web application using HTML, CSS, and JavaScript.',
-                        dueDate: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000), // 7 days from now
-                        status: 'pending',
-                        progress: 30
-                    },
-                    {
-                        id: 'asg3',
-                        courseId: 'math201',
-                        courseName: 'Discrete Mathematics',
-                        title: 'Problem Set 2',
-                        description: 'Solve the following problems from chapter 3.',
-                        dueDate: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000), // 2 days ago
-                        status: 'overdue',
-                        progress: 0
-                    },
-                    {
-                        id: 'asg4',
-                        courseId: 'eng101',
-                        courseName: 'Academic Writing',
-                        title: 'Essay Draft',
-                        description: 'Submit the first draft of your research essay.',
-                        dueDate: new Date(Date.now() + 5 * 24 * 60 * 60 * 1000), // 5 days from now
-                        status: 'completed',
-                        progress: 100
+                const userDoc = await getDoc(doc(db, "users", userId));
+                if (userDoc.exists()) {
+                    userData = userDoc.data();
+                    
+                    // Initialize enrolledCourses if not exists
+                    if (!userData.enrolledCourses) {
+                        await updateDoc(doc(db, "users", userId), {
+                            enrolledCourses: []
+                        });
+                        userData.enrolledCourses = [];
                     }
-                ];
-                
-                assignments = mockAssignments;
-                displayAssignments();
+                    enrolledCourses = userData.enrolledCourses;
+                    
+                    // Check for pending unenrollment requests
+                    await checkPendingUnenrollments(userId);
+                    
+                    // Check for pending Google disconnection
+                    await checkPendingDisconnect(userId);
+                    
+                    // Load avatar if exists
+                    if (userData.avatarUrl) {
+                        profileAvatar.innerHTML = `<img src="${userData.avatarUrl}" alt="Profile Avatar">`;
+                        avatarInitials.classList.add('d-none');
+                    } else {
+                        const displayName = userData?.name || currentUser.displayName || "User";
+                        const initials = displayName.split(' ').map(n => n[0]).join('').toUpperCase();
+                        avatarInitials.textContent = initials;
+                        avatarInitials.classList.remove('d-none');
+                    }
+                } else {
+                    // Create user document if not exists
+                    const newUserData = {
+                        name: currentUser.displayName || "User",
+                        email: currentUser.email,
+                        enrolledCourses: [],
+                        studentId: "",
+                        department: "",
+                        year: "",
+                        phone: "",
+                        gender: "",
+                        createdAt: serverTimestamp(),
+                        isGoogleAccount: currentUser.providerData.some(provider => provider.providerId === 'google.com')
+                    };
+                    
+                    await setDoc(doc(db, "users", userId), newUserData);
+                    userData = newUserData;
+                    enrolledCourses = [];
+                }
             } catch (error) {
-                console.error("Error loading assignments:", error);
+                console.error("Error loading user data:", error);
+                alert("Failed to load user data. Please try again.");
             }
         }
 
-        // Display assignments
-        function displayAssignments(filter = 'all') {
-            assignmentsList.innerHTML = '';
+        // Check for pending unenrollment requests
+        async function checkPendingUnenrollments(userId) {
+            const q = query(
+                collection(db, "unenrollmentRequests"),
+                where("userId", "==", userId),
+                where("status", "==", "pending")
+            );
             
-            let filteredAssignments = [...assignments];
+            const querySnapshot = await getDocs(q);
+            if (!querySnapshot.empty) {
+                const request = querySnapshot.docs[0].data();
+                pendingUnenrollRequestId = querySnapshot.docs[0].id;
+                
+                // Find the course in enrolledCourses
+                const courseIndex = enrolledCourses.findIndex(c => c.id === request.courseId);
+                if (courseIndex !== -1) {
+                    enrolledCourses[courseIndex].unenrollmentRequested = true;
+                    enrolledCourses[courseIndex].requestTimestamp = request.requestedAt;
+                    
+                    // Show pending modal if request is still within 2 days
+                    const requestTime = request.requestedAt.toDate();
+                    const now = new Date();
+                    const diffHours = (now - requestTime) / (1000 * 60 * 60);
+                    
+                    if (diffHours < 48) {
+                        showPendingUnenrollModal(request.courseId, 48 - diffHours);
+                    }
+                }
+            }
+        }
+
+        // Check for pending Google disconnection
+        async function checkPendingDisconnect(userId) {
+            const q = query(
+                collection(db, "disconnectRequests"),
+                where("userId", "==", userId),
+                where("status", "==", "pending")
+            );
             
-            if (filter === 'pending') {
-                filteredAssignments = assignments.filter(a => a.status === 'pending');
-            } else if (filter === 'completed') {
-                filteredAssignments = assignments.filter(a => a.status === 'completed');
-            } else if (filter === 'overdue') {
-                filteredAssignments = assignments.filter(a => a.status === 'overdue');
+            const querySnapshot = await getDocs(q);
+            if (!querySnapshot.empty) {
+                const request = querySnapshot.docs[0].data();
+                
+                // Show scheduled modal if request is still within 3 days
+                const requestTime = request.requestedAt.toDate();
+                const now = new Date();
+                const diffHours = (now - requestTime) / (1000 * 60 * 60);
+                
+                if (diffHours < 72) {
+                    showScheduledDisconnectModal(72 - diffHours, querySnapshot.docs[0].id);
+                }
+            }
+        }
+
+        // Update profile UI with user data
+        function updateProfileUI() {
+            const displayName = userData?.name || currentUser.displayName || "User";
+            const initials = displayName.split(' ').map(n => n[0]).join('').toUpperCase();
+            
+            if (!userData.avatarUrl) {
+                avatarInitials.textContent = initials;
+                avatarInitials.classList.remove('d-none');
             }
             
-            if (filteredAssignments.length === 0) {
-                noAssignmentsMessage.classList.remove('d-none');
+            profileName.textContent = displayName;
+            profileId.textContent = userData?.studentId || "No ID provided";
+            profileEmail.textContent = currentUser.email;
+            profileDepartment.textContent = userData?.department || "Not specified";
+            profileYear.textContent = userData?.year || "Not specified";
+            profilePhone.textContent = userData?.phone || "Not provided";
+            profileGender.textContent = userData?.gender || "Not specified";
+
+            // Fill edit form with current data
+            if (editName) editName.value = displayName;
+            if (editStudentId) editStudentId.value = userData?.studentId || "";
+            if (editDepartment) editDepartment.value = userData?.department || "";
+            if (editYear) editYear.value = userData?.year || "";
+            if (editPhone) editPhone.value = userData?.phone || "";
+            if (editGender) editGender.value = userData?.gender || "";
+        }
+
+        // Upload profile avatar
+        async function uploadAvatar() {
+            const input = document.createElement('input');
+            input.type = 'file';
+            input.accept = 'image/*';
+            
+            input.onchange = async (e) => {
+                const file = e.target.files[0];
+                if (!file) return;
+                
+                try {
+                    // Create a reference to the storage location
+                    const storageRef = ref(storage, `avatars/${currentUser.uid}`);
+                    
+                    // Upload the file
+                    const snapshot = await uploadBytes(storageRef, file);
+                    
+                    // Get the download URL
+                    const downloadURL = await getDownloadURL(snapshot.ref);
+                    
+                    // Update user document with avatar URL
+                    await updateDoc(doc(db, "users", currentUser.uid), {
+                        avatarUrl: downloadURL
+                    });
+                    
+                    // Update local data
+                    userData.avatarUrl = downloadURL;
+                    
+                    // Update UI
+                    profileAvatar.innerHTML = `<img src="${downloadURL}" alt="Profile Avatar">`;
+                    avatarInitials.classList.add('d-none');
+                    
+                    alert('Profile picture updated successfully!');
+                } catch (error) {
+                    console.error("Error uploading avatar:", error);
+                    alert("Failed to upload profile picture. Please try again.");
+                }
+            };
+            
+            input.click();
+        }
+
+        // Save profile changes
+        async function saveProfile(e) {
+            e.preventDefault();
+            
+            try {
+                const updates = {
+                    name: editName.value,
+                    studentId: editStudentId.value,
+                    department: editDepartment.value,
+                    year: editYear.value,
+                    phone: editPhone.value,
+                    gender: editGender.value,
+                    lastUpdated: serverTimestamp()
+                };
+                
+                // Update in Firestore
+                await updateDoc(doc(db, "users", currentUser.uid), updates);
+                
+                // Update local data
+                userData = { ...userData, ...updates };
+                
+                // Refresh UI
+                updateProfileUI();
+                
+                // Close modal
+                editProfileModal.classList.remove('active');
+                
+                // Show success message
+                alert('Profile updated successfully!');
+            } catch (error) {
+                console.error("Error updating profile:", error);
+                alert("Failed to update profile. Please try again.");
+            }
+        }
+
+        // Change password
+        async function changePassword(e) {
+            e.preventDefault();
+            
+            if (newPassword.value !== confirmPassword.value) {
+                alert("New passwords don't match!");
+                return;
+            }
+
+            try {
+                const user = auth.currentUser;
+                const credential = EmailAuthProvider.credential(
+                    user.email,
+                    currentPassword.value
+                );
+
+                // Reauthenticate user
+                await reauthenticateWithCredential(user, credential);
+                
+                // Update password
+                await updatePassword(user, newPassword.value);
+                
+                // Clear form
+                passwordForm.reset();
+                
+                // Close modal
+                changePasswordModal.classList.remove('active');
+                
+                // Show success message
+                alert("Password changed successfully!");
+            } catch (error) {
+                console.error("Error changing password:", error);
+                alert("Failed to change password. Please check your current password and try again.");
+            }
+        }
+
+        // Display enrolled courses
+        function displayEnrolledCourses() {
+            enrolledCoursesList.innerHTML = '';
+            
+            if (enrolledCourses.length === 0) {
+                noCoursesMessage.classList.remove('d-none');
+                enrolledCount.textContent = '0';
                 return;
             }
             
-            noAssignmentsMessage.classList.add('d-none');
-            
-            filteredAssignments.forEach(assignment => {
-                const assignmentItem = document.createElement('div');
-                assignmentItem.className = 'assignment-item';
+            noCoursesMessage.classList.add('d-none');
+            enrolledCount.textContent = enrolledCourses.length;
+
+            enrolledCourses.forEach(course => {
+                const courseItem = document.createElement('div');
+                courseItem.className = 'course-item';
                 
-                // Format due date
-                const dueDate = assignment.dueDate.toLocaleDateString('en-US', {
-                    weekday: 'short',
-                    year: 'numeric',
-                    month: 'short',
-                    day: 'numeric'
-                });
+                // Check if unenrollment is pending
+                const pendingRequest = course.unenrollmentRequested;
                 
-                // Status badge
-                let statusBadge = '';
-                if (assignment.status === 'pending') {
-                    statusBadge = '<span class="status-badge status-pending">Pending</span>';
-                } else if (assignment.status === 'completed') {
-                    statusBadge = '<span class="status-badge status-completed">Completed</span>';
-                } else if (assignment.status === 'overdue') {
-                    statusBadge = '<span class="status-badge status-overdue">Overdue</span>';
-                }
-                
-                assignmentItem.innerHTML = `
+                courseItem.innerHTML = `
                     <div class="d-flex justify-between align-center">
-                        <strong>${assignment.title}</strong>
-                        ${statusBadge}
+                        <strong>${course.title}</strong>
+                        ${pendingRequest ? '<span class="status-badge status-pending">Pending Unenroll</span>' : ''}
                     </div>
-                    <div class="assignment-due">
-                        Due: ${dueDate}
+                    <div class="course-detail mt-1">
+                        <strong>Instructor:</strong> ${course.instructor}
                     </div>
-                    <div class="mt-1">
-                        <strong>Course:</strong> ${assignment.courseName}
+                    <div class="course-detail">
+                        <strong>Schedule:</strong> ${course.schedule}
                     </div>
-                    <div class="assignment-progress">
+                    <div class="progress-container mt-2">
                         <div class="progress-label">
-                            <span>Progress: ${assignment.progress}%</span>
+                            <span>Progress: ${course.progress}%</span>
                         </div>
                         <div class="progress-bar">
-                            <div class="progress-fill" style="width: ${assignment.progress}%"></div>
+                            <div class="progress-fill" style="width: ${course.progress}%"></div>
                         </div>
                     </div>
                     <div class="course-actions mt-2">
-                        <button class="btn btn-outline btn-sm" onclick="viewAssignmentDetails('${assignment.id}')">
-                            <i class="fas fa-eye"></i> View Details
+                        <button class="btn btn-outline btn-sm" onclick="viewCourseProgress('${course.id}')">
+                            <i class="fas fa-chart-line"></i> Progress
                         </button>
-                        ${assignment.status !== 'completed' ? `
-                            <button class="btn btn-primary btn-sm" onclick="workOnAssignment('${assignment.id}')">
-                                <i class="fas fa-edit"></i> Work On It
+                        ${!pendingRequest ? `
+                            <button class="btn btn-outline btn-sm" onclick="requestUnenroll('${course.id}')">
+                                <i class="fas fa-sign-out-alt"></i> Unenroll
                             </button>
-                        ` : ''}
+                        ` : `
+                            <button class="btn btn-warning btn-sm" onclick="viewPendingRequest('${course.id}')">
+                                <i class="fas fa-hourglass-half"></i> Pending
+                            </button>
+                        `}
                     </div>
                 `;
-                
-                assignmentsList.appendChild(assignmentItem);
+                enrolledCoursesList.appendChild(courseItem);
             });
         }
 
-        // View assignment details
-        function viewAssignmentDetails(assignmentId) {
-            const assignment = assignments.find(a => a.id === assignmentId);
-            if (!assignment) return;
+        // Load classmates
+        async function loadClassmates() {
+            try {
+                // First get all users in the same department
+                const q = query(
+                    collection(db, "users"),
+                    where("department", "==", userData.department)
+                );
+                
+                const querySnapshot = await getDocs(q);
+                classmates = [];
+                
+                querySnapshot.forEach(doc => {
+                    if (doc.id !== currentUser.uid) { // Exclude current user
+                        const data = doc.data();
+                        classmates.push({
+                            id: doc.id,
+                            name: data.name,
+                            department: data.department,
+                            year: data.year,
+                            avatarUrl: data.avatarUrl,
+                            email: data.email,
+                            studentId: data.studentId
+                        });
+                    }
+                });
+                
+                displayClassmates();
+            } catch (error) {
+                console.error("Error loading classmates:", error);
+            }
+        }
+
+        // Display classmates
+        function displayClassmates(filter = 'all') {
+            classmatesList.innerHTML = '';
             
-            // Format due date
-            const dueDate = assignment.dueDate.toLocaleDateString('en-US', {
-                weekday: 'long',
-                year: 'numeric',
-                month: 'long',
-                day: 'numeric',
-                hour: '2-digit',
-                minute: '2-digit'
+            let filteredClassmates = [...classmates];
+            
+            if (filter === 'department') {
+                filteredClassmates = classmates.filter(mate => mate.department === userData.department);
+            } else if (filter === 'year') {
+                filteredClassmates = classmates.filter(mate => mate.year === userData.year);
+            } else if (filter === 'current') {
+                // Filter classmates who are in the same courses
+                const courseIds = enrolledCourses.map(c => c.id);
+                // This would need additional data structure to track who is in which courses
+                // For now we'll just show all classmates
+            }
+            
+            if (filteredClassmates.length === 0) {
+                classmatesList.innerHTML = '<p>No classmates found matching your criteria.</p>';
+                return;
+            }
+            
+            filteredClassmates.forEach(mate => {
+                const mateItem = document.createElement('div');
+                mateItem.className = 'classmate-item';
+                
+                mateItem.innerHTML = `
+                    <div class="classmate-avatar">
+                        ${mate.avatarUrl ? 
+                            `<img src="${mate.avatarUrl}" alt="${mate.name}">` : 
+                            mate.name.split(' ').map(n => n[0]).join('').toUpperCase()
+                        }
+                    </div>
+                    <div class="classmate-name">${mate.name}</div>
+                    <div class="classmate-department">${mate.department}</div>
+                    <div class="classmate-department">${mate.year}</div>
+                `;
+                
+                mateItem.addEventListener('click', () => viewClassmateProfile(mate.id));
+                classmatesList.appendChild(mateItem);
             });
+        }
+
+        // Filter classmates
+        function filterClassmates() {
+            const filterValue = classmatesFilter.value;
+            displayClassmates(filterValue);
+        }
+
+        // View classmate profile
+        function viewClassmateProfile(classmateId) {
+            // In a real app, this would open the classmate's profile
+            alert(`Viewing profile of classmate with ID: ${classmateId}`);
+        }
+
+        // Request to unenroll from a course
+        function requestUnenroll(courseId) {
+            pendingUnenrollCourseId = courseId;
+            const course = enrolledCourses.find(c => c.id === courseId);
+            if (!course) return;
+
+            unenrollMessage.textContent = `Are you sure you want to request unenrollment from ${course.title}?`;
+            unenrollModal.classList.add('active');
+        }
+
+        // View pending unenrollment request
+        function viewPendingRequest(courseId) {
+            const course = enrolledCourses.find(c => c.id === courseId);
+            if (!course || !course.unenrollmentRequested) return;
             
-            // Set modal content
-            assignmentModalTitle.textContent = assignment.title;
-            document.getElementById('assignment-course-name').textContent = assignment.courseName;
-            document.getElementById('assignment-due-date').textContent = dueDate;
-            document.getElementById('assignment-status').innerHTML = 
-                assignment.status === 'completed' ? 
-                '<span class="status-badge status-completed">Completed</span>' :
-                assignment.status === 'overdue' ?
-                '<span class="status-badge status-overdue">Overdue</span>' :
-                '<span class="status-badge status-pending">Pending</span>';
-            document.getElementById('assignment-description').textContent = assignment.description;
+            const requestTime = course.requestTimestamp.toDate();
+            const now = new Date();
+            const diffHours = (now - requestTime) / (1000 * 60 * 60);
+            const remainingHours = 48 - diffHours;
+            
+            showPendingUnenrollModal(courseId, remainingHours);
+        }
+
+        // Show pending unenroll modal
+        function showPendingUnenrollModal(courseId, remainingHours) {
+            pendingUnenrollCourseId = courseId;
+            
+            // Update time remaining display
+            updateUnenrollTimer(remainingHours);
             
             // Show modal
-            assignmentModal.classList.add('active');
+            unenrollPendingModal.classList.add('active');
+            
+            // Start countdown timer
+            if (unenrollInterval) clearInterval(unenrollInterval);
+            
+            let hoursLeft = remainingHours;
+            unenrollInterval = setInterval(() => {
+                hoursLeft -= 0.1;
+                if (hoursLeft <= 0) {
+                    clearInterval(unenrollInterval);
+                    unenrollPendingModal.classList.remove('active');
+                    // The actual unenrollment would be handled by a backend process
+                } else {
+                    updateUnenrollTimer(hoursLeft);
+                }
+            }, 6 * 60 * 1000); // Update every 6 minutes
         }
 
-        // Work on assignment
-        function workOnAssignment(assignmentId) {
-            viewAssignmentDetails(assignmentId);
-            // Additional setup for working on the assignment
+        // Update unenroll timer display
+        function updateUnenrollTimer(hoursLeft) {
+            const hours = Math.floor(hoursLeft);
+            const minutes = Math.floor((hoursLeft - hours) * 60);
+            
+            timeRemaining.textContent = `${hours} hours ${minutes} minutes`;
+            pendingProgress.style.width = `${(hoursLeft / 48) * 100}%`;
         }
 
-        // Make functions available globally
-        window.viewAssignmentDetails = viewAssignmentDetails;
-        window.workOnAssignment = workOnAssignment;
+        // Submit unenrollment request
+        async function submitUnenrollRequest() {
+            if (!pendingUnenrollCourseId || !currentUser) return;
+
+            try {
+                const course = enrolledCourses.find(c => c.id === pendingUnenrollCourseId);
+                if (!course) return;
+
+                // Create unenrollment request in Firestore
+                const requestRef = await addDoc(collection(db, "unenrollmentRequests"), {
+                    userId: currentUser.uid,
+                    courseId: pendingUnenrollCourseId,
+                    courseTitle: course.title,
+                    userName: userData.name,
+                    userEmail: currentUser.email,
+                    studentId: userData.studentId,
+                    department: userData.department,
+                    requestedAt: serverTimestamp(),
+                    status: "pending",
+                    processAt: new Date(Date.now() + 2 * 24 * 60 * 60 * 1000) // 2 days from now
+                });
+
+                // Mark course as having pending unenrollment request
+                const updatedCourses = enrolledCourses.map(c => {
+                    if (c.id === pendingUnenrollCourseId) {
+                        return { 
+                            ...c, 
+                            unenrollmentRequested: true,
+                            requestId: requestRef.id,
+                            requestTimestamp: serverTimestamp()
+                        };
+                    }
+                    return c;
+                });
+
+                await updateDoc(doc(db, "users", currentUser.uid), {
+                    enrolledCourses: updatedCourses
+                });
+
+                // Update local data
+                enrolledCourses = updatedCourses;
+                pendingUnenrollRequestId = requestRef.id;
+
+                // Close modals and show success
+                unenrollModal.classList.remove('active');
+                requestSubmittedModal.classList.add('active');
+
+                // Show pending modal
+                showPendingUnenrollModal(pendingUnenrollCourseId, 48);
+                
+                // Refresh display
+                displayEnrolledCourses();
+            } catch (error) {
+                console.error("Error submitting unenrollment request:", error);
+                alert("Failed to submit unenrollment request. Please try again.");
+            } finally {
+                pendingUnenrollCourseId = null;
+            }
+        }
+
+        // Cancel unenrollment request
+        async function cancelUnenrollRequest() {
+            if (!pendingUnenrollCourseId || !pendingUnenrollRequestId) return;
+            
+            try {
+                // Delete the unenrollment request
+                await deleteDoc(doc(db, "unenrollmentRequests", pendingUnenrollRequestId));
+                
+                // Update the course to remove pending status
+                const updatedCourses = enrolledCourses.map(c => {
+                    if (c.id === pendingUnenrollCourseId) {
+                        const { unenrollmentRequested, requestId, requestTimestamp, ...rest } = c;
+                        return rest;
+                    }
+                    return c;
+                });
+                
+                await updateDoc(doc(db, "users", currentUser.uid), {
+                    enrolledCourses: updatedCourses
+                });
+                
+                // Update local data
+                enrolledCourses = updatedCourses;
+                
+                // Close modals and show confirmation
+                unenrollPendingModal.classList.remove('active');
+                requestCancelledModal.classList.add('active');
+                
+                // Clear interval
+                if (unenrollInterval) clearInterval(unenrollInterval);
+                
+                // Refresh display
+                displayEnrolledCourses();
+            } catch (error) {
+                console.error("Error cancelling unenrollment request:", error);
+                alert("Failed to cancel unenrollment request. Please try again.");
+            } finally {
+                pendingUnenrollCourseId = null;
+                pendingUnenrollRequestId = null;
+            }
+        }
+
+        // Schedule Google account disconnection
+        async function scheduleGoogleDisconnect() {
+            if (disconnectPassword.value !== disconnectConfirm.value) {
+                alert("Passwords don't match!");
+                return;
+            }
+            
+            try {
+                // Create disconnection request in Firestore
+                const requestRef = await addDoc(collection(db, "disconnectRequests"), {
+                    userId: currentUser.uid,
+                    userName: userData.name,
+                    userEmail: currentUser.email,
+                    requestedAt: serverTimestamp(),
+                    status: "pending",
+                    processAt: new Date(Date.now() + 3 * 24 * 60 * 60 * 1000), // 3 days from now
+                    newPassword: disconnectPassword.value // Note: In production, you should never store passwords in plain text
+                    // This is just for demonstration. In a real app, you would handle this differently
+                });
+                
+                // Close modals and show scheduled modal
+                disconnectGoogleModal.classList.remove('active');
+                showScheduledDisconnectModal(72, requestRef.id);
+                
+                // Clear form
+                disconnectPassword.value = '';
+                disconnectConfirm.value = '';
+            } catch (error) {
+                console.error("Error scheduling Google disconnection:", error);
+                alert("Failed to schedule Google account disconnection. Please try again.");
+            }
+        }
+
+        // Show scheduled disconnect modal
+        function showScheduledDisconnectModal(remainingHours, requestId) {
+            // Update time remaining display
+            updateDisconnectTimer(remainingHours);
+            
+            // Show modal
+            disconnectScheduledModal.classList.add('active');
+            
+            // Start countdown timer
+            if (disconnectInterval) clearInterval(disconnectInterval);
+            
+            let hoursLeft = remainingHours;
+            disconnectInterval = setInterval(() => {
+                hoursLeft -= 0.1;
+                if (hoursLeft <= 0) {
+                    clearInterval(disconnectInterval);
+                    disconnectScheduledModal.classList.remove('active');
+                    // The actual disconnection would be handled by a backend process
+                } else {
+                    updateDisconnectTimer(hoursLeft);
+                }
+            }, 6 * 60 * 1000); // Update every 6 minutes
+        }
+
+        // Update disconnect timer display
+        function updateDisconnectTimer(hoursLeft) {
+            const hours = Math.floor(hoursLeft);
+            const minutes = Math.floor((hoursLeft - hours) * 60);
+            
+            disconnectTimeRemaining.textContent = `${hours} hours ${minutes} minutes`;
+            disconnectProgress.style.width = `${(hoursLeft / 72) * 100}%`;
+        }
+
+        // Cancel Google account disconnection
+        async function cancelGoogleDisconnect() {
+            try {
+                // Find the pending disconnection request
+                const q = query(
+                    collection(db, "disconnectRequests"),
+                    where("userId", "==", currentUser.uid),
+                    where("status", "==", "pending")
+                );
+                
+                const querySnapshot = await getDocs(q);
+                if (!querySnapshot.empty) {
+                    // Delete the request
+                    await deleteDoc(querySnapshot.docs[0].ref);
+                }
+                
+                // Close modal
+                disconnectScheduledModal.classList.remove('active');
+                
+                // Clear interval
+                if (disconnectInterval) clearInterval(disconnectInterval);
+                
+                alert("Google account disconnection has been cancelled.");
+            } catch (error) {
+                console.error("Error cancelling Google disconnection:", error);
+                alert("Failed to cancel Google account disconnection. Please try again.");
+            }
+        }
+
+        // Confirm account deletion
+        function confirmDeleteAccount() {
+            if (confirm("Are you sure you want to delete your account? This action cannot be undone!")) {
+                deleteAccount();
+            }
+        }
+
+        // Delete user account
+        async function deleteAccount() {
+            try {
+                // In a real app, you would need to:
+                // 1. Reauthenticate the user
+                // 2. Delete all user data from Firestore
+                // 3. Delete the user from Firebase Auth
+                
+                alert("Account deletion would be processed here. This is just a demo.");
+            } catch (error) {
+                console.error("Error deleting account:", error);
+                alert("Failed to delete account. Please try again.");
+            }
+        }
+
+        // Complete first-time setup
+        async function completeSetup() {
+            try {
+                const updates = {
+                    name: setupName.value,
+                    studentId: setupStudentId.value,
+                    department: setupDepartment.value,
+                    year: setupYear.value,
+                    phone: setupPhone.value,
+                    gender: setupGender.value,
+                    lastUpdated: serverTimestamp(),
+                    setupCompleted: true
+                };
+                
+                // Update in Firestore
+                await updateDoc(doc(db, "users", currentUser.uid), updates);
+                
+                // Update local data
+                userData = { ...userData, ...updates };
+                
+                // Close setup modal
+                setupModal.classList.remove('active');
+                
+                // Refresh UI
+                updateProfileUI();
+                displayEnrolledCourses();
+                loadClassmates();
+            } catch (error) {
+                console.error("Error completing setup:", error);
+                alert("Failed to complete setup. Please try again.");
+            }
+        }
+
+        // Handle logout
+        async function handleLogout() {
+            try {
+                await signOut(auth);
+                window.location.href = 'login.html';
+            } catch (error) {
+                console.error("Error signing out:", error);
+                alert("Failed to logout. Please try again.");
+            }
+        }
+
+        // View course progress (would link to progress page)
+        function viewCourseProgress(courseId) {
+            // In a real app, this would redirect to the progress page
+            alert(`Viewing progress for course ${courseId}`);
+        }
 
         // Initialize the app when DOM is loaded
         document.addEventListener('DOMContentLoaded', initApp);
+
+        // Make functions available globally
+        window.requestUnenroll = requestUnenroll;
+        window.viewCourseProgress = viewCourseProgress;
+        window.viewPendingRequest = viewPendingRequest;
     </script>
 </body>
 </html>
