@@ -6,7 +6,6 @@
     <title>Support Center</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        /* --- Basic Setup & Variables --- */
         :root {
             --primary: #4361ee;
             --primary-dark: #3a56d4;
@@ -25,7 +24,11 @@
             --transition: all 0.3s ease;
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -34,35 +37,30 @@
             line-height: 1.6;
         }
 
-        .container { max-width: 1200px; margin: 0 auto; padding: 2rem; }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
 
-        /* --- Header --- */
         .header {
             background-color: var(--primary);
             color: white;
-            padding: 0.75rem 2rem; /* Adjusted padding */
+            padding: 1rem 2rem;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            min-height: var(--header-height);
         }
 
-        .header-left { display: flex; align-items: center; gap: 1rem; }
-        .header-left h1 { font-size: 1.5rem; margin: 0; }
+        .header h1 {
+            font-size: 1.5rem;
+        }
 
-        .header-right { display: flex; align-items: center; gap: 1.5rem; }
-
-        .user-info {
+        .nav-buttons {
             display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            font-size: 0.9rem;
+            gap: 1rem;
         }
-        .user-info i { font-size: 1.2rem; }
 
-        .nav-buttons { display: flex; gap: 1rem; }
-
-        /* --- Buttons --- */
         .btn {
             padding: 0.5rem 1rem;
             border-radius: 5px;
@@ -73,18 +71,35 @@
             display: inline-flex;
             align-items: center;
             gap: 0.5rem;
-            text-decoration: none; /* For links styled as buttons */
-            color: white; /* Default color */
         }
-        .btn-sm { padding: 0.3rem 0.8rem; font-size: 0.9rem; }
-        .btn-primary { background-color: var(--primary); }
-        .btn-primary:hover { background-color: var(--primary-dark); }
-        .btn-secondary { background-color: var(--gray); }
-        .btn-secondary:hover { background-color: #5a6268; }
-        .btn-danger { background-color: var(--danger); }
-        .btn-danger:hover { background-color: #e5177b; }
 
-        /* --- Support Container & Form --- */
+        .btn-primary {
+            background-color: var(--primary);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: var(--primary-dark);
+        }
+
+        .btn-secondary {
+            background-color: var(--gray);
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background-color: #5a6268;
+        }
+
+        .btn-danger {
+            background-color: var(--danger);
+            color: white;
+        }
+
+        .btn-danger:hover {
+            background-color: #e5177b;
+        }
+
         .support-container {
             background-color: white;
             border-radius: 10px;
@@ -98,148 +113,221 @@
             justify-content: space-between;
             align-items: center;
             margin-bottom: 2rem;
-            flex-wrap: wrap; /* Allow wrapping on small screens */
-            gap: 1rem;
         }
-        .support-header h2 { color: var(--primary); margin: 0; }
 
-        .ticket-form { margin-bottom: 2rem; }
-        .form-group { margin-bottom: 1.5rem; }
-        .form-group label { display: block; margin-bottom: 0.5rem; font-weight: 500; }
+        .support-header h2 {
+            color: var(--primary);
+        }
+
+        .ticket-form {
+            margin-bottom: 2rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+
         .form-control {
             width: 100%;
             padding: 0.75rem;
             border: 1px solid #ddd;
             border-radius: 5px;
             font-size: 1rem;
-            transition: border-color 0.2s ease;
         }
-        .form-control:focus { border-color: var(--primary); outline: none; }
-        textarea.form-control { min-height: 150px; resize: vertical; }
 
-        /* --- Ticket List & Filtering --- */
-         .ticket-controls {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 1.5rem;
-            flex-wrap: wrap;
-            gap: 1rem;
+        textarea.form-control {
+            min-height: 150px;
+            resize: vertical;
         }
-        .filter-group, .search-group { display: flex; align-items: center; gap: 0.5rem; }
-        .search-group input { padding: 0.5rem; border: 1px solid #ddd; border-radius: 5px; }
 
-        .ticket-list h3 { margin-bottom: 1.5rem; color: var(--secondary); }
+        .ticket-list {
+            margin-top: 2rem;
+        }
+
         .ticket {
             border: 1px solid #eee;
-            border-left: 4px solid var(--primary); /* Add left border */
             border-radius: 8px;
             padding: 1.5rem;
             margin-bottom: 1rem;
             transition: var(--transition);
-            background-color: var(--white);
         }
-        .ticket:hover { box-shadow: 0 4px 12px rgba(0,0,0,0.1); border-left-color: var(--primary-dark); }
-        .ticket-header { display: flex; justify-content: space-between; margin-bottom: 1rem; flex-wrap: wrap; gap: 0.5rem; }
-        .ticket-title { font-weight: 600; font-size: 1.1rem; color: var(--primary); }
-        .ticket-id { font-size: 0.85rem; color: var(--gray); font-family: monospace; }
-        .ticket-status { padding: 0.25rem 0.75rem; border-radius: 20px; font-size: 0.8rem; font-weight: 600; text-transform: capitalize; }
-        .status-open { background-color: #e0f7fa; color: #00796b; border: 1px solid #b2ebf2; }
-        .status-pending { background-color: #fff9c4; color: #f57f17; border: 1px solid #fff176; }
-        .status-resolved { background-color: #dcedc8; color: #33691e; border: 1px solid #c5e1a5;}
-        .status-closed { background-color: #f1f1f1; color: #616161; border: 1px solid #e0e0e0;}
 
-        .ticket-meta { display: flex; gap: 1.5rem; color: var(--gray); font-size: 0.9rem; margin-bottom: 1rem; flex-wrap: wrap; }
-        .ticket-meta span { display: inline-flex; align-items: center; gap: 0.3rem; }
-        .ticket-body { margin-bottom: 1rem; } /* Wrapper for message */
-
-        .ticket-response {
-            margin-top: 1rem; padding: 1rem; background-color: var(--gray-light); border-radius: 5px; border: 1px solid #ddd;
+        .ticket:hover {
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
         }
-        .ticket-response strong { display: block; margin-bottom: 0.5rem; color: var(--secondary); }
-        .ticket-response small { color: var(--gray); font-size: 0.85rem; margin-top: 0.5rem; display: block; }
 
-        .ticket-actions { display: flex; gap: 0.5rem; margin-top: 1rem; }
-        .no-tickets { text-align: center; padding: 3rem 1rem; color: var(--gray); background-color: var(--gray-light); border-radius: 8px; }
-        .no-tickets i { font-size: 2.5rem; margin-bottom: 1rem; display: block; color: var(--gray);}
-
-        /* --- Admin Link --- */
-        .admin-link { margin-top: 1rem; text-align: right; }
-
-        /* --- Toast Notification --- */
-        .toast {
-            position: fixed; bottom: 20px; right: 20px; /* Positioned at bottom */
-            padding: 1rem 1.5rem; background-color: var(--primary); color: white;
-            border-radius: 5px; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-            z-index: 1100; opacity: 0; transform: translateY(20px); /* Start off-screen */
-            transition: opacity 0.3s ease, transform 0.3s ease;
-            max-width: 350px;
+        .ticket-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 1rem;
         }
-        .toast.show { opacity: 1; transform: translateY(0); }
-        .toast-success { background-color: #28a745; } /* Bootstrap success green */
-        .toast-danger { background-color: var(--danger); }
-        .toast-warning { background-color: var(--warning); color: var(--dark); }
-        .toast-info { background-color: var(--info); }
 
-        /* --- Responsive --- */
+        .ticket-title {
+            font-weight: 600;
+            font-size: 1.1rem;
+            color: var(--primary);
+        }
+
+        .ticket-status {
+            padding: 0.25rem 0.5rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+
+        .status-open {
+            background-color: #d4edda;
+            color: #155724;
+        }
+
+        .status-pending {
+            background-color: #fff3cd;
+            color: #856404;
+        }
+
+        .status-closed {
+            background-color: #f8d7da;
+            color: #721c24;
+        }
+
+        .status-resolved {
+            background-color: #cce5ff;
+            color: #004085;
+        }
+
+        .ticket-meta {
+            display: flex;
+            gap: 1rem;
+            color: var(--gray);
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+
+        .ticket-actions {
+            display: flex;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+
+        .no-tickets {
+            text-align: center;
+            padding: 2rem;
+            color: var(--gray);
+        }
+
+        .admin-link {
+            margin-top: 1rem;
+            text-align: right;
+        }
+
+        /* Responsive styles */
         @media (max-width: 768px) {
-            .container { padding: 1rem; }
-            .header { flex-direction: column; gap: 1rem; padding: 1rem; height: auto; }
-            .header-left, .header-right { width: 100%; justify-content: space-between;}
-            .support-header { flex-direction: column; align-items: flex-start; gap: 1rem; }
-            .ticket-header { flex-direction: column; align-items: flex-start; gap: 0.5rem; }
-            .ticket-meta { flex-direction: column; gap: 0.5rem; align-items: flex-start; }
-            .ticket-controls { flex-direction: column; align-items: stretch; }
-            .filter-group, .search-group { width: 100%; justify-content: space-between; }
-            .search-group input { flex-grow: 1; }
+            .container {
+                padding: 1rem;
+            }
+            
+            .header {
+                flex-direction: column;
+                gap: 1rem;
+                padding: 1rem;
+            }
+            
+            .nav-buttons {
+                width: 100%;
+                justify-content: space-between;
+            }
+            
+            .support-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1rem;
+            }
+            
+            .ticket-header {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+            
+            .ticket-meta {
+                flex-direction: column;
+                gap: 0.25rem;
+            }
         }
-         @media (max-width: 480px) {
-            .nav-buttons { flex-direction: column; width: 100%; align-items: stretch; }
-            .nav-buttons .btn { justify-content: center;}
-            .user-info { justify-content: center; margin-top: 0.5rem;}
-            .header-right { flex-direction: column; gap: 1rem; }
-            .header-left h1 { font-size: 1.3rem; }
-         }
+
+        /* Toast notification */
+        .toast {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 1rem 1.5rem;
+            background-color: var(--primary);
+            color: white;
+            border-radius: 5px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            z-index: 1100;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            max-width: 300px;
+        }
+        
+        .toast.show {
+            opacity: 1;
+        }
+        
+        .toast-success {
+            background-color: var(--success);
+        }
+        
+        .toast-danger {
+            background-color: var(--danger);
+        }
+        
+        .toast-warning {
+            background-color: var(--warning);
+        }
+        
+        .toast-info {
+            background-color: var(--info);
+        }
     </style>
 </head>
 <body>
-    <header class="header">
-        <div class="header-left">
-             <h1><i class="fas fa-headset"></i> Support Center</h1>
+    <div class="header">
+        <h1><i class="fas fa-headset"></i> Support Center</h1>
+        <div class="nav-buttons">
+            <button class="btn btn-secondary" onclick="window.location.href='index.html'">
+                <i class="fas fa-home"></i> Home
+            </button>
+            <button class="btn btn-primary" id="adminSupportBtn" style="display: none;">
+                <i class="fas fa-cog"></i> Admin Panel
+            </button>
         </div>
-        <div class="header-right">
-             <div id="userInfo" class="user-info">
-                <i class="fas fa-user-circle"></i>
-                 <span>Loading...</span>
-             </div>
-             <nav class="nav-buttons">
-                 <a href="index.html" class="btn btn-secondary"> <i class="fas fa-home"></i> Home
-                 </a>
-                 <button class="btn btn-primary" id="adminSupportBtn" style="display: none;">
-                     <i class="fas fa-cog"></i> Admin Panel
-                 </button>
-             </nav>
-        </div>
-    </header>
+    </div>
 
     <div class="container">
         <div class="support-container">
             <div class="support-header">
                 <h2><i class="fas fa-question-circle"></i> Submit a Support Ticket</h2>
             </div>
-
+            
             <div class="ticket-form">
                 <form id="supportForm">
                     <div class="form-group">
                         <label for="ticketSubject">Subject</label>
                         <input type="text" id="ticketSubject" class="form-control" placeholder="Briefly describe your issue" required>
                     </div>
-
+                    
                     <div class="form-group">
                         <label for="ticketMessage">Message</label>
                         <textarea id="ticketMessage" class="form-control" placeholder="Describe your issue in detail" required></textarea>
                     </div>
-
+                    
                     <div class="form-group">
                         <label for="ticketPriority">Priority</label>
                         <select id="ticketPriority" class="form-control" required>
@@ -249,45 +337,25 @@
                             <option value="urgent">Urgent</option>
                         </select>
                     </div>
-
+                    
                     <button type="submit" class="btn btn-primary">
                         <i class="fas fa-paper-plane"></i> Submit Ticket
                     </button>
                 </form>
             </div>
-
-            <hr style="margin: 2rem 0; border: 0; border-top: 1px solid var(--gray-light);">
-
+            
             <div class="ticket-list">
-                 <h3><i class="fas fa-ticket-alt"></i> Your Support Tickets</h3>
-
-                 <div class="ticket-controls">
-                     <div class="filter-group">
-                         <label for="statusFilter"><i class="fas fa-filter"></i> Status:</label>
-                         <select id="statusFilter" class="form-control" style="width: auto;">
-                             <option value="all">All</option>
-                             <option value="open">Open</option>
-                             <option value="pending">Pending</option>
-                             <option value="resolved">Resolved</option>
-                             <option value="closed">Closed</option>
-                         </select>
-                     </div>
-                     <div class="search-group">
-                        <label for="ticketSearch"><i class="fas fa-search"></i> Search:</label>
-                        <input type="text" id="ticketSearch" placeholder="Search by subject...">
-                     </div>
-                 </div>
-
+                <h3><i class="fas fa-ticket-alt"></i> Your Support Tickets</h3>
                 <div id="ticketsContainer">
                     <div class="no-tickets">
-                        <i class="fas fa-spinner fa-spin"></i> <p>Loading tickets...</p>
+                        <i class="fas fa-inbox" style="font-size: 2rem; margin-bottom: 1rem;"></i>
+                        <p>You haven't submitted any support tickets yet.</p>
                     </div>
                 </div>
             </div>
-
-            <div class="admin-link" id="adminLinkContainer" style="display: none;"> <a href="supportadmin.html" class="btn btn-primary btn-sm">
-                    <i class="fas fa-user-shield"></i> Go to Admin Support Panel
-                 </a>
+            
+            <div class="admin-link" id="adminLinkContainer">
+                <!-- Admin link will be shown here if user is admin -->
             </div>
         </div>
     </div>
@@ -295,335 +363,212 @@
     <div id="toast" class="toast"></div>
 
     <script type="module">
-        // Import Firebase modules
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-app.js";
         import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-auth.js";
-        import { getFirestore, collection, query, where, orderBy, getDocs, addDoc, serverTimestamp, Timestamp } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-firestore.js";
+        import { getFirestore, collection, query, where, getDocs, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-firestore.js";
 
-        // IMPORTANT: Consider moving Firebase config to a separate, non-public file or environment variables
-        // Hardcoding keys here is not recommended for production applications.
+        // Your Firebase configuration
         const firebaseConfig = {
-           apiKey: "AIzaSyBQyNVWh1BtCkXlBfuS7jHAa36FTklZayo", // Replace with your actual config
-           authDomain: "pharma-quiz-b5a07.firebaseapp.com",
-           databaseURL: "https://pharma-quiz-b5a07-default-rtdb.firebaseio.com",
-           projectId: "pharma-quiz-b5a07",
-           storageBucket: "pharma-quiz-b5a07.appspot.com",
-           messagingSenderId: "161067776789",
-           appId: "1:161067776789:web:88b8a61145dc5f5c31471c",
-           measurementId: "G-3QRQE9HQFB"
+            apiKey: "AIzaSyBQyNVWh1BtCkXlBfuS7jHAa36FTklZayo",
+            authDomain: "pharma-quiz-b5a07.firebaseapp.com",
+            databaseURL: "https://pharma-quiz-b5a07-default-rtdb.firebaseio.com",
+            projectId: "pharma-quiz-b5a07",
+            storageBucket: "pharma-quiz-b5a07.appspot.com",
+            messagingSenderId: "161067776789",
+            appId: "1:161067776789:web:88b8a61145dc5f5c31471c",
+            measurementId: "G-3QRQE9HQFB"
         };
 
-        // --- Initialize Firebase ---
+        // Initialize Firebase
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
         const db = getFirestore(app);
 
-        // --- DOM Elements ---
+        // DOM elements
         const supportForm = document.getElementById('supportForm');
         const ticketsContainer = document.getElementById('ticketsContainer');
-        const adminSupportBtn = document.getElementById('adminSupportBtn'); // In header
-        const adminLinkContainer = document.getElementById('adminLinkContainer'); // At bottom
-        const userInfoDiv = document.getElementById('userInfo');
-        const statusFilter = document.getElementById('statusFilter');
-        const ticketSearch = document.getElementById('ticketSearch');
-        const toast = document.getElementById('toast');
+        const adminSupportBtn = document.getElementById('adminSupportBtn');
+        const adminLinkContainer = document.getElementById('adminLinkContainer');
 
-        // --- Global State ---
+        // Global variables
         let currentUser = null;
         let isAdmin = false;
 
-        // --- Authentication ---
+        // Check authentication state
         onAuthStateChanged(auth, async (user) => {
             if (user) {
                 currentUser = user;
-                updateUserInfo(user); // Update header
-                isAdmin = await checkAdminRole(user); // Check admin status
-                setupAdminUI(isAdmin); // Show/hide admin elements
-                loadUserTickets(); // Load tickets initially
-                setupEventListeners(); // Setup filter/search listeners
+                await checkAdminRole(user);
+                loadUserTickets(user.uid);
+                
+                // Show admin button if user is admin
+                if (isAdmin) {
+                    adminSupportBtn.style.display = 'inline-flex';
+                    adminSupportBtn.addEventListener('click', () => {
+                        window.location.href = 'supportadmin.html';
+                    });
+                    
+                    const adminLink = document.createElement('a');
+                    adminLink.href = 'supportadmin.html';
+                    adminLink.className = 'btn btn-primary';
+                    adminLink.innerHTML = '<i class="fas fa-cog"></i> Go to Admin Support Panel';
+                    adminLinkContainer.appendChild(adminLink);
+                }
             } else {
-                // Not logged in, redirect to login page
-                window.location.href = 'login.html'; // Or your login page path
+                // Redirect to login if not authenticated
+                window.location.href = 'login.html';
             }
         });
 
-        // --- UI Updates ---
-        function updateUserInfo(user) {
-             // Display email, or displayName if available
-            const displayName = user.displayName || user.email;
-            userInfoDiv.innerHTML = `
-                <i class="fas fa-user-circle"></i>
-                <span>${displayName}</span>
-            `;
-        }
-
-        function setupAdminUI(isAdminUser) {
-             if (isAdminUser) {
-                adminSupportBtn.style.display = 'inline-flex'; // Show button in header
-                adminSupportBtn.onclick = () => window.location.href = 'supportadmin.html'; // Add click handler
-
-                adminLinkContainer.style.display = 'block'; // Show link at bottom
-             } else {
-                adminSupportBtn.style.display = 'none';
-                adminLinkContainer.style.display = 'none';
-             }
-        }
-
-         // --- Event Listeners for Filters/Search ---
-         function setupEventListeners() {
-            statusFilter.addEventListener('change', loadUserTickets);
-            ticketSearch.addEventListener('input', debounce(loadUserTickets, 500)); // Use debounce to limit calls
-         }
-
-         // Debounce function to limit how often search triggers loading
-         function debounce(func, wait) {
-            let timeout;
-            return function executedFunction(...args) {
-                const later = () => {
-                    clearTimeout(timeout);
-                    func(...args);
-                };
-                clearTimeout(timeout);
-                timeout = setTimeout(later, wait);
-            };
-         }
-
-        // --- Admin Role Check ---
+        // Check if user is admin
         async function checkAdminRole(user) {
             if (!user) return false;
-            // Query the 'users' collection for the current user's email
-            const usersRef = collection(db, "users");
-            const q = query(usersRef, where("email", "==", user.email));
+            const q = query(collection(db, "users"), where("email", "==", user.email));
             try {
                 const querySnapshot = await getDocs(q);
-                if (!querySnapshot.empty) {
-                    const userDoc = querySnapshot.docs[0];
-                    return userDoc.data().role === 'admin'; // Check if role is 'admin'
-                }
-                return false; // User not found in collection
+                if (querySnapshot.empty) return false;
+                
+                const userDoc = querySnapshot.docs[0];
+                const userData = userDoc.data();
+                isAdmin = userData.role === 'admin';
+                return isAdmin;
             } catch (error) {
                 console.error("Error checking admin role:", error);
-                showToast("Error checking user role.", "danger");
                 return false;
             }
         }
 
-        // --- Load User Tickets ---
-        async function loadUserTickets() {
-            if (!currentUser) return; // Need user to load tickets
-
-            const selectedStatus = statusFilter.value;
-            const searchTerm = ticketSearch.value.trim().toLowerCase();
-
-            // Start showing loading state
-            ticketsContainer.innerHTML = `
-                <div class="no-tickets">
-                    <i class="fas fa-spinner fa-spin"></i>
-                    <p>Loading tickets...</p>
-                </div>`;
-
+        // Load user tickets
+        async function loadUserTickets(userId) {
             try {
-                // Base query: user's tickets, ordered by creation date descending
-                let ticketsQuery = query(
-                    collection(db, "supportTickets"),
-                    where("userId", "==", currentUser.uid),
-                    orderBy("createdAt", "desc")
-                );
-
-                // Add status filter if not 'all'
-                if (selectedStatus !== 'all') {
-                    ticketsQuery = query(ticketsQuery, where("status", "==", selectedStatus));
-                }
-
-                const querySnapshot = await getDocs(ticketsQuery);
-
-                 let filteredTickets = [];
-                 querySnapshot.forEach(doc => {
-                    const ticket = doc.data();
-                    const ticketId = doc.id;
-                     // Client-side search filtering (if needed)
-                    if (!searchTerm || ticket.subject.toLowerCase().includes(searchTerm)) {
-                         filteredTickets.push({ id: ticketId, ...ticket });
-                     }
-                 });
-
-
-                if (filteredTickets.length === 0) {
+                const q = query(collection(db, "supportTickets"), where("userId", "==", userId));
+                const querySnapshot = await getDocs(q);
+                
+                if (querySnapshot.empty) {
                     ticketsContainer.innerHTML = `
                         <div class="no-tickets">
-                            <i class="fas fa-inbox"></i>
-                            <p>No support tickets found matching your criteria.</p>
-                        </div>`;
-                } else {
-                    ticketsContainer.innerHTML = ''; // Clear loading/previous tickets
-                    filteredTickets.forEach(ticket => renderTicket(ticket));
+                            <i class="fas fa-inbox" style="font-size: 2rem; margin-bottom: 1rem;"></i>
+                            <p>You haven't submitted any support tickets yet.</p>
+                        </div>
+                    `;
+                    return;
                 }
-
+                
+                ticketsContainer.innerHTML = '';
+                
+                querySnapshot.forEach((doc) => {
+                    const ticket = doc.data();
+                    const ticketId = doc.id;
+                    renderTicket(ticket, ticketId);
+                });
             } catch (error) {
                 console.error("Error loading tickets:", error);
-                showToast("Error loading your support tickets. Please try again.", "danger");
-                 ticketsContainer.innerHTML = `
-                        <div class="no-tickets">
-                            <i class="fas fa-exclamation-triangle"></i>
-                            <p>Could not load tickets. Please refresh the page.</p>
-                        </div>`;
+                showToast("Error loading your support tickets", "danger");
             }
         }
 
-        // --- Render a Single Ticket ---
-        function renderTicket(ticket) {
+        // Render a single ticket
+        function renderTicket(ticket, ticketId) {
             const ticketElement = document.createElement('div');
             ticketElement.className = 'ticket';
-            ticketElement.dataset.ticketId = ticket.id; // Add data attribute for ID
-
-            // Format date safely (check if it's a Firestore Timestamp)
-            let formattedDate = 'N/A';
-            if (ticket.createdAt && typeof ticket.createdAt.toDate === 'function') {
-                formattedDate = ticket.createdAt.toDate().toLocaleString();
-            } else if (ticket.createdAt) {
-                 // Handle potential string or number timestamps if necessary (less likely with serverTimestamp)
-                 try { formattedDate = new Date(ticket.createdAt).toLocaleString(); } catch (e) {}
-            }
-
-            // Format response date safely
-             let formattedResponseDate = '';
-            if (ticket.respondedAt && typeof ticket.respondedAt.toDate === 'function') {
-                formattedResponseDate = ticket.respondedAt.toDate().toLocaleString();
-            }
-
-
-            // Determine status class
-            const statusClass = `status-${ticket.status || 'open'}`; // Default to open if status is missing
-
+            
+            // Format date
+            const createdAt = ticket.createdAt?.toDate ? ticket.createdAt.toDate() : new Date();
+            const formattedDate = createdAt.toLocaleString();
+            
+            // Get status class
+            let statusClass = 'status-open';
+            if (ticket.status === 'resolved') statusClass = 'status-resolved';
+            else if (ticket.status === 'closed') statusClass = 'status-closed';
+            else if (ticket.status === 'pending') statusClass = 'status-pending';
+            
             ticketElement.innerHTML = `
                 <div class="ticket-header">
-                    <div>
-                        <div class="ticket-title">${escapeHTML(ticket.subject)}</div>
-                        <div class="ticket-id">ID: ${ticket.id}</div>
-                    </div>
-                    <div class="ticket-status ${statusClass}">${escapeHTML(ticket.status)}</div>
+                    <div class="ticket-title">${ticket.subject}</div>
+                    <div class="ticket-status ${statusClass}">${ticket.status}</div>
                 </div>
                 <div class="ticket-meta">
-                    <span><i class="fas fa-calendar-alt"></i> Created: ${formattedDate}</span>
-                    <span><i class="fas fa-exclamation-circle"></i> Priority: ${escapeHTML(ticket.priority)}</span>
+                    <span><i class="fas fa-calendar-alt"></i> ${formattedDate}</span>
+                    <span><i class="fas fa-exclamation-circle"></i> ${ticket.priority}</span>
                 </div>
-                <div class="ticket-body">
-                     <p>${escapeHTML(ticket.message)}</p>
-                </div>
-
+                <p>${ticket.message}</p>
+                
                 ${ticket.response ? `
-                <div class="ticket-response">
+                <div class="ticket-response" style="margin-top: 1rem; padding: 1rem; background-color: #f8f9fa; border-radius: 5px;">
                     <strong><i class="fas fa-reply"></i> Admin Response:</strong>
-                    <p>${escapeHTML(ticket.response)}</p>
-                    ${formattedResponseDate ? `<small><i class="fas fa-clock"></i> Responded: ${formattedResponseDate}</small>` : ''}
+                    <p style="margin-top: 0.5rem;">${ticket.response}</p>
+                    ${ticket.respondedAt ? `<small><i class="fas fa-clock"></i> ${ticket.respondedAt.toDate().toLocaleString()}</small>` : ''}
                 </div>
                 ` : ''}
-
+                
                 <div class="ticket-actions">
-                    <button class="btn btn-secondary btn-sm" onclick="viewTicketDetails('${ticket.id}')">
+                    <button class="btn btn-secondary btn-sm" onclick="viewTicketDetails('${ticketId}')">
                         <i class="fas fa-eye"></i> View Details
                     </button>
-                    ${ticket.status === 'open' || ticket.status === 'pending' ? `
-                    ` : ''}
                 </div>
             `;
-
+            
             ticketsContainer.appendChild(ticketElement);
         }
 
-        // --- Handle Form Submission ---
+        // Submit new ticket
         supportForm.addEventListener('submit', async (e) => {
-            e.preventDefault(); // Prevent default form submission
-            if (!currentUser) {
-                showToast("You must be logged in to submit a ticket.", "warning");
-                return;
-            }
-
-            const subject = document.getElementById('ticketSubject').value.trim();
-            const message = document.getElementById('ticketMessage').value.trim();
+            e.preventDefault();
+            
+            const subject = document.getElementById('ticketSubject').value;
+            const message = document.getElementById('ticketMessage').value;
             const priority = document.getElementById('ticketPriority').value;
-
-            if (!subject || !message) {
-                 showToast("Please fill out both subject and message.", "warning");
-                 return;
-            }
-
+            
             try {
-                // Prepare data to save to Firestore
                 const ticketData = {
                     userId: currentUser.uid,
-                    userEmail: currentUser.email, // Store email for admin reference
-                    subject: subject,
-                    message: message,
-                    priority: priority,
-                    status: 'open', // Initial status
-                    createdAt: serverTimestamp(), // Use server time
-                    updatedAt: serverTimestamp(),
-                    response: null, // No response initially
-                    respondedAt: null
+                    userEmail: currentUser.email,
+                    subject,
+                    message,
+                    priority,
+                    status: 'open',
+                    createdAt: serverTimestamp(),
+                    updatedAt: serverTimestamp()
                 };
-
-                // Add the new ticket document to the 'supportTickets' collection
-                const docRef = await addDoc(collection(db, "supportTickets"), ticketData);
-
-                // Reset the form fields
+                
+                await addDoc(collection(db, "supportTickets"), ticketData);
+                
+                // Reset form
                 supportForm.reset();
-
-                // Reload the ticket list to show the new ticket
-                await loadUserTickets(); // Use await if you want to ensure reload finishes
-
-                showToast("Support ticket submitted successfully!", "success");
-                console.log("Ticket submitted with ID: ", docRef.id);
-
+                
+                // Reload tickets
+                loadUserTickets(currentUser.uid);
+                
+                showToast("Your support ticket has been submitted successfully!", "success");
             } catch (error) {
                 console.error("Error submitting ticket:", error);
-                showToast("Failed to submit ticket. Please try again.", "danger");
+                showToast("Error submitting your support ticket", "danger");
             }
         });
 
-        // --- View Ticket Details ---
-        // Basic implementation: scroll to the ticket. Could be expanded to show a modal.
+        // View ticket details (could be expanded to a modal)
         window.viewTicketDetails = function(ticketId) {
-            const ticketElement = document.querySelector(`.ticket[data-ticket-id="${ticketId}"]`);
+            // In a real implementation, this would open a modal with full details
+            // For now, we'll just scroll to the ticket
+            const ticketElement = document.querySelector(`[data-ticket-id="${ticketId}"]`);
             if (ticketElement) {
-                ticketElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                // You could add a temporary highlight effect here too
-                ticketElement.style.transition = 'background-color 0.5s ease';
-                ticketElement.style.backgroundColor = 'var(--gray-light)';
-                setTimeout(() => {
-                     ticketElement.style.backgroundColor = ''; // Reset background
-                }, 1500);
-            } else {
-                console.warn(`Ticket element with ID ${ticketId} not found.`);
+                ticketElement.scrollIntoView({ behavior: 'smooth' });
             }
         };
 
-        // --- Toast Notifications ---
-        let toastTimeout;
+        // Show toast notification
         function showToast(message, type = 'info') {
-             clearTimeout(toastTimeout); // Clear existing timeout if any
-             toast.textContent = message;
-             toast.className = `toast toast-${type}`; // Base class + type class
-
-             // Trigger reflow to restart animation
-             toast.offsetHeight;
-
-             toast.classList.add('show');
-
-             // Auto-hide after 3 seconds
-             toastTimeout = setTimeout(() => {
-                 toast.classList.remove('show');
-             }, 3000);
+            const toast = document.getElementById('toast');
+            toast.textContent = message;
+            toast.className = `toast toast-${type}`;
+            
+            setTimeout(() => {
+                toast.classList.add('show');
+                setTimeout(() => {
+                    toast.classList.remove('show');
+                }, 3000);
+            }, 100);
         }
-
-        // --- Utility Function ---
-        // Basic HTML escaping to prevent XSS
-        function escapeHTML(str) {
-            const div = document.createElement('div');
-            div.appendChild(document.createTextNode(str));
-            return div.innerHTML;
-        }
-
     </script>
 </body>
 </html>
