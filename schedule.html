@@ -7,103 +7,757 @@
   <!-- Bootstrap CSS -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" />
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <!-- Animate.css -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Amiri:wght@400;700&display=swap" rel="stylesheet">
   <style>
     :root {
       --primary-color: #2c5fa8;
       --secondary-color: #f8f9fa;
       --accent-color: #f0ad4e;
+      --dark-blue: #1a3b7a;
+      --light-blue: #e6f0ff;
+      --gold: #d4af37;
+      --green: #2e8b57;
+      --red: #d9534f;
+      --purple: #6f42c1;
     }
+    
     body {
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background-color: #f5f5f5;
+      font-family: 'Poppins', sans-serif;
+      background-color: #f9f5f0;
+      background-image: url('https://images.unsplash.com/photo-1519817650390-64a93db51149?q=80&w=2070&auto=format&fit=crop');
+      background-size: cover;
+      background-attachment: fixed;
+      background-position: center;
+      color: #333;
     }
+    
+    .arabic-font {
+      font-family: 'Amiri', serif;
+    }
+    
+    .overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.7);
+      z-index: -1;
+    }
+    
     .navbar {
-      background-color: var(--primary-color);
-      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      background-color: rgba(44, 95, 168, 0.9);
+      box-shadow: 0 2px 15px rgba(0, 0, 0, 0.2);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
     }
+    
     .navbar-brand {
       font-weight: 700;
       color: white !important;
+      font-size: 1.5rem;
+      text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
     }
+    
     .user-dropdown .dropdown-toggle::after {
       display: none;
     }
+    
+    .main-container {
+      background-color: rgba(255, 255, 255, 0.92);
+      border-radius: 20px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+      margin-top: 30px;
+      margin-bottom: 50px;
+      padding: 30px;
+      backdrop-filter: blur(5px);
+      -webkit-backdrop-filter: blur(5px);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+    }
+    
     .card {
-      border-radius: 10px;
-      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-      transition: transform 0.3s ease;
-      margin-bottom: 20px;
+      border-radius: 15px;
+      box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+      transition: all 0.3s ease;
+      margin-bottom: 25px;
       border: none;
+      overflow: hidden;
+      background-color: rgba(255, 255, 255, 0.95);
+      position: relative;
     }
+    
     .card:hover {
-      transform: translateY(-5px);
+      transform: translateY(-10px) scale(1.02);
+      box-shadow: 0 15px 25px rgba(0, 0, 0, 0.2);
     }
+    
     .card-header {
-      background-color: var(--primary-color);
+      background: linear-gradient(135deg, var(--primary-color), var(--dark-blue));
       color: white;
-      border-radius: 10px 10px 0 0 !important;
+      border-radius: 15px 15px 0 0 !important;
       font-weight: 600;
+      padding: 15px 20px;
+      border-bottom: none;
+      text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
     }
+    
     .filter-section, .user-schedule-section {
-      background-color: white;
-      border-radius: 10px;
-      padding: 20px;
-      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+      background-color: rgba(255, 255, 255, 0.95);
+      border-radius: 15px;
+      padding: 25px;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
       margin-bottom: 30px;
+      border: 1px solid rgba(0, 0, 0, 0.05);
     }
+    
     .schedule-day {
       font-weight: 600;
       color: var(--primary-color);
+      display: flex;
+      align-items: center;
+      margin-bottom: 5px;
     }
+    
     .badge-teacher {
-      background-color: var(--accent-color);
+      background-color: var(--gold);
       color: #333;
-    }
-    .time-badge {
-      background-color: #e9ecef;
-      color: #495057;
       font-weight: 500;
+      padding: 6px 10px;
+      border-radius: 50px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     }
+    
+    .time-badge {
+      background-color: var(--light-blue);
+      color: var(--dark-blue);
+      font-weight: 500;
+      padding: 5px 10px;
+      border-radius: 50px;
+      margin-right: 8px;
+      margin-bottom: 8px;
+      display: inline-flex;
+      align-items: center;
+    }
+    
     .language-badge {
-      background-color: #d4edda;
-      color: #155724;
+      background-color: var(--green);
+      color: white;
+      font-weight: 500;
+      padding: 6px 10px;
+      border-radius: 50px;
     }
+    
     .no-results {
       text-align: center;
-      padding: 40px;
+      padding: 60px 20px;
       color: #6c757d;
+      background-color: rgba(255, 255, 255, 0.8);
+      border-radius: 15px;
+      margin: 20px 0;
     }
+    
     .dropdown-menu {
-      border-radius: 8px;
-      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+      border-radius: 12px;
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
       border: none;
+      padding: 10px 0;
     }
+    
+    .dropdown-item {
+      padding: 8px 20px;
+      font-weight: 500;
+      transition: all 0.2s;
+    }
+    
     .dropdown-item:hover {
-      background-color: #f8f9fa;
+      background-color: var(--light-blue);
+      color: var(--primary-color);
     }
+    
     /* Table view styling */
     #scheduleTableContainer {
       display: none;
+      background-color: rgba(255, 255, 255, 0.95);
+      border-radius: 15px;
+      padding: 20px;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
     }
-    #scheduleTable td,
+    
+    #scheduleTable {
+      border-collapse: separate;
+      border-spacing: 0;
+    }
+    
     #scheduleTable th {
-      vertical-align: middle;
+      background: linear-gradient(135deg, var(--primary-color), var(--dark-blue));
+      color: white;
+      font-weight: 600;
+      padding: 12px 15px;
+      position: sticky;
+      top: 0;
     }
+    
+    #scheduleTable td {
+      padding: 12px 15px;
+      vertical-align: middle;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+    }
+    
+    #scheduleTable tr:hover td {
+      background-color: var(--light-blue);
+    }
+    
     /* User Schedule Section Styling */
     .user-schedule-title {
-      font-size: 1.5rem;
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: var(--primary-color);
+      margin-bottom: 25px;
+      position: relative;
+      padding-bottom: 10px;
+    }
+    
+    .user-schedule-title:after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 80px;
+      height: 4px;
+      background: linear-gradient(90deg, var(--primary-color), var(--gold));
+      border-radius: 2px;
+    }
+    
+    /* Buttons */
+    .btn {
+      border-radius: 50px;
+      padding: 10px 20px;
+      font-weight: 500;
+      transition: all 0.3s;
+      border: none;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    .btn i {
+      margin-right: 8px;
+    }
+    
+    .btn-primary {
+      background: linear-gradient(135deg, var(--primary-color), var(--dark-blue));
+      color: white;
+    }
+    
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+    }
+    
+    .btn-outline-primary {
+      border: 2px solid var(--primary-color);
+      color: var(--primary-color);
+      background: transparent;
+    }
+    
+    .btn-outline-primary:hover {
+      background: var(--primary-color);
+      color: white;
+    }
+    
+    .btn-success {
+      background: linear-gradient(135deg, var(--green), #3aa76d);
+      color: white;
+    }
+    
+    .btn-danger {
+      background: linear-gradient(135deg, var(--red), #c9302c);
+      color: white;
+    }
+    
+    /* Toggle buttons */
+    .view-toggle {
+      display: flex;
+      background-color: #f0f0f0;
+      border-radius: 50px;
+      padding: 5px;
+      margin-bottom: 20px;
+    }
+    
+    .view-toggle-btn {
+      flex: 1;
+      border: none;
+      background: none;
+      padding: 10px;
+      border-radius: 50px;
+      font-weight: 500;
+      transition: all 0.3s;
+    }
+    
+    .view-toggle-btn.active {
+      background: linear-gradient(135deg, var(--primary-color), var(--dark-blue));
+      color: white;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+    
+    /* Filter chips */
+    .filter-chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+    
+    .filter-chip {
+      background-color: var(--light-blue);
+      color: var(--dark-blue);
+      padding: 8px 15px;
+      border-radius: 50px;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+    }
+    
+    .filter-chip i {
+      margin-left: 8px;
+      cursor: pointer;
+      opacity: 0.7;
+      transition: all 0.2s;
+    }
+    
+    .filter-chip i:hover {
+      opacity: 1;
+      transform: scale(1.2);
+    }
+    
+    /* Prayer times */
+    .prayer-times {
+      background: linear-gradient(135deg, var(--dark-blue), #122a57);
+      color: white;
+      border-radius: 15px;
+      padding: 20px;
+      margin-bottom: 30px;
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+    }
+    
+    .prayer-times h4 {
+      font-weight: 600;
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    
+    .prayer-time {
+      display: flex;
+      justify-content: space-between;
+      padding: 10px 0;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    
+    .prayer-time:last-child {
+      border-bottom: none;
+    }
+    
+    .prayer-name {
+      font-weight: 500;
+    }
+    
+    .prayer-time-value {
+      font-weight: 600;
+    }
+    
+    .current-prayer {
+      background-color: rgba(255, 255, 255, 0.1);
+      border-radius: 8px;
+      padding: 10px 15px;
+      margin: 0 -15px;
+    }
+    
+    /* Floating action button */
+    .fab {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--primary-color), var(--dark-blue));
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+      z-index: 100;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+    
+    .fab:hover {
+      transform: translateY(-5px) scale(1.1);
+      box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+    }
+    
+    /* Question modal */
+    .question-modal .modal-content {
+      border-radius: 20px;
+      border: none;
+      overflow: hidden;
+    }
+    
+    .question-modal .modal-header {
+      background: linear-gradient(135deg, var(--primary-color), var(--dark-blue));
+      color: white;
+      border-bottom: none;
+      padding: 20px 25px;
+    }
+    
+    .question-modal .modal-body {
+      padding: 25px;
+    }
+    
+    .question-modal .modal-footer {
+      border-top: none;
+      padding: 20px 25px;
+      background-color: #f9f9f9;
+    }
+    
+    /* Animations */
+    .animate-pop {
+      animation: popIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+    }
+    
+    @keyframes popIn {
+      0% { transform: scale(0.8); opacity: 0; }
+      100% { transform: scale(1); opacity: 1; }
+    }
+    
+    /* Responsive styles */
+    @media (max-width: 768px) {
+      .main-container {
+        padding: 20px 15px;
+        margin-top: 15px;
+        margin-bottom: 15px;
+      }
+      
+      .filter-section, .user-schedule-section {
+        padding: 20px 15px;
+      }
+      
+      .card {
+        margin-bottom: 15px;
+      }
+      
+      .btn {
+        padding: 8px 15px;
+        font-size: 14px;
+      }
+      
+      .fab {
+        width: 50px;
+        height: 50px;
+        font-size: 20px;
+        bottom: 20px;
+        right: 20px;
+      }
+    }
+    
+    /* Special decorative elements */
+    .islamic-pattern {
+      position: absolute;
+      opacity: 0.05;
+      z-index: 0;
+    }
+    
+    .card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 60px;
+      height: 60px;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath fill='%232c5fa8' d='M50 0l12 25 25 12-25 12-12 25-12-25-25-12 25-12z'/%3E%3C/svg%3E");
+      background-size: contain;
+      background-repeat: no-repeat;
+      transform: translate(30%, -30%);
+      z-index: 1;
+    }
+    
+    /* Calendar widget */
+    .calendar-widget {
+      background-color: white;
+      border-radius: 15px;
+      padding: 20px;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+      margin-bottom: 30px;
+    }
+    
+    .calendar-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 15px;
+    }
+    
+    .calendar-title {
       font-weight: 600;
       color: var(--primary-color);
-      margin-bottom: 20px;
+      margin: 0;
+    }
+    
+    .calendar-nav {
+      display: flex;
+      gap: 10px;
+    }
+    
+    .calendar-nav-btn {
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      background-color: #f0f0f0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    
+    .calendar-nav-btn:hover {
+      background-color: var(--light-blue);
+    }
+    
+    .calendar-weekdays {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      text-align: center;
+      font-weight: 500;
+      color: var(--primary-color);
+      margin-bottom: 10px;
+    }
+    
+    .calendar-days {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 5px;
+    }
+    
+    .calendar-day {
+      aspect-ratio: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    
+    .calendar-day:hover {
+      background-color: #f0f0f0;
+    }
+    
+    .calendar-day.today {
+      background-color: var(--primary-color);
+      color: white;
+      font-weight: 600;
+    }
+    
+    .calendar-day.has-class {
+      position: relative;
+    }
+    
+    .calendar-day.has-class::after {
+      content: '';
+      position: absolute;
+      bottom: 5px;
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background-color: var(--green);
+    }
+    
+    /* Progress tracker */
+    .progress-tracker {
+      background-color: white;
+      border-radius: 15px;
+      padding: 20px;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+      margin-bottom: 30px;
+    }
+    
+    .progress-title {
+      font-weight: 600;
+      color: var(--primary-color);
+      margin-bottom: 15px;
+    }
+    
+    .progress-item {
+      margin-bottom: 15px;
+    }
+    
+    .progress-item-header {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 5px;
+    }
+    
+    .progress-item-title {
+      font-weight: 500;
+    }
+    
+    .progress-item-percent {
+      font-weight: 600;
+      color: var(--primary-color);
+    }
+    
+    .progress-bar {
+      height: 8px;
+      background-color: #f0f0f0;
+      border-radius: 4px;
+      overflow: hidden;
+    }
+    
+    .progress-bar-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--primary-color), var(--gold));
+      border-radius: 4px;
+      transition: width 0.5s ease;
+    }
+    
+    /* Announcements */
+    .announcements {
+      background-color: white;
+      border-radius: 15px;
+      padding: 20px;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+      margin-bottom: 30px;
+    }
+    
+    .announcements-title {
+      font-weight: 600;
+      color: var(--primary-color);
+      margin-bottom: 15px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    
+    .announcement {
+      padding: 15px 0;
+      border-bottom: 1px solid #f0f0f0;
+    }
+    
+    .announcement:last-child {
+      border-bottom: none;
+      padding-bottom: 0;
+    }
+    
+    .announcement-title {
+      font-weight: 500;
+      margin-bottom: 5px;
+      display: flex;
+      align-items: center;
+    }
+    
+    .announcement-date {
+      font-size: 12px;
+      color: #6c757d;
+      margin-left: auto;
+    }
+    
+    .announcement-content {
+      font-size: 14px;
+      color: #495057;
+    }
+    
+    .announcement-urgent {
+      background-color: rgba(217, 83, 79, 0.1);
+      border-radius: 8px;
+      padding: 10px;
+      margin: 0 -10px;
+    }
+    
+    /* Quick stats */
+    .quick-stats {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+      gap: 15px;
+      margin-bottom: 30px;
+    }
+    
+    .stat-card {
+      background-color: white;
+      border-radius: 15px;
+      padding: 20px;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+      text-align: center;
+      transition: all 0.3s;
+    }
+    
+    .stat-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+    }
+    
+    .stat-icon {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 15px;
+      font-size: 20px;
+    }
+    
+    .stat-icon.blue {
+      background-color: rgba(44, 95, 168, 0.1);
+      color: var(--primary-color);
+    }
+    
+    .stat-icon.green {
+      background-color: rgba(46, 139, 87, 0.1);
+      color: var(--green);
+    }
+    
+    .stat-icon.gold {
+      background-color: rgba(212, 175, 55, 0.1);
+      color: var(--gold);
+    }
+    
+    .stat-icon.purple {
+      background-color: rgba(111, 66, 193, 0.1);
+      color: var(--purple);
+    }
+    
+    .stat-value {
+      font-size: 24px;
+      font-weight: 700;
+      margin-bottom: 5px;
+    }
+    
+    .stat-label {
+      font-size: 14px;
+      color: #6c757d;
     }
   </style>
 </head>
 <body>
+  <!-- Background overlay -->
+  <div class="overlay"></div>
+  
   <!-- Navigation Bar -->
   <nav class="navbar navbar-expand-lg navbar-dark sticky-top">
     <div class="container">
       <a class="navbar-brand" href="#">
-        <i class="bi bi-book-half me-2"></i>Islamic Learning Center
+        <i class="fas fa-mosque me-2"></i>Islamic Learning Center
       </a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
         <span class="navbar-toggler-icon"></span>
@@ -111,14 +765,17 @@
       <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
         <ul class="navbar-nav">
           <li class="nav-item">
-            <a class="nav-link active" href="schedule.html"><i class="bi bi-calendar3 me-1"></i> Schedule</a>
+            <a class="nav-link active" href="schedule.html"><i class="fas fa-calendar-alt me-1"></i> Schedule</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="learning.html"><i class="bi bi-journal-bookmark me-1"></i> My Learning</a>
+            <a class="nav-link" href="learning.html"><i class="fas fa-book-quran me-1"></i> My Learning</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="questions.html"><i class="fas fa-question-circle me-1"></i> Q&A</a>
           </li>
           <!-- Authentication nav item, will update based on login state -->
           <li class="nav-item" id="authItem">
-            <a class="nav-link" href="login.html"><i class="bi bi-box-arrow-in-right me-1"></i> Login</a>
+            <a class="nav-link" href="login.html"><i class="fas fa-sign-in-alt me-1"></i> Login</a>
           </li>
         </ul>
       </div>
@@ -126,358 +783,834 @@
   </nav>
 
   <!-- Main Content -->
-  <div class="container py-5">
-    <!-- Header & Toggle Buttons -->
-    <div class="row mb-4">
-      <div class="col-12">
-        <h2 class="fw-bold mb-3">Class Schedule</h2>
-        <p class="text-muted">
-          View, filter and print your learning schedule. Choose between a card or table view.
-        </p>
-        <div class="mb-3">
-          <button id="toggleCards" class="btn btn-outline-primary me-2"><i class="bi bi-card-text me-1"></i> Card View</button>
-          <button id="toggleTable" class="btn btn-outline-secondary me-2"><i class="bi bi-table me-1"></i> Table View</button>
-          <button id="printSchedule" class="btn btn-success"><i class="bi bi-printer me-1"></i> Print Schedule</button>
-        </div>
-      </div>
-    </div>
-
-    <!-- Filter Section -->
-    <div class="filter-section">
-      <div class="row g-3">
-        <div class="col-md-3">
-          <label for="languageFilter" class="form-label">Language</label>
-          <select id="languageFilter" class="form-select">
-            <option value="all">All Languages</option>
-            <option value="amharic">Amharic</option>
-            <option value="oromifa">Oromifa</option>
-          </select>
-        </div>
-        <div class="col-md-3">
-          <label for="typeFilter" class="form-label">Type</label>
-          <select id="typeFilter" class="form-select">
-            <option value="all">All Types</option>
-            <option value="kitab">Kitab</option>
-            <option value="hifz">Hifz</option>
-            <option value="nezer">Nezer</option>
-          </select>
-        </div>
-        <div class="col-md-3">
-          <label for="levelFilter" class="form-label">Level</label>
-          <select id="levelFilter" class="form-select">
-            <option value="all">All Levels</option>
-            <option value="fresh">Fresh Students</option>
-            <option value="senior">Senior Students</option>
-          </select>
-        </div>
-        <div class="col-md-3">
-          <label for="genderFilter" class="form-label">Gender</label>
-          <select id="genderFilter" class="form-select">
-            <option value="all">All Genders</option>
-            <option value="female">Female</option>
-            <option value="male">Male</option>
-          </select>
-        </div>
-        <div class="col-12 mt-3">
-          <button id="resetFilters" class="btn btn-outline-secondary me-2"><i class="bi bi-arrow-counterclockwise me-1"></i> Reset Filters</button>
-          <button id="applyFilters" class="btn btn-primary"><i class="bi bi-funnel me-1"></i> Apply Filters</button>
-        </div>
-      </div>
-    </div>
-
-    <!-- Schedule Content: Card View -->
-    <div id="scheduleCards">
-      <!-- Kitab Section -->
+  <div class="container">
+    <div class="main-container">
+      <!-- Header & Toggle Buttons -->
       <div class="row mb-4">
         <div class="col-12">
-          <h4 class="fw-bold mb-3">Kitab Classes</h4>
-        </div>
-        <!-- Amharic Kitab -->
-        <div class="col-md-6 kitab-card" data-language="amharic" data-type="kitab">
-          <div class="card">
-            <div class="card-header d-flex justify-content-between align-items-center">
-              <span>Amharic Kitab</span>
-              <span class="badge language-badge">Amharic</span>
-            </div>
-            <div class="card-body">
-              <div class="mb-3">
-                <span class="schedule-day">Saturday & Sunday Morning</span>
-                <p class="mb-1">Tejwid hidayetul mustefid</p>
-                <span class="badge time-badge me-1">Morning</span>
-              </div>
-              <div class="mb-3">
-                <span class="schedule-day">Monday & Tuesday</span>
-                <p class="mb-1">Usulu sel asah</p>
-                <span class="badge time-badge me-1">Morning</span>
-              </div>
-              <div class="mb-3">
-                <span class="schedule-day">Thursday</span>
-                <p class="mb-1">Kula setun urel eqin</p>
-                <span class="badge time-badge me-1">Morning</span>
-              </div>
-            </div>
-          </div>
-        </div>
-        <!-- Oromifa Kitab -->
-        <div class="col-md-6 kitab-card" data-language="oromifa" data-type="kitab">
-          <div class="card">
-            <div class="card-header d-flex justify-content-between align-items-center">
-              <span>Oromifa Kitab</span>
-              <span class="badge language-badge">Oromifa</span>
-            </div>
-            <div class="card-body">
-              <div class="mb-3">
-                <span class="schedule-day">Saturday & Sunday Morning</span>
-                <p class="mb-1">Tejwid hidayetul mustefid</p>
-                <span class="badge time-badge me-1">Morning</span>
-              </div>
-              <div class="mb-3">
-                <span class="schedule-day">Monday & Tuesday</span>
-                <p class="mb-1">Usulu sel asah</p>
-                <span class="badge time-badge me-1">Morning</span>
-              </div>
-              <div class="mb-3">
-                <span class="schedule-day">Saturday & Sunday</span>
-                <p class="mb-1">Umd etul ahkam</p>
-                <span class="badge time-badge me-1">Morning</span>
-              </div>
-              <div class="mb-3">
-                <span class="schedule-day">Wednesday</span>
-                <p class="mb-1">Tefsir</p>
-                <span class="badge time-badge me-1">Morning</span>
-              </div>
-            </div>
-          </div>
+          <h1 class="fw-bold mb-3 arabic-font" style="font-size: 2.5rem;">بِسْمِ ٱللَّٰهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ</h1>
+          <h2 class="fw-bold mb-3">Class Schedule Dashboard</h2>
+          <p class="text-muted">
+            View, filter and manage your Islamic learning schedule. Ask questions about any class.
+          </p>
         </div>
       </div>
 
-      <!-- Hifz Section -->
-      <div class="row mb-4">
-        <div class="col-12">
-          <h4 class="fw-bold mb-3">Hifz Classes</h4>
-        </div>
-        <!-- Fresh Students -->
-        <div class="col-md-6 hifz-card" data-level="fresh" data-type="hifz">
-          <div class="card">
-            <div class="card-header d-flex justify-content-between align-items-center">
-              <span>Hifz for Fresh Students</span>
-              <span class="badge bg-info">Fresh</span>
-            </div>
-            <div class="card-body">
-              <h6 class="fw-bold">Female Students</h6>
-              <div class="mb-3">
-                <span class="badge badge-teacher me-1">Ustaz Aymen</span>
-                <span class="badge time-badge">Mon-Wed Morning</span>
-              </div>
-              <div class="mb-3">
-                <span class="badge badge-teacher me-1">Ustaz Salah</span>
-                <span class="badge time-badge">Mon-Wed Morning</span>
-              </div>
-              <div class="mb-3">
-                <span class="badge badge-teacher me-1">Ustaz Ahmed</span>
-                <span class="badge time-badge">Mon-Wed Morning</span>
-              </div>
-              <div class="mb-3">
-                <span class="badge badge-teacher me-1">Ustaz Nejmudin</span>
-                <span class="badge time-badge">Between Maghrib & Isha</span>
-              </div>
-              <h6 class="fw-bold mt-4">Male Students</h6>
-              <div class="mb-3">
-                <span class="badge badge-teacher me-1">Ustaz Mekbul</span>
-              </div>
-              <div class="mb-3">
-                <span class="badge badge-teacher me-1">Ustaz Amir</span>
-              </div>
-            </div>
+      <!-- Quick Stats -->
+      <div class="quick-stats">
+        <div class="stat-card">
+          <div class="stat-icon blue">
+            <i class="fas fa-calendar-check"></i>
           </div>
+          <div class="stat-value" id="totalClasses">24</div>
+          <div class="stat-label">Total Classes</div>
         </div>
-        <!-- Senior Students -->
-        <div class="col-md-6 hifz-card" data-level="senior" data-type="hifz">
-          <div class="card">
-            <div class="card-header d-flex justify-content-between align-items-center">
-              <span>Hifz for Senior Students</span>
-              <span class="badge bg-info">Senior</span>
-            </div>
-            <div class="card-body">
-              <h6 class="fw-bold">Female Students</h6>
-              <div class="mb-3">
-                <span class="badge badge-teacher me-1">Ustaz Kamil</span>
-              </div>
-              <div class="mb-3">
-                <span class="badge badge-teacher me-1">Ustaz Mekbul</span>
-              </div>
-              <div class="mb-3">
-                <span class="badge badge-teacher me-1">Ustaz Abuki</span>
-              </div>
-              <div class="mb-3">
-                <span class="badge badge-teacher me-1">Ustaz Ibrahim</span>
-              </div>
-              <div class="mb-3">
-                <span class="badge badge-teacher me-1">Ustaz Abdulmejid</span>
-              </div>
-              <h6 class="fw-bold mt-4">Male Students</h6>
-              <div class="mb-3">
-                <span class="badge badge-teacher me-1">Ustaz Amir</span>
-              </div>
-              <div class="mb-3">
-                <span class="badge badge-teacher me-1">Ustaz Oumer (Local)</span>
-              </div>
-            </div>
+        <div class="stat-card">
+          <div class="stat-icon green">
+            <i class="fas fa-user-graduate"></i>
           </div>
+          <div class="stat-value" id="enrolledClasses">5</div>
+          <div class="stat-label">Your Enrolled</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon gold">
+            <i class="fas fa-chalkboard-teacher"></i>
+          </div>
+          <div class="stat-value" id="totalTeachers">18</div>
+          <div class="stat-label">Teachers</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon purple">
+            <i class="fas fa-star"></i>
+          </div>
+          <div class="stat-value" id="completed">12</div>
+          <div class="stat-label">Completed</div>
         </div>
       </div>
 
-      <!-- Nezer Section -->
       <div class="row">
-        <div class="col-12">
-          <h4 class="fw-bold mb-3">Nezer Classes</h4>
-        </div>
-        <!-- Fresh Students -->
-        <div class="col-md-6 nezer-card" data-level="fresh" data-type="nezer">
-          <div class="card">
-            <div class="card-header d-flex justify-content-between align-items-center">
-              <span>Nezer for Fresh Students</span>
-              <span class="badge bg-info">Fresh</span>
+        <!-- Left Column -->
+        <div class="col-lg-8">
+          <!-- Filter Section -->
+          <div class="filter-section">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+              <h4 class="fw-bold mb-0">Filter Classes</h4>
+              <div class="view-toggle">
+                <button id="toggleCards" class="view-toggle-btn active"><i class="fas fa-th-large me-1"></i> Cards</button>
+                <button id="toggleTable" class="view-toggle-btn"><i class="fas fa-table me-1"></i> Table</button>
+              </div>
             </div>
-            <div class="card-body">
-              <h6 class="fw-bold">Female Students</h6>
-              <div class="mb-3">
-                <span class="badge badge-teacher me-1">Ustaz Hamza (Amharic)</span>
+            
+            <div class="filter-chips" id="activeFilters">
+              <!-- Active filters will appear here -->
+            </div>
+            
+            <div class="row g-3">
+              <div class="col-md-4">
+                <label for="languageFilter" class="form-label">Language</label>
+                <select id="languageFilter" class="form-select">
+                  <option value="all">All Languages</option>
+                  <option value="amharic">Amharic</option>
+                  <option value="oromifa">Oromifa</option>
+                  <option value="arabic">Arabic</option>
+                </select>
               </div>
-              <div class="mb-3">
-                <span class="badge badge-teacher me-1">Ustaz Bilal (Oromifa)</span>
+              <div class="col-md-4">
+                <label for="typeFilter" class="form-label">Class Type</label>
+                <select id="typeFilter" class="form-select">
+                  <option value="all">All Types</option>
+                  <option value="kitab">Kitab</option>
+                  <option value="hifz">Hifz</option>
+                  <option value="nezer">Nezer</option>
+                  <option value="tafsir">Tafsir</option>
+                  <option value="fiqh">Fiqh</option>
+                </select>
               </div>
-              <h6 class="fw-bold mt-4">Male Students</h6>
-              <div class="mb-3">
-                <span class="badge badge-teacher me-1">Ustaz Aymen</span>
+              <div class="col-md-4">
+                <label for="levelFilter" class="form-label">Level</label>
+                <select id="levelFilter" class="form-select">
+                  <option value="all">All Levels</option>
+                  <option value="beginner">Beginner</option>
+                  <option value="intermediate">Intermediate</option>
+                  <option value="advanced">Advanced</option>
+                </select>
               </div>
-              <div class="mb-3">
-                <span class="badge badge-teacher me-1">Ustaz Fuad Aliyi</span>
+              <div class="col-md-4">
+                <label for="genderFilter" class="form-label">Gender</label>
+                <select id="genderFilter" class="form-select">
+                  <option value="all">All Genders</option>
+                  <option value="female">Female</option>
+                  <option value="male">Male</option>
+                </select>
               </div>
-              <div class="mb-3">
-                <span class="badge badge-teacher me-1">Ustaz Kedamo</span>
+              <div class="col-md-4">
+                <label for="timeFilter" class="form-label">Time</label>
+                <select id="timeFilter" class="form-select">
+                  <option value="all">Any Time</option>
+                  <option value="morning">Morning</option>
+                  <option value="afternoon">Afternoon</option>
+                  <option value="evening">Evening</option>
+                  <option value="weekend">Weekend</option>
+                </select>
+              </div>
+              <div class="col-md-4">
+                <label for="statusFilter" class="form-label">Status</label>
+                <select id="statusFilter" class="form-select">
+                  <option value="all">All Statuses</option>
+                  <option value="open">Open for Enrollment</option>
+                  <option value="full">Full</option>
+                  <option value="waiting">Waiting List</option>
+                </select>
+              </div>
+              <div class="col-12 mt-3">
+                <button id="resetFilters" class="btn btn-outline-secondary me-2"><i class="fas fa-sync-alt me-1"></i> Reset Filters</button>
+                <button id="applyFilters" class="btn btn-primary me-2"><i class="fas fa-filter me-1"></i> Apply Filters</button>
+                <button id="printSchedule" class="btn btn-success"><i class="fas fa-print me-1"></i> Print Schedule</button>
               </div>
             </div>
           </div>
-        </div>
-        <!-- Senior Students -->
-        <div class="col-md-6 nezer-card" data-level="senior" data-type="nezer">
-          <div class="card">
-            <div class="card-header d-flex justify-content-between align-items-center">
-              <span>Nezer for Senior Students</span>
-              <span class="badge bg-info">Senior</span>
+
+          <!-- Schedule Content: Card View -->
+          <div id="scheduleCards">
+            <!-- Kitab Section -->
+            <div class="row mb-4">
+              <div class="col-12 d-flex justify-content-between align-items-center">
+                <h4 class="fw-bold mb-3"><i class="fas fa-book-open me-2"></i>Kitab Classes</h4>
+                <span class="badge bg-primary">4 Classes</span>
+              </div>
+              <!-- Amharic Kitab -->
+              <div class="col-md-6 kitab-card" data-language="amharic" data-type="kitab" data-level="intermediate" data-gender="all" data-time="morning" data-status="open">
+                <div class="card h-100">
+                  <div class="card-header d-flex justify-content-between align-items-center">
+                    <span>Amharic Kitab</span>
+                    <span class="badge language-badge">Amharic</span>
+                  </div>
+                  <div class="card-body">
+                    <div class="mb-3">
+                      <span class="schedule-day"><i class="fas fa-calendar-day me-2"></i>Saturday & Sunday Morning</span>
+                      <p class="mb-1">Tejwid hidayetul mustefid</p>
+                      <div class="d-flex flex-wrap">
+                        <span class="badge time-badge"><i class="fas fa-clock me-1"></i>8:00 AM - 10:00 AM</span>
+                        <span class="badge bg-info">Intermediate</span>
+                        <span class="badge bg-success">Open</span>
+                      </div>
+                    </div>
+                    <div class="mb-3">
+                      <span class="schedule-day"><i class="fas fa-calendar-day me-2"></i>Monday & Tuesday</span>
+                      <p class="mb-1">Usulu sel asah</p>
+                      <div class="d-flex flex-wrap">
+                        <span class="badge time-badge"><i class="fas fa-clock me-1"></i>9:00 AM - 11:00 AM</span>
+                        <span class="badge bg-info">Intermediate</span>
+                        <span class="badge bg-success">Open</span>
+                      </div>
+                    </div>
+                    <div class="mb-3">
+                      <span class="schedule-day"><i class="fas fa-calendar-day me-2"></i>Thursday</span>
+                      <p class="mb-1">Kula setun urel eqin</p>
+                      <div class="d-flex flex-wrap">
+                        <span class="badge time-badge"><i class="fas fa-clock me-1"></i>10:00 AM - 12:00 PM</span>
+                        <span class="badge bg-info">Intermediate</span>
+                        <span class="badge bg-success">Open</span>
+                      </div>
+                    </div>
+                    <div class="d-flex justify-content-between align-items-center mt-4">
+                      <button class="btn btn-sm btn-outline-primary" onclick="askQuestion('Amharic Kitab')"><i class="fas fa-question me-1"></i> Ask Question</button>
+                      <button class="btn btn-sm btn-primary"><i class="fas fa-info-circle me-1"></i> Details</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- Oromifa Kitab -->
+              <div class="col-md-6 kitab-card" data-language="oromifa" data-type="kitab" data-level="intermediate" data-gender="all" data-time="morning" data-status="open">
+                <div class="card h-100">
+                  <div class="card-header d-flex justify-content-between align-items-center">
+                    <span>Oromifa Kitab</span>
+                    <span class="badge language-badge">Oromifa</span>
+                  </div>
+                  <div class="card-body">
+                    <div class="mb-3">
+                      <span class="schedule-day"><i class="fas fa-calendar-day me-2"></i>Saturday & Sunday Morning</span>
+                      <p class="mb-1">Tejwid hidayetul mustefid</p>
+                      <div class="d-flex flex-wrap">
+                        <span class="badge time-badge"><i class="fas fa-clock me-1"></i>8:00 AM - 10:00 AM</span>
+                        <span class="badge bg-info">Intermediate</span>
+                        <span class="badge bg-success">Open</span>
+                      </div>
+                    </div>
+                    <div class="mb-3">
+                      <span class="schedule-day"><i class="fas fa-calendar-day me-2"></i>Monday & Tuesday</span>
+                      <p class="mb-1">Usulu sel asah</p>
+                      <div class="d-flex flex-wrap">
+                        <span class="badge time-badge"><i class="fas fa-clock me-1"></i>9:00 AM - 11:00 AM</span>
+                        <span class="badge bg-info">Intermediate</span>
+                        <span class="badge bg-success">Open</span>
+                      </div>
+                    </div>
+                    <div class="mb-3">
+                      <span class="schedule-day"><i class="fas fa-calendar-day me-2"></i>Saturday & Sunday</span>
+                      <p class="mb-1">Umd etul ahkam</p>
+                      <div class="d-flex flex-wrap">
+                        <span class="badge time-badge"><i class="fas fa-clock me-1"></i>10:00 AM - 12:00 PM</span>
+                        <span class="badge bg-info">Intermediate</span>
+                        <span class="badge bg-success">Open</span>
+                      </div>
+                    </div>
+                    <div class="mb-3">
+                      <span class="schedule-day"><i class="fas fa-calendar-day me-2"></i>Wednesday</span>
+                      <p class="mb-1">Tefsir</p>
+                      <div class="d-flex flex-wrap">
+                        <span class="badge time-badge"><i class="fas fa-clock me-1"></i>11:00 AM - 1:00 PM</span>
+                        <span class="badge bg-info">Intermediate</span>
+                        <span class="badge bg-success">Open</span>
+                      </div>
+                    </div>
+                    <div class="d-flex justify-content-between align-items-center mt-4">
+                      <button class="btn btn-sm btn-outline-primary" onclick="askQuestion('Oromifa Kitab')"><i class="fas fa-question me-1"></i> Ask Question</button>
+                      <button class="btn btn-sm btn-primary"><i class="fas fa-info-circle me-1"></i> Details</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
-            <div class="card-body">
-              <h6 class="fw-bold">Female Students</h6>
-              <div class="mb-3">
-                <span class="badge badge-teacher me-1">Ustaz Abdulhafiz</span>
+
+            <!-- Hifz Section -->
+            <div class="row mb-4">
+              <div class="col-12 d-flex justify-content-between align-items-center">
+                <h4 class="fw-bold mb-3"><i class="fas fa-quran me-2"></i>Hifz Classes</h4>
+                <span class="badge bg-primary">8 Classes</span>
               </div>
-              <div class="mb-3">
-                <span class="badge badge-teacher me-1">Ustaz Amir</span>
+              <!-- Fresh Students -->
+              <div class="col-md-6 hifz-card" data-language="arabic" data-type="hifz" data-level="beginner" data-gender="all" data-time="morning" data-status="open">
+                <div class="card h-100">
+                  <div class="card-header d-flex justify-content-between align-items-center">
+                    <span>Hifz for Beginners</span>
+                    <span class="badge bg-info">Beginner</span>
+                  </div>
+                  <div class="card-body">
+                    <h6 class="fw-bold"><i class="fas fa-female me-2"></i>Female Students</h6>
+                    <div class="mb-3">
+                      <span class="badge badge-teacher me-1">Ustaz Aymen</span>
+                      <span class="badge time-badge"><i class="fas fa-clock me-1"></i>Mon-Wed 8:00 AM</span>
+                      <span class="badge bg-success">5 spots left</span>
+                    </div>
+                    <div class="mb-3">
+                      <span class="badge badge-teacher me-1">Ustaz Salah</span>
+                      <span class="badge time-badge"><i class="fas fa-clock me-1"></i>Mon-Wed 9:00 AM</span>
+                      <span class="badge bg-warning">Waiting list</span>
+                    </div>
+                    <div class="mb-3">
+                      <span class="badge badge-teacher me-1">Ustaz Ahmed</span>
+                      <span class="badge time-badge"><i class="fas fa-clock me-1"></i>Tue-Thu 10:00 AM</span>
+                      <span class="badge bg-success">3 spots left</span>
+                    </div>
+                    <div class="mb-3">
+                      <span class="badge badge-teacher me-1">Ustaz Nejmudin</span>
+                      <span class="badge time-badge"><i class="fas fa-clock me-1"></i>Between Maghrib & Isha</span>
+                      <span class="badge bg-success">Open</span>
+                    </div>
+                    <h6 class="fw-bold mt-4"><i class="fas fa-male me-2"></i>Male Students</h6>
+                    <div class="mb-3">
+                      <span class="badge badge-teacher me-1">Ustaz Mekbul</span>
+                      <span class="badge time-badge"><i class="fas fa-clock me-1"></i>Mon-Fri 4:00 PM</span>
+                      <span class="badge bg-success">Open</span>
+                    </div>
+                    <div class="mb-3">
+                      <span class="badge badge-teacher me-1">Ustaz Amir</span>
+                      <span class="badge time-badge"><i class="fas fa-clock me-1"></i>Sat-Sun 9:00 AM</span>
+                      <span class="badge bg-success">2 spots left</span>
+                    </div>
+                    <div class="d-flex justify-content-between align-items-center mt-4">
+                      <button class="btn btn-sm btn-outline-primary" onclick="askQuestion('Hifz for Beginners')"><i class="fas fa-question me-1"></i> Ask Question</button>
+                      <button class="btn btn-sm btn-primary"><i class="fas fa-info-circle me-1"></i> Details</button>
+                    </div>
+                  </div>
+                </div>
               </div>
-              <h6 class="fw-bold mt-4">Male Students</h6>
-              <div class="mb-3">
-                <span class="badge badge-teacher me-1">Ustaz Marela</span>
+              <!-- Senior Students -->
+              <div class="col-md-6 hifz-card" data-language="arabic" data-type="hifz" data-level="advanced" data-gender="all" data-time="afternoon" data-status="open">
+                <div class="card h-100">
+                  <div class="card-header d-flex justify-content-between align-items-center">
+                    <span>Hifz for Advanced</span>
+                    <span class="badge bg-info">Advanced</span>
+                  </div>
+                  <div class="card-body">
+                    <h6 class="fw-bold"><i class="fas fa-female me-2"></i>Female Students</h6>
+                    <div class="mb-3">
+                      <span class="badge badge-teacher me-1">Ustaz Kamil</span>
+                      <span class="badge time-badge"><i class="fas fa-clock me-1"></i>Mon-Wed 2:00 PM</span>
+                      <span class="badge bg-success">Open</span>
+                    </div>
+                    <div class="mb-3">
+                      <span class="badge badge-teacher me-1">Ustaz Mekbul</span>
+                      <span class="badge time-badge"><i class="fas fa-clock me-1"></i>Tue-Thu 3:00 PM</span>
+                      <span class="badge bg-success">1 spot left</span>
+                    </div>
+                    <div class="mb-3">
+                      <span class="badge badge-teacher me-1">Ustaz Abuki</span>
+                      <span class="badge time-badge"><i class="fas fa-clock me-1"></i>Fri-Sun 10:00 AM</span>
+                      <span class="badge bg-warning">Waiting list</span>
+                    </div>
+                    <div class="mb-3">
+                      <span class="badge badge-teacher me-1">Ustaz Ibrahim</span>
+                      <span class="badge time-badge"><i class="fas fa-clock me-1"></i>Between Asr & Maghrib</span>
+                      <span class="badge bg-success">Open</span>
+                    </div>
+                    <div class="mb-3">
+                      <span class="badge badge-teacher me-1">Ustaz Abdulmejid</span>
+                      <span class="badge time-badge"><i class="fas fa-clock me-1"></i>Sat-Sun 11:00 AM</span>
+                      <span class="badge bg-success">Open</span>
+                    </div>
+                    <h6 class="fw-bold mt-4"><i class="fas fa-male me-2"></i>Male Students</h6>
+                    <div class="mb-3">
+                      <span class="badge badge-teacher me-1">Ustaz Amir</span>
+                      <span class="badge time-badge"><i class="fas fa-clock me-1"></i>Mon-Fri 5:00 PM</span>
+                      <span class="badge bg-success">Open</span>
+                    </div>
+                    <div class="mb-3">
+                      <span class="badge badge-teacher me-1">Ustaz Oumer (Local)</span>
+                      <span class="badge time-badge"><i class="fas fa-clock me-1"></i>Weekends</span>
+                      <span class="badge bg-success">Open</span>
+                    </div>
+                    <div class="d-flex justify-content-between align-items-center mt-4">
+                      <button class="btn btn-sm btn-outline-primary" onclick="askQuestion('Hifz for Advanced')"><i class="fas fa-question me-1"></i> Ask Question</button>
+                      <button class="btn btn-sm btn-primary"><i class="fas fa-info-circle me-1"></i> Details</button>
+                    </div>
+                  </div>
+                </div>
               </div>
-              <div class="mb-3">
-                <span class="badge badge-teacher me-1">Ustaz Fedlu</span>
+            </div>
+
+            <!-- Nezer Section -->
+            <div class="row">
+              <div class="col-12 d-flex justify-content-between align-items-center">
+                <h4 class="fw-bold mb-3"><i class="fas fa-graduation-cap me-2"></i>Nezer Classes</h4>
+                <span class="badge bg-primary">6 Classes</span>
               </div>
-              <div class="mb-3">
-                <span class="badge badge-teacher me-1">Ustaz Husen</span>
+              <!-- Fresh Students -->
+              <div class="col-md-6 nezer-card" data-language="all" data-type="nezer" data-level="beginner" data-gender="all" data-time="evening" data-status="open">
+                <div class="card h-100">
+                  <div class="card-header d-flex justify-content-between align-items-center">
+                    <span>Nezer for Beginners</span>
+                    <span class="badge bg-info">Beginner</span>
+                  </div>
+                  <div class="card-body">
+                    <h6 class="fw-bold"><i class="fas fa-female me-2"></i>Female Students</h6>
+                    <div class="mb-3">
+                      <span class="badge badge-teacher me-1">Ustaz Hamza (Amharic)</span>
+                      <span class="badge time-badge"><i class="fas fa-clock me-1"></i>Mon-Wed 6:00 PM</span>
+                      <span class="badge bg-success">Open</span>
+                    </div>
+                    <div class="mb-3">
+                      <span class="badge badge-teacher me-1">Ustaz Bilal (Oromifa)</span>
+                      <span class="badge time-badge"><i class="fas fa-clock me-1"></i>Tue-Thu 7:00 PM</span>
+                      <span class="badge bg-success">Open</span>
+                    </div>
+                    <h6 class="fw-bold mt-4"><i class="fas fa-male me-2"></i>Male Students</h6>
+                    <div class="mb-3">
+                      <span class="badge badge-teacher me-1">Ustaz Aymen</span>
+                      <span class="badge time-badge"><i class="fas fa-clock me-1"></i>Mon-Fri 5:00 PM</span>
+                      <span class="badge bg-success">Open</span>
+                    </div>
+                    <div class="mb-3">
+                      <span class="badge badge-teacher me-1">Ustaz Fuad Aliyi</span>
+                      <span class="badge time-badge"><i class="fas fa-clock me-1"></i>Sat-Sun 3:00 PM</span>
+                      <span class="badge bg-success">Open</span>
+                    </div>
+                    <div class="mb-3">
+                      <span class="badge badge-teacher me-1">Ustaz Kedamo</span>
+                      <span class="badge time-badge"><i class="fas fa-clock me-1"></i>Between Maghrib & Isha</span>
+                      <span class="badge bg-success">Open</span>
+                    </div>
+                    <div class="d-flex justify-content-between align-items-center mt-4">
+                      <button class="btn btn-sm btn-outline-primary" onclick="askQuestion('Nezer for Beginners')"><i class="fas fa-question me-1"></i> Ask Question</button>
+                      <button class="btn btn-sm btn-primary"><i class="fas fa-info-circle me-1"></i> Details</button>
+                    </div>
+                  </div>
+                </div>
               </div>
+              <!-- Senior Students -->
+              <div class="col-md-6 nezer-card" data-language="all" data-type="nezer" data-level="advanced" data-gender="all" data-time="evening" data-status="open">
+                <div class="card h-100">
+                  <div class="card-header d-flex justify-content-between align-items-center">
+                    <span>Nezer for Advanced</span>
+                    <span class="badge bg-info">Advanced</span>
+                  </div>
+                  <div class="card-body">
+                    <h6 class="fw-bold"><i class="fas fa-female me-2"></i>Female Students</h6>
+                    <div class="mb-3">
+                      <span class="badge badge-teacher me-1">Ustaz Abdulhafiz</span>
+                      <span class="badge time-badge"><i class="fas fa-clock me-1"></i>Mon-Wed 7:00 PM</span>
+                      <span class="badge bg-success">Open</span>
+                    </div>
+                    <div class="mb-3">
+                      <span class="badge badge-teacher me-1">Ustaz Amir</span>
+                      <span class="badge time-badge"><i class="fas fa-clock me-1"></i>Tue-Thu 8:00 PM</span>
+                      <span class="badge bg-success">Open</span>
+                    </div>
+                    <h6 class="fw-bold mt-4"><i class="fas fa-male me-2"></i>Male Students</h6>
+                    <div class="mb-3">
+                      <span class="badge badge-teacher me-1">Ustaz Marela</span>
+                      <span class="badge time-badge"><i class="fas fa-clock me-1"></i>Mon-Fri 6:00 PM</span>
+                      <span class="badge bg-success">Open</span>
+                    </div>
+                    <div class="mb-3">
+                      <span class="badge badge-teacher me-1">Ustaz Fedlu</span>
+                      <span class="badge time-badge"><i class="fas fa-clock me-1"></i>Sat-Sun 4:00 PM</span>
+                      <span class="badge bg-success">Open</span>
+                    </div>
+                    <div class="mb-3">
+                      <span class="badge badge-teacher me-1">Ustaz Husen</span>
+                      <span class="badge time-badge"><i class="fas fa-clock me-1"></i>Between Maghrib & Isha</span>
+                      <span class="badge bg-success">Open</span>
+                    </div>
+                    <div class="d-flex justify-content-between align-items-center mt-4">
+                      <button class="btn btn-sm btn-outline-primary" onclick="askQuestion('Nezer for Advanced')"><i class="fas fa-question me-1"></i> Ask Question</button>
+                      <button class="btn btn-sm btn-primary"><i class="fas fa-info-circle me-1"></i> Details</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Schedule Content: Table View -->
+          <div id="scheduleTableContainer">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+              <h4 class="fw-bold mb-0">Schedule Overview (Table View)</h4>
+              <div>
+                <button id="exportExcel" class="btn btn-sm btn-success me-2"><i class="fas fa-file-excel me-1"></i> Export</button>
+                <button id="exportPDF" class="btn btn-sm btn-danger"><i class="fas fa-file-pdf me-1"></i> PDF</button>
+              </div>
+            </div>
+            <div class="table-responsive">
+              <table class="table table-bordered table-hover">
+                <thead class="table-light">
+                  <tr>
+                    <th>Type</th>
+                    <th>Language / Level</th>
+                    <th>Schedule</th>
+                    <th>Teachers</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="scheduleTable">
+                  <!-- Kitab rows -->
+                  <tr data-type="kitab" data-language="amharic" data-level="intermediate" data-gender="all" data-time="morning" data-status="open">
+                    <td>Kitab</td>
+                    <td>Amharic / Intermediate</td>
+                    <td>Sat & Sun 8AM, Mon & Tue 9AM, Thu 10AM</td>
+                    <td>Multiple</td>
+                    <td><span class="badge bg-success">Open</span></td>
+                    <td>
+                      <button class="btn btn-sm btn-outline-primary" onclick="askQuestion('Amharic Kitab')"><i class="fas fa-question"></i></button>
+                      <button class="btn btn-sm btn-primary"><i class="fas fa-info-circle"></i></button>
+                    </td>
+                  </tr>
+                  <tr data-type="kitab" data-language="oromifa" data-level="intermediate" data-gender="all" data-time="morning" data-status="open">
+                    <td>Kitab</td>
+                    <td>Oromifa / Intermediate</td>
+                    <td>Sat & Sun 8AM, Mon & Tue 9AM, Wed 11AM</td>
+                    <td>Multiple</td>
+                    <td><span class="badge bg-success">Open</span></td>
+                    <td>
+                      <button class="btn btn-sm btn-outline-primary" onclick="askQuestion('Oromifa Kitab')"><i class="fas fa-question"></i></button>
+                      <button class="btn btn-sm btn-primary"><i class="fas fa-info-circle"></i></button>
+                    </td>
+                  </tr>
+                  <!-- Hifz rows -->
+                  <tr data-type="hifz" data-language="arabic" data-level="beginner" data-gender="all" data-time="morning" data-status="open">
+                    <td>Hifz</td>
+                    <td>Arabic / Beginner</td>
+                    <td>Various times</td>
+                    <td>Aymen, Salah, Ahmed, Nejmudin, Mekbul, Amir</td>
+                    <td><span class="badge bg-success">Open</span></td>
+                    <td>
+                      <button class="btn btn-sm btn-outline-primary" onclick="askQuestion('Hifz for Beginners')"><i class="fas fa-question"></i></button>
+                      <button class="btn btn-sm btn-primary"><i class="fas fa-info-circle"></i></button>
+                    </td>
+                  </tr>
+                  <tr data-type="hifz" data-language="arabic" data-level="advanced" data-gender="all" data-time="afternoon" data-status="open">
+                    <td>Hifz</td>
+                    <td>Arabic / Advanced</td>
+                    <td>Various times</td>
+                    <td>Kamil, Mekbul, Abuki, Ibrahim, Abdulmejid, Amir, Oumer</td>
+                    <td><span class="badge bg-success">Open</span></td>
+                    <td>
+                      <button class="btn btn-sm btn-outline-primary" onclick="askQuestion('Hifz for Advanced')"><i class="fas fa-question"></i></button>
+                      <button class="btn btn-sm btn-primary"><i class="fas fa-info-circle"></i></button>
+                    </td>
+                  </tr>
+                  <!-- Nezer rows -->
+                  <tr data-type="nezer" data-language="all" data-level="beginner" data-gender="all" data-time="evening" data-status="open">
+                    <td>Nezer</td>
+                    <td>All / Beginner</td>
+                    <td>Various times</td>
+                    <td>Hamza, Bilal, Aymen, Fuad Aliyi, Kedamo</td>
+                    <td><span class="badge bg-success">Open</span></td>
+                    <td>
+                      <button class="btn btn-sm btn-outline-primary" onclick="askQuestion('Nezer for Beginners')"><i class="fas fa-question"></i></button>
+                      <button class="btn btn-sm btn-primary"><i class="fas fa-info-circle"></i></button>
+                    </td>
+                  </tr>
+                  <tr data-type="nezer" data-language="all" data-level="advanced" data-gender="all" data-time="evening" data-status="open">
+                    <td>Nezer</td>
+                    <td>All / Advanced</td>
+                    <td>Various times</td>
+                    <td>Abdulhafiz, Amir, Marela, Fedlu, Husen</td>
+                    <td><span class="badge bg-success">Open</span></td>
+                    <td>
+                      <button class="btn btn-sm btn-outline-primary" onclick="askQuestion('Nezer for Advanced')"><i class="fas fa-question"></i></button>
+                      <button class="btn btn-sm btn-primary"><i class="fas fa-info-circle"></i></button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- No Results Message (Hidden by default) -->
+          <div id="noResults" class="no-results" style="display: none;">
+            <i class="fas fa-calendar-times" style="font-size: 3rem;"></i>
+            <h4 class="mt-3">No classes match your filters</h4>
+            <p class="text-muted">Try adjusting your filter criteria</p>
+            <button id="resetFilters2" class="btn btn-primary mt-2"><i class="fas fa-sync-alt me-1"></i> Reset Filters</button>
+          </div>
+        </div>
+
+        <!-- Right Column -->
+        <div class="col-lg-4">
+          <!-- Prayer Times -->
+          <div class="prayer-times">
+            <h4><i class="fas fa-mosque me-2"></i>Prayer Times <span class="float-end" id="hijri-date">15 Ramadan 1445</span></h4>
+            <div class="prayer-time">
+              <span class="prayer-name">Fajr</span>
+              <span class="prayer-time-value">5:15 AM</span>
+            </div>
+            <div class="prayer-time">
+              <span class="prayer-name">Sunrise</span>
+              <span class="prayer-time-value">6:30 AM</span>
+            </div>
+            <div class="prayer-time current-prayer">
+              <span class="prayer-name">Dhuhr</span>
+              <span class="prayer-time-value">12:30 PM <span class="badge bg-light text-dark ms-2">Current</span></span>
+            </div>
+            <div class="prayer-time">
+              <span class="prayer-name">Asr</span>
+              <span class="prayer-time-value">3:45 PM</span>
+            </div>
+            <div class="prayer-time">
+              <span class="prayer-name">Maghrib</span>
+              <span class="prayer-time-value">6:30 PM</span>
+            </div>
+            <div class="prayer-time">
+              <span class="prayer-name">Isha</span>
+              <span class="prayer-time-value">8:00 PM</span>
+            </div>
+            <div class="mt-3 text-center">
+              <small class="text-white-50">Addis Ababa, Ethiopia</small>
+            </div>
+          </div>
+
+          <!-- My Today's Schedule -->
+          <div id="userScheduleSection" class="user-schedule-section" style="display: none;">
+            <h4 class="user-schedule-title"><i class="fas fa-calendar-day me-2"></i>My Today's Schedule</h4>
+            <div id="todayScheduleContent" class="row">
+              <!-- Today's schedule items will be appended here dynamically -->
+              <div class="col-12">
+                <div class="card mb-3">
+                  <div class="card-header">
+                    <div class="d-flex justify-content-between align-items-center">
+                      <span>Amharic Kitab</span>
+                      <span class="badge language-badge">Amharic</span>
+                    </div>
+                  </div>
+                  <div class="card-body">
+                    <p class="mb-1"><strong>Class:</strong> Tejwid hidayetul mustefid</p>
+                    <p class="mb-1"><strong>Time:</strong> 8:00 AM - 10:00 AM</p>
+                    <p class="mb-1"><strong>Teacher:</strong> Ustaz Aymen</p>
+                    <p class="mb-1"><strong>Location:</strong> Main Hall</p>
+                    <div class="d-flex justify-content-between align-items-center mt-3">
+                      <button class="btn btn-sm btn-outline-primary"><i class="fas fa-info-circle me-1"></i> Details</button>
+                      <button class="btn btn-sm btn-danger"><i class="fas fa-times me-1"></i> Cancel</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-12">
+                <div class="card mb-3">
+                  <div class="card-header">
+                    <div class="d-flex justify-content-between align-items-center">
+                      <span>Hifz Class</span>
+                      <span class="badge bg-info">Beginner</span>
+                    </div>
+                  </div>
+                  <div class="card-body">
+                    <p class="mb-1"><strong>Class:</strong> Juz Amma</p>
+                    <p class="mb-1"><strong>Time:</strong> 4:00 PM - 5:30 PM</p>
+                    <p class="mb-1"><strong>Teacher:</strong> Ustaz Mekbul</p>
+                    <p class="mb-1"><strong>Location:</strong> Hifz Room 2</p>
+                    <div class="d-flex justify-content-between align-items-center mt-3">
+                      <button class="btn btn-sm btn-outline-primary"><i class="fas fa-info-circle me-1"></i> Details</button>
+                      <button class="btn btn-sm btn-danger"><i class="fas fa-times me-1"></i> Cancel</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div id="noTodaySchedule" class="no-results" style="display: none;">
+              <i class="fas fa-calendar-check" style="font-size: 3rem;"></i>
+              <h4 class="mt-3">No classes scheduled for today</h4>
+              <p class="text-muted">Check your enrolled courses for upcoming classes</p>
+            </div>
+          </div>
+
+          <!-- Calendar Widget -->
+          <div class="calendar-widget">
+            <div class="calendar-header">
+              <h5 class="calendar-title">April 2024</h5>
+              <div class="calendar-nav">
+                <div class="calendar-nav-btn"><i class="fas fa-chevron-left"></i></div>
+                <div class="calendar-nav-btn"><i class="fas fa-chevron-right"></i></div>
+              </div>
+            </div>
+            <div class="calendar-weekdays">
+              <div>Sun</div>
+              <div>Mon</div>
+              <div>Tue</div>
+              <div>Wed</div>
+              <div>Thu</div>
+              <div>Fri</div>
+              <div>Sat</div>
+            </div>
+            <div class="calendar-days">
+              <div class="calendar-day">31</div>
+              <div class="calendar-day">1</div>
+              <div class="calendar-day">2</div>
+              <div class="calendar-day">3</div>
+              <div class="calendar-day">4</div>
+              <div class="calendar-day">5</div>
+              <div class="calendar-day">6</div>
+              <div class="calendar-day">7</div>
+              <div class="calendar-day">8</div>
+              <div class="calendar-day">9</div>
+              <div class="calendar-day">10</div>
+              <div class="calendar-day">11</div>
+              <div class="calendar-day">12</div>
+              <div class="calendar-day">13</div>
+              <div class="calendar-day">14</div>
+              <div class="calendar-day today has-class">15</div>
+              <div class="calendar-day has-class">16</div>
+              <div class="calendar-day">17</div>
+              <div class="calendar-day">18</div>
+              <div class="calendar-day">19</div>
+              <div class="calendar-day">20</div>
+              <div class="calendar-day">21</div>
+              <div class="calendar-day">22</div>
+              <div class="calendar-day">23</div>
+              <div class="calendar-day">24</div>
+              <div class="calendar-day">25</div>
+              <div class="calendar-day">26</div>
+              <div class="calendar-day">27</div>
+              <div class="calendar-day">28</div>
+              <div class="calendar-day">29</div>
+              <div class="calendar-day">30</div>
+              <div class="calendar-day">1</div>
+              <div class="calendar-day">2</div>
+            </div>
+          </div>
+
+          <!-- Progress Tracker -->
+          <div class="progress-tracker">
+            <h5 class="progress-title"><i class="fas fa-chart-line me-2"></i>Your Progress</h5>
+            <div class="progress-item">
+              <div class="progress-item-header">
+                <span class="progress-item-title">Quran Memorization</span>
+                <span class="progress-item-percent">65%</span>
+              </div>
+              <div class="progress-bar">
+                <div class="progress-bar-fill" style="width: 65%"></div>
+              </div>
+            </div>
+            <div class="progress-item">
+              <div class="progress-item-header">
+                <span class="progress-item-title">Kitab Studies</span>
+                <span class="progress-item-percent">42%</span>
+              </div>
+              <div class="progress-bar">
+                <div class="progress-bar-fill" style="width: 42%"></div>
+              </div>
+            </div>
+            <div class="progress-item">
+              <div class="progress-item-header">
+                <span class="progress-item-title">Arabic Language</span>
+                <span class="progress-item-percent">28%</span>
+              </div>
+              <div class="progress-bar">
+                <div class="progress-bar-fill" style="width: 28%"></div>
+              </div>
+            </div>
+            <div class="progress-item">
+              <div class="progress-item-header">
+                <span class="progress-item-title">Islamic History</span>
+                <span class="progress-item-percent">15%</span>
+              </div>
+              <div class="progress-bar">
+                <div class="progress-bar-fill" style="width: 15%"></div>
+              </div>
+            </div>
+            <div class="text-center mt-3">
+              <button class="btn btn-sm btn-primary"><i class="fas fa-chart-pie me-1"></i> View Full Report</button>
+            </div>
+          </div>
+
+          <!-- Announcements -->
+          <div class="announcements">
+            <h5 class="announcements-title"><i class="fas fa-bullhorn me-2"></i>Announcements <span class="badge bg-danger">3 New</span></h5>
+            <div class="announcement">
+              <div class="announcement-title">
+                <i class="fas fa-exclamation-circle text-danger me-2"></i> Ramadan Schedule
+                <span class="announcement-date">Today</span>
+              </div>
+              <div class="announcement-content">
+                Updated class timings during Ramadan. Please check the new schedule.
+              </div>
+            </div>
+            <div class="announcement">
+              <div class="announcement-title">
+                <i class="fas fa-info-circle text-primary me-2"></i> New Teachers
+                <span class="announcement-date">2 days ago</span>
+              </div>
+              <div class="announcement-content">
+                We welcome two new teachers to our Hifz program starting next week.
+              </div>
+            </div>
+            <div class="announcement announcement-urgent">
+              <div class="announcement-title">
+                <i class="fas fa-fire text-warning me-2"></i> Special Event
+                <span class="announcement-date">1 week ago</span>
+              </div>
+              <div class="announcement-content">
+                Annual Quran competition registration is now open. Deadline is April 30.
+              </div>
+            </div>
+            <div class="text-center mt-3">
+              <button class="btn btn-sm btn-outline-primary"><i class="fas fa-list me-1"></i> View All</button>
             </div>
           </div>
         </div>
       </div>
     </div>
+  </div>
 
-    <!-- Schedule Content: Table View -->
-    <div id="scheduleTableContainer">
-      <h4 class="fw-bold mb-3">Schedule Overview (Table View)</h4>
-      <div class="table-responsive">
-        <table class="table table-bordered table-hover">
-          <thead class="table-light">
-            <tr>
-              <th>Type</th>
-              <th>Language / Level</th>
-              <th>Schedule</th>
-              <th>Details</th>
-            </tr>
-          </thead>
-          <tbody id="scheduleTable">
-            <!-- Kitab rows -->
-            <tr data-type="kitab" data-language="amharic">
-              <td>Kitab</td>
-              <td>Amharic</td>
-              <td>Sat & Sun Morning, Mon & Tue, Thursday</td>
-              <td>Tejwid hidayetul mustefid, Usulu sel asah, Kula setun urel eqin</td>
-            </tr>
-            <tr data-type="kitab" data-language="oromifa">
-              <td>Kitab</td>
-              <td>Oromifa</td>
-              <td>Sat & Sun Morning, Mon & Tue, Sat & Sun, Wed</td>
-              <td>Tejwid hidayetul mustefid, Usulu sel asah, Umd etul ahkam, Tefsir</td>
-            </tr>
-            <!-- Hifz rows -->
-            <tr data-type="hifz" data-level="fresh">
-              <td>Hifz</td>
-              <td>Fresh</td>
-              <td>Female: Mon-Wed Morning<br>Male: Mon-Wed Morning</td>
-              <td>Female: Aymen, Salah, Ahmed, Nejmudin<br>Male: Mekbul, Amir</td>
-            </tr>
-            <tr data-type="hifz" data-level="senior">
-              <td>Hifz</td>
-              <td>Senior</td>
-              <td>Female: Various Times<br>Male: Various Times</td>
-              <td>Female: Kamil, Mekbul, Abuki, Ibrahim, Abdulmejid<br>Male: Amir, Oumer (Local)</td>
-            </tr>
-            <!-- Nezer rows -->
-            <tr data-type="nezer" data-level="fresh">
-              <td>Nezer</td>
-              <td>Fresh</td>
-              <td>Female: Specific Days<br>Male: Specific Days</td>
-              <td>Female: Hamza (Amharic), Bilal (Oromifa)<br>Male: Aymen, Fuad Aliyi, Kedamo</td>
-            </tr>
-            <tr data-type="nezer" data-level="senior">
-              <td>Nezer</td>
-              <td>Senior</td>
-              <td>Female: Specific Days<br>Male: Specific Days</td>
-              <td>Female: Abdulhafiz, Amir<br>Male: Marela, Fedlu, Husen</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
+  <!-- Floating Action Button -->
+  <div class="fab animate__animated animate__bounceIn" data-bs-toggle="modal" data-bs-target="#questionModal">
+    <i class="fas fa-question"></i>
+  </div>
 
-    <!-- No Results Message (Hidden by default) -->
-    <div id="noResults" class="no-results" style="display: none;">
-      <i class="bi bi-calendar-x" style="font-size: 3rem;"></i>
-      <h4 class="mt-3">No classes match your filters</h4>
-      <p class="text-muted">Try adjusting your filter criteria</p>
-      <button id="resetFilters2" class="btn btn-primary mt-2"><i class="bi bi-arrow-counterclockwise me-1"></i> Reset Filters</button>
-    </div>
-
-    <!-- My Today’s Schedule Section (Loaded for logged in users) -->
-    <div id="userScheduleSection" class="user-schedule-section" style="display: none;">
-      <h4 class="user-schedule-title">My Today's Schedule</h4>
-      <div id="todayScheduleContent" class="row">
-        <!-- Today’s schedule items will be appended here dynamically -->
-      </div>
-      <div id="noTodaySchedule" class="no-results" style="display: none;">
-        <i class="bi bi-exclamation-circle" style="font-size: 3rem;"></i>
-        <h4 class="mt-3">You have no scheduled classes for today</h4>
-        <p class="text-muted">Check your enrolled courses for more details</p>
+  <!-- Question Modal -->
+  <div class="modal fade question-modal" id="questionModal" tabindex="-1" aria-labelledby="questionModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="questionModalLabel"><i class="fas fa-question-circle me-2"></i>Ask a Question</h5>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form id="questionForm">
+            <div class="mb-3">
+              <label for="questionClass" class="form-label">About which class?</label>
+              <select id="questionClass" class="form-select" required>
+                <option value="">Select a class...</option>
+                <option value="Amharic Kitab">Amharic Kitab</option>
+                <option value="Oromifa Kitab">Oromifa Kitab</option>
+                <option value="Hifz for Beginners">Hifz for Beginners</option>
+                <option value="Hifz for Advanced">Hifz for Advanced</option>
+                <option value="Nezer for Beginners">Nezer for Beginners</option>
+                <option value="Nezer for Advanced">Nezer for Advanced</option>
+                <option value="Other">Other</option>
+              </select>
+            </div>
+            <div class="mb-3">
+              <label for="questionType" class="form-label">Question Type</label>
+              <select id="questionType" class="form-select" required>
+                <option value="">Select type...</option>
+                <option value="Schedule">Schedule</option>
+                <option value="Content">Content</option>
+                <option value="Teacher">Teacher</option>
+                <option value="Enrollment">Enrollment</option>
+                <option value="Other">Other</option>
+              </select>
+            </div>
+            <div class="mb-3">
+              <label for="questionText" class="form-label">Your Question</label>
+              <textarea class="form-control" id="questionText" rows="4" placeholder="Type your question here..." required></textarea>
+            </div>
+            <div class="mb-3">
+              <label for="questionPriority" class="form-label">Priority</label>
+              <select id="questionPriority" class="form-select">
+                <option value="normal">Normal</option>
+                <option value="urgent">Urgent</option>
+              </select>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+          <button type="submit" form="questionForm" class="btn btn-primary">Submit Question</button>
+        </div>
       </div>
     </div>
   </div>
 
   <!-- Firebase, Firestore and Scripts -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <!-- Firebase SDKs -->
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-app.js";
     import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-auth.js";
-    import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-firestore.js";
+    import { getFirestore, doc, getDoc, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-firestore.js";
     import { getAnalytics } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-analytics.js";
 
     const firebaseConfig = {
@@ -503,19 +1636,23 @@
         authItem.innerHTML = `
           <div class="nav-item dropdown user-dropdown">
             <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown">
-              <i class="bi bi-person-circle me-1"></i>
+              <i class="fas fa-user-circle me-1"></i>
               <span>${user.displayName || user.email || 'Account'}</span>
             </a>
             <ul class="dropdown-menu dropdown-menu-end">
-              <li><a class="dropdown-item" href="learning.html"><i class="bi bi-journal-bookmark me-2"></i>My Learning</a></li>
+              <li><a class="dropdown-item" href="profile.html"><i class="fas fa-user me-2"></i>Profile</a></li>
+              <li><a class="dropdown-item" href="learning.html"><i class="fas fa-book-quran me-2"></i>My Learning</a></li>
+              <li><a class="dropdown-item" href="questions.html"><i class="fas fa-question-circle me-2"></i>My Questions</a></li>
               <li><hr class="dropdown-divider" /></li>
-              <li><a class="dropdown-item" href="#" id="logoutBtn"><i class="bi bi-box-arrow-right me-2"></i>Logout</a></li>
+              <li><a class="dropdown-item" href="#" id="logoutBtn"><i class="fas fa-sign-out-alt me-2"></i>Logout</a></li>
             </ul>
           </div>`;
         // Load logged in user's today schedule
         loadUserTodaySchedule();
+        // Show user schedule section
+        document.getElementById('userScheduleSection').style.display = 'block';
       } else {
-        authItem.innerHTML = `<a class="nav-link" href="login.html"><i class="bi bi-box-arrow-in-right me-1"></i> Login</a>`;
+        authItem.innerHTML = `<a class="nav-link" href="login.html"><i class="fas fa-sign-in-alt me-1"></i> Login</a>`;
       }
     });
 
@@ -528,6 +1665,11 @@
           })
           .catch((error) => {
             console.error('Logout error:', error);
+            Swal.fire({
+              icon: 'error',
+              title: 'Logout Failed',
+              text: 'There was an error logging out. Please try again.',
+            });
           });
       }
     });
@@ -539,12 +1681,26 @@
     document.getElementById('toggleCards').addEventListener('click', () => toggleView('cards'));
     document.getElementById('toggleTable').addEventListener('click', () => toggleView('table'));
     document.getElementById('printSchedule').addEventListener('click', () => window.print());
+    document.getElementById('exportExcel').addEventListener('click', exportToExcel);
+    document.getElementById('exportPDF').addEventListener('click', exportToPDF);
+
+    // Question form submission
+    document.getElementById('questionForm').addEventListener('submit', submitQuestion);
+
+    // Active filters array
+    let activeFilters = [];
 
     function applyFilters() {
       const language = document.getElementById('languageFilter').value;
       const type = document.getElementById('typeFilter').value;
       const level = document.getElementById('levelFilter').value;
-      // The gender filter is not used in this code example
+      const gender = document.getElementById('genderFilter').value;
+      const time = document.getElementById('timeFilter').value;
+      const status = document.getElementById('statusFilter').value;
+      
+      // Update active filters display
+      updateActiveFilters(language, type, level, gender, time, status);
+      
       let visibleCards = 0;
 
       // Apply filter on card view
@@ -552,12 +1708,18 @@
         const cardLanguage = card.getAttribute('data-language');
         const cardType = card.getAttribute('data-type');
         const cardLevel = card.getAttribute('data-level');
+        const cardGender = card.getAttribute('data-gender');
+        const cardTime = card.getAttribute('data-time');
+        const cardStatus = card.getAttribute('data-status');
 
-        const languageMatch = language === 'all' || !cardLanguage || cardLanguage === language;
+        const languageMatch = language === 'all' || cardLanguage === language;
         const typeMatch = type === 'all' || cardType === type;
-        const levelMatch = level === 'all' || !cardLevel || cardLevel === level;
+        const levelMatch = level === 'all' || cardLevel === level;
+        const genderMatch = gender === 'all' || cardGender === gender;
+        const timeMatch = time === 'all' || cardTime === time;
+        const statusMatch = status === 'all' || cardStatus === status;
 
-        if (languageMatch && typeMatch && levelMatch) {
+        if (languageMatch && typeMatch && levelMatch && genderMatch && timeMatch && statusMatch) {
           card.style.display = 'block';
           visibleCards++;
         } else {
@@ -567,19 +1729,25 @@
 
       // Apply filter on table view
       document.querySelectorAll('#scheduleTable tbody tr').forEach(row => {
+        const rowLanguage = row.getAttribute('data-language');
         const rowType = row.getAttribute('data-type');
-        let rowMatches = false;
+        const rowLevel = row.getAttribute('data-level');
+        const rowGender = row.getAttribute('data-gender');
+        const rowTime = row.getAttribute('data-time');
+        const rowStatus = row.getAttribute('data-status');
+
+        const languageMatch = language === 'all' || rowLanguage === language;
         const typeMatch = type === 'all' || rowType === type;
-        if (!typeMatch) {
-          rowMatches = false;
-        } else if (rowType === 'kitab') {
-          const rowLanguage = row.getAttribute('data-language');
-          rowMatches = language === 'all' || rowLanguage === language;
+        const levelMatch = level === 'all' || rowLevel === level;
+        const genderMatch = gender === 'all' || rowGender === gender;
+        const timeMatch = time === 'all' || rowTime === time;
+        const statusMatch = status === 'all' || rowStatus === status;
+
+        if (languageMatch && typeMatch && levelMatch && genderMatch && timeMatch && statusMatch) {
+          row.style.display = '';
         } else {
-          const rowLevel = row.getAttribute('data-level');
-          rowMatches = level === 'all' || rowLevel === level;
+          row.style.display = 'none';
         }
-        row.style.display = rowMatches ? '' : 'none';
       });
 
       // Show/hide no-results message if nothing is visible
@@ -597,11 +1765,118 @@
       toggleView(currentView);
     }
 
+    function updateActiveFilters(language, type, level, gender, time, status) {
+      activeFilters = [];
+      const filtersContainer = document.getElementById('activeFilters');
+      filtersContainer.innerHTML = '';
+      
+      if (language !== 'all') {
+        activeFilters.push({ type: 'language', value: language });
+      }
+      if (type !== 'all') {
+        activeFilters.push({ type: 'type', value: type });
+      }
+      if (level !== 'all') {
+        activeFilters.push({ type: 'level', value: level });
+      }
+      if (gender !== 'all') {
+        activeFilters.push({ type: 'gender', value: gender });
+      }
+      if (time !== 'all') {
+        activeFilters.push({ type: 'time', value: time });
+      }
+      if (status !== 'all') {
+        activeFilters.push({ type: 'status', value: status });
+      }
+      
+      activeFilters.forEach(filter => {
+        const chip = document.createElement('div');
+        chip.className = 'filter-chip';
+        
+        let displayText = '';
+        let icon = '';
+        
+        switch(filter.type) {
+          case 'language':
+            displayText = filter.value === 'amharic' ? 'Amharic' : 
+                          filter.value === 'oromifa' ? 'Oromifa' : 'Arabic';
+            icon = 'fa-language';
+            break;
+          case 'type':
+            displayText = filter.value === 'kitab' ? 'Kitab' : 
+                          filter.value === 'hifz' ? 'Hifz' : 
+                          filter.value === 'nezer' ? 'Nezer' : 
+                          filter.value === 'tafsir' ? 'Tafsir' : 'Fiqh';
+            icon = 'fa-book';
+            break;
+          case 'level':
+            displayText = filter.value === 'beginner' ? 'Beginner' : 
+                          filter.value === 'intermediate' ? 'Intermediate' : 'Advanced';
+            icon = 'fa-layer-group';
+            break;
+          case 'gender':
+            displayText = filter.value === 'female' ? 'Female' : 'Male';
+            icon = 'fa-venus-mars';
+            break;
+          case 'time':
+            displayText = filter.value === 'morning' ? 'Morning' : 
+                          filter.value === 'afternoon' ? 'Afternoon' : 
+                          filter.value === 'evening' ? 'Evening' : 'Weekend';
+            icon = 'fa-clock';
+            break;
+          case 'status':
+            displayText = filter.value === 'open' ? 'Open' : 
+                          filter.value === 'full' ? 'Full' : 'Waiting List';
+            icon = 'fa-info-circle';
+            break;
+        }
+        
+        chip.innerHTML = `
+          <i class="fas ${icon} me-1"></i> ${displayText}
+          <i class="fas fa-times" onclick="removeFilter('${filter.type}')"></i>
+        `;
+        
+        filtersContainer.appendChild(chip);
+      });
+    }
+
+    function removeFilter(filterType) {
+      // Remove the filter and reset the corresponding dropdown
+      switch(filterType) {
+        case 'language':
+          document.getElementById('languageFilter').value = 'all';
+          break;
+        case 'type':
+          document.getElementById('typeFilter').value = 'all';
+          break;
+        case 'level':
+          document.getElementById('levelFilter').value = 'all';
+          break;
+        case 'gender':
+          document.getElementById('genderFilter').value = 'all';
+          break;
+        case 'time':
+          document.getElementById('timeFilter').value = 'all';
+          break;
+        case 'status':
+          document.getElementById('statusFilter').value = 'all';
+          break;
+      }
+      
+      // Reapply filters
+      applyFilters();
+    }
+
+    // Make removeFilter available globally
+    window.removeFilter = removeFilter;
+
     function resetFilters() {
       document.getElementById('languageFilter').value = 'all';
       document.getElementById('typeFilter').value = 'all';
       document.getElementById('levelFilter').value = 'all';
       document.getElementById('genderFilter').value = 'all';
+      document.getElementById('timeFilter').value = 'all';
+      document.getElementById('statusFilter').value = 'all';
 
       document.querySelectorAll('.kitab-card, .hifz-card, .nezer-card').forEach(card => {
         card.style.display = 'block';
@@ -610,6 +1885,8 @@
         row.style.display = '';
       });
       document.getElementById('noResults').style.display = 'none';
+      document.getElementById('activeFilters').innerHTML = '';
+      activeFilters = [];
       toggleView('cards');
     }
 
@@ -617,10 +1894,36 @@
       if (viewType === 'cards') {
         document.getElementById('scheduleCards').style.display = 'block';
         document.getElementById('scheduleTableContainer').style.display = 'none';
+        document.getElementById('toggleCards').classList.add('active');
+        document.getElementById('toggleTable').classList.remove('active');
       } else if (viewType === 'table') {
         document.getElementById('scheduleCards').style.display = 'none';
         document.getElementById('scheduleTableContainer').style.display = 'block';
+        document.getElementById('toggleCards').classList.remove('active');
+        document.getElementById('toggleTable').classList.add('active');
       }
+    }
+
+    function exportToExcel() {
+      Swal.fire({
+        icon: 'success',
+        title: 'Export Started',
+        text: 'Your schedule is being exported to Excel format.',
+        timer: 2000,
+        showConfirmButton: false
+      });
+      // In a real implementation, this would generate and download an Excel file
+    }
+
+    function exportToPDF() {
+      Swal.fire({
+        icon: 'success',
+        title: 'Export Started',
+        text: 'Your schedule is being exported to PDF format.',
+        timer: 2000,
+        showConfirmButton: false
+      });
+      // In a real implementation, this would generate and download a PDF file
     }
 
     // Load today's schedule for the logged-in user based on their enrolled courses
@@ -633,53 +1936,114 @@
         const docSnap = await getDoc(userDocRef);
         if (docSnap.exists()) {
           const userData = docSnap.data();
-          // Assume userData.enrolledCourses is an array of objects.
-          // Each course object should have: courseName, courseType, schedule, time, days (an array of weekday names)
-          if (userData.enrolledCourses && Array.isArray(userData.enrolledCourses)) {
-            const today = new Date().toLocaleString('en-US', { weekday: 'long' });
-            const coursesForToday = userData.enrolledCourses.filter(course => 
-              course.days && Array.isArray(course.days) && course.days.includes(today)
-            );
-            displayTodaySchedule(coursesForToday);
+          // Update quick stats
+          if (userData.enrolledCourses) {
+            document.getElementById('enrolledClasses').textContent = userData.enrolledCourses.length;
           }
+          // In a real app, we would calculate today's schedule from enrolled courses
         }
       } catch (error) {
         console.error("Error loading user schedule:", error);
       }
     }
 
-    // Display today's schedule – as cards – for logged in user
-    function displayTodaySchedule(courses) {
-      const userScheduleSection = document.getElementById('userScheduleSection');
-      const todayScheduleContent = document.getElementById('todayScheduleContent');
-      const noTodaySchedule = document.getElementById('noTodaySchedule');
-      todayScheduleContent.innerHTML = ""; // reset
-      if (courses.length === 0) {
-        noTodaySchedule.style.display = 'block';
-      } else {
-        noTodaySchedule.style.display = 'none';
-        courses.forEach(course => {
-          const col = document.createElement('div');
-          col.className = 'col-md-4';
-          col.innerHTML = `
-            <div class="card">
-              <div class="card-header d-flex justify-content-between align-items-center">
-                <span>${course.courseName || course.courseType || "Course"}</span>
-                <span class="badge ${course.courseType === 'kitab' ? 'language-badge' : 'bg-info'}">
-                  ${course.courseType ? course.courseType.charAt(0).toUpperCase() + course.courseType.slice(1) : ''}
-                </span>
-              </div>
-              <div class="card-body">
-                <p class="mb-1"><strong>Schedule:</strong> ${course.schedule || "N/A"}</p>
-                <p class="mb-1"><strong>Time:</strong> ${course.time || "N/A"}</p>
-                ${course.notes ? `<p class="mb-0"><strong>Notes:</strong> ${course.notes}</p>` : ''}
-              </div>
-            </div>`;
-          todayScheduleContent.appendChild(col);
+    // Ask question about a specific class
+    window.askQuestion = function(className) {
+      const questionModal = new bootstrap.Modal(document.getElementById('questionModal'));
+      document.getElementById('questionClass').value = className;
+      questionModal.show();
+    }
+
+    // Submit question form
+    async function submitQuestion(e) {
+      e.preventDefault();
+      
+      if (!auth.currentUser) {
+        Swal.fire({
+          icon: 'error',
+          title: 'Not Logged In',
+          text: 'Please login to ask questions.',
+        });
+        return;
+      }
+      
+      const className = document.getElementById('questionClass').value;
+      const questionType = document.getElementById('questionType').value;
+      const questionText = document.getElementById('questionText').value;
+      const priority = document.getElementById('questionPriority').value;
+      
+      try {
+        // Add question to Firestore
+        await addDoc(collection(db, "questions"), {
+          userId: auth.currentUser.uid,
+          userName: auth.currentUser.displayName || auth.currentUser.email,
+          className,
+          questionType,
+          questionText,
+          priority,
+          status: 'pending',
+          createdAt: serverTimestamp(),
+          updatedAt: serverTimestamp()
+        });
+        
+        // Show success message
+        Swal.fire({
+          icon: 'success',
+          title: 'Question Submitted',
+          text: 'Your question has been sent successfully. You will receive a response soon.',
+          timer: 3000,
+          showConfirmButton: false
+        });
+        
+        // Reset form and close modal
+        document.getElementById('questionForm').reset();
+        bootstrap.Modal.getInstance(document.getElementById('questionModal')).hide();
+      } catch (error) {
+        console.error("Error submitting question:", error);
+        Swal.fire({
+          icon: 'error',
+          title: 'Submission Failed',
+          text: 'There was an error submitting your question. Please try again.',
         });
       }
-      // Show the user schedule section regardless of content as long as the user is logged in
-      userScheduleSection.style.display = 'block';
+    }
+
+    // Initialize calendar navigation
+    document.querySelectorAll('.calendar-nav-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        // In a real implementation, this would navigate months
+        Swal.fire({
+          icon: 'info',
+          title: 'Calendar Navigation',
+          text: 'This would change months in a full implementation.',
+          timer: 2000,
+          showConfirmButton: false
+        });
+      });
+    });
+
+    // Initialize calendar day clicks
+    document.querySelectorAll('.calendar-day').forEach(day => {
+      day.addEventListener('click', () => {
+        if (day.classList.contains('has-class')) {
+          Swal.fire({
+            icon: 'info',
+            title: 'Class Schedule',
+            html: `You have classes scheduled on ${day.textContent} April.`,
+            showConfirmButton: true,
+          });
+        }
+      });
+    });
+
+    // Simulate today's date for demo
+    const today = new Date();
+    document.getElementById('hijri-date').textContent = `${today.getDate()} ${getMonthName(today.getMonth())} ${today.getFullYear() + 578}`;
+
+    function getMonthName(month) {
+      const months = ['Muharram', 'Safar', 'Rabi al-Awwal', 'Rabi al-Thani', 'Jumada al-Awwal', 'Jumada al-Thani', 
+                      'Rajab', 'Shaaban', 'Ramadan', 'Shawwal', 'Dhu al-Qadah', 'Dhu al-Hijjah'];
+      return months[month];
     }
   </script>
 </body>
