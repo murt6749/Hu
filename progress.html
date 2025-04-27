@@ -6,9 +6,11 @@
   <title>HU Jama'aa - Progress Tracking</title>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
   <style>
     :root {
       --primary-color: #1a4d2e;
+      --primary-light: #3a7d5a;
       --secondary-color: #4f6f52;
       --accent-color: #f5efe6;
       --light-color: #e8dfca;
@@ -16,13 +18,17 @@
       --text-dark: #333333;
       --text-light: #555555;
       --shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+      --shadow-lg: 0 10px 25px rgba(0, 0, 0, 0.12);
       --success-color: #28a745;
       --info-color: #17a2b8;
       --warning-color: #ffc107;
       --danger-color: #dc3545;
       --border-radius: 10px;
+      --border-radius-sm: 6px;
       --box-padding: 16px;
       --transition-speed: 0.3s;
+      --header-height: 60px;
+      --nav-height: 60px;
     }
 
     * {
@@ -37,6 +43,8 @@
       min-height: 100vh;
       font-size: 14px;
       color: var(--text-dark);
+      padding-top: var(--header-height);
+      padding-bottom: var(--nav-height);
     }
 
     .container {
@@ -45,65 +53,153 @@
       padding: 0;
     }
 
+    /* Loading Animation */
     .loading-container {
-      position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-      background-color: rgba(255, 255, 255, 0.95); display: flex;
-      flex-direction: column; justify-content: center; align-items: center;
+      position: fixed; 
+      top: 0; 
+      left: 0; 
+      width: 100%; 
+      height: 100%;
+      background-color: rgba(255, 255, 255, 0.95); 
+      display: flex;
+      flex-direction: column; 
+      justify-content: center; 
+      align-items: center;
       z-index: 9999;
+      backdrop-filter: blur(5px);
     }
     .loading-spinner {
-      width: 50px; height: 50px; border: 5px solid var(--light-color);
-      border-top: 5px solid var(--primary-color); border-radius: 50%;
-      animation: spin 1s linear infinite; margin-bottom: 20px;
+      width: 50px; 
+      height: 50px; 
+      border: 5px solid var(--light-color);
+      border-top: 5px solid var(--primary-color); 
+      border-radius: 50%;
+      animation: spin 1s linear infinite; 
+      margin-bottom: 20px;
     }
-    .loading-text { color: var(--primary-color); font-weight: 500; }
-    @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+    .loading-text { 
+      color: var(--primary-color); 
+      font-weight: 500; 
+      margin-top: 10px;
+    }
+    @keyframes spin { 
+      0% { transform: rotate(0deg); } 
+      100% { transform: rotate(360deg); } 
+    }
+    .loading-dots {
+      display: flex;
+      gap: 8px;
+      margin-top: 15px;
+    }
+    .loading-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background-color: var(--primary-color);
+      animation: bounce 1.4s infinite ease-in-out;
+    }
+    .loading-dot:nth-child(1) { animation-delay: 0s; }
+    .loading-dot:nth-child(2) { animation-delay: 0.2s; }
+    .loading-dot:nth-child(3) { animation-delay: 0.4s; }
+    @keyframes bounce {
+      0%, 80%, 100% { transform: scale(0); }
+      40% { transform: scale(1); }
+    }
 
+    /* Header Styles */
     .header {
       background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
-      color: white; padding: var(--box-padding); position: sticky; top: 0;
-      z-index: 100; display: flex; justify-content: space-between;
-      align-items: center; box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      color: white; 
+      padding: 0 var(--box-padding); 
+      position: fixed; 
+      top: 0;
+      left: 0;
+      right: 0;
+      height: var(--header-height);
+      z-index: 100; 
+      display: flex; 
+      justify-content: space-between;
+      align-items: center; 
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
     }
-    .header h1 { font-size: 1.1rem; font-weight: 600; }
-    .header-actions { display: flex; gap: 10px; align-items: center; }
+    .header h1 { 
+      font-size: 1.1rem; 
+      font-weight: 600; 
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .header-actions { 
+      display: flex; 
+      gap: 10px; 
+      align-items: center; 
+    }
 
+    /* User Avatar & Dropdown */
     .user-avatar-container {
-      display: flex; align-items: center; gap: 8px; cursor: pointer;
-      position: relative; padding: 4px 8px; border-radius: 20px;
-      transition: background-color 0.2s ease;
+      display: flex; 
+      align-items: center; 
+      gap: 8px; 
+      cursor: pointer;
+      position: relative; 
+      padding: 4px 8px; 
+      border-radius: 20px;
+      transition: background-color var(--transition-speed) ease;
     }
     .user-avatar-container:hover {
       background-color: rgba(255, 255, 255, 0.1);
     }
     .user-name {
-      margin-right: 4px; font-size: 0.9rem; max-width: 120px;
-      white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+      margin-right: 4px; 
+      font-size: 0.9rem; 
+      max-width: 120px;
+      white-space: nowrap; 
+      overflow: hidden; 
+      text-overflow: ellipsis;
       color: var(--accent-color);
     }
     .user-avatar {
-      width: 36px; height: 36px; border-radius: 50%;
-      background-color: var(--accent-color); color: var(--primary-color);
-      display: flex; align-items: center; justify-content: center;
-      font-weight: bold; text-transform: uppercase;
+      width: 36px; 
+      height: 36px; 
+      border-radius: 50%;
+      background-color: var(--accent-color); 
+      color: var(--primary-color);
+      display: flex; 
+      align-items: center; 
+      justify-content: center;
+      font-weight: bold; 
+      text-transform: uppercase;
       transition: transform var(--transition-speed) ease;
       position: relative;
+      border: 2px solid rgba(255, 255, 255, 0.3);
     }
-    .user-avatar:hover { transform: scale(1.1); }
+    .user-avatar:hover { 
+      transform: scale(1.1); 
+      box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.2);
+    }
     .dropdown-arrow {
-      color: var(--accent-color); font-size: 0.8rem;
+      color: var(--accent-color); 
+      font-size: 0.8rem;
       transition: transform var(--transition-speed) ease;
     }
     .account-dropdown.active .dropdown-arrow {
       transform: rotate(180deg);
     }
 
-    .account-dropdown { position: relative; }
+    .account-dropdown { 
+      position: relative; 
+    }
     .dropdown-content {
-      display: none; position: absolute; right: 0; top: 110%;
-      background-color: var(--white); min-width: 220px;
-      box-shadow: var(--shadow); z-index: 1;
-      border-radius: var(--border-radius); overflow: hidden;
+      display: none; 
+      position: absolute; 
+      right: 0; 
+      top: 110%;
+      background-color: var(--white); 
+      min-width: 220px;
+      box-shadow: var(--shadow-lg); 
+      z-index: 1;
+      border-radius: var(--border-radius); 
+      overflow: hidden;
       animation: fadeInDropdown 0.2s ease-out;
       border: 1px solid rgba(0, 0, 0, 0.05);
     }
@@ -112,12 +208,19 @@
       to { opacity: 1; transform: translateY(0); } 
     }
     .dropdown-content a {
-      color: var(--text-dark); padding: 12px 16px; text-decoration: none;
-      display: flex; align-items: center; gap: 12px;
-      font-size: 0.9rem; transition: all var(--transition-speed) ease;
+      color: var(--text-dark); 
+      padding: 12px 16px; 
+      text-decoration: none;
+      display: flex; 
+      align-items: center; 
+      gap: 12px;
+      font-size: 0.9rem; 
+      transition: all var(--transition-speed) ease;
     }
     .dropdown-content a i { 
-      width: 18px; text-align: center; color: var(--secondary-color);
+      width: 18px; 
+      text-align: center; 
+      color: var(--secondary-color);
     }
     .dropdown-content a:hover { 
       background-color: var(--accent-color); 
@@ -131,10 +234,17 @@
       display: block; 
     }
 
+    /* Role Badges */
     .role-badge {
-      display: inline-flex; align-items: center; color: white;
-      padding: 3px 8px; border-radius: 12px; font-size: 0.7rem;
-      margin-left: 5px; font-weight: 500;
+      display: inline-flex; 
+      align-items: center; 
+      color: white;
+      padding: 3px 8px; 
+      border-radius: 12px; 
+      font-size: 0.7rem;
+      margin-left: 5px; 
+      font-weight: 500;
+      white-space: nowrap;
     }
     .admin-badge { 
       background-color: var(--info-color);
@@ -143,92 +253,191 @@
       right: -8px;
       font-size: 0.6rem;
       padding: 2px 6px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     }
     .ustaz-badge { 
       background-color: #6f42c1;
     }
-    .verified-badge { background-color: var(--success-color); }
-    .role-badge i { font-size: 0.65rem; margin-right: 4px; }
+    .verified-badge { 
+      background-color: var(--success-color); 
+    }
+    .role-badge i { 
+      font-size: 0.65rem; 
+      margin-right: 4px; 
+    }
 
+    /* Dropdown User Info */
     .dropdown-user-info {
-      padding: 12px 16px; background-color: var(--light-color);
+      padding: 12px 16px; 
+      background-color: var(--light-color);
       border-bottom: 1px solid rgba(0, 0, 0, 0.05);
     }
     .dropdown-user-name {
-      font-weight: 600; color: var(--primary-color);
-      display: flex; align-items: center; gap: 6px;
+      font-weight: 600; 
+      color: var(--primary-color);
+      display: flex; 
+      align-items: center; 
+      gap: 6px;
     }
     .dropdown-user-email {
-      font-size: 0.8rem; color: var(--text-light);
-      margin-top: 2px; white-space: nowrap;
-      overflow: hidden; text-overflow: ellipsis;
+      font-size: 0.8rem; 
+      color: var(--text-light);
+      margin-top: 2px; 
+      white-space: nowrap;
+      overflow: hidden; 
+      text-overflow: ellipsis;
     }
 
-    .main-content { padding: var(--box-padding); padding-bottom: 80px; }
+    /* Main Content */
+    .main-content { 
+      padding: var(--box-padding); 
+      min-height: calc(100vh - var(--header-height) - var(--nav-height));
+    }
 
+    /* Bottom Navigation */
     .bottom-nav {
-      position: fixed; bottom: 0; left: 0; right: 0;
-      background-color: var(--white); display: flex; justify-content: space-around;
-      padding: 8px 0 10px 0;
+      position: fixed; 
+      bottom: 0; 
+      left: 0; 
+      right: 0;
+      height: var(--nav-height);
+      background-color: var(--white); 
+      display: flex; 
+      justify-content: space-around;
+      padding: 8px 0;
       box-shadow: 0 -3px 10px rgba(0, 0, 0, 0.05);
-      z-index: 100; border-top: 1px solid #eee;
+      z-index: 100; 
+      border-top: 1px solid #eee;
     }
     .nav-item {
-      display: flex; flex-direction: column; align-items: center;
-      text-decoration: none; color: var(--secondary-color); font-size: 0.75rem;
-      transition: color var(--transition-speed) ease; padding: 5px 0;
+      display: flex; 
+      flex-direction: column; 
+      align-items: center;
+      justify-content: center;
+      text-decoration: none; 
+      color: var(--secondary-color); 
+      font-size: 0.75rem;
+      transition: all var(--transition-speed) ease; 
+      padding: 5px 10px;
       position: relative;
+      flex: 1;
+      max-width: 25%;
     }
-    .nav-item i { font-size: 1.1rem; margin-bottom: 3px; }
-    .nav-item.active { color: var(--primary-color); font-weight: 500; }
-    .nav-item:hover:not(.active) { color: var(--primary-color); }
+    .nav-item i { 
+      font-size: 1.1rem; 
+      margin-bottom: 3px; 
+      transition: transform 0.2s ease;
+    }
+    .nav-item.active { 
+      color: var(--primary-color); 
+      font-weight: 500;
+    }
+    .nav-item.active i {
+      transform: translateY(-3px);
+    }
+    .nav-item:hover:not(.active) { 
+      color: var(--primary-color); 
+    }
+    .nav-item:hover i {
+      transform: scale(1.1);
+    }
     .nav-notification {
-      position: absolute; top: -2px; right: 8px;
-      background-color: var(--danger-color); color: white;
-      border-radius: 50%; width: 16px; height: 16px;
-      font-size: 0.6rem; display: flex;
-      align-items: center; justify-content: center;
+      position: absolute; 
+      top: -2px; 
+      right: 8px;
+      background-color: var(--danger-color); 
+      color: white;
+      border-radius: 50%; 
+      width: 18px; 
+      height: 18px;
+      font-size: 0.6rem; 
+      display: flex;
+      align-items: center; 
+      justify-content: center;
+      border: 2px solid var(--white);
+      animation: pulse 2s infinite;
+    }
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.1); }
+      100% { transform: scale(1); }
     }
 
+    /* Card Styles */
     .card {
-      background-color: var(--white); border-radius: var(--border-radius);
-      padding: var(--box-padding); margin-bottom: 20px;
-      box-shadow: var(--shadow); border: 1px solid #eee;
+      background-color: var(--white); 
+      border-radius: var(--border-radius);
+      padding: var(--box-padding); 
+      margin-bottom: 20px;
+      box-shadow: var(--shadow); 
+      border: 1px solid #eee;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+    .card:hover {
+      box-shadow: var(--shadow-lg);
     }
     .card-title {
-      color: var(--primary-color); margin-bottom: 15px;
-      font-size: 1.1rem; font-weight: 600; border-bottom: 1px solid #f0f0f0;
-      padding-bottom: 10px; display: flex; align-items: center; gap: 8px;
+      color: var(--primary-color); 
+      margin-bottom: 15px;
+      font-size: 1.1rem; 
+      font-weight: 600; 
+      border-bottom: 1px solid #f0f0f0;
+      padding-bottom: 10px; 
+      display: flex; 
+      align-items: center; 
+      gap: 8px;
     }
-    .card-title i { font-size: 0.9em; }
+    .card-title i { 
+      font-size: 0.9em; 
+    }
 
+    /* Progress Card */
     .progress-card {
-        background-color: var(--white); border-radius: var(--border-radius);
-        padding: var(--box-padding); margin-bottom: 15px; box-shadow: var(--shadow);
-        position: relative; border: 1px solid #eee; overflow: hidden;
-        transition: transform 0.2s ease, box-shadow 0.2s ease;
+      background-color: var(--white); 
+      border-radius: var(--border-radius);
+      padding: var(--box-padding); 
+      margin-bottom: 15px; 
+      box-shadow: var(--shadow);
+      position: relative; 
+      border: 1px solid #eee; 
+      overflow: hidden;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
     }
     .progress-card:hover {
       transform: translateY(-3px);
       box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
     }
     .progress-header {
-      display: flex; justify-content: space-between; align-items: baseline;
+      display: flex; 
+      justify-content: space-between; 
+      align-items: baseline;
       margin-bottom: 12px;
     }
     .progress-title { 
-      font-weight: 600; color: var(--primary-color); font-size: 1rem;
-      display: flex; align-items: center; gap: 6px;
+      font-weight: 600; 
+      color: var(--primary-color); 
+      font-size: 1rem;
+      display: flex; 
+      align-items: center; 
+      gap: 6px;
+      flex-wrap: wrap;
     }
     .progress-value { 
-      font-weight: 700; color: var(--text-dark); font-size: 1rem;
-      min-width: 45px; text-align: right;
+      font-weight: 700; 
+      color: var(--text-dark); 
+      font-size: 1rem;
+      min-width: 45px; 
+      text-align: right;
     }
 
+    /* Progress Bar */
     .progress-bar-container {
-      width: 100%; height: 12px;
+      width: 100%; 
+      height: 12px;
       background-color: #e9ecef;
-      border-radius: 6px; overflow: hidden; margin-bottom: 10px;
+      border-radius: 6px; 
+      overflow: hidden; 
+      margin-bottom: 10px;
       position: relative;
     }
     .progress-bar {
@@ -247,21 +456,36 @@
     }
 
     .progress-details {
-      display: flex; justify-content: space-between; font-size: 0.75rem;
-      color: var(--text-light); flex-wrap: wrap; gap: 5px;
+      display: flex; 
+      justify-content: space-between; 
+      font-size: 0.75rem;
+      color: var(--text-light); 
+      flex-wrap: wrap; 
+      gap: 5px;
     }
 
     .progress-actions { 
-      display: flex; justify-content: flex-end; margin-top: 15px;
+      display: flex; 
+      justify-content: flex-end; 
+      margin-top: 15px;
       gap: 10px;
     }
     .action-btn {
-      background: none; border: none; color: var(--primary-color); font-size: 0.85rem;
-      cursor: pointer; transition: all var(--transition-speed) ease;
-      display: inline-flex; align-items: center; gap: 5px;
-      padding: 6px 10px; border-radius: 4px;
+      background: none; 
+      border: none; 
+      color: var(--primary-color); 
+      font-size: 0.85rem;
+      cursor: pointer; 
+      transition: all var(--transition-speed) ease;
+      display: inline-flex; 
+      align-items: center; 
+      gap: 5px;
+      padding: 6px 10px; 
+      border-radius: 4px;
     }
-    .action-btn i { font-size: 0.8rem; }
+    .action-btn i { 
+      font-size: 0.8rem; 
+    }
     .action-btn:hover { 
       color: var(--white); 
       background-color: var(--primary-color);
@@ -271,139 +495,333 @@
       color: white;
     }
 
-    .stats-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; margin-bottom: 20px; }
+    /* Stats Grid */
+    .stats-grid { 
+      display: grid; 
+      grid-template-columns: repeat(2, 1fr); 
+      gap: 15px; 
+      margin-bottom: 20px; 
+    }
     .stat-card {
-      background-color: var(--white); border-radius: var(--border-radius);
-      padding: var(--box-padding); text-align: center; box-shadow: var(--shadow);
-      border: 1px solid #eee; transition: transform 0.2s ease;
+      background-color: var(--white); 
+      border-radius: var(--border-radius);
+      padding: var(--box-padding); 
+      text-align: center; 
+      box-shadow: var(--shadow);
+      border: 1px solid #eee; 
+      transition: transform 0.2s ease;
+      position: relative;
+      overflow: hidden;
+    }
+    .stat-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 4px;
+      background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
     }
     .stat-card:hover {
       transform: translateY(-3px);
+      box-shadow: var(--shadow-lg);
     }
     .stat-value {
-      font-size: 1.6rem; font-weight: 700; color: var(--primary-color);
-      margin-bottom: 5px; line-height: 1.2;
+      font-size: 1.6rem; 
+      font-weight: 700; 
+      color: var(--primary-color);
+      margin-bottom: 5px; 
+      line-height: 1.2;
     }
-    .stat-label { font-size: 0.8rem; color: var(--text-light); }
+    .stat-label { 
+      font-size: 0.8rem; 
+      color: var(--text-light); 
+    }
 
+    /* Messages & Notifications */
     .read-only-message {
-        font-size: 0.8rem; color: var(--secondary-color); margin: 10px 0 15px 0;
-        text-align: center; background-color: var(--accent-color); padding: 8px;
-        border-radius: var(--border-radius); border: 1px dashed var(--secondary-color);
+      font-size: 0.8rem; 
+      color: var(--secondary-color); 
+      margin: 10px 0 15px 0;
+      text-align: center; 
+      background-color: var(--accent-color); 
+      padding: 8px;
+      border-radius: var(--border-radius); 
+      border: 1px dashed var(--secondary-color);
     }
 
     .privilege-notification {
       background-color: rgba(23, 162, 184, 0.1);
       border-left: 4px solid var(--info-color);
-      padding: 12px; border-radius: 0 var(--border-radius) var(--border-radius) 0;
-      margin-bottom: 20px; display: flex; align-items: flex-start; gap: 10px;
+      padding: 12px; 
+      border-radius: 0 var(--border-radius) var(--border-radius) 0;
+      margin-bottom: 20px; 
+      display: flex; 
+      align-items: flex-start; 
+      gap: 10px;
     }
     .privilege-notification i {
-      color: var(--info-color); font-size: 1.2rem;
+      color: var(--info-color); 
+      font-size: 1.2rem;
     }
     .privilege-notification-content {
       flex: 1;
     }
     .privilege-notification h4 {
-      color: var(--info-color); margin-bottom: 5px; font-size: 0.95rem;
+      color: var(--info-color); 
+      margin-bottom: 5px; 
+      font-size: 0.95rem;
     }
     .privilege-notification p {
-      font-size: 0.85rem; color: var(--text-light); margin-bottom: 0;
+      font-size: 0.85rem; 
+      color: var(--text-light); 
+      margin-bottom: 0;
     }
 
+    /* Modal Styles */
     .modal {
-      display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+      display: none; 
+      position: fixed; 
+      top: 0; 
+      left: 0; 
+      right: 0; 
+      bottom: 0;
       background-color: rgba(0, 0, 0, 0.6);
-      z-index: 1000; align-items: center; justify-content: center; padding: 15px;
+      z-index: 1000; 
+      align-items: center; 
+      justify-content: center; 
+      padding: 15px;
+      backdrop-filter: blur(5px);
     }
-    .modal.active { display: flex; animation: modalFadeInBg 0.3s ease; }
-    @keyframes modalFadeInBg { from { background-color: rgba(0, 0, 0, 0); } to { background-color: rgba(0, 0, 0, 0.6); } }
+    .modal.active { 
+      display: flex; 
+      animation: modalFadeInBg 0.3s ease; 
+    }
+    @keyframes modalFadeInBg { 
+      from { opacity: 0; backdrop-filter: blur(0); } 
+      to { opacity: 1; backdrop-filter: blur(5px); } 
+    }
 
     .modal-content {
-      background-color: var(--white); border-radius: var(--border-radius);
-      width: 100%; max-width: 500px; max-height: 90vh; overflow-y: auto;
+      background-color: var(--white); 
+      border-radius: var(--border-radius);
+      width: 100%; 
+      max-width: 500px; 
+      max-height: 90vh; 
+      overflow-y: auto;
       box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
       animation: modalSlideIn 0.3s ease-out;
     }
-    @keyframes modalSlideIn { from { opacity: 0; transform: translateY(30px) scale(0.98); } to { opacity: 1; transform: translateY(0) scale(1); } }
+    @keyframes modalSlideIn { 
+      from { opacity: 0; transform: translateY(30px) scale(0.98); } 
+      to { opacity: 1; transform: translateY(0) scale(1); } 
+    }
 
     .modal-header {
-      padding: 15px var(--box-padding); border-bottom: 1px solid #eee;
-      display: flex; justify-content: space-between; align-items: center;
+      padding: 15px var(--box-padding); 
+      border-bottom: 1px solid #eee;
+      display: flex; 
+      justify-content: space-between; 
+      align-items: center;
+      position: sticky;
+      top: 0;
+      background-color: var(--white);
+      z-index: 1;
     }
-    .modal-title { font-size: 1.1rem; color: var(--primary-color); font-weight: 600; }
+    .modal-title { 
+      font-size: 1.1rem; 
+      color: var(--primary-color); 
+      font-weight: 600; 
+    }
     .modal-close {
-      background: none; border: none; font-size: 1.6rem; cursor: pointer;
-      color: var(--text-light); transition: color var(--transition-speed) ease;
+      background: none; 
+      border: none; 
+      font-size: 1.6rem; 
+      cursor: pointer;
+      color: var(--text-light); 
+      transition: color var(--transition-speed) ease;
+      width: 30px;
+      height: 30px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
     }
-    .modal-close:hover { color: var(--danger-color); }
-    .modal-body { padding: var(--box-padding); }
+    .modal-close:hover { 
+      color: var(--danger-color); 
+      background-color: rgba(0, 0, 0, 0.05);
+    }
+    .modal-body { 
+      padding: var(--box-padding); 
+    }
     .modal-footer {
-      padding: 15px var(--box-padding); border-top: 1px solid #eee;
-      display: flex; justify-content: flex-end; gap: 10px;
+      padding: 15px var(--box-padding); 
+      border-top: 1px solid #eee;
+      display: flex; 
+      justify-content: flex-end; 
+      gap: 10px;
       background-color: #f9fafb;
       border-bottom-left-radius: var(--border-radius);
       border-bottom-right-radius: var(--border-radius);
+      position: sticky;
+      bottom: 0;
     }
 
-    .admin-controls { margin-top: 15px; padding-top: 15px; border-top: 1px solid #eee; }
-    .admin-only, .ustaz-only { display: none; }
+    /* Admin Controls */
+    .admin-controls { 
+      margin-top: 15px; 
+      padding-top: 15px; 
+      border-top: 1px solid #eee; 
+    }
+    .admin-only, 
+    .ustaz-only { 
+      display: none; 
+    }
     body.is-admin .admin-only, 
     body.is-ustaz .ustaz-only,
     body.is-admin .admin-ustaz-shared,
-    body.is-ustaz .admin-ustaz-shared { display: block; }
+    body.is-ustaz .admin-ustaz-shared { 
+      display: block; 
+    }
 
-    .form-group { margin-bottom: 15px; }
+    /* Form Elements */
+    .form-group { 
+      margin-bottom: 15px; 
+    }
     .form-group label {
-      display: block; margin-bottom: 6px; font-weight: 500; font-size: 0.9rem;
+      display: block; 
+      margin-bottom: 6px; 
+      font-weight: 500; 
+      font-size: 0.9rem;
       color: var(--text-dark);
     }
     .form-control {
-      width: 100%; padding: 10px 12px; border: 1px solid #ccc;
-      border-radius: var(--border-radius); font-size: 1rem; color: var(--text-dark);
+      width: 100%; 
+      padding: 10px 12px; 
+      border: 1px solid #ccc;
+      border-radius: var(--border-radius); 
+      font-size: 1rem; 
+      color: var(--text-dark);
       transition: border-color var(--transition-speed) ease, box-shadow var(--transition-speed) ease;
     }
     .form-control:focus {
-      border-color: var(--primary-color); outline: none;
+      border-color: var(--primary-color); 
+      outline: none;
       box-shadow: 0 0 0 3px rgba(26, 77, 46, 0.15);
     }
-    textarea.form-control { min-height: 80px; }
-
-    .btn {
-      padding: 10px 20px; border: none; border-radius: var(--border-radius);
-      font-size: 0.95rem; font-weight: 500; cursor: pointer;
-      transition: all var(--transition-speed) ease;
-      text-align: center; text-decoration: none; display: inline-block;
+    textarea.form-control { 
+      min-height: 80px; 
+      resize: vertical;
     }
-    .btn-primary { background-color: var(--primary-color); color: var(--white); }
-    .btn-primary:hover { background-color: var(--secondary-color); transform: translateY(-2px); box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); }
+    .form-control[type="range"] {
+      padding: 0;
+      height: 8px;
+      -webkit-appearance: none;
+      background: #e9ecef;
+      border-radius: 4px;
+    }
+    .form-control[type="range"]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 20px;
+      height: 20px;
+      background: var(--primary-color);
+      border-radius: 50%;
+      cursor: pointer;
+      margin-top: -6px;
+    }
+
+    /* Buttons */
+    .btn {
+      padding: 10px 20px; 
+      border: none; 
+      border-radius: var(--border-radius);
+      font-size: 0.95rem; 
+      font-weight: 500; 
+      cursor: pointer;
+      transition: all var(--transition-speed) ease;
+      text-align: center; 
+      text-decoration: none; 
+      display: inline-block;
+    }
+    .btn-primary { 
+      background-color: var(--primary-color); 
+      color: var(--white); 
+    }
+    .btn-primary:hover { 
+      background-color: var(--primary-light); 
+      transform: translateY(-2px); 
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
+    }
     .btn-outline {
-      background-color: transparent; border: 1px solid var(--secondary-color);
+      background-color: transparent; 
+      border: 1px solid var(--secondary-color);
       color: var(--secondary-color);
     }
-    .btn-outline:hover { background-color: var(--accent-color); color: var(--primary-color); border-color: var(--primary-color); }
+    .btn-outline:hover { 
+      background-color: var(--accent-color); 
+      color: var(--primary-color); 
+      border-color: var(--primary-color); 
+    }
+    .btn:disabled {
+      opacity: 0.7;
+      cursor: not-allowed;
+      transform: none !important;
+      box-shadow: none !important;
+    }
 
+    /* Course Details */
     .course-details-section {
-      margin-top: 15px; padding: 12px; background-color: var(--accent-color);
-      border-radius: var(--border-radius); border: 1px solid var(--light-color);
+      margin-top: 15px; 
+      padding: 12px; 
+      background-color: var(--accent-color);
+      border-radius: var(--border-radius); 
+      border: 1px solid var(--light-color);
     }
-    .course-details-section strong { color: var(--primary-color); }
-    .course-details-section p { margin: 5px 0; font-size: 0.85rem; color: var(--text-dark); }
-    .course-details-section small { font-size: 0.75rem; color: var(--text-light); }
+    .course-details-section strong { 
+      color: var(--primary-color); 
+    }
+    .course-details-section p { 
+      margin: 5px 0; 
+      font-size: 0.85rem; 
+      color: var(--text-dark); 
+    }
+    .course-details-section small { 
+      font-size: 0.75rem; 
+      color: var(--text-light); 
+    }
 
-    .course-meta { display: flex; flex-wrap: wrap; gap: 5px 15px; margin-top: 10px; }
+    .course-meta { 
+      display: flex; 
+      flex-wrap: wrap; 
+      gap: 5px 15px; 
+      margin-top: 10px; 
+    }
     .course-meta-item {
-      font-size: 0.75rem; color: var(--secondary-color); display: flex;
-      align-items: center; gap: 5px;
+      font-size: 0.75rem; 
+      color: var(--secondary-color); 
+      display: flex;
+      align-items: center; 
+      gap: 5px;
     }
-    .course-meta-item i { font-size: 0.8rem; }
+    .course-meta-item i { 
+      font-size: 0.8rem; 
+    }
 
+    /* Toast Notifications */
     .toast {
-      position: fixed; bottom: 80px; left: 50%; transform: translateX(-50%);
-      background-color: var(--primary-color); color: white;
-      padding: 12px 24px; border-radius: var(--border-radius);
+      position: fixed; 
+      bottom: 80px; 
+      left: 50%; 
+      transform: translateX(-50%);
+      background-color: var(--primary-color); 
+      color: white;
+      padding: 12px 24px; 
+      border-radius: var(--border-radius);
       box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-      z-index: 1000; display: flex; align-items: center; gap: 10px;
+      z-index: 1000; 
+      display: flex; 
+      align-items: center; 
+      gap: 10px;
       animation: slideUp 0.3s ease-out;
       max-width: 90%;
     }
@@ -411,19 +829,136 @@
       from { opacity: 0; transform: translateX(-50%) translateY(20px); }
       to { opacity: 1; transform: translateX(-50%) translateY(0); }
     }
-    .toast i { font-size: 1.2rem; }
-    .toast.success { background-color: var(--success-color); }
-    .toast.error { background-color: var(--danger-color); }
-    .toast.warning { background-color: var(--warning-color); color: var(--text-dark); }
-    .toast.info { background-color: var(--info-color); }
+    .toast i { 
+      font-size: 1.2rem; 
+    }
+    .toast.success { 
+      background-color: var(--success-color); 
+    }
+    .toast.error { 
+      background-color: var(--danger-color); 
+    }
+    .toast.warning { 
+      background-color: var(--warning-color); 
+      color: var(--text-dark); 
+    }
+    .toast.info { 
+      background-color: var(--info-color); 
+    }
 
+    /* Range Slider */
+    .range-slider-container {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-top: 5px;
+    }
+    .range-slider {
+      flex: 1;
+    }
+    .range-value {
+      width: 50px;
+      text-align: center;
+      font-weight: 600;
+      color: var(--primary-color);
+    }
+
+    /* Search & Filter */
+    .search-filter-container {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 15px;
+      flex-wrap: wrap;
+    }
+    .search-input {
+      flex: 1;
+      min-width: 200px;
+      position: relative;
+    }
+    .search-input i {
+      position: absolute;
+      left: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--text-light);
+    }
+    .search-input input {
+      padding-left: 35px !important;
+    }
+    .filter-select {
+      min-width: 150px;
+    }
+
+    /* Empty State */
+    .empty-state {
+      text-align: center;
+      padding: 30px 0;
+      color: var(--text-light);
+    }
+    .empty-state i {
+      font-size: 2rem;
+      color: var(--light-color);
+      margin-bottom: 10px;
+    }
+    .empty-state p {
+      margin-bottom: 15px;
+    }
+
+    /* Responsive Styles */
     @media (min-width: 768px) {
-      .container { max-width: 720px; margin: 0 auto; }
-      .stats-grid { grid-template-columns: repeat(4, 1fr); }
-      .header h1 { font-size: 1.2rem; }
-      .main-content { padding: 25px; padding-bottom: 80px; }
-      .card { padding: 20px; }
-      .modal-content { max-width: 600px; }
+      .container { 
+        max-width: 720px; 
+        margin: 0 auto; 
+      }
+      .stats-grid { 
+        grid-template-columns: repeat(4, 1fr); 
+      }
+      .header h1 { 
+        font-size: 1.2rem; 
+      }
+      .main-content { 
+        padding: 25px; 
+      }
+      .card { 
+        padding: 20px; 
+      }
+      .modal-content { 
+        max-width: 600px; 
+      }
+    }
+
+    @media (max-width: 480px) {
+      .header h1 {
+        font-size: 1rem;
+      }
+      .user-name {
+        display: none;
+      }
+      .stats-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* Print Styles */
+    @media print {
+      body {
+        padding: 0;
+        background-color: white;
+      }
+      .header, .bottom-nav, .action-btn, .progress-actions {
+        display: none !important;
+      }
+      .main-content {
+        padding: 0;
+      }
+      .card {
+        box-shadow: none;
+        border: none;
+        page-break-inside: avoid;
+      }
+      .progress-card {
+        page-break-inside: avoid;
+      }
     }
   </style>
 </head>
@@ -431,12 +966,20 @@
   <div class="loading-container" id="loading-container">
     <div class="loading-spinner"></div>
     <div class="loading-text">Loading your progress...</div>
+    <div class="loading-dots">
+      <div class="loading-dot"></div>
+      <div class="loading-dot"></div>
+      <div class="loading-dot"></div>
+    </div>
   </div>
 
   <div class="container">
     <header class="header">
       <h1 id="page-title"><i class="fas fa-chart-line"></i> Progress Tracking</h1>
       <div class="header-actions">
+        <button class="action-btn" id="print-btn" title="Print Progress Report">
+          <i class="fas fa-print"></i>
+        </button>
         <div class="account-dropdown" id="account-dropdown-container">
           <div class="user-avatar-container" id="user-avatar-container">
             <span class="user-name" id="user-name-display">User</span>
@@ -455,6 +998,7 @@
             </div>
             <a href="schedule.html"><i class="fas fa-calendar-alt"></i> Schedule</a>
             <a href="profile.html" class="profile-link"><i class="fas fa-user"></i> Profile</a>
+            <a href="certificates.html"><i class="fas fa-certificate"></i> Certificates</a>
             
             <div class="admin-ustaz-shared">
               <a href="generaladmin.html"><i class="fas fa-tachometer-alt"></i> Admin Panel</a>
@@ -463,6 +1007,7 @@
             
             <div class="admin-only">
               <a href="users.html" id="manage-users-link"><i class="fas fa-users-cog"></i> Manage Users</a>
+              <a href="settings.html"><i class="fas fa-cog"></i> System Settings</a>
             </div>
             
             <a href="#" id="logout-btn"><i class="fas fa-sign-out-alt"></i> Logout</a>
@@ -496,6 +1041,7 @@
     </nav>
   </div>
 
+  <!-- Progress Update Modal -->
   <div class="modal" id="progress-modal" role="dialog" aria-modal="true" aria-labelledby="progress-modal-title">
     <div class="modal-content">
       <div class="modal-header">
@@ -508,17 +1054,28 @@
           <input type="hidden" id="progress-user-id">
           <div class="form-group">
             <label for="progress-value">Progress Percentage (0-100)</label>
-            <input type="number" id="progress-value" class="form-control" min="0" max="100" required>
+            <div class="range-slider-container">
+              <input type="range" class="form-control range-slider" id="progress-range" min="0" max="100" step="1">
+              <span class="range-value" id="progress-value-display">0</span>
+              <input type="number" id="progress-value" class="form-control" min="0" max="100" required style="display: none;">
+            </div>
           </div>
           <div class="form-group">
             <label for="progress-notes">Instructor Notes (Optional)</label>
-            <textarea id="progress-notes" class="form-control" rows="3"></textarea>
+            <textarea id="progress-notes" class="form-control" rows="3" placeholder="Add any notes or feedback for the student..."></textarea>
           </div>
           <div class="form-group admin-only">
             <label for="progress-verified">Verification Status</label>
             <select id="progress-verified" class="form-control">
               <option value="false">Not Verified</option>
               <option value="true">Verified</option>
+            </select>
+          </div>
+          <div class="form-group admin-only">
+            <label for="progress-certificate">Award Certificate</label>
+            <select id="progress-certificate" class="form-control">
+              <option value="false">No Certificate</option>
+              <option value="true">Issue Certificate</option>
             </select>
           </div>
         </form>
@@ -530,6 +1087,7 @@
     </div>
   </div>
 
+  <!-- Admin Confirmation Modal -->
   <div class="modal" id="admin-confirmation-modal" role="dialog" aria-modal="true" aria-labelledby="admin-confirm-title">
     <div class="modal-content">
       <div class="modal-header">
@@ -548,6 +1106,7 @@
     </div>
   </div>
 
+  <!-- Role Privilege Modal -->
   <div class="modal" id="role-privilege-modal" role="dialog" aria-modal="true" aria-labelledby="role-privilege-title">
     <div class="modal-content">
       <div class="modal-header">
@@ -569,9 +1128,77 @@
     </div>
   </div>
 
+  <!-- Certificate Preview Modal -->
+  <div class="modal" id="certificate-modal" role="dialog" aria-modal="true" aria-labelledby="certificate-modal-title">
+    <div class="modal-content" style="max-width: 800px;">
+      <div class="modal-header">
+        <h3 class="modal-title" id="certificate-modal-title">Certificate Preview</h3>
+        <button class="modal-close" id="close-certificate-modal" aria-label="Close modal">&times;</button>
+      </div>
+      <div class="modal-body" id="certificate-preview">
+        <!-- Certificate content will be loaded here -->
+        <p>Loading certificate preview...</p>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-outline" id="cancel-certificate">Cancel</button>
+        <button class="btn btn-primary" id="print-certificate"><i class="fas fa-print"></i> Print Certificate</button>
+        <button class="btn btn-primary" id="download-certificate"><i class="fas fa-download"></i> Download PDF</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Search & Filter Modal -->
+  <div class="modal" id="filter-modal" role="dialog" aria-modal="true" aria-labelledby="filter-modal-title">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 class="modal-title" id="filter-modal-title">Filter Progress</h3>
+        <button class="modal-close" id="close-filter-modal" aria-label="Close modal">&times;</button>
+      </div>
+      <div class="modal-body">
+        <form id="filter-form">
+          <div class="form-group">
+            <label for="filter-status">Progress Status</label>
+            <select id="filter-status" class="form-control">
+              <option value="all">All Courses</option>
+              <option value="not-started">Not Started (0%)</option>
+              <option value="in-progress">In Progress (1-99%)</option>
+              <option value="completed">Completed (100%)</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="filter-verification">Verification Status</label>
+            <select id="filter-verification" class="form-control">
+              <option value="all">All</option>
+              <option value="verified">Verified Only</option>
+              <option value="not-verified">Not Verified</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="filter-sort">Sort By</label>
+            <select id="filter-sort" class="form-control">
+              <option value="title-asc">Title (A-Z)</option>
+              <option value="title-desc">Title (Z-A)</option>
+              <option value="progress-asc">Progress (Low to High)</option>
+              <option value="progress-desc">Progress (High to Low)</option>
+              <option value="date-asc">Date (Oldest First)</option>
+              <option value="date-desc">Date (Newest First)</option>
+            </select>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-outline" id="reset-filters">Reset Filters</button>
+        <button class="btn btn-primary" id="apply-filters">Apply Filters</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Firebase and other libraries -->
   <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
   <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
   <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 
   <script>
     const firebaseConfig = {
@@ -589,6 +1216,7 @@
     }
     const auth = firebase.auth();
     const db = firebase.firestore();
+    const { jsPDF } = window.jspdf;
 
     // DOM Elements
     const mainContent = document.getElementById('main-content');
@@ -608,8 +1236,11 @@
     const progressCourseId = document.getElementById('progress-course-id');
     const progressUserId = document.getElementById('progress-user-id');
     const progressValue = document.getElementById('progress-value');
+    const progressRange = document.getElementById('progress-range');
+    const progressValueDisplay = document.getElementById('progress-value-display');
     const progressNotes = document.getElementById('progress-notes');
     const progressVerified = document.getElementById('progress-verified');
+    const progressCertificate = document.getElementById('progress-certificate');
     const adminConfirmationModal = document.getElementById('admin-confirmation-modal');
     const closeAdminModal = document.getElementById('close-admin-modal');
     const goToAdminBtn = document.getElementById('go-to-admin');
@@ -624,6 +1255,18 @@
     const manageUsersLink = document.getElementById('manage-users-link');
     const manageProgressLink = document.getElementById('manage-progress-link');
     const loadingContainer = document.getElementById('loading-container');
+    const printBtn = document.getElementById('print-btn');
+    const certificateModal = document.getElementById('certificate-modal');
+    const closeCertificateModal = document.getElementById('close-certificate-modal');
+    const cancelCertificateBtn = document.getElementById('cancel-certificate');
+    const printCertificateBtn = document.getElementById('print-certificate');
+    const downloadCertificateBtn = document.getElementById('download-certificate');
+    const certificatePreview = document.getElementById('certificate-preview');
+    const filterModal = document.getElementById('filter-modal');
+    const closeFilterModal = document.getElementById('close-filter-modal');
+    const resetFiltersBtn = document.getElementById('reset-filters');
+    const applyFiltersBtn = document.getElementById('apply-filters');
+    const filterForm = document.getElementById('filter-form');
 
     let currentUser = null;
     let userData = null;
@@ -634,6 +1277,11 @@
     let isVerified = false;
     let currentEditingCourse = null;
     let currentEditingUserId = null;
+    let currentFilters = {
+      status: 'all',
+      verification: 'all',
+      sort: 'title-asc'
+    };
 
     function initApp() {
       setupEventListeners();
@@ -657,6 +1305,20 @@
         e.stopPropagation();
       });
 
+      // Progress range slider
+      progressRange.addEventListener('input', (e) => {
+        const value = e.target.value;
+        progressValue.value = value;
+        progressValueDisplay.textContent = value;
+      });
+
+      // Progress number input
+      progressValue.addEventListener('input', (e) => {
+        const value = e.target.value;
+        progressRange.value = value;
+        progressValueDisplay.textContent = value;
+      });
+
       // Other event listeners
       logoutBtn.addEventListener('click', handleLogout);
       closeProgressModal.addEventListener('click', () => progressModal.classList.remove('active'));
@@ -671,6 +1333,14 @@
         e.preventDefault();
         window.location.href = 'progressadmin.html';
       });
+      printBtn.addEventListener('click', printProgressReport);
+      closeCertificateModal.addEventListener('click', () => certificateModal.classList.remove('active'));
+      cancelCertificateBtn.addEventListener('click', () => certificateModal.classList.remove('active'));
+      printCertificateBtn.addEventListener('click', printCertificate);
+      downloadCertificateBtn.addEventListener('click', downloadCertificate);
+      closeFilterModal.addEventListener('click', () => filterModal.classList.remove('active'));
+      resetFiltersBtn.addEventListener('click', resetFilters);
+      applyFiltersBtn.addEventListener('click', applyFilters);
     }
 
     function showLoading() {
@@ -907,22 +1577,59 @@
           </div>
         </div>
 
+        <div class="search-filter-container">
+          <div class="search-input">
+            <i class="fas fa-search"></i>
+            <input type="text" id="search-courses" class="form-control" placeholder="Search courses...">
+          </div>
+          <button class="btn btn-outline" id="open-filter-modal">
+            <i class="fas fa-filter"></i> Filter
+          </button>
+        </div>
+
         <div class="card">
-          <h2 class="card-title"><i class="fas fa-book-open"></i> ${isAdmin || isUstaz ? 'Student' : 'My'} Course Progress</h2>
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+            <h2 class="card-title"><i class="fas fa-book-open"></i> ${isAdmin || isUstaz ? 'Student' : 'My'} Course Progress</h2>
+            ${enrolledCourses.length > 0 ? `
+              <button class="action-btn" id="export-progress">
+                <i class="fas fa-file-export"></i> Export
+              </button>
+            ` : ''}
+          </div>
           ${!isAdmin && !isUstaz ? '<p class="read-only-message">Your progress is updated by instructors. Contact them if adjustments are needed.</p>' : ''}
           <div id="courses-progress">
-            <p>Loading course progress...</p>
+            ${enrolledCourses.length === 0 ? `
+              <div class="empty-state">
+                <i class="fas fa-book-open"></i>
+                <p>You are not enrolled in any courses yet.</p>
+                <a href="dashboard.html" class="btn btn-primary">
+                  <i class="fas fa-book"></i> Browse Courses
+                </a>
+              </div>
+            ` : '<p>Loading course progress...</p>'}
           </div>
         </div>
       `;
 
       mainContent.innerHTML = html;
+      
+      // Add event listeners for new elements
+      document.getElementById('open-filter-modal')?.addEventListener('click', () => {
+        filterModal.classList.add('active');
+      });
+      
+      document.getElementById('export-progress')?.addEventListener('click', exportProgressData);
+      
+      document.getElementById('search-courses')?.addEventListener('input', (e) => {
+        filterCourses(e.target.value);
+      });
+
       displayCoursesProgress();
     }
 
     function calculateAverageProgress() {
       if (!enrolledCourses || enrolledCourses.length === 0) return 0;
-      const total = enrolledCourses.reduce((sum, course) => sum + (Number(course.progress) || 0), 0);
+      const total = enrolledCourses.reduce((sum, course) => sum + (Number(course.progress) || 0, 0);
       return Math.round(total / enrolledCourses.length);
     }
 
@@ -936,22 +1643,54 @@
       return enrolledCourses.filter(course => course.verified === true).length;
     }
 
-    function displayCoursesProgress() {
+    function displayCoursesProgress(filteredCourses = null) {
       const coursesProgressContainer = document.getElementById('courses-progress');
       if (!coursesProgressContainer) return;
 
-      if (!enrolledCourses || enrolledCourses.length === 0) {
-        coursesProgressContainer.innerHTML = '<p style="text-align: center; color: var(--text-light); padding: 20px 0;">You are not enrolled in any courses yet.</p>';
+      const coursesToDisplay = filteredCourses || enrolledCourses;
+
+      if (!coursesToDisplay || coursesToDisplay.length === 0) {
+        coursesProgressContainer.innerHTML = `
+          <div class="empty-state">
+            <i class="fas fa-search"></i>
+            <p>No courses match your search criteria</p>
+            <button class="btn btn-outline" id="reset-search">
+              <i class="fas fa-undo"></i> Reset Search
+            </button>
+          </div>
+        `;
+        
+        document.getElementById('reset-search')?.addEventListener('click', () => {
+          document.getElementById('search-courses').value = '';
+          displayCoursesProgress();
+        });
+        
         return;
       }
 
       coursesProgressContainer.innerHTML = '';
 
-      // Sort courses by title
-      const sortedCourses = [...enrolledCourses].sort((a, b) => {
+      // Apply sorting
+      const sortedCourses = [...coursesToDisplay].sort((a, b) => {
         const courseA = allCourses.find(c => c.id === a.id);
         const courseB = allCourses.find(c => c.id === b.id);
-        return (courseA?.title || '').localeCompare(courseB?.title || '');
+        
+        switch(currentFilters.sort) {
+          case 'title-asc':
+            return (courseA?.title || '').localeCompare(courseB?.title || '');
+          case 'title-desc':
+            return (courseB?.title || '').localeCompare(courseA?.title || '');
+          case 'progress-asc':
+            return (a.progress || 0) - (b.progress || 0);
+          case 'progress-desc':
+            return (b.progress || 0) - (a.progress || 0);
+          case 'date-asc':
+            return new Date(a.enrollmentDate) - new Date(b.enrollmentDate);
+          case 'date-desc':
+            return new Date(b.enrollmentDate) - new Date(a.enrollmentDate);
+          default:
+            return (courseA?.title || '').localeCompare(courseB?.title || '');
+        }
       });
 
       sortedCourses.forEach(course => {
@@ -985,6 +1724,11 @@
               <button class="action-btn" onclick="openProgressModal('${course.id}', '${currentUser.uid}')">
                 <i class="fas fa-edit"></i> Update
               </button>
+              ${progress >= 100 && !course.verified ? `
+                <button class="action-btn" onclick="verifyCourseCompletion('${course.id}', '${currentUser.uid}')">
+                  <i class="fas fa-check-circle"></i> Verify
+                </button>
+              ` : ''}
             </div>
           ` : ''}
           ${course.notes ? `
@@ -1004,6 +1748,69 @@
         `;
         coursesProgressContainer.appendChild(card);
       });
+    }
+
+    function filterCourses(searchTerm) {
+      if (!searchTerm) {
+        displayCoursesProgress();
+        return;
+      }
+      
+      const term = searchTerm.toLowerCase();
+      const filtered = enrolledCourses.filter(course => {
+        const fullCourse = allCourses.find(c => c.id === course.id);
+        const title = fullCourse?.title || course.title || '';
+        const type = fullCourse?.type || '';
+        const language = fullCourse?.language || '';
+        
+        return title.toLowerCase().includes(term) || 
+               type.toLowerCase().includes(term) || 
+               language.toLowerCase().includes(term);
+      });
+      
+      displayCoursesProgress(filtered);
+    }
+
+    function resetFilters() {
+      document.getElementById('filter-status').value = 'all';
+      document.getElementById('filter-verification').value = 'all';
+      document.getElementById('filter-sort').value = 'title-asc';
+    }
+
+    function applyFilters() {
+      currentFilters = {
+        status: document.getElementById('filter-status').value,
+        verification: document.getElementById('filter-verification').value,
+        sort: document.getElementById('filter-sort').value
+      };
+      
+      let filtered = [...enrolledCourses];
+      
+      // Apply status filter
+      switch(currentFilters.status) {
+        case 'not-started':
+          filtered = filtered.filter(c => (c.progress || 0) === 0);
+          break;
+        case 'in-progress':
+          filtered = filtered.filter(c => (c.progress || 0) > 0 && (c.progress || 0) < 100);
+          break;
+        case 'completed':
+          filtered = filtered.filter(c => (c.progress || 0) >= 100);
+          break;
+      }
+      
+      // Apply verification filter
+      switch(currentFilters.verification) {
+        case 'verified':
+          filtered = filtered.filter(c => c.verified === true);
+          break;
+        case 'not-verified':
+          filtered = filtered.filter(c => !c.verified);
+          break;
+      }
+      
+      filterModal.classList.remove('active');
+      displayCoursesProgress(filtered);
     }
 
     function escapeHTML(str) {
@@ -1053,8 +1860,11 @@
       progressCourseId.value = courseId;
       progressUserId.value = userId;
       progressValue.value = course.progress || 0;
+      progressRange.value = course.progress || 0;
+      progressValueDisplay.textContent = course.progress || 0;
       progressNotes.value = course.notes || '';
       progressVerified.value = course.verified ? 'true' : 'false';
+      progressCertificate.value = course.certificateIssued ? 'true' : 'false';
 
       const fullCourse = allCourses.find(c => c.id === courseId);
       const modalTitleElement = document.getElementById('progress-modal-title');
@@ -1063,6 +1873,49 @@
       }
 
       progressModal.classList.add('active');
+    }
+
+    async function verifyCourseCompletion(courseId, userId) {
+      if (!confirm("Are you sure you want to verify this course completion?")) {
+        return;
+      }
+      
+      try {
+        const userDocRef = db.collection("users").doc(userId);
+        const userDoc = await userDocRef.get();
+        
+        if (!userDoc.exists) {
+          throw new Error("User document not found");
+        }
+        
+        const userData = userDoc.data();
+        const updatedCourses = userData.enrolledCourses.map(course => {
+          if (course.id === courseId) {
+            return {
+              ...course,
+              verified: true,
+              verifiedBy: currentUser.displayName || "Admin",
+              verifiedAt: firebase.firestore.FieldValue.serverTimestamp()
+            };
+          }
+          return course;
+        });
+        
+        await userDocRef.update({
+          enrolledCourses: updatedCourses
+        });
+        
+        // Reload user data if it's the current user
+        if (userId === currentUser.uid) {
+          await loadUserData(userId);
+          loadProgressPage();
+        }
+        
+        showToast("Course completion verified successfully!");
+      } catch (error) {
+        console.error("Error verifying course:", error);
+        showToast("Failed to verify course: " + error.message, "error");
+      }
     }
 
     async function updateCourseProgress() {
@@ -1104,6 +1957,9 @@
 
         const originalCourseData = targetEnrolledCourses[courseIndex];
 
+        // Check if we should issue a certificate
+        const issueCertificate = progressCertificate.value === 'true' && progress >= 100;
+        
         // Create the updated course object
         const updatedCourse = {
           ...originalCourseData,
@@ -1114,7 +1970,9 @@
           // Only admins/ustaz can verify
           verified: (isAdmin || isUstaz) ? progressVerified.value === 'true' : originalCourseData.verified,
           verifiedBy: (isAdmin || isUstaz) && progressVerified.value === 'true' ? (userData?.name || "Admin") : null,
-          verifiedAt: (isAdmin || isUstaz) && progressVerified.value === 'true' ? firebase.firestore.FieldValue.serverTimestamp() : null
+          verifiedAt: (isAdmin || isUstaz) && progressVerified.value === 'true' ? firebase.firestore.FieldValue.serverTimestamp() : null,
+          certificateIssued: issueCertificate || originalCourseData.certificateIssued,
+          certificateIssuedAt: issueCertificate ? firebase.firestore.FieldValue.serverTimestamp() : originalCourseData.certificateIssuedAt
         };
 
         // Update the array
@@ -1136,12 +1994,184 @@
         progressModal.classList.remove('active');
         showToast("Progress updated successfully!");
 
+        // Show certificate preview if issued
+        if (issueCertificate) {
+          await previewCertificate(currentEditingCourse, currentEditingUserId);
+        }
+
       } catch (error) {
         console.error("Error updating progress:", error);
         showToast(`Failed to update progress: ${error.message}`, "error");
       } finally {
         saveProgressBtn.disabled = false;
         saveProgressBtn.textContent = 'Save Changes';
+      }
+    }
+
+    async function previewCertificate(courseId, userId) {
+      try {
+        showLoading();
+        
+        const userDoc = await db.collection("users").doc(userId).get();
+        if (!userDoc.exists) {
+          throw new Error("User not found");
+        }
+        
+        const userData = userDoc.data();
+        const course = (userData.enrolledCourses || []).find(c => c.id === courseId);
+        if (!course) {
+          throw new Error("Course not found for this user");
+        }
+        
+        const courseData = allCourses.find(c => c.id === courseId) || {};
+        
+        // Generate certificate HTML
+        certificatePreview.innerHTML = `
+          <div style="border: 2px solid #1a4d2e; padding: 30px; text-align: center; background-color: #f9fafb; max-width: 800px; margin: 0 auto;">
+            <div style="margin-bottom: 20px;">
+              <img src="https://via.placeholder.com/150x80?text=HU+Jama'aa" alt="HU Jama'aa Logo" style="height: 80px;">
+            </div>
+            <h1 style="color: #1a4d2e; margin-bottom: 30px;">Certificate of Completion</h1>
+            <p style="font-size: 1.2rem; margin-bottom: 30px;">This is to certify that</p>
+            <h2 style="color: #1a4d2e; font-size: 2rem; margin-bottom: 30px;">${escapeHTML(userData.name || 'Student')}</h2>
+            <p style="font-size: 1.2rem; margin-bottom: 30px;">has successfully completed the course</p>
+            <h3 style="color: #1a4d2e; font-size: 1.5rem; margin-bottom: 30px;">${escapeHTML(courseData.title || courseId)}</h3>
+            <div style="display: flex; justify-content: space-between; margin-top: 50px;">
+              <div style="text-align: center; flex: 1; border-top: 1px solid #1a4d2e; padding-top: 10px;">
+                <p>${formatDate(new Date())}</p>
+                <p>Date</p>
+              </div>
+              <div style="text-align: center; flex: 1; border-top: 1px solid #1a4d2e; padding-top: 10px;">
+                <p>${escapeHTML(course.verifiedBy || 'Instructor')}</p>
+                <p>Verified By</p>
+              </div>
+            </div>
+            <div style="margin-top: 40px; font-size: 0.8rem; color: #666;">
+              <p>Certificate ID: ${courseId.substring(0, 8)}-${userId.substring(0, 8)}</p>
+              <p>Issued on: ${formatDateTime(course.certificateIssuedAt || new Date())}</p>
+            </div>
+          </div>
+        `;
+        
+        certificateModal.classList.add('active');
+      } catch (error) {
+        console.error("Error generating certificate preview:", error);
+        showToast("Failed to generate certificate preview", "error");
+      } finally {
+        hideLoading();
+      }
+    }
+
+    function printCertificate() {
+      const printWindow = window.open('', '_blank');
+      printWindow.document.write(`
+        <html>
+          <head>
+            <title>Certificate of Completion</title>
+            <style>
+              body { font-family: Arial, sans-serif; margin: 0; padding: 20px; }
+              .certificate { border: 2px solid #1a4d2e; padding: 30px; text-align: center; max-width: 800px; margin: 0 auto; }
+              h1 { color: #1a4d2e; }
+              h2, h3 { color: #1a4d2e; }
+            </style>
+          </head>
+          <body>
+            ${certificatePreview.innerHTML}
+            <script>
+              window.onload = function() {
+                setTimeout(function() {
+                  window.print();
+                  window.close();
+                }, 500);
+              };
+            </script>
+          </body>
+        </html>
+      `);
+      printWindow.document.close();
+    }
+
+    async function downloadCertificate() {
+      try {
+        showLoading();
+        
+        // Use html2canvas to capture the certificate
+        const canvas = await html2canvas(certificatePreview.firstElementChild, {
+          scale: 2,
+          logging: false,
+          useCORS: true
+        });
+        
+        // Convert canvas to PDF
+        const pdf = new jsPDF('landscape');
+        const imgData = canvas.toDataURL('image/png');
+        const pdfWidth = pdf.internal.pageSize.getWidth();
+        const pdfHeight = pdf.internal.pageSize.getHeight();
+        const imgWidth = canvas.width;
+        const imgHeight = canvas.height;
+        const ratio = Math.min(pdfWidth / imgWidth, pdfHeight / imgHeight);
+        const imgX = (pdfWidth - imgWidth * ratio) / 2;
+        const imgY = (pdfHeight - imgHeight * ratio) / 2;
+        
+        pdf.addImage(imgData, 'PNG', imgX, imgY, imgWidth * ratio, imgHeight * ratio);
+        
+        // Generate filename
+        const userDoc = await db.collection("users").doc(currentEditingUserId).get();
+        const userData = userDoc.data();
+        const courseData = allCourses.find(c => c.id === currentEditingCourse) || {};
+        const filename = `Certificate_${(userData.name || 'Student').replace(/\s+/g, '_')}_${(courseData.title || currentEditingCourse).replace(/\s+/g, '_')}.pdf`;
+        
+        // Download PDF
+        pdf.save(filename);
+        
+        showToast("Certificate downloaded successfully!");
+      } catch (error) {
+        console.error("Error downloading certificate:", error);
+        showToast("Failed to download certificate", "error");
+      } finally {
+        hideLoading();
+      }
+    }
+
+    function printProgressReport() {
+      window.print();
+    }
+
+    async function exportProgressData() {
+      try {
+        showLoading();
+        
+        // Prepare CSV content
+        let csvContent = "data:text/csv;charset=utf-8,";
+        csvContent += "Course Title,Progress,Status,Verified,Enrollment Date,Last Updated\n";
+        
+        enrolledCourses.forEach(course => {
+          const fullCourse = allCourses.find(c => c.id === course.id) || {};
+          const title = fullCourse.title || course.id;
+          const progress = course.progress || 0;
+          const status = progress >= 100 ? "Completed" : progress > 0 ? "In Progress" : "Not Started";
+          const verified = course.verified ? "Yes" : "No";
+          const enrolled = formatDate(course.enrollmentDate);
+          const updated = formatDate(course.lastUpdated);
+          
+          csvContent += `"${title}",${progress}%,${status},${verified},${enrolled},${updated}\n`;
+        });
+        
+        // Create download link
+        const encodedUri = encodeURI(csvContent);
+        const link = document.createElement("a");
+        link.setAttribute("href", encodedUri);
+        link.setAttribute("download", `HU_Jamaaa_Progress_Report_${formatDate(new Date())}.csv`);
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        
+        showToast("Progress report exported successfully!");
+      } catch (error) {
+        console.error("Error exporting progress data:", error);
+        showToast("Failed to export progress data", "error");
+      } finally {
+        hideLoading();
       }
     }
 
@@ -1160,6 +2190,7 @@
 
     // Make functions available globally
     window.openProgressModal = openProgressModal;
+    window.verifyCourseCompletion = verifyCourseCompletion;
 
     // Initialize the app
     document.addEventListener('DOMContentLoaded', initApp);
