@@ -194,6 +194,31 @@
             margin: 0 auto;
         }
 
+        /* Back Button */
+        .back-button {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background: rgba(255, 255, 255, 0.2);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: var(--transition);
+            z-index: 2;
+            border: none;
+            color: white;
+            font-size: 1.2rem;
+        }
+
+        .back-button:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateX(-3px);
+        }
+
         /* Auth Section */
         .auth-section {
             padding: 28px;
@@ -576,6 +601,102 @@
             transform: rotate(90deg);
         }
 
+        /* Password Reset Modal */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.5);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .modal-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .modal-content {
+            background: white;
+            padding: 24px;
+            border-radius: 12px;
+            width: 90%;
+            max-width: 400px;
+            transform: translateY(20px);
+            transition: all 0.3s ease;
+            box-shadow: var(--shadow-lg);
+        }
+
+        .modal-overlay.active .modal-content {
+            transform: translateY(0);
+        }
+
+        .modal-header {
+            margin-bottom: 16px;
+            color: var(--primary);
+            font-size: 1.3rem;
+            font-weight: 600;
+        }
+
+        .modal-body {
+            margin-bottom: 24px;
+        }
+
+        .modal-footer {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+        }
+
+        .modal-input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid var(--light-gray);
+            border-radius: 8px;
+            margin-bottom: 16px;
+            font-size: 1rem;
+        }
+
+        .modal-input:focus {
+            border-color: var(--primary);
+            outline: none;
+            box-shadow: 0 0 0 4px rgba(26, 77, 46, 0.1);
+        }
+
+        .modal-btn {
+            padding: 10px 16px;
+            border-radius: 8px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .modal-btn-cancel {
+            background: var(--light-gray);
+            border: none;
+        }
+
+        .modal-btn-cancel:hover {
+            background: #d0d0d0;
+        }
+
+        .modal-btn-submit {
+            background: var(--primary);
+            color: white;
+            border: none;
+        }
+
+        .modal-btn-submit:hover {
+            background: var(--primary-light);
+        }
+
         /* Particles Background */
         .particles {
             position: fixed;
@@ -662,6 +783,11 @@
 <body>
     <!-- Particles Background -->
     <div class="particles" id="particles"></div>
+    
+    <!-- Back Button -->
+    <button class="back-button" id="back-button">
+        <i class="fas fa-arrow-left"></i>
+    </button>
     
     <!-- Auth Container -->
     <div class="auth-container">
@@ -753,6 +879,22 @@
         </div>
     </div>
 
+    <!-- Password Reset Modal -->
+    <div class="modal-overlay" id="reset-modal">
+        <div class="modal-content">
+            <div class="modal-header">Reset Password</div>
+            <div class="modal-body">
+                <p>Enter your email to receive a password reset link:</p>
+                <input type="email" id="reset-email" class="modal-input" placeholder="Your email address">
+                <div class="error-message" id="reset-email-error"></div>
+            </div>
+            <div class="modal-footer">
+                <button class="modal-btn modal-btn-cancel" id="cancel-reset">Cancel</button>
+                <button class="modal-btn modal-btn-submit" id="submit-reset">Submit</button>
+            </div>
+        </div>
+    </div>
+
     <!-- Notification Container -->
     <div class="notification-container" id="notification-container"></div>
 
@@ -812,6 +954,12 @@
         const loginBtnText = document.getElementById('login-btn-text');
         const signupBtnText = document.getElementById('signup-btn-text');
         const tabContainer = document.getElementById('tab-container');
+        const backButton = document.getElementById('back-button');
+        const resetModal = document.getElementById('reset-modal');
+        const resetEmailInput = document.getElementById('reset-email');
+        const cancelResetBtn = document.getElementById('cancel-reset');
+        const submitResetBtn = document.getElementById('submit-reset');
+        const resetEmailError = document.getElementById('reset-email-error');
 
         // Create particles background
         function createParticles() {
@@ -1242,82 +1390,103 @@
         }
 
         // Forgot Password
-        forgotPasswordLink.addEventListener('click', async (e) => {
+        forgotPasswordLink.addEventListener('click', (e) => {
             e.preventDefault();
             
             const email = loginEmail.value.trim();
             
+            // Pre-fill the email if it's already entered
             if (email && validateEmail(email)) {
-                try {
-                    await sendPasswordResetEmail(auth, email);
-                    showNotification('Password reset email sent. Check your inbox.');
-                } catch (error) {
-                    console.error('Password reset error:', error);
-                    showNotification('Failed to send reset email.', 'error');
+                resetEmailInput.value = email;
+            }
+            
+            // Show the modal
+            resetModal.classList.add('active');
+            resetEmailInput.focus();
+        });
+
+        // Cancel Reset Password
+        cancelResetBtn.addEventListener('click', () => {
+            resetModal.classList.remove('active');
+            resetEmailError.style.display = 'none';
+        });
+
+        // Submit Reset Password
+        submitResetBtn.addEventListener('click', async () => {
+            const email = resetEmailInput.value.trim();
+            
+            // Reset error
+            resetEmailError.style.display = 'none';
+            
+            if (!email) {
+                resetEmailError.textContent = 'Email is required';
+                resetEmailError.style.display = 'block';
+                return;
+            }
+            
+            if (!validateEmail(email)) {
+                resetEmailError.textContent = 'Please enter a valid email';
+                resetEmailError.style.display = 'block';
+                return;
+            }
+            
+            try {
+                // Show loading state
+                submitResetBtn.innerHTML = '<div class="spinner" style="width: 20px; height: 20px;"></div>';
+                submitResetBtn.disabled = true;
+                
+                // Send password reset email
+                await sendPasswordResetEmail(auth, email);
+                
+                // Close modal
+                resetModal.classList.remove('active');
+                resetEmailInput.value = '';
+                
+                // Show success message
+                showNotification('Password reset email sent. Please check your inbox.', 'success');
+            } catch (error) {
+                console.error('Password reset error:', error);
+                
+                // Reset button
+                submitResetBtn.innerHTML = 'Submit';
+                submitResetBtn.disabled = false;
+                
+                // Show error
+                let errorMessage = 'Failed to send reset email. Please try again.';
+                
+                switch (error.code) {
+                    case 'auth/user-not-found':
+                        errorMessage = 'No account found with this email.';
+                        break;
+                    case 'auth/invalid-email':
+                        errorMessage = 'Please enter a valid email address.';
+                        break;
+                    case 'auth/too-many-requests':
+                        errorMessage = 'Too many attempts. Please try again later.';
+                        break;
                 }
+                
+                resetEmailError.textContent = errorMessage;
+                resetEmailError.style.display = 'block';
+            }
+        });
+
+        // Close modal when clicking outside
+        resetModal.addEventListener('click', (e) => {
+            if (e.target === resetModal) {
+                resetModal.classList.remove('active');
+                resetEmailError.style.display = 'none';
+            }
+        });
+
+        // Back Button Functionality
+        backButton.addEventListener('click', () => {
+            // Check if there's a previous page in history that's not this page
+            if (window.history.length > 1 && !document.referrer.includes(window.location.pathname)) {
+                window.history.back();
             } else {
-                // Show custom modal for email input
-                const modal = document.createElement('div');
-                modal.style.position = 'fixed';
-                modal.style.top = '0';
-                modal.style.left = '0';
-                modal.style.width = '100%';
-                modal.style.height = '100%';
-                modal.style.backgroundColor = 'rgba(0,0,0,0.5)';
-                modal.style.display = 'flex';
-                modal.style.justifyContent = 'center';
-                modal.style.alignItems = 'center';
-                modal.style.zIndex = '2000';
-                
-                modal.innerHTML = `
-                    <div style="background: white; padding: 24px; border-radius: 12px; width: 90%; max-width: 400px; animation: fadeIn 0.3s;">
-                        <h3 style="margin-bottom: 16px; color: var(--primary);">Reset Password</h3>
-                        <p style="margin-bottom: 16px;">Enter your email to receive a password reset link:</p>
-                        <input type="email" id="reset-email" placeholder="Your email address" 
-                            style="width: 100%; padding: 12px; border: 2px solid var(--light-gray); border-radius: 8px; margin-bottom: 16px;">
-                        <div style="display: flex; justify-content: flex-end; gap: 10px;">
-                            <button id="cancel-reset" style="padding: 10px 16px; background: var(--light-gray); border: none; border-radius: 8px; cursor: pointer;">Cancel</button>
-                            <button id="submit-reset" style="padding: 10px 16px; background: var(--primary); color: white; border: none; border-radius: 8px; cursor: pointer;">Submit</button>
-                        </div>
-                    </div>
-                `;
-                
-                document.body.appendChild(modal);
-                
-                // Focus on input
-                const resetEmail = document.getElementById('reset-email');
-                resetEmail.focus();
-                
-                // Cancel button
-                document.getElementById('cancel-reset').addEventListener('click', () => {
-                    modal.remove();
-                });
-                
-                // Submit button
-                document.getElementById('submit-reset').addEventListener('click', async () => {
-                    const email = resetEmail.value.trim();
-                    
-                    if (!email || !validateEmail(email)) {
-                        showNotification('Please enter a valid email', 'error');
-                        return;
-                    }
-                    
-                    try {
-                        await sendPasswordResetEmail(auth, email);
-                        showNotification('Password reset email sent. Check your inbox.');
-                        modal.remove();
-                    } catch (error) {
-                        console.error('Password reset error:', error);
-                        showNotification('Failed to send reset email.', 'error');
-                    }
-                });
-                
-                // Close modal when clicking outside
-                modal.addEventListener('click', (e) => {
-                    if (e.target === modal) {
-                        modal.remove();
-                    }
-                });
+                // Default to index.html if no valid history
+                window.location.href = 'index.html';
             }
         });
 
