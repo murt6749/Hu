@@ -503,6 +503,7 @@
       padding: 1rem;
       border-bottom: 1px solid rgba(0, 0, 0, 0.05);
       transition: background 0.2s ease;
+      cursor: pointer;
     }
     
     .notification-item:hover {
@@ -594,6 +595,158 @@
       transform: scale(1.02);
     }
     
+    /* Search Results */
+    .search-results {
+      position: fixed;
+      top: 70px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 500px;
+      max-width: 90%;
+      max-height: 70vh;
+      overflow-y: auto;
+      background: rgba(255, 255, 255, 0.98);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-radius: 12px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+      z-index: 350;
+      display: none;
+      padding: 1rem;
+    }
+    
+    .search-results.show {
+      display: block;
+    }
+    
+    .search-result-item {
+      padding: 0.8rem;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+      cursor: pointer;
+      transition: background 0.2s ease;
+    }
+    
+    .search-result-item:hover {
+      background: rgba(102, 166, 255, 0.05);
+    }
+    
+    .search-result-title {
+      font-weight: 600;
+      margin-bottom: 0.3rem;
+      color: #2d3748;
+    }
+    
+    .search-result-type {
+      display: inline-block;
+      font-size: 0.7rem;
+      padding: 0.2rem 0.5rem;
+      border-radius: 4px;
+      background: #e0e7ff;
+      color: #4f46e5;
+      margin-right: 0.5rem;
+    }
+    
+    .search-result-type.announcement {
+      background: #ecfdf5;
+      color: #059669;
+    }
+    
+    .search-result-description {
+      font-size: 0.9rem;
+      color: #4a5568;
+    }
+    
+    .no-results {
+      padding: 1rem;
+      text-align: center;
+      color: #718096;
+    }
+    
+    /* Confirmation Modal */
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.5);
+      backdrop-filter: blur(5px);
+      -webkit-backdrop-filter: blur(5px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.3s ease;
+    }
+    
+    .modal-overlay.show {
+      opacity: 1;
+      visibility: visible;
+    }
+    
+    .modal {
+      background: white;
+      border-radius: 12px;
+      padding: 1.5rem;
+      max-width: 400px;
+      width: 90%;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+      transform: translateY(-20px);
+      transition: all 0.3s ease;
+    }
+    
+    .modal-overlay.show .modal {
+      transform: translateY(0);
+    }
+    
+    .modal-title {
+      font-size: 1.2rem;
+      font-weight: 600;
+      margin-bottom: 1rem;
+      color: #2d3748;
+    }
+    
+    .modal-message {
+      margin-bottom: 1.5rem;
+      color: #4a5568;
+    }
+    
+    .modal-actions {
+      display: flex;
+      justify-content: flex-end;
+      gap: 0.8rem;
+    }
+    
+    .modal-btn {
+      padding: 0.6rem 1.2rem;
+      border-radius: 6px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    
+    .modal-btn-cancel {
+      background: #f1f5f9;
+      color: #64748b;
+      border: none;
+    }
+    
+    .modal-btn-cancel:hover {
+      background: #e2e8f0;
+    }
+    
+    .modal-btn-confirm {
+      background: #3b82f6;
+      color: white;
+      border: none;
+    }
+    
+    .modal-btn-confirm:hover {
+      background: #2563eb;
+    }
+    
     /* Dark Mode Styles for New Elements */
     body.dark .notification-bell {
       background: rgba(15, 23, 42, 0.8);
@@ -669,6 +822,53 @@
     body.dark .search-bar::placeholder {
       color: #94a3b8;
     }
+    
+    body.dark .search-results {
+      background: rgba(30, 41, 59, 0.98);
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+    }
+    
+    body.dark .search-result-item {
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    
+    body.dark .search-result-item:hover {
+      background: rgba(102, 166, 255, 0.05);
+    }
+    
+    body.dark .search-result-title {
+      color: #f1f5f9;
+    }
+    
+    body.dark .search-result-description {
+      color: #94a3b8;
+    }
+    
+    body.dark .no-results {
+      color: #64748b;
+    }
+    
+    body.dark .modal {
+      background: #1e293b;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    
+    body.dark .modal-title {
+      color: #f1f5f9;
+    }
+    
+    body.dark .modal-message {
+      color: #94a3b8;
+    }
+    
+    body.dark .modal-btn-cancel {
+      background: #334155;
+      color: #e2e8f0;
+    }
+    
+    body.dark .modal-btn-cancel:hover {
+      background: #475569;
+    }
 
     /* ====== RESPONSIVENESS ====== */
     @media (max-width: 768px) {
@@ -717,6 +917,10 @@
       
       .search-container {
         width: 250px;
+      }
+      
+      .search-results {
+        width: 90%;
       }
     }
 
@@ -911,7 +1115,7 @@
     <!-- Notification Bell -->
     <div class="notification-bell" id="notification-bell">
       <i class="fas fa-bell"></i>
-      <div class="notification-badge" id="notification-badge">3</div>
+      <div class="notification-badge" id="notification-badge" style="display: none;">0</div>
     </div>
     
     <div class="account-wrapper" id="account-btn">
@@ -948,20 +1152,8 @@
       <button class="notification-clear" id="notification-clear">Clear All</button>
     </div>
     <div class="notification-list" id="notification-list">
-      <div class="notification-item unread">
-        <div class="notification-title">New Course Available</div>
-        <div class="notification-message">"Advanced Pharmacology" has been added to your department.</div>
-        <div class="notification-time">2 hours ago</div>
-      </div>
-      <div class="notification-item">
-        <div class="notification-title">Assignment Due</div>
-        <div class="notification-message">Your "Drug Interactions" assignment is due in 3 days.</div>
-        <div class="notification-time">1 day ago</div>
-      </div>
-      <div class="notification-item">
-        <div class="notification-title">Announcement</div>
-        <div class="notification-message">Department meeting scheduled for Friday at 10 AM.</div>
-        <div class="notification-time">2 days ago</div>
+      <div class="notification-item empty-notification">
+        <div class="notification-message">No notifications yet</div>
       </div>
     </div>
   </div>
@@ -969,6 +1161,23 @@
   <!-- Search Bar -->
   <div class="search-container" id="search-container">
     <input type="text" class="search-bar" placeholder="Search courses, announcements..." id="search-bar">
+  </div>
+  
+  <!-- Search Results -->
+  <div class="search-results" id="search-results">
+    <div class="no-results">No results found</div>
+  </div>
+  
+  <!-- Logout Confirmation Modal -->
+  <div class="modal-overlay" id="logout-modal">
+    <div class="modal">
+      <div class="modal-title">Confirm Logout</div>
+      <div class="modal-message">Are you sure you want to log out?</div>
+      <div class="modal-actions">
+        <button class="modal-btn modal-btn-cancel" id="logout-cancel">Cancel</button>
+        <button class="modal-btn modal-btn-confirm" id="logout-confirm">Logout</button>
+      </div>
+    </div>
   </div>
 
   <main class="content" id="content">
@@ -1041,7 +1250,21 @@
     import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-app.js";
     import { getAnalytics } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-analytics.js";
     import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-auth.js";
-    import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-firestore.js";
+    import { 
+      getFirestore, 
+      doc, 
+      getDoc, 
+      collection, 
+      query, 
+      where, 
+      getDocs,
+      orderBy,
+      limit,
+      onSnapshot,
+      updateDoc,
+      arrayUnion,
+      arrayRemove
+    } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-firestore.js";
 
     // === YOUR PROVIDED FIREBASE CONFIG ===
     const firebaseConfig = {
@@ -1071,6 +1294,10 @@
 
     // --- Global Variables ---
     let currentUserRole = null;
+    let currentUserId = null;
+    let notificationsListener = null;
+    let announcementsListener = null;
+    let coursesListener = null;
 
     // --- DOM Elements ---
     const loadingScreen = document.getElementById('loading');
@@ -1098,8 +1325,14 @@
     const searchBtn = document.getElementById('search-btn');
     const searchContainer = document.getElementById('search-container');
     const searchBar = document.getElementById('search-bar');
+    const searchResults = document.getElementById('search-results');
     const calendarBtn = document.getElementById('calendar-btn');
     const helpBtn = document.getElementById('help-btn');
+    
+    // Modal elements
+    const logoutModal = document.getElementById('logout-modal');
+    const logoutCancel = document.getElementById('logout-cancel');
+    const logoutConfirm = document.getElementById('logout-confirm');
 
     // --- Initial Setup ---
 
@@ -1225,16 +1458,35 @@
         if(adminPanelLink) adminPanelLink.style.display = "none";
 
       if (user) {
+        currentUserId = user.uid;
         if(loggedInDiv) loggedInDiv.style.display = "block";
         if(notLoggedInDiv) notLoggedInDiv.style.display = "none";
         loadUserData(user.uid);
+        setupNotificationsListener(user.uid);
+        setupAnnouncementsListener();
+        setupCoursesListener();
       } else {
+        currentUserId = null;
         if(loggedInDiv) loggedInDiv.style.display = "none";
         if(notLoggedInDiv) notLoggedInDiv.style.display = "block";
         currentUserRole = null;
         if(activeCoursesEl) activeCoursesEl.textContent = '0';
         if(completedLessonsEl) completedLessonsEl.textContent = '0';
         if(streakDaysEl) streakDaysEl.textContent = '0';
+        
+        // Clean up listeners when user logs out
+        if (notificationsListener) {
+          notificationsListener();
+          notificationsListener = null;
+        }
+        if (announcementsListener) {
+          announcementsListener();
+          announcementsListener = null;
+        }
+        if (coursesListener) {
+          coursesListener();
+          coursesListener = null;
+        }
       }
        if(accountDropdown) accountDropdown.style.display = "none";
     });
@@ -1250,7 +1502,23 @@
           alert("Logout failed. Please try again.");
       }
     }
-    if(logoutBtn) logoutBtn.addEventListener("click", handleLogout);
+    
+    // Show logout confirmation modal
+    if(logoutBtn) logoutBtn.addEventListener("click", (e) => {
+      e.preventDefault();
+      logoutModal.classList.add('show');
+    });
+    
+    // Cancel logout
+    if(logoutCancel) logoutCancel.addEventListener("click", () => {
+      logoutModal.classList.remove('show');
+    });
+    
+    // Confirm logout
+    if(logoutConfirm) logoutConfirm.addEventListener("click", () => {
+      logoutModal.classList.remove('show');
+      handleLogout();
+    });
 
     /* Load User Data from Firestore */
     async function loadUserData(userId) {
@@ -1335,6 +1603,219 @@
       }
     }
     
+    /* NOTIFICATIONS SYSTEM */
+    function setupNotificationsListener(userId) {
+      // Clear any existing listener
+      if (notificationsListener) {
+        notificationsListener();
+      }
+      
+      const notificationsRef = collection(db, "users", userId, "notifications");
+      const q = query(notificationsRef, orderBy("timestamp", "desc"), limit(20));
+      
+      notificationsListener = onSnapshot(q, (querySnapshot) => {
+        let unreadCount = 0;
+        notificationList.innerHTML = '';
+        
+        if (querySnapshot.empty) {
+          notificationList.innerHTML = `
+            <div class="notification-item empty-notification">
+              <div class="notification-message">No notifications yet</div>
+            </div>
+          `;
+          notificationBadge.style.display = 'none';
+          return;
+        }
+        
+        querySnapshot.forEach((doc) => {
+          const notification = doc.data();
+          const isUnread = !notification.read;
+          
+          if (isUnread) {
+            unreadCount++;
+          }
+          
+          const notificationElement = document.createElement('div');
+          notificationElement.className = `notification-item ${isUnread ? 'unread' : ''}`;
+          notificationElement.dataset.id = doc.id;
+          notificationElement.innerHTML = `
+            <div class="notification-title">${notification.title}</div>
+            <div class="notification-message">${notification.message}</div>
+            <div class="notification-time">${formatTime(notification.timestamp?.toDate())}</div>
+          `;
+          
+          notificationElement.addEventListener('click', () => {
+            markNotificationAsRead(doc.id);
+          });
+          
+          notificationList.appendChild(notificationElement);
+        });
+        
+        // Update badge count
+        if (unreadCount > 0) {
+          notificationBadge.textContent = unreadCount;
+          notificationBadge.style.display = 'flex';
+        } else {
+          notificationBadge.style.display = 'none';
+        }
+      });
+    }
+    
+    function formatTime(date) {
+      if (!date) return 'Just now';
+      
+      const now = new Date();
+      const diffInSeconds = Math.floor((now - date) / 1000);
+      
+      if (diffInSeconds < 60) return 'Just now';
+      if (diffInSeconds < 3600) return `${Math.floor(diffInSeconds / 60)} minutes ago`;
+      if (diffInSeconds < 86400) return `${Math.floor(diffInSeconds / 3600)} hours ago`;
+      return `${Math.floor(diffInSeconds / 86400)} days ago`;
+    }
+    
+    async function markNotificationAsRead(notificationId) {
+      if (!currentUserId) return;
+      
+      try {
+        const notificationRef = doc(db, "users", currentUserId, "notifications", notificationId);
+        await updateDoc(notificationRef, {
+          read: true
+        });
+      } catch (error) {
+        console.error("Error marking notification as read:", error);
+      }
+    }
+    
+    async function clearAllNotifications() {
+      if (!currentUserId) return;
+      
+      try {
+        const notificationsRef = collection(db, "users", currentUserId, "notifications");
+        const q = query(notificationsRef, where("read", "==", false));
+        const querySnapshot = await getDocs(q);
+        
+        const batchUpdates = [];
+        querySnapshot.forEach((doc) => {
+          batchUpdates.push(updateDoc(doc.ref, { read: true }));
+        });
+        
+        await Promise.all(batchUpdates);
+      } catch (error) {
+        console.error("Error clearing notifications:", error);
+      }
+    }
+    
+    /* ANNOUNCEMENTS SYSTEM */
+    function setupAnnouncementsListener() {
+      // Clear any existing listener
+      if (announcementsListener) {
+        announcementsListener();
+      }
+      
+      const announcementsRef = collection(db, "announcements");
+      const q = query(announcementsRef, orderBy("timestamp", "desc"), limit(10));
+      
+      announcementsListener = onSnapshot(q, (querySnapshot) => {
+        // We'll use this data for search functionality
+      });
+    }
+    
+    /* COURSES SYSTEM */
+    function setupCoursesListener() {
+      // Clear any existing listener
+      if (coursesListener) {
+        coursesListener();
+      }
+      
+      const coursesRef = collection(db, "courses");
+      const q = query(coursesRef, orderBy("title"));
+      
+      coursesListener = onSnapshot(q, (querySnapshot) => {
+        // We'll use this data for search functionality
+      });
+    }
+    
+    /* SEARCH FUNCTIONALITY */
+    async function performSearch(query) {
+      if (!query || query.length < 3) {
+        searchResults.innerHTML = '<div class="no-results">Please enter at least 3 characters</div>';
+        return;
+      }
+      
+      try {
+        // Search announcements
+        const announcementsRef = collection(db, "announcements");
+        const announcementsQuery = query(
+          announcementsRef,
+          where("keywords", "array-contains", query.toLowerCase())
+        );
+        const announcementsSnapshot = await getDocs(announcementsQuery);
+        
+        // Search courses
+        const coursesRef = collection(db, "courses");
+        const coursesQuery = query(
+          coursesRef,
+          where("keywords", "array-contains", query.toLowerCase())
+        );
+        const coursesSnapshot = await getDocs(coursesQuery);
+        
+        // Combine results
+        const results = [];
+        
+        announcementsSnapshot.forEach(doc => {
+          results.push({
+            id: doc.id,
+            type: 'announcement',
+            title: doc.data().title,
+            description: doc.data().content.substring(0, 100) + '...',
+            timestamp: doc.data().timestamp?.toDate()
+          });
+        });
+        
+        coursesSnapshot.forEach(doc => {
+          results.push({
+            id: doc.id,
+            type: 'course',
+            title: doc.data().title,
+            description: doc.data().description.substring(0, 100) + '...'
+          });
+        });
+        
+        // Display results
+        if (results.length === 0) {
+          searchResults.innerHTML = '<div class="no-results">No results found</div>';
+        } else {
+          searchResults.innerHTML = '';
+          results.forEach(result => {
+            const resultElement = document.createElement('div');
+            resultElement.className = 'search-result-item';
+            resultElement.innerHTML = `
+              <span class="search-result-type ${result.type}">${result.type}</span>
+              <div class="search-result-title">${result.title}</div>
+              <div class="search-result-description">${result.description}</div>
+            `;
+            
+            resultElement.addEventListener('click', () => {
+              if (result.type === 'announcement') {
+                // Show announcement details
+                alert(`Announcement: ${result.title}\n\n${result.description}`);
+              } else {
+                // Navigate to course
+                window.location.href = `course.html?id=${result.id}`;
+              }
+              searchResults.classList.remove('show');
+              searchContainer.style.display = 'none';
+            });
+            
+            searchResults.appendChild(resultElement);
+          });
+        }
+      } catch (error) {
+        console.error("Error performing search:", error);
+        searchResults.innerHTML = '<div class="no-results">Error performing search</div>';
+      }
+    }
+    
     /* NEW FEATURE IMPLEMENTATIONS */
     
     // Notification System
@@ -1356,11 +1837,7 @@
     
     // Clear notifications
     notificationClear.addEventListener('click', () => {
-      const notifications = document.querySelectorAll('.notification-item.unread');
-      notifications.forEach(notification => {
-        notification.classList.remove('unread');
-      });
-      notificationBadge.style.display = 'none';
+      clearAllNotifications();
     });
     
     // Search Functionality
@@ -1371,21 +1848,27 @@
     
     // Close search when clicking outside
     document.addEventListener('click', (e) => {
-      if (!searchBtn.contains(e.target) && !searchContainer.contains(e.target)) {
+      if (!searchBtn.contains(e.target) && !searchContainer.contains(e.target) && !searchResults.contains(e.target)) {
         searchContainer.style.display = 'none';
+        searchResults.classList.remove('show');
       }
     });
     
     // Search functionality
+    searchBar.addEventListener('input', (e) => {
+      const query = searchBar.value.trim();
+      if (query) {
+        searchResults.classList.add('show');
+        performSearch(query);
+      } else {
+        searchResults.classList.remove('show');
+      }
+    });
+    
     searchBar.addEventListener('keyup', (e) => {
-      if (e.key === 'Enter') {
-        const query = searchBar.value.trim();
-        if (query) {
-          // In a real implementation, this would search your database
-          alert(`Searching for: ${query}`);
-          searchBar.value = '';
-          searchContainer.style.display = 'none';
-        }
+      if (e.key === 'Escape') {
+        searchContainer.style.display = 'none';
+        searchResults.classList.remove('show');
       }
     });
     
