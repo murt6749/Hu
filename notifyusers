@@ -1,0 +1,1977 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Dashboard - Haramaya Jama'aa</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
+  <style>
+    /* ====== CORE STRUCTURE & RESETS ====== */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: 'Poppins', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #e0eafc 0%, #cfdef3 100%);
+      color: #333;
+      min-height: 100vh;
+      overflow-x: hidden;
+      padding-top: 70px;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      background-size: 400% 400%;
+      animation: gradientBG 15s ease infinite;
+      transition: background 0.5s ease, color 0.5s ease;
+    }
+
+    @keyframes gradientBG {
+        0% { background-position: 0% 50%; }
+        50% { background-position: 100% 50%; }
+        100% { background-position: 0% 50%; }
+    }
+
+    main {
+        flex-grow: 1;
+    }
+
+    a {
+      text-decoration: none;
+      color: inherit;
+      transition: color 0.3s ease;
+    }
+
+    /* ====== ENHANCED HEADER ====== */
+    header {
+      background: rgba(255, 255, 255, 0.8);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      color: #333;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.7rem 1.5rem;
+      position: fixed;
+      width: 100%;
+      top: 0;
+      left: 0;
+      z-index: 300;
+      box-shadow: 0 2px 15px rgba(0, 0, 0, 0.07);
+      border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+      transition: background 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .header-title-area {
+        flex-grow: 1;
+        text-align: center;
+        margin: 0 1rem;
+    }
+
+    .header-title {
+      font-size: 1.4rem;
+      font-weight: 600;
+      color: #2c3e50;
+      letter-spacing: 0.5px;
+      display: inline-block;
+    }
+
+    /* ====== ACCOUNT DROPDOWN ====== */
+    .account-wrapper {
+      position: relative;
+      cursor: pointer;
+      flex-shrink: 0;
+    }
+
+    .account-icon {
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #89f7fe 0%, #66a6ff 100%);
+      border: none;
+      transition: all 0.3s ease;
+      box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      color: #fff;
+    }
+
+    .account-icon:hover {
+      transform: scale(1.1);
+      box-shadow: 0 5px 15px rgba(102, 166, 255, 0.4);
+    }
+
+    .account-dropdown {
+      position: absolute;
+      top: 58px;
+      right: 0;
+      background: rgba(255, 255, 255, 0.98);
+      border-radius: 10px;
+      overflow: hidden;
+      display: none;
+      z-index: 400;
+      box-shadow: 0 10px 35px rgba(0,0,0,0.12);
+      min-width: 240px;
+      animation: fadeInDropdown 0.25s ease-out;
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border: 1px solid rgba(0,0,0,0.07);
+      transform-origin: top right;
+    }
+
+    @keyframes fadeInDropdown {
+      from { opacity: 0; transform: translateY(-10px) scale(0.98); }
+      to { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    .account-dropdown a,
+    .account-dropdown div {
+      color: #444;
+      padding: 0.9rem 1.3rem;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      border-bottom: 1px solid rgba(0,0,0,0.05);
+      transition: background-color 0.2s ease, color 0.2s ease, padding-left 0.2s ease;
+      font-weight: 500;
+      font-size: 0.95rem;
+    }
+
+    #user-role-display {
+      font-size: 0.85em;
+      color: #5a67d8;
+      font-weight: bold;
+      background-color: rgba(90, 103, 216, 0.05);
+      border-bottom: 1px solid rgba(90, 103, 216, 0.1);
+      order: -1;
+    }
+    #user-role-display i { color: #5a67d8; }
+
+    #admin-panel-link {
+        color: #d53f8c;
+        font-weight: 600;
+    }
+     #admin-panel-link i {
+        color: #d53f8c;
+     }
+     #admin-panel-link:hover {
+         background-color: rgba(213, 63, 140, 0.06);
+         color: #b83280;
+     }
+     #admin-panel-link:hover i {
+         color: #b83280;
+     }
+
+    .account-dropdown a:last-child,
+    .account-dropdown div:last-child { border-bottom: none; }
+
+    .account-dropdown a:hover,
+    .account-dropdown div:not(#user-role-display):not(#admin-panel-link):hover {
+      background: rgba(102, 166, 255, 0.1);
+      padding-left: 1.6rem;
+      color: #3b82f6;
+    }
+
+    .account-dropdown i {
+      width: 18px;
+      color: #60a5fa;
+      text-align: center;
+      font-size: 1rem;
+      transition: all 0.3s;
+    }
+    .account-dropdown a:hover i,
+    .account-dropdown div:not(#user-role-display):not(#admin-panel-link):hover i {
+        color: #3b82f6;
+    }
+
+    /* ====== ADMIN CONTENT AREA ====== */
+    .admin-container {
+      display: flex;
+      min-height: calc(100vh - 70px);
+    }
+
+    .admin-sidebar {
+      width: 250px;
+      background: rgba(255, 255, 255, 0.8);
+      backdrop-filter: blur(5px);
+      -webkit-backdrop-filter: blur(5px);
+      border-right: 1px solid rgba(0, 0, 0, 0.05);
+      padding: 1.5rem 0;
+      position: fixed;
+      height: calc(100vh - 70px);
+      overflow-y: auto;
+      z-index: 100;
+      transition: all 0.3s ease;
+    }
+
+    .admin-content {
+      flex-grow: 1;
+      margin-left: 250px;
+      padding: 2rem;
+      transition: margin 0.3s ease;
+    }
+
+    .admin-section {
+      background: rgba(255, 255, 255, 0.9);
+      border-radius: 12px;
+      padding: 2rem;
+      margin-bottom: 2rem;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+      border: 1px solid rgba(0, 0, 0, 0.05);
+    }
+
+    .admin-section h2 {
+      color: #2d3748;
+      margin-bottom: 1.5rem;
+      font-size: 1.5rem;
+      font-weight: 600;
+      border-bottom: 2px solid #e2e8f0;
+      padding-bottom: 0.75rem;
+    }
+
+    /* Admin Sidebar Navigation */
+    .admin-nav-title {
+      padding: 0.5rem 1.5rem;
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: #64748b;
+      margin-top: 1rem;
+    }
+
+    .admin-nav-link {
+      display: flex;
+      align-items: center;
+      padding: 0.75rem 1.5rem;
+      color: #4a5568;
+      transition: all 0.2s ease;
+    }
+
+    .admin-nav-link i {
+      width: 24px;
+      margin-right: 0.75rem;
+      color: #64748b;
+      transition: all 0.2s ease;
+    }
+
+    .admin-nav-link:hover,
+    .admin-nav-link.active {
+      background: rgba(102, 166, 255, 0.1);
+      color: #3b82f6;
+    }
+
+    .admin-nav-link:hover i,
+    .admin-nav-link.active i {
+      color: #3b82f6;
+    }
+
+    /* Admin Forms */
+    .form-group {
+      margin-bottom: 1.5rem;
+    }
+
+    .form-label {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-weight: 500;
+      color: #4a5568;
+    }
+
+    .form-control {
+      width: 100%;
+      padding: 0.75rem 1rem;
+      border: 1px solid #e2e8f0;
+      border-radius: 8px;
+      font-size: 1rem;
+      transition: all 0.2s ease;
+      background-color: white;
+    }
+
+    .form-control:focus {
+      outline: none;
+      border-color: #93c5fd;
+      box-shadow: 0 0 0 3px rgba(147, 197, 253, 0.2);
+    }
+
+    textarea.form-control {
+      min-height: 120px;
+      resize: vertical;
+    }
+
+    .form-select {
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e");
+      background-position: right 0.75rem center;
+      background-repeat: no-repeat;
+      background-size: 1.5em 1.5em;
+      padding-right: 2.5rem;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0.75rem 1.5rem;
+      border-radius: 8px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      border: none;
+    }
+
+    .btn-primary {
+      background-color: #3b82f6;
+      color: white;
+    }
+
+    .btn-primary:hover {
+      background-color: #2563eb;
+    }
+
+    .btn-secondary {
+      background-color: #e2e8f0;
+      color: #4a5568;
+    }
+
+    .btn-secondary:hover {
+      background-color: #cbd5e1;
+    }
+
+    .btn-danger {
+      background-color: #ef4444;
+      color: white;
+    }
+
+    .btn-danger:hover {
+      background-color: #dc2626;
+    }
+
+    .btn i {
+      margin-right: 0.5rem;
+    }
+
+    /* Rich Text Editor */
+    .editor-container {
+      height: 300px;
+      margin-bottom: 1rem;
+      border: 1px solid #e2e8f0;
+      border-radius: 8px;
+      overflow: hidden;
+    }
+
+    /* User Selection */
+    .user-selection-container {
+      max-height: 200px;
+      overflow-y: auto;
+      border: 1px solid #e2e8f0;
+      border-radius: 8px;
+      padding: 0.5rem;
+      margin-top: 0.5rem;
+    }
+
+    .user-checkbox {
+      display: flex;
+      align-items: center;
+      padding: 0.5rem;
+      border-radius: 4px;
+      transition: background 0.2s ease;
+    }
+
+    .user-checkbox:hover {
+      background: #f1f5f9;
+    }
+
+    .user-checkbox input {
+      margin-right: 0.75rem;
+    }
+
+    /* Tables */
+    .admin-table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    .admin-table th,
+    .admin-table td {
+      padding: 1rem;
+      text-align: left;
+      border-bottom: 1px solid #e2e8f0;
+    }
+
+    .admin-table th {
+      background-color: #f8fafc;
+      color: #64748b;
+      font-weight: 600;
+      text-transform: uppercase;
+      font-size: 0.75rem;
+      letter-spacing: 0.5px;
+    }
+
+    .admin-table tr:hover td {
+      background-color: #f8fafc;
+    }
+
+    .table-actions {
+      display: flex;
+      gap: 0.5rem;
+    }
+
+    /* Tabs */
+    .admin-tabs {
+      display: flex;
+      border-bottom: 1px solid #e2e8f0;
+      margin-bottom: 1.5rem;
+    }
+
+    .admin-tab {
+      padding: 0.75rem 1.5rem;
+      cursor: pointer;
+      font-weight: 500;
+      color: #64748b;
+      border-bottom: 2px solid transparent;
+      transition: all 0.2s ease;
+    }
+
+    .admin-tab:hover {
+      color: #3b82f6;
+    }
+
+    .admin-tab.active {
+      color: #3b82f6;
+      border-bottom-color: #3b82f6;
+    }
+
+    .tab-content {
+      display: none;
+    }
+
+    .tab-content.active {
+      display: block;
+    }
+
+    /* Stats Cards */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 1.5rem;
+      margin-bottom: 2rem;
+    }
+
+    .stat-card {
+      background: white;
+      border-radius: 8px;
+      padding: 1.5rem;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    }
+
+    .stat-card-title {
+      font-size: 0.875rem;
+      color: #64748b;
+      margin-bottom: 0.5rem;
+    }
+
+    .stat-card-value {
+      font-size: 1.5rem;
+      font-weight: 600;
+      color: #1e293b;
+    }
+
+    /* Floating particles decoration */
+    .particle {
+      position: fixed;
+      background: rgba(102, 166, 255, 0.15);
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 0;
+      animation: particleFloat 25s linear infinite;
+    }
+
+    @keyframes particleFloat {
+        0% { transform: translateY(105vh) scale(0.5) rotate(0deg); opacity: 0; }
+        50% { opacity: 0.8; }
+        100% { transform: translateY(-100px) scale(1.2) rotate(720deg); opacity: 0; }
+    }
+
+    /* ====== FOOTER ====== */
+     footer {
+        background-color: rgba(255, 255, 255, 0.6);
+        backdrop-filter: blur(5px);
+        -webkit-backdrop-filter: blur(5px);
+        padding: 1.5rem 2rem;
+        text-align: center;
+        font-size: 0.9rem;
+        color: #4a5568;
+        margin-top: 3rem;
+        border-top: 1px solid rgba(0, 0, 0, 0.05);
+        z-index: 10;
+        position: relative;
+     }
+     footer a {
+         color: #3b82f6;
+         font-weight: 500;
+     }
+      footer a:hover {
+         text-decoration: underline;
+      }
+
+    /* ====== FLOATING LOGO ====== */
+     .floating-logo {
+         position: fixed;
+         bottom: 20px;
+         left: 20px;
+         z-index: 500;
+         background-color: rgba(255, 255, 255, 0.8);
+         backdrop-filter: blur(10px);
+         -webkit-backdrop-filter: blur(10px);
+         padding: 10px;
+         border-radius: 50%;
+         box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+         transition: transform 0.3s ease, box-shadow 0.3s ease;
+         display: flex;
+         align-items: center;
+         justify-content: center;
+     }
+      .floating-logo img {
+          display: block;
+          max-height: 45px;
+          width: auto;
+          border-radius: 50%;
+      }
+      .floating-logo:hover {
+          transform: scale(1.1);
+          box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+      }
+
+    /* ====== UTILITIES & THEME TOGGLE ====== */
+    .theme-toggle {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      width: 45px;
+      height: 45px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #6366f1 0%, #a78bfa 100%);
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.1rem;
+      cursor: pointer;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
+      z-index: 500;
+      transition: all 0.3s ease;
+      border: none;
+    }
+    .theme-toggle:hover {
+      transform: scale(1.1) rotate(10deg);
+      box-shadow: 0 8px 20px rgba(99, 102, 241, 0.3);
+    }
+
+    /* Loading animation */
+    .loading {
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: linear-gradient(135deg, #e0eafc 0%, #cfdef3 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 9999;
+      transition: opacity 0.5s ease, visibility 0.5s ease;
+    }
+     body.dark .loading {
+         background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+     }
+    .loading-circle {
+      width: 50px;
+      height: 50px;
+      border: 5px solid rgba(0, 0, 0, 0.2);
+      border-radius: 50%;
+      border-top-color: #66a6ff;
+      animation: spin 1s ease-in-out infinite;
+    }
+     body.dark .loading-circle {
+         border: 5px solid rgba(255, 255, 255, 0.2);
+         border-top-color: #a78bfa;
+     }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* ====== DARK THEME STYLES ====== */
+    body.dark {
+      background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+      color: #e2e8f0;
+      animation-name: gradientBGDark;
+    }
+
+     @keyframes gradientBGDark {
+        0% { background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%); }
+        50% { background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%); }
+        100% { background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%); }
+    }
+
+    body.dark header {
+      background: rgba(15, 23, 42, 0.8);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      color: #e2e8f0;
+      box-shadow: 0 2px 15px rgba(0, 0, 0, 0.2);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    body.dark .header-title {
+         color: #f1f5f9;
+    }
+    body.dark .account-icon {
+        background: linear-gradient(135deg, #475569 0%, #334155 100%);
+        box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+    }
+     body.dark .account-icon:hover {
+          box-shadow: 0 5px 15px rgba(71, 85, 105, 0.4);
+     }
+    body.dark .account-dropdown {
+      background: rgba(30, 41, 59, 0.98);
+      color: #e2e8f0;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+       box-shadow: 0 10px 35px rgba(0,0,0,0.2);
+    }
+    body.dark .account-dropdown a,
+    body.dark .account-dropdown div {
+      color: #e2e8f0;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    }
+     body.dark #user-role-display {
+        color: #a78bfa;
+        background-color: rgba(167, 139, 250, 0.08);
+        border-bottom: 1px solid rgba(167, 139, 250, 0.1);
+    }
+    body.dark #user-role-display i { color: #a78bfa; }
+
+     body.dark #admin-panel-link {
+        color: #f472b6;
+        font-weight: 600;
+     }
+      body.dark #admin-panel-link i { color: #f472b6; }
+      body.dark #admin-panel-link:hover {
+         background-color: rgba(244, 114, 182, 0.08);
+         color: #ec4899;
+      }
+       body.dark #admin-panel-link:hover i { color: #ec4899; }
+
+    body.dark .account-dropdown a:hover,
+    body.dark .account-dropdown div:not(#user-role-display):not(#admin-panel-link):hover {
+      color: #93c5fd;
+      background: rgba(255, 255, 255, 0.04);
+    }
+    body.dark .account-dropdown i { color: #93c5fd; }
+    body.dark .account-dropdown a:hover i,
+    body.dark .account-dropdown div:not(#user-role-display):not(#admin-panel-link):hover i {
+         color: #93c5fd;
+    }
+
+    body.dark .admin-sidebar {
+      background: rgba(15, 23, 42, 0.8);
+      border-right: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    body.dark .admin-nav-title {
+      color: #94a3b8;
+    }
+
+    body.dark .admin-nav-link {
+      color: #cbd5e1;
+    }
+
+    body.dark .admin-nav-link i {
+      color: #94a3b8;
+    }
+
+    body.dark .admin-nav-link:hover,
+    body.dark .admin-nav-link.active {
+      background: rgba(102, 166, 255, 0.1);
+      color: #93c5fd;
+    }
+
+    body.dark .admin-nav-link:hover i,
+    body.dark .admin-nav-link.active i {
+      color: #93c5fd;
+    }
+
+    body.dark .admin-section {
+      background: rgba(30, 41, 59, 0.9);
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    body.dark .admin-section h2 {
+      color: #f1f5f9;
+      border-bottom-color: rgba(255, 255, 255, 0.1);
+    }
+
+    body.dark .form-label {
+      color: #e2e8f0;
+    }
+
+    body.dark .form-control {
+      background-color: #1e293b;
+      border-color: rgba(255, 255, 255, 0.1);
+      color: #e2e8f0;
+    }
+
+    body.dark .form-control:focus {
+      border-color: #93c5fd;
+      box-shadow: 0 0 0 3px rgba(147, 197, 253, 0.2);
+    }
+
+    body.dark .user-selection-container {
+      border-color: rgba(255, 255, 255, 0.1);
+    }
+
+    body.dark .user-checkbox:hover {
+      background: rgba(255, 255, 255, 0.05);
+    }
+
+    body.dark .admin-table th,
+    body.dark .admin-table td {
+      border-bottom-color: rgba(255, 255, 255, 0.1);
+    }
+
+    body.dark .admin-table th {
+      background-color: rgba(15, 23, 42, 0.8);
+      color: #94a3b8;
+    }
+
+    body.dark .admin-table tr:hover td {
+      background-color: rgba(15, 23, 42, 0.5);
+    }
+
+    body.dark .admin-tabs {
+      border-bottom-color: rgba(255, 255, 255, 0.1);
+    }
+
+    body.dark .admin-tab {
+      color: #94a3b8;
+    }
+
+    body.dark .admin-tab:hover,
+    body.dark .admin-tab.active {
+      color: #93c5fd;
+      border-bottom-color: #93c5fd;
+    }
+
+    body.dark .stat-card {
+      background: #1e293b;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+    }
+
+    body.dark .stat-card-title {
+      color: #94a3b8;
+    }
+
+    body.dark .stat-card-value {
+      color: #f8fafc;
+    }
+
+    body.dark footer {
+        background-color: rgba(15, 23, 42, 0.7);
+        backdrop-filter: blur(5px);
+        -webkit-backdrop-filter: blur(5px);
+        color: #94a3b8;
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+    }
+     body.dark footer a { color: #93c5fd; }
+
+     body.dark .floating-logo {
+         background-color: rgba(30, 41, 59, 0.8);
+         backdrop-filter: blur(10px);
+         -webkit-backdrop-filter: blur(10px);
+         box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+     }
+      body.dark .floating-logo:hover {
+         box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
+      }
+
+     body.dark .theme-toggle {
+         background: linear-gradient(135deg, #475569 0%, #334155 100%);
+         box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+     }
+     body.dark .theme-toggle:hover {
+          box-shadow: 0 8px 20px rgba(0,0,0,0.4);
+     }
+
+    /* ====== RESPONSIVENESS ====== */
+    @media (max-width: 992px) {
+      .admin-sidebar {
+        transform: translateX(-100%);
+        width: 280px;
+      }
+      
+      .admin-sidebar.show {
+        transform: translateX(0);
+      }
+      
+      .admin-content {
+        margin-left: 0;
+      }
+      
+      .sidebar-toggle {
+        display: block;
+      }
+    }
+
+    @media (max-width: 768px) {
+      body { padding-top: 60px; }
+      header { padding: 0.6rem 1rem; }
+      .header-title-area { margin: 0 0.5rem; }
+      .header-title { font-size: 1.2rem; }
+
+      .account-icon { width: 38px; height: 38px; font-size: 1.4rem; }
+      .account-dropdown { top: 52px; min-width: 220px; }
+
+      .admin-content { padding: 1rem; }
+      
+      .stats-grid {
+        grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+      }
+    }
+
+    @media (max-width: 480px) {
+      .header-title { font-size: 1.1rem; }
+      
+      .admin-section {
+        padding: 1.5rem;
+      }
+      
+      .admin-table th,
+      .admin-table td {
+        padding: 0.75rem;
+      }
+      
+      .table-actions {
+        flex-direction: column;
+      }
+    }
+  </style>
+</head>
+<body class=""> 
+  <div class="loading" id="loading">
+    <div class="loading-circle"></div>
+  </div>
+
+  <header>
+    <div class="header-title-area">
+        <span class="header-title" id="header-title">Admin Dashboard</span>
+    </div>
+    
+    <div class="account-wrapper" id="account-btn">
+      <div class="account-icon" id="account-img">
+          <i class="fas fa-user"></i>
+      </div>
+      <div class="account-dropdown" id="account-dropdown">
+        <div id="not-logged-in">
+          <a href="login.html"><i class="fas fa-sign-in-alt"></i> Log In</a>
+          <a href="explore.html"><i class="fas fa-compass"></i> Explore Courses</a>
+        </div>
+        <div id="logged-in" style="display: none;">
+          <div id="user-role-display" style="display: none;">
+             <i class="fas fa-shield-halved"></i> <span id="role-text">Admin</span>
+          </div>
+          <a href="generaladmin.html" id="admin-panel-link" style="display: none;">
+               <i class="fas fa-user-shield"></i> Admin Panel
+           </a>
+          <a href="profile.html" id="profile-link"><i class="fas fa-user-circle"></i> My Profile</a>
+          <a href="dashboard.html"><i class="fas fa-book-open"></i> Enrollment</a>
+          <a href="progress.html"><i class="fas fa-chart-line"></i> Progression</a>
+          <a href="interact.html"><i class="fas fa-comments"></i> Interact</a>
+          <a href="support.html"><i class="fas fa-headset"></i>help</a>
+          <a href="#" id="logout-btn"><i class="fas fa-sign-out-alt"></i> Logout</a>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <div class="admin-container">
+    <div class="admin-sidebar" id="admin-sidebar">
+      <div class="admin-nav-title">Main</div>
+      <a href="#" class="admin-nav-link active" data-tab="dashboard">
+        <i class="fas fa-tachometer-alt"></i> Dashboard
+      </a>
+      
+      <div class="admin-nav-title">Content Management</div>
+      <a href="#" class="admin-nav-link" data-tab="announcements">
+        <i class="fas fa-bullhorn"></i> Announcements
+      </a>
+      <a href="#" class="admin-nav-link" data-tab="courses">
+        <i class="fas fa-book"></i> Courses
+      </a>
+      <a href="#" class="admin-nav-link" data-tab="notifications">
+        <i class="fas fa-bell"></i> Notifications
+      </a>
+      
+      <div class="admin-nav-title">User Management</div>
+      <a href="#" class="admin-nav-link" data-tab="users">
+        <i class="fas fa-users"></i> Users
+      </a>
+      
+      <div class="admin-nav-title">Settings</div>
+      <a href="#" class="admin-nav-link" data-tab="settings">
+        <i class="fas fa-cog"></i> Settings
+      </a>
+    </div>
+
+    <div class="admin-content" id="admin-content">
+      <!-- Dashboard Tab -->
+      <div class="tab-content active" id="dashboard-tab">
+        <div class="admin-section">
+          <h2>Admin Dashboard</h2>
+          <p>Welcome to the Haramaya Jama'aa Admin Dashboard. Here you can manage announcements, courses, and send notifications to users.</p>
+          
+          <div class="stats-grid">
+            <div class="stat-card">
+              <div class="stat-card-title">Total Users</div>
+              <div class="stat-card-value" id="total-users">0</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-card-title">Active Courses</div>
+              <div class="stat-card-value" id="total-courses">0</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-card-title">Announcements</div>
+              <div class="stat-card-value" id="total-announcements">0</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-card-title">Notifications Sent</div>
+              <div class="stat-card-value" id="total-notifications">0</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Announcements Tab -->
+      <div class="tab-content" id="announcements-tab">
+        <div class="admin-section">
+          <div class="admin-tabs">
+            <div class="admin-tab active" data-subtab="create-announcement">Create Announcement</div>
+            <div class="admin-tab" data-subtab="manage-announcements">Manage Announcements</div>
+          </div>
+          
+          <div class="subtab-content active" id="create-announcement">
+            <form id="announcement-form">
+              <div class="form-group">
+                <label for="announcement-title" class="form-label">Title</label>
+                <input type="text" id="announcement-title" class="form-control" required>
+              </div>
+              
+              <div class="form-group">
+                <label class="form-label">Content</label>
+                <div class="editor-container" id="announcement-editor"></div>
+              </div>
+              
+              <div class="form-group">
+                <label for="announcement-priority" class="form-label">Priority</label>
+                <select id="announcement-priority" class="form-control form-select">
+                  <option value="normal">Normal</option>
+                  <option value="high">High</option>
+                  <option value="urgent">Urgent</option>
+                </select>
+              </div>
+              
+              <div class="form-group">
+                <button type="submit" class="btn btn-primary">
+                  <i class="fas fa-paper-plane"></i> Publish Announcement
+                </button>
+              </div>
+            </form>
+          </div>
+          
+          <div class="subtab-content" id="manage-announcements">
+            <div class="form-group">
+              <input type="text" id="announcement-search" class="form-control" placeholder="Search announcements...">
+            </div>
+            
+            <div class="table-responsive">
+              <table class="admin-table">
+                <thead>
+                  <tr>
+                    <th>Title</th>
+                    <th>Priority</th>
+                    <th>Date</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="announcements-list">
+                  <tr>
+                    <td colspan="4" class="text-center">Loading announcements...</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Courses Tab -->
+      <div class="tab-content" id="courses-tab">
+        <div class="admin-section">
+          <div class="admin-tabs">
+            <div class="admin-tab active" data-subtab="create-course">Create Course</div>
+            <div class="admin-tab" data-subtab="manage-courses">Manage Courses</div>
+          </div>
+          
+          <div class="subtab-content active" id="create-course">
+            <form id="course-form">
+              <div class="form-group">
+                <label for="course-title" class="form-label">Course Title</label>
+                <input type="text" id="course-title" class="form-control" required>
+              </div>
+              
+              <div class="form-group">
+                <label for="course-code" class="form-label">Course Code</label>
+                <input type="text" id="course-code" class="form-control" required>
+              </div>
+              
+              <div class="form-group">
+                <label for="course-department" class="form-label">Department</label>
+                <select id="course-department" class="form-control form-select" required>
+                  <option value="">Select Department</option>
+                  <option value="pharmacy">Pharmacy</option>
+                  <option value="medicine">Medicine</option>
+                  <option value="nursing">Nursing</option>
+                  <option value="public-health">Public Health</option>
+                </select>
+              </div>
+              
+              <div class="form-group">
+                <label for="course-level" class="form-label">Level</label>
+                <select id="course-level" class="form-control form-select" required>
+                  <option value="">Select Level</option>
+                  <option value="100">100 Level</option>
+                  <option value="200">200 Level</option>
+                  <option value="300">300 Level</option>
+                  <option value="400">400 Level</option>
+                  <option value="500">500 Level</option>
+                </select>
+              </div>
+              
+              <div class="form-group">
+                <label class="form-label">Description</label>
+                <div class="editor-container" id="course-description-editor"></div>
+              </div>
+              
+              <div class="form-group">
+                <button type="submit" class="btn btn-primary">
+                  <i class="fas fa-save"></i> Create Course
+                </button>
+              </div>
+            </form>
+          </div>
+          
+          <div class="subtab-content" id="manage-courses">
+            <div class="form-group">
+              <input type="text" id="course-search" class="form-control" placeholder="Search courses...">
+            </div>
+            
+            <div class="table-responsive">
+              <table class="admin-table">
+                <thead>
+                  <tr>
+                    <th>Title</th>
+                    <th>Code</th>
+                    <th>Department</th>
+                    <th>Level</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="courses-list">
+                  <tr>
+                    <td colspan="5" class="text-center">Loading courses...</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Notifications Tab -->
+      <div class="tab-content" id="notifications-tab">
+        <div class="admin-section">
+          <h2>Send Notifications</h2>
+          <form id="notification-form">
+            <div class="form-group">
+              <label for="notification-title" class="form-label">Title</label>
+              <input type="text" id="notification-title" class="form-control" required>
+            </div>
+            
+            <div class="form-group">
+              <label for="notification-message" class="form-label">Message</label>
+              <textarea id="notification-message" class="form-control" rows="4" required></textarea>
+            </div>
+            
+            <div class="form-group">
+              <label for="notification-type" class="form-label">Notification Type</label>
+              <select id="notification-type" class="form-control form-select" required>
+                <option value="info">Information</option>
+                <option value="alert">Alert</option>
+                <option value="warning">Warning</option>
+                <option value="urgent">Urgent</option>
+              </select>
+            </div>
+            
+            <div class="form-group">
+              <label class="form-label">Recipients</label>
+              <div>
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="radio" name="recipient-type" id="all-users" value="all" checked>
+                  <label class="form-check-label" for="all-users">All Users</label>
+                </div>
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="radio" name="recipient-type" id="selected-users" value="selected">
+                  <label class="form-check-label" for="selected-users">Selected Users</label>
+                </div>
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="radio" name="recipient-type" id="course-users" value="course">
+                  <label class="form-check-label" for="course-users">Course Users</label>
+                </div>
+              </div>
+            </div>
+            
+            <div class="form-group" id="user-selection-group" style="display: none;">
+              <label class="form-label">Select Users</label>
+              <div class="user-selection-container" id="user-selection-container">
+                Loading users...
+              </div>
+            </div>
+            
+            <div class="form-group" id="course-selection-group" style="display: none;">
+              <label for="notification-course" class="form-label">Select Course</label>
+              <select id="notification-course" class="form-control form-select">
+                <option value="">Select Course</option>
+              </select>
+            </div>
+            
+            <div class="form-group">
+              <button type="submit" class="btn btn-primary">
+                <i class="fas fa-paper-plane"></i> Send Notification
+              </button>
+            </div>
+          </form>
+        </div>
+        
+        <div class="admin-section">
+          <h2>Notification History</h2>
+          <div class="table-responsive">
+            <table class="admin-table">
+              <thead>
+                <tr>
+                  <th>Title</th>
+                  <th>Type</th>
+                  <th>Recipients</th>
+                  <th>Date</th>
+                </tr>
+              </thead>
+              <tbody id="notifications-history">
+                <tr>
+                  <td colspan="4" class="text-center">Loading notification history...</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Users Tab -->
+      <div class="tab-content" id="users-tab">
+        <div class="admin-section">
+          <h2>User Management</h2>
+          
+          <div class="form-group">
+            <input type="text" id="user-search" class="form-control" placeholder="Search users...">
+          </div>
+          
+          <div class="table-responsive">
+            <table class="admin-table">
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>Email</th>
+                  <th>Role</th>
+                  <th>Status</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="users-list">
+                <tr>
+                  <td colspan="5" class="text-center">Loading users...</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Settings Tab -->
+      <div class="tab-content" id="settings-tab">
+        <div class="admin-section">
+          <h2>System Settings</h2>
+          
+          <form id="settings-form">
+            <div class="form-group">
+              <label for="system-name" class="form-label">System Name</label>
+              <input type="text" id="system-name" class="form-control" value="Haramaya Jama'aa">
+            </div>
+            
+            <div class="form-group">
+              <label for="maintenance-mode" class="form-label">Maintenance Mode</label>
+              <select id="maintenance-mode" class="form-control form-select">
+                <option value="false">Disabled</option>
+                <option value="true">Enabled</option>
+              </select>
+            </div>
+            
+            <div class="form-group">
+              <button type="submit" class="btn btn-primary">
+                <i class="fas fa-save"></i> Save Settings
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <footer>
+      &copy; <span id="footer-year"></span> Haramaya Jama'aa Group. All Rights Reserved. | <a href="#top">Back to Top</a>
+  </footer>
+
+  <div class="floating-logo">
+       <img src="haramaya.png" alt="Haramaya Logo">
+  </div>
+
+  <div class="theme-toggle" id="theme-toggle">
+    <i class="fas fa-moon"></i>
+  </div>
+
+  <!-- Quill JS for rich text editor -->
+  <script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
+
+  <script type="module">
+    // Firebase modules.
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-app.js";
+    import { getAnalytics } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-analytics.js";
+    import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-auth.js";
+    import { 
+      getFirestore, 
+      doc, 
+      getDoc, 
+      collection, 
+      query, 
+      where, 
+      getDocs,
+      orderBy,
+      limit,
+      onSnapshot,
+      addDoc,
+      updateDoc,
+      arrayUnion,
+      arrayRemove,
+      serverTimestamp,
+      writeBatch
+    } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-firestore.js";
+
+    // === YOUR PROVIDED FIREBASE CONFIG ===
+    const firebaseConfig = {
+      apiKey: "AIzaSyBQyNVWh1BtCkXlBfuS7jHAa36FTklZayo",
+      authDomain: "pharma-quiz-b5a07.firebaseapp.com",
+      databaseURL: "https://pharma-quiz-b5a07-default-rtdb.firebaseio.com",
+      projectId: "pharma-quiz-b5a07",
+      storageBucket: "pharma-quiz-b5a07.appspot.com",
+      messagingSenderId: "161067776789",
+      appId: "1:161067776789:web:88b8a61145dc5f5c31471c",
+      measurementId: "G-3QRQE9HQFB"
+    };
+    // =====================================
+
+    const app = initializeApp(firebaseConfig);
+    let analytics;
+    if (firebaseConfig.measurementId) {
+        try {
+             analytics = getAnalytics(app);
+             console.log("Firebase Analytics initialized.");
+        } catch (error) {
+            console.warn("Could not initialize Firebase Analytics:", error);
+        }
+    }
+    const auth = getAuth();
+    const db = getFirestore(app);
+
+    // --- Global Variables ---
+    let currentUserRole = null;
+    let currentUserId = null;
+    let announcementEditor = null;
+    let courseDescriptionEditor = null;
+
+    // --- DOM Elements ---
+    const loadingScreen = document.getElementById('loading');
+    const themeToggle = document.getElementById('theme-toggle');
+    const accountBtn = document.getElementById("account-btn");
+    const accountDropdown = document.getElementById("account-dropdown");
+    const notLoggedInDiv = document.getElementById("not-logged-in");
+    const loggedInDiv = document.getElementById("logged-in");
+    const logoutBtn = document.getElementById("logout-btn");
+    const profileLink = document.getElementById("profile-link");
+    const userRoleDisplay = document.getElementById("user-role-display");
+    const adminPanelLink = document.getElementById("admin-panel-link");
+    const footerYear = document.getElementById("footer-year");
+    
+    // Admin elements
+    const adminSidebar = document.getElementById('admin-sidebar');
+    const adminContent = document.getElementById('admin-content');
+    const adminNavLinks = document.querySelectorAll('.admin-nav-link');
+    const adminTabs = document.querySelectorAll('.admin-tab');
+    const adminSubTabs = document.querySelectorAll('.admin-tab[data-subtab]');
+    
+    // Stats elements
+    const totalUsersEl = document.getElementById('total-users');
+    const totalCoursesEl = document.getElementById('total-courses');
+    const totalAnnouncementsEl = document.getElementById('total-announcements');
+    const totalNotificationsEl = document.getElementById('total-notifications');
+    
+    // Announcements elements
+    const announcementForm = document.getElementById('announcement-form');
+    const announcementTitle = document.getElementById('announcement-title');
+    const announcementPriority = document.getElementById('announcement-priority');
+    const announcementsList = document.getElementById('announcements-list');
+    
+    // Courses elements
+    const courseForm = document.getElementById('course-form');
+    const courseTitle = document.getElementById('course-title');
+    const courseCode = document.getElementById('course-code');
+    const courseDepartment = document.getElementById('course-department');
+    const courseLevel = document.getElementById('course-level');
+    const coursesList = document.getElementById('courses-list');
+    
+    // Notifications elements
+    const notificationForm = document.getElementById('notification-form');
+    const notificationTitle = document.getElementById('notification-title');
+    const notificationMessage = document.getElementById('notification-message');
+    const notificationType = document.getElementById('notification-type');
+    const recipientTypeRadios = document.querySelectorAll('input[name="recipient-type"]');
+    const userSelectionGroup = document.getElementById('user-selection-group');
+    const userSelectionContainer = document.getElementById('user-selection-container');
+    const courseSelectionGroup = document.getElementById('course-selection-group');
+    const notificationCourse = document.getElementById('notification-course');
+    const notificationsHistory = document.getElementById('notifications-history');
+    
+    // Users elements
+    const usersList = document.getElementById('users-list');
+    
+    // Settings elements
+    const settingsForm = document.getElementById('settings-form');
+
+    // --- Initial Setup ---
+
+    // Footer Year
+    if (footerYear) {
+        footerYear.textContent = new Date().getFullYear();
+    }
+
+    // Theme Persistence
+    const savedTheme = localStorage.getItem('theme');
+    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+
+    // Function to apply theme
+    const applyTheme = (theme) => {
+        if (theme === 'dark') {
+            document.body.classList.add('dark');
+            themeToggle.innerHTML = '<i class="fas fa-sun"></i>';
+            localStorage.setItem('theme', 'dark');
+        } else {
+            document.body.classList.remove('dark');
+            themeToggle.innerHTML = '<i class="fas fa-moon"></i>';
+            localStorage.setItem('theme', 'light');
+        }
+        createParticles();
+    };
+
+    // Set initial theme based on saved preference or system preference
+    if (savedTheme) {
+        applyTheme(savedTheme);
+    } else {
+        applyTheme(prefersDark ? 'dark' : 'light');
+    }
+
+    // Hide loading screen
+    setTimeout(() => {
+      if (loadingScreen) {
+        loadingScreen.style.opacity = '0';
+        loadingScreen.style.visibility = 'hidden';
+        loadingScreen.style.pointerEvents = 'none';
+      }
+    }, 800);
+
+    // Create floating particles
+    function createParticles() {
+        const colorsLight = ['rgba(102, 166, 255, 0.1)', 'rgba(137, 247, 254, 0.1)', 'rgba(99, 102, 241, 0.1)'];
+        const colorsDark = ['rgba(167, 139, 250, 0.06)', 'rgba(96, 165, 250, 0.06)', 'rgba(56, 189, 248, 0.06)'];
+        const isDark = document.body.classList.contains('dark');
+        const colors = isDark ? colorsDark : colorsLight;
+
+        document.querySelectorAll('.particle').forEach(p => p.remove());
+        const particleContainer = document.body;
+
+        for (let i = 0; i < 12; i++) {
+            const particle = document.createElement('div');
+            particle.classList.add('particle');
+
+            const size = Math.random() * 6 + 3;
+            const startX = Math.random() * 100;
+            const duration = Math.random() * 25 + 20;
+            const delay = Math.random() * 15;
+
+            particle.style.width = `${size}px`;
+            particle.style.height = `${size}px`;
+            particle.style.left = `${startX}vw`;
+            particle.style.background = colors[Math.floor(Math.random() * colors.length)];
+            particle.style.animation = `particleFloat ${duration}s linear ${delay}s infinite`;
+            particle.style.bottom = `-${size}px`;
+
+            particleContainer.appendChild(particle);
+        }
+    }
+
+    // Theme toggle functionality
+    themeToggle.addEventListener('click', () => {
+        const isDark = document.body.classList.contains('dark');
+        applyTheme(isDark ? 'light' : 'dark');
+    });
+
+    // Initialize particles on load
+    createParticles();
+
+    /* ACCOUNT DROPDOWN */
+    accountBtn.addEventListener("click", (e) => {
+      e.stopPropagation();
+      const isDisplayed = accountDropdown.style.display === "block";
+      accountDropdown.style.display = isDisplayed ? "none" : "block";
+    });
+
+    document.addEventListener("click", (e) => {
+      if (accountDropdown && accountBtn && !accountBtn.contains(e.target) && !accountDropdown.contains(e.target)) {
+        accountDropdown.style.display = "none";
+      }
+    });
+
+    /* AUTHENTICATION */
+    onAuthStateChanged(auth, (user) => {
+        if(profileLink) profileLink.href = "profile.html";
+        if(userRoleDisplay) userRoleDisplay.style.display = "none";
+        if(adminPanelLink) adminPanelLink.style.display = "none";
+
+      if (user) {
+        currentUserId = user.uid;
+        if(loggedInDiv) loggedInDiv.style.display = "block";
+        if(notLoggedInDiv) notLoggedInDiv.style.display = "none";
+        loadUserData(user.uid);
+      } else {
+        currentUserId = null;
+        if(loggedInDiv) loggedInDiv.style.display = "none";
+        if(notLoggedInDiv) notLoggedInDiv.style.display = "block";
+        currentUserRole = null;
+        
+        // Redirect to login if not authenticated
+        window.location.href = 'login.html';
+      }
+       if(accountDropdown) accountDropdown.style.display = "none";
+    });
+
+    /* LOGOUT FUNCTION */
+    async function handleLogout() {
+      try {
+          await signOut(auth);
+          console.log("Logout successful");
+          sessionStorage.removeItem('adminNotified');
+      } catch (error) {
+          console.error("Logout failed:", error);
+          alert("Logout failed. Please try again.");
+      }
+    }
+    
+    if(logoutBtn) logoutBtn.addEventListener("click", handleLogout);
+
+    /* Load User Data from Firestore */
+    async function loadUserData(userId) {
+      try {
+        const userDocRef = doc(db, "users", userId);
+        const userDocSnap = await getDoc(userDocRef);
+
+        if (userDocSnap.exists()) {
+          const userData = userDocSnap.data();
+
+          // --- ROLE HANDLING ---
+          currentUserRole = userData.role || 'user';
+
+          if (currentUserRole === 'admin') {
+            if(profileLink) profileLink.href = "admin.html";
+            if(userRoleDisplay) userRoleDisplay.style.display = "flex";
+            if(adminPanelLink) adminPanelLink.style.display = "flex";
+
+            if (!sessionStorage.getItem('adminNotified')) {
+               alert("Welcome, Admin! You have administrative privileges.");
+               sessionStorage.setItem('adminNotified', 'true');
+            }
+            
+            // Initialize admin features
+            initializeAdminFeatures();
+          } else {
+            // Redirect non-admin users
+            window.location.href = 'dashboard.html';
+          }
+        } else {
+          console.warn("User document not found in Firestore for UID:", userId);
+          // Redirect if user doc doesn't exist
+          window.location.href = 'dashboard.html';
+        }
+      } catch (error) {
+        console.error("Error loading user data:", error);
+        // Redirect on error
+        window.location.href = 'dashboard.html';
+      }
+    }
+    
+    /* ADMIN FEATURES INITIALIZATION */
+    function initializeAdminFeatures() {
+      // Initialize rich text editors
+      initializeEditors();
+      
+      // Setup navigation
+      setupAdminNavigation();
+      
+      // Load initial data
+      loadAdminStats();
+      loadAnnouncements();
+      loadCourses();
+      loadUsers();
+      loadNotificationHistory();
+      loadCourseOptions();
+      
+      // Setup form handlers
+      setupFormHandlers();
+      
+      // Setup recipient type radio buttons
+      setupRecipientTypeHandlers();
+    }
+    
+    /* RICH TEXT EDITORS */
+    function initializeEditors() {
+      // Announcement editor
+      announcementEditor = new Quill('#announcement-editor', {
+        theme: 'snow',
+        modules: {
+          toolbar: [
+            ['bold', 'italic', 'underline', 'strike'],
+            ['blockquote', 'code-block'],
+            [{ 'header': 1 }, { 'header': 2 }],
+            [{ 'list': 'ordered'}, { 'list': 'bullet' }],
+            [{ 'script': 'sub'}, { 'script': 'super' }],
+            [{ 'indent': '-1'}, { 'indent': '+1' }],
+            [{ 'direction': 'rtl' }],
+            [{ 'size': ['small', false, 'large', 'huge'] }],
+            [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
+            [{ 'color': [] }, { 'background': [] }],
+            [{ 'font': [] }],
+            [{ 'align': [] }],
+            ['clean'],
+            ['link', 'image', 'video']
+          ]
+        },
+        placeholder: 'Write your announcement content here...'
+      });
+      
+      // Course description editor
+      courseDescriptionEditor = new Quill('#course-description-editor', {
+        theme: 'snow',
+        modules: {
+          toolbar: [
+            ['bold', 'italic', 'underline'],
+            ['blockquote'],
+            [{ 'header': 1 }, { 'header': 2 }],
+            [{ 'list': 'ordered'}, { 'list': 'bullet' }],
+            ['link']
+          ]
+        },
+        placeholder: 'Write the course description here...'
+      });
+    }
+    
+    /* ADMIN NAVIGATION */
+    function setupAdminNavigation() {
+      // Main tabs navigation
+      adminNavLinks.forEach(link => {
+        link.addEventListener('click', (e) => {
+          e.preventDefault();
+          
+          // Remove active class from all links
+          adminNavLinks.forEach(l => l.classList.remove('active'));
+          
+          // Add active class to clicked link
+          link.classList.add('active');
+          
+          // Get the tab to show
+          const tabId = link.dataset.tab + '-tab';
+          
+          // Hide all tab contents
+          document.querySelectorAll('.tab-content').forEach(tab => {
+            tab.classList.remove('active');
+          });
+          
+          // Show the selected tab content
+          document.getElementById(tabId).classList.add('active');
+        });
+      });
+      
+      // Subtabs navigation (for announcements, courses, etc.)
+      adminSubTabs.forEach(tab => {
+        tab.addEventListener('click', (e) => {
+          e.preventDefault();
+          
+          // Remove active class from all subtabs in this tab group
+          const tabGroup = tab.parentElement;
+          tabGroup.querySelectorAll('.admin-tab').forEach(t => {
+            t.classList.remove('active');
+          });
+          
+          // Add active class to clicked subtab
+          tab.classList.add('active');
+          
+          // Get the subtab content to show
+          const subtabId = tab.dataset.subtab;
+          
+          // Hide all subtab contents in this tab
+          const tabContent = tab.closest('.tab-content');
+          tabContent.querySelectorAll('.subtab-content').forEach(content => {
+            content.classList.remove('active');
+          });
+          
+          // Show the selected subtab content
+          document.getElementById(subtabId).classList.add('active');
+        });
+      });
+    }
+    
+    /* ADMIN STATS */
+    async function loadAdminStats() {
+      try {
+        // Count users
+        const usersQuery = query(collection(db, "users"));
+        const usersSnapshot = await getDocs(usersQuery);
+        totalUsersEl.textContent = usersSnapshot.size;
+        
+        // Count courses
+        const coursesQuery = query(collection(db, "courses"));
+        const coursesSnapshot = await getDocs(coursesQuery);
+        totalCoursesEl.textContent = coursesSnapshot.size;
+        
+        // Count announcements
+        const announcementsQuery = query(collection(db, "announcements"));
+        const announcementsSnapshot = await getDocs(announcementsQuery);
+        totalAnnouncementsEl.textContent = announcementsSnapshot.size;
+        
+        // Count notifications (approximate)
+        // Note: This is just an example - in a real app you might track notifications differently
+        totalNotificationsEl.textContent = Math.floor(usersSnapshot.size * 2.5);
+        
+      } catch (error) {
+        console.error("Error loading admin stats:", error);
+        totalUsersEl.textContent = 'Err';
+        totalCoursesEl.textContent = 'Err';
+        totalAnnouncementsEl.textContent = 'Err';
+        totalNotificationsEl.textContent = 'Err';
+      }
+    }
+    
+    /* ANNOUNCEMENTS MANAGEMENT */
+    async function loadAnnouncements() {
+      try {
+        const announcementsQuery = query(
+          collection(db, "announcements"),
+          orderBy("timestamp", "desc")
+        );
+        const announcementsSnapshot = await getDocs(announcementsQuery);
+        
+        announcementsList.innerHTML = '';
+        
+        if (announcementsSnapshot.empty) {
+          announcementsList.innerHTML = `
+            <tr>
+              <td colspan="4" class="text-center">No announcements found</td>
+            </tr>
+          `;
+          return;
+        }
+        
+        announcementsSnapshot.forEach(doc => {
+          const announcement = doc.data();
+          const date = announcement.timestamp?.toDate() || new Date();
+          
+          const row = document.createElement('tr');
+          row.innerHTML = `
+            <td>${announcement.title}</td>
+            <td><span class="badge ${getPriorityBadgeClass(announcement.priority)}">${announcement.priority}</span></td>
+            <td>${formatDate(date)}</td>
+            <td class="table-actions">
+              <button class="btn btn-secondary btn-sm" data-id="${doc.id}" data-action="edit">
+                <i class="fas fa-edit"></i> Edit
+              </button>
+              <button class="btn btn-danger btn-sm" data-id="${doc.id}" data-action="delete">
+                <i class="fas fa-trash"></i> Delete
+              </button>
+            </td>
+          `;
+          
+          announcementsList.appendChild(row);
+        });
+        
+        // Add event listeners to action buttons
+        document.querySelectorAll('[data-action="edit"]').forEach(btn => {
+          btn.addEventListener('click', () => editAnnouncement(btn.dataset.id));
+        });
+        
+        document.querySelectorAll('[data-action="delete"]').forEach(btn => {
+          btn.addEventListener('click', () => deleteAnnouncement(btn.dataset.id));
+        });
+        
+      } catch (error) {
+        console.error("Error loading announcements:", error);
+        announcementsList.innerHTML = `
+          <tr>
+            <td colspan="4" class="text-center">Error loading announcements</td>
+          </tr>
+        `;
+      }
+    }
+    
+    function getPriorityBadgeClass(priority) {
+      switch (priority) {
+        case 'high': return 'badge-warning';
+        case 'urgent': return 'badge-danger';
+        default: return 'badge-info';
+      }
+    }
+    
+    function formatDate(date) {
+      return date.toLocaleDateString('en-US', {
+        year: 'numeric',
+        month: 'short',
+        day: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit'
+      });
+    }
+    
+    /* COURSES MANAGEMENT */
+    async function loadCourses() {
+      try {
+        const coursesQuery = query(
+          collection(db, "courses"),
+          orderBy("title")
+        );
+        const coursesSnapshot = await getDocs(coursesQuery);
+        
+        coursesList.innerHTML = '';
+        
+        if (coursesSnapshot.empty) {
+          coursesList.innerHTML = `
+            <tr>
+              <td colspan="5" class="text-center">No courses found</td>
+            </tr>
+          `;
+          return;
+        }
+        
+        coursesSnapshot.forEach(doc => {
+          const course = doc.data();
+          
+          const row = document.createElement('tr');
+          row.innerHTML = `
+            <td>${course.title}</td>
+            <td>${course.code}</td>
+            <td>${course.department}</td>
+            <td>${course.level} Level</td>
+            <td class="table-actions">
+              <button class="btn btn-secondary btn-sm" data-id="${doc.id}" data-action="edit">
+                <i class="fas fa-edit"></i> Edit
+              </button>
+              <button class="btn btn-danger btn-sm" data-id="${doc.id}" data-action="delete">
+                <i class="fas fa-trash"></i> Delete
+              </button>
+            </td>
+          `;
+          
+          coursesList.appendChild(row);
+        });
+        
+        // Add event listeners to action buttons
+        document.querySelectorAll('[data-action="edit"]').forEach(btn => {
+          btn.addEventListener('click', () => editCourse(btn.dataset.id));
+        });
+        
+        document.querySelectorAll('[data-action="delete"]').forEach(btn => {
+          btn.addEventListener('click', () => deleteCourse(btn.dataset.id));
+        });
+        
+      } catch (error) {
+        console.error("Error loading courses:", error);
+        coursesList.innerHTML = `
+          <tr>
+            <td colspan="5" class="text-center">Error loading courses</td>
+          </tr>
+        `;
+      }
+    }
+    
+    /* USERS MANAGEMENT */
+    async function loadUsers() {
+      try {
+        const usersQuery = query(
+          collection(db, "users"),
+          orderBy("displayName")
+        );
+        const usersSnapshot = await getDocs(usersQuery);
+        
+        usersList.innerHTML = '';
+        userSelectionContainer.innerHTML = '';
+        
+        if (usersSnapshot.empty) {
+          usersList.innerHTML = `
+            <tr>
+              <td colspan="5" class="text-center">No users found</td>
+            </tr>
+          `;
+          userSelectionContainer.textContent = 'No users found';
+          return;
+        }
+        
+        usersSnapshot.forEach(doc => {
+          const user = doc.data();
+          
+          // Add to users table
+          const row = document.createElement('tr');
+          row.innerHTML = `
+            <td>${user.displayName || 'No name'}</td>
+            <td>${user.email}</td>
+            <td>${user.role || 'user'}</td>
+            <td>${user.disabled ? 'Disabled' : 'Active'}</td>
+            <td class="table-actions">
+              <button class="btn btn-secondary btn-sm" data-id="${doc.id}" data-action="edit">
+                <i class="fas fa-edit"></i> Edit
+              </button>
+              ${user.disabled ? 
+                `<button class="btn btn-success btn-sm" data-id="${doc.id}" data-action="enable">
+                  <i class="fas fa-check"></i> Enable
+                </button>` :
+                `<button class="btn btn-warning btn-sm" data-id="${doc.id}" data-action="disable">
+                  <i class="fas fa-ban"></i> Disable
+                </button>`
+              }
+            </td>
+          `;
+          
+          usersList.appendChild(row);
+          
+          // Add to user selection container for notifications
+          const userCheckbox = document.createElement('div');
+          userCheckbox.className = 'user-checkbox';
+          userCheckbox.innerHTML = `
+            <input type="checkbox" id="user-${doc.id}" value="${doc.id}">
+            <label for="user-${doc.id}">${user.displayName || user.email} (${user.role || 'user'})</label>
+          `;
+          userSelectionContainer.appendChild(userCheckbox);
+        });
+        
+        // Add event listeners to action buttons
+        document.querySelectorAll('[data-action="edit"]').forEach(btn => {
+          btn.addEventListener('click', () => editUser(btn.dataset.id));
+        });
+        
+        document.querySelectorAll('[data-action="disable"]').forEach(btn => {
+          btn.addEventListener('click', () => toggleUserStatus(btn.dataset.id, true));
+        });
+        
+        document.querySelectorAll('[data-action="enable"]').forEach(btn => {
+          btn.addEventListener('click', () => toggleUserStatus(btn.dataset.id, false));
+        });
+        
+      } catch (error) {
+        console.error("Error loading users:", error);
+        usersList.innerHTML = `
+          <tr>
+            <td colspan="5" class="text-center">Error loading users</td>
+          </tr>
+        `;
+        userSelectionContainer.textContent = 'Error loading users';
+      }
+    }
+    
+    /* NOTIFICATIONS MANAGEMENT */
+    function setupRecipientTypeHandlers() {
+      recipientTypeRadios.forEach(radio => {
+        radio.addEventListener('change', (e) => {
+          userSelectionGroup.style.display = 'none';
+          courseSelectionGroup.style.display = 'none';
+          
+          if (e.target.value === 'selected') {
+            userSelectionGroup.style.display = 'block';
+          } else if (e.target.value === 'course') {
+            courseSelectionGroup.style.display = 'block';
+          }
+        });
+      });
+    }
+    
+    async function loadCourseOptions() {
+      try {
+        const coursesQuery = query(collection(db, "courses"), orderBy("title"));
+        const coursesSnapshot = await getDocs(coursesQuery);
+        
+        notificationCourse.innerHTML = '<option value="">Select Course</option>';
+        
+        coursesSnapshot.forEach(doc => {
+          const course = doc.data();
+          const option = document.createElement('option');
+          option.value = doc.id;
+          option.textContent = `${course.code} - ${course.title}`;
+          notificationCourse.appendChild(option);
+        });
+      } catch (error) {
+        console.error("Error loading courses for notification:", error);
+      }
+    }
+    
+    async function loadNotificationHistory() {
+      try {
+        const notificationsQuery = query(
+          collection(db, "adminNotifications"),
+          orderBy("timestamp", "desc"),
+          limit(20)
+        );
+        const notificationsSnapshot = await getDocs(notificationsQuery);
+        
+        notificationsHistory.innerHTML = '';
+        
+        if (notificationsSnapshot.empty) {
+          notificationsHistory.innerHTML = `
+            <tr>
+              <td colspan="4" class="text-center">No notification history</td>
+            </tr>
+          `;
+          return;
+        }
+        
+        notifications
