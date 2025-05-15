@@ -3,9 +3,9 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Admin Dashboard - Haramaya Jama'aa</title>
+  <title>Admin Dashboard | Haramaya Jama'aa</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
   <style>
     /* ====== CORE STRUCTURE & RESETS ====== */
     * {
@@ -202,22 +202,20 @@
     .admin-sidebar {
       width: 250px;
       background: rgba(255, 255, 255, 0.8);
-      backdrop-filter: blur(5px);
-      -webkit-backdrop-filter: blur(5px);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
       border-right: 1px solid rgba(0, 0, 0, 0.05);
       padding: 1.5rem 0;
       position: fixed;
       height: calc(100vh - 70px);
-      overflow-y: auto;
-      z-index: 100;
+      z-index: 200;
       transition: all 0.3s ease;
     }
 
-    .admin-content {
-      flex-grow: 1;
+    .admin-main {
+      flex: 1;
       margin-left: 250px;
       padding: 2rem;
-      transition: margin 0.3s ease;
     }
 
     .admin-section {
@@ -225,56 +223,59 @@
       border-radius: 12px;
       padding: 2rem;
       margin-bottom: 2rem;
-      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+      box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
       border: 1px solid rgba(0, 0, 0, 0.05);
     }
 
     .admin-section h2 {
-      color: #2d3748;
+      color: #2c3e50;
       margin-bottom: 1.5rem;
       font-size: 1.5rem;
-      font-weight: 600;
-      border-bottom: 2px solid #e2e8f0;
-      padding-bottom: 0.75rem;
+      border-bottom: 2px solid #e0e7ff;
+      padding-bottom: 0.5rem;
     }
 
-    /* Admin Sidebar Navigation */
-    .admin-nav-title {
-      padding: 0.5rem 1.5rem;
-      font-size: 0.85rem;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-      color: #64748b;
-      margin-top: 1rem;
+    .admin-section h3 {
+      color: #3b82f6;
+      margin: 1.5rem 0 1rem;
+      font-size: 1.2rem;
     }
 
-    .admin-nav-link {
+    /* Sidebar Navigation */
+    .admin-nav {
+      list-style: none;
+    }
+
+    .admin-nav li {
+      margin-bottom: 0.5rem;
+    }
+
+    .admin-nav a {
       display: flex;
       align-items: center;
-      padding: 0.75rem 1.5rem;
+      padding: 0.8rem 1.5rem;
       color: #4a5568;
       transition: all 0.2s ease;
     }
 
-    .admin-nav-link i {
-      width: 24px;
-      margin-right: 0.75rem;
-      color: #64748b;
-      transition: all 0.2s ease;
-    }
-
-    .admin-nav-link:hover,
-    .admin-nav-link.active {
+    .admin-nav a:hover {
       background: rgba(102, 166, 255, 0.1);
       color: #3b82f6;
     }
 
-    .admin-nav-link:hover i,
-    .admin-nav-link.active i {
-      color: #3b82f6;
+    .admin-nav a i {
+      width: 24px;
+      margin-right: 0.8rem;
+      text-align: center;
     }
 
-    /* Admin Forms */
+    .admin-nav a.active {
+      background: rgba(102, 166, 255, 0.2);
+      color: #3b82f6;
+      border-left: 3px solid #3b82f6;
+    }
+
+    /* Form Styles */
     .form-group {
       margin-bottom: 1.5rem;
     }
@@ -288,18 +289,20 @@
 
     .form-control {
       width: 100%;
-      padding: 0.75rem 1rem;
+      padding: 0.8rem 1rem;
       border: 1px solid #e2e8f0;
       border-radius: 8px;
+      font-family: inherit;
       font-size: 1rem;
       transition: all 0.2s ease;
-      background-color: white;
+      background: #f8fafc;
     }
 
     .form-control:focus {
       outline: none;
       border-color: #93c5fd;
-      box-shadow: 0 0 0 3px rgba(147, 197, 253, 0.2);
+      box-shadow: 0 0 0 3px rgba(147, 197, 253, 0.3);
+      background: white;
     }
 
     textarea.form-control {
@@ -307,97 +310,74 @@
       resize: vertical;
     }
 
-    .form-select {
-      appearance: none;
-      background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e");
-      background-position: right 0.75rem center;
-      background-repeat: no-repeat;
-      background-size: 1.5em 1.5em;
-      padding-right: 2.5rem;
+    .select2-container {
+      width: 100% !important;
+    }
+
+    .select2-selection {
+      padding: 0.8rem 1rem !important;
+      height: auto !important;
+      border: 1px solid #e2e8f0 !important;
+      border-radius: 8px !important;
+      background: #f8fafc !important;
+    }
+
+    .select2-selection:focus {
+      outline: none;
+      border-color: #93c5fd !important;
+      box-shadow: 0 0 0 3px rgba(147, 197, 253, 0.3) !important;
+      background: white !important;
     }
 
     .btn {
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      padding: 0.75rem 1.5rem;
+      padding: 0.8rem 1.5rem;
       border-radius: 8px;
       font-weight: 500;
       cursor: pointer;
       transition: all 0.2s ease;
       border: none;
-    }
-
-    .btn-primary {
-      background-color: #3b82f6;
-      color: white;
-    }
-
-    .btn-primary:hover {
-      background-color: #2563eb;
-    }
-
-    .btn-secondary {
-      background-color: #e2e8f0;
-      color: #4a5568;
-    }
-
-    .btn-secondary:hover {
-      background-color: #cbd5e1;
-    }
-
-    .btn-danger {
-      background-color: #ef4444;
-      color: white;
-    }
-
-    .btn-danger:hover {
-      background-color: #dc2626;
+      font-size: 1rem;
     }
 
     .btn i {
       margin-right: 0.5rem;
     }
 
-    /* Rich Text Editor */
-    .editor-container {
-      height: 300px;
-      margin-bottom: 1rem;
-      border: 1px solid #e2e8f0;
-      border-radius: 8px;
-      overflow: hidden;
+    .btn-primary {
+      background: #3b82f6;
+      color: white;
     }
 
-    /* User Selection */
-    .user-selection-container {
-      max-height: 200px;
-      overflow-y: auto;
-      border: 1px solid #e2e8f0;
-      border-radius: 8px;
-      padding: 0.5rem;
-      margin-top: 0.5rem;
+    .btn-primary:hover {
+      background: #2563eb;
     }
 
-    .user-checkbox {
-      display: flex;
-      align-items: center;
-      padding: 0.5rem;
-      border-radius: 4px;
-      transition: background 0.2s ease;
+    .btn-secondary {
+      background: #e2e8f0;
+      color: #4a5568;
     }
 
-    .user-checkbox:hover {
-      background: #f1f5f9;
+    .btn-secondary:hover {
+      background: #cbd5e1;
     }
 
-    .user-checkbox input {
-      margin-right: 0.75rem;
+    .btn-danger {
+      background: #ef4444;
+      color: white;
     }
 
-    /* Tables */
+    .btn-danger:hover {
+      background: #dc2626;
+    }
+
+    /* Table Styles */
     .admin-table {
       width: 100%;
       border-collapse: collapse;
+      margin: 1.5rem 0;
     }
 
     .admin-table th,
@@ -408,21 +388,23 @@
     }
 
     .admin-table th {
-      background-color: #f8fafc;
-      color: #64748b;
+      background: #f8fafc;
       font-weight: 600;
-      text-transform: uppercase;
-      font-size: 0.75rem;
-      letter-spacing: 0.5px;
+      color: #4a5568;
     }
 
-    .admin-table tr:hover td {
-      background-color: #f8fafc;
+    .admin-table tr:hover {
+      background: #f8fafc;
     }
 
     .table-actions {
       display: flex;
       gap: 0.5rem;
+    }
+
+    .table-actions .btn {
+      padding: 0.5rem 0.8rem;
+      font-size: 0.9rem;
     }
 
     /* Tabs */
@@ -433,10 +415,10 @@
     }
 
     .admin-tab {
-      padding: 0.75rem 1.5rem;
+      padding: 0.8rem 1.5rem;
       cursor: pointer;
-      font-weight: 500;
       color: #64748b;
+      font-weight: 500;
       border-bottom: 2px solid transparent;
       transition: all 0.2s ease;
     }
@@ -456,33 +438,6 @@
 
     .tab-content.active {
       display: block;
-    }
-
-    /* Stats Cards */
-    .stats-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-      gap: 1.5rem;
-      margin-bottom: 2rem;
-    }
-
-    .stat-card {
-      background: white;
-      border-radius: 8px;
-      padding: 1.5rem;
-      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-    }
-
-    .stat-card-title {
-      font-size: 0.875rem;
-      color: #64748b;
-      margin-bottom: 0.5rem;
-    }
-
-    .stat-card-value {
-      font-size: 1.5rem;
-      font-weight: 600;
-      color: #1e293b;
     }
 
     /* Floating particles decoration */
@@ -680,102 +635,92 @@
       border-right: 1px solid rgba(255, 255, 255, 0.1);
     }
 
-    body.dark .admin-nav-title {
+    body.dark .admin-nav a {
       color: #94a3b8;
     }
 
-    body.dark .admin-nav-link {
-      color: #cbd5e1;
-    }
-
-    body.dark .admin-nav-link i {
-      color: #94a3b8;
-    }
-
-    body.dark .admin-nav-link:hover,
-    body.dark .admin-nav-link.active {
-      background: rgba(102, 166, 255, 0.1);
+    body.dark .admin-nav a:hover {
       color: #93c5fd;
+      background: rgba(255, 255, 255, 0.05);
     }
 
-    body.dark .admin-nav-link:hover i,
-    body.dark .admin-nav-link.active i {
+    body.dark .admin-nav a.active {
+      background: rgba(59, 130, 246, 0.2);
       color: #93c5fd;
+      border-left-color: #93c5fd;
     }
 
     body.dark .admin-section {
       background: rgba(30, 41, 59, 0.9);
-      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
       border: 1px solid rgba(255, 255, 255, 0.1);
+      box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
     }
 
     body.dark .admin-section h2 {
       color: #f1f5f9;
-      border-bottom-color: rgba(255, 255, 255, 0.1);
+      border-bottom-color: rgba(147, 197, 253, 0.2);
+    }
+
+    body.dark .admin-section h3 {
+      color: #93c5fd;
     }
 
     body.dark .form-label {
-      color: #e2e8f0;
+      color: #cbd5e1;
     }
 
     body.dark .form-control {
-      background-color: #1e293b;
-      border-color: rgba(255, 255, 255, 0.1);
+      background: #1e293b;
+      border-color: #334155;
       color: #e2e8f0;
     }
 
     body.dark .form-control:focus {
+      background: #1e293b;
       border-color: #93c5fd;
       box-shadow: 0 0 0 3px rgba(147, 197, 253, 0.2);
     }
 
-    body.dark .user-selection-container {
-      border-color: rgba(255, 255, 255, 0.1);
+    body.dark .select2-selection {
+      background: #1e293b !important;
+      border-color: #334155 !important;
+      color: #e2e8f0 !important;
     }
 
-    body.dark .user-checkbox:hover {
-      background: rgba(255, 255, 255, 0.05);
+    body.dark .select2-selection:focus {
+      background: #1e293b !important;
+      border-color: #93c5fd !important;
     }
 
     body.dark .admin-table th,
     body.dark .admin-table td {
-      border-bottom-color: rgba(255, 255, 255, 0.1);
+      border-bottom-color: #334155;
     }
 
     body.dark .admin-table th {
-      background-color: rgba(15, 23, 42, 0.8);
-      color: #94a3b8;
+      background: #1e293b;
+      color: #cbd5e1;
     }
 
-    body.dark .admin-table tr:hover td {
-      background-color: rgba(15, 23, 42, 0.5);
+    body.dark .admin-table tr:hover {
+      background: rgba(255, 255, 255, 0.05);
     }
 
     body.dark .admin-tabs {
-      border-bottom-color: rgba(255, 255, 255, 0.1);
+      border-bottom-color: #334155;
     }
 
     body.dark .admin-tab {
       color: #94a3b8;
     }
 
-    body.dark .admin-tab:hover,
+    body.dark .admin-tab:hover {
+      color: #93c5fd;
+    }
+
     body.dark .admin-tab.active {
       color: #93c5fd;
       border-bottom-color: #93c5fd;
-    }
-
-    body.dark .stat-card {
-      background: #1e293b;
-      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
-    }
-
-    body.dark .stat-card-title {
-      color: #94a3b8;
-    }
-
-    body.dark .stat-card-value {
-      color: #f8fafc;
     }
 
     body.dark footer {
@@ -809,17 +754,13 @@
     @media (max-width: 992px) {
       .admin-sidebar {
         transform: translateX(-100%);
-        width: 280px;
       }
-      
       .admin-sidebar.show {
         transform: translateX(0);
       }
-      
-      .admin-content {
+      .admin-main {
         margin-left: 0;
       }
-      
       .sidebar-toggle {
         display: block;
       }
@@ -834,28 +775,127 @@
       .account-icon { width: 38px; height: 38px; font-size: 1.4rem; }
       .account-dropdown { top: 52px; min-width: 220px; }
 
-      .admin-content { padding: 1rem; }
-      
-      .stats-grid {
-        grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-      }
+      .admin-main { padding: 1rem; }
+      .admin-section { padding: 1.5rem; }
+
+      footer { padding: 1rem 1.5rem; font-size: 0.85rem; margin-top: 2rem; }
+      .floating-logo { bottom: 15px; left: 15px; padding: 8px; }
+      .floating-logo img { max-height: 35px; }
+      .theme-toggle { bottom: 15px; right: 15px; width: 40px; height: 40px; font-size: 1rem; }
     }
 
     @media (max-width: 480px) {
       .header-title { font-size: 1.1rem; }
-      
-      .admin-section {
-        padding: 1.5rem;
-      }
-      
-      .admin-table th,
-      .admin-table td {
-        padding: 0.75rem;
-      }
-      
-      .table-actions {
-        flex-direction: column;
-      }
+      .admin-section { padding: 1.2rem; }
+      .floating-logo img { max-height: 30px; }
+    }
+
+    /* Confirmation Modal */
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.5);
+      backdrop-filter: blur(5px);
+      -webkit-backdrop-filter: blur(5px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.3s ease;
+    }
+    
+    .modal-overlay.show {
+      opacity: 1;
+      visibility: visible;
+    }
+    
+    .modal {
+      background: white;
+      border-radius: 12px;
+      padding: 1.5rem;
+      max-width: 400px;
+      width: 90%;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+      transform: translateY(-20px);
+      transition: all 0.3s ease;
+    }
+    
+    .modal-overlay.show .modal {
+      transform: translateY(0);
+    }
+    
+    .modal-title {
+      font-size: 1.2rem;
+      font-weight: 600;
+      margin-bottom: 1rem;
+      color: #2d3748;
+    }
+    
+    .modal-message {
+      margin-bottom: 1.5rem;
+      color: #4a5568;
+    }
+    
+    .modal-actions {
+      display: flex;
+      justify-content: flex-end;
+      gap: 0.8rem;
+    }
+    
+    .modal-btn {
+      padding: 0.6rem 1.2rem;
+      border-radius: 6px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    
+    .modal-btn-cancel {
+      background: #f1f5f9;
+      color: #64748b;
+      border: none;
+    }
+    
+    .modal-btn-cancel:hover {
+      background: #e2e8f0;
+    }
+    
+    .modal-btn-confirm {
+      background: #3b82f6;
+      color: white;
+      border: none;
+    }
+    
+    .modal-btn-confirm:hover {
+      background: #2563eb;
+    }
+    
+    /* Dark mode modal styles */
+    body.dark .modal {
+      background: #1e293b;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    
+    body.dark .modal-title {
+      color: #f1f5f9;
+    }
+    
+    body.dark .modal-message {
+      color: #94a3b8;
+    }
+    
+    body.dark .modal-btn-cancel {
+      background: #334155;
+      color: #e2e8f0;
+    }
+    
+    body.dark .modal-btn-cancel:hover {
+      background: #475569;
     }
   </style>
 </head>
@@ -897,353 +937,369 @@
   </header>
 
   <div class="admin-container">
-    <div class="admin-sidebar" id="admin-sidebar">
-      <div class="admin-nav-title">Main</div>
-      <a href="#" class="admin-nav-link active" data-tab="dashboard">
-        <i class="fas fa-tachometer-alt"></i> Dashboard
-      </a>
-      
-      <div class="admin-nav-title">Content Management</div>
-      <a href="#" class="admin-nav-link" data-tab="announcements">
-        <i class="fas fa-bullhorn"></i> Announcements
-      </a>
-      <a href="#" class="admin-nav-link" data-tab="courses">
-        <i class="fas fa-book"></i> Courses
-      </a>
-      <a href="#" class="admin-nav-link" data-tab="notifications">
-        <i class="fas fa-bell"></i> Notifications
-      </a>
-      
-      <div class="admin-nav-title">User Management</div>
-      <a href="#" class="admin-nav-link" data-tab="users">
-        <i class="fas fa-users"></i> Users
-      </a>
-      
-      <div class="admin-nav-title">Settings</div>
-      <a href="#" class="admin-nav-link" data-tab="settings">
-        <i class="fas fa-cog"></i> Settings
-      </a>
-    </div>
+    <aside class="admin-sidebar">
+      <nav>
+        <ul class="admin-nav">
+          <li><a href="#dashboard" class="active"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
+          <li><a href="#announcements"><i class="fas fa-bullhorn"></i> Announcements</a></li>
+          <li><a href="#courses"><i class="fas fa-book"></i> Courses</a></li>
+          <li><a href="#notifications"><i class="fas fa-bell"></i> Notifications</a></li>
+          <li><a href="#users"><i class="fas fa-users"></i> Users</a></li>
+          <li><a href="#settings"><i class="fas fa-cog"></i> Settings</a></li>
+        </ul>
+      </nav>
+    </aside>
 
-    <div class="admin-content" id="admin-content">
-      <!-- Dashboard Tab -->
-      <div class="tab-content active" id="dashboard-tab">
-        <div class="admin-section">
-          <h2>Admin Dashboard</h2>
-          <p>Welcome to the Haramaya Jama'aa Admin Dashboard. Here you can manage announcements, courses, and send notifications to users.</p>
-          
-          <div class="stats-grid">
-            <div class="stat-card">
-              <div class="stat-card-title">Total Users</div>
-              <div class="stat-card-value" id="total-users">0</div>
+    <main class="admin-main">
+      <!-- Dashboard Section -->
+      <section id="dashboard" class="admin-section">
+        <h2>Admin Dashboard</h2>
+        <p>Welcome to the Haramaya Jama'aa Admin Panel. Use the sidebar to navigate to different sections.</p>
+        
+        <div class="admin-tabs">
+          <div class="admin-tab active" data-tab="stats">Statistics</div>
+          <div class="admin-tab" data-tab="recent">Recent Activity</div>
+        </div>
+        
+        <div class="tab-content active" id="stats-tab">
+          <div class="dashboard-widgets" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 1.5rem;">
+            <div class="widget">
+              <div class="widget-header">
+                <div>
+                  <h3 class="widget-title">Total Users</h3>
+                  <p class="widget-description">Registered users</p>
+                </div>
+                <div class="widget-icon"><i class="fas fa-users"></i></div>
+              </div>
+              <div class="widget-value" id="total-users">0</div>
             </div>
-            <div class="stat-card">
-              <div class="stat-card-title">Active Courses</div>
-              <div class="stat-card-value" id="total-courses">0</div>
+            
+            <div class="widget">
+              <div class="widget-header">
+                <div>
+                  <h3 class="widget-title">Active Courses</h3>
+                  <p class="widget-description">Available courses</p>
+                </div>
+                <div class="widget-icon"><i class="fas fa-book"></i></div>
+              </div>
+              <div class="widget-value" id="total-courses">0</div>
             </div>
-            <div class="stat-card">
-              <div class="stat-card-title">Announcements</div>
-              <div class="stat-card-value" id="total-announcements">0</div>
+            
+            <div class="widget">
+              <div class="widget-header">
+                <div>
+                  <h3 class="widget-title">Announcements</h3>
+                  <p class="widget-description">This month</p>
+                </div>
+                <div class="widget-icon"><i class="fas fa-bullhorn"></i></div>
+              </div>
+              <div class="widget-value" id="month-announcements">0</div>
             </div>
-            <div class="stat-card">
-              <div class="stat-card-title">Notifications Sent</div>
-              <div class="stat-card-value" id="total-notifications">0</div>
+            
+            <div class="widget">
+              <div class="widget-header">
+                <div>
+                  <h3 class="widget-title">Notifications</h3>
+                  <p class="widget-description">Sent today</p>
+                </div>
+                <div class="widget-icon"><i class="fas fa-bell"></i></div>
+              </div>
+              <div class="widget-value" id="today-notifications">0</div>
             </div>
           </div>
         </div>
-      </div>
-      
-      <!-- Announcements Tab -->
-      <div class="tab-content" id="announcements-tab">
-        <div class="admin-section">
-          <div class="admin-tabs">
-            <div class="admin-tab active" data-subtab="create-announcement">Create Announcement</div>
-            <div class="admin-tab" data-subtab="manage-announcements">Manage Announcements</div>
-          </div>
-          
-          <div class="subtab-content active" id="create-announcement">
-            <form id="announcement-form">
-              <div class="form-group">
-                <label for="announcement-title" class="form-label">Title</label>
-                <input type="text" id="announcement-title" class="form-control" required>
-              </div>
-              
-              <div class="form-group">
-                <label class="form-label">Content</label>
-                <div class="editor-container" id="announcement-editor"></div>
-              </div>
-              
-              <div class="form-group">
-                <label for="announcement-priority" class="form-label">Priority</label>
-                <select id="announcement-priority" class="form-control form-select">
-                  <option value="normal">Normal</option>
-                  <option value="high">High</option>
-                  <option value="urgent">Urgent</option>
-                </select>
-              </div>
-              
-              <div class="form-group">
-                <button type="submit" class="btn btn-primary">
-                  <i class="fas fa-paper-plane"></i> Publish Announcement
-                </button>
-              </div>
-            </form>
-          </div>
-          
-          <div class="subtab-content" id="manage-announcements">
-            <div class="form-group">
-              <input type="text" id="announcement-search" class="form-control" placeholder="Search announcements...">
-            </div>
-            
-            <div class="table-responsive">
-              <table class="admin-table">
-                <thead>
-                  <tr>
-                    <th>Title</th>
-                    <th>Priority</th>
-                    <th>Date</th>
-                    <th>Actions</th>
-                  </tr>
-                </thead>
-                <tbody id="announcements-list">
-                  <tr>
-                    <td colspan="4" class="text-center">Loading announcements...</td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </div>
+        
+        <div class="tab-content" id="recent-tab">
+          <h3>Recent Activity</h3>
+          <table class="admin-table">
+            <thead>
+              <tr>
+                <th>Action</th>
+                <th>User</th>
+                <th>Time</th>
+              </tr>
+            </thead>
+            <tbody id="recent-activity">
+              <tr>
+                <td colspan="3">Loading recent activity...</td>
+              </tr>
+            </tbody>
+          </table>
         </div>
-      </div>
-      
-      <!-- Courses Tab -->
-      <div class="tab-content" id="courses-tab">
-        <div class="admin-section">
-          <div class="admin-tabs">
-            <div class="admin-tab active" data-subtab="create-course">Create Course</div>
-            <div class="admin-tab" data-subtab="manage-courses">Manage Courses</div>
-          </div>
-          
-          <div class="subtab-content active" id="create-course">
-            <form id="course-form">
-              <div class="form-group">
-                <label for="course-title" class="form-label">Course Title</label>
-                <input type="text" id="course-title" class="form-control" required>
-              </div>
-              
-              <div class="form-group">
-                <label for="course-code" class="form-label">Course Code</label>
-                <input type="text" id="course-code" class="form-control" required>
-              </div>
-              
-              <div class="form-group">
-                <label for="course-department" class="form-label">Department</label>
-                <select id="course-department" class="form-control form-select" required>
-                  <option value="">Select Department</option>
-                  <option value="pharmacy">Pharmacy</option>
-                  <option value="medicine">Medicine</option>
-                  <option value="nursing">Nursing</option>
-                  <option value="public-health">Public Health</option>
-                </select>
-              </div>
-              
-              <div class="form-group">
-                <label for="course-level" class="form-label">Level</label>
-                <select id="course-level" class="form-control form-select" required>
-                  <option value="">Select Level</option>
-                  <option value="100">100 Level</option>
-                  <option value="200">200 Level</option>
-                  <option value="300">300 Level</option>
-                  <option value="400">400 Level</option>
-                  <option value="500">500 Level</option>
-                </select>
-              </div>
-              
-              <div class="form-group">
-                <label class="form-label">Description</label>
-                <div class="editor-container" id="course-description-editor"></div>
-              </div>
-              
-              <div class="form-group">
-                <button type="submit" class="btn btn-primary">
-                  <i class="fas fa-save"></i> Create Course
-                </button>
-              </div>
-            </form>
-          </div>
-          
-          <div class="subtab-content" id="manage-courses">
-            <div class="form-group">
-              <input type="text" id="course-search" class="form-control" placeholder="Search courses...">
-            </div>
-            
-            <div class="table-responsive">
-              <table class="admin-table">
-                <thead>
-                  <tr>
-                    <th>Title</th>
-                    <th>Code</th>
-                    <th>Department</th>
-                    <th>Level</th>
-                    <th>Actions</th>
-                  </tr>
-                </thead>
-                <tbody id="courses-list">
-                  <tr>
-                    <td colspan="5" class="text-center">Loading courses...</td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </div>
+      </section>
+
+      <!-- Announcements Section -->
+      <section id="announcements" class="admin-section" style="display: none;">
+        <h2>Manage Announcements</h2>
+        
+        <div class="admin-tabs">
+          <div class="admin-tab active" data-tab="create-announcement">Create Announcement</div>
+          <div class="admin-tab" data-tab="view-announcements">View Announcements</div>
         </div>
-      </div>
-      
-      <!-- Notifications Tab -->
-      <div class="tab-content" id="notifications-tab">
-        <div class="admin-section">
-          <h2>Send Notifications</h2>
-          <form id="notification-form">
+        
+        <div class="tab-content active" id="create-announcement-tab">
+          <form id="announcement-form">
             <div class="form-group">
-              <label for="notification-title" class="form-label">Title</label>
-              <input type="text" id="notification-title" class="form-control" required>
+              <label for="announcement-title" class="form-label">Title</label>
+              <input type="text" id="announcement-title" class="form-control" required>
             </div>
             
             <div class="form-group">
-              <label for="notification-message" class="form-label">Message</label>
-              <textarea id="notification-message" class="form-control" rows="4" required></textarea>
+              <label for="announcement-content" class="form-label">Content</label>
+              <textarea id="announcement-content" class="form-control" required></textarea>
             </div>
             
             <div class="form-group">
-              <label for="notification-type" class="form-label">Notification Type</label>
-              <select id="notification-type" class="form-control form-select" required>
-                <option value="info">Information</option>
-                <option value="alert">Alert</option>
-                <option value="warning">Warning</option>
+              <label for="announcement-priority" class="form-label">Priority</label>
+              <select id="announcement-priority" class="form-control">
+                <option value="normal">Normal</option>
+                <option value="important">Important</option>
                 <option value="urgent">Urgent</option>
               </select>
             </div>
             
             <div class="form-group">
-              <label class="form-label">Recipients</label>
-              <div>
-                <div class="form-check form-check-inline">
-                  <input class="form-check-input" type="radio" name="recipient-type" id="all-users" value="all" checked>
-                  <label class="form-check-label" for="all-users">All Users</label>
-                </div>
-                <div class="form-check form-check-inline">
-                  <input class="form-check-input" type="radio" name="recipient-type" id="selected-users" value="selected">
-                  <label class="form-check-label" for="selected-users">Selected Users</label>
-                </div>
-                <div class="form-check form-check-inline">
-                  <input class="form-check-input" type="radio" name="recipient-type" id="course-users" value="course">
-                  <label class="form-check-label" for="course-users">Course Users</label>
-                </div>
-              </div>
-            </div>
-            
-            <div class="form-group" id="user-selection-group" style="display: none;">
-              <label class="form-label">Select Users</label>
-              <div class="user-selection-container" id="user-selection-container">
-                Loading users...
-              </div>
-            </div>
-            
-            <div class="form-group" id="course-selection-group" style="display: none;">
-              <label for="notification-course" class="form-label">Select Course</label>
-              <select id="notification-course" class="form-control form-select">
-                <option value="">Select Course</option>
-              </select>
-            </div>
-            
-            <div class="form-group">
               <button type="submit" class="btn btn-primary">
-                <i class="fas fa-paper-plane"></i> Send Notification
+                <i class="fas fa-paper-plane"></i> Publish Announcement
               </button>
             </div>
           </form>
         </div>
         
-        <div class="admin-section">
-          <h2>Notification History</h2>
-          <div class="table-responsive">
-            <table class="admin-table">
-              <thead>
-                <tr>
-                  <th>Title</th>
-                  <th>Type</th>
-                  <th>Recipients</th>
-                  <th>Date</th>
-                </tr>
-              </thead>
-              <tbody id="notifications-history">
-                <tr>
-                  <td colspan="4" class="text-center">Loading notification history...</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-      </div>
-      
-      <!-- Users Tab -->
-      <div class="tab-content" id="users-tab">
-        <div class="admin-section">
-          <h2>User Management</h2>
-          
+        <div class="tab-content" id="view-announcements-tab">
           <div class="form-group">
-            <input type="text" id="user-search" class="form-control" placeholder="Search users...">
+            <input type="text" id="announcement-search" class="form-control" placeholder="Search announcements...">
           </div>
           
-          <div class="table-responsive">
-            <table class="admin-table">
-              <thead>
-                <tr>
-                  <th>Name</th>
-                  <th>Email</th>
-                  <th>Role</th>
-                  <th>Status</th>
-                  <th>Actions</th>
-                </tr>
-              </thead>
-              <tbody id="users-list">
-                <tr>
-                  <td colspan="5" class="text-center">Loading users...</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
+          <table class="admin-table">
+            <thead>
+              <tr>
+                <th>Title</th>
+                <th>Priority</th>
+                <th>Date</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="announcements-list">
+              <tr>
+                <td colspan="4">Loading announcements...</td>
+              </tr>
+            </tbody>
+          </table>
         </div>
-      </div>
-      
-      <!-- Settings Tab -->
-      <div class="tab-content" id="settings-tab">
-        <div class="admin-section">
-          <h2>System Settings</h2>
-          
-          <form id="settings-form">
+      </section>
+
+      <!-- Courses Section -->
+      <section id="courses" class="admin-section" style="display: none;">
+        <h2>Manage Courses</h2>
+        
+        <div class="admin-tabs">
+          <div class="admin-tab active" data-tab="create-course">Create Course</div>
+          <div class="admin-tab" data-tab="view-courses">View Courses</div>
+        </div>
+        
+        <div class="tab-content active" id="create-course-tab">
+          <form id="course-form">
             <div class="form-group">
-              <label for="system-name" class="form-label">System Name</label>
-              <input type="text" id="system-name" class="form-control" value="Haramaya Jama'aa">
+              <label for="course-title" class="form-label">Course Title</label>
+              <input type="text" id="course-title" class="form-control" required>
             </div>
             
             <div class="form-group">
-              <label for="maintenance-mode" class="form-label">Maintenance Mode</label>
-              <select id="maintenance-mode" class="form-control form-select">
-                <option value="false">Disabled</option>
-                <option value="true">Enabled</option>
+              <label for="course-code" class="form-label">Course Code</label>
+              <input type="text" id="course-code" class="form-control" required>
+            </div>
+            
+            <div class="form-group">
+              <label for="course-description" class="form-label">Description</label>
+              <textarea id="course-description" class="form-control" required></textarea>
+            </div>
+            
+            <div class="form-group">
+              <label for="course-department" class="form-label">Department</label>
+              <select id="course-department" class="form-control">
+                <option value="pharmacy">Pharmacy</option>
+                <option value="medicine">Medicine</option>
+                <option value="nursing">Nursing</option>
+                <option value="public_health">Public Health</option>
               </select>
             </div>
             
             <div class="form-group">
+              <label for="course-instructor" class="form-label">Instructor</label>
+              <input type="text" id="course-instructor" class="form-control" required>
+            </div>
+            
+            <div class="form-group">
+              <label for="course-duration" class="form-label">Duration (weeks)</label>
+              <input type="number" id="course-duration" class="form-control" min="1" value="12" required>
+            </div>
+            
+            <div class="form-group">
               <button type="submit" class="btn btn-primary">
-                <i class="fas fa-save"></i> Save Settings
+                <i class="fas fa-save"></i> Save Course
               </button>
             </div>
           </form>
         </div>
-      </div>
-    </div>
+        
+        <div class="tab-content" id="view-courses-tab">
+          <div class="form-group">
+            <input type="text" id="course-search" class="form-control" placeholder="Search courses...">
+          </div>
+          
+          <table class="admin-table">
+            <thead>
+              <tr>
+                <th>Code</th>
+                <th>Title</th>
+                <th>Department</th>
+                <th>Instructor</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="courses-list">
+              <tr>
+                <td colspan="5">Loading courses...</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- Notifications Section -->
+      <section id="notifications" class="admin-section" style="display: none;">
+        <h2>Send Notifications</h2>
+        
+        <form id="notification-form">
+          <div class="form-group">
+            <label for="notification-title" class="form-label">Title</label>
+            <input type="text" id="notification-title" class="form-control" required>
+          </div>
+          
+          <div class="form-group">
+            <label for="notification-message" class="form-label">Message</label>
+            <textarea id="notification-message" class="form-control" required></textarea>
+          </div>
+          
+          <div class="form-group">
+            <label for="notification-type" class="form-label">Notification Type</label>
+            <select id="notification-type" class="form-control">
+              <option value="info">Information</option>
+              <option value="warning">Warning</option>
+              <option value="alert">Alert</option>
+              <option value="reminder">Reminder</option>
+            </select>
+          </div>
+          
+          <div class="form-group">
+            <label for="notification-recipients" class="form-label">Recipients</label>
+            <select id="notification-recipients" class="form-control" multiple>
+              <option value="all">All Users</option>
+              <option value="pharmacy">Pharmacy Students</option>
+              <option value="medicine">Medicine Students</option>
+              <option value="nursing">Nursing Students</option>
+              <option value="public_health">Public Health Students</option>
+              <option value="instructors">Instructors</option>
+              <option value="admins">Admins</option>
+            </select>
+          </div>
+          
+          <div class="form-group">
+            <button type="submit" class="btn btn-primary">
+              <i class="fas fa-paper-plane"></i> Send Notification
+            </button>
+          </div>
+        </form>
+        
+        <h3>Recent Notifications</h3>
+        <table class="admin-table">
+          <thead>
+            <tr>
+              <th>Title</th>
+              <th>Type</th>
+              <th>Recipients</th>
+              <th>Date</th>
+            </tr>
+          </thead>
+          <tbody id="notifications-list">
+            <tr>
+              <td colspan="4">Loading notifications...</td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+
+      <!-- Users Section -->
+      <section id="users" class="admin-section" style="display: none;">
+        <h2>User Management</h2>
+        
+        <div class="form-group">
+          <input type="text" id="user-search" class="form-control" placeholder="Search users...">
+        </div>
+        
+        <table class="admin-table">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Email</th>
+              <th>Role</th>
+              <th>Department</th>
+              <th>Status</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="users-list">
+            <tr>
+              <td colspan="6">Loading users...</td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+
+      <!-- Settings Section -->
+      <section id="settings" class="admin-section" style="display: none;">
+        <h2>System Settings</h2>
+        
+        <form id="settings-form">
+          <div class="form-group">
+            <label for="system-name" class="form-label">System Name</label>
+            <input type="text" id="system-name" class="form-control" value="Haramaya Jama'aa">
+          </div>
+          
+          <div class="form-group">
+            <label for="maintenance-mode" class="form-label">Maintenance Mode</label>
+            <select id="maintenance-mode" class="form-control">
+              <option value="false">Disabled</option>
+              <option value="true">Enabled</option>
+            </select>
+          </div>
+          
+          <div class="form-group">
+            <label for="registration-open" class="form-label">Course Registration</label>
+            <select id="registration-open" class="form-control">
+              <option value="true">Open</option>
+              <option value="false">Closed</option>
+            </select>
+          </div>
+          
+          <div class="form-group">
+            <label for="default-role" class="form-label">Default User Role</label>
+            <select id="default-role" class="form-control">
+              <option value="student">Student</option>
+              <option value="instructor">Instructor</option>
+              <option value="admin">Admin</option>
+            </select>
+          </div>
+          
+          <div class="form-group">
+            <button type="submit" class="btn btn-primary">
+              <i class="fas fa-save"></i> Save Settings
+            </button>
+          </div>
+        </form>
+      </section>
+    </main>
   </div>
   
   <footer>
@@ -1258,9 +1314,19 @@
     <i class="fas fa-moon"></i>
   </div>
 
-  <!-- Quill JS for rich text editor -->
-  <script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
+  <!-- Confirmation Modal -->
+  <div class="modal-overlay" id="confirmation-modal">
+    <div class="modal">
+      <div class="modal-title" id="modal-title">Confirm Action</div>
+      <div class="modal-message" id="modal-message">Are you sure you want to perform this action?</div>
+      <div class="modal-actions">
+        <button class="modal-btn modal-btn-cancel" id="modal-cancel">Cancel</button>
+        <button class="modal-btn modal-btn-confirm" id="modal-confirm">Confirm</button>
+      </div>
+    </div>
+  </div>
 
+  <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
   <script type="module">
     // Firebase modules.
     import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-app.js";
@@ -1274,14 +1340,13 @@
       query, 
       where, 
       getDocs,
+      addDoc,
+      updateDoc,
+      deleteDoc,
+      serverTimestamp,
       orderBy,
       limit,
       onSnapshot,
-      addDoc,
-      updateDoc,
-      arrayUnion,
-      arrayRemove,
-      serverTimestamp,
       writeBatch
     } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-firestore.js";
 
@@ -1314,8 +1379,7 @@
     // --- Global Variables ---
     let currentUserRole = null;
     let currentUserId = null;
-    let announcementEditor = null;
-    let courseDescriptionEditor = null;
+    let listeners = [];
 
     // --- DOM Elements ---
     const loadingScreen = document.getElementById('loading');
@@ -1330,50 +1394,31 @@
     const adminPanelLink = document.getElementById("admin-panel-link");
     const footerYear = document.getElementById("footer-year");
     
-    // Admin elements
-    const adminSidebar = document.getElementById('admin-sidebar');
-    const adminContent = document.getElementById('admin-content');
-    const adminNavLinks = document.querySelectorAll('.admin-nav-link');
+    // Admin sections
+    const adminSections = document.querySelectorAll('.admin-section');
+    const adminNavLinks = document.querySelectorAll('.admin-nav a');
     const adminTabs = document.querySelectorAll('.admin-tab');
-    const adminSubTabs = document.querySelectorAll('.admin-tab[data-subtab]');
     
-    // Stats elements
-    const totalUsersEl = document.getElementById('total-users');
-    const totalCoursesEl = document.getElementById('total-courses');
-    const totalAnnouncementsEl = document.getElementById('total-announcements');
-    const totalNotificationsEl = document.getElementById('total-notifications');
-    
-    // Announcements elements
+    // Forms
     const announcementForm = document.getElementById('announcement-form');
-    const announcementTitle = document.getElementById('announcement-title');
-    const announcementPriority = document.getElementById('announcement-priority');
-    const announcementsList = document.getElementById('announcements-list');
-    
-    // Courses elements
     const courseForm = document.getElementById('course-form');
-    const courseTitle = document.getElementById('course-title');
-    const courseCode = document.getElementById('course-code');
-    const courseDepartment = document.getElementById('course-department');
-    const courseLevel = document.getElementById('course-level');
-    const coursesList = document.getElementById('courses-list');
-    
-    // Notifications elements
     const notificationForm = document.getElementById('notification-form');
-    const notificationTitle = document.getElementById('notification-title');
-    const notificationMessage = document.getElementById('notification-message');
-    const notificationType = document.getElementById('notification-type');
-    const recipientTypeRadios = document.querySelectorAll('input[name="recipient-type"]');
-    const userSelectionGroup = document.getElementById('user-selection-group');
-    const userSelectionContainer = document.getElementById('user-selection-container');
-    const courseSelectionGroup = document.getElementById('course-selection-group');
-    const notificationCourse = document.getElementById('notification-course');
-    const notificationsHistory = document.getElementById('notifications-history');
-    
-    // Users elements
-    const usersList = document.getElementById('users-list');
-    
-    // Settings elements
     const settingsForm = document.getElementById('settings-form');
+    
+    // Modal
+    const confirmationModal = document.getElementById('confirmation-modal');
+    const modalTitle = document.getElementById('modal-title');
+    const modalMessage = document.getElementById('modal-message');
+    const modalCancel = document.getElementById('modal-cancel');
+    const modalConfirm = document.getElementById('modal-confirm');
+    
+    // Initialize Select2
+    $(document).ready(function() {
+      $('#notification-recipients').select2({
+        placeholder: "Select recipients",
+        allowClear: true
+      });
+    });
 
     // --- Initial Setup ---
 
@@ -1485,25 +1530,15 @@
         if(notLoggedInDiv) notLoggedInDiv.style.display = "block";
         currentUserRole = null;
         
+        // Clean up listeners when user logs out
+        listeners.forEach(unsubscribe => unsubscribe());
+        listeners = [];
+        
         // Redirect to login if not authenticated
-        window.location.href = 'login.html';
+        window.location.href = "login.html";
       }
        if(accountDropdown) accountDropdown.style.display = "none";
     });
-
-    /* LOGOUT FUNCTION */
-    async function handleLogout() {
-      try {
-          await signOut(auth);
-          console.log("Logout successful");
-          sessionStorage.removeItem('adminNotified');
-      } catch (error) {
-          console.error("Logout failed:", error);
-          alert("Logout failed. Please try again.");
-      }
-    }
-    
-    if(logoutBtn) logoutBtn.addEventListener("click", handleLogout);
 
     /* Load User Data from Firestore */
     async function loadUserData(userId) {
@@ -1521,743 +1556,758 @@
             if(profileLink) profileLink.href = "admin.html";
             if(userRoleDisplay) userRoleDisplay.style.display = "flex";
             if(adminPanelLink) adminPanelLink.style.display = "flex";
-
-            if (!sessionStorage.getItem('adminNotified')) {
-               alert("Welcome, Admin! You have administrative privileges.");
-               sessionStorage.setItem('adminNotified', 'true');
-            }
             
             // Initialize admin features
-            initializeAdminFeatures();
+            initAdminDashboard();
+            
+            if (!sessionStorage.getItem('adminNotified')) {
+              showModal('Welcome, Admin!', 'You have successfully accessed the admin dashboard with full privileges.');
+              sessionStorage.setItem('adminNotified', 'true');
+            }
           } else {
-            // Redirect non-admin users
-            window.location.href = 'dashboard.html';
+            // Non-admin users shouldn't be here - redirect to home
+            window.location.href = "index.html";
           }
         } else {
           console.warn("User document not found in Firestore for UID:", userId);
-          // Redirect if user doc doesn't exist
-          window.location.href = 'dashboard.html';
+          window.location.href = "index.html";
         }
       } catch (error) {
         console.error("Error loading user data:", error);
-        // Redirect on error
-        window.location.href = 'dashboard.html';
+        window.location.href = "index.html";
       }
     }
     
-    /* ADMIN FEATURES INITIALIZATION */
-    function initializeAdminFeatures() {
-      // Initialize rich text editors
-      initializeEditors();
+    /* ADMIN DASHBOARD FUNCTIONS */
+    function initAdminDashboard() {
+      // Navigation
+      setupNavigation();
       
-      // Setup navigation
-      setupAdminNavigation();
+      // Tabs
+      setupTabs();
+      
+      // Forms
+      setupForms();
       
       // Load initial data
-      loadAdminStats();
+      loadDashboardStats();
       loadAnnouncements();
       loadCourses();
+      loadNotifications();
       loadUsers();
-      loadNotificationHistory();
-      loadCourseOptions();
-      
-      // Setup form handlers
-      setupFormHandlers();
-      
-      // Setup recipient type radio buttons
-      setupRecipientTypeHandlers();
+      loadSettings();
     }
     
-    /* RICH TEXT EDITORS */
-    function initializeEditors() {
-      // Announcement editor
-      announcementEditor = new Quill('#announcement-editor', {
-        theme: 'snow',
-        modules: {
-          toolbar: [
-            ['bold', 'italic', 'underline', 'strike'],
-            ['blockquote', 'code-block'],
-            [{ 'header': 1 }, { 'header': 2 }],
-            [{ 'list': 'ordered'}, { 'list': 'bullet' }],
-            [{ 'script': 'sub'}, { 'script': 'super' }],
-            [{ 'indent': '-1'}, { 'indent': '+1' }],
-            [{ 'direction': 'rtl' }],
-            [{ 'size': ['small', false, 'large', 'huge'] }],
-            [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
-            [{ 'color': [] }, { 'background': [] }],
-            [{ 'font': [] }],
-            [{ 'align': [] }],
-            ['clean'],
-            ['link', 'image', 'video']
-          ]
-        },
-        placeholder: 'Write your announcement content here...'
-      });
-      
-      // Course description editor
-      courseDescriptionEditor = new Quill('#course-description-editor', {
-        theme: 'snow',
-        modules: {
-          toolbar: [
-            ['bold', 'italic', 'underline'],
-            ['blockquote'],
-            [{ 'header': 1 }, { 'header': 2 }],
-            [{ 'list': 'ordered'}, { 'list': 'bullet' }],
-            ['link']
-          ]
-        },
-        placeholder: 'Write the course description here...'
-      });
-    }
-    
-    /* ADMIN NAVIGATION */
-    function setupAdminNavigation() {
-      // Main tabs navigation
+    function setupNavigation() {
       adminNavLinks.forEach(link => {
         link.addEventListener('click', (e) => {
           e.preventDefault();
           
-          // Remove active class from all links
-          adminNavLinks.forEach(l => l.classList.remove('active'));
-          
-          // Add active class to clicked link
-          link.classList.add('active');
-          
-          // Get the tab to show
-          const tabId = link.dataset.tab + '-tab';
-          
-          // Hide all tab contents
-          document.querySelectorAll('.tab-content').forEach(tab => {
-            tab.classList.remove('active');
+          // Hide all sections
+          adminSections.forEach(section => {
+            section.style.display = 'none';
           });
           
-          // Show the selected tab content
-          document.getElementById(tabId).classList.add('active');
+          // Show selected section
+          const sectionId = link.getAttribute('href').substring(1);
+          document.getElementById(sectionId).style.display = 'block';
+          
+          // Update active nav link
+          adminNavLinks.forEach(navLink => {
+            navLink.classList.remove('active');
+          });
+          link.classList.add('active');
         });
       });
-      
-      // Subtabs navigation (for announcements, courses, etc.)
-      adminSubTabs.forEach(tab => {
-        tab.addEventListener('click', (e) => {
-          e.preventDefault();
+    }
+    
+    function setupTabs() {
+      adminTabs.forEach(tab => {
+        tab.addEventListener('click', () => {
+          const tabId = tab.getAttribute('data-tab');
+          const tabContainer = tab.closest('.admin-tabs');
+          const contentContainer = tabContainer.nextElementSibling;
           
-          // Remove active class from all subtabs in this tab group
-          const tabGroup = tab.parentElement;
-          tabGroup.querySelectorAll('.admin-tab').forEach(t => {
+          // Update active tab
+          tabContainer.querySelectorAll('.admin-tab').forEach(t => {
             t.classList.remove('active');
           });
-          
-          // Add active class to clicked subtab
           tab.classList.add('active');
           
-          // Get the subtab content to show
-          const subtabId = tab.dataset.subtab;
-          
-          // Hide all subtab contents in this tab
-          const tabContent = tab.closest('.tab-content');
-          tabContent.querySelectorAll('.subtab-content').forEach(content => {
+          // Show corresponding content
+          contentContainer.querySelectorAll('.tab-content').forEach(content => {
             content.classList.remove('active');
           });
-          
-          // Show the selected subtab content
-          document.getElementById(subtabId).classList.add('active');
+          document.getElementById(`${tabId}-tab`).classList.add('active');
         });
       });
     }
     
-    /* ADMIN STATS */
-    async function loadAdminStats() {
-      try {
-        // Count users
-        const usersQuery = query(collection(db, "users"));
-        const usersSnapshot = await getDocs(usersQuery);
-        totalUsersEl.textContent = usersSnapshot.size;
-        
-        // Count courses
-        const coursesQuery = query(collection(db, "courses"));
-        const coursesSnapshot = await getDocs(coursesQuery);
-        totalCoursesEl.textContent = coursesSnapshot.size;
-        
-        // Count announcements
-        const announcementsQuery = query(collection(db, "announcements"));
-        const announcementsSnapshot = await getDocs(announcementsQuery);
-        totalAnnouncementsEl.textContent = announcementsSnapshot.size;
-        
-        // Count notifications (approximate)
-        // Note: This is just an example - in a real app you might track notifications differently
-        totalNotificationsEl.textContent = Math.floor(usersSnapshot.size * 2.5);
-        
-      } catch (error) {
-        console.error("Error loading admin stats:", error);
-        totalUsersEl.textContent = 'Err';
-        totalCoursesEl.textContent = 'Err';
-        totalAnnouncementsEl.textContent = 'Err';
-        totalNotificationsEl.textContent = 'Err';
-      }
-    }
-    
-    /* ANNOUNCEMENTS MANAGEMENT */
-    async function loadAnnouncements() {
-      try {
-        const announcementsQuery = query(
-          collection(db, "announcements"),
-          orderBy("timestamp", "desc")
-        );
-        const announcementsSnapshot = await getDocs(announcementsQuery);
-        
-        announcementsList.innerHTML = '';
-        
-        if (announcementsSnapshot.empty) {
-          announcementsList.innerHTML = `
-            <tr>
-              <td colspan="4" class="text-center">No announcements found</td>
-            </tr>
-          `;
-          return;
-        }
-        
-        announcementsSnapshot.forEach(doc => {
-          const announcement = doc.data();
-          const date = announcement.timestamp?.toDate() || new Date();
+    function setupForms() {
+      // Announcement Form
+      if (announcementForm) {
+        announcementForm.addEventListener('submit', async (e) => {
+          e.preventDefault();
           
-          const row = document.createElement('tr');
-          row.innerHTML = `
-            <td>${announcement.title}</td>
-            <td><span class="badge ${getPriorityBadgeClass(announcement.priority)}">${announcement.priority}</span></td>
-            <td>${formatDate(date)}</td>
-            <td class="table-actions">
-              <button class="btn btn-secondary btn-sm" data-id="${doc.id}" data-action="edit">
-                <i class="fas fa-edit"></i> Edit
-              </button>
-              <button class="btn btn-danger btn-sm" data-id="${doc.id}" data-action="delete">
-                <i class="fas fa-trash"></i> Delete
-              </button>
-            </td>
-          `;
+          const title = document.getElementById('announcement-title').value;
+          const content = document.getElementById('announcement-content').value;
+          const priority = document.getElementById('announcement-priority').value;
           
-          announcementsList.appendChild(row);
-        });
-        
-        // Add event listeners to action buttons
-        document.querySelectorAll('[data-action="edit"]').forEach(btn => {
-          btn.addEventListener('click', () => editAnnouncement(btn.dataset.id));
-        });
-        
-        document.querySelectorAll('[data-action="delete"]').forEach(btn => {
-          btn.addEventListener('click', () => deleteAnnouncement(btn.dataset.id));
-        });
-        
-      } catch (error) {
-        console.error("Error loading announcements:", error);
-        announcementsList.innerHTML = `
-          <tr>
-            <td colspan="4" class="text-center">Error loading announcements</td>
-          </tr>
-        `;
-      }
-    }
-    
-    function getPriorityBadgeClass(priority) {
-      switch (priority) {
-        case 'high': return 'badge-warning';
-        case 'urgent': return 'badge-danger';
-        default: return 'badge-info';
-      }
-    }
-    
-    function formatDate(date) {
-      return date.toLocaleDateString('en-US', {
-        year: 'numeric',
-        month: 'short',
-        day: 'numeric',
-        hour: '2-digit',
-        minute: '2-digit'
-      });
-    }
-    
-    /* COURSES MANAGEMENT */
-    async function loadCourses() {
-      try {
-        const coursesQuery = query(
-          collection(db, "courses"),
-          orderBy("title")
-        );
-        const coursesSnapshot = await getDocs(coursesQuery);
-        
-        coursesList.innerHTML = '';
-        
-        if (coursesSnapshot.empty) {
-          coursesList.innerHTML = `
-            <tr>
-              <td colspan="5" class="text-center">No courses found</td>
-            </tr>
-          `;
-          return;
-        }
-        
-        coursesSnapshot.forEach(doc => {
-          const course = doc.data();
-          
-          const row = document.createElement('tr');
-          row.innerHTML = `
-            <td>${course.title}</td>
-            <td>${course.code}</td>
-            <td>${course.department}</td>
-            <td>${course.level} Level</td>
-            <td class="table-actions">
-              <button class="btn btn-secondary btn-sm" data-id="${doc.id}" data-action="edit">
-                <i class="fas fa-edit"></i> Edit
-              </button>
-              <button class="btn btn-danger btn-sm" data-id="${doc.id}" data-action="delete">
-                <i class="fas fa-trash"></i> Delete
-              </button>
-            </td>
-          `;
-          
-          coursesList.appendChild(row);
-        });
-        
-        // Add event listeners to action buttons
-        document.querySelectorAll('[data-action="edit"]').forEach(btn => {
-          btn.addEventListener('click', () => editCourse(btn.dataset.id));
-        });
-        
-        document.querySelectorAll('[data-action="delete"]').forEach(btn => {
-          btn.addEventListener('click', () => deleteCourse(btn.dataset.id));
-        });
-        
-      } catch (error) {
-        console.error("Error loading courses:", error);
-        coursesList.innerHTML = `
-          <tr>
-            <td colspan="5" class="text-center">Error loading courses</td>
-          </tr>
-        `;
-      }
-    }
-    
-    /* USERS MANAGEMENT */
-    async function loadUsers() {
-      try {
-        const usersQuery = query(
-          collection(db, "users"),
-          orderBy("displayName")
-        );
-        const usersSnapshot = await getDocs(usersQuery);
-        
-        usersList.innerHTML = '';
-        userSelectionContainer.innerHTML = '';
-        
-        if (usersSnapshot.empty) {
-          usersList.innerHTML = `
-            <tr>
-              <td colspan="5" class="text-center">No users found</td>
-            </tr>
-          `;
-          userSelectionContainer.textContent = 'No users found';
-          return;
-        }
-        
-        usersSnapshot.forEach(doc => {
-          const user = doc.data();
-          
-          // Add to users table
-          const row = document.createElement('tr');
-          row.innerHTML = `
-            <td>${user.displayName || 'No name'}</td>
-            <td>${user.email}</td>
-            <td>${user.role || 'user'}</td>
-            <td>${user.disabled ? 'Disabled' : 'Active'}</td>
-            <td class="table-actions">
-              <button class="btn btn-secondary btn-sm" data-id="${doc.id}" data-action="edit">
-                <i class="fas fa-edit"></i> Edit
-              </button>
-              ${user.disabled ? 
-                `<button class="btn btn-success btn-sm" data-id="${doc.id}" data-action="enable">
-                  <i class="fas fa-check"></i> Enable
-                </button>` :
-                `<button class="btn btn-warning btn-sm" data-id="${doc.id}" data-action="disable">
-                  <i class="fas fa-ban"></i> Disable
-                </button>`
-              }
-            </td>
-          `;
-          
-          usersList.appendChild(row);
-          
-          // Add to user selection container for notifications
-          const userCheckbox = document.createElement('div');
-          userCheckbox.className = 'user-checkbox';
-          userCheckbox.innerHTML = `
-            <input type="checkbox" id="user-${doc.id}" value="${doc.id}">
-            <label for="user-${doc.id}">${user.displayName || user.email} (${user.role || 'user'})</label>
-          `;
-          userSelectionContainer.appendChild(userCheckbox);
-        });
-        
-        // Add event listeners to action buttons
-        document.querySelectorAll('[data-action="edit"]').forEach(btn => {
-          btn.addEventListener('click', () => editUser(btn.dataset.id));
-        });
-        
-        document.querySelectorAll('[data-action="disable"]').forEach(btn => {
-          btn.addEventListener('click', () => toggleUserStatus(btn.dataset.id, true));
-        });
-        
-        document.querySelectorAll('[data-action="enable"]').forEach(btn => {
-          btn.addEventListener('click', () => toggleUserStatus(btn.dataset.id, false));
-        });
-        
-      } catch (error) {
-        console.error("Error loading users:", error);
-        usersList.innerHTML = `
-          <tr>
-            <td colspan="5" class="text-center">Error loading users</td>
-          </tr>
-        `;
-        userSelectionContainer.textContent = 'Error loading users';
-      }
-    }
-    
-    /* NOTIFICATIONS MANAGEMENT */
-    function setupRecipientTypeHandlers() {
-      recipientTypeRadios.forEach(radio => {
-        radio.addEventListener('change', (e) => {
-          userSelectionGroup.style.display = 'none';
-          courseSelectionGroup.style.display = 'none';
-          
-          if (e.target.value === 'selected') {
-            userSelectionGroup.style.display = 'block';
-          } else if (e.target.value === 'course') {
-            courseSelectionGroup.style.display = 'block';
+          try {
+            await addDoc(collection(db, 'announcements'), {
+              title,
+              content,
+              priority,
+              authorId: currentUserId,
+              createdAt: serverTimestamp(),
+              updatedAt: serverTimestamp(),
+              keywords: generateKeywords(title + ' ' + content)
+            });
+            
+            showModal('Success', 'Announcement published successfully!');
+            announcementForm.reset();
+            loadAnnouncements();
+          } catch (error) {
+            console.error('Error publishing announcement:', error);
+            showModal('Error', 'Failed to publish announcement. Please try again.');
           }
         });
-      });
-    }
-    
-    async function loadCourseOptions() {
-      try {
-        const coursesQuery = query(collection(db, "courses"), orderBy("title"));
-        const coursesSnapshot = await getDocs(coursesQuery);
-        
-        notificationCourse.innerHTML = '<option value="">Select Course</option>';
-        
-        coursesSnapshot.forEach(doc => {
-          const course = doc.data();
-          const option = document.createElement('option');
-          option.value = doc.id;
-          option.textContent = `${course.code} - ${course.title}`;
-          notificationCourse.appendChild(option);
-        });
-      } catch (error) {
-        console.error("Error loading courses for notification:", error);
       }
-    }
-    
-    async function loadNotificationHistory() {
-      try {
-        const notificationsQuery = query(
-          collection(db, "adminNotifications"),
-          orderBy("timestamp", "desc"),
-          limit(20)
-        );
-        const notificationsSnapshot = await getDocs(notificationsQuery);
-        
-        notificationsHistory.innerHTML = '';
-        
-        if (notificationsSnapshot.empty) {
-          notificationsHistory.innerHTML = `
-            <tr>
-              <td colspan="4" class="text-center">No notification history</td>
-            </tr>
-          `;
-          return;
-        }
-        
-        notificationsSnapshot.forEach(doc => {
-          const notification = doc.data();
-          const date = notification.timestamp?.toDate() || new Date();
+      
+      // Course Form
+      if (courseForm) {
+        courseForm.addEventListener('submit', async (e) => {
+          e.preventDefault();
           
-          const row = document.createElement('tr');
-          row.innerHTML = `
-            <td>${notification.title}</td>
-            <td>${notification.type}</td>
-            <td>${notification.recipientCount || 'All'} users</td>
-            <td>${formatDate(date)}</td>
-          `;
+          const title = document.getElementById('course-title').value;
+          const code = document.getElementById('course-code').value;
+          const description = document.getElementById('course-description').value;
+          const department = document.getElementById('course-department').value;
+          const instructor = document.getElementById('course-instructor').value;
+          const duration = document.getElementById('course-duration').value;
           
-          notificationsHistory.appendChild(row);
+          try {
+            await addDoc(collection(db, 'courses'), {
+              title,
+              code,
+              description,
+              department,
+              instructor,
+              duration: parseInt(duration),
+              createdAt: serverTimestamp(),
+              updatedAt: serverTimestamp(),
+              keywords: generateKeywords(title + ' ' + code + ' ' + description)
+            });
+            
+            showModal('Success', 'Course created successfully!');
+            courseForm.reset();
+            loadCourses();
+          } catch (error) {
+            console.error('Error creating course:', error);
+            showModal('Error', 'Failed to create course. Please try again.');
+          }
         });
-        
-      } catch (error) {
-        console.error("Error loading notification history:", error);
-        notificationsHistory.innerHTML = `
-          <tr>
-            <td colspan="4" class="text-center">Error loading history</td>
-          </tr>
-        `;
       }
-    }
-    
-    /* FORM HANDLERS */
-    function setupFormHandlers() {
-      // Announcement form
-      announcementForm.addEventListener('submit', async (e) => {
-        e.preventDefault();
-        
-        const title = announcementTitle.value.trim();
-        const content = announcementEditor.root.innerHTML;
-        const priority = announcementPriority.value;
-        
-        if (!title || !content) {
-          alert('Please fill in all required fields');
-          return;
-        }
-        
-        try {
-          // Create keywords for search
-          const keywords = generateKeywords(title);
-          
-          await addDoc(collection(db, "announcements"), {
-            title,
-            content,
-            priority,
-            keywords,
-            authorId: currentUserId,
-            timestamp: serverTimestamp()
-          });
-          
-          // Reset form
-          announcementForm.reset();
-          announcementEditor.root.innerHTML = '';
-          
-          // Show success message
-          alert('Announcement published successfully!');
-          
-          // Reload announcements
-          loadAnnouncements();
-          
-        } catch (error) {
-          console.error("Error publishing announcement:", error);
-          alert('Failed to publish announcement. Please try again.');
-        }
-      });
       
-      // Course form
-      courseForm.addEventListener('submit', async (e) => {
-        e.preventDefault();
-        
-        const title = courseTitle.value.trim();
-        const code = courseCode.value.trim();
-        const department = courseDepartment.value;
-        const level = courseLevel.value;
-        const description = courseDescriptionEditor.root.innerHTML;
-        
-        if (!title || !code || !department || !level || !description) {
-          alert('Please fill in all required fields');
-          return;
-        }
-        
-        try {
-          // Create keywords for search
-          const keywords = generateKeywords(title + ' ' + code);
+      // Notification Form
+      if (notificationForm) {
+        notificationForm.addEventListener('submit', async (e) => {
+          e.preventDefault();
           
-          await addDoc(collection(db, "courses"), {
-            title,
-            code,
-            department,
-            level,
-            description,
-            keywords,
-            createdAt: serverTimestamp(),
-            createdBy: currentUserId
-          });
+          const title = document.getElementById('notification-title').value;
+          const message = document.getElementById('notification-message').value;
+          const type = document.getElementById('notification-type').value;
+          const recipients = Array.from(document.getElementById('notification-recipients').selectedOptions)
+            .map(option => option.value);
           
-          // Reset form
-          courseForm.reset();
-          courseDescriptionEditor.root.innerHTML = '';
-          
-          // Show success message
-          alert('Course created successfully!');
-          
-          // Reload courses
-          loadCourses();
-          loadCourseOptions();
-          
-        } catch (error) {
-          console.error("Error creating course:", error);
-          alert('Failed to create course. Please try again.');
-        }
-      });
-      
-      // Notification form
-      notificationForm.addEventListener('submit', async (e) => {
-        e.preventDefault();
-        
-        const title = notificationTitle.value.trim();
-        const message = notificationMessage.value.trim();
-        const type = notificationType.value;
-        const recipientType = document.querySelector('input[name="recipient-type"]:checked').value;
-        
-        if (!title || !message) {
-          alert('Please fill in all required fields');
-          return;
-        }
-        
-        try {
-          let userIds = [];
-          let recipientCount = 0;
-          
-          // Determine recipients
-          if (recipientType === 'selected') {
-            // Get selected users
-            const checkboxes = userSelectionContainer.querySelectorAll('input[type="checkbox"]:checked');
-            userIds = Array.from(checkboxes).map(cb => cb.value);
-            recipientCount = userIds.length;
-            
-            if (userIds.length === 0) {
-              alert('Please select at least one user');
-              return;
-            }
-          } else if (recipientType === 'course') {
-            // Get users enrolled in selected course
-            const courseId = notificationCourse.value;
-            if (!courseId) {
-              alert('Please select a course');
-              return;
-            }
-            
-            // In a real app, you would query users enrolled in this course
-            // This is a simplified version
-            const usersQuery = query(collection(db, "users"));
-            const usersSnapshot = await getDocs(usersQuery);
-            userIds = usersSnapshot.docs.map(doc => doc.id);
-            recipientCount = 'All'; // In reality, it would be the count of enrolled users
-          } else {
-            // All users
-            const usersQuery = query(collection(db, "users"));
-            const usersSnapshot = await getDocs(usersQuery);
-            userIds = usersSnapshot.docs.map(doc => doc.id);
-            recipientCount = 'All';
+          if (recipients.length === 0) {
+            showModal('Error', 'Please select at least one recipient.');
+            return;
           }
           
-          // Create notification in admin history
-          await addDoc(collection(db, "adminNotifications"), {
-            title,
-            type,
-            recipientType,
-            recipientCount: userIds.length,
-            senderId: currentUserId,
-            timestamp: serverTimestamp()
-          });
-          
-          // Send notifications to users
-          const batch = writeBatch(db);
-          
-          userIds.forEach(userId => {
-            const notificationRef = doc(collection(db, `users/${userId}/notifications`));
-            batch.set(notificationRef, {
+          try {
+            // Get users to notify based on selection
+            let usersQuery;
+            if (recipients.includes('all')) {
+              usersQuery = query(collection(db, 'users'));
+            } else {
+              usersQuery = query(collection(db, 'users'), where('department', 'in', recipients));
+            }
+            
+            const usersSnapshot = await getDocs(usersQuery);
+            const batch = writeBatch(db);
+            
+            usersSnapshot.forEach(userDoc => {
+              const notificationRef = doc(collection(db, `users/${userDoc.id}/notifications`));
+              batch.set(notificationRef, {
+                title,
+                message,
+                type,
+                read: false,
+                createdAt: serverTimestamp()
+              });
+            });
+            
+            await batch.commit();
+            
+            // Save notification record
+            await addDoc(collection(db, 'notifications'), {
               title,
               message,
               type,
-              read: false,
-              timestamp: serverTimestamp()
+              recipients,
+              sentBy: currentUserId,
+              sentAt: serverTimestamp(),
+              userCount: usersSnapshot.size
             });
-          });
-          
-          await batch.commit();
-          
-          // Reset form
-          notificationForm.reset();
-          
-          // Show success message
-          alert(`Notification sent successfully to ${recipientCount} users!`);
-          
-          // Reload notification history
-          loadNotificationHistory();
-          
-        } catch (error) {
-          console.error("Error sending notifications:", error);
-          alert('Failed to send notifications. Please try again.');
-        }
-      });
+            
+            showModal('Success', `Notification sent to ${usersSnapshot.size} users!`);
+            notificationForm.reset();
+            $('#notification-recipients').val(null).trigger('change');
+            loadNotifications();
+          } catch (error) {
+            console.error('Error sending notifications:', error);
+            showModal('Error', 'Failed to send notifications. Please try again.');
+          }
+        });
+      }
       
-      // Settings form
-      settingsForm.addEventListener('submit', async (e) => {
-        e.preventDefault();
-        // In a real app, you would save these settings
-        alert('Settings saved successfully!');
-      });
+      // Settings Form
+      if (settingsForm) {
+        settingsForm.addEventListener('submit', async (e) => {
+          e.preventDefault();
+          
+          const systemName = document.getElementById('system-name').value;
+          const maintenanceMode = document.getElementById('maintenance-mode').value === 'true';
+          const registrationOpen = document.getElementById('registration-open').value === 'true';
+          const defaultRole = document.getElementById('default-role').value;
+          
+          try {
+            await updateDoc(doc(db, 'system/settings'), {
+              systemName,
+              maintenanceMode,
+              registrationOpen,
+              defaultRole,
+              updatedAt: serverTimestamp(),
+              updatedBy: currentUserId
+            });
+            
+            showModal('Success', 'Settings updated successfully!');
+          } catch (error) {
+            console.error('Error updating settings:', error);
+            showModal('Error', 'Failed to update settings. Please try again.');
+          }
+        });
+      }
     }
     
-    /* HELPER FUNCTIONS */
     function generateKeywords(text) {
       const words = text.toLowerCase().split(/\s+/);
       const uniqueWords = [...new Set(words)];
       return uniqueWords.filter(word => word.length > 2);
     }
     
-    /* EDIT/DELETE FUNCTIONS */
-    async function editAnnouncement(id) {
-      alert(`Edit announcement with ID: ${id}`);
-      // In a real app, you would implement this
+    /* DATA LOADING FUNCTIONS */
+    async function loadDashboardStats() {
+      try {
+        // Total users
+        const usersQuery = query(collection(db, 'users'));
+        const usersSnapshot = await getDocs(usersQuery);
+        document.getElementById('total-users').textContent = usersSnapshot.size;
+        
+        // Total courses
+        const coursesQuery = query(collection(db, 'courses'));
+        const coursesSnapshot = await getDocs(coursesQuery);
+        document.getElementById('total-courses').textContent = coursesSnapshot.size;
+        
+        // This month's announcements
+        const monthAgo = new Date();
+        monthAgo.setMonth(monthAgo.getMonth() - 1);
+        
+        const announcementsQuery = query(
+          collection(db, 'announcements'),
+          where('createdAt', '>=', monthAgo)
+        );
+        const announcementsSnapshot = await getDocs(announcementsQuery);
+        document.getElementById('month-announcements').textContent = announcementsSnapshot.size;
+        
+        // Today's notifications
+        const today = new Date();
+        today.setHours(0, 0, 0, 0);
+        
+        const notificationsQuery = query(
+          collection(db, 'notifications'),
+          where('sentAt', '>=', today)
+        );
+        const notificationsSnapshot = await getDocs(notificationsQuery);
+        document.getElementById('today-notifications').textContent = notificationsSnapshot.size;
+        
+        // Recent activity
+        const activityQuery = query(
+          collection(db, 'activity'),
+          orderBy('timestamp', 'desc'),
+          limit(10)
+        );
+        
+        const unsubscribe = onSnapshot(activityQuery, (snapshot) => {
+          const activityList = document.getElementById('recent-activity');
+          activityList.innerHTML = '';
+          
+          snapshot.forEach(doc => {
+            const activity = doc.data();
+            const row = document.createElement('tr');
+            
+            row.innerHTML = `
+              <td>${activity.action}</td>
+              <td>${activity.userName || 'System'}</td>
+              <td>${formatTime(activity.timestamp?.toDate())}</td>
+            `;
+            
+            activityList.appendChild(row);
+          });
+        });
+        
+        listeners.push(unsubscribe);
+      } catch (error) {
+        console.error('Error loading dashboard stats:', error);
+      }
     }
     
-    async function deleteAnnouncement(id) {
-      if (confirm('Are you sure you want to delete this announcement?')) {
-        try {
-          // In a real app, you would delete the document
-          // await deleteDoc(doc(db, "announcements", id));
-          alert('Announcement deleted successfully!');
-          loadAnnouncements();
-        } catch (error) {
-          console.error("Error deleting announcement:", error);
-          alert('Failed to delete announcement. Please try again.');
-        }
+    async function loadAnnouncements() {
+      try {
+        const announcementsQuery = query(
+          collection(db, 'announcements'),
+          orderBy('createdAt', 'desc')
+        );
+        
+        const unsubscribe = onSnapshot(announcementsQuery, (snapshot) => {
+          const announcementsList = document.getElementById('announcements-list');
+          announcementsList.innerHTML = '';
+          
+          snapshot.forEach(doc => {
+            const announcement = doc.data();
+            const row = document.createElement('tr');
+            
+            row.innerHTML = `
+              <td>${announcement.title}</td>
+              <td><span class="badge ${getPriorityBadgeClass(announcement.priority)}">${announcement.priority}</span></td>
+              <td>${formatDate(announcement.createdAt?.toDate())}</td>
+              <td class="table-actions">
+                <button class="btn btn-secondary btn-sm" data-id="${doc.id}" data-action="edit-announcement">
+                  <i class="fas fa-edit"></i>
+                </button>
+                <button class="btn btn-danger btn-sm" data-id="${doc.id}" data-action="delete-announcement">
+                  <i class="fas fa-trash"></i>
+                </button>
+              </td>
+            `;
+            
+            announcementsList.appendChild(row);
+          });
+          
+          // Add event listeners to action buttons
+          document.querySelectorAll('[data-action="edit-announcement"]').forEach(btn => {
+            btn.addEventListener('click', () => editAnnouncement(btn.dataset.id));
+          });
+          
+          document.querySelectorAll('[data-action="delete-announcement"]').forEach(btn => {
+            btn.addEventListener('click', () => confirmDeleteAnnouncement(btn.dataset.id));
+          });
+        });
+        
+        listeners.push(unsubscribe);
+      } catch (error) {
+        console.error('Error loading announcements:', error);
       }
+    }
+    
+    async function loadCourses() {
+      try {
+        const coursesQuery = query(
+          collection(db, 'courses'),
+          orderBy('title')
+        );
+        
+        const unsubscribe = onSnapshot(coursesQuery, (snapshot) => {
+          const coursesList = document.getElementById('courses-list');
+          coursesList.innerHTML = '';
+          
+          snapshot.forEach(doc => {
+            const course = doc.data();
+            const row = document.createElement('tr');
+            
+            row.innerHTML = `
+              <td>${course.code}</td>
+              <td>${course.title}</td>
+              <td>${formatDepartment(course.department)}</td>
+              <td>${course.instructor}</td>
+              <td class="table-actions">
+                <button class="btn btn-secondary btn-sm" data-id="${doc.id}" data-action="edit-course">
+                  <i class="fas fa-edit"></i>
+                </button>
+                <button class="btn btn-danger btn-sm" data-id="${doc.id}" data-action="delete-course">
+                  <i class="fas fa-trash"></i>
+                </button>
+              </td>
+            `;
+            
+            coursesList.appendChild(row);
+          });
+          
+          // Add event listeners to action buttons
+          document.querySelectorAll('[data-action="edit-course"]').forEach(btn => {
+            btn.addEventListener('click', () => editCourse(btn.dataset.id));
+          });
+          
+          document.querySelectorAll('[data-action="delete-course"]').forEach(btn => {
+            btn.addEventListener('click', () => confirmDeleteCourse(btn.dataset.id));
+          });
+        });
+        
+        listeners.push(unsubscribe);
+      } catch (error) {
+        console.error('Error loading courses:', error);
+      }
+    }
+    
+    async function loadNotifications() {
+      try {
+        const notificationsQuery = query(
+          collection(db, 'notifications'),
+          orderBy('sentAt', 'desc'),
+          limit(10)
+        );
+        
+        const unsubscribe = onSnapshot(notificationsQuery, (snapshot) => {
+          const notificationsList = document.getElementById('notifications-list');
+          notificationsList.innerHTML = '';
+          
+          snapshot.forEach(doc => {
+            const notification = doc.data();
+            const row = document.createElement('tr');
+            
+            row.innerHTML = `
+              <td>${notification.title}</td>
+              <td><span class="badge ${getTypeBadgeClass(notification.type)}">${notification.type}</span></td>
+              <td>${formatRecipients(notification.recipients)}</td>
+              <td>${formatTime(notification.sentAt?.toDate())}</td>
+            `;
+            
+            notificationsList.appendChild(row);
+          });
+        });
+        
+        listeners.push(unsubscribe);
+      } catch (error) {
+        console.error('Error loading notifications:', error);
+      }
+    }
+    
+    async function loadUsers() {
+      try {
+        const usersQuery = query(
+          collection(db, 'users'),
+          orderBy('displayName')
+        );
+        
+        const unsubscribe = onSnapshot(usersQuery, (snapshot) => {
+          const usersList = document.getElementById('users-list');
+          usersList.innerHTML = '';
+          
+          snapshot.forEach(doc => {
+            const user = doc.data();
+            const row = document.createElement('tr');
+            
+            row.innerHTML = `
+              <td>${user.displayName || 'No name'}</td>
+              <td>${user.email}</td>
+              <td>${formatRole(user.role)}</td>
+              <td>${formatDepartment(user.department)}</td>
+              <td><span class="badge ${user.disabled ? 'badge-danger' : 'badge-success'}">${user.disabled ? 'Disabled' : 'Active'}</span></td>
+              <td class="table-actions">
+                <button class="btn btn-secondary btn-sm" data-id="${doc.id}" data-action="edit-user">
+                  <i class="fas fa-edit"></i>
+                </button>
+                <button class="btn ${user.disabled ? 'btn-success' : 'btn-warning'} btn-sm" data-id="${doc.id}" data-action="toggle-user">
+                  <i class="fas ${user.disabled ? 'fa-check' : 'fa-ban'}"></i>
+                </button>
+              </td>
+            `;
+            
+            usersList.appendChild(row);
+          });
+          
+          // Add event listeners to action buttons
+          document.querySelectorAll('[data-action="edit-user"]').forEach(btn => {
+            btn.addEventListener('click', () => editUser(btn.dataset.id));
+          });
+          
+          document.querySelectorAll('[data-action="toggle-user"]').forEach(btn => {
+            btn.addEventListener('click', () => toggleUserStatus(btn.dataset.id));
+          });
+        });
+        
+        listeners.push(unsubscribe);
+      } catch (error) {
+        console.error('Error loading users:', error);
+      }
+    }
+    
+    async function loadSettings() {
+      try {
+        const settingsDoc = await getDoc(doc(db, 'system/settings'));
+        
+        if (settingsDoc.exists()) {
+          const settings = settingsDoc.data();
+          document.getElementById('system-name').value = settings.systemName || 'Haramaya Jama\'aa';
+          document.getElementById('maintenance-mode').value = settings.maintenanceMode ? 'true' : 'false';
+          document.getElementById('registration-open').value = settings.registrationOpen ? 'true' : 'false';
+          document.getElementById('default-role').value = settings.defaultRole || 'student';
+        }
+      } catch (error) {
+        console.error('Error loading settings:', error);
+      }
+    }
+    
+    /* CRUD OPERATIONS */
+    async function editAnnouncement(id) {
+      try {
+        const announcementDoc = await getDoc(doc(db, 'announcements', id));
+        
+        if (announcementDoc.exists()) {
+          const announcement = announcementDoc.data();
+          
+          // Fill form
+          document.getElementById('announcement-title').value = announcement.title;
+          document.getElementById('announcement-content').value = announcement.content;
+          document.getElementById('announcement-priority').value = announcement.priority;
+          
+          // Switch to create tab
+          document.querySelector('[data-tab="create-announcement"]').click();
+          
+          // TODO: Update form to handle edits
+          showModal('Edit Mode', 'Announcement loaded for editing. (Note: Edit functionality not fully implemented in this example)');
+        }
+      } catch (error) {
+        console.error('Error loading announcement for edit:', error);
+        showModal('Error', 'Failed to load announcement for editing.');
+      }
+    }
+    
+    async function confirmDeleteAnnouncement(id) {
+      showModal(
+        'Confirm Delete', 
+        'Are you sure you want to delete this announcement? This action cannot be undone.',
+        async () => {
+          try {
+            await deleteDoc(doc(db, 'announcements', id));
+            showModal('Success', 'Announcement deleted successfully!');
+          } catch (error) {
+            console.error('Error deleting announcement:', error);
+            showModal('Error', 'Failed to delete announcement.');
+          }
+        }
+      );
     }
     
     async function editCourse(id) {
-      alert(`Edit course with ID: ${id}`);
-      // In a real app, you would implement this
+      try {
+        const courseDoc = await getDoc(doc(db, 'courses', id));
+        
+        if (courseDoc.exists()) {
+          const course = courseDoc.data();
+          
+          // Fill form
+          document.getElementById('course-title').value = course.title;
+          document.getElementById('course-code').value = course.code;
+          document.getElementById('course-description').value = course.description;
+          document.getElementById('course-department').value = course.department;
+          document.getElementById('course-instructor').value = course.instructor;
+          document.getElementById('course-duration').value = course.duration;
+          
+          // Switch to create tab
+          document.querySelector('[data-tab="create-course"]').click();
+          
+          // TODO: Update form to handle edits
+          showModal('Edit Mode', 'Course loaded for editing. (Note: Edit functionality not fully implemented in this example)');
+        }
+      } catch (error) {
+        console.error('Error loading course for edit:', error);
+        showModal('Error', 'Failed to load course for editing.');
+      }
     }
     
-    async function deleteCourse(id) {
-      if (confirm('Are you sure you want to delete this course?')) {
-        try {
-          // In a real app, you would delete the document
-          // await deleteDoc(doc(db, "courses", id));
-          alert('Course deleted successfully!');
-          loadCourses();
-          loadCourseOptions();
-        } catch (error) {
-          console.error("Error deleting course:", error);
-          alert('Failed to delete course. Please try again.');
+    async function confirmDeleteCourse(id) {
+      showModal(
+        'Confirm Delete', 
+        'Are you sure you want to delete this course? This action cannot be undone.',
+        async () => {
+          try {
+            await deleteDoc(doc(db, 'courses', id));
+            showModal('Success', 'Course deleted successfully!');
+          } catch (error) {
+            console.error('Error deleting course:', error);
+            showModal('Error', 'Failed to delete course.');
+          }
         }
-      }
+      );
     }
     
     async function editUser(id) {
-      alert(`Edit user with ID: ${id}`);
-      // In a real app, you would implement this
+      showModal('Info', 'User edit functionality would be implemented here.');
     }
     
-    async function toggleUserStatus(id, disable) {
-      const action = disable ? 'disable' : 'enable';
-      if (confirm(`Are you sure you want to ${action} this user?`)) {
-        try {
-          // In a real app, you would update the user document
-          // await updateDoc(doc(db, "users", id), { disabled: disable });
-          alert(`User ${action}d successfully!`);
-          loadUsers();
-        } catch (error) {
-          console.error(`Error ${action}ing user:`, error);
-          alert(`Failed to ${action} user. Please try again.`);
+    async function toggleUserStatus(id) {
+      try {
+        const userDoc = await getDoc(doc(db, 'users', id));
+        
+        if (userDoc.exists()) {
+          const currentStatus = userDoc.data().disabled || false;
+          
+          await updateDoc(doc(db, 'users', id), {
+            disabled: !currentStatus,
+            updatedAt: serverTimestamp()
+          });
+          
+          showModal('Success', `User ${!currentStatus ? 'disabled' : 'enabled'} successfully!`);
         }
+      } catch (error) {
+        console.error('Error toggling user status:', error);
+        showModal('Error', 'Failed to update user status.');
       }
     }
-
+    
+    /* UTILITY FUNCTIONS */
+    function formatDate(date) {
+      if (!date) return 'N/A';
+      return date.toLocaleDateString('en-US', { 
+        year: 'numeric', 
+        month: 'short', 
+        day: 'numeric' 
+      });
+    }
+    
+    function formatTime(date) {
+      if (!date) return 'Just now';
+      
+      const now = new Date();
+      const diffInSeconds = Math.floor((now - date) / 1000);
+      
+      if (diffInSeconds < 60) return 'Just now';
+      if (diffInSeconds < 3600) return `${Math.floor(diffInSeconds / 60)} minutes ago`;
+      if (diffInSeconds < 86400) return `${Math.floor(diffInSeconds / 3600)} hours ago`;
+      return `${Math.floor(diffInSeconds / 86400)} days ago`;
+    }
+    
+    function formatDepartment(dept) {
+      if (!dept) return 'N/A';
+      
+      const departmentNames = {
+        'pharmacy': 'Pharmacy',
+        'medicine': 'Medicine',
+        'nursing': 'Nursing',
+        'public_health': 'Public Health'
+      };
+      
+      return departmentNames[dept] || dept;
+    }
+    
+    function formatRole(role) {
+      if (!role) return 'Student';
+      
+      const roleNames = {
+        'student': 'Student',
+        'instructor': 'Instructor',
+        'admin': 'Admin'
+      };
+      
+      return roleNames[role] || role;
+    }
+    
+    function formatRecipients(recipients) {
+      if (!recipients || recipients.length === 0) return 'None';
+      if (recipients.includes('all')) return 'All Users';
+      
+      const recipientNames = {
+        'pharmacy': 'Pharmacy',
+        'medicine': 'Medicine',
+        'nursing': 'Nursing',
+        'public_health': 'Public Health',
+        'instructors': 'Instructors',
+        'admins': 'Admins'
+      };
+      
+      return recipients.map(r => recipientNames[r] || r).join(', ');
+    }
+    
+    function getPriorityBadgeClass(priority) {
+      const badgeClasses = {
+        'normal': 'badge-secondary',
+        'important': 'badge-warning',
+        'urgent': 'badge-danger'
+      };
+      
+      return badgeClasses[priority] || 'badge-secondary';
+    }
+    
+    function getTypeBadgeClass(type) {
+      const badgeClasses = {
+        'info': 'badge-info',
+        'warning': 'badge-warning',
+        'alert': 'badge-danger',
+        'reminder': 'badge-primary'
+      };
+      
+      return badgeClasses[type] || 'badge-secondary';
+    }
+    
+    function showModal(title, message, confirmCallback = null) {
+      modalTitle.textContent = title;
+      modalMessage.textContent = message;
+      
+      // Store the callback
+      if (confirmCallback) {
+        modalConfirm.onclick = () => {
+          confirmCallback();
+          confirmationModal.classList.remove('show');
+        };
+      } else {
+        modalConfirm.onclick = () => {
+          confirmationModal.classList.remove('show');
+        };
+      }
+      
+      confirmationModal.classList.add('show');
+    }
+    
+    /* LOGOUT FUNCTION */
+    async function handleLogout() {
+      try {
+          await signOut(auth);
+          console.log("Logout successful");
+          sessionStorage.removeItem('adminNotified');
+      } catch (error) {
+          console.error("Logout failed:", error);
+          showModal("Error", "Logout failed. Please try again.");
+      }
+    }
+    
+    // Show logout confirmation modal
+    if(logoutBtn) logoutBtn.addEventListener("click", (e) => {
+      e.preventDefault();
+      showModal(
+        "Confirm Logout", 
+        "Are you sure you want to log out?",
+        handleLogout
+      );
+    });
+    
+    // Modal cancel button
+    if (modalCancel) {
+      modalCancel.addEventListener('click', () => {
+        confirmationModal.classList.remove('show');
+      });
+    }
   </script>
-
 </body>
 </html>
