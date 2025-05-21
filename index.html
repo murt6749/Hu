@@ -3,1885 +3,415 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Haramaya Jama'aa Home</title>
+  <title>Haramaya Jama'aa - Learning Platform</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <style>
-    /* ====== CORE STRUCTURE & RESETS ====== */
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
-    html {
-      scroll-behavior: smooth;
-    }
-
-    body {
-      font-family: 'Poppins', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background: linear-gradient(135deg, #e0eafc 0%, #cfdef3 100%);
-      color: #333;
-      min-height: 100vh;
-      overflow-x: hidden;
-      padding-top: 70px;
-      display: flex;
-      flex-direction: column;
-      position: relative;
-      background-size: 400% 400%;
-      animation: gradientBG 15s ease infinite;
-      transition: background 0.5s ease, color 0.5s ease;
-    }
-
-    @keyframes gradientBG {
-        0% { background-position: 0% 50%; }
-        50% { background-position: 100% 50%; }
-        100% { background-position: 0% 50%; }
-    }
-
-    main {
-        flex-grow: 1;
-    }
-
-    a {
-      text-decoration: none;
-      color: inherit;
-      transition: color 0.3s ease;
-    }
-
-    /* ====== ENHANCED HEADER ====== */
-    header {
-      background: rgba(255, 255, 255, 0.8);
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
-      color: #333;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 0.7rem 1.5rem;
-      position: fixed;
-      width: 100%;
-      top: 0;
-      left: 0;
-      z-index: 300;
-      box-shadow: 0 2px 15px rgba(0, 0, 0, 0.07);
-      border-bottom: 1px solid rgba(0, 0, 0, 0.05);
-      transition: background 0.3s ease, box-shadow 0.3s ease;
-    }
-
-    .header-title-area {
-        flex-grow: 1;
-        text-align: center;
-        margin: 0 1rem;
-    }
-
-    .header-title {
-      font-size: 1.4rem;
-      font-weight: 600;
-      color: #2c3e50;
-      letter-spacing: 0.5px;
-      display: inline-block;
-    }
-
-    /* ====== ACCOUNT DROPDOWN ====== */
-    .account-wrapper {
-      position: relative;
-      cursor: pointer;
-      flex-shrink: 0;
-    }
-
-    .account-icon {
-      width: 42px;
-      height: 42px;
-      border-radius: 50%;
-      background: linear-gradient(135deg, #89f7fe 0%, #66a6ff 100%);
-      border: none;
-      transition: all 0.3s ease;
-      box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.5rem;
-      color: #fff;
-    }
-
-    .account-icon:hover {
-      transform: scale(1.1);
-      box-shadow: 0 5px 15px rgba(102, 166, 255, 0.4);
-    }
-
-    .account-dropdown {
-      position: absolute;
-      top: 58px;
-      right: 0;
-      background: rgba(255, 255, 255, 0.98);
-      border-radius: 10px;
-      overflow: hidden;
-      display: none;
-      z-index: 400;
-      box-shadow: 0 10px 35px rgba(0,0,0,0.12);
-      min-width: 240px;
-      animation: fadeInDropdown 0.25s ease-out;
-      backdrop-filter: blur(10px);
-      -webkit-backdrop-filter: blur(10px);
-      border: 1px solid rgba(0,0,0,0.07);
-      transform-origin: top right;
-    }
-
-    @keyframes fadeInDropdown {
-      from { opacity: 0; transform: translateY(-10px) scale(0.98); }
-      to { opacity: 1; transform: translateY(0) scale(1); }
-    }
-
-    .account-dropdown a,
-    .account-dropdown div {
-      color: #444;
-      padding: 0.9rem 1.3rem;
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      border-bottom: 1px solid rgba(0,0,0,0.05);
-      transition: background-color 0.2s ease, color 0.2s ease, padding-left 0.2s ease;
-      font-weight: 500;
-      font-size: 0.95rem;
-    }
-
-    #user-role-display {
-      font-size: 0.85em;
-      color: #5a67d8;
-      font-weight: bold;
-      background-color: rgba(90, 103, 216, 0.05);
-      border-bottom: 1px solid rgba(90, 103, 216, 0.1);
-      order: -1;
-    }
-    #user-role-display i { color: #5a67d8; }
-
-    #admin-panel-link {
-        color: #d53f8c;
-        font-weight: 600;
-    }
-     #admin-panel-link i {
-        color: #d53f8c;
-     }
-     #admin-panel-link:hover {
-         background-color: rgba(213, 63, 140, 0.06);
-         color: #b83280;
-     }
-     #admin-panel-link:hover i {
-         color: #b83280;
-     }
-
-    .account-dropdown a:last-child,
-    .account-dropdown div:last-child { border-bottom: none; }
-
-    .account-dropdown a:hover,
-    .account-dropdown div:not(#user-role-display):not(#admin-panel-link):hover {
-      background: rgba(102, 166, 255, 0.1);
-      padding-left: 1.6rem;
-      color: #3b82f6;
-    }
-
-    .account-dropdown i {
-      width: 18px;
-      color: #60a5fa;
-      text-align: center;
-      font-size: 1rem;
-      transition: all 0.3s;
-    }
-    .account-dropdown a:hover i,
-    .account-dropdown div:not(#user-role-display):not(#admin-panel-link):hover i {
-        color: #3b82f6;
-    }
-
-    /* ====== MAIN CONTENT AREA ====== */
-    .content {
-      padding: 2.5rem;
-      width: 100%;
-      max-width: 1200px;
-      margin: 0 auto;
-      position: relative;
-      z-index: 1;
-    }
-
-    .content h2 {
-      color: #1a202c;
-      margin-bottom: 1.5rem;
-      font-size: 2.3rem;
-      border-bottom: 3px solid;
-       border-image-slice: 1;
-       border-image-source: linear-gradient(to right, #89f7fe, #66a6ff);
-      padding-bottom: 0.6rem;
-      display: inline-block;
-      font-weight: 700;
-      position: relative;
-    }
-
-    .content p {
-      line-height: 1.7;
-      margin-bottom: 2.5rem;
-      font-size: 1.1rem;
-      color: #4a5568;
-      max-width: 750px;
-    }
-
-    /* ====== DASHBOARD WIDGETS ====== */
-    .dashboard-widgets {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-      gap: 2rem;
-      margin-bottom: 3rem;
-    }
-
-    .widget {
-      background: #ffffff;
-      border-radius: 12px;
-      padding: 1.8rem;
-      box-shadow: 0 7px 25px rgba(0, 0, 0, 0.06);
-      transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
-      border: 1px solid rgba(0, 0, 0, 0.05);
-      position: relative;
-      overflow: hidden;
-      opacity: 0;
-      transform: translateY(20px);
-    }
-
-    .widget.animate-in {
-        opacity: 1;
-        transform: translateY(0);
-    }
-
-    .widget:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 12px 35px rgba(0, 0, 0, 0.08);
-    }
-
-    .widget-header {
-      display: flex;
-      align-items: flex-start;
-      justify-content: space-between;
-      margin-bottom: 1rem;
-    }
-
-    .widget-title {
-      font-size: 1.15rem;
-      font-weight: 600;
-      color: #2d3748;
-      margin-bottom: 0.5rem;
-    }
-
-     .widget-icon {
-        width: 48px;
-        height: 48px;
-        border-radius: 10px;
-        background: linear-gradient(135deg, #89f7fe 0%, #66a6ff 100%);
-        color: white;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 1.6rem;
-        flex-shrink: 0;
-        margin-left: 1rem;
-        box-shadow: 0 5px 15px rgba(102, 166, 255, 0.3);
-        transition: all 0.3s ease;
-      }
-
-      .widget:hover .widget-icon {
-        transform: scale(1.1) rotate(8deg);
-        box-shadow: 0 7px 20px rgba(102, 166, 255, 0.4);
-      }
-
-    .widget-value {
-      font-size: 2.4rem;
-      font-weight: 700;
-      color: #1a202c;
-      margin: 0.5rem 0 0.8rem 0;
-      line-height: 1.2;
-    }
-
-    .widget-description {
-      font-size: 0.9rem;
-      color: #718096;
-      line-height: 1.5;
-    }
-
-    /* Floating particles decoration */
-    .particle {
-      position: fixed;
-      background: rgba(102, 166, 255, 0.15);
-      border-radius: 50%;
-      pointer-events: none;
-      z-index: 0;
-      animation: particleFloat 25s linear infinite;
-    }
-
-    @keyframes particleFloat {
-        0% { transform: translateY(105vh) scale(0.5) rotate(0deg); opacity: 0; }
-        50% { opacity: 0.8; }
-        100% { transform: translateY(-100px) scale(1.2) rotate(720deg); opacity: 0; }
-    }
-
-    /* ====== FOOTER ====== */
-     footer {
-        background-color: rgba(255, 255, 255, 0.6);
-        backdrop-filter: blur(5px);
-        -webkit-backdrop-filter: blur(5px);
-        padding: 1.5rem 2rem;
-        text-align: center;
-        font-size: 0.9rem;
-        color: #4a5568;
-        margin-top: 3rem;
-        border-top: 1px solid rgba(0, 0, 0, 0.05);
-        z-index: 10;
-        position: relative;
-     }
-     footer a {
-         color: #3b82f6;
-         font-weight: 500;
-     }
-      footer a:hover {
-         text-decoration: underline;
-      }
-
-    /* ====== FLOATING LOGO ====== */
-     .floating-logo {
-         position: fixed;
-         bottom: 20px;
-         left: 20px;
-         z-index: 500;
-         background-color: rgba(255, 255, 255, 0.8);
-         backdrop-filter: blur(10px);
-         -webkit-backdrop-filter: blur(10px);
-         padding: 10px;
-         border-radius: 50%;
-         box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-         transition: transform 0.3s ease, box-shadow 0.3s ease;
-         display: flex;
-         align-items: center;
-         justify-content: center;
-     }
-      .floating-logo img {
-          display: block;
-          max-height: 45px;
-          width: auto;
-          border-radius: 50%;
-      }
-      .floating-logo:hover {
-          transform: scale(1.1);
-          box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
-      }
-
-    /* ====== UTILITIES & THEME TOGGLE ====== */
-    .theme-toggle {
-      position: fixed;
-      bottom: 20px;
-      right: 20px;
-      width: 45px;
-      height: 45px;
-      border-radius: 50%;
-      background: linear-gradient(135deg, #6366f1 0%, #a78bfa 100%);
-      color: white;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.1rem;
-      cursor: pointer;
-      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
-      z-index: 500;
-      transition: all 0.3s ease;
-      border: none;
-    }
-    .theme-toggle:hover {
-      transform: scale(1.1) rotate(10deg);
-      box-shadow: 0 8px 20px rgba(99, 102, 241, 0.3);
-    }
-
-    /* ====== NEW FEATURES ====== */
-    
-    /* Notification Bell */
-    .notification-bell {
-      position: fixed;
-      top: 20px;
-      right: 80px;
-      width: 40px;
-      height: 40px;
-      border-radius: 50%;
-      background: rgba(255, 255, 255, 0.8);
-      backdrop-filter: blur(5px);
-      -webkit-backdrop-filter: blur(5px);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      z-index: 300;
-      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-      transition: all 0.3s ease;
-    }
-    
-    .notification-bell:hover {
-      transform: scale(1.1);
-    }
-    
-    .notification-bell i {
-      color: #4a5568;
-      font-size: 1.2rem;
-    }
-    
-    .notification-badge {
-      position: absolute;
-      top: -5px;
-      right: -5px;
-      background: #ef4444;
-      color: white;
-      border-radius: 50%;
-      width: 18px;
-      height: 18px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 0.7rem;
-      font-weight: bold;
-    }
-    
-    /* Notification Panel */
-    .notification-panel {
-      position: fixed;
-      top: 70px;
-      right: 20px;
-      width: 350px;
-      max-height: 500px;
-      background: rgba(255, 255, 255, 0.98);
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
-      border-radius: 12px;
-      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-      z-index: 350;
-      overflow: hidden;
-      display: none;
-      transform: translateY(-20px);
-      opacity: 0;
-      transition: all 0.3s ease;
-    }
-    
-    .notification-panel.show {
-      display: block;
-      transform: translateY(0);
-      opacity: 1;
-    }
-    
-    .notification-header {
-      padding: 1rem;
-      border-bottom: 1px solid rgba(0, 0, 0, 0.05);
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-    
-    .notification-header h3 {
-      font-size: 1.1rem;
-      font-weight: 600;
-      color: #2d3748;
-    }
-    
-    .notification-clear {
-      background: none;
-      border: none;
-      color: #4a5568;
-      font-size: 0.9rem;
-      cursor: pointer;
-      transition: color 0.2s ease;
-    }
-    
-    .notification-clear:hover {
-      color: #3b82f6;
-    }
-    
-    .notification-list {
-      max-height: 400px;
-      overflow-y: auto;
-    }
-    
-    .notification-item {
-      padding: 1rem;
-      border-bottom: 1px solid rgba(0, 0, 0, 0.05);
-      transition: background 0.2s ease;
-      cursor: pointer;
-    }
-    
-    .notification-item:hover {
-      background: rgba(102, 166, 255, 0.05);
-    }
-    
-    .notification-item.unread {
-      background: rgba(102, 166, 255, 0.1);
-    }
-    
-    .notification-title {
-      font-weight: 600;
-      margin-bottom: 0.3rem;
-      color: #2d3748;
-    }
-    
-    .notification-message {
-      font-size: 0.9rem;
-      color: #4a5568;
-      margin-bottom: 0.5rem;
-    }
-    
-    .notification-time {
-      font-size: 0.8rem;
-      color: #718096;
-    }
-    
-    /* Quick Access Toolbar */
-    .quick-access {
-      position: fixed;
-      bottom: 80px;
-      right: 20px;
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-      z-index: 450;
-    }
-    
-    .quick-access-btn {
-      width: 45px;
-      height: 45px;
-      border-radius: 50%;
-      background: rgba(255, 255, 255, 0.8);
-      backdrop-filter: blur(5px);
-      -webkit-backdrop-filter: blur(5px);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-      cursor: pointer;
-      transition: all 0.3s ease;
-      color: #4a5568;
-    }
-    
-    .quick-access-btn:hover {
-      transform: translateY(-5px);
-      background: #3b82f6;
-      color: white;
-      box-shadow: 0 8px 20px rgba(59, 130, 246, 0.3);
-    }
-    
-    /* Search Bar */
-    .search-container {
-      position: fixed;
-      top: 15px;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 300px;
-      z-index: 300;
-      display: none;
-    }
-    
-    .search-bar {
-      width: 100%;
-      padding: 0.8rem 1.2rem;
-      border-radius: 30px;
-      border: none;
-      background: rgba(255, 255, 255, 0.9);
-      backdrop-filter: blur(5px);
-      -webkit-backdrop-filter: blur(5px);
-      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-      font-size: 0.95rem;
-      transition: all 0.3s ease;
-    }
-    
-    .search-bar:focus {
-      outline: none;
-      box-shadow: 0 5px 20px rgba(0, 0, 0, 0.15);
-      transform: scale(1.02);
-    }
-    
-    /* Search Results */
-    .search-results {
-      position: fixed;
-      top: 70px;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 500px;
-      max-width: 90%;
-      max-height: 70vh;
-      overflow-y: auto;
-      background: rgba(255, 255, 255, 0.98);
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
-      border-radius: 12px;
-      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-      z-index: 350;
-      display: none;
-      padding: 1rem;
-    }
-    
-    .search-results.show {
-      display: block;
-    }
-    
-    .search-result-item {
-      padding: 0.8rem;
-      border-bottom: 1px solid rgba(0, 0, 0, 0.05);
-      cursor: pointer;
-      transition: background 0.2s ease;
-    }
-    
-    .search-result-item:hover {
-      background: rgba(102, 166, 255, 0.05);
-    }
-    
-    .search-result-title {
-      font-weight: 600;
-      margin-bottom: 0.3rem;
-      color: #2d3748;
-    }
-    
-    .search-result-type {
-      display: inline-block;
-      font-size: 0.7rem;
-      padding: 0.2rem 0.5rem;
-      border-radius: 4px;
-      background: #e0e7ff;
-      color: #4f46e5;
-      margin-right: 0.5rem;
-    }
-    
-    .search-result-type.announcement {
-      background: #ecfdf5;
-      color: #059669;
-    }
-    
-    .search-result-description {
-      font-size: 0.9rem;
-      color: #4a5568;
-    }
-    
-    .no-results {
-      padding: 1rem;
-      text-align: center;
-      color: #718096;
-    }
-    
-    /* Confirmation Modal */
-    .modal-overlay {
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background: rgba(0, 0, 0, 0.5);
-      backdrop-filter: blur(5px);
-      -webkit-backdrop-filter: blur(5px);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      z-index: 1000;
-      opacity: 0;
-      visibility: hidden;
-      transition: all 0.3s ease;
-    }
-    
-    .modal-overlay.show {
-      opacity: 1;
-      visibility: visible;
-    }
-    
-    .modal {
-      background: white;
-      border-radius: 12px;
-      padding: 1.5rem;
-      max-width: 400px;
-      width: 90%;
-      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-      transform: translateY(-20px);
-      transition: all 0.3s ease;
-    }
-    
-    .modal-overlay.show .modal {
-      transform: translateY(0);
-    }
-    
-    .modal-title {
-      font-size: 1.2rem;
-      font-weight: 600;
-      margin-bottom: 1rem;
-      color: #2d3748;
-    }
-    
-    .modal-message {
-      margin-bottom: 1.5rem;
-      color: #4a5568;
-    }
-    
-    .modal-actions {
-      display: flex;
-      justify-content: flex-end;
-      gap: 0.8rem;
-    }
-    
-    .modal-btn {
-      padding: 0.6rem 1.2rem;
-      border-radius: 6px;
-      font-weight: 500;
-      cursor: pointer;
-      transition: all 0.2s ease;
-    }
-    
-    .modal-btn-cancel {
-      background: #f1f5f9;
-      color: #64748b;
-      border: none;
-    }
-    
-    .modal-btn-cancel:hover {
-      background: #e2e8f0;
-    }
-    
-    .modal-btn-confirm {
-      background: #3b82f6;
-      color: white;
-      border: none;
-    }
-    
-    .modal-btn-confirm:hover {
-      background: #2563eb;
-    }
-    
-    /* Dark Mode Styles for New Elements */
-    body.dark .notification-bell {
-      background: rgba(15, 23, 42, 0.8);
-    }
-    
-    body.dark .notification-bell i {
-      color: #e2e8f0;
-    }
-    
-    body.dark .notification-panel {
-      background: rgba(30, 41, 59, 0.98);
-      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
-    }
-    
-    body.dark .notification-header {
-      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-    }
-    
-    body.dark .notification-header h3 {
-      color: #f1f5f9;
-    }
-    
-    body.dark .notification-clear {
-      color: #94a3b8;
-    }
-    
-    body.dark .notification-clear:hover {
-      color: #93c5fd;
-    }
-    
-    body.dark .notification-item {
-      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-    }
-    
-    body.dark .notification-item:hover {
-      background: rgba(102, 166, 255, 0.05);
-    }
-    
-    body.dark .notification-item.unread {
-      background: rgba(102, 166, 255, 0.1);
-    }
-    
-    body.dark .notification-title {
-      color: #f1f5f9;
-    }
-    
-    body.dark .notification-message {
-      color: #94a3b8;
-    }
-    
-    body.dark .notification-time {
-      color: #64748b;
-    }
-    
-    body.dark .quick-access-btn {
-      background: rgba(30, 41, 59, 0.8);
-      color: #e2e8f0;
-      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-    }
-    
-    body.dark .quick-access-btn:hover {
-      background: #3b82f6;
-      color: white;
-      box-shadow: 0 8px 20px rgba(59, 130, 246, 0.3);
-    }
-    
-    body.dark .search-bar {
-      background: rgba(30, 41, 59, 0.9);
-      color: #e2e8f0;
-      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-    }
-    
-    body.dark .search-bar::placeholder {
-      color: #94a3b8;
-    }
-    
-    body.dark .search-results {
-      background: rgba(30, 41, 59, 0.98);
-      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
-    }
-    
-    body.dark .search-result-item {
-      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-    }
-    
-    body.dark .search-result-item:hover {
-      background: rgba(102, 166, 255, 0.05);
-    }
-    
-    body.dark .search-result-title {
-      color: #f1f5f9;
-    }
-    
-    body.dark .search-result-description {
-      color: #94a3b8;
-    }
-    
-    body.dark .no-results {
-      color: #64748b;
-    }
-    
-    body.dark .modal {
-      background: #1e293b;
-      border: 1px solid rgba(255, 255, 255, 0.1);
-    }
-    
-    body.dark .modal-title {
-      color: #f1f5f9;
-    }
-    
-    body.dark .modal-message {
-      color: #94a3b8;
-    }
-    
-    body.dark .modal-btn-cancel {
-      background: #334155;
-      color: #e2e8f0;
-    }
-    
-    body.dark .modal-btn-cancel:hover {
-      background: #475569;
-    }
-
-    /* ====== RESPONSIVENESS ====== */
-    @media (max-width: 768px) {
-      body { padding-top: 60px; }
-      header { padding: 0.6rem 1rem; }
-      .header-title-area { margin: 0 0.5rem; }
-      .header-title { font-size: 1.2rem; }
-
-      .account-icon { width: 38px; height: 38px; font-size: 1.4rem; }
-      .account-dropdown { top: 52px; min-width: 220px; }
-
-      .content { padding: 1.5rem; }
-      .content h2 { font-size: 1.9rem; }
-      .content p { font-size: 1rem; margin-bottom: 2rem; }
-
-      .dashboard-widgets { gap: 1.5rem; }
-      .widget { padding: 1.5rem; }
-      .widget-value { font-size: 2rem; }
-
-      footer { padding: 1rem 1.5rem; font-size: 0.85rem; margin-top: 2rem; }
-      .floating-logo { bottom: 15px; left: 15px; padding: 8px; }
-      .floating-logo img { max-height: 35px; }
-      .theme-toggle { bottom: 15px; right: 15px; width: 40px; height: 40px; font-size: 1rem; }
-      
-      /* Responsive adjustments for new features */
-      .notification-bell {
-        right: 70px;
-        width: 36px;
-        height: 36px;
-      }
-      
-      .notification-panel {
-        width: 300px;
-        right: 10px;
-      }
-      
-      .quick-access {
-        bottom: 70px;
-        right: 15px;
-      }
-      
-      .quick-access-btn {
-        width: 40px;
-        height: 40px;
-      }
-      
-      .search-container {
-        width: 250px;
-      }
-      
-      .search-results {
-        width: 90%;
-      }
-    }
-
-    @media (max-width: 480px) {
-      .header-title { font-size: 1.1rem; }
-      .content h2 { font-size: 1.7rem; }
-      .widget { padding: 1.2rem; }
-      .widget-icon { width: 40px; height: 40px; font-size: 1.3rem; }
-      .widget-value { font-size: 1.8rem; }
-      .widget-description { font-size: 0.85rem; }
-      .floating-logo img { max-height: 30px; }
-      
-      /* Mobile adjustments for new features */
-      .notification-panel {
-        width: 280px;
-        max-height: 70vh;
-      }
-      
-      .search-container {
-        width: 220px;
-      }
-    }
-
-    /* ====== DARK THEME STYLES ====== */
-    body.dark {
-      background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
-      color: #e2e8f0;
-      animation-name: gradientBGDark;
-    }
-
-     @keyframes gradientBGDark {
-        0% { background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%); }
-        50% { background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%); }
-        100% { background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%); }
-    }
-
-    body.dark header {
-      background: rgba(15, 23, 42, 0.8);
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
-      color: #e2e8f0;
-      box-shadow: 0 2px 15px rgba(0, 0, 0, 0.2);
-      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-    }
-    body.dark .header-title {
-         color: #f1f5f9;
-    }
-    body.dark .account-icon {
-        background: linear-gradient(135deg, #475569 0%, #334155 100%);
-        box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
-    }
-     body.dark .account-icon:hover {
-          box-shadow: 0 5px 15px rgba(71, 85, 105, 0.4);
-     }
-    body.dark .account-dropdown {
-      background: rgba(30, 41, 59, 0.98);
-      color: #e2e8f0;
-      border: 1px solid rgba(255, 255, 255, 0.1);
-       box-shadow: 0 10px 35px rgba(0,0,0,0.2);
-    }
-    body.dark .account-dropdown a,
-    body.dark .account-dropdown div {
-      color: #e2e8f0;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-    }
-     body.dark #user-role-display {
-        color: #a78bfa;
-        background-color: rgba(167, 139, 250, 0.08);
-        border-bottom: 1px solid rgba(167, 139, 250, 0.1);
-    }
-    body.dark #user-role-display i { color: #a78bfa; }
-
-     body.dark #admin-panel-link {
-        color: #f472b6;
-        font-weight: 600;
-     }
-      body.dark #admin-panel-link i { color: #f472b6; }
-      body.dark #admin-panel-link:hover {
-         background-color: rgba(244, 114, 182, 0.08);
-         color: #ec4899;
-      }
-       body.dark #admin-panel-link:hover i { color: #ec4899; }
-
-    body.dark .account-dropdown a:hover,
-    body.dark .account-dropdown div:not(#user-role-display):not(#admin-panel-link):hover {
-      color: #93c5fd;
-      background: rgba(255, 255, 255, 0.04);
-    }
-    body.dark .account-dropdown i { color: #93c5fd; }
-    body.dark .account-dropdown a:hover i,
-    body.dark .account-dropdown div:not(#user-role-display):not(#admin-panel-link):hover i {
-         color: #93c5fd;
-    }
-
-    body.dark .content { color: #cbd5e1; }
-    body.dark .content h2 {
-        color: #f1f5f9;
-        border-image-source: linear-gradient(to right, #a78bfa, #60a5fa);
-    }
-    body.dark .content p { color: #94a3b8; }
-
-    body.dark .widget {
-      background: #1e293b;
-      color: #e2e8f0;
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      box-shadow: 0 7px 25px rgba(0, 0, 0, 0.2);
-    }
-     body.dark .widget:hover {
-          box-shadow: 0 12px 35px rgba(0, 0, 0, 0.25);
-     }
-    body.dark .widget-title { color: #f1f5f9; }
-    body.dark .widget-value { color: #f8fafc; }
-    body.dark .widget-description { color: #94a3b8; }
-    body.dark .widget-icon {
-         background: linear-gradient(135deg, #a78bfa 0%, #60a5fa 100%);
-         box-shadow: 0 5px 15px rgba(167, 139, 250, 0.2);
-    }
-      body.dark .widget:hover .widget-icon {
-         box-shadow: 0 7px 20px rgba(167, 139, 250, 0.3);
-      }
-     body.dark .particle {
-        background: rgba(167, 139, 250, 0.08);
-     }
-
-    body.dark footer {
-        background-color: rgba(15, 23, 42, 0.7);
-        backdrop-filter: blur(5px);
-        -webkit-backdrop-filter: blur(5px);
-        color: #94a3b8;
-        border-top: 1px solid rgba(255, 255, 255, 0.1);
-    }
-     body.dark footer a { color: #93c5fd; }
-
-     body.dark .floating-logo {
-         background-color: rgba(30, 41, 59, 0.8);
-         backdrop-filter: blur(10px);
-         -webkit-backdrop-filter: blur(10px);
-         box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-     }
-      body.dark .floating-logo:hover {
-         box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
-      }
-
-     body.dark .theme-toggle {
-         background: linear-gradient(135deg, #475569 0%, #334155 100%);
-         box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-     }
-     body.dark .theme-toggle:hover {
-          box-shadow: 0 8px 20px rgba(0,0,0,0.4);
-     }
-
-    /* Loading animation */
-    .loading {
-      position: fixed;
-      top: 0; left: 0; right: 0; bottom: 0;
-      background: linear-gradient(135deg, #e0eafc 0%, #cfdef3 100%);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      z-index: 9999;
-      transition: opacity 0.5s ease, visibility 0.5s ease;
-    }
-     body.dark .loading {
-         background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
-     }
-    .loading-circle {
-      width: 50px;
-      height: 50px;
-      border: 5px solid rgba(0, 0, 0, 0.2);
-      border-radius: 50%;
-      border-top-color: #66a6ff;
-      animation: spin 1s ease-in-out infinite;
-    }
-     body.dark .loading-circle {
-         border: 5px solid rgba(255, 255, 255, 0.2);
-         border-top-color: #a78bfa;
-     }
-    @keyframes spin { to { transform: rotate(360deg); } }
-
-  </style>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="icon" href="assets/favicon.ico" type="image/x-icon">
 </head>
-<body class=""> 
-  <div class="loading" id="loading">
-    <div class="loading-circle"></div>
+<body>
+  <!-- Loading Screen -->
+  <div class="loading-screen" id="loading-screen">
+    <div class="loading-content">
+      <div class="loading-logo">
+        <img src="assets/logo.svg" alt="Haramaya Logo">
+      </div>
+      <div class="loading-spinner"></div>
+      <div class="loading-text">Loading Learning Platform</div>
+    </div>
   </div>
 
-  <header>
-    <div class="header-title-area">
-        <span class="header-title" id="header-title">Haramaya Jama'aa</span>
-    </div>
-    
-    <!-- Notification Bell -->
-    <div class="notification-bell" id="notification-bell">
-      <i class="fas fa-bell"></i>
-      <div class="notification-badge" id="notification-badge" style="display: none;">0</div>
-    </div>
-    
-    <div class="account-wrapper" id="account-btn">
-      <div class="account-icon" id="account-img">
-          <i class="fas fa-user"></i>
-      </div>
-      <div class="account-dropdown" id="account-dropdown">
-        <div id="not-logged-in">
-          <a href="login.html"><i class="fas fa-sign-in-alt"></i> Log In</a>
-          <a href="explore.html"><i class="fas fa-compass"></i> Explore Courses</a>
+  <!-- App Container -->
+  <div class="app-container" id="app-container">
+    <!-- Side Navigation -->
+    <nav class="side-nav" id="side-nav">
+      <div class="nav-header">
+        <div class="logo-container">
+          <img src="assets/logo.svg" alt="Haramaya Logo" class="logo">
+          <span class="app-name">Haramaya Jama'aa</span>
         </div>
-        <div id="logged-in" style="display: none;">
-          <div id="user-role-display" style="display: none;">
-             <i class="fas fa-shield-halved"></i> <span id="role-text">Admin</span>
+        <button class="nav-toggle" id="nav-toggle">
+          <i class="fas fa-bars"></i>
+        </button>
+      </div>
+      
+      <div class="nav-content">
+        <div class="user-profile">
+          <div class="avatar" id="user-avatar">
+            <i class="fas fa-user"></i>
           </div>
-          <a href="generaladmin.html" id="admin-panel-link" style="display: none;">
-               <i class="fas fa-user-shield"></i> Admin Panel
-           </a>
-          <a href="profile.html" id="profile-link"><i class="fas fa-user-circle"></i> My Profile</a>
-          <a href="dashboard.html"><i class="fas fa-book-open"></i> Enrollment</a>
-          <a href="progress.html"><i class="fas fa-chart-line"></i> Progression</a>
-          <a href="interact.html"><i class="fas fa-comments"></i> Interact</a>
-          <a href="support.html"><i class="fas fa-headset"></i>help</a>
-          <a href="#" id="logout-btn"><i class="fas fa-sign-out-alt"></i> Logout</a>
+          <div class="user-info">
+            <div class="user-name" id="user-name">Guest User</div>
+            <div class="user-role" id="user-role">Visitor</div>
+          </div>
+        </div>
+        
+        <ul class="nav-menu">
+          <li class="nav-item active">
+            <a href="#">
+              <i class="fas fa-home"></i>
+              <span>Dashboard</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="courses.html">
+              <i class="fas fa-book-open"></i>
+              <span>My Courses</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="progress.html">
+              <i class="fas fa-chart-line"></i>
+              <span>Progress</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="community.html">
+              <i class="fas fa-users"></i>
+              <span>Community</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="resources.html">
+              <i class="fas fa-file-alt"></i>
+              <span>Resources</span>
+            </a>
+          </li>
+          <li class="nav-item admin-only" style="display: none;">
+            <a href="admin.html">
+              <i class="fas fa-shield-alt"></i>
+              <span>Admin Panel</span>
+            </a>
+          </li>
+        </ul>
+      </div>
+      
+      <div class="nav-footer">
+        <button class="theme-toggle" id="theme-toggle">
+          <i class="fas fa-moon"></i>
+          <span>Dark Mode</span>
+        </button>
+      </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-content" id="main-content">
+      <!-- Top Navigation -->
+      <header class="top-nav">
+        <div class="search-container">
+          <button class="search-toggle" id="search-toggle">
+            <i class="fas fa-search"></i>
+          </button>
+          <div class="search-box" id="search-box">
+            <input type="text" placeholder="Search courses, announcements..." id="search-input">
+            <button class="search-close" id="search-close">
+              <i class="fas fa-times"></i>
+            </button>
+          </div>
+        </div>
+        
+        <div class="header-actions">
+          <button class="notification-btn" id="notification-btn">
+            <i class="fas fa-bell"></i>
+            <span class="notification-badge" id="notification-badge">0</span>
+          </button>
+          
+          <div class="user-dropdown" id="user-dropdown">
+            <button class="user-btn" id="user-btn">
+              <div class="avatar" id="header-avatar">
+                <i class="fas fa-user"></i>
+              </div>
+              <span id="header-username">Guest</span>
+              <i class="fas fa-chevron-down"></i>
+            </button>
+            <div class="dropdown-menu" id="dropdown-menu">
+              <a href="profile.html" class="dropdown-item">
+                <i class="fas fa-user-circle"></i> My Profile
+              </a>
+              <a href="settings.html" class="dropdown-item">
+                <i class="fas fa-cog"></i> Settings
+              </a>
+              <div class="dropdown-divider"></div>
+              <a href="#" class="dropdown-item" id="logout-btn">
+                <i class="fas fa-sign-out-alt"></i> Logout
+              </a>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <!-- Content Area -->
+      <div class="content-area">
+        <div class="page-header">
+          <h1>Welcome Back, <span id="greeting-name">Learner</span></h1>
+          <p class="subtitle">Track your learning progress and discover new courses</p>
+        </div>
+        
+        <!-- Dashboard Widgets -->
+        <div class="dashboard-grid">
+          <!-- Stats Overview -->
+          <div class="stats-card">
+            <div class="stats-header">
+              <h3>Learning Overview</h3>
+              <div class="stats-period">
+                <select id="stats-period">
+                  <option value="week">This Week</option>
+                  <option value="month" selected>This Month</option>
+                  <option value="year">This Year</option>
+                </select>
+              </div>
+            </div>
+            <div class="stats-grid">
+              <div class="stat-item">
+                <div class="stat-value" id="active-courses">0</div>
+                <div class="stat-label">Active Courses</div>
+                <div class="stat-icon">
+                  <i class="fas fa-book-open"></i>
+                </div>
+              </div>
+              <div class="stat-item">
+                <div class="stat-value" id="completed-lessons">0</div>
+                <div class="stat-label">Completed</div>
+                <div class="stat-icon">
+                  <i class="fas fa-check-circle"></i>
+                </div>
+              </div>
+              <div class="stat-item">
+                <div class="stat-value" id="streak-days">0</div>
+                <div class="stat-label">Day Streak</div>
+                <div class="stat-icon">
+                  <i class="fas fa-fire"></i>
+                </div>
+              </div>
+              <div class="stat-item">
+                <div class="stat-value" id="learning-hours">0</div>
+                <div class="stat-label">Hours Learned</div>
+                <div class="stat-icon">
+                  <i class="fas fa-clock"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Progress Chart -->
+          <div class="chart-card">
+            <div class="chart-header">
+              <h3>Your Progress</h3>
+              <div class="chart-legend">
+                <span class="legend-item">
+                  <span class="legend-color completion"></span>
+                  Completion
+                </span>
+                <span class="legend-item">
+                  <span class="legend-color performance"></span>
+                  Performance
+                </span>
+              </div>
+            </div>
+            <div class="chart-container">
+              <canvas id="progress-chart"></canvas>
+            </div>
+          </div>
+          
+          <!-- Active Courses -->
+          <div class="courses-card">
+            <div class="courses-header">
+              <h3>Active Courses</h3>
+              <a href="courses.html" class="view-all">View All</a>
+            </div>
+            <div class="courses-list" id="courses-list">
+              <div class="empty-state">
+                <i class="fas fa-book-open"></i>
+                <p>No active courses</p>
+                <a href="explore.html" class="btn btn-primary">Browse Courses</a>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Recent Announcements -->
+          <div class="announcements-card">
+            <div class="announcements-header">
+              <h3>Recent Announcements</h3>
+              <a href="announcements.html" class="view-all">View All</a>
+            </div>
+            <div class="announcements-list" id="announcements-list">
+              <div class="announcement-item">
+                <div class="announcement-content">
+                  <h4>Welcome to the New Learning Platform</h4>
+                  <p>We're excited to launch our upgraded learning experience with new features and improvements.</p>
+                </div>
+                <div class="announcement-meta">
+                  <span class="announcement-date">2 days ago</span>
+                  <span class="announcement-badge">New</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Quick Actions -->
+          <div class="quick-actions-card">
+            <h3>Quick Actions</h3>
+            <div class="actions-grid">
+              <a href="explore.html" class="action-item">
+                <div class="action-icon">
+                  <i class="fas fa-compass"></i>
+                </div>
+                <span>Explore Courses</span>
+              </a>
+              <a href="calendar.html" class="action-item">
+                <div class="action-icon">
+                  <i class="fas fa-calendar-alt"></i>
+                </div>
+                <span>Learning Calendar</span>
+              </a>
+              <a href="community.html" class="action-item">
+                <div class="action-icon">
+                  <i class="fas fa-comments"></i>
+                </div>
+                <span>Discussion Forum</span>
+              </a>
+              <a href="resources.html" class="action-item">
+                <div class="action-icon">
+                  <i class="fas fa-download"></i>
+                </div>
+                <span>Download Resources</span>
+              </a>
+            </div>
+          </div>
+          
+          <!-- Learning Goals -->
+          <div class="goals-card">
+            <div class="goals-header">
+              <h3>Learning Goals</h3>
+              <button class="btn-icon" id="add-goal-btn">
+                <i class="fas fa-plus"></i>
+              </button>
+            </div>
+            <div class="goals-list" id="goals-list">
+              <div class="empty-state">
+                <i class="fas fa-bullseye"></i>
+                <p>No goals set yet</p>
+                <button class="btn btn-primary" id="set-goal-btn">Set a Goal</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <!-- Notification Panel -->
+    <div class="notification-panel" id="notification-panel">
+      <div class="notification-header">
+        <h3>Notifications</h3>
+        <div class="notification-actions">
+          <button class="btn-text" id="mark-all-read">Mark all as read</button>
+          <button class="btn-icon" id="close-notifications">
+            <i class="fas fa-times"></i>
+          </button>
+        </div>
+      </div>
+      <div class="notification-list" id="notification-list">
+        <div class="empty-state">
+          <i class="fas fa-bell-slash"></i>
+          <p>No notifications yet</p>
         </div>
       </div>
     </div>
-  </header>
 
-  <!-- Notification Panel -->
-  <div class="notification-panel" id="notification-panel">
-    <div class="notification-header">
-      <h3>Notifications</h3>
-      <button class="notification-clear" id="notification-clear">Clear All</button>
-    </div>
-    <div class="notification-list" id="notification-list">
-      <div class="notification-item empty-notification">
-        <div class="notification-message">No notifications yet</div>
+    <!-- Search Results Panel -->
+    <div class="search-results-panel" id="search-results-panel">
+      <div class="search-results-header">
+        <h3>Search Results</h3>
+        <button class="btn-icon" id="close-search-results">
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
+      <div class="search-results-content" id="search-results-content">
+        <div class="search-tabs">
+          <button class="search-tab active" data-tab="all">All</button>
+          <button class="search-tab" data-tab="courses">Courses</button>
+          <button class="search-tab" data-tab="announcements">Announcements</button>
+          <button class="search-tab" data-tab="resources">Resources</button>
+        </div>
+        <div class="search-results-list" id="search-results-list">
+          <div class="empty-state">
+            <i class="fas fa-search"></i>
+            <p>Enter a search term to find courses and resources</p>
+          </div>
+        </div>
       </div>
     </div>
-  </div>
-  
-  <!-- Search Bar -->
-  <div class="search-container" id="search-container">
-    <input type="text" class="search-bar" placeholder="Search courses, announcements..." id="search-bar">
-  </div>
-  
-  <!-- Search Results -->
-  <div class="search-results" id="search-results">
-    <div class="no-results">No results found</div>
-  </div>
-  
-  <!-- Logout Confirmation Modal -->
-  <div class="modal-overlay" id="logout-modal">
-    <div class="modal">
-      <div class="modal-title">Confirm Logout</div>
-      <div class="modal-message">Are you sure you want to log out?</div>
-      <div class="modal-actions">
-        <button class="modal-btn modal-btn-cancel" id="logout-cancel">Cancel</button>
-        <button class="modal-btn modal-btn-confirm" id="logout-confirm">Logout</button>
+
+    <!-- Logout Confirmation Modal -->
+    <div class="modal-overlay" id="logout-modal">
+      <div class="modal">
+        <div class="modal-header">
+          <h3>Confirm Logout</h3>
+          <button class="btn-icon modal-close" id="logout-modal-close">
+            <i class="fas fa-times"></i>
+          </button>
+        </div>
+        <div class="modal-body">
+          <p>Are you sure you want to log out of your account?</p>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-secondary" id="logout-cancel">Cancel</button>
+          <button class="btn btn-primary" id="logout-confirm">Logout</button>
+        </div>
       </div>
     </div>
-  </div>
 
-  <main class="content" id="content">
-    <h2>Welcome to Haramaya Jama'aa Group</h2>
-    <p>Explore your courses, monitor your progress, and engage with the community. Use the account menu for navigation.</p>
-
-    <div class="dashboard-widgets">
-      <div class="widget">
-         <div class="widget-header">
-           <div>
-               <h3 class="widget-title">Active Courses</h3>
-               <p class="widget-description">Currently enrolled</p>
-           </div>
-           <div class="widget-icon"><i class="fas fa-book-open"></i></div>
-         </div>
-         <div class="widget-value" id="active-courses">0</div>
-       </div>
-
-       <div class="widget">
-         <div class="widget-header">
-           <div>
-                <h3 class="widget-title">Completed Lessons</h3>
-                <p class="widget-description">Lessons finished</p>
-           </div>
-           <div class="widget-icon"><i class="fas fa-check-circle"></i></div>
-         </div>
-         <div class="widget-value" id="completed-lessons">0</div>
-       </div>
-
-       <div class="widget">
-         <div class="widget-header">
-             <div>
-                 <h3 class="widget-title">Study Streak</h3>
-                 <p class="widget-description">Consecutive days</p>
-             </div>
-            <div class="widget-icon"><i class="fas fa-fire"></i></div>
-         </div>
-         <div class="widget-value" id="streak-days">0</div>
-       </div>
-     </div> 
-  </main> 
-  
-  <footer>
-      &copy; <span id="footer-year"></span> Haramaya Jama'aa Group. All Rights Reserved. | <a href="#top">Back to Top</a>
-  </footer>
-
-  <!-- Quick Access Toolbar -->
-  <div class="quick-access">
-    <div class="quick-access-btn" id="search-btn" title="Search">
-      <i class="fas fa-search"></i>
-    </div>
-    <div class="quick-access-btn" id="calendar-btn" title="Calendar">
-      <i class="fas fa-calendar-alt"></i>
-    </div>
-    <div class="quick-access-btn" id="help-btn" title="Quick Help">
-      <i class="fas fa-question-circle"></i>
-    </div>
-  </div>
-
-  <div class="floating-logo">
-       <img src="haramaya.png" alt="Haramaya Logo">
-  </div>
-
-  <div class="theme-toggle" id="theme-toggle">
-    <i class="fas fa-moon"></i>
-  </div>
-
-  <script type="module">
-    // Firebase modules.
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-app.js";
-    import { getAnalytics } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-analytics.js";
-    import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-auth.js";
-    import { 
-      getFirestore, 
-      doc, 
-      getDoc, 
-      collection, 
-      query, 
-      where, 
-      getDocs,
-      orderBy,
-      limit,
-      onSnapshot,
-      updateDoc,
-      arrayUnion,
-      arrayRemove
-    } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-firestore.js";
-
-    // === YOUR PROVIDED FIREBASE CONFIG ===
-    const firebaseConfig = {
-      apiKey: "AIzaSyBQyNVWh1BtCkXlBfuS7jHAa36FTklZayo",
-      authDomain: "pharma-quiz-b5a07.firebaseapp.com",
-      databaseURL: "https://pharma-quiz-b5a07-default-rtdb.firebaseio.com",
-      projectId: "pharma-quiz-b5a07",
-      storageBucket: "pharma-quiz-b5a07.appspot.com",
-      messagingSenderId: "161067776789",
-      appId: "1:161067776789:web:88b8a61145dc5f5c31471c",
-      measurementId: "G-3QRQE9HQFB"
-    };
-    // =====================================
-
-    const app = initializeApp(firebaseConfig);
-    let analytics;
-    if (firebaseConfig.measurementId) {
-        try {
-             analytics = getAnalytics(app);
-             console.log("Firebase Analytics initialized.");
-        } catch (error) {
-            console.warn("Could not initialize Firebase Analytics:", error);
-        }
-    }
-    const auth = getAuth();
-    const db = getFirestore(app);
-
-    // --- Global Variables ---
-    let currentUserRole = null;
-    let currentUserId = null;
-    let notificationsListener = null;
-    let announcementsListener = null;
-    let coursesListener = null;
-
-    // --- DOM Elements ---
-    const loadingScreen = document.getElementById('loading');
-    const themeToggle = document.getElementById('theme-toggle');
-    const accountBtn = document.getElementById("account-btn");
-    const accountDropdown = document.getElementById("account-dropdown");
-    const notLoggedInDiv = document.getElementById("not-logged-in");
-    const loggedInDiv = document.getElementById("logged-in");
-    const logoutBtn = document.getElementById("logout-btn");
-    const profileLink = document.getElementById("profile-link");
-    const userRoleDisplay = document.getElementById("user-role-display");
-    const adminPanelLink = document.getElementById("admin-panel-link");
-    const activeCoursesEl = document.getElementById("active-courses");
-    const completedLessonsEl = document.getElementById("completed-lessons");
-    const streakDaysEl = document.getElementById("streak-days");
-    const footerYear = document.getElementById("footer-year");
-    const widgets = document.querySelectorAll('.widget');
-    
-    // New feature elements
-    const notificationBell = document.getElementById('notification-bell');
-    const notificationPanel = document.getElementById('notification-panel');
-    const notificationBadge = document.getElementById('notification-badge');
-    const notificationClear = document.getElementById('notification-clear');
-    const notificationList = document.getElementById('notification-list');
-    const searchBtn = document.getElementById('search-btn');
-    const searchContainer = document.getElementById('search-container');
-    const searchBar = document.getElementById('search-bar');
-    const searchResults = document.getElementById('search-results');
-    const calendarBtn = document.getElementById('calendar-btn');
-    const helpBtn = document.getElementById('help-btn');
-    
-    // Modal elements
-    const logoutModal = document.getElementById('logout-modal');
-    const logoutCancel = document.getElementById('logout-cancel');
-    const logoutConfirm = document.getElementById('logout-confirm');
-
-    // --- Initial Setup ---
-
-    // Footer Year
-    if (footerYear) {
-        footerYear.textContent = new Date().getFullYear();
-    }
-
-    // Theme Persistence
-    const savedTheme = localStorage.getItem('theme');
-    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-
-    // Function to apply theme
-    const applyTheme = (theme) => {
-        if (theme === 'dark') {
-            document.body.classList.add('dark');
-            themeToggle.innerHTML = '<i class="fas fa-sun"></i>';
-            localStorage.setItem('theme', 'dark');
-        } else {
-            document.body.classList.remove('dark');
-            themeToggle.innerHTML = '<i class="fas fa-moon"></i>';
-            localStorage.setItem('theme', 'light');
-        }
-        createParticles();
-    };
-
-    // Set initial theme based on saved preference or system preference
-    if (savedTheme) {
-        applyTheme(savedTheme);
-    } else {
-        applyTheme(prefersDark ? 'dark' : 'light');
-    }
-
-    // Hide loading screen
-    setTimeout(() => {
-      if (loadingScreen) {
-        loadingScreen.style.opacity = '0';
-        loadingScreen.style.visibility = 'hidden';
-        loadingScreen.style.pointerEvents = 'none';
-      }
-    }, 800);
-
-    // Create floating particles
-    function createParticles() {
-        const colorsLight = ['rgba(102, 166, 255, 0.1)', 'rgba(137, 247, 254, 0.1)', 'rgba(99, 102, 241, 0.1)'];
-        const colorsDark = ['rgba(167, 139, 250, 0.06)', 'rgba(96, 165, 250, 0.06)', 'rgba(56, 189, 248, 0.06)'];
-        const isDark = document.body.classList.contains('dark');
-        const colors = isDark ? colorsDark : colorsLight;
-
-        document.querySelectorAll('.particle').forEach(p => p.remove());
-        const particleContainer = document.body;
-
-        for (let i = 0; i < 12; i++) {
-            const particle = document.createElement('div');
-            particle.classList.add('particle');
-
-            const size = Math.random() * 6 + 3;
-            const startX = Math.random() * 100;
-            const duration = Math.random() * 25 + 20;
-            const delay = Math.random() * 15;
-
-            particle.style.width = `${size}px`;
-            particle.style.height = `${size}px`;
-            particle.style.left = `${startX}vw`;
-            particle.style.background = colors[Math.floor(Math.random() * colors.length)];
-            particle.style.animation = `particleFloat ${duration}s linear ${delay}s infinite`;
-            particle.style.bottom = `-${size}px`;
-
-            particleContainer.appendChild(particle);
-        }
-    }
-
-    // Theme toggle functionality
-    themeToggle.addEventListener('click', () => {
-        const isDark = document.body.classList.contains('dark');
-        applyTheme(isDark ? 'light' : 'dark');
-    });
-
-    // Initialize particles on load
-    createParticles();
-
-    // Intersection Observer for Widget Animations
-    const observerOptions = {
-        root: null,
-        rootMargin: '0px',
-        threshold: 0.1
-    };
-
-    const widgetObserver = new IntersectionObserver((entries, observer) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.classList.add('animate-in');
-                observer.unobserve(entry.target);
-            }
-        });
-    }, observerOptions);
-
-    widgets.forEach(widget => {
-        widgetObserver.observe(widget);
-    });
-
-    /* ACCOUNT DROPDOWN */
-    accountBtn.addEventListener("click", (e) => {
-      e.stopPropagation();
-      const isDisplayed = accountDropdown.style.display === "block";
-      accountDropdown.style.display = isDisplayed ? "none" : "block";
-      // Close notification panel if open
-      if (notificationPanel.classList.contains('show')) {
-        notificationPanel.classList.remove('show');
-      }
-    });
-
-    document.addEventListener("click", (e) => {
-      if (accountDropdown && accountBtn && !accountBtn.contains(e.target) && !accountDropdown.contains(e.target)) {
-        accountDropdown.style.display = "none";
-      }
-    });
-
-    /* AUTHENTICATION */
-    onAuthStateChanged(auth, (user) => {
-        if(profileLink) profileLink.href = "profile.html";
-        if(userRoleDisplay) userRoleDisplay.style.display = "none";
-        if(adminPanelLink) adminPanelLink.style.display = "none";
-
-      if (user) {
-        currentUserId = user.uid;
-        if(loggedInDiv) loggedInDiv.style.display = "block";
-        if(notLoggedInDiv) notLoggedInDiv.style.display = "none";
-        loadUserData(user.uid);
-        setupNotificationsListener(user.uid);
-        setupAnnouncementsListener();
-        setupCoursesListener();
-      } else {
-        currentUserId = null;
-        if(loggedInDiv) loggedInDiv.style.display = "none";
-        if(notLoggedInDiv) notLoggedInDiv.style.display = "block";
-        currentUserRole = null;
-        if(activeCoursesEl) activeCoursesEl.textContent = '0';
-        if(completedLessonsEl) completedLessonsEl.textContent = '0';
-        if(streakDaysEl) streakDaysEl.textContent = '0';
-        
-        // Clean up listeners when user logs out
-        if (notificationsListener) {
-          notificationsListener();
-          notificationsListener = null;
-        }
-        if (announcementsListener) {
-          announcementsListener();
-          announcementsListener = null;
-        }
-        if (coursesListener) {
-          coursesListener();
-          coursesListener = null;
-        }
-      }
-       if(accountDropdown) accountDropdown.style.display = "none";
-    });
-
-    /* LOGOUT FUNCTION */
-    async function handleLogout() {
-      try {
-          await signOut(auth);
-          console.log("Logout successful");
-          sessionStorage.removeItem('adminNotified');
-      } catch (error) {
-          console.error("Logout failed:", error);
-          alert("Logout failed. Please try again.");
-      }
-    }
-    
-    // Show logout confirmation modal
-    if(logoutBtn) logoutBtn.addEventListener("click", (e) => {
-      e.preventDefault();
-      logoutModal.classList.add('show');
-    });
-    
-    // Cancel logout
-    if(logoutCancel) logoutCancel.addEventListener("click", () => {
-      logoutModal.classList.remove('show');
-    });
-    
-    // Confirm logout
-    if(logoutConfirm) logoutConfirm.addEventListener("click", () => {
-      logoutModal.classList.remove('show');
-      handleLogout();
-    });
-
-    /* Load User Data from Firestore */
-    async function loadUserData(userId) {
-      try {
-        const userDocRef = doc(db, "users", userId);
-        const userDocSnap = await getDoc(userDocRef);
-
-        if (userDocSnap.exists()) {
-          const userData = userDocSnap.data();
-
-          // --- ROLE HANDLING ---
-          currentUserRole = userData.role || 'user';
-
-          if (currentUserRole === 'admin') {
-            if(profileLink) profileLink.href = "admin.html";
-            if(userRoleDisplay) userRoleDisplay.style.display = "flex";
-            if(adminPanelLink) adminPanelLink.style.display = "flex";
-
-            if (!sessionStorage.getItem('adminNotified')) {
-               alert("Welcome, Admin! You have administrative privileges.");
-               sessionStorage.setItem('adminNotified', 'true');
-            }
-          } else {
-            if(profileLink) profileLink.href = "profile.html";
-            if(userRoleDisplay) userRoleDisplay.style.display = "none";
-            if(adminPanelLink) adminPanelLink.style.display = "none";
-          }
-
-          // --- DASHBOARD STATS ---
-          const courses = userData.enrolledCourses;
-          if(activeCoursesEl) activeCoursesEl.textContent = (courses && Array.isArray(courses)) ? courses.length : '0';
-
-          let completedLessons = 0;
-          if (courses && Array.isArray(courses)) {
-              courses.forEach(course => {
-                if (course && typeof course.completedLessons === 'number') {
-                  completedLessons += course.completedLessons;
-                }
-              });
-          }
-           if(completedLessonsEl) completedLessonsEl.textContent = completedLessons;
-
-          // --- STUDY STREAK ---
-          let currentStreak = 0;
-           if (userData.lastLogin && userData.lastLogin.toDate) {
-               const lastLogin = userData.lastLogin.toDate();
-               const today = new Date();
-
-               const lastLoginDate = new Date(lastLogin.getFullYear(), lastLogin.getMonth(), lastLogin.getDate());
-               const todayDate = new Date(today.getFullYear(), today.getMonth(), today.getDate());
-
-               const diffTime = todayDate - lastLoginDate;
-               const diffDays = diffTime / (1000 * 60 * 60 * 24);
-
-               const savedStreak = userData.streakDays || 0;
-
-                if (diffDays === 0) {
-                     currentStreak = savedStreak > 0 ? savedStreak : 1;
-                 } else if (diffDays === 1) {
-                    currentStreak = savedStreak + 1;
-                 } else {
-                    currentStreak = 1;
-                 }
-           } else {
-               currentStreak = 1;
-           }
-           if(streakDaysEl) streakDaysEl.textContent = currentStreak;
-
-        } else {
-          console.warn("User document not found in Firestore for UID:", userId);
-          currentUserRole = 'user';
-          if(activeCoursesEl) activeCoursesEl.textContent = '0';
-          if(completedLessonsEl) completedLessonsEl.textContent = '0';
-          if(streakDaysEl) streakDaysEl.textContent = '0';
-        }
-      } catch (error) {
-        console.error("Error loading user data:", error);
-        currentUserRole = 'user';
-        if(activeCoursesEl) activeCoursesEl.textContent = 'Err';
-        if(completedLessonsEl) completedLessonsEl.textContent = 'Err';
-        if(streakDaysEl) streakDaysEl.textContent = 'Err';
-      }
-    }
-    
-    /* NOTIFICATIONS SYSTEM */
-    function setupNotificationsListener(userId) {
-      // Clear any existing listener
-      if (notificationsListener) {
-        notificationsListener();
-      }
-      
-      const notificationsRef = collection(db, "users", userId, "notifications");
-      const q = query(notificationsRef, orderBy("timestamp", "desc"), limit(20));
-      
-      notificationsListener = onSnapshot(q, (querySnapshot) => {
-        let unreadCount = 0;
-        notificationList.innerHTML = '';
-        
-        if (querySnapshot.empty) {
-          notificationList.innerHTML = `
-            <div class="notification-item empty-notification">
-              <div class="notification-message">No notifications yet</div>
+    <!-- Add Goal Modal -->
+    <div class="modal-overlay" id="goal-modal">
+      <div class="modal">
+        <div class="modal-header">
+          <h3>Set Learning Goal</h3>
+          <button class="btn-icon modal-close" id="goal-modal-close">
+            <i class="fas fa-times"></i>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="form-group">
+            <label for="goal-title">Goal Title</label>
+            <input type="text" id="goal-title" placeholder="e.g. Complete JavaScript Course">
+          </div>
+          <div class="form-group">
+            <label for="goal-description">Description</label>
+            <textarea id="goal-description" rows="3" placeholder="Describe your learning goal..."></textarea>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="goal-date">Target Date</label>
+              <input type="date" id="goal-date">
             </div>
-          `;
-          notificationBadge.style.display = 'none';
-          return;
-        }
-        
-        querySnapshot.forEach((doc) => {
-          const notification = doc.data();
-          const isUnread = !notification.read;
-          
-          if (isUnread) {
-            unreadCount++;
-          }
-          
-          const notificationElement = document.createElement('div');
-          notificationElement.className = `notification-item ${isUnread ? 'unread' : ''}`;
-          notificationElement.dataset.id = doc.id;
-          notificationElement.innerHTML = `
-            <div class="notification-title">${notification.title}</div>
-            <div class="notification-message">${notification.message}</div>
-            <div class="notification-time">${formatTime(notification.timestamp?.toDate())}</div>
-          `;
-          
-          notificationElement.addEventListener('click', () => {
-            markNotificationAsRead(doc.id);
-          });
-          
-          notificationList.appendChild(notificationElement);
-        });
-        
-        // Update badge count
-        if (unreadCount > 0) {
-          notificationBadge.textContent = unreadCount;
-          notificationBadge.style.display = 'flex';
-        } else {
-          notificationBadge.style.display = 'none';
-        }
-      });
-    }
-    
-    function formatTime(date) {
-      if (!date) return 'Just now';
-      
-      const now = new Date();
-      const diffInSeconds = Math.floor((now - date) / 1000);
-      
-      if (diffInSeconds < 60) return 'Just now';
-      if (diffInSeconds < 3600) return `${Math.floor(diffInSeconds / 60)} minutes ago`;
-      if (diffInSeconds < 86400) return `${Math.floor(diffInSeconds / 3600)} hours ago`;
-      return `${Math.floor(diffInSeconds / 86400)} days ago`;
-    }
-    
-    async function markNotificationAsRead(notificationId) {
-      if (!currentUserId) return;
-      
-      try {
-        const notificationRef = doc(db, "users", currentUserId, "notifications", notificationId);
-        await updateDoc(notificationRef, {
-          read: true
-        });
-      } catch (error) {
-        console.error("Error marking notification as read:", error);
-      }
-    }
-    
-    async function clearAllNotifications() {
-      if (!currentUserId) return;
-      
-      try {
-        const notificationsRef = collection(db, "users", currentUserId, "notifications");
-        const q = query(notificationsRef, where("read", "==", false));
-        const querySnapshot = await getDocs(q);
-        
-        const batchUpdates = [];
-        querySnapshot.forEach((doc) => {
-          batchUpdates.push(updateDoc(doc.ref, { read: true }));
-        });
-        
-        await Promise.all(batchUpdates);
-      } catch (error) {
-        console.error("Error clearing notifications:", error);
-      }
-    }
-    
-    /* ANNOUNCEMENTS SYSTEM */
-    function setupAnnouncementsListener() {
-      // Clear any existing listener
-      if (announcementsListener) {
-        announcementsListener();
-      }
-      
-      const announcementsRef = collection(db, "announcements");
-      const q = query(announcementsRef, orderBy("timestamp", "desc"), limit(10));
-      
-      announcementsListener = onSnapshot(q, (querySnapshot) => {
-        // We'll use this data for search functionality
-      });
-    }
-    
-    /* COURSES SYSTEM */
-    function setupCoursesListener() {
-      // Clear any existing listener
-      if (coursesListener) {
-        coursesListener();
-      }
-      
-      const coursesRef = collection(db, "courses");
-      const q = query(coursesRef, orderBy("title"));
-      
-      coursesListener = onSnapshot(q, (querySnapshot) => {
-        // We'll use this data for search functionality
-      });
-    }
-    
-    /* SEARCH FUNCTIONALITY */
-    async function performSearch(query) {
-      if (!query || query.length < 3) {
-        searchResults.innerHTML = '<div class="no-results">Please enter at least 3 characters</div>';
-        return;
-      }
-      
-      try {
-        // Search announcements
-        const announcementsRef = collection(db, "announcements");
-        const announcementsQuery = query(
-          announcementsRef,
-          where("keywords", "array-contains", query.toLowerCase())
-        );
-        const announcementsSnapshot = await getDocs(announcementsQuery);
-        
-        // Search courses
-        const coursesRef = collection(db, "courses");
-        const coursesQuery = query(
-          coursesRef,
-          where("keywords", "array-contains", query.toLowerCase())
-        );
-        const coursesSnapshot = await getDocs(coursesQuery);
-        
-        // Combine results
-        const results = [];
-        
-        announcementsSnapshot.forEach(doc => {
-          results.push({
-            id: doc.id,
-            type: 'announcement',
-            title: doc.data().title,
-            description: doc.data().content.substring(0, 100) + '...',
-            timestamp: doc.data().timestamp?.toDate()
-          });
-        });
-        
-        coursesSnapshot.forEach(doc => {
-          results.push({
-            id: doc.id,
-            type: 'course',
-            title: doc.data().title,
-            description: doc.data().description.substring(0, 100) + '...'
-          });
-        });
-        
-        // Display results
-        if (results.length === 0) {
-          searchResults.innerHTML = '<div class="no-results">No results found</div>';
-        } else {
-          searchResults.innerHTML = '';
-          results.forEach(result => {
-            const resultElement = document.createElement('div');
-            resultElement.className = 'search-result-item';
-            resultElement.innerHTML = `
-              <span class="search-result-type ${result.type}">${result.type}</span>
-              <div class="search-result-title">${result.title}</div>
-              <div class="search-result-description">${result.description}</div>
-            `;
-            
-            resultElement.addEventListener('click', () => {
-              if (result.type === 'announcement') {
-                // Show announcement details
-                alert(`Announcement: ${result.title}\n\n${result.description}`);
-              } else {
-                // Navigate to course
-                window.location.href = `course.html?id=${result.id}`;
-              }
-              searchResults.classList.remove('show');
-              searchContainer.style.display = 'none';
-            });
-            
-            searchResults.appendChild(resultElement);
-          });
-        }
-      } catch (error) {
-        console.error("Error performing search:", error);
-        searchResults.innerHTML = '<div class="no-results">Error performing search</div>';
-      }
-    }
-    
-    /* NEW FEATURE IMPLEMENTATIONS */
-    
-    // Notification System
-    notificationBell.addEventListener('click', (e) => {
-      e.stopPropagation();
-      notificationPanel.classList.toggle('show');
-      // Close account dropdown if open
-      if (accountDropdown.style.display === 'block') {
-        accountDropdown.style.display = 'none';
-      }
-    });
-    
-    // Close notification panel when clicking outside
-    document.addEventListener('click', (e) => {
-      if (!notificationBell.contains(e.target) && !notificationPanel.contains(e.target)) {
-        notificationPanel.classList.remove('show');
-      }
-    });
-    
-    // Clear notifications
-    notificationClear.addEventListener('click', () => {
-      clearAllNotifications();
-    });
-    
-    // Search Functionality
-    searchBtn.addEventListener('click', () => {
-      searchContainer.style.display = 'block';
-      searchBar.focus();
-    });
-    
-    // Close search when clicking outside
-    document.addEventListener('click', (e) => {
-      if (!searchBtn.contains(e.target) && !searchContainer.contains(e.target) && !searchResults.contains(e.target)) {
-        searchContainer.style.display = 'none';
-        searchResults.classList.remove('show');
-      }
-    });
-    
-    // Search functionality
-    searchBar.addEventListener('input', (e) => {
-      const query = searchBar.value.trim();
-      if (query) {
-        searchResults.classList.add('show');
-        performSearch(query);
-      } else {
-        searchResults.classList.remove('show');
-      }
-    });
-    
-    searchBar.addEventListener('keyup', (e) => {
-      if (e.key === 'Escape') {
-        searchContainer.style.display = 'none';
-        searchResults.classList.remove('show');
-      }
-    });
-    
-    // Quick Access Buttons
-    calendarBtn.addEventListener('click', () => {
-      window.location.href = 'calendar.html';
-    });
-    
-    helpBtn.addEventListener('click', () => {
-      window.location.href = 'support.html';
-    });
+            <div class="form-group">
+              <label for="goal-priority">Priority</label>
+              <select id="goal-priority">
+                <option value="low">Low</option>
+                <option value="medium" selected>Medium</option>
+                <option value="high">High</option>
+              </select>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-secondary" id="goal-cancel">Cancel</button>
+          <button class="btn btn-primary" id="goal-save">Save Goal</button>
+        </div>
+      </div>
+    </div>
+  </div>
 
-  </script>
+  <!-- Floating Help Button -->
+  <button class="floating-help-btn" id="help-btn">
+    <i class="fas fa-question"></i>
+  </button>
 
+  <!-- Scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-firestore-compat.js"></script>
+  <script src="config.js"></script>
+  <script src="app.js"></script>
 </body>
 </html>
