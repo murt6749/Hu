@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?><!--
+  Ergama baqaa — Book Icon SVG
+  Size: scalable (viewBox 0 0 512 512)
+  Customize colors via CSS variables or fill attributes below.
+--><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-labelledby="title desc">
+  <title id="title">Ergama baqaa — Book Icon</title>
+  <desc id="desc">A clean, modern book icon with a ribbon bookmark and the title text Ergama baqaa.</desc>  <style>
+    :root {
+      --cover: #2563eb;     /* main cover color */
+      --spine: #1e40af;     /* darker spine */
+      --pages: #f8fafc;     /* page color */
+      --page-edge: #cbd5e1; /* page edge strokes */
+      --accent: #ef4444;    /* bookmark */
+      --text: #0f172a;      /* label text */
+      --shadow: rgba(2,6,23,0.15);
+    }
+
+    .cover { fill: var(--cover); }
+    .spine { fill: var(--spine); }
+    .pages { fill: var(--pages); stroke: var(--page-edge); stroke-width: 4; }
+    .edge-lines { stroke: var(--page-edge); stroke-width: 3; stroke-linecap: round; opacity: .9; }
+    .bookmark { fill: var(--accent); }
+    .label { fill: var(--text); font: 600 36px/1.2 system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, "Noto Sans", Arial, sans-serif; letter-spacing: .5px; }
+    .drop { filter: drop-shadow(0 6px 12px var(--shadow)); }
+  </style>  <!-- Icon group -->  <g class="drop" transform="translate(32,32)">
+    <!-- Pages block behind -->
+    <rect class="pages" x="140" y="24" width="276" height="320" rx="18"/><!-- Cover -->
+<rect class="cover" x="24" y="24" width="276" height="320" rx="22"/>
+
+<!-- Spine -->
+<rect class="spine" x="24" y="24" width="36" height="320" rx="12"/>
+
+<!-- Page edge hint inside cover -->
+<line class="edge-lines" x1="248" y1="56" x2="280" y2="56"/>
+<line class="edge-lines" x1="248" y1="88" x2="296" y2="88"/>
+<line class="edge-lines" x1="248" y1="120" x2="304" y2="120"/>
+
+<!-- Bookmark ribbon -->
+<path class="bookmark" d="M280 24 v132 l-28 -18 -28 18 V24 z"/>
+
+  </g>  <!-- Baseline shadow oval -->  <ellipse cx="256" cy="394" rx="180" ry="16" fill="rgba(2,6,23,0.08)"/>  <!-- Title text (optional). Remove if you want icon-only) --><text class="label" x="256" y="456" text-anchor="middle">Ergama baqaa</text> </svg>
+
